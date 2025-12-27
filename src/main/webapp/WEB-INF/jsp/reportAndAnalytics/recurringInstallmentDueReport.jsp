@@ -1,0 +1,129 @@
+
+<div class="pagetitle">
+	<h1>Reports & Analytics</h1>
+	<nav>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="openDashboard"> <i
+					class="bi bi-file-earmark-text"></i>
+			</a></li>
+			<li class="breadcrumb-item action">Recurring Installment Due
+				Report</li>
+		</ol>
+	</nav>
+</div>
+
+<div>
+	<form id="formid">
+		<div>
+			<nav>
+				<ol class="breadcrumb breadcrumb-title">
+					<li class="breadcrumb-item action">Find Box</li>
+				</ol>
+			</nav>
+			<div class="row">
+
+
+				<div class="col-lg-3">
+					<div class="d-flex flex-column formFields"
+						style="margin-bottom: 30px;">
+						<label for="">Branch </label> <select id="branchName1"
+							name="branchname" required="required"
+							class="form-control selectField" style="height: 30px;">
+							<option value="">Select Branch</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="col-lg-3">
+					<div class="d-flex flex-column formFields">
+						<label for="">From Date :</label> <input type="date"
+							name="fromDate" id="fromDate" required="required"
+							placeholder="Enter fDate" style="text-transform: uppercase;" />
+					</div>
+				</div>
+
+				<div class="col-lg-3">
+					<div class="d-flex flex-column formFields">
+						<label for="">TO Date :</label> <input type="date" name="toDate"
+							id="toDate" required="required" placeholder="Enter tDate"
+							style="text-transform: uppercase;" />
+					</div>
+				</div>
+
+			</div>
+
+			<div class="row">
+				<div class="col-4 text-start mt-3">
+					<button id="findBtn" class="btn btn-dark">Find</button>
+				</div>
+			</div>
+
+		</div>
+
+	</form>
+
+	<div class="row mt-5">
+		<div class="col-12">
+			<div class="card recent-sales">
+
+				<div class="card-body table-responsive">
+					<h5 class="card-title">Find Result</h5>
+
+					<h6 class="card-title" style="text-align: center; color: black;">
+						Renewal Due Report</h6>
+
+
+
+					<div style="overflow-x: auto; white-space: nowrap;">
+						<table class="table table-borderless datatable">
+							<thead class="table-light">
+								<tr style="font-family: 'Poppins', sans-serif;">
+									<th scope="col">Sr No.</th>
+									<th scope="col">Policy Code</th>
+									<th scope="col">Policy Date</th>
+									<th scope="col">Customer Name</th>
+									<th scope="col">Contact No</th>
+									<th scope="col">Policy Amount</th>
+									<th scope="col">Policy Type</th>
+									<th scope="col">Policy Term</th>
+									<th scope="col">Approval Status</th>
+									<th scope="col">Print</th>
+								</tr>
+							</thead>
+							<tbody>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="printModal" tabindex="-1"
+	aria-labelledby="printModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-xl modal-dialog-scrollable">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="printModalLabel">Loan Details</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"
+					aria-label="Close"></button>
+			</div>
+			<div class="modal-body" id="modalDataContainer">
+				<!-- Policy details will be populated here -->
+			</div>
+			<div class="modal-footer">
+				<button type="button" id="printBtn" class="btn btn-primary">Print</button>
+				<button type="button" id="downloadBtn" class="btn btn-success">Download
+					PDF</button>
+				<button type="button" class="btn btn-secondary"
+					data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
