@@ -24,13 +24,13 @@ body {
 </style>
 
 <div class="pagetitle">
-	<h1>Reports & Analytics</h1>
+	<h1>REPORTS & ANALYTICS</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-file-earmark-text"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Financial Collection Report</li>
+			<li class="breadcrumb-item action">FINANCIAL COLLECTION REPORT</li>
 		</ol>
 	</nav>
 </div>
@@ -40,7 +40,7 @@ body {
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Find Information</li>
+					<li class="breadcrumb-item action">fIND INFORMATION</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -60,10 +60,10 @@ body {
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px;">
-						<label for="">Branch Name </label> <select id="branchName"
+						<label for="">BRANCH NAME </label> <select id="branchName"
 							name="branchName" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select</option>
+							<option value="">SELECT</option>
 						</select>
 					</div>
 				</div>
@@ -74,16 +74,16 @@ body {
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">From Date :</label> <input type="date"
+						<label for="">FROM DATE :</label> <input type="date"
 							name="fromDate" id="fromDate" required="required"
-							placeholder="Enter From Date" style="text-transform: uppercase;" />
+							placeholder="ENTER FROM DATE" style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">TO Date :</label> <input type="date" name="toDate"
-							id="toDate" required="required" placeholder="Enter To Date"
+						<label for="">TO DATE :</label> <input type="date" name="toDate"
+							id="toDate" required="required" placeholder="ENTER TO DATE"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -97,7 +97,7 @@ body {
 			<div class="row">
 				<div class="col-4 text-start mt-3">
 					<button type="submit" id="findFinancialAdvisorBtn" class="btnStyle"
-						style="background-color: #FFA500;">Find</button>
+						style="background-color: #FFA500;">FIND</button>
 				</div>
 			</div>
 
@@ -110,23 +110,23 @@ body {
 			<div class="card recent-sales">
 
 				<div class="card-body table-responsive">
-					<h5 class="card-title">Find Result</h5>
+					<h5 class="card-title">FIND RESULT</h5>
 
 					<h6 class="card-title" style="text-align: center; color: black;">
-						Agent/Collector Report</h6>
+						AGENT/COLLECTOR REPORT</h6>
 
 
 					<table class="table table-borderless datatable overflow-scroll">
 						<thead class="table-light">
 							<tr style="font-family: 'Poppins', sans-serif;">
 								<th scope="col">ID</th>
-								<th scope="col">Branch Type</th>
-								<th scope="col">Advisor Code</th>
-								<th scope="col">Joining Date</th>
-								<th scope="col">Customer Name</th>
+								<th scope="col">BRANCH TYPE</th>
+								<th scope="col">ADVISOR CODE</th>
+								<th scope="col">JOINING DATE </th>
+								<th scope="col">CUSTOMER NAME</th>
 								<th scope="col">DOB</th>
-								<th scope="col">Contact Number</th>
-								<th>Print</th>
+								<th scope="col">CONTACT NUMBER</th>
+								<th>PRINT</th>
 
 							</tr>
 						</thead>

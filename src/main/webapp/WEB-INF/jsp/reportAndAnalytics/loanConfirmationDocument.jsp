@@ -1,25 +1,25 @@
 
 <div class="pagetitle">
-	<h1>Reports & Analytics</h1>
+	<h1>REPORTS & ANALYTICS</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-file-earmark-text"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Loan Confirmation Document</li>
+			<li class="breadcrumb-item action">LOAN CONFIRMATION DOCUMENT </li>
 		</ol>
 	</nav>
 </div>
 <div>
 	<nav>
 		<ol class="breadcrumb breadcrumb-title">
-			<li class="breadcrumb-item action">Find Box</li>
+			<li class="breadcrumb-item action">FIND BOX</li>
 		</ol>
 	</nav>
 	<div class="row">
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields">
-				<label for="loanPlanName">Plan Name</label> <select
+				<label for="loanPlanName">PLAN NAME</label> <select
 					id="loanPlanName" name="loanPlanName" required="required"
 					class="form-control selectField mb-4" style="height: 30px;">
 				</select>
@@ -28,15 +28,15 @@
 
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields">
-				<label for="financialCode">Financial Code</label> <input type="text"
+				<label for="financialCode">FINANCIAL CODE</label> <input type="text"
 					name="financialCode" id="financialCode" required="required"
-					placeholder="Enter Financial Code" />
+					placeholder="ENTER FINANCIAL CODE" />
 			</div>
 		</div>
 
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields">
-				<label for="toDate">To Date</label> <input type="date" name="toDate"
+				<label for="toDate">TO DATE</label> <input type="date" name="toDate"
 					id="toDate" required="required" style="text-transform: uppercase;" />
 			</div>
 		</div>
@@ -45,7 +45,7 @@
 </div>
 <div class="row">
 	<div class="col-4 text-start mt-3">
-		<button id="findBtn" class="btn btn-dark">Find</button>
+		<button id="findBtn" class="btn btn-dark">FIND</button>
 	</div>
 </div>
 
@@ -55,15 +55,15 @@
 			<div class="card-body table-responsive">
 				<div class="">
 					<h5 class="card-title">
-						Find Result <span></span>
+						FIND RESULT <span></span>
 					</h5>
 					<div class="text-center col-lg-12">
-						<label class="font-weight-bold">Collection Record</label>
+						<label class="font-weight-bold">COLLECTION RECORD</label>
 					</div>
 
 					<div>
-						<label class="col-lg-3">Collector Code :</label> <label
-							class="col-lg-6">Collector Name :</label>
+						<label class="col-lg-3">COLLECTOR CODE :</label> <label
+							class="col-lg-6">COLLECTOR NAME :</label>
 					</div>
 				</div>
 				<div style="overflow-x: auto; white-space: nowrap;">

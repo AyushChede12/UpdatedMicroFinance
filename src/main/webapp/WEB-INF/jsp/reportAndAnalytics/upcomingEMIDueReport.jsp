@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Reports & Analytics</h1>
+	<h1>REPORTS & ANALYTICS</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-file-earmark-text"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Upcoming EMI Due Report</li>
+			<li class="breadcrumb-item action">UPCOMING EMI DUE REPORT</li>
 		</ol>
 	</nav>
 </div>
@@ -16,7 +16,7 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Find Box</li>
+					<li class="breadcrumb-item action">FIND BOX</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -25,7 +25,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px;">
-						<label for="branchName">Branch </label> <select id="branchName1"
+						<label for="branchName">BRANCH </label> <select id="branchName1"
 							name="branchName" required="required"
 							class="form-control selectField" style="height: 30px;">
 						</select>
@@ -35,7 +35,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px;">
-						<label for="loanPlanName">Plan Name</label> <select
+						<label for="loanPlanName">PLAN NAME</label> <select
 							id="loanPlanName" name="loanPlanName" required="required"
 							class="form-control selectField" style="height: 30px;">
 						</select>
@@ -46,16 +46,16 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="financialCode">Financial Code</label> <input
+						<label for="financialCode">FINANCIAL CODE </label> <input
 							type="text" name="financialCode" id="financialCode"
-							required="required" placeholder="Enter Financial Code"
+							required="required" placeholder="ENTER FINANCIAL CODE"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="toDate">To date</label> <input type="date"
+						<label for="toDate">TO DATE</label> <input type="date"
 							name="toDate" id="toDate" required="required"
 							style="text-transform: uppercase;" />
 					</div>
@@ -65,7 +65,7 @@
 
 			<div class="row">
 				<div class="col-4 text-start mt-3">
-					<button id="findBtn" class="btn btn-dark">Find</button>
+					<button id="findBtn" class="btn btn-dark">FIND</button>
 				</div>
 			</div>
 
@@ -78,7 +78,7 @@
 			<div class="card recent-sales">
 
 				<div class="card-body table-responsive">
-					<h5 class="card-title">Upcoming EMI Due Report</h5>
+					<h5 class="card-title">UPCOMING EMI DUE REPORT</h5>
 
 					<h6 class="card-title" style="text-align: center; color: black;">
 						LOAN EMI DUE REPORT</h6>
@@ -90,17 +90,17 @@
 							<thead class="table-light">
 								<tr style="font-family: 'Poppins', sans-serif;">
 									<th scope="col">SN</th>
-									<th scope="col">Loan ID</th>
-									<th scope="col">Customer Code</th>
-									<th scope="col">Customer Name</th>
-									<th scope="col">Branch</th>
-									<th scope="col">Loan Type</th>
-									<th scope="col">Mobile No</th>
-									<th scope="col">Loan Amount</th>
-									<th scope="col">EMI Amount</th>
-									<th scope="col">Due Date</th>
-									<th scope="col">Outstanding Amount</th>
-									<th scope="col">Status</th>
+									<th scope="col">LOAN ID</th>
+									<th scope="col">CUSTOMER CODE</th>
+									<th scope="col">CUSTOMER NAME</th>
+									<th scope="col">BRANCH</th>
+									<th scope="col">LOAN TYPE</th>
+									<th scope="col">MOBILE NO</th>
+									<th scope="col">LOAN AMOUNT</th>
+									<th scope="col">EMI AMOUNT</th>
+									<th scope="col">DUE DATE</th>
+									<th scope="col">OUTSTANDING AMOUNT</th>
+									<th scope="col">STATUS</th>
 								</tr>
 							</thead>
 							<tbody>

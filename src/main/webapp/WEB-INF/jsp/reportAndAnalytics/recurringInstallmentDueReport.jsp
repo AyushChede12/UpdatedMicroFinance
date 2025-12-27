@@ -1,13 +1,13 @@
 
 <div class="pagetitle">
-	<h1>Reports & Analytics</h1>
+	<h1>REPORTS & ANALYTICS</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-file-earmark-text"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Recurring Installment Due
-				Report</li>
+			<li class="breadcrumb-item action">RECURRING INSTALLMENT DUE REPORT
+				</li>
 		</ol>
 	</nav>
 </div>
@@ -17,7 +17,7 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Find Box</li>
+					<li class="breadcrumb-item action">FIND BOX</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -26,26 +26,26 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px;">
-						<label for="">Branch </label> <select id="branchName1"
+						<label for="">BRANCH </label> <select id="branchName1"
 							name="branchname" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select Branch</option>
+							<option value="">SELECT BRANCH</option>
 						</select>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">From Date :</label> <input type="date"
+						<label for="">FROM DATE :</label> <input type="date"
 							name="fromDate" id="fromDate" required="required"
-							placeholder="Enter fDate" style="text-transform: uppercase;" />
+							placeholder="ENTER FDATE" style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">TO Date :</label> <input type="date" name="toDate"
-							id="toDate" required="required" placeholder="Enter tDate"
+						<label for="">TO DATE :</label> <input type="date" name="toDate"
+							id="toDate" required="required" placeholder="ENTER TDATE"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -54,7 +54,7 @@
 
 			<div class="row">
 				<div class="col-4 text-start mt-3">
-					<button id="findBtn" class="btn btn-dark">Find</button>
+					<button id="findBtn" class="btn btn-dark">FIND</button>
 				</div>
 			</div>
 
@@ -67,10 +67,10 @@
 			<div class="card recent-sales">
 
 				<div class="card-body table-responsive">
-					<h5 class="card-title">Find Result</h5>
+					<h5 class="card-title">FIND RESULT</h5>
 
 					<h6 class="card-title" style="text-align: center; color: black;">
-						Renewal Due Report</h6>
+						RENEWAL DUE REPORT</h6>
 
 
 
@@ -78,16 +78,16 @@
 						<table class="table table-borderless datatable">
 							<thead class="table-light">
 								<tr style="font-family: 'Poppins', sans-serif;">
-									<th scope="col">Sr No.</th>
-									<th scope="col">Policy Code</th>
-									<th scope="col">Policy Date</th>
-									<th scope="col">Customer Name</th>
-									<th scope="col">Contact No</th>
-									<th scope="col">Policy Amount</th>
-									<th scope="col">Policy Type</th>
-									<th scope="col">Policy Term</th>
-									<th scope="col">Approval Status</th>
-									<th scope="col">Print</th>
+									<th scope="col">SR NO.</th>
+									<th scope="col">POLICY CODE</th>
+									<th scope="col">POLICY DATE</th>
+									<th scope="col">CUSTOMER NAME</th>
+									<th scope="col">CONTACT NO.</th>
+									<th scope="col">POLICY AMOUNT</th>
+									<th scope="col">POLICY TYPE</th>
+									<th scope="col">POLICY TERM</th>
+									<th scope="col">APPROVAL STATUS</th>
+									<th scope="col">PRINT</th>
 								</tr>
 							</thead>
 							<tbody>

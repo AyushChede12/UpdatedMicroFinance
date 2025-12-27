@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Reports & Analytics</h1>
+	<h1>REPORTS & ANALYTICS</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-file-earmark-text"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Incentive Payment Summary</li>
+			<li class="breadcrumb-item action">INCENTIVE PAYMENT SUMMARY </li>
 		</ol>
 	</nav>
 </div>
@@ -16,7 +16,7 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Find Box</li>
+					<li class="breadcrumb-item action">FIND BOX</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -25,10 +25,10 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px;">
-						<label for="">Branch </label> <select id="branch" name="branch"
+						<label for="">BRANCH </label> <select id="branch" name="branch"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
-							<option value="">Select Branch</option>
+							<option value="">SELECT BRANCH</option>
 							<option value="Blue">Umrer</option>
 						</select>
 					</div>
@@ -36,16 +36,16 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">From Date :</label> <input type="date" name="fDate"
-							id="fDate" required="required" placeholder="Enter fDate"
+						<label for="">FROM DATE :</label> <input type="date" name="fDate"
+							id="fDate" required="required" placeholder="ENTER FDATE"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">TO Date :</label> <input type="date" name="tDate"
-							id="tDate" required="required" placeholder="Enter tDate"
+						<label for="">TO DATE :</label> <input type="date" name="tDate"
+							id="tDate" required="required" placeholder="ENTER TDATE"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -54,7 +54,7 @@
 
 			<div class="row">
 				<div class="col-4 text-start mt-3">
-					<button id="findBtn" class="btn btn-dark">Find</button>
+					<button id="findBtn" class="btn btn-dark">FIND</button>
 				</div>
 			</div>
 
@@ -67,10 +67,10 @@
 			<div class="card recent-sales">
 
 				<div class="card-body table-responsive">
-					<h5 class="card-title">Find Result</h5>
+					<h5 class="card-title">FIND RESULT</h5>
 
 					<h6 class="card-title" style="text-align: center; color: black;">
-						Bonus Payment Statement</h6>
+						BOUNS PAYMENT STATEMENT</h6>
 
 
 
@@ -78,15 +78,15 @@
 						<table class="table table-borderless datatable">
 							<thead class="table-light">
 								<tr style="font-family: 'Poppins', sans-serif;">
-									<th scope="col">Branch</th>
-									<th scope="col">Pay Date</th>
-									<th scope="col">Advisor Code</th>
-									<th scope="col">Advisor Name</th>
-									<th scope="col">Month</th>
-									<th scope="col">Amount</th>
-									<th scope="col">Pay Mode</th>
-									<th scope="col">Chq No.</th>
-									<th scope="col">SB Account</th>
+									<th scope="col">BRANCH</th>
+									<th scope="col">PAY DATE</th>
+									<th scope="col">ADVISOR CODE </th>
+									<th scope="col">ADVISOR NAME</th>
+									<th scope="col">MONTH</th>
+									<th scope="col">AMOUNT</th>
+									<th scope="col">PAY MODE</th>
+									<th scope="col">CHQ NO.</th>
+									<th scope="col">SB ACCOUNT</th>
 
 
 								</tr>
