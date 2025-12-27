@@ -1,5 +1,5 @@
 <div class="pagetitle">
-	<h1>CUSTOMER SAVINGS</h1>
+	<h1>SAVINGS / CURRENT ACCOUNT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"><i
@@ -69,8 +69,12 @@
 
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
-				<label>MESSAGING FEES</label> <input type="text" id="messagingFees"
-					placeholder="ENTER MESSAGING FEES" />
+				<label>MESSAGING FEES</label> <select id="messagingFees"
+					class="form-control">
+					<option value="">SELECT</option>
+					<option value="YES">Yes</option>
+					<option value="NO">No</option>
+				</select>
 			</div>
 		</div>
 

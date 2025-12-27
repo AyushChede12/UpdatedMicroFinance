@@ -1,13 +1,13 @@
 
 
 <div class="pagetitle">
-	<h1>Customer Saving</h1>
+	<h1>SAVING / CURRENT ACCOUNT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-bank text-blue"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Saving Account Statement</li>
+			<li class="breadcrumb-item action">CUSTOMER SAVINGS STATEMENT</li>
 		</ol>
 	</nav>
 </div>
@@ -50,7 +50,7 @@
 						</h5>
 						<div class="form-div" id="form-div" style="margin-top: 20px;">
 							<div class="form-header">
-								<h2 style="color: red; margin-top: 0px;">MICRODINANCE
+								<h2 style="color: red; margin-top: 0px;">MICROFINANCE
 									SOFTWARE</h2>
 								<p style="margin-top: -10px">Nagpur</p>
 							</div>

@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Customer Saving</h1>
+	<h1>SAVING / CURRENT ACCOUNT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-bank text-blue"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Account Closer</li>
+			<li class="breadcrumb-item action"> SAVING ACCOUNT CLOSER</li>
 		</ol>
 	</nav>
 </div>

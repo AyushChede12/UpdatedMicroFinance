@@ -1,11 +1,11 @@
 
 <div class="pagetitle">
-	<h1>Customer Saving</h1>
+	<h1>SAVING / CURRENT ACCOUNT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="home"><i
 					class="bi bi-bank text-blue"></i></a></li>
-			<li class="breadcrumb-item action">SMS Charges Deduction</li>
+			<li class="breadcrumb-item action">SMS SERVICE FEE</li>
 		</ol>
 	</nav>
 </div>

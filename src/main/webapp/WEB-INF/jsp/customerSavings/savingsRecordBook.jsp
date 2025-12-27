@@ -25,13 +25,13 @@
 }
 </style>
 <div class="pagetitle">
-	<h1>Customer Saving</h1>
+	<h1>SAVING / CURRENT ACCOUNT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-bank text-blue"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Savings PassBook</li>
+			<li class="breadcrumb-item action">SAVINGS RECORD BOOK</li>
 		</ol>
 	</nav>
 </div>

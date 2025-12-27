@@ -116,7 +116,7 @@ public class CustomerSavingsService {
 //	}
 
 	public ApiResponse<CreateSavingsAccount> saveSavingAccountDetails(SavingAccountDto savingAccountDto, String photo,
-			String signature, String jointPhoto) {
+			String signature, String jointPhoto, String newPhoto, String newSignature ) {
 		// TODO Auto-generated method stub
 		CreateSavingsAccount createSavingsAccount = new CreateSavingsAccount();
 		boolean isNew = true;
@@ -185,6 +185,12 @@ public class CustomerSavingsService {
 		// Handle signature upload
 		if (jointPhoto != null && !jointPhoto.isEmpty()) {
 			createSavingsAccount.setJointPhoto(jointPhoto);
+		}
+		if (newPhoto != null && !newPhoto.isEmpty()) {
+			createSavingsAccount.setNewPhoto(newPhoto);
+		}
+		if (newSignature != null && !newSignature.isEmpty()) {
+			createSavingsAccount.setNewSignature(newSignature);
 		}
 
 		// Handle photo upload
@@ -431,57 +437,4 @@ public class CustomerSavingsService {
 		}
 	}
 
-	public SavingSchemeCatalog getById(Long id) {
-        return  savingSchmeCatalogRepo.findById(id).orElse(null);
-    }
-
-    // SAVE OR UPDATE
-    public SavingSchemeCatalog saveOrUpdate(SavingSchemeCatalog existing) {
-        return savingSchmeCatalogRepo.save(existing);
-    }
-
-    public List<CreateSavingsAccount> fetchServiceChargeAccounts(String startDate, String endDate) {
-
-        return createSavingAccountRepo
-                .findByIsApprovedTrueAndMessageSendAndOpeningDateBetween(
-                        "1", startDate, endDate
-                );
-    }
-
-    // ============================================
-    // 💰 2) Deduct service charge for one account
-    // ============================================
-    public double calculateBalanceAfterServiceCharge(Long id) {
-
-        // Fetch from DB
-        CreateSavingsAccount account = createSavingAccountRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Account not found"));
-
-        // Convert existing balance to double
-        double currentBalance = 0;
-        try {
-            if (account.getBalance() != null) {
-                currentBalance = Double.parseDouble(account.getBalance());
-            }
-        } catch (Exception e) {
-            currentBalance = 0;
-        }
-
-        // Service charge
-        final double SERVICE_CHARGE = 50.0;
-
-        // Deduct
-        double newBalance = currentBalance - SERVICE_CHARGE;
-        if (newBalance < 0) newBalance = 0;
-
-        // Update in DB
-        createSavingAccountRepo.updateBalanceById(String.valueOf(newBalance), id);
-
-        // Update entity (optional)
-        account.setBalance(String.valueOf(newBalance));
-
-        return newBalance;
-    }
 }
-
-
