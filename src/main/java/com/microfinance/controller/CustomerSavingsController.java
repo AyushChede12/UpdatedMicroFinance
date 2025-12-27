@@ -22,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import com.microfinance.dto.ApiResponse;
-import com.microfinance.dto.DateFilterRequest;
 import com.microfinance.dto.ExecutiveFounderDto;
 import com.microfinance.dto.FinancialConsultantDto;
 import com.microfinance.dto.SavingAccountDto;
@@ -44,9 +43,7 @@ import com.microfinance.service.CustomerSavingsService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -90,16 +87,15 @@ public class CustomerSavingsController {
 	}
 
 	// Fetching CustomerCode
-	@PostMapping("/fetchCustomerByCode")
-	public ApiResponse<List<addCustomer>> fetchByCustomerCode(@RequestBody addCustomer customercode) {
-	    List<addCustomer> list = customersaving.fetchCustomerCode(customercode.getMemberCode());
-	    if (list != null && !list.isEmpty()) {
-	        return ApiResponse.success(HttpStatus.FOUND, "Fetching is Successful", list);
-	    } else {
-	        return ApiResponse.error(HttpStatus.NOT_FOUND, "No customer found with this code");
-	    }
-	}
+	@PostMapping("/fetchCustomerCode")
+	public ApiResponse<List<addCustomer>> fetchByCustomerCode(@RequestBody addCustomer addcustomer) {
+		List<addCustomer> list = customersaving.fetchCustomerCode(addcustomer.getMemberCode());
+		if (list != null && !list.isEmpty()) {
+			return ApiResponse.success(HttpStatus.FOUND, "Fetching is Successfull", list);
+		} else
+			return ApiResponse.error(HttpStatus.NOT_FOUND, "Not Found fetching Data");
 
+	}
 
 	// fetching saving scheme catalog data
 	/*
@@ -161,29 +157,16 @@ public class CustomerSavingsController {
 			return ApiResponse.error(HttpStatus.NOT_FOUND, "Not Found fetching Data");
 		}
 	}
-	// fetch financial consultant by financial code
+
+	// fetch financial code
 	@GetMapping("/fetchfinancialcode")
-	public ApiResponse<List<addFinancialConsultant>> findByFinancialCode(
-	        @RequestParam("financialCode") String financialCode) {
-
-	    // trim to avoid space issues
-	    financialCode = financialCode.trim();
-
-	    List<addFinancialConsultant> list =
-	            customersaving.findByFinancialCode(financialCode);
-
-	    if (list != null && !list.isEmpty()) {
-	        return ApiResponse.success(
-	                HttpStatus.FOUND,
-	                "Financial Consultant fetched successfully",
-	                list
-	        );
-	    }
-
-	    return ApiResponse.error(
-	            HttpStatus.NOT_FOUND,
-	            "Financial Consultant not found"
-	    );
+	public ApiResponse<List<addFinancialConsultant>> findByFinancialCode(@RequestParam String financialCode) {
+		List<addFinancialConsultant> list = customersaving.findByFinancialCode(financialCode);
+		if (list != null && !list.isEmpty()) {
+			return ApiResponse.success(HttpStatus.FOUND, "Fetching is Successfull", list);
+		} else {
+			return ApiResponse.error(HttpStatus.NOT_FOUND, "Not Found fetching Data");
+		}
 	}
 
 //  	//save saving account data
@@ -201,7 +184,11 @@ public class CustomerSavingsController {
 			@ModelAttribute SavingAccountDto savingAccountDto,
 			@RequestParam(value = "photo", required = false) String photo,
 			@RequestParam(value = "signature", required = false) String signature,
-			@RequestParam(value = "jointPhoto", required = false) String jointPhoto) {
+			@RequestParam(value = "jointPhoto", required = false) String jointPhoto,
+			@RequestParam(value = "newPhoto", required = false) String newPhoto,
+			@RequestParam(value = "newSignature", required = false) String newSignature)
+
+	{
 
 		String customerId = savingAccountDto.getSelectByCustomer(); // assuming it's Long
 
@@ -216,9 +203,13 @@ public class CustomerSavingsController {
 		System.out.println("Received signature: " + signature);
 
 		System.out.println("Received jointPhoto: " + jointPhoto);
-
+		
+		System.out.println("Received newPhoto: " + newPhoto);
+		
+		System.out.println("Received newSignature: " + newSignature);
+		
 		ApiResponse<CreateSavingsAccount> response = customersaving.saveSavingAccountDetails(savingAccountDto, photo,
-				signature, jointPhoto);
+				signature, jointPhoto,newPhoto, newSignature);
 		// return new ResponseEntity<>(response, response.getStatus());
 		return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK,
 				savingAccountDto.getId() != null ? "Data updated successfully" : "Data saved successfully",
@@ -327,14 +318,12 @@ public class CustomerSavingsController {
 		String newBalance = createSavingsAccount.getBalance();
 
 		boolean isUpdated = customersaving.updateAverageBalance(accountNumber, newBalance);
-       System.out.println(isUpdated);
+
 		if (isUpdated) {
-			System.out.println("if");
 			ApiResponse<String> response = ApiResponse.success(HttpStatus.OK, "Average balance updated successfully.",
 					"Updated account: " + accountNumber);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} else {
-			System.out.println("else");
 			ApiResponse<String> response = ApiResponse.error(HttpStatus.NOT_FOUND,
 					"Account number not found or update failed.");
 			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
@@ -438,6 +427,7 @@ public class CustomerSavingsController {
 
 	// janvi 21/07
 	@PostMapping("/transferAmount")
+	@Transactional
 	public ResponseEntity<?> transferAmount(@RequestBody savingAccountFundTransfer savingAccFundTransfer) {
 
 		try {
@@ -616,88 +606,5 @@ public class CustomerSavingsController {
 			return ApiResponse.error(HttpStatus.NOT_FOUND, "No Data Found");
 		}
 	}
-	@PutMapping("/update/{id}")
-	public ResponseEntity<?> updateScheme(
-	        @PathVariable Long id,
-	        @RequestBody SavingSchemeCatalog newData) {
 
-	    SavingSchemeCatalog existing = customersaving.getById(id);
-
-	    if (existing == null) {
-	        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-	                .body("Record not found for ID: " + id);
-	    }
-
-	    existing.setPolicyName(newData.getPolicyName());
-	    existing.setYearlyROI(newData.getYearlyROI());
-	    existing.setCustomerName(newData.getCustomerName());
-	    existing.setInitialDeposite(newData.getInitialDeposite());
-	    existing.setMonthlyMinimumBalance(newData.getMonthlyMinimumBalance());
-	    existing.setReservedFunds(newData.getReservedFunds());
-	    existing.setMessagingFees(newData.getMessagingFees());
-	    existing.setMessagingInterval(newData.getMessagingInterval());
-	    existing.setMonthlyFreeIFSCTransactions(newData.getMonthlyFreeIFSCTransactions());
-	    existing.setFreeMoneyTransfers(newData.getFreeMoneyTransfers());
-	    existing.setLimitperTransaction(newData.getLimitperTransaction());
-	    existing.setDailyLimit(newData.getDailyLimit());
-	    existing.setWeeklyLimit(newData.getWeeklyLimit());
-	    existing.setMonthlyLimit(newData.getMonthlyLimit());
-	    existing.setServiceFee(newData.getServiceFee());
-	    existing.setBillingCycle(newData.getBillingCycle());
-	    existing.setCardFee(newData.getCardFee());
-	    existing.setMonthlyCardLimit(newData.getMonthlyCardLimit());
-	    existing.setYearlyCardLimit(newData.getYearlyCardLimit());
-
-	    SavingSchemeCatalog updated =
-	            customersaving.saveOrUpdate(existing);
-
-	    return ResponseEntity.ok(updated);
-	}
-
-	@PostMapping("/getServiceChargeData")
-    public ResponseEntity<ApiResponse<List<CreateSavingsAccount>>> getServiceChargeData(
-            @RequestBody DateFilterRequest req) {
-
-        List<CreateSavingsAccount> list =
-                customersaving.fetchServiceChargeAccounts(
-                        req.getStartDate(),
-                        req.getEndDate()
-                );
-
-        ApiResponse<List<CreateSavingsAccount>> response = ApiResponse.success(
-                HttpStatus.OK,
-                "Filtered Service Charge Records",
-                list
-        );
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    // ======================================================
-    // 💰 2) APPLY SERVICE CHARGE (deduct balance)
-    // ======================================================
-    @PostMapping("/deduct-service-charges")
-    public ResponseEntity<Map<String, Object>> deductServiceCharge(@RequestBody Map<String, Object> req) {
-        Map<String, Object> resp = new HashMap<>();
-
-        try {
-            Long id = Long.valueOf(req.get("id").toString());
-
-            double newBalance = customersaving.calculateBalanceAfterServiceCharge(id);
-
-            resp.put("status", "OK");
-            resp.put("newBalance", newBalance);
-            return ResponseEntity.ok(resp);
-
-        } catch (RuntimeException e) {
-            resp.put("status", "ERROR");
-            resp.put("message", e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(resp);
-
-        } catch (Exception e) {
-            resp.put("status", "ERROR");
-            resp.put("message", "Something went wrong");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(resp);
-        }
-    }
 }

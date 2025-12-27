@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>SAVING/CURRENT ACCOUNT</h1>
+	<h1>SAVING / CURRENT ACCOUNT</h1>
 	<nav>
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="home"> <i
+			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-bank text-blue"></i>
 			</a></li>
-			<li class="breadcrumb-item action">CREATE ACCOUNT</li>
+			<li class="breadcrumb-item action">CREATE SAVINGS ACCOUNT</li>
 		</ol>
 	</nav>
 </div>
@@ -16,7 +16,7 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">SAVING/CURRENT DETAILS</li>
+					<li class="breadcrumb-item action">Saving Details</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -27,11 +27,11 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">TYPE OF ACCOUNT</label> <select id="typeofaccount"
+						<label for="">Type Of Account</label> <select id="typeofaccount"
 							name="typeofaccount" required="required"
-							class="form-control selectField" style="height: 45px;">
-							<option value="savingaccount">SAVING ACCOUNT</option>
-							<option value="currentaccount">CURRENT ACCOUNT</option>
+							class="form-control selectField" style="height: 30px;">
+							<option value="savingaccount">Saving Account</option>
+							<option value="currentaccount">Current Account</option>
 
 						</select>
 					</div>
@@ -39,7 +39,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="vehicalNo">OPENING DATE</label> <input type="date"
+						<label for="vehicalNo">Opening Date</label> <input type="date"
 							name="openingDate" id="openingDate" required="required"
 							placeholder="Opening Date" style="text-transform: uppercase;" />
 					</div>
@@ -47,291 +47,200 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="selectByCustomer">SELECT BY CUSTOMER</label> <select
+						<label for="">Select By Customer</label> <select
 							id="selectByCustomer" name="selectByCustomer" required
-							class="form-control selectField"
-							style="height: 45px; font-size: 14px; padding: 5px;">
-							<option value="">SELECT</option>
+							class="form-control selectField" style="height: 30px;">
+							<option value="">Select</option>
 							<!-- Add options here -->
 						</select>
 					</div>
 				</div>
 
-
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">ENTER CUSTOMER NAME </label> <input type="text"
+						<label for="">Enter Customer Name </label> <input type="text"
 							name="enterCustomerName" id="enterCustomerName"
-							required="required" placeholder="ENTER CUSTOMER NAME " />
+							required="required" placeholder="Enter Customer Name" />
 					</div>
 				</div>
 
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="vehicalNo">DATE OF BIRTH <span class="star">*</span></label>
+						<label for="vehicalNo">Date Of Birth <span class="star">*</span></label>
 						<input type="date" name="dateOfBirth" id="dateOfBirth"
-							required="required" placeholder="ENTER DATEOFBIRTH"
+							required="required" placeholder="Enter DateOfBirth"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">FAMILY DETAILS</label> <input type="text"
+						<label for="">Family Details</label> <input type="text"
 							name="familyDetails" id="familyDetails" required="required"
-							placeholder="ENTER FAMILY DETAILS" />
+							placeholder="Enter family Details" />
 					</div>
 				</div>
 
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">CONTACT NUMBER </label> <input type="text"
+						<label for="">Contact Number </label> <input type="text"
 							name="contactNumber" id="contactNumber" required="required"
-							placeholder="ENTER CONTACT NUMBER " />
+							placeholder="Enter contact Number" />
 					</div>
 				</div>
 
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">SUGGESTED NOMINEE NAME </label> <input type="text"
+						<label for="">Suggested Nominee Name </label> <input type="text"
 							name="suggestedNomineeName" id="suggestedNomineeName"
-							required="required" placeholder="ENTER SUGGESTED NOMINEE NAME" />
+							required="required" placeholder="Enter suggested Nominee Name" />
 					</div>
 				</div>
 
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">SUGGESTED NOMINEE AGE </label> <input type="text"
+						<label for="">Suggested Nominee Age </label> <input type="text"
 							name="suggestedNomineeAge" id=suggestedNomineeAge
-							required="required" placeholder="ENTER SUGGESTED NOMINEE AGE" />
+							required="required" placeholder="Enter suggested Nominee Age" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">SUGGESTED NOMINEE RELATION</label> <input
+						<label for="">Suggested Nominee Relation</label> <input
 							type="text" id="suggestedNomineeRelation"
 							name="suggestedNomineeRelation" required="required"
-							placeholder="ENTER SUGGESTED NOMINEE RELATION" />
+							placeholder="" />
 					</div>
 				</div>
 
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">ADDRESS</label>
-						<textarea name="address" id="address" placeholder="ENTER ADDRESS"
+						<label for="">Address</label>
+						<textarea name="address" id="address"
 							style="border: 1px solid rgb(224, 224, 224); border-radius: 5px; outline: none; padding: 5px; font-size: 12px;"></textarea>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">DISTRICT</label> <input type="text" name="district"
-							id="district" required="required" placeholder="ENTER DISTRICT" />
+						<label for="">District</label> <input type="text" name="district"
+							id="district" required="required" placeholder="Enter district" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">BRANCH NAME</label> <input type="text"
+						<label for="">Branch Name</label> <input type="text"
 							id="branchName" name="branchName" required="required"
-							placeholder="ENTER BRANCH NAME" />
+							placeholder="Enter district" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">STATE</label> <input type="text" name="state"
-							id="state" required="required" placeholder="ENTER STATE" />
+						<label for="">State</label> <input type="text" name="state"
+							id="state" required="required" placeholder="Enter state" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">PTN CODE</label> <input type="text" name="pinCode"
-							id="pinCode" required="required" placeholder="ENTER PTN CODE" />
+						<label for="">Pin Code</label> <input type="text" name="pinCode"
+							id="pinCode" required="required" placeholder="Enter pinCode" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">OPERATION TYPE</label> <select id="operationType"
+						<label for="">Operation Type</label> <select id="operationType"
 							name="operationType" required="required"
-							class="form-control selectField" style="height: 30px;">
-							<option value="">SELECT</option>
-							<option value="Single">SINGLE</option>
+							onchange="operationTypeFunc()" class="form-control selectField"
+							style="height: 30px;">
+							<option value="">Select</option>
+							<option value="Single">Single</option>
 							<option value="Joint">Joint</option>
 						</select>
 					</div>
 				</div>
 
-				<div class="col-lg-3" id="jointOperationCodeDiv">
+				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">JOINT OPERATION CODE </label> <select
+						<label for="">Joint Operation Code </label> <select
 							id="jointOperationCode" name="jointOperationCode"
 							required="required" class="form-control selectField"
-							style="height: 45px;">
-							<option value="">SELECT</option>
+							style="height: 30px;">
+							<option value="">Select</option>
+
+
 						</select>
 					</div>
 				</div>
 
-				<div class="col-lg-3">
-					<div class="d-flex flex-column formFields mb-4">
-						<label for="">JOINT SURVIVOR NAME</label> <input type="text"
-							name="jointSurvivorCode" id="jointSurvivorCode"
-							required="required" placeholder="ENTER JOINT SURVIVOR NAME" />
-					</div>
-				</div>
+				<!-- <div class="col-lg-3">
+							<div class="d-flex flex-column formFields mb-4">
+								<label for="">Joint Survivor Name</label> <input type="text"
+									name="jointSurvivorCode" id="jointSurvivorCode"
+									required="required" placeholder="Enter joint Survivor Code" />
+							</div>
+						</div> -->
+
+				<!-- <div class="col-lg-3">
+							<div class="d-flex flex-column formFields mb-4">
+								<label for="">Family Relation</label> <select
+									id="familyRelation" name="familyRelation" required="required"
+									class="form-control selectField" style="height: 30px;">
+									<option value="">Select</option>
+								</select>
+							</div>
+						</div> -->
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">FAMILY RELATION</label> <select id="familyRelation"
-							name="familyRelation" required="required"
-							class="form-control selectField" style="height: 30px;">
-							<option value="">SELECT</option>
-						</select>
-					</div>
-				</div>
-
-				<div class="col-lg-3">
-					<div class="d-flex flex-column formFields mb-4">
-						<label for="">SELECT PLAN NAME </label> <select id="selectPlan"
+						<label for="">Select Plan Name </label> <select id="selectPlan"
 							name="selectPlan" required="required"
-							class="form-control selectField" style="height: 45px;">
-							<option value="">SELECT</option>
+							class="form-control selectField" style="height: 30px;">
+							<option value="">Select</option>
 
 						</select>
 					</div>
 				</div>
 
 
+				<!-- <div class="col-lg-3">
+							<div class="d-flex flex-column formFields mb-4">
+								<label for="">Opening Amount</label> <input type="text"
+									name="balance" id="balance" required="required"
+									placeholder="Enter opening Amount" />
+							</div>
+						</div>
+ -->
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">FINANCIAL CONSULTANT CODE</label> <input type="text"
-							name="financialConsultantCode" id="financialConsultantCode"
-							required="required"
-							placeholder="ENTER  FINANCIAL CONSULTANT CODE" />
+						<label for="">Financial Consultant Code</label> <input type="text"
+							name=financialConsultantCode id="financialConsultantCode"
+							required="required" placeholder="Enter financial Consultant Code" />
 					</div>
 				</div>
 
-
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">FINANCIAL CONSULTANT NAME</label> <input type="text"
+						<label for="">Financial Consultant Name</label> <input type="text"
 							name="financialConsultantName" id="financialConsultantName"
-							required="required" placeholder="ENTER FINANCIAL CONSULTANT NAME" />
+							required="required" placeholder="Enter Financial Consultant Name" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
-					<div class="d-flex flex-column formFields"
-						style="position: relative; margin-bottom: 1rem;">
-
-						<label for="balance">OPENING FEES (IF ANY)</label> <input
-							type="text" name="balance" id="balance" class="form-control mb-3"
-							placeholder="Total Opening Fees" />
-
-						<!-- POPUP TABLE (SMALL SIZE) -->
-						<table id="openingFeesTable" class="table table-bordered"
-							style="font-size: 10px; position: absolute; bottom: 40px; left: 0; width: 90%; display: none; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); z-index: 1000; table-layout: fixed;">
-
-							<thead>
-								<tr style="height: 26px;">
-									<th style="padding: 3px; width: 28%;">INPUT</th>
-									<th style="padding: 3px; width: 34%;">QTY</th>
-									<th style="padding: 3px; width: 38%;">RESULT</th>
-								</tr>
-							</thead>
-
-							<tbody>
-
-								<tr style="height: 26px;">
-									<td style="padding: 4px 2px;">₹2000</td>
-									<td><input type="number" id="qty2000" min="0" value="0"
-										class="form-control" oninput="calcOpeningFees()"
-										style="height: 22px; font-size: 10px; padding: 2px;">
-									</td>
-									<td style="padding: 4px 2px;">₹<span id="res2000">0</span></td>
-								</tr>
-
-								<tr style="height: 26px;">
-									<td style="padding: 4px 2px;">₹500</td>
-									<td><input type="number" id="qty500" min="0" value="0"
-										class="form-control" oninput="calcOpeningFees()"
-										style="height: 22px; font-size: 10px; padding: 2px;">
-									</td>
-									<td style="padding: 4px 2px;">₹<span id="res500">0</span></td>
-								</tr>
-
-								<tr style="height: 26px;">
-									<td style="padding: 4px 2px;">₹200</td>
-									<td><input type="number" id="qty200" min="0" value="0"
-										class="form-control" oninput="calcOpeningFees()"
-										style="height: 22px; font-size: 10px; padding: 2px;">
-									</td>
-									<td style="padding: 4px 2px;">₹<span id="res200">0</span></td>
-								</tr>
-
-								<tr style="height: 26px;">
-									<td style="padding: 4px 2px;">₹100</td>
-									<td><input type="number" id="qty100" min="0" value="0"
-										class="form-control" oninput="calcOpeningFees()"
-										style="height: 22px; font-size: 10px; padding: 2px;">
-									</td>
-									<td style="padding: 4px 2px;">₹<span id="res100">0</span></td>
-								</tr>
-
-								<tr style="height: 26px;">
-									<td style="padding: 4px 2px;">₹50</td>
-									<td><input type="number" id="qty50" min="0" value="0"
-										class="form-control" oninput="calcOpeningFees()"
-										style="height: 22px; font-size: 10px; padding: 2px;">
-									</td>
-									<td style="padding: 4px 2px;">₹<span id="res50">0</span></td>
-								</tr>
-
-								<tr style="height: 26px;">
-									<td style="padding: 4px 2px;">₹20</td>
-									<td><input type="number" id="qty20" min="0" value="0"
-										class="form-control" oninput="calcOpeningFees()"
-										style="height: 22px; font-size: 10px; padding: 2px;">
-									</td>
-									<td style="padding: 4px 2px;">₹<span id="res20">0</span></td>
-								</tr>
-
-								<tr style="height: 26px;">
-									<td style="padding: 4px 2px;">₹10</td>
-									<td><input type="number" id="qty10" min="0" value="0"
-										class="form-control" oninput="calcOpeningFees()"
-										style="height: 22px; font-size: 10px; padding: 2px;">
-									</td>
-									<td style="padding: 4px 2px;">₹<span id="res10">0</span></td>
-								</tr>
-
-								<tr style="height: 26px;">
-									<td style="padding: 4px 2px;">₹5</td>
-									<td><input type="number" id="qty5" min="0" value="0"
-										class="form-control" oninput="calcOpeningFees()"
-										style="height: 22px; font-size: 10px; padding: 2px;">
-									</td>
-									<td style="padding: 4px 2px;">₹<span id="res5">0</span></td>
-								</tr>
-
-								<tr style="height: 30px;">
-									<th colspan="2" style="padding: 4px 2px;">TOTAL OPENING
-										FEES</th>
-									<th style="padding: 4px 2px;">₹<span id="totalOpening">0</span></th>
-								</tr>
-
-							</tbody>
-						</table>
-
+					<div class="d-flex flex-column formFields mb-4">
+						<label for="">Opening Fees (if any)</label> <input type="text"
+							name="openingFees" id="openingFees" required="required"
+							placeholder="Enter Opening Fees" />
 					</div>
 				</div>
 
@@ -359,38 +268,38 @@
 <div class="mt-5">
 	<nav>
 		<ol class="breadcrumb breadcrumb-title">
-			<li class="breadcrumb-item action">PAYMENT DETAILS</li>
+			<li class="breadcrumb-item action">Payment Details</li>
 		</ol>
 	</nav>
 	<div class="row">
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
-				<label for="">AUTHENTICATION fOR</label> <select
+				<label for="">Authentication for</label> <select
 					id="authenticateWith" name="authenticateWith" required="required"
-					class="form-control selectField" style="height: 45px;">
-					<option value="">SELECT</option>
-					<option value="Aadhar">AADHAR</option>
+					class="form-control selectField" style="height: 30px;">
+					<option value="">Select</option>
+					<option value="Aadhar">Aadhar</option>
 				</select>
 			</div>
 		</div>
 
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
-				<label for="">MODE OF PAYMENT</label> <select id="modeOfPayment"
+				<label for="">Mode of payment</label> <select id="modeOfPayment"
 					name="modeOfPayment" required="required"
-					class="form-control selectField" style="height: 45px;">
-					<option selected="selected" value="">SELECT</option>
-					<option value="Cash">CASH</option>
-					<option value="Cheque">CHEQUE</option>
-					<option value="Online">ONLINE</option>
-					<option value="NEFT">NEFT</option>
+					class="form-control selectField" style="height: 30px;">
+					<option selected="selected" value="">Select</option>
+					<option value="Cash">Cash</option>
+					<option value="Cheque">Cheque</option>
+					<option value="Online">Online</option>
+					<option value="NEFT">Neft</option>
 				</select>
 			</div>
 		</div>
 
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
-				<label for=""> COMMENT</label>
+				<label for=""> Comment</label>
 				<textarea name="comment" id="comment"
 					style="border: 1px solid rgb(224, 224, 224); border-radius: 5px; outline: none; padding: 5px; font-size: 12px;"></textarea>
 			</div>
@@ -399,8 +308,8 @@
 			<div class="h-100 d-flex justify-content-start align-items-center">
 				<div
 					class="d-flex justify-content-start align-items-center formFields">
-					<label style="margin-left: 20px;" class="mb-2">ACCOUNT
-						STATUS</label>
+					<label style="margin-left: 20px;" class="mb-2">Account
+						Status</label>
 					<div class="cont">
 						<div class="toggle">
 							<input type="checkbox" id="toggle-member-status"
@@ -417,7 +326,7 @@
 			<div class="h-100 d-flex justify-content-start align-items-center">
 				<div
 					class="d-flex justify-content-start align-items-center formFields">
-					<label style="margin-left: 20px;" class="mb-2">MESSAGE SEND</label>
+					<label style="margin-left: 20px;" class="mb-2">Message Send</label>
 					<div class="cont">
 						<div class="toggle">
 							<input type="checkbox" id="toggle-member-status1"
@@ -434,8 +343,8 @@
 			<div class="h-100 d-flex justify-content-start align-items-center">
 				<div
 					class="d-flex justify-content-start align-items-center formFields">
-					<label style="margin-left: 20px;" class="mb-2">DEBIT CARD
-						ISSUE</label>
+					<label style="margin-left: 20px;" class="mb-2">Debit Card
+						Issue</label>
 					<div class="cont">
 						<div class="toggle">
 							<input type="checkbox" id="toggle-member-status2"
@@ -448,148 +357,185 @@
 			</div>
 		</div>
 
-		<div class="col-lg-3">
-			<div class="h-100 d-flex justify-content-start align-items-center">
-				<div
-					class="d-flex justify-content-start align-items-center formFields">
-					<label style="margin-left: 20px;" class="mb-2">CHECK LOCKER</label>
-					<div class="cont">
+		<div class="row">
+
+			<div class="col-lg-6">
+				<div class="d-flex align-items-center formFields" style="gap: 80px;">
+
+					<!-- Check Locker -->
+					<div class="d-flex align-items-center">
+						<label class="mb-0 me-3">Check Locker</label>
 						<div class="toggle">
-							<input type="checkbox" id="toggle-member-status3"
-								name="toggle-member-status3" class="toggle__input"
-								data-toggle-type="member-status"> <label
-								for="toggle-member-status3" class="toggle__label"></label>
+							<input type="checkbox" id="toggle-check-locker"
+								name="checkLocker" class="toggle__input"> <label
+								for="toggle-check-locker" class="toggle__label"></label>
 						</div>
+					</div>
+
+					<!-- Account Freeze -->
+					<div class="d-flex align-items-center">
+						<label class="mb-0 me-3">Account Freeze</label>
+						<div class="toggle">
+							<input type="checkbox" id="toggle-account-freeze"
+								name="accountFreeze" class="toggle__input"> <label
+								for="toggle-account-freeze" class="toggle__label"></label>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+
+		<!-- Cheque input fields -->
+		<div id="chequeInputs" style="display: none;">
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="d-flex flex-column formFields">
+						<label for="">Cheque No. </label> <input type="text"
+							name="chequeNo" id="chequeNo" required="required"
+							placeholder="Enter Cheque No." />
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="d-flex flex-column formFields">
+						<label for="">Cheque Date </label> <input type="Date"
+							name="chequeDate" id="chequeDate" required="required"
+							placeholder="Enter Cheque Date" />
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="d-flex flex-column formFields">
+						<label for="">Deposit A/C </label> <input type="text"
+							name="depositAcc1" id="depositAcc1" required="required"
+							placeholder="Enter Deposite A/C No." />
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Online input fields -->
+		<div id="onlineInputs" style="display: none;">
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="d-flex flex-column formFields">
+						<label for="">Deposit A/C </label> <input type="text"
+							name="depositAcc2" id="depositAcc2" required="required"
+							placeholder="Enter Deposite A/C No." />
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="d-flex flex-column formFields">
+						<label for="">Ref Number </label> <input type="text"
+							name="refNumber1" id="refNumber1" required="required"
+							placeholder="Enter Deposite Ref No." />
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- NEFT input fields -->
+		<div id="neftInputs" style="display: none;">
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="d-flex flex-column formFields">
+						<label for="">Deposit A/C </label> <input type="text"
+							name="depositAcc3" id="depositAcc3" required="required"
+							placeholder="Enter Deposite A/C No." />
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="d-flex flex-column formFields">
+						<label for="">Ref Number </label> <input type="text"
+							name="refNumber2" id="refNumber2" required="required"
+							placeholder="Enter Deposite Ref No." />
 					</div>
 				</div>
 			</div>
 		</div>
 
+		<div class="row mt-4">
+			<div class="col-lg-3 mb-5">
+				<label for=""
+					style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">Aadhar
+					Card <span class="star">*</span>
+				</label> <label for="photo" id="drop-area"> <img id="photo"
+					src="../images/upload/upload.png" alt="Photo Preview"
+					style="width: 250px; height: 200px"> <input type="hidden"
+					id="photoHidden" name="photo" value="">
+				</label> <small id="chkphoto" style="color: red;"></small>
+			</div>
+			<div class="col-lg-3 mb-5">
+				<label for=""
+					style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">Pan
+					Card <span class="star">*</span>
+				</label> <label for="signature" id="drop-area"> <img id="signature"
+					src="../images/upload/upload.png" alt="signature Preview"
+					style="width: 250px; height: 200px"> <input type="hidden"
+					id="signatureHidden" name="signatureHidden" value="">
+				</label> <small id="chksignature" style="color: red;"></small>
+			</div>
+			<div class="col-lg-3 mb-5">
+				<label
+					style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">
+					Photo<span class="star">*</span>
+				</label> <label for="newPhotoFile" id="drop-area"> <img
+					id="newPhoto" src="../images/upload/upload.png" alt="Photo Preview"
+					style="width: 250px; height: 200px; cursor: pointer;"> <input
+					type="file" id="newPhotoFile" name="newPhoto" accept="image/*"
+					style="display: none;">
+				</label> <small id="chknewPhoto" style="color: red;"></small>
+			</div>
+
+
+			<div class="col-lg-3 mb-5">
+				<label
+					style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">
+					Signature<span class="star">*</span>
+				</label> <label for="newSignatureFile" id="drop-area"> <img
+					id="newSignature" src="../images/upload/upload.png"
+					alt="Signature Preview"
+					style="width: 250px; height: 200px; cursor: pointer;"> <input
+					type="file" id="newSignatureFile" name="newSignature"
+					accept="image/*" style="display: none;">
+				</label> <small id="chknewSignature" style="color: red;"></small>
+			</div>
+
+
+			<div class="col-lg-3 mb-5" id="myJointPhoto">
+				<label
+					style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">
+					Joint Photo<span class="star">*</span>
+				</label> <label for="jointPhotoFile" id="drop-area"> <img
+					id="jointPhoto" src="../images/upload/upload.png"
+					alt="Joint Photo Preview"
+					style="width: 250px; height: 200px; cursor: pointer;"> <input
+					type="file" id="jointPhotoFile" name="jointPhoto" accept="image/*"
+					style="display: none;">
+				</label> <small id="chkjointPhoto" style="color: red;"></small>
+			</div>
+
+		</div>
+
 	</div>
 	<!-- Cheque input fields -->
-	<div id="chequeInputs1" style="display: none;">
-		<div class="row">
-			<div class="col-lg-3">
-				<div class="d-flex flex-column formFields">
-					<label for="">CHEQUE NO. </label> <input type="text"
-						name="chequeNo" id="chequeNo" required="required"
-						placeholder="Enter Cheque No." />
-				</div>
-			</div>
-			<div class="col-lg-3">
-				<div class="d-flex flex-column formFields">
-					<label for="">CHEQUE DATE </label> <input type="Date"
-						name="chequeDate" id="chequeDate" required="required"
-						placeholder="Enter Cheque Date" />
-				</div>
-			</div>
-			<div class="col-lg-3">
-				<div class="d-flex flex-column formFields">
-					<label for="">DEPOSIT A/C </label> <input type="text"
-						name="depositAcc1" id="depositAcc1" required="required"
-						placeholder="Enter Deposite A/C No." />
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- Online input fields -->
 	<div id="chequeInputs" style="display: none;">
 		<div class="row">
 			<div class="col-lg-3">
 				<div class="d-flex flex-column formFields">
-					<label for="">DEPOSIT A/C </label> <input type="text"
-						name="depositAcc2" id="depositAcc2" required="required"
-						placeholder="Enter Deposite A/C No." />
-				</div>
-			</div>
-			<div class="col-lg-3">
-				<div class="d-flex flex-column formFields">
-					<label for="">REF NUMBER </label> <input type="text"
-						name="refNumber1" id="refNumber1" required="required"
-						placeholder="Enter Deposite Ref No." />
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- NEFT input fields -->
-	<div id="neftInputs" style="display: none;">
-		<div class="row">
-			<div class="col-lg-3">
-				<div class="d-flex flex-column formFields">
-					<label for="">DEPOSIT A/C </label> <input type="text"
-						name="depositAcc3" id="depositAcc3" required="required"
-						placeholder="Enter Deposite A/C No." />
-				</div>
-			</div>
-			<div class="col-lg-3">
-				<div class="d-flex flex-column formFields">
-					<label for="">REF NUMBER </label> <input type="text"
-						name="refNumber2" id="refNumber2" required="required"
-						placeholder="Enter Deposite Ref No." />
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="row mt-4">
-		<div class="col-lg-3 mb-5">
-			<label for=""
-				style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">UPLOAD
-				PHOTO <span class="star">*</span>
-			</label> <label for="photo" id="drop-area"> <img id="photo"
-				src="../images/upload/upload.png" alt="Photo Preview"
-				style="width: 250px; height: 200px"> <input type="hidden"
-				id="photoHidden" name="photo" value="">
-			</label> <small id="chkphoto" style="color: red;"></small>
-		</div>
-
-		<div class="col-lg-3 mb-5">
-			<label for=""
-				style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">UPLOAD
-				SIGNATURE <span class="star">*</span>
-			</label> <label for="signature" id="drop-area"> <img id="signature"
-				src="../images/upload/upload.png" alt="signature Preview"
-				style="width: 250px; height: 200px"> <input type="hidden"
-				id="signatureHidden" name="photo" value="">
-			</label> <small id="chksignature" style="color: red;"></small>
-		</div>
-
-		<div class="col-lg-3 mb-5" id="jointPhotoDiv">
-			<label for=""
-				style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">
-				UPLOAD JOINT PHOTO <span class="star">*</span>
-			</label> <label for="jointPhoto" id="drop-area"> <img id="jointPhoto"
-				src="../images/upload/upload.png" alt="jointPhoto Preview"
-				style="width: 250px; height: 200px"> <input type="hidden"
-				id="jointPhotoHidden" name="jointPhoto" value="">
-			</label> <small id="chkjointPhoto" style="color: red;"></small>
-		</div>
-
-
-
-
-
-	</div>
-	<!-- Cheque input fields -->
-	<div id="chequeInputs2" style="display: none;">
-		<div class="row">
-			<div class="col-lg-3">
-				<div class="d-flex flex-column formFields">
-					<label for="">CHEQUE NO. </label> <input type="text"
+					<label for="">Cheque No. </label> <input type="text"
 						name="chequeNo" id="chequeNo" required="required"
 						placeholder="Enter Cheque No." />
 				</div>
 			</div>
 			<div class="col-lg-3">
 				<div class="d-flex flex-column formFields">
-					<label for="">CHEQUE DATE </label> <input type="Date"
+					<label for="">Cheque Date </label> <input type="Date"
 						name="chequeDate" id="chequeDate" required="required"
 						placeholder="Enter Cheque Date" />
 				</div>
 			</div>
 			<div class="col-lg-3">
 				<div class="d-flex flex-column formFields">
-					<label for="">DEPOSIT A/C </label> <input type="text"
+					<label for="">Deposit A/C </label> <input type="text"
 						name="depositAcc1" id="depositAcc1" required="required"
 						placeholder="Enter Deposite A/C No." />
 				</div>
@@ -597,53 +543,42 @@
 		</div>
 	</div>
 
-
 	<div class="row">
 		<div class="col-12 text-center">
-
-			<!-- SAVE -->
-			<button type="button" id="saveBtn" class="btn btn-warning">SAVE</button>
-
-			<!-- PRINT -->
-			<button type="button" id="printBtn" class="btn btn-primary"
-				style="margin-left: 10px;">
-				<i class="fa fa-print"></i> PRINT
-			</button>
-
-			<!-- UPDATE -->
-			<button type="button" id="updateBtn" class="btnStyle bg-success"
-				style="margin-left: 10px;">UPDATE</button>
+			<button id="saveBtn" class="btn btn-warning"
+				style="margin-left: 80%;">Save</button>
+			<button type="button" id="updateBtn" class="btnStyle bg-success">Update</button>
+			<!-- onclick="updateSavingAccountData()" -->
 
 		</div>
 	</div>
-
 	</form>
 
 </div>
-<div class="row mt-5" style="margin-bottom: 50px;">
+<div class="row mt-5">
 	<div class="col-12">
 		<div class="card recent-sales">
 
 			<div class="card-body table-responsive">
 				<h5 class="card-title">
-					SAVING ACCOUNT DATA <span>| TABLE VIEW</span>
+					Saving Account Data <span>| Table View</span>
 				</h5>
 
 				<table class="table table-borderless datatable overflow-scroll">
 					<thead class="table-light">
 						<tr style="font-family: 'Poppins', sans-serif;">
-							<th scope="col">SR NO</th>
-							<th scope="col">ACCOUNT NUMBER</th>
-							<th scope="col">ACCOUNT TYPE</th>
-							<th scope="col">CUSTOMER CODE</th>
-							<th scope="col">CUSTOMER NAME</th>
-							<th scope="col">MOBILE</th>
+							<th scope="col">Sr No</th>
+							<th scope="col">Account Number</th>
+							<th scope="col">Account Type</th>
+							<th scope="col">Customer Code</th>
+							<th scope="col">Customer Name</th>
+							<th scope="col">Mobile</th>
 							<th scope="col">Branch Name</th>
-							<th scope="col">ADDRESS</th>
-							<th scope="col">CITY</th>
-							<th scope="col">STATE</th>
-							<th scope="col">EDIT</th>
-							<th scope="col">DELETE</th>
+							<th scope="col">Address</th>
+							<th scope="col">City</th>
+							<th scope="col">State</th>
+							<th scope="col">Edit</th>
+							<th scope="col">Delete</th>
 						</tr>
 					</thead>
 					<tbody id="tbody">
@@ -654,6 +589,7 @@
 		</div>
 	</div>
 </div>
+
 <script>
 	 function updateToggleColor(input) {
 		const label = input.nextElementSibling;
