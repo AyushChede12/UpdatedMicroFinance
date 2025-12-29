@@ -36,17 +36,17 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">SEARCH DETAILS</li>
+					<li class="breadcrumb-item action">CUSTOMER DETAILS</li>
 				</ol>
 			</nav>
 
 			<div class="row">
 				<div class="col-lg-4">
 					<div class="d-flex flex-column formFields">
-						<label for="customerCode" id="customerSelection">Customer
-							Selection </label> <select id="selectByCode" name="selectByCode"
+						<label for="customerCode" id="customerSelection">CUSTOMER
+							SELECTION </label> <select id="selectByCode" name="selectByCode"
 							class="form-control selectField" style="width: 100%;">
-							<option value="">-- Search Customer Code --</option>
+							<option value="">-- SEARCH CUSTOMER CODE --</option>
 						</select>
 					</div>
 				</div>
@@ -54,7 +54,7 @@
 
 				<div class="col-lg-4">
 					<div class="d-flex flex-column formFields">
-						<label for="">KYC Authenticate By</label> <label>0</label>
+						<label for="">KYC AUTHENTICATE BY</label> <label>0</label>
 					</div>
 				</div>
 			</div>
@@ -63,63 +63,62 @@
 				<div class="col-lg-12">
 					<nav>
 						<ol class="breadcrumb breadcrumb-title">
-							<li class="breadcrumb-item action mt-3">Customer Details</li>
+							<li class="breadcrumb-item action mt-3">CUSTOMER DETAILS</li>
 						</ol>
 					</nav>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Customer Name</label> <input type="text"
+						<label for="">CUSTOMER NAME</label> <input type="text"
 							name="customerName" id="customerName" required="required"
-							placeholder="Enter Customer Name" disabled />
+							placeholder="ENTER CUSTOMER NAME" disabled />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Customer Code</label> <input type="text"
+						<label for="">CUSTOMER CODE</label> <input type="text"
 							name="memberCode" id="memberCode" required="required"
-							placeholder="Enter Customer Code" disabled />
+							placeholder="ENTER CUSTOMER CODE" disabled />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Contact No.</label> <input type="text"
+						<label for="">CONTACT NO.</label> <input type="text"
 							name="contactNo" id="contactNo" required="required"
-							placeholder="Enter Contact No" disabled />
+							placeholder="ENTER CONTACT NO" disabled />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">Sign-up Date</label> <input type="date"
-							name="singupDate" id="singupDate" required="required"
-							placeholder="Enter Sign-up Date" disabled />
+							name="singupDate" id="singupDate" required="required" disabled />
 					</div>
 				</div>
 
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Aadhar No.</label> <input type="text"
+						<label for="">AADHAR NO.</label> <input type="text"
 							name="aadharNo" id="aadharNo" required="required"
-							placeholder="Enter Aadhar No" disabled />
+							placeholder="ENTER AADHAR NO" disabled />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">PAN</label> <input type="text" name="pan" id="pan"
-							required="required" placeholder="Enter PAN" disabled />
+							required="required" placeholder="ENTER PAN" disabled />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Voter No.</label> <input type="text" name="voterNo"
-							id="voterNo" required="required" placeholder="Enter Voter No."
+						<label for="">VOTER NO.</label> <input type="text" name="voterNo"
+							id="voterNo" required="required" placeholder="ENTER VOTER NO"
 							disabled />
 					</div>
 				</div>
@@ -127,9 +126,9 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Driving License No.</label> <input type="text"
+						<label for="">DRIVING LICENSE NO.</label> <input type="text"
 							name="drivingLicenceNo" id="drivingLicenceNo" required="required"
-							placeholder="Enter Driving License No." disabled />
+							placeholder="ENTER DRIVING LICENSE NO." disabled />
 					</div>
 				</div>
 			</div>
@@ -139,8 +138,8 @@
 				<div class="col-3 text-center">
 					<button type="button" id="saveBtn"
 						style="background-color: red; border: none; outline: none; color: #fff; font-weight: bold; border-radius: 5px; padding: 8px 15px; cursor: pointer;"
-						onclick="verifyFetchedData();">Click Here to Authenticate
-						Complete</button>
+						onclick="verifyFetchedData();">CLICK HERE TO AUTHENTICATE
+						COMPLETE</button>
 				</div>
 			</div>
 
@@ -149,7 +148,7 @@
 				<div class="col-lg-3 mb-5">
 					<label for=""
 						style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">
-						Customer Photo <span class="star">*</span>
+						CUSTOMER PHOTO <span class="star">*</span>
 					</label> <label for="signature" id="drop-area"> <input type="file"
 						accept="image/*" name="photo" id="photo" hidden="hidden"
 						onchange="photoUpload();"
@@ -167,7 +166,7 @@
 				<div class="col-lg-3 mb-5">
 					<label for=""
 						style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">
-						Signature <span class="star">*</span>
+						CUSTOMER SIGNATURE <span class="star">*</span>
 					</label> <label for="signature" id="drop-area"> <input type="file"
 						accept="image/*" name="signature" id="signature" hidden="hidden"
 						onchange="signatureUpload();"
@@ -180,7 +179,76 @@
 						</div>
 					</label> <small id="chksignature" style="color: red;"></small>
 				</div>
+				
+				<!-- <div class="col-lg-3 mb-5">
+					<label for=""
+						style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">
+						AADHAR CARD <span class="star">*</span>
+					</label> <label for="signature" id="drop-area"> <input type="file"
+						accept="image/*" name="photo" id="photo" hidden="hidden"
+						onchange="photoUpload();"
+						style="background-size: cover; background-repeat: no-repeat" />
+						<div id="img-view">
+							<img src="../images/upload/upload.png" alt="upload_icon"
+								id="photoPreview" /><input type="hidden" name="photoHidden"
+								id="photoHidden">
 
+						</div>
+					</label> <small id="chksignature" style="color: red;"></small>
+				</div>
+
+				Signature
+				<div class="col-lg-3 mb-5">
+					<label for=""
+						style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">
+						PAN CARD <span class="star">*</span>
+					</label> <label for="signature" id="drop-area"> <input type="file"
+						accept="image/*" name="signature" id="signature" hidden="hidden"
+						onchange="signatureUpload();"
+						style="background-size: cover; background-repeat: no-repeat" />
+						<div id="img-view">
+							<img src="../images/upload/upload.png" alt="upload_icon"
+								id="signaturePreview" /><input type="hidden"
+								name="signatureHidden" id="signatureHidden">
+
+						</div>
+					</label> <small id="chksignature" style="color: red;"></small>
+				</div>
+				
+				<div class="col-lg-3 mb-5">
+					<label for=""
+						style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">
+						VOTER ID <span class="star">*</span>
+					</label> <label for="voterId" id="drop-area"> <input type="file"
+						accept="image/*" name="voterId" id="voterId" hidden="hidden"
+						onchange="voterUpload();"
+						style="background-size: cover; background-repeat: no-repeat" />
+						<div id="img-view">
+							<img src="../images/upload/upload.png" alt="upload_icon"
+								id="voterPreview" /><input type="hidden"
+								name="voterHidden" id="voterHidden">
+
+						</div>
+					</label> <small id="chkvoter" style="color: red;"></small>
+				</div>
+				
+				<div class="col-lg-3 mb-5">
+					<label for=""
+						style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">
+						DRIVING LICENSE <span class="star">*</span>
+					</label> <label for="drivingLicense" id="drop-area"> <input type="file"
+						accept="image/*" name="drivingLicense" id="drivingLicense" hidden="hidden"
+						onchange="licenseUpload();"
+						style="background-size: cover; background-repeat: no-repeat" />
+						<div id="img-view">
+							<img src="../images/upload/upload.png" alt="upload_icon"
+								id="licensePreview" /><input type="hidden"
+								name="licenseHidden" id="licenseHidden">
+
+						</div>
+					</label> <small id="chklicense" style="color: red;"></small>
+				</div>
+ -->
 
 			</div>
 		</div>
@@ -239,45 +307,5 @@
 </div>
 
 
-<script>
-$(document).ready(function () {
-	$.ajax({
-	    url: "api/customermanagement/approved",
-	    method: "GET",
-	    success: function(response) {
-		alert("success");
-	        if (response.status === "OK") {
-
-	            let dropdown = $("#selectByCode");
-	            dropdown.empty(); // Clear old options
-	            dropdown.append(`<option value="">-- Select Customer --</option>`);
-
-	            response.data.forEach(function(item) {
-	            	alert(item.memberCode);
-	                let fullName = [
-	                    item.firstName,
-	                    item.middleName,
-	                    item.lastName
-	                ].filter(Boolean).join(" ");
-	                
-					alert(fullName);
-	                let optionHtml = `
-	                    <option value="${item.memberCode}">
-	                        ${item.memberCode} - ${fullName}
-	                    </option>
-	                `;
-
-	                dropdown.append(optionHtml);
-	            });
-	        } else {
-	            console.warn("Unexpected response:", response);
-	        }
-	    },
-	    error: function(err) {
-	        console.error("Error fetching customers:", err);
-	    }
-	});
-});
-</script>
 <script
-	src="${pageContext.request.contextPath}/js/customerManagement/addCustomer.js"></script>
+	src="${pageContext.request.contextPath}/js/customerManagement/addMemberKyc.js"></script>
