@@ -46,7 +46,8 @@ function fetchBySelectedCustomer() {
 				const baseUrl = window.location.origin + "/Uploads/";
 				$("#photoPreview").attr("src", c.customerPhoto ? baseUrl + c.customerPhoto : baseUrl + "default-placeholder.jpg");
 				$("#signaturePreview").attr("src", c.customerSignature ? baseUrl + c.customerSignature : baseUrl + "default-placeholder.jpg");
-
+				$("#signaturePreview").attr("src", c.customerSignature ? baseUrl + c.customerSignature : baseUrl + "default-placeholder.jpg");
+				$("#signaturePreview").attr("src", c.customerSignature ? baseUrl + c.customerSignature : baseUrl + "default-placeholder.jpg");
 
 				// ⭐ BUTTON STATUS ⭐
 				if (c.verified === true) {
