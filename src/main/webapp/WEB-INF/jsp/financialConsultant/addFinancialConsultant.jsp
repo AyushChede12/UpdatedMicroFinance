@@ -1,6 +1,6 @@
 
 <div class="pagetitle">
-	<h1>Financial Consultant</h1>
+	<h1>FINANCIAL CONSULTANT </h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
