@@ -46,8 +46,8 @@ function fetchBySelectedCustomer() {
 				const baseUrl = window.location.origin + "/Uploads/";
 				$("#photoPreview").attr("src", c.customerPhoto ? baseUrl + c.customerPhoto : baseUrl + "default-placeholder.jpg");
 				$("#signaturePreview").attr("src", c.customerSignature ? baseUrl + c.customerSignature : baseUrl + "default-placeholder.jpg");
-				$("#signaturePreview").attr("src", c.customerSignature ? baseUrl + c.customerSignature : baseUrl + "default-placeholder.jpg");
-				$("#signaturePreview").attr("src", c.customerSignature ? baseUrl + c.customerSignature : baseUrl + "default-placeholder.jpg");
+				//$("#signaturePreview").attr("src", c.customerSignature ? baseUrl + c.customerSignature : baseUrl + "default-placeholder.jpg");
+				//$("#signaturePreview").attr("src", c.customerSignature ? baseUrl + c.customerSignature : baseUrl + "default-placeholder.jpg");
 
 				// ⭐ BUTTON STATUS ⭐
 				if (c.verified === true) {
@@ -61,7 +61,7 @@ function fetchBySelectedCustomer() {
 						"padding": "8px 15px",
 						"border-radius": "6px",
 						"cursor": "not-allowed"
-					}).text("Verified")
+					}).text("VERIFIED")
 						.prop("disabled", true);
 
 				} else {
@@ -75,7 +75,7 @@ function fetchBySelectedCustomer() {
 						"padding": "8px 15px",
 						"border-radius": "6px",
 						"cursor": "pointer"
-					}).text("Click Here to Authenticate Complete")
+					}).text("CLICK HERE TO AUTHENTICATE COMPLETE")
 						.prop("disabled", false);
 				}  // ← THIS CLOSING BRACE WAS MISSING!!
 

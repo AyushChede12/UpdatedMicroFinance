@@ -463,7 +463,7 @@ function loadCustomerTable() {
 					<tr>
 					                        <td>${(idx + 1).toString().toUpperCase()}</td>
 					                        <td>${(cust.memberCode || "").toUpperCase()}</td>
-					                        <td>${fullName}</td>
+					                        <td>${(fullName || "").toUpperCase()}</td>
 					                        <td>${(cust.contactNo || "").toUpperCase()}</td>
 					                        <td>${(cust.aadharNo || "").toUpperCase()}</td>
 					                        <td>${(cust.district || "").toUpperCase()}</td>
