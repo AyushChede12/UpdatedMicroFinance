@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Loan Management</h1>
+	<h1>LOAN MANAGEMENT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-cash-coin"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Generate NOC Certificate</li>
+			<li class="breadcrumb-item action">GENERATE NOC CERTIFICATE</li>
 		</ol>
 	</nav>
 </div>
@@ -16,16 +16,16 @@
 		<div class="">
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Search Details For Print</li>
+					<li class="breadcrumb-item action">SEARCH DETAILS FOR PRINT</li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Find By Loan Id</label> <select id="closedLoanIds"
+						<label for="">FIND BY LOAN ID</label> <select id="closedLoanIds"
 							name="closedLoanIds" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select Loan Id</option>
+							<option value="">SELECT LOAN ID</option>
 
 						</select>
 					</div>
@@ -36,7 +36,7 @@
 			<div class="col-12 text-center">
 
 				<button class="btnStyle" style="background-color: #FFA500;"
-					id="generateNoc">Generate NOC</button>
+					id="generateNoc">GENERATE NOC</button>
 
 			</div>
 		</div>
@@ -52,7 +52,7 @@
 	<div style="text-align: center; margin-top: 20px;">
 		<button id="printBtn" onclick="printDocument()"
 			style="display: none; padding: 8px 20px; font-size: 16px; font-weight: bold; background: #007bff; color: #fff; border: none; border-radius: 6px; cursor: pointer;">
-			Print</button>
+			PRINT</button>
 	</div>
 
 	<script
