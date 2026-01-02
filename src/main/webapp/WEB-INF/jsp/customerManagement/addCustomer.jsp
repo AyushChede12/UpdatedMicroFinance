@@ -187,6 +187,7 @@
 						<select id="relationshipStatus" name="relationshipStatus"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
+							<option value="">---Select---</option>
 							<option value="">SINGLE</option>
 							<option value="">MARRIED</option>
 							<option value="">DIVORCED</option>
