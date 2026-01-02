@@ -10,68 +10,108 @@
 	</nav>
 </div>
 
-<div>
-	<form id="formid">
+<form id="currentForm">
 
-		<!-- Search Box Title -->
-		<nav>
-			<ol class="breadcrumb breadcrumb-title">
-				<li class="breadcrumb-item action">Search Box</li>
-			</ol>
-		</nav>
+	<!-- Search Box Title -->
+	<nav>
+		<ol class="breadcrumb breadcrumb-title">
+			<li class="breadcrumb-item action">CURRENT ACCOUNT SEARCH</li>
+		</ol>
+	</nav>
 
-		<!-- By Date Dropdown -->
-		<div class="row">
-			<div class="col-lg-3">
-				<div class="d-flex flex-column formFields mb-4">
-					<label for="byDate">By Date</label> <select id="byDate"
-						class="form-control selectField" style="height: 45px;">
-						<option value="">Select</option>
-						<option value="today">Today</option>
-						<option value="yesterday">Yesterday</option>
-						<option value="last7">Last 7 Days</option>
-						<option value="last30">Last 30 Days</option>
-						<option value="thisMonth">This Month</option>
-						<option value="lastMonth">Last Month</option>
-					</select>
+	<div class="row">
+
+		<!-- BY DATE -->
+		<div class="col-lg-3">
+			<div class="d-flex flex-column formFields mb-4">
+				<label>BY DATE</label>
+				<select id="byDate" class="form-control selectField" style="height: 45px;">
+					<option value="">SELECT</option>
+					<option value="today">TODAY</option>
+					<option value="yesterday">YESTERDAY</option>
+					<option value="last7">LAST 7 DAYS</option>
+					<option value="last30">LAST 30 DAYS</option>
+					<option value="thisMonth">THIS MONTH</option>
+					<option value="lastMonth">LAST MONTH</option>
+				</select>
+			</div>
+		</div>
+
+		<!-- ACCOUNT TYPE -->
+		<div class="col-lg-3">
+			<div class="d-flex flex-column formFields mb-4">
+				<label>ACCOUNT</label>
+				<select id="accountType" class="form-control selectField" style="height: 45px;">
+					<option value="">SELECT</option>
+					<option value="CURRENT" selected>CURRENT</option>
+					<option value="SAVINGS">SAVINGS</option>
+				</select>
+			</div>
+		</div>
+
+		<!-- CHARGE TYPE -->
+		<div class="col-lg-3">
+			<div class="d-flex flex-column formFields mb-4">
+				<label>CHARGE TYPE</label>
+				<select id="chargeType" class="form-control selectField" style="height: 45px;">
+					<option value="">SELECT</option>
+					<option value="SMS">SMS CHARGE</option>
+					<option value="SERVICE">SERVICE CHARGE</option>
+					<option value="ATM">ATM CHARGE</option>
+				</select>
+			</div>
+		</div>
+
+		<!-- AMOUNT -->
+		<div class="col-lg-3">
+			<div class="d-flex flex-column formFields mb-4">
+				<label>AMOUNT</label>
+				<input type="number" id="amount" name="amount"
+					class="form-control"
+					placeholder="ENTER AMOUNT"
+					min="0" step="0.01">
+			</div>
+		</div>
+
+	</div>
+
+	<!-- SEARCH BUTTON -->
+	<div class="row">
+		<div class="col-12 d-flex justify-content-center">
+			<button type="button" id="searchBtn" class="btnStyle"
+				style="background-color:#FFA500;">
+				SEARCH
+			</button>
+		</div>
+	</div>
+
+	<!-- TABLE -->
+	<div class="row mt-5 mb-5">
+		<div class="col-12">
+			<div class="card recent-sales">
+				<div class="card-body table-responsive">
+					<h5 class="card-title">CURRENT ACCOUNT RECORDS</h5>
+					<table class="table table-borderless datatable">
+						<thead class="table-light">
+							<tr>
+								<th></th>
+								<th>SR. NO.</th>
+								<th>ACCOUNT NUMBER</th>
+								<th>OPENING DATE</th>
+								<th>BALANCE</th>
+								<th>SMS STATUS</th>
+								<th>APPLY</th>
+							</tr>
+						</thead>
+						<tbody id="tbody"></tbody>
+					</table>
 				</div>
 			</div>
 		</div>
+	</div>
 
-		<!-- Search Button -->
-		<div class="row">
-			<div class="col-12 d-flex justify-content-center">
-				<button type="button" id="searchBtn" class="btnStyle"
-					style="background-color: #FFA500;">Search</button>
-			</div>
-		</div>
+</form>
 
-		<!-- TABLE -->
-		<div class="row mt-5" style="margin-bottom: 50px;">
-			<div class="col-12">
-				<div class="card recent-sales">
-					<div class="card-body table-responsive">
-						<h5 class="card-title">Recent Sales</h5>
-						<table class="table table-borderless datatable overflow-scroll">
-							<thead class="table-light">
-								<tr style="font-family: 'Poppins', sans-serif;">
-									<th></th>
-									<th>Sr. No.</th>
-									<th>Account Number</th>
-									<th>Opening Date</th>
-									<th>Balance</th>
-									<th>SMS Status</th>
-									<th>Apply</th>
-								</tr>
-							</thead>
-							<tbody id="tbody"></tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-
-	</form>
 </div>
 <script
 	src="${pageContext.request.contextPath}/js/customerSavings/SMSServiceFee.js"></script>

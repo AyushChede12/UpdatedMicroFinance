@@ -561,24 +561,24 @@
 
 			<div class="card-body table-responsive">
 				<h5 class="card-title">
-					SAVING ACCOUNT DATA <span>| Table View</span>
+					SAVING ACCOUNT DATA <span>| TTABLE VIEW</span>
 				</h5>
 
 				<table class="table table-borderless datatable overflow-scroll">
 					<thead class="table-light">
 						<tr style="font-family: 'Poppins', sans-serif;">
-							<th scope="col">Sr No</th>
-							<th scope="col">Account Number</th>
-							<th scope="col">Account Type</th>
-							<th scope="col">Customer Code</th>
-							<th scope="col">Customer Name</th>
-							<th scope="col">Mobile</th>
-							<th scope="col">Branch Name</th>
-							<th scope="col">Address</th>
-							<th scope="col">City</th>
-							<th scope="col">State</th>
-							<th scope="col">Edit</th>
-							<th scope="col">Delete</th>
+							<th scope="col">SR NO</th>
+							<th scope="col">ACCOUNT NUMBER</th>
+							<th scope="col">ACCOUNT TYPE</th>
+							<th scope="col">CUSTOMER CODE</th>
+							<th scope="col">CUSTOMER NAME</th>
+							<th scope="col">MOBILE</th>
+							<th scope="col">BRANCH NAME</th>
+							<th scope="col">ADDRESS</th>
+							<th scope="col">CITY</th>
+							<th scope="col">STATE</th>
+							<th scope="col">EDIT</th>
+							<th scope="col">DELETE</th>
 						</tr>
 					</thead>
 					<tbody id="tbody">
