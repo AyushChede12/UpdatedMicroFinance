@@ -17,24 +17,24 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Search Box</li>
+					<li class="breadcrumb-item action">SERACH BOX</li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px;">
-						<label for="">Branch Name</label> <select id="branchName"
+						<label for="">BRANCH NAME</label> <select id="branchName"
 							name="branchName" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select Branch</option>
+							<option value="">SELECT BRANCH</option>
 						</select>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">From Date</label> <input type="date"
+						<label for="vehicalNo">FROM DATE</label> <input type="date"
 							name="fromDate" id="fromDate" required="required"
 							placeholder="Enter Vehicle No" style="text-transform: uppercase;" />
 					</div>
@@ -42,7 +42,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">To Date</label> <input type="date"
+						<label for="vehicalNo">TO DATE</label> <input type="date"
 							name="toDate" id="toDate" required="required"
 							placeholder="Enter Vehicle No" style="text-transform: uppercase;" />
 					</div>
@@ -50,43 +50,43 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Customer Name</label> <input type="text"
+						<label for="">CUSTOMER NAME</label> <input type="text"
 							name="customerName" id="customerName" required="required"
-							placeholder="Member Code" />
+							placeholder="MEMBER CODE" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Account Number</label> <select id="accountNumber"
+						<label for="">ACCOUNT NUMBER</label> <select id="accountNumber"
 							name="accountNumber" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select</option>
+							<option value="">SELECT</option>
 						</select>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Customer Code</label> <input type="text"
+						<label for="">CUSTOMER CODE</label> <input type="text"
 							name="customerCode" id="customerCode" required="required"
-							placeholder="Enter Customer Code" />
+							placeholder="ENTER CUSTOMER CODE" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Financial Consultant Code</label> <input type="text"
+						<label for="">FINANCIAL CONSULTANT CODE</label> <input type="text"
 							name="financialConsultantCode" id="financialConsultantCode"
-							required="required" placeholder="Enter Financial Consultant Code" />
+							required="required" placeholder="ENTER FINANCIAL CONSULTANT CODE" />
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Plan name</label> <select id="schemename"
+						<label for="">PLAN NAME</label> <select id="schemename"
 							name="schemename" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select</option>
+							<option value="">SELECT</option>
 						</select>
 					</div>
 				</div>
@@ -105,26 +105,26 @@
 
 					<div class="card-body table-responsive">
 						<h5 class="card-title">
-							Search Result <span>| Today</span>
+							SEARCH RESULT <span>|TODAY</span>
 						</h5>
 
 						<table class="table table-borderless datatable overflow-scroll">
 							<thead class="table-light">
 								<tr style="font-family: 'Poppins', sans-serif;">
-									<th scope="col">Sr No</th>
-									<th scope="col">Account Number</th>
-									<th scope="col">Account Type</th>
-									<th scope="col">Customer Code</th>
-									<th scope="col">Customer Name</th>
-									<th scope="col">Mobile</th>
-									<th scope="col">Branch Name</th>
-									<th scope="col">Address</th>
-									<th scope="col">City</th>
-									<th scope="col">State</th>
-									<th scope="col">Opening Date</th>
-									<th scope="col">Financial Consultant Code</th>
-									<th scope="col">Plan Name</th>
-									<th scope="col">Approve Status</th>
+									<th scope="col">SR NO</th>
+									<th scope="col">ACCOUNT NUMBER</th>
+									<th scope="col">ACCOUNT TYPE</th>
+									<th scope="col">CUSTOMER CODE</th>
+									<th scope="col">CUSTOMER NAME</th>
+									<th scope="col">MOBILE</th>
+									<th scope="col">BRANCH NAME</th>
+									<th scope="col">ADDRESS</th>
+									<th scope="col">CITY</th>
+									<th scope="col">STATE</th>
+									<th scope="col">OPENING DATE</th>
+									<th scope="col">FINANCIAL CONSULTANT CODE</th>
+									<th scope="col">PLAN NAME</th>
+									<th scope="col">APPROVE STATUS</th>
 								</tr>
 							</thead>
 							<tbody id="tableSavingAcc">

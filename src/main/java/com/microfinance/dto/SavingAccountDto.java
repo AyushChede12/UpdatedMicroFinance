@@ -1,9 +1,15 @@
 package com.microfinance.dto;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class SavingAccountDto {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String typeofaccount;
 	private String openingDate;
@@ -37,6 +43,7 @@ public class SavingAccountDto {
 	private String accountStatus;
 	private String messageSend;
 	private String debitCardIssue;
+	private String accountFreeze;
 	private String accountNumber;
 	private boolean isApproved;
 	private String isLocker;
@@ -316,6 +323,14 @@ public class SavingAccountDto {
 
 	public void setDebitCardIssue(String debitCardIssue) {
 		this.debitCardIssue = debitCardIssue;
+	}
+
+	public String getAccountFreeze() {
+		return accountFreeze;
+	}
+
+	public void setAccountFreeze(String accountFreeze) {
+		this.accountFreeze = accountFreeze;
 	}
 
 	public String getAccountNumber() {

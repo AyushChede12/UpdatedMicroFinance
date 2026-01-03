@@ -140,11 +140,15 @@
 
 
 				<div class="col-lg-3">
-					<div class="d-flex flex-column formFields mb-4">
-						<label for="">COMMENTS</label> <input type="text" name="comments"
-							id="comments" required="required" placeholder="ENTER COMMENTS" />
-					</div>
-				</div>
+	<div class="d-flex flex-column formFields mb-4">
+		<label for="">COMMENTS</label>
+		<select id="comments" name="comments" required="required"
+			class="form-control selectField" style="height: 30px;">
+			<option value="">-SELECT-</option>
+		</select>
+	</div>
+</div>
+
 
 
 				<div class="col-lg-3">

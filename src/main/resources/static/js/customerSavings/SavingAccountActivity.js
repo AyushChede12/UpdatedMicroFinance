@@ -207,3 +207,32 @@ function updateMainAccountBalance(accountNumber, newBalance) {
 		}
 	});
 }
+
+	document.getElementById("transactionType").addEventListener("change", function () {
+		var transactionType = this.value;
+		var commentsDropdown = document.getElementById("comments");
+
+		// clear old options
+		commentsDropdown.innerHTML = '<option value="">-SELECT-</option>';
+
+		if (transactionType === "Deposit") {
+			addOption(commentsDropdown, "By Cash");
+			addOption(commentsDropdown, "By Transfer");
+			addOption(commentsDropdown, "By Online");
+			addOption(commentsDropdown, "By Cheque");
+		}
+		else if (transactionType === "Withdraw") {
+			addOption(commentsDropdown, "To Cash");
+			addOption(commentsDropdown, "To Transfer");
+			addOption(commentsDropdown, "To Cheque");
+		}
+	});
+
+	function addOption(selectBox, text) {
+		var option = document.createElement("option");
+		option.value = text;
+		option.text = text;
+		selectBox.appendChild(option);
+	}
+
+
