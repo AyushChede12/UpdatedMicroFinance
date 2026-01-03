@@ -187,6 +187,7 @@
 						<select id="relationshipStatus" name="relationshipStatus"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
+							<option value="">---Select---</option>
 							<option value="">SINGLE</option>
 							<option value="">MARRIED</option>
 							<option value="">DIVORCED</option>
@@ -918,7 +919,7 @@
 	<!-- SAVE & UPDATE BUTTONS END -->
 
 	<!-- ================== TABLE START ================== -->
-	<div class="mt-5">
+	<!-- <div class="mt-5">
 		<nav>
 			<ol class="breadcrumb breadcrumb-title">
 				<li class="breadcrumb-item action">CUSTOMER LIST</li>
@@ -931,18 +932,20 @@
 					<th>#</th>
 					<th>CUSTOMER CODE</th>
 					<th>NAME</th>
-					<th>MOBILE</th>
-					<th>AADHAR</th>
+					<th>OPENING DATE</th>
+					<th>MOBILE NO</th>
+					<th>ADDRESS</th>
 					<th>DISTRICT</th>
 					<th>BRANCH NAME</th>
+					<th>DOB</th>
 					<th>DOB</th>
 				</tr>
 			</thead>
 			<tbody id="customerTableBody">
-				<!-- Dynamic rows will be added here -->
+				Dynamic rows will be added here
 			</tbody>
 		</table>
-	</div>
+	</div> -->
 	<!-- ================== TABLE END ================== -->
 
 

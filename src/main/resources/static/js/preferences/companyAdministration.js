@@ -281,7 +281,7 @@ $(document).ready(function() {
 	function createNewField() {
 		const fieldHtml = `
             <div class="textUploadSet mb-4">
-                <input type="text" class="form-control nameField" placeholder="Enter Image Name...">
+                <input type="text" class="form-control nameField" placeholder="ENTER IMAGE NAME...">
                 <div class="uploadContainer"></div>
             </div>`;
 		$("#fieldContainer").append(fieldHtml);
@@ -300,7 +300,7 @@ $(document).ready(function() {
 
 		const html = `
             <div class="uploadField mt-2">
-                <label>${val} *</label>
+                <label>${val.toUpperCase()} *</label>
                 <label for="${uniqueId}">
                     <input type="file" id="${uniqueId}" hidden accept="image/*" onchange="previewImage('${uniqueId}')">
                     <div>
@@ -365,7 +365,6 @@ $(document).ready(function() {
 			type: "GET",
 			success: function(data) {
 
-
 				let html = "<h4>Stored Images</h4><div class='row'>";
 
 				data.forEach(img => {
@@ -379,7 +378,7 @@ $(document).ready(function() {
 				                <button class="deleteImg" data-id="${img.id}">&times;</button>
 				            </div>
 
-				            <p>${img.name}</p>
+				            <p>${(img.name).toUpperCase()}</p>
 				        </div>
 				    `;
 				});

@@ -23,17 +23,18 @@ $(document).ready(function() {
 
 
 	$('#saveBtn').click(function(event) {
-		event.preventDefault();
 
+		event.preventDefault();
 
 		// 1️⃣ Clear all validation messages
 		$("[id^='chk']").text('');
-
 		let isValid = true;
 
-		// 2️⃣ Helper function (REUSABLE)
-		function validateField(fieldId, chkId, message) {
-			var value = $('#' + fieldId).val().trim();
+		/* ===============================
+		   TEXT FIELD VALIDATION
+		================================ */
+		function validateText(fieldId, chkId, message) {
+			const value = $('#' + fieldId).val().trim();
 			if (value === '') {
 				$('#' + chkId).text(message);
 				isValid = false;
@@ -41,120 +42,129 @@ $(document).ready(function() {
 			return value;
 		}
 
-		// 3️⃣ Validations START 👇
+		/* ===============================
+		   FILE / IMAGE VALIDATION
+		================================ */
+		function validateFile(fieldId, chkId, message, allowedTypes = [], maxSizeMB = 2) {
+			const input = $('#' + fieldId)[0];
 
-		var authenticateFor = validateField(
-			'authenticateFor',
-			'chkauthenticatefor',
-			'Please select authenticate for'
-		);
+			if (!input || input.files.length === 0) {
+				$('#' + chkId).text(message);
+				isValid = false;
+				return null;
+			}
 
-		var aadharNo = validateField(
-			'aadharNo',
-			'chkaadharno',
-			'Please enter Aadhar number'
-		);
+			const file = input.files[0];
 
-		var signupDate = validateField(
-			'signupDate',
-			'chksignupdate',
-			'Please select signup date'
-		);
+			if (allowedTypes.length && !allowedTypes.includes(file.type)) {
+				$('#' + chkId).text('Only JPG / PNG allowed');
+				isValid = false;
+				return null;
+			}
 
-		var firstName = validateField(
-			'firstName',
-			'chkfirstname',
-			'Please enter first name'
-		);
+			if (file.size > maxSizeMB * 1024 * 1024) {
+				$('#' + chkId).text(`File size must be < ${maxSizeMB}MB`);
+				isValid = false;
+				return null;
+			}
 
-		var middleName = validateField(
-			'middleName',
-			'chkmiddlename',
-			'Please enter middle name'
-		);
-
-		var lastName = validateField(
-			'lastName',
-			'chklastname',
-			'Please enter last name'
-		);
-
-		var dob = validateField(
-			'dob',
-			'chkdob',
-			'Please select date of birth'
-		);
-
-		var gender = validateField(
-			'gender',
-			'chkgender',
-			'Please select gender'
-		);
-
-		var age = validateField(
-			'age',
-			'chkage',
-			'Please enter age'
-		);
-
-		var branch = validateField(
-			'branchName',
-			'chkbranch',
-			'Please select branch'
-		);
-
-		var contactNo = validateField(
-			'contactNo',
-			'chkcontactno',
-			'Please enter contact number'
-		);
-
-		var email = validateField(
-			'emailId',
-			'chkemailid',
-			'Please enter email ID'
-		);
-
-		var panNo = validateField(
-			'panNo',
-			'chkpanno',
-			'Please enter PAN number'
-		);
-
-		var voterNo = validateField(
-			'voterNo',
-			'chkvoterno',
-			'Please enter voter ID'
-		);
-
-		var nomineeName = validateField(
-			'nomineeName',
-			'chknomineename',
-			'Please enter nominee name'
-		);
-
-		var nomineeRelation = validateField(
-			'nomineeRelation',
-			'chknomineerelationtoapplicant',
-			'Please enter nominee relation'
-		);
-
-		var nomineeDob = validateField(
-			'nomineeDob',
-			'chknomineedob',
-			'Please select nominee DOB'
-		);
-
-		var nomineeMobile = validateField(
-			'nomineeMobile',
-			'chknomineemobileno',
-			'Please enter nominee mobile number'
-		);
-
-		// 4️⃣ Stop if any validation failed
-		if (!isValid) {
-			return false;
+			return file;
 		}
+
+		/* ===============================
+		   TEXT VALIDATIONS
+		================================ */
+		validateText('authenticateFor', 'chkauthenticatefor', 'Please select authenticate for');
+		validateText('aadharNo', 'chkaadharno', 'Please enter Aadhar number');
+		validateText('signupDate', 'chksignupdate', 'Please select signup date');
+		validateText('firstName', 'chkfirstname', 'Please enter first name');
+		validateText('middleName', 'chkmiddlename', 'Please enter middle name');
+		validateText('lastName', 'chklastname', 'Please enter last name');
+		validateText('dob', 'chkdob', 'Please select date of birth');
+		validateText('minor', 'chkminor', 'Please select minor');
+		validateText('guardianName', 'chkguardianname', 'Please enter guardian name');
+		validateText('guardianAccNo', 'chkguardianaccno', 'Please enter guardian account no');
+		validateText('relationToApplicant', 'chkrelationtoapplicant', 'Please select relation');
+		validateText('customerGender', 'chkgender', 'Please select gender');
+		validateText('customerAge', 'chkage', 'Please enter age');
+		validateText('customerAddress', 'chkaddress', 'Please enter address');
+		validateText('category', 'chkcategory', 'Please select category');
+		validateText('caste', 'chkcaste', 'Please select caste');
+		validateText('state', 'chkstate', 'Please select state');
+		validateText('district', 'chkdistrict', 'Please select district');
+		validateText('pinCode', 'chkpincode', 'Please enter pincode');
+		validateText('branchName', 'chkbranch', 'Please select branch');
+		validateText('contactNo', 'chkcontactno', 'Please enter contact number');
+		validateText('emailId', 'chkemailid', 'Please enter email ID');
+		validateText('panNo', 'chkpanno', 'Please enter PAN number');
+		validateText('voterNo', 'chkvoterno', 'Please enter voter ID');
+		validateText('drivingLicenceNo', 'chkdrivinglicenseno', 'Please enter license number');
+
+		/* ===============================
+		   FILE VALIDATIONS
+		================================ */
+		const customerPhoto1 = validateFile(
+			'customerPhoto',
+			'chkaadharimage',
+			'Please select aadhar card image',
+			['image/jpeg', 'image/png'],
+			2
+		);
+
+		const customerSignature1 = validateFile(
+			'customerSignature',
+			'chkpanimage',
+			'Please select pan card image',
+			['image/jpeg', 'image/png'],
+			1
+		);
+
+		const customerVoter1 = validateFile(
+			'customerVoter',
+			'chkvoterimage',
+			'Please select voter ID image',
+			['image/jpeg', 'image/png'],
+			2
+		);
+
+		const customerDriving1 = validateFile(
+			'customerDriving',
+			'chklicenseimage',
+			'Please select driving license image',
+			['image/jpeg', 'image/png'],
+			2
+		);
+
+		const nomineAadhar1 = validateFile(
+			'nomineAadhar',
+			'chknomineeaadhar',
+			'Please select nomoniee aadhar',
+			['image/jpeg', 'image/png'],
+			2
+		);
+
+		const nomineSignature1 = validateFile(
+			'nomineSignature',
+			'chknomineesignature',
+			'Please select nominee signature',
+			['image/jpeg', 'image/png'],
+			2
+		);
+
+		validateText('nomineeName', 'chknomineename', 'Please enter nominee name');
+		validateText('nomineeRelationToApplicant', 'chknomineerelationtoapplicant', 'Please select nominee relation');
+		validateText('nomineeDOB', 'chknomineedob', 'Please select nominee DOB');
+		validateText('nomineeAge', 'chknomineeage', 'Please enter nominee age');
+		validateText('nomineeMobileNo', 'chknomineemobileno', 'Please enter nominee mobile no');
+		validateText('nomineeAddress', 'chknomineeaddress', 'Please enter nominee address');
+		validateText('nomineePanNo', 'chknomineepan', 'Please enter nominee pan');
+		validateText('nomineeKycNo', 'chknomineekycno', 'Please enter nominee Kyc No(if not type NA)');
+		validateText('nomineeKycType', 'chknoimneekyctype', 'Please select nominee kyc type');
+
+		/* ===============================
+		   STOP IF INVALID
+		================================ */
+		if (!isValid) return false;
 
 		var formData = new FormData();
 
@@ -463,7 +473,7 @@ function loadCustomerTable() {
 					<tr>
 					                        <td>${(idx + 1).toString().toUpperCase()}</td>
 					                        <td>${(cust.memberCode || "").toUpperCase()}</td>
-					                        <td>${fullName}</td>
+					                        <td>${(fullName || "").toUpperCase()}</td>
 					                        <td>${(cust.contactNo || "").toUpperCase()}</td>
 					                        <td>${(cust.aadharNo || "").toUpperCase()}</td>
 					                        <td>${(cust.district || "").toUpperCase()}</td>
