@@ -51,13 +51,13 @@
 </style>
 
 <div class="pagetitle">
-	<h1>Preferences</h1>
+	<h1>PREFERENCES</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-gear"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Bank Module</li>
+			<li class="breadcrumb-item action">BANK MODULE</li>
 		</ol>
 	</nav>
 </div>
@@ -67,7 +67,7 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Bank Details</li>
+					<li class="breadcrumb-item action">BANK DETAILS</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -96,9 +96,9 @@
               </div> -->
 					<input type="hidden" name="id" id="id">
 					<div class="d-flex flex-column formFields">
-						<label for="">Bank Name <span class="star">*</span></label> <input
+						<label for="">BANK NAME <span class="star">*</span></label> <input
 							type="text" name="bankName" id="bankName" required="required"
-							placeholder="Enter Bank Name" style="text-transform: uppercase;" />
+							placeholder="ENTER BANK NAME" style="text-transform: uppercase;" />
 						<small id="chkbankname" style="color: red;"></small>
 					</div>
 				</div>
@@ -106,9 +106,9 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Account No <span class="star">*</span></label> <input
+						<label>ACCOUNT NO <span class="star">*</span></label> <input
 							type="text" name="accountNo" id="accountNo" required="required"
-							placeholder="Enter Account No" /> <small id="chkaccountno"
+							placeholder="ENTER ACCOUNT NO" /> <small id="chkaccountno"
 							style="color: red;"></small>
 					</div>
 				</div>
@@ -116,9 +116,9 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>IFSC Code <span class="star">*</span></label> <input
+						<label>IFSC CODE <span class="star">*</span></label> <input
 							type="text" name="ifscCode" id="ifscCode" required="required"
-							placeholder="Enter IFSC Code" style="text-transform: uppercase;" />
+							placeholder="ENTER IFSC CODE" style="text-transform: uppercase;" />
 						<small id="chkifsccode" style="color: red;"></small>
 					</div>
 				</div>
@@ -126,9 +126,9 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>MICR Code <span class="star">*</span></label> <input
+						<label>MICR CODE <span class="star">*</span></label> <input
 							type="text" name="micrCode" id="micrCode" required="required"
-							placeholder="Enter MICR Code" style="text-transform: uppercase;" />
+							placeholder="ENTER MICR CODE" style="text-transform: uppercase;" />
 						<small id="chkmicrcode" style="color: red;"></small>
 					</div>
 				</div>
@@ -136,9 +136,9 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Contact No <span class="star">*</span></label> <input
+						<label>CONTACT NO <span class="star">*</span></label> <input
 							type="text" name="contactNo" id="contactNo" required="required"
-							placeholder="Enter Contact No" style="text-transform: uppercase;" />
+							placeholder="ENTER CONTACT NO" style="text-transform: uppercase;" />
 						<small id="chkcontactno" style="color: red;"></small>
 					</div>
 				</div>
@@ -146,7 +146,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Account Opening Date <span class="star">*</span></label> <input
+						<label>ACCOUNT OPENING DATE <span class="star">*</span></label> <input
 							type="date" name="openingDate" id="openingDate"
 							required="required" style="text-transform: uppercase;" /> <small
 							id="chkopeningdate" style="color: red;"></small>
@@ -156,9 +156,9 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Opening Balance <span class="star">*</span></label> <input
+						<label>OPENING BALANCE <span class="star">*</span></label> <input
 							type="text" name="openingBalance" id="openingBalance"
-							required="required" placeholder="Enter Opening Balance" /> <small
+							required="required" placeholder="ENTER OPENING BALANCE" /> <small
 							id="chkopeningbalance" style="color: red;"></small>
 					</div>
 				</div>
@@ -166,7 +166,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Account Closing Date <span class="star">*</span></label> <input
+						<label>ACCOUNT CLOSING DATE <span class="star">*</span></label> <input
 							type="date" name="closingDate" id="closingDate"
 							required="required" /> <small id="chkclosingdate"
 							style="color: red;"></small>
@@ -176,7 +176,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Address <span class="star">*</span></label>
+						<label>ADDRESS <span class="star">*</span></label>
 						<textarea name="address" id="address"
 							style="border: 1px solid rgb(224, 224, 224); border-radius: 5px; outline: none; padding: 5px; font-size: 12px;"
 							style="text-transform: uppercase;"></textarea>
@@ -190,8 +190,8 @@
 			<div class="mt-4">
 				<div class="col-lg-3 mb-5">
 					<label for=""
-						style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">Cancelled
-						Cheque <span class="star">*</span>
+						style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">CANCELLED
+						CHEQUE <span class="star">*</span>
 					</label> <label for="cancelledCheque" id="drop-area"> <input
 						type="file" accept="image/*" name="cancelledCheque"
 						id="cancelledCheque" hidden="hidden" onchange="photoUpload();"
@@ -215,12 +215,12 @@
 			<div class="row" style="margin-top: 30px;">
 				<div class="col-12 text-center">
 					<button type="button" id="showBtn" class="btnStyle bg-primary"
-						onclick="showTableData()">Show</button>
-					<button type="button" id="saveBtn" class="btnStyle bg-warning">Save</button>
+						onclick="showTableData()">SHOW</button>
+					<button type="button" id="saveBtn" class="btnStyle bg-warning">SAVE</button>
 					<button type="button" id="hideBtn" class="btnStyle bg-success"
-						onclick="hideTableData()">Hide</button>
+						onclick="hideTableData()">HIDE</button>
 					<button type="button" id="updateBtn" class="btnStyle bg-success"
-						onclick="updateBank()">Update</button>
+						onclick="updateBank()">UPDATE</button>
 				</div>
 			</div>
 		</div>
@@ -235,7 +235,7 @@
 
 					<div class="card-body table-responsive">
 						<h5 class="card-title">
-							Bank Data <span>| Table View</span>
+							BANK DATA <span>| TABLE VIEW</span>
 						</h5>
 
 						<table
@@ -244,19 +244,19 @@
 							<thead class="table-light">
 								<tr
 									style="font-family: 'Poppins', sans-serif; white-space: nowrap;">
-									<th scope="col">Sr No</th>
-									<th scope="col">Bank Name</th>
-									<th scope="col">Account No</th>
-									<th scope="col">IFSC Code</th>
-									<th scope="col">MICR Code</th>
-									<th scope="col">Contact No</th>
-									<th scope="col">Address</th>
-									<th scope="col">Opening Date</th>
-									<th scope="col">Opening Balance</th>
-									<th scope="col">Account Closing Date</th>
-									<th scope="col">Cheque</th>
-									<th scope="col">Edit</th>
-									<th scope="col">Delete</th>
+									<th scope="col">SR NO</th>
+									<th scope="col">BANK NAME</th>
+									<th scope="col">ACCOUNT NO</th>
+									<th scope="col">IFSC CODE</th>
+									<th scope="col">MICR CODE</th>
+									<th scope="col">CONTACT NO</th>
+									<th scope="col">ADDRESS</th>
+									<th scope="col">OPENING DATE</th>
+									<th scope="col">OPENING BALANCE</th>
+									<th scope="col">ACCOUNT CLOSING DATE</th>
+									<th scope="col">CHEQUE</th>
+									<th scope="col">EDIT</th>
+									<th scope="col">DELETE</th>
 								</tr>
 							</thead>
 							<tbody id="tableBody">

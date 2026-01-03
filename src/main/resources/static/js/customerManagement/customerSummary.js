@@ -53,7 +53,7 @@ $(document).ready(function() {
 						customer.middleName || '',
 						customer.lastName || ''
 					].filter(Boolean).join(" ");
-					let displayText = customer.memberCode + " - " + fullName;
+					let displayText = customer.memberCode + " - " + fullName.toUpperCase();
 					let option = `<option value="${customer.memberCode}">${displayText}</option>`;
 					$("#selectMember").append(option);
 				});

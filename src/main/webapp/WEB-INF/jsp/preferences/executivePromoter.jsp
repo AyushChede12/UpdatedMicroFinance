@@ -6,7 +6,7 @@
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-gear"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Executive/Founder</li>
+			<li class="breadcrumb-item action">EXECUTIVE/FOUNDER</li>
 		</ol>
 	</nav>
 </div>
@@ -16,7 +16,7 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Executive/Founder Details</li>
+					<li class="breadcrumb-item action">EXECUTIVE/FOUNDER DETAILS</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -45,22 +45,22 @@
               </div> -->
 					<input type="hidden" name="id" id="id">
 					<div class="d-flex flex-column formFields">
-						<label for="">Type <span class="star">*</span></label> <select
+						<label for="">TYPE <span class="star">*</span></label> <select
 							id="type" name="type" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select Type</option>
-							<option value="Blue">Founder</option>
-							<option value="Blue">Co-Founder</option>
+							<option value="">SELECT TYPE</option>
+							<option value="Blue">FOUNDER</option>
+							<option value="Blue">CO-FOUNDER</option>
 							<option value="Blue">CEO</option>
 							<option value="Blue">MD</option>
-							<option value="Blue">Chairman</option>
+							<option value="Blue">CHAIRMAN</option>
 						</select> <small id="chkexetype" style="color: red;"></small>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Branch Name <span class="star">*</span></label>
+						<label for="vehicalNo">BRANCH NAME <span class="star">*</span></label>
 						<select id="branchName" name="branchName" required="required"
 							class="form-control selectField" style="height: 30px;">
 						</select> <small id="chkbranchname" style="color: red;"></small>
@@ -71,9 +71,9 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Full Name <span class="star">*</span></label> <input
+						<label for="">FULL NAME <span class="star">*</span></label> <input
 							type="text" name="fullName" id="fullName" required="required"
-							placeholder="Enter Full Name" style="text-transform: uppercase;" />
+							placeholder="ENTER FULL NAME" style="text-transform: uppercase;" />
 						<small id="chkfullname" style="color: red;"></small>
 					</div>
 				</div>
@@ -83,7 +83,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Date Of Birth <span class="star">*</span></label> <input
+						<label for="">DATE OF BIRTH <span class="star">*</span></label> <input
 							type="date" name="dateOfBirth" id="dateOfBirth"
 							required="required" /> <small id="chkdateofbirth"
 							style="color: red;"></small>
@@ -92,9 +92,9 @@
 
 				<div class="col-lg-3 mt-4">
 					<div class="d-flex flex-column formFields">
-						<label for="">DIN/Promoter No <span class="star">*</span></label>
+						<label for="">DIN/PROMOTER NO <span class="star">*</span></label>
 						<input type="text" name="promoterNo" id="promoterNo"
-							required="required" placeholder="Enter Promoter No"
+							required="required" placeholder="ENTER PROMOTER NO"
 							style="text-transform: uppercase;" /> <small id="chkpromoterno"
 							style="color: red;"></small>
 					</div>
@@ -102,7 +102,7 @@
 
 				<div class="col-lg-3 mt-4">
 					<div class="d-flex flex-column formFields">
-						<label for="">Appointment Date <span class="star">*</span></label>
+						<label for="">APPOINTMENT DATE <span class="star">*</span></label>
 						<input type="date" name="appointmentDate" id="appointmentDate"
 							required="required" /> <small id="chkappointmentdate"
 							style="color: red;"></small>
@@ -112,9 +112,9 @@
 
 				<div class="col-lg-3 mt-4">
 					<div class="d-flex flex-column formFields">
-						<label for="">Nominee Name <span class="star">*</span></label> <input
+						<label for="">NOMINEE NAME <span class="star">*</span></label> <input
 							type="text" name="relationName" id="relationName"
-							required="required" placeholder="Enter Relation Name"
+							required="required" placeholder="ENTER NOMINEE NAME"
 							style="text-transform: uppercase;" /> <small
 							id="chkrelationname" style="color: red;"></small>
 					</div>
@@ -141,66 +141,51 @@
 					</div>
 				</div>
 
-
 				<div class="col-lg-3">
-					<div class="d-flex flex-column formFields">
-						<label for="">District <span class="star">*</span></label> <input
-							type="text" name="district" id="district" required="required"
-							placeholder="Enter District" style="text-transform: uppercase;" />
-						<small id="chkdistrict" style="color: red;"></small>
+					<div class="d-flex flex-column formFields"
+						style="margin-bottom: 30px">
+						<label>STATE <span class="star">*</span></label> <select
+							id="state" name="state" required="required"
+							class="form-control selectField" style="height: 30px;">
+							<option value="">SELECT STATE</option>
+						</select> <small id="chkstate" style="color: red;"></small>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>State <span class="star">*</span></label> <select
-							id="state" name="state" required="required"
+						<label>DISTRICT <span class="star">*</span></label> <select
+							id="district" name="district" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select State</option>
-							<option value="Maharashtra">Maharashtra</option>
-							<option value="Gujarat">Gujarat</option>
-							<option value="Rajasthan">Rajasthan</option>
-							<option value="Goa">Goa</option>
-							<option value="Andhra Pradesh">Andhra Pradesh</option>
-							<option value="Punjab">Punjab</option>
-							<option value="Himachal Pradesh">Himachal Pradesh</option>
-							<option value="Uttar Pradesh">Uttar Pradesh</option>
-							<option value="Telangana">Telangana</option>
-							<option value="Bihar">Bihar</option>
-							<option value="Haryana">Haryana</option>
-							<option value="Jharkhand">Jharkhand</option>
-							<option value="Odissa">Odissa</option>
-							<option value="Tamil Nadu">Tamil Nadu</option>
-							<option value="Manipur">Manipur</option>
-							<option value="Nagaland">Nagaland</option>
+							<option value="">SELECT DISTRICT</option>
 						</select> <small id="chkstate" style="color: red;"></small>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Pin Code <span class="star">*</span></label> <input
+						<label for="">PIN CODE <span class="star">*</span></label> <input
 							type="text" name="pinCode" id="pinCode" required="required"
-							placeholder="Enter Pincode" style="text-transform: uppercase;" />
+							placeholder="ENTER PIN CODE" style="text-transform: uppercase;" />
 						<small id="chkpincode" style="color: red;"></small>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Aadhar No <span class="star">*</span></label> <input
+						<label for="">AADHAR NO <span class="star">*</span></label> <input
 							type="text" name="aadharNo" id="aadharNo" required="required"
-							placeholder="Enter Aadhar No" style="text-transform: uppercase;" />
+							placeholder="ENTER AADHAR NO" style="text-transform: uppercase;" />
 						<small id="chkaadharno" style="color: red;"></small>
 					</div>
 				</div>
 
 				<div class="col-lg-3 ">
 					<div class="d-flex flex-column formFields">
-						<label for="">PAN No <span class="star">*</span></label> <input
+						<label for="">PAN NO <span class="star">*</span></label> <input
 							type="text" name="panNo" id="panNo" required="required"
-							placeholder="Enter PAN No" style="text-transform: uppercase;" />
+							placeholder="ENTER PAN NO" style="text-transform: uppercase;" />
 						<small id="chkpanno" style="color: red;"></small>
 					</div>
 				</div>
@@ -210,18 +195,18 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Contact No <span class="star">*</span></label> <input
+						<label for="">CONTACT NO <span class="star">*</span></label> <input
 							type="text" name="contactNo" id="contactNo" required="required"
-							placeholder="Enter Contact No" style="text-transform: uppercase;" />
+							placeholder="ENTER CONTACT NO" style="text-transform: uppercase;" />
 						<small id="chkcontactno" style="color: red;"></small>
 					</div>
 				</div>
 
 				<div class="col-lg-3 ">
 					<div class="d-flex flex-column formFields">
-						<label for="">Email ID <span class="star">*</span></label> <input
+						<label for="">EMAIL ID <span class="star">*</span></label> <input
 							type="text" name="emailId" id="emailId" required="required"
-							placeholder="Enter Email ID" style="text-transform: uppercase;" />
+							placeholder="ENTER EMAIL ID" style="text-transform: uppercase;" />
 						<small id="chkemailid" style="color: red;"></small>
 					</div>
 				</div>
@@ -230,26 +215,26 @@
 
 				<div class="col-lg-3 mt-4">
 					<div class="d-flex flex-column formFields">
-						<label for="">Base Value</label> <input type="text"
+						<label for="">BASE VALUE</label> <input type="text"
 							name="baseValue" id="baseValue" required="required"
-							placeholder="Enter Base Value" style="text-transform: uppercase;" />
+							placeholder="ENTER BASE VALUE" style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3 mt-4">
 					<div class="d-flex flex-column formFields">
-						<label for="">Shares Count</label> <input type="text"
+						<label for="">SHARES COUNT</label> <input type="text"
 							name="shareCount" id="shareCount" required="required"
-							placeholder="Enter Shares Count"
+							placeholder="ENTER SHARES COUNT"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3 mt-4">
 					<div class="d-flex flex-column formFields">
-						<label for="">Share Amount</label> <input type="text"
+						<label for="">SHARE AMOUNT</label> <input type="text"
 							readonly="readonly" name="shareAmount" id="shareAmount"
-							required="required" placeholder="Enter Share Amount"
+							required="required" placeholder="ENTER SHARE AMOUNT"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -263,7 +248,7 @@
 				<div class="col-lg-3 mb-5">
 					<label for=""
 						style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">
-						Photo <span class="star">*</span>
+						PHOTO <span class="star">*</span>
 					</label> <label for="photo" id="drop-area"> <input type="file"
 						accept="image/*" name="photo" id="photo" hidden="hidden"
 						onchange="photoUpload();"
@@ -286,7 +271,7 @@
 				<div class="col-lg-3 mb-5">
 					<label for=""
 						style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">
-						Signature <span class="star">*</span>
+						SIGNATURE <span class="star">*</span>
 					</label> <label for="signature" id="drop-area"> <input type="file"
 						accept="image/*" name="signature" id="signature" hidden="hidden"
 						onchange="signatureUpload();"
@@ -308,7 +293,7 @@
 				<div class="col-lg-3 mb-5">
 					<label for=""
 						style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">
-						Aadhar Card<span class="star">*</span>
+						AADHAR CARD<span class="star">*</span>
 					</label> <label for="aadharCard" id="drop-area"> <input type="file"
 						accept="image/*" name="aadharCard" id="aadharCard" hidden="hidden"
 						onchange="aadharUpload();"
@@ -331,7 +316,7 @@
 				<div class="col-lg-3 mb-5">
 					<label for=""
 						style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">
-						Pan Card <span class="star">*</span>
+						PAN CARD <span class="star">*</span>
 					</label> <label for="panCard" id="drop-area"> <input type="file"
 						accept="image/*" name="panCard" id="panCard" hidden="hidden"
 						onchange="panUpload();"
@@ -353,7 +338,7 @@
 				<div class="col-lg-3 mb-5">
 					<label for=""
 						style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px; margin-top: 30px;">
-						Cheque <span class="star">*</span>
+						CHEQUE <span class="star">*</span>
 					</label> <label for="cheque" id="drop-area"> <input type="file"
 						accept="image/*" name="cheque" id="cheque" hidden="hidden"
 						onchange="chequeUpload();"
@@ -379,7 +364,7 @@
 		<div class="mt-5">
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Bank Details</li>
+					<li class="breadcrumb-item action">BANK DETAILS</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -397,9 +382,9 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="bankName">Bank Name <span class="star">*</span></label>
+						<label for="bankName">BANK NAME <span class="star">*</span></label>
 						<input type="text" name="bankName" id="bankName"
-							required="required" placeholder="Enter Bank Name"
+							required="required" placeholder="ENTER BANK NAME"
 							style="text-transform: uppercase;" /> <small id="chkbankname"
 							style="color: red;"></small>
 					</div>
@@ -407,9 +392,9 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="ifscCode">IFSC Code <span class="star">*</span></label>
+						<label for="ifscCode">IFSC CODE <span class="star">*</span></label>
 						<input type="text" name="ifscCode" id="ifscCode"
-							required="required" placeholder="Enter IFSC Code"
+							required="required" placeholder="ENTER IFSC CODE"
 							style="text-transform: uppercase;" /> <small id="chkifsccode"
 							style="color: red;"></small>
 					</div>
@@ -417,9 +402,9 @@
 
 				<div class="col-lg-3" style="margin-bottom: 30px;">
 					<div class="d-flex flex-column formFields">
-						<label for="micrCode">MICR Code <span class="star">*</span></label>
+						<label for="micrCode">MICR CODE <span class="star">*</span></label>
 						<input type="text" name="micrCode" id="micrCode"
-							required="required" placeholder="Enter MICR Code"
+							required="required" placeholder="ENTER MICR CODE"
 							style="text-transform: uppercase;" /> <small id="chkmicrcode"
 							style="color: red;"></small>
 					</div>
@@ -427,9 +412,9 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="accountNo">Account Number <span class="star">*</span></label>
+						<label for="accountNo">ACCOUNT NUMBER <span class="star">*</span></label>
 						<input type="text" name="accountNo" id="accountNo"
-							required="required" placeholder="Enter Account Number"
+							required="required" placeholder="ENTER ACCOUNT NUMBER"
 							style="text-transform: uppercase;" /> <small id="chkaccountno"
 							style="color: red;"></small>
 					</div>
@@ -440,11 +425,11 @@
 			<div class="row" style="margin-top: 30px;">
 				<div class="col-12 text-center">
 					<button type="button" id="showBtn" class="btnStyle bg-primary"
-						onclick="showTableData()">Show</button>
+						onclick="showTableData()">SHOW</button>
 					<button type="button" id="hideBtn" class="btnStyle bg-success"
-						onclick="hideTableData()">Hide</button>
-					<button type="button" id="saveBtn" class="btnStyle bg-warning">Save</button>
-					<button type="button" id="updateBtn" class="btnStyle bg-success">Update</button>
+						onclick="hideTableData()">HIDE</button>
+					<button type="button" id="saveBtn" class="btnStyle bg-warning">SAVE</button>
+					<button type="button" id="updateBtn" class="btnStyle bg-success">UPDATE</button>
 				</div>
 			</div>
 	</form>
@@ -461,7 +446,7 @@
 
 			<div class="card-body table-responsive">
 				<h5 class="card-title">
-					Executive Founder Data <span>| Table View</span>
+					EXECUTIVE FOUNDER DATA <span>| TABLE VIEW</span>
 				</h5>
 
 				<table

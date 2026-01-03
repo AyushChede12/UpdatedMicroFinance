@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Preferences</h1>
+	<h1>PREFERNCES</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-gear"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Category-Caste Module</li>
+			<li class="breadcrumb-item action">CATEGORY-CASTE MODULE</li>
 		</ol>
 	</nav>
 </div>
@@ -16,7 +16,7 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Category</li>
+					<li class="breadcrumb-item action">CATEGORY</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -45,26 +45,26 @@
               </div> -->
 					<input type="hidden" name="id" id="id">
 					<div class="d-flex flex-column formFields">
-						<label for="">Add Category <span class="star">*</span></label> <input
+						<label for="">ADD CATEGORY <span class="star">*</span></label> <input
 							type="text" name="category" id="category"
-							placeholder="Enter Category" style="text-transform: uppercase;" />
+							placeholder="ENTER CATEGORY" style="text-transform: uppercase;" />
 						<small id="chkcategory" style="color: red;"></small>
 					</div>
 				</div>
 
 				<div class="d-flex flex-column formFields">
-					<label for="">Add Caste <span class="star">*</span></label> <input
+					<label for="">ADD CASTE <span class="star">*</span></label> <input
 						type="text" name="caste" id="caste" required="required"
-						placeholder="Enter Caste" style="text-transform: uppercase;" /> <small
+						placeholder="ENTER CASTE" style="text-transform: uppercase;" /> <small
 						id="chkcaste" style="color: red;"></small>
 				</div>
 
 				<div class="row" style="margin-top: 15px; margin-left: 10px;">
 					<div class="col-12 text-center">
 						<button id="saveBtn" class="btnStyle bg-warning"
-							onclick="saveCategory()">Add</button>
+							onclick="saveCategory()">ADD</button>
 						<button type="button" id="updateBtn" class="btnStyle bg-success"
-							onclick="updateCategory()">Update</button>
+							onclick="updateCategory()">UPDATE</button>
 					</div>
 				</div>
 
@@ -97,7 +97,7 @@
 									class="d-flex justify-content-between align-items-center mb-3">
 									<h5 class="card-title mb-0"
 										style="font-family: 'Poppins', sans-serif;">
-										Category Details <span>| Table View</span>
+										CATEGORY DETAILS <span>| TABLE VIEW</span>
 									</h5>
 
 									<!-- Search bar -->
@@ -112,11 +112,11 @@
 								<table class="table table-borderless datatable overflow-scroll">
 									<thead class="table-light">
 										<tr style="font-family: 'Poppins', sans-serif;">
-											<th scope="col">Sr No</th>
-											<th scope="col">Category</th>
-											<th scope="col">Caste</th>
-											<th scope="col">Edit</th>
-											<th scope="col">Delete</th>
+											<th scope="col">SR NO</th>
+											<th scope="col">CATEGORY</th>
+											<th scope="col">CASTE</th>
+											<th scope="col">EDIT</th>
+											<th scope="col">DELETE</th>
 										</tr>
 									</thead>
 									<tbody id="tableBody">
