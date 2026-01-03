@@ -41,7 +41,8 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="vehicalNo">OPENING DATE</label> <input type="date"
 							name="openingDate" id="openingDate" required="required"
-							placeholder="ENTER OPENING DATE" style="text-transform: uppercase;" />
+							placeholder="ENTER OPENING DATE"
+							style="text-transform: uppercase;" />
 					</div>
 				</div>
 
@@ -309,7 +310,7 @@
 				<div
 					class="d-flex justify-content-start align-items-center formFields">
 					<label style="margin-left: 20px;" class="mb-2">ACCOUNT
-						STATUS</label>
+						STATUS</label>&nbsp;
 					<div class="cont">
 						<div class="toggle">
 							<input type="checkbox" id="toggle-member-status"
@@ -326,7 +327,7 @@
 			<div class="h-100 d-flex justify-content-start align-items-center">
 				<div
 					class="d-flex justify-content-start align-items-center formFields">
-					<label style="margin-left: 20px;" class="mb-2">MESSAGE SEND</label>
+					<label style="margin-left: 20px;" class="mb-2">MESSAGE SEND</label>&nbsp;
 					<div class="cont">
 						<div class="toggle">
 							<input type="checkbox" id="toggle-member-status1"
@@ -344,7 +345,7 @@
 				<div
 					class="d-flex justify-content-start align-items-center formFields">
 					<label style="margin-left: 20px;" class="mb-2">DEBIT CARD
-						ISSUE</label>
+						ISSUE</label>&nbsp;
 					<div class="cont">
 						<div class="toggle">
 							<input type="checkbox" id="toggle-member-status2"
@@ -364,7 +365,7 @@
 
 					<!-- Check Locker -->
 					<div class="d-flex align-items-center">
-						<label class="mb-0 me-3">CHECK LOCKER</label>
+						<label class="mb-0 me-3">CHECK LOCKER</label>&nbsp;
 						<div class="toggle">
 							<input type="checkbox" id="toggle-check-locker"
 								name="checkLocker" class="toggle__input"> <label
@@ -374,7 +375,7 @@
 
 					<!-- Account Freeze -->
 					<div class="d-flex align-items-center">
-						<label class="mb-0 me-3">ACCOUNT FREEZE</label>
+						<label class="mb-0 me-3">ACCOUNT FREEZE</label>&nbsp;
 						<div class="toggle">
 							<input type="checkbox" id="toggle-account-freeze"
 								name="accountFreeze" class="toggle__input"> <label
@@ -444,7 +445,7 @@
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">REF NUMBER  </label> <input type="text"
+						<label for="">REF NUMBER </label> <input type="text"
 							name="refNumber2" id="refNumber2" required="required"
 							placeholder="ENTER DEPOSIT REF NO." />
 					</div>
@@ -590,27 +591,8 @@
 	</div>
 </div>
 
-<script>
-	 function updateToggleColor(input) {
-		const label = input.nextElementSibling;
-		if (label) {
-			label.style.backgroundColor = input.checked ? '#28a745' : '#ccc';
-		}
-	} 
-	
- document.addEventListener('DOMContentLoaded', function () {
-	const toggles = document.querySelectorAll('.toggle__input');
-	
-	toggles.forEach((toggle) => {
-		updateToggleColor(toggle);
 
-		toggle.addEventListener('change', () => {
-			updateToggleColor(toggle);
-			console.log(`${toggle.dataset.toggleType} is now ${toggle.checked}`);
-		});
-	});
-	
-}); 
+
 
 
 <script>    
@@ -640,6 +622,32 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+	const toggles = document.querySelectorAll('.toggle__input');
+
+	toggles.forEach((toggle) => {
+		// Initialize colors
+		updateToggleColor(toggle);
+
+		// console.log("updated toggle" , toggle)
+
+		// Add change event listener
+		toggle.addEventListener('change', () => {
+			updateToggleColor(toggle);
+			// console.log(${ toggle.dataset.toggleType } is now ${ toggle.checked });
+		});
+	});
+
+	function updateToggleColor(input) {
+		const label = input.nextElementSibling;
+		if (input.checked) {
+			label.style.backgroundColor = '#28a745'; // Green ON
+		} else {
+			label.style.backgroundColor = '#ccc'; // Gray OFF
+		}
+	}
+}); 
 
 </script>
 <script

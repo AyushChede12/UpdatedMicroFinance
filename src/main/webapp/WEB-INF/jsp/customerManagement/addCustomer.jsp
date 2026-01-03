@@ -162,8 +162,8 @@
 							id="customerGender" name="customerGender" required="required"
 							class="form-control selectField" style="height: 30px;">
 							<option value="">SELECT GENDER</option>
-							<option value="">MALE</option>
-							<option value="">FEMALE</option>
+							<option value="MALE">MALE</option>
+							<option value="FEMALE">FEMALE</option>
 
 						</select> <small id="chkgender" style="color: red;"></small>
 					</div>
