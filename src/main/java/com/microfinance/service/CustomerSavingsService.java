@@ -171,6 +171,7 @@ public class CustomerSavingsService {
 		createSavingsAccount.setMessageSend(savingAccountDto.getMessageSend());
 		createSavingsAccount.setDebitCardIssue(savingAccountDto.getDebitCardIssue());
 		createSavingsAccount.setIsLocker(savingAccountDto.getIsLocker());
+		createSavingsAccount.setAccountFreeze(savingAccountDto.getAccountFreeze());
 		createSavingsAccount.setAccountNumber(savingAccountDto.getAccountNumber());
 		// Set photo path (already fetched)
 		if (photo != null && !photo.isEmpty()) {
