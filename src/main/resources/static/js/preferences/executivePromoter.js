@@ -76,6 +76,58 @@ $(document).ready(function() {
 	$(".datatable").hide();
 	$("#updateBtn").hide();
 
+	$.ajax({
+		url: 'api/preference/getAllStates',
+		method: "GET",
+		success: function(response) {
+			if (response && response.data && Array.isArray(response.data)) {
+				console.log("Fetched states:", response.data);
+				response.data.forEach(function(state) {
+					$('#state').append(
+						$('<option>', {
+							value: state.stateName,  // What will be saved to DB
+							text: (state.stateName).toUpperCase(),   // What user sees
+							'data-id': state.stateId // Optional: internal use
+						})
+					);
+				});
+			} else {
+				console.warn("No state data available.");
+			}
+		},
+		error: function(err) {
+			console.error("Error fetching states:", err);
+		}
+	});
+	
+	$('#state').on('change', function() {
+		const selectedStateId = $(this).find(':selected').data('id'); // ✅ Get ID from selected option
+		$('#district').empty().append('<option value="">Select District</option>');
+
+		if (selectedStateId) {
+			$.ajax({
+				url: 'api/preference/getAllDistrictsByStateId',
+				method: 'GET',
+				data: { stateId: selectedStateId },  // ✅ Now correct ID passed
+				success: function(response) {
+					console.log("Fetched districts:", response);
+					const districts = response.allDistricts;
+					districts.forEach(function(district) {
+						$('#district').append(
+							$('<option>', {
+								value: district.districtName,
+								text: (district.districtName).toUpperCase()
+							})
+						);
+					});
+				},
+				error: function(err) {
+					console.error("Error fetching districts:", err);
+				}
+			});
+		}
+	});
+
 	//Save Code - Ayush
 	$('#saveBtn').click(function(event) {
 		event.preventDefault();

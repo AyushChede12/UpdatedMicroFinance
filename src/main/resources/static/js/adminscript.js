@@ -32,7 +32,7 @@ $(document).ready(function() {
 
 				for (let i = 0; i < branchList.length; i++) {
 					let branch = branchList[i];
-					let option = `<option value="${branch.branchName}">${branch.branchName}</option>`;
+					let option = `<option value="${branch.branchName}">${(branch.branchName).toUpperCase()}</option>`;
 					$("#branchName").append(option);
 
 					$("#closingbranchName").append(option);
@@ -64,7 +64,7 @@ $(document).ready(function() {
 
 				for (let i = 0; i < relativeList.length; i++) {
 					let relative = relativeList[i];
-					let option = `<option value="${relative.relation}">${relative.relation}</option>`;
+					let option = `<option value="${relative.relation}">${(relative.relation).toUpperCase()}</option>`;
 					$("#relationToApplicant").append(option);
 					$("#familyRelation").append(option);
 				}

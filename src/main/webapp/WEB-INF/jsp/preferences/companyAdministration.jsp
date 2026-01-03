@@ -41,13 +41,13 @@
 </style>
 
 <div class="pagetitle">
-	<h1>Preferences</h1>
+	<h1>PREFERENCES</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-gear"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Company Administration</li>
+			<li class="breadcrumb-item action">COMPANY ADMINISTRATION</li>
 		</ol>
 	</nav>
 
@@ -67,7 +67,7 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Company Details</li>
+					<li class="breadcrumb-item action">COMPANY DETAILS</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -96,10 +96,10 @@
               </div> -->
 					<input type="hidden" name="id" id="id">
 					<div class="d-flex flex-column formFields">
-						<label for="">Company Name <span class="star">*</span></label> <input
+						<label for="">COMPANY NAME <span class="star">*</span></label> <input
 							type="text" readonly="readonly" name="companyName"
 							id="companyName" required="required"
-							placeholder="Enter Company Name"
+							placeholder="ENTER COMPANY NAME"
 							style="text-transform: uppercase;" /> <small id="chkcompanyname"
 							style="color: red;"></small>
 					</div>
@@ -108,9 +108,9 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Short Name <span class="star">*</span></label> <input
+						<label>SHORT NAME <span class="star">*</span></label> <input
 							type="Text" name="shortName" readonly="readonly" id="shortName"
-							required="required" placeholder="Enter Short Name"
+							required="required" placeholder="ENTER SHORT NAME"
 							style="text-transform: uppercase;" /> <small id="chkshortname"
 							style="color: red;"></small>
 					</div>
@@ -130,9 +130,9 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>CIN No/Regd No<span class="star">*</span></label> <input
+						<label>CIN NO/REGD NO<span class="star">*</span></label> <input
 							type="Text" name="cinNo" readonly="readonly" id="cinNo"
-							required="required" placeholder="Enter CIN No"
+							required="required" placeholder="ENTER CIN NO"
 							style="text-transform: uppercase;" /> <small id="chkcinno"
 							style="color: red;"></small>
 					</div>
@@ -143,7 +143,7 @@
 						style="margin-bottom: 30px">
 						<label>PAN <span class="star">*</span></label> <input type="Text"
 							name="pan" id="pan" readonly="readonly" required="required"
-							placeholder="Enter Pan No" style="text-transform: uppercase;" />
+							placeholder="ENTER PAN NO" style="text-transform: uppercase;" />
 						<small id="chkpan" style="color: red;"></small>
 					</div>
 				</div>
@@ -153,7 +153,7 @@
 						style="margin-bottom: 30px">
 						<label>TAN <span class="star">*</span></label> <input type="text"
 							name="tan" id="tan" readonly="readonly" required="required"
-							placeholder="Enter Tan No" style="text-transform: uppercase;" />
+							placeholder="ENTER TAN NO" style="text-transform: uppercase;" />
 						<small id="chktan" style="color: red;"></small>
 					</div>
 				</div>
@@ -163,7 +163,7 @@
 						style="margin-bottom: 30px">
 						<label>GSTIN <span class="star">*</span></label> <input
 							type="Text" name="gstin" id="gstin" readonly="readonly"
-							required="required" placeholder="Enter GSTIN"
+							required="required" placeholder="ENTER GSTIN"
 							style="text-transform: uppercase;" /> <small id="chkgstin"
 							style="color: red;"></small>
 					</div>
@@ -172,10 +172,10 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Declared Value <span class="star">*</span></label> <input
+						<label>DECLARED VALUE <span class="star">*</span></label> <input
 							type="Text" name="declaredValue" id="declaredValue"
 							required="required" readonly="readonly"
-							placeholder="Enter Declared Value "
+							placeholder="ENTER DECLARED VALUE"
 							style="text-transform: uppercase;" /> <small
 							id="chkdeclaredvalue" style="color: red;"></small>
 					</div>
@@ -184,7 +184,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Address <span class="star">*</span></label>
+						<label>ADDRESS <span class="star">*</span></label>
 						<textarea name="address" id="address" readonly="readonly"
 							style="border: 1px solid rgb(224, 224, 224); border-radius: 5px; outline: none; padding: 5px; font-size: 12px;"></textarea>
 						<small id="chkaddress" style="color: red;"></small>
@@ -193,9 +193,9 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">State <span class="star">*</span></label> <input
+						<label for="">STATE <span class="star">*</span></label> <input
 							type="text" readonly="readonly" name="state" id="state"
-							required="required" placeholder="Enter State "
+							required="required" placeholder="ENTER STATE "
 							style="text-transform: uppercase;" /> <small id="chkstate"
 							style="color: red;"></small>
 					</div>
@@ -203,9 +203,9 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">City <span class="star">*</span></label> <input
+						<label for="">CITY <span class="star">*</span></label> <input
 							type="text" readonly="readonly" name="city" id="city"
-							required="required" placeholder="Enter City "
+							required="required" placeholder="ENTER CITY "
 							style="text-transform: uppercase;" /> <small id="chkcity"
 							style="color: red;"></small>
 					</div>
@@ -214,9 +214,9 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Pin Code <span class="star">*</span></label> <input
+						<label>PIN CODE <span class="star">*</span></label> <input
 							type="text" name="pinCode" readonly="readonly" id="pinCode"
-							required="required" placeholder="Enter Pin Code"
+							required="required" placeholder="ENTER PIN CODE"
 							style="text-transform: uppercase;" /> <small id="chkpincode"
 							style="color: red;"></small>
 					</div>
@@ -225,9 +225,9 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Email ID <span class="star">*</span></label> <input
+						<label>EMAIL ID <span class="star">*</span></label> <input
 							type="text" name="emailId" readonly="readonly" id="emailId"
-							required="required" placeholder="Enter Email ID"
+							required="required" placeholder="ENTER EMAIL ID"
 							style="text-transform: uppercase;" /> <small id="chkemailid"
 							style="color: red;"></small>
 					</div>
@@ -236,10 +236,10 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Authorized Share Capital <span class="star">*</span></label>
+						<label>AUTHORIZED SHARE CAPITAL <span class="star">*</span></label>
 						<input type="text" readonly="readonly"
 							name="authorizedShareCapital" id="authorizedShareCapital"
-							required="required" placeholder="Authorized Share Capital"
+							required="required" placeholder="ENTER AUTHORIZED SHARE CAPITAL"
 							style="text-transform: uppercase;" /> <small
 							id="chkauthorizedsharecapital" style="color: red;"></small>
 					</div>
@@ -248,10 +248,10 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Paid Up Capital <span class="star">*</span></label> <input
+						<label>PAID UP CAPITAL <span class="star">*</span></label> <input
 							type="text" readonly="readonly" name="paidUpCapital"
 							id="paidUpCapital" required="required"
-							placeholder="Enter Paid Up Capital"
+							placeholder="ENTER PAID UP CAPITAL"
 							style="text-transform: uppercase;" /> <small
 							id="chkpaidupcapital" style="color: red;"></small>
 					</div>
@@ -260,9 +260,9 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>No Of Share <span class="star">*</span></label> <input
+						<label>NO OF SHARE <span class="star">*</span></label> <input
 							type="text" name="nof" id="nof" readonly="readonly"
-							required="required" placeholder="Enter No Of Share "
+							required="required" placeholder="ENTER NO OF SHARE"
 							style="text-transform: uppercase;" /> <small id="chknof"
 							style="color: red;"></small>
 					</div>
@@ -271,10 +271,10 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>HelpLine No <span class="star">*</span></label> <input
+						<label>HELPLINE NO <span class="star">*</span></label> <input
 							type="text" name="helpLine No" readonly="readonly"
 							id="helplineNo" required="required"
-							placeholder="Enter HelpLine No"
+							placeholder="ENTER HELPLINE NO"
 							style="text-transform: uppercase;" /> <small id="chkhelplineno"
 							style="color: red;"></small>
 					</div>
@@ -283,9 +283,9 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>TDS (With PAN) <span class="star">*</span></label> <input
+						<label>TDS (WITH PAN) <span class="star">*</span></label> <input
 							type="text" readonly="readonly" name="tdsWithPan" id="tdsWithPan"
-							required="required" placeholder="Enter TDS"
+							required="required" placeholder="ENTER TDS"
 							style="text-transform: uppercase;" /> <small id="chktdswithpan"
 							style="color: red;"></small>
 					</div>
@@ -294,9 +294,9 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>TDS (Without PAN) <span class="star">*</span></label> <input
+						<label>TDS (WITHOUT PAN) <span class="star">*</span></label> <input
 							type="text" readonly="readonly" name="tdsWithoutPan"
-							id="tdsWithoutPan" required="required" placeholder="Enter TDS"
+							id="tdsWithoutPan" required="required" placeholder="ENTER TDS"
 							style="text-transform: uppercase;" /> <small
 							id="chktdswithoutpan" style="color: red;"></small>
 					</div>
@@ -305,10 +305,10 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Tax Deduction <span class="star">*</span></label> <input
+						<label>TAX DEDUCTION <span class="star">*</span></label> <input
 							type="text" readonly="readonly" name="taxDeduction"
 							id="taxDeduction" required="required"
-							placeholder="Enter Tax Deduction"
+							placeholder="ENTER TAX DEDUCTION"
 							style="text-transform: uppercase;" /> <small
 							id="chktaxdeduction" style="color: red;"></small>
 					</div>
@@ -317,10 +317,10 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Branch Manager Contact No <span class="star">*</span></label>
+						<label>BRANCH MANAGER CONTACT NO <span class="star">*</span></label>
 						<input type="text" readonly="readonly"
 							name="branchManagerContactNo" id="branchManagerContactNo"
-							required="required" placeholder="Enter Branch Manager Contact No"
+							required="required" placeholder="ENTER BRANCH MANAGER CONTACT NO"
 							style="text-transform: uppercase;" /> <small
 							id="chkbranchManagerContactNo" style="color: red;"></small>
 					</div>
@@ -333,20 +333,20 @@
 			<div class="container mt-4">
 				<div class="row">
 					<div class="col-lg-12">
-						<h4>Company Image Upload</h4>
+						<h4>COMPANY IMAGE UPLOAD</h4>
 						<div id="fieldContainer">
 							<div class="textUploadSet mb-4">
 								<input type="text" class="form-control nameField"
-									placeholder="Enter Image Name...">
+									placeholder="ENTER IMAGE NAME..." style="text-transform: uppercase;">
 								<div class="uploadContainer"></div>
 							</div>
 						</div>
 
-						<button id="addFieldBtn" class="btn btn-primary mt-2">Add
+						<button id="addFieldBtn" class="btn btn-primary mt-2">ADD
 							+</button>
-						<button id="uploadAllBtn" class="btn btn-success mt-2">Upload
-							All</button>
-						<button id="reloadDataBtn" class="btn btn-info mt-2">Reload</button>
+						<button id="uploadAllBtn" class="btn btn-success mt-2">UPLOAD
+							ALL</button>
+						<button id="reloadDataBtn" class="btn btn-info mt-2">RELOAD</button>
 
 						<div id="storedImages" class="mt-4"></div>
 					</div>
@@ -420,7 +420,7 @@
 		<div class="row" style="margin-top: 30px;">
 			<div class="col-12 text-center">
 				<button type="button" id="updateBtn" class="btn btn-success"
-					disabled>Update</button>
+					disabled>UPDATE</button>
 			</div>
 		</div>
 	</form>

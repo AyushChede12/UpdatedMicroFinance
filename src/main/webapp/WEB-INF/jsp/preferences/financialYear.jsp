@@ -1,12 +1,12 @@
 
 		<div class="pagetitle">
-			<h1>Preferences</h1>
+			<h1>PREFERENCES</h1>
 			<nav>
 				<ol class="breadcrumb">
 					<li class="breadcrumb-item"><a href="openDashboard"> <i
 							class="bi bi-gear"></i>
 					</a></li>
-					<li class="breadcrumb-item action">Financial Year</li>
+					<li class="breadcrumb-item action">FINANCIAL YEAR</li>
 				</ol>
 			</nav>
 		</div>
@@ -16,7 +16,7 @@
 				<div>
 					<nav>
 						<ol class="breadcrumb breadcrumb-title">
-							<li class="breadcrumb-item action">Enter Details</li>
+							<li class="breadcrumb-item action">ENTER DETAILS</li>
 						</ol>
 					</nav>
 					<div class="row">
@@ -45,10 +45,10 @@
               </div> -->
 							<input type="hidden" id="id" name="id">
 							<div class="d-flex flex-column formFields">
-								<label for="">Financial Year Name <span class="star">*</span></label>
+								<label for="">FINANCIAL YEAR NAME <span class="star">*</span></label>
 								<input type="text" name="financialYearName"
 									id="financialYearName" required="required"
-									placeholder="Enter Financial Year Name"
+									placeholder="ENTER FINANCIAL YEAR NAME"
 									style="text-transform: uppercase;" /> <small id="chkfyname"
 									style="color: red;"></small>
 							</div>
@@ -58,9 +58,9 @@
 						<div class="col-lg-3">
 							<div class="d-flex flex-column formFields"
 								style="margin-bottom: 30px">
-								<label>Date From <span class="star">*</span></label> <input
+								<label>DATE FROM <span class="star">*</span></label> <input
 									type="date" name="fromDate" id="fromDate" required="required"
-									placeholder="Enter Date From"
+									placeholder="ENTER DATE FROM"
 									style="text-transform: uppercase;" /> <small id="chkdatefrom"
 									style="color: red;"></small>
 							</div>
@@ -69,9 +69,9 @@
 						<div class="col-lg-3">
 							<div class="d-flex flex-column formFields"
 								style="margin-bottom: 30px">
-								<label>Date To <span class="star">*</span></label> <input
+								<label>DATE TO <span class="star">*</span></label> <input
 									type="date" name="toDate" id="toDate" required="required"
-									placeholder="Enter Date To" style="text-transform: uppercase;" />
+									placeholder="ENTER DATE TO" style="text-transform: uppercase;" />
 								<small id="chkdateto" style="color: red;"></small>
 							</div>
 						</div>
@@ -80,9 +80,9 @@
 						<div class="col-lg-3" style="margin-top: 15px;">
 							<div class="col-12 text-center">
 								<button id="addBtn" class="btnStyle bg-warning"
-									onclick="saveFinancialYear()">Add</button>
+									onclick="saveFinancialYear()">ADD</button>
 								<button type="button" id="updateBtn" class="btnStyle bg-success"
-									onclick="updateFY()">Update</button>
+									onclick="updateFY()">UPDATE</button>
 							</div>
 						</div>
 
@@ -95,18 +95,18 @@
 
 									<div class="card-body table-responsive">
 										<h5 class="card-title">
-											Financial Year Data <span>| Table View</span>
+											FINANCIAL YEAR DATA <span>| TABLE VIEW</span>
 										</h5>
 
 										<table
 											class="table table-borderless datatable overflow-scroll">
 											<thead class="table-light">
 												<tr style="font-family: 'Poppins', sans-serif;">
-													<th scope="col">Sr No</th>
-													<th scope="col">Financial Year Name</th>
-													<th scope="col">Date From</th>
-													<th scope="col">Date To</th>
-													<th scope="col">Edit</th>
+													<th scope="col">SR NO</th>
+													<th scope="col">FINANCIAL YEAR NAME</th>
+													<th scope="col">DATE FROM</th>
+													<th scope="col">DATE TO</th>
+													<th scope="col">EDIT</th>
 												</tr>
 											</thead>
 											<tbody id="tableBody">
