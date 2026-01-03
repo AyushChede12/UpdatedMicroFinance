@@ -66,8 +66,9 @@
 						<label for="">(Mr/Ms) <span class="star">*</span></label> <select
 							id="major" name="major" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">MR</option>
-							<option value="">MS</option>
+							<option value="SELECT">SELECT</option>
+							<option value="MR">MR</option>
+							<option value="MS">MS</option>
 						</select> <small id="chkmajor" style="color: red;"></small>
 					</div>
 				</div>
@@ -151,7 +152,7 @@
 						<select id="relationToApplicant" name="relationToApplicant"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
-							<option value="">SELECT RELATION TO APPLICANT</option>
+							<option>SELECT RELATION TO APPLICANT</option>
 						</select> <small id="chkrelationtoapplicant" style="color: red;"></small>
 					</div>
 				</div>
@@ -161,9 +162,10 @@
 						<label for="">GENDER <span class="star">*</span></label> <select
 							id="customerGender" name="customerGender" required="required"
 							class="form-control selectField" style="height: 30px;">
+							<option value="SELECT GENDER">SELECT GENDER</option>
 							<option value="">SELECT GENDER</option>
-							<option value="">MALE</option>
-							<option value="">FEMALE</option>
+							<option value="MALE">MALE</option>
+							<option value="FEMALE">FEMALE</option>
 
 						</select> <small id="chkgender" style="color: red;"></small>
 					</div>

@@ -17,17 +17,17 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Debit Account Details</li>
+					<li class="breadcrumb-item action">DEBIT ACCOUNT DETAILS</li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Select Account Number</label> <select
+						<label for="">SELECT ACCOUNT NUMBER</label> <select
 							id="debitAccountNumber" name="debitAccountNumber"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
-							<option value="">Select</option>
+							<option value="">SELECT</option>
 
 						</select>
 					</div>
@@ -35,33 +35,33 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Customer Code</label> <input type="text"
+						<label for="">CUSTOMER CODE</label> <input type="text"
 							name="debitCustomerCode" id="debitCustomerCode"
-							required="required" placeholder="" />
+							required="required" placeholder="ENTER CUSTOMER CODE" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Account Branch</label> <input type="text"
+						<label for="">ACCOUNT BRANCH</label> <input type="text"
 							name="debitAccountBranch" id="debitAccountBranch"
-							required="required" placeholder="" />
+							required="required" placeholder="ENTER ACCOUNT BRANCH" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Average Balance</label> <input type="text"
+						<label for="">AVERAGE BALANCE</label> <input type="text"
 							name="debitAverageBalance" id="debitAverageBalance"
-							required="required" placeholder="" />
+							required="required" placeholder="ENTER AVERAGE BALANCE" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Contact Number</label> <input type="text"
+						<label for="">CONTACT NUMBER</label> <input type="text"
 							name="debitContactNumber" id="debitContactNumber"
-							required="required" placeholder="" />
+							required="required" placeholder="ENTER CONTACT NUMBER" />
 					</div>
 				</div>
 			</div>
@@ -72,18 +72,18 @@
 		<div class="mt-5">
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Credit Account Details</li>
+					<li class="breadcrumb-item action">CREDIT ACCOUNT DETAILS</li>
 				</ol>
 			</nav>
 			<div class="row">
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Select Account Number</label> <select
+						<label for="">SELECT ACCOUNT NUMBER</label> <select
 							id="creditAccountNumber" name="creditAccountNumber"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
-							<option value="">Select</option>
+							<option value="">SELECT</option>
 
 						</select>
 					</div>
@@ -91,33 +91,33 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Customer Code</label> <input type="text"
+						<label for="">CUSTOMER CODE</label> <input type="text"
 							name="creditCustomerCode" id="creditCustomerCode"
-							required="required" placeholder="" />
+							required="required" placeholder="ENTER CUSTOMER CODE" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Account Branch</label> <input type="text"
+						<label for="">ACCOUNT BRANCH</label> <input type="text"
 							name="creditAccountBranch" id="creditAccountBranch"
-							required="required" placeholder="" />
+							required="required" placeholder="ENTER ACCOUNT BRANCH" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Average Balance</label> <input type="text"
+						<label for="">AVERAGE BALANCE</label> <input type="text"
 							name="creditAverageBalance" id="creditAverageBalance"
-							required="required" placeholder="" />
+							required="required" placeholder="ENTER AVERAGE BALANCE" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Contact Number</label> <input type="text"
+						<label for="">CONTACT NUMBER</label> <input type="text"
 							name="creditContactNumber" id="creditContactNumber"
-							required="required" placeholder="" />
+							required="required" placeholder="ENTER CONTACT NUMBER" />
 					</div>
 				</div>
 			</div>
@@ -126,14 +126,14 @@
 		<div class="mt-5">
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Payment Details</li>
+					<li class="breadcrumb-item action">PAYMENT DETAILS</li>
 				</ol>
 			</nav>
 			<div class="row">
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Transfer Date</label> <input type="date"
+						<label for="vehicalNo">TRANSFER DATE</label> <input type="date"
 							name="transferDate" id="transferDate" required="required"
 							placeholder="Enter Vehicle No" style="text-transform: uppercase;" />
 					</div>
@@ -141,14 +141,14 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Amount</label> <input type="text" name="amount"
-							id="amount" required="required" placeholder="" />
+						<label for="">AMOUNT</label> <input type="text" name="amount"
+							id="amount" required="required" placeholder="ENTER AMOUNT" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Comments</label>
+						<label for="">COMMENT</label>
 						<textarea name="comment" id="comment"
 							style="border: 1px solid rgb(224, 224, 224); border-radius: 5px; outline: none; padding: 5px; font-size: 12px;"></textarea>
 					</div>
@@ -160,7 +160,7 @@
 		<div class="row">
 			<div class="col-12 text-center">
 				<button id="saveBtn" class="btn btn-warning"
-					style="margin-left: 80%;">Save</button>
+					style="margin-left: 80%;">SAVE</button>
 			</div>
 		</div>
 	</form>

@@ -342,7 +342,7 @@ $(document).ready(function() {
 	$('#signatureHidden').val(imageName1);
 
 	// Ensure the hidden input is updated with the image file name
-	let imageSrc2 = $('#jointPhoto').attr('src');
+	/*let imageSrc2 = $('#jointPhoto').attr('src');
 	let imageName2 = imageSrc2.split('/').pop(); // Extract the file name
 	$('#jointPhotoHidden').val(imageName2);
 
@@ -352,7 +352,7 @@ $(document).ready(function() {
 
 	let imageSrc4 = $('#newSignature').attr('src');
 	let imageName4 = imageSrc2.split('/').pop(); // Extract the file name
-	$('#newSignatureHidden').val(imageName4);
+	$('#newSignatureHidden').val(imageName4);*/
 
 
 
@@ -370,7 +370,7 @@ $(document).ready(function() {
 		let updatedImageName1 = updatedImageSrc1.split('/').pop(); // Extract the file name
 		$('#signatureHidden').val(updatedImageName1);
 
-		// Update the hidden input with the current file name from the image
+	/*	// Update the hidden input with the current file name from the image
 		let updatedImageSrc2 = $('#jointPhoto').attr('src');
 		let updatedImageName2 = updatedImageSrc2.split('/').pop(); // Extract the file name
 		$('#jointPhotoHidden').val(updatedImageName2);
@@ -382,8 +382,10 @@ $(document).ready(function() {
 
 		let updatedImageSrc4 = $('#newSignature').attr('src');
 		let updatedImageName4 = updatedImageSrc4.split('/').pop(); // Extract the file name
-		$('#newSignatureHidden').val(updatedImageName4);
-
+		$('#newSignatureHidden').val(updatedImageName4);*/
+		const jointPhoto = $('#jointPhoto')[0].files[0];
+		const newPhoto = $('#newPhoto')[0].files[0];
+		const newSignature = $('#newSignature')[0].files[0];
 		const formData = new FormData();
 
 		formData.append("typeofaccount", $('#typeofaccount').val());
@@ -427,6 +429,7 @@ $(document).ready(function() {
 		formData.append("messageSend", $('#toggle-member-status1').is(':checked') ? 1 : 0);
 		formData.append("debitCardIssue", $('#toggle-member-status2').is(':checked') ? 1 : 0);
 		formData.append("isLocker", $('#toggle-member-status3').is(':checked') ? 1 : 0);
+		formData.append("accountFreeze", $('#toggle-account-freeze').is(':checked') ? 1 : 0);
 
 		// Append the extracted photoWithAadhar file name
 		formData.append("photo", $('#photoHidden').val());
@@ -434,12 +437,9 @@ $(document).ready(function() {
 		// Append the extracted photoWithAadhar file name
 		formData.append("signature", $('#signatureHidden').val());
 
-		// Append the extracted photoWithAadhar file name
-		formData.append("jointPhoto", $('#jointPhotoHidden').val());
-
-		formData.append("newPhoto", $('#newPhotoHidden').val());
-
-		formData.append("newSignature", $('#newSignatureHidden').val());
+		if (jointPhoto) formData.append("jointPhoto", jointPhoto);
+		if (newPhoto) formData.append("newPhoto", newPhoto);
+		if (newSignature) formData.append("newSignature", newSignature);
 
 		// Append files (photo and signature)
 		/*const photo = $('#photo')[0].files[0];
@@ -460,7 +460,6 @@ $(document).ready(function() {
 				console.log(`✅ ${pair[0]}:`, pair[1]);
 			}
 		}
-
 		$.ajax({
 			type: 'POST',
 			url: 'api/customersavings/saveandupdatesavingaccount',
@@ -492,14 +491,14 @@ $(document).ready(function() {
 					let row = `<tr>
 			                        <td>${index + 1}</td>
 			                        <td>${item.accountNumber}</td>
-									<td>${item.typeofaccount}</td>
+									<td>${(item.typeofaccount).toUpperCase()}</td>
 			                        <td>${item.selectByCustomer}</td>
-			                        <td>${item.enterCustomerName}</td>
-									<td>${item.contactNumber}</td>
-									<td>${item.branchName}</td>
-									<td>${item.address}</td>
-									<td>${item.district}</td>
-									<td>${item.state}</td>
+			                        <td>${(item.enterCustomerName).toUpperCase()}</td>
+									<td>${(item.contactNumber).toUpperCase()}</td>
+									<td>${(item.branchName).toUpperCase()}</td>
+									<td>${(item.address).toUpperCase()}</td>
+									<td>${(item.district).toUpperCase()}</td>
+									<td>${(item.state).toUpperCase()}</td>
 									<td><button class="iconbutton" onclick="viewData(${item.id})" title="View"><i class="fa-solid fa-pen-to-square text-primary"></i></button></td>
 									<td><button class="iconbutton" onclick="deleteData(${item.id})" title="Delete"><i class="fa-solid fa-trash text-danger"></i></button></td>
 			                    </tr>`;

@@ -189,24 +189,17 @@ public class CustomerSavingsController {
 			@RequestParam(value = "newSignature", required = false) String newSignature)
 
 	{
+		System.out.println("pol");
 
 		String customerId = savingAccountDto.getSelectByCustomer(); // assuming it's Long
+		System.out.println(customerId);
 
 		// Check for existing record before saving (only for new entries)
 		if (savingAccountDto.getId() == null && customersaving.existsByCustomerId(customerId)) {
+			System.out.println("kol");
 			return ResponseEntity.status(HttpStatus.CONFLICT)
 					.body(new ApiResponse<>(HttpStatus.CONFLICT, "Customer already exists in saving account", null));
 		}
-
-		System.out.println("Received photo: " + photo);
-
-		System.out.println("Received signature: " + signature);
-
-		System.out.println("Received jointPhoto: " + jointPhoto);
-		
-		System.out.println("Received newPhoto: " + newPhoto);
-		
-		System.out.println("Received newSignature: " + newSignature);
 		
 		ApiResponse<CreateSavingsAccount> response = customersaving.saveSavingAccountDetails(savingAccountDto, photo,
 				signature, jointPhoto,newPhoto, newSignature);
