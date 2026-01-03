@@ -492,14 +492,14 @@ $(document).ready(function() {
 					let row = `<tr>
 			                        <td>${index + 1}</td>
 			                        <td>${item.accountNumber}</td>
-									<td>${item.typeofaccount}</td>
+									<td>${(item.typeofaccount).toUpperCase()}</td>
 			                        <td>${item.selectByCustomer}</td>
-			                        <td>${item.enterCustomerName}</td>
-									<td>${item.contactNumber}</td>
-									<td>${item.branchName}</td>
-									<td>${item.address}</td>
-									<td>${item.district}</td>
-									<td>${item.state}</td>
+			                        <td>${(item.enterCustomerName).toUpperCase()}</td>
+									<td>${(item.contactNumber).toUpperCase()}</td>
+									<td>${(item.branchName).toUpperCase()}</td>
+									<td>${(item.address).toUpperCase()}</td>
+									<td>${(item.district).toUpperCase()}</td>
+									<td>${(item.state).toUpperCase()}</td>
 									<td><button class="iconbutton" onclick="viewData(${item.id})" title="View"><i class="fa-solid fa-pen-to-square text-primary"></i></button></td>
 									<td><button class="iconbutton" onclick="deleteData(${item.id})" title="Delete"><i class="fa-solid fa-trash text-danger"></i></button></td>
 			                    </tr>`;
