@@ -1,25 +1,25 @@
 
 <div class="pagetitle">
-	<h1>Reports & Analytics</h1>
+	<h1>REPORTS & ANALYTICS</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-file-earmark-text"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Maturity Status Report</li>
+			<li class="breadcrumb-item action">MATURITY STATUS REPORT </li>
 		</ol>
 	</nav>
 </div>
 <div>
 	<nav>
 		<ol class="breadcrumb breadcrumb-title">
-			<li class="breadcrumb-item action">Find Box</li>
+			<li class="breadcrumb-item action">FIND BOX</li>
 		</ol>
 	</nav>
 	<div class="row">
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields">
-				<label for="branchName">Branch:</label> <select id="branchName"
+				<label for="branchName">BRANCH:</label> <select id="branchName"
 					name="branchName" required="required"
 					class="form-control selectField mb-4" style="height: 30px;">
 				</select>
@@ -28,7 +28,7 @@
 
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields">
-				<label for="fromDate">From Date</label> <input type="date"
+				<label for="fromDate">FROM DATE</label> <input type="date"
 					name="fromDate" id="fromDate" required="required"
 					style="text-transform: uppercase;" />
 			</div>
@@ -36,7 +36,7 @@
 
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields">
-				<label for="toDate">To Date</label> <input type="date" name="toDate"
+				<label for="toDate">TO DATE</label> <input type="date" name="toDate"
 					id="toDate" required="required" style="text-transform: uppercase;" />
 			</div>
 		</div>
@@ -45,7 +45,7 @@
 </div>
 <div class="row">
 	<div class="col-4 text-start mt-3">
-		<button type="button" id="findBtn" class="btn btn-dark">Find</button>
+		<button type="button" id="findBtn" class="btn btn-dark">FIND</button>
 	</div>
 </div>
 
@@ -55,7 +55,7 @@
 			<div class="card-body table-responsive">
 				<div class="d-flex justify-content-between align-items-center">
 					<h5 class="card-title">
-						Maturity Status Report <span>| Table View</span>
+						MATURITY STATUS REPORT  <span>| TABLE VIEW</span>
 					</h5>
 				</div>
 				<div style="overflow-x: auto; white-space: nowrap;">

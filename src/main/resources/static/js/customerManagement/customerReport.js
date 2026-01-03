@@ -1,4 +1,19 @@
 let allCustomers = []; // ⬅️ Add this at the top
+let companyDetails = null;
+
+$(document).ready(function() {
+	$.ajax({
+		url: "api/preference/fetchAllCompanyAdministration",   // 👈 API NAME YAHA HAI
+		type: "GET",
+		success: function(response) {
+			companyDetails = response.data[0];	 // 👈 data store ho gaya
+		},
+		error: function() {
+			console.error("Company API failed");
+		}
+	});
+});
+
 
 $(document).ready(function() {
 	$.ajax({
@@ -102,65 +117,71 @@ $(document).ready(function() {
 
 });
 
-document.getElementById("downloadPDF").addEventListener("click", function () {
-    alert("pdf");
+document.getElementById("downloadPDF").addEventListener("click", function() {
+	alert("pdf");
 
-    const content = document.getElementById("bankReportContent").cloneNode(true);
+	const content = document.getElementById("bankReportContent").cloneNode(true);
 
-    // Remove all images
-    content.querySelectorAll("img").forEach(img => img.remove());
+	// Remove all images
+	content.querySelectorAll("img").forEach(img => img.remove());
 
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF("p", "pt", "a4");
+	const { jsPDF } = window.jspdf;
+	const doc = new jsPDF("p", "pt", "a4");
 
-    doc.html(content, {
-        callback: function (doc) {
+	doc.html(content, {
+		callback: function(doc) {
 
-            // OPEN PDF IN NEW TAB (Browser will show Save / Download Dialog)
-            window.open(doc.output("bloburl"), "_blank");
+			// OPEN PDF IN NEW TAB (Browser will show Save / Download Dialog)
+			window.open(doc.output("bloburl"), "_blank");
 
-        },
-        x: 20,
-        y: 20,
-        html2canvas: {
-            scale: 0.9
-        }
-    });
+		},
+		x: 20,
+		y: 20,
+		html2canvas: {
+			scale: 0.9
+		}
+	});
 });
 
 function bindModalEvents() {
 	$(".bankReportBtn").off("click").on("click", function() {
-		const id = $(this).data("id");
 
-		// FIND CUSTOMER
+		const id = $(this).data("id");
 		const customer = allCustomers.find(c => c.id === id);
+
 		if (!customer) {
 			alert("Customer not found!");
 			return;
 		}
 
-		// FULL NAME
+		// ===== COMPANY HEADING (FROM OTHER API) =====
+		if (companyDetails) {
+			$("#bankName").text(companyDetails.companyName || "N/A");
+			$("#reportTitle").text(companyDetails.shortName || "CUSTOMER PROFILE");
+			$("#signupDate").text(companyDetails.signUpDate || "N/A");
+		} else {
+			$("#bankName").text("COMPANY NAME");
+			$("#reportTitle").text("CUSTOMER PROFILE");
+		}
+
+		// ===== CUSTOMER HEADER =====
+		$("#customerCode").text(customer.memberCode || "N/A");
+
+		// ===== FULL NAME =====
 		const fullName = [
-			customer.firstName || '',
-			customer.middleName || '',
-			customer.lastName || ''
+			customer.firstName,
+			customer.middleName,
+			customer.lastName
 		].filter(Boolean).join(" ");
 
-		// HEADER
-		$("#bankLogo").attr("src", "https://i.ibb.co/zFSWbkC/banklogo.png");
-		$("#bankName").text("Sterling Microfinance Bank");
-		$("#reportTitle").text("Customer Profile");
-		$("#customerCode").text(customer.memberCode || "N/A");
-		$("#signupDate").text(customer.signupDate || "N/A");
-
-		// CUSTOMER INFO
+		// ===== CUSTOMER INFO =====
 		$("#customerName").text(fullName || "N/A");
 		$("#gender").text(customer.customerGender || "N/A");
 		$("#dob").text(customer.dob || "N/A");
 		$("#age").text(customer.customerAge || "N/A");
 		$("#maritalStatus").text(customer.relationshipStatus || "N/A");
 
-		// CONTACT INFO
+		// ===== CONTACT =====
 		$("#contactNo").text(customer.contactNo || "N/A");
 		$("#email").text(customer.emailId || "N/A");
 		$("#address").text(customer.customerAddress || "N/A");
@@ -168,25 +189,26 @@ function bindModalEvents() {
 		$("#district").text(customer.district || "N/A");
 		$("#pincode").text(customer.pinCode || "N/A");
 
-		// KYC
+		// ===== KYC =====
 		$("#aadhar").text(customer.aadharNo || "N/A");
 		$("#pan").text(customer.panNo || "N/A");
 		$("#voter").text(customer.voterNo || "N/A");
 		$("#driving").text(customer.drivingLicenceNo || "N/A");
 
-		// PHOTO & SIGNATURE
+		// ===== PHOTO & SIGN =====
 		let basePath = window.location.origin + "/Uploads/";
 		$("#photoPreview").attr("src",
-			customer.customerPhoto ? basePath + customer.customerPhoto : "https://via.placeholder.com/120x120"
+			customer.customerPhoto ? basePath + customer.customerPhoto : "https://via.placeholder.com/120"
 		);
 		$("#signaturePreview").attr("src",
 			customer.customerSignature ? basePath + customer.customerSignature : "https://via.placeholder.com/120x60"
 		);
 
-		// SHOW MODAL
-		$("#bankReportModal").modal("show");
+		$('#bankReportModal').modal('show');
+
 	});
 }
+
 
 // 🔥 UPPERCASE ENTIRE MODAL CONTENT (EXCLUDE IMAGES)
 $("#bankReportModal").off("shown.bs.modal").on("shown.bs.modal", function() {
@@ -197,3 +219,4 @@ $("#bankReportModal").off("shown.bs.modal").on("shown.bs.modal", function() {
 		}
 	});
 });
+

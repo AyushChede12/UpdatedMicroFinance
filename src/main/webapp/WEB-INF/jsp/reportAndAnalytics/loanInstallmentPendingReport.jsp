@@ -1,13 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Reports & Analytics</h1>
+	<h1>REPORTS & ANALYTICS</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-file-earmark-text"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Loan Installment Pending
-				Report</li>
+			<li class="breadcrumb-item action">LOAN INSTALLMENT PENDING REPORT </li>
 		</ol>
 	</nav>
 </div>
@@ -17,7 +16,7 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Find Box</li>
+					<li class="breadcrumb-item action">FIND BOX</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -26,7 +25,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px;">
-						<label for="branchName1">Branch </label> <select id="branchName1"
+						<label for="branchName1">BRANCH </label> <select id="branchName1"
 							name="branchName1" required="required"
 							class="form-control selectField" style="height: 30px;">
 						</select>
@@ -36,7 +35,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px;">
-						<label for="loanPlanName">Plan Name </label> <select
+						<label for="loanPlanName">PLAN NAME </label> <select
 							id="loanPlanName" name="loanPlanName" required="required"
 							class="form-control selectField" style="height: 30px;">
 						</select>
@@ -47,18 +46,18 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="financialCode">Financial Code</label> <input
+						<label for="financialCode">FINANCIAL CODE</label> <input
 							type="text" name="financialCode" id="financialCode"
-							required="required" placeholder="Enter Financial Code"
+							required="required" placeholder="ENTER FINANCIAL CODE"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="toDate">To Date</label> <input type="date"
+						<label for="toDate">TO DATE</label> <input type="date"
 							name="toDate" id="toDate" required="required"
-							placeholder="Enter tDate" style="text-transform: uppercase;" />
+							placeholder="ENTER TDATE tDate" style="text-transform: uppercase;" />
 					</div>
 				</div>
 
@@ -66,7 +65,7 @@
 
 			<div class="row">
 				<div class="col-4 text-start mt-3">
-					<button type="button" id="findBtn" class="btn btn-dark">Find</button>
+					<button type="button" id="findBtn" class="btn btn-dark">FIND</button>
 				</div>
 			</div>
 
@@ -79,10 +78,10 @@
 			<div class="card recent-sales">
 
 				<div class="card-body table-responsive">
-					<h5 class="card-title">Loan Pending Report</h5>
+					<h5 class="card-title">LOAN PENDING REPORT</h5>
 
 					<h6 class="card-title" style="text-align: center; color: black;">
-						Loan Installment Pending Report</h6>
+						LOAN INSTALLMENT PENDING REPORT </h6>
 
 
 

@@ -23,13 +23,138 @@ $(document).ready(function() {
 
 
 	$('#saveBtn').click(function(event) {
-		var firstName = $('#firstName').val();
-		alert(firstName);
-		var middleName = $('#middleName').val();
-		alert(middleName);
-		var lastName = $('#lastName').val();
-		alert(lastName);
 		event.preventDefault();
+
+
+		// 1️⃣ Clear all validation messages
+		$("[id^='chk']").text('');
+
+		let isValid = true;
+
+		// 2️⃣ Helper function (REUSABLE)
+		function validateField(fieldId, chkId, message) {
+			var value = $('#' + fieldId).val().trim();
+			if (value === '') {
+				$('#' + chkId).text(message);
+				isValid = false;
+			}
+			return value;
+		}
+
+		// 3️⃣ Validations START 👇
+
+		var authenticateFor = validateField(
+			'authenticateFor',
+			'chkauthenticatefor',
+			'Please select authenticate for'
+		);
+
+		var aadharNo = validateField(
+			'aadharNo',
+			'chkaadharno',
+			'Please enter Aadhar number'
+		);
+
+		var signupDate = validateField(
+			'signupDate',
+			'chksignupdate',
+			'Please select signup date'
+		);
+
+		var firstName = validateField(
+			'firstName',
+			'chkfirstname',
+			'Please enter first name'
+		);
+
+		var middleName = validateField(
+			'middleName',
+			'chkmiddlename',
+			'Please enter middle name'
+		);
+
+		var lastName = validateField(
+			'lastName',
+			'chklastname',
+			'Please enter last name'
+		);
+
+		var dob = validateField(
+			'dob',
+			'chkdob',
+			'Please select date of birth'
+		);
+
+		var gender = validateField(
+			'gender',
+			'chkgender',
+			'Please select gender'
+		);
+
+		var age = validateField(
+			'age',
+			'chkage',
+			'Please enter age'
+		);
+
+		var branch = validateField(
+			'branchName',
+			'chkbranch',
+			'Please select branch'
+		);
+
+		var contactNo = validateField(
+			'contactNo',
+			'chkcontactno',
+			'Please enter contact number'
+		);
+
+		var email = validateField(
+			'emailId',
+			'chkemailid',
+			'Please enter email ID'
+		);
+
+		var panNo = validateField(
+			'panNo',
+			'chkpanno',
+			'Please enter PAN number'
+		);
+
+		var voterNo = validateField(
+			'voterNo',
+			'chkvoterno',
+			'Please enter voter ID'
+		);
+
+		var nomineeName = validateField(
+			'nomineeName',
+			'chknomineename',
+			'Please enter nominee name'
+		);
+
+		var nomineeRelation = validateField(
+			'nomineeRelation',
+			'chknomineerelationtoapplicant',
+			'Please enter nominee relation'
+		);
+
+		var nomineeDob = validateField(
+			'nomineeDob',
+			'chknomineedob',
+			'Please select nominee DOB'
+		);
+
+		var nomineeMobile = validateField(
+			'nomineeMobile',
+			'chknomineemobileno',
+			'Please enter nominee mobile number'
+		);
+
+		// 4️⃣ Stop if any validation failed
+		if (!isValid) {
+			return false;
+		}
 
 		var formData = new FormData();
 
@@ -140,6 +265,7 @@ $(document).ready(function() {
 				}
 			},
 			error: function(xhr) {
+				alert("error");
 				console.error("❌ Error response: ", xhr);
 				let msg = "Something went wrong while saving.";
 				if (xhr.responseJSON && xhr.responseJSON.message) {
@@ -152,7 +278,7 @@ $(document).ready(function() {
 		});
 	});
 
-	$('#saveBtn').click(function(e) {
+	/*$('#saveBtn').click(function(e) {
 		e.preventDefault();
 
 		// ✅ Create FormData
@@ -229,7 +355,7 @@ $(document).ready(function() {
 				alert("❌ Something went wrong while saving data!");
 			}
 		});
-	});
+	});*/
 
 });
 
@@ -843,21 +969,60 @@ $(document).ready(function() {
 	// trigger on load
 
 
+	/*	$.ajax({
+			url: 'api/preference/getAllCategoryModule',
+			method: "GET",
+			success: function(response) {
+				if (response.status === 'FOUND') {
+					console.log("Fetched Category:", response.data);
+					response.data.forEach(function(category) {
+						$('#category').append(
+							$('<option>', {
+								value: category.category,  // What will be saved to DB
+								text: category.category,   // What user sees
+								'data-id': category.stateId // Optional: internal use
+							})
+						);
+					});
+				} else {
+					console.warn("No Category data available.");
+				}
+			},
+			error: function(err) {
+				console.error("Error fetching Categories:", err);
+			}
+		});*/
+
 	$.ajax({
 		url: 'api/preference/getAllCategoryModule',
 		method: "GET",
 		success: function(response) {
+
 			if (response.status === 'FOUND') {
+
 				console.log("Fetched Category:", response.data);
+
+				$('#category').empty().append('<option value="">Select Category</option>');
+
+				// Set to store unique category names
+				const uniqueCategories = new Set();
+
 				response.data.forEach(function(category) {
+					if (category.category) {
+						uniqueCategories.add(category.category.trim());
+					}
+				});
+
+				// Append unique categories
+				uniqueCategories.forEach(function(categoryName) {
 					$('#category').append(
 						$('<option>', {
-							value: category.category,  // What will be saved to DB
-							text: category.category,   // What user sees
-							'data-id': category.stateId // Optional: internal use
+							value: categoryName,
+							text: categoryName
 						})
 					);
 				});
+
 			} else {
 				console.warn("No Category data available.");
 			}
@@ -866,6 +1031,7 @@ $(document).ready(function() {
 			console.error("Error fetching Categories:", err);
 		}
 	});
+
 
 	$('#category').on('change', function() {
 		const selectedCategory = $("#category").val();

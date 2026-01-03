@@ -44,7 +44,7 @@ $(document).ready(function() {
 			if (response.status === "OK") {
 				const customerList = response.data;
 				$("#selectMember").empty(); // Clear existing options
-				$("#selectMember").append("<option value=''>-- Select Code --</option>");
+				$("#selectMember").append("<option value=''>-- SELECT CODE --</option>");
 
 				// Bind approved customers to dropdown
 				customerList.forEach(function(customer) {

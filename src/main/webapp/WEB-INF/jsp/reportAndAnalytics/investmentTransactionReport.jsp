@@ -11,13 +11,13 @@
 </style>
 
 <div class="pagetitle">
-	<h1>Reports & Analytics</h1>
+	<h1>REPORTS & ANALYTICS</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-file-earmark-text"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Investment Transaction Report</li>
+			<li class="breadcrumb-item action">INVESTMENT TRANSACTION REPORT </li>
 		</ol>
 	</nav>
 </div>
@@ -34,17 +34,17 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Branch Name </label> <select id="branchName1"
+						<label for="">BRANCH NAME </label> <select id="branchName1"
 							name="branchName" required="required"
 							class="form-control selectField">
-							<option value="">Select</option>
+							<option value="">SELECT</option>
 						</select>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="fromDate">From Date :</label> <input type="date"
+						<label for="fromDate">FROM DATE :</label> <input type="date"
 							name="fromDate" id="fromDate" required="required"
 							style="text-transform: uppercase;" />
 					</div>
@@ -52,7 +52,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="toDate">To Date :</label> <input type="date"
+						<label for="toDate">TO DATE :</label> <input type="date"
 							name="toDate" id="toDate" required="required"
 							style="text-transform: uppercase;" />
 					</div>
@@ -79,26 +79,26 @@
 			<div class="card recent-sales">
 
 				<div class="card-body table-responsive">
-					<h5 class="card-title">Search Result</h5>
+					<h5 class="card-title">SEARCH RESULT </h5>
 
 					<h6 class="card-title" style="text-align: center; color: black;">
-						Investment Report</h6>
+						INVESTMENT REPORT</h6>
 
 
 					<div style="overflow-x: auto; white-space: nowrap;">
 						<table class="table table-borderless datatable">
 							<thead class="table-light">
 								<tr style="font-family: 'Poppins', sans-serif;">
-									<th scope="col">Sr No.</th>
-									<th scope="col">Policy Code</th>
-									<th scope="col">Customer Name</th>
-									<th scope="col">Policy Name</th>
-									<th scope="col">Policy Date</th>
-									<th scope="col">Policy Amount</th>
-									<th scope="col">Contact Number</th>
-									<th scope="col">Branch</th>
-									<th scope="col">Approved</th>
-									<th scope="col">Print</th>
+									<th scope="col">SR NO.</th>
+									<th scope="col">POLICY CODE</th>
+									<th scope="col">CUSTOMER NAME</th>
+									<th scope="col">POLICY NAME</th>
+									<th scope="col">POLICY DATE</th>
+									<th scope="col">POLICY AMOUNT</th>
+									<th scope="col">CONTACT NUMBER</th>
+									<th scope="col">BRANCH </th>
+									<th scope="col">APPROVED </th>
+									<th scope="col">PRINT</th>
 
 								</tr>
 							</thead>
