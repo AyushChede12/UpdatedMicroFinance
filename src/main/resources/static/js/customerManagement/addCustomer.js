@@ -586,6 +586,43 @@ $('#state').on('change', function() {
 	}
 });
 
+
+$(document).ready(function() {
+	const dropdownIds = ["relationToApplicant", "nomineeRelationToApplicant"];
+
+	$.ajax({
+		url: "api/preference/getAllRelativeModule", // Ensure correct server path
+		method: "GET",
+		success: function(data) {
+			console.log("Received relation data:", data);
+
+			dropdownIds.forEach(function(id) {
+				const $select = $("#" + id);
+				if ($select.length === 0) {
+					console.warn(`Dropdown with ID '${id}' not found.`);
+					return;
+				}
+
+				// Clear old options except the first placeholder
+				$select.find("option:not(:first)").remove();
+
+				// Loop through data.data array
+				data.data.forEach(function(item) {
+					$select.append(
+						$("<option>", {
+							value: item.relation,
+							text: item.relation
+						})
+					);
+				});
+			});
+		},
+		error: function(err) {
+			console.error("Error loading relations:", err);
+		}
+	});
+});
+
 $(document).ready(function() {
 	// Fetch all branches and populate the dropdown
 	$.ajax({
