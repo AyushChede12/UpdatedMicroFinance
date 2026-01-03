@@ -35,7 +35,7 @@ $(document).ready(function() {
 	                    customer.lastName
 	                ].filter(Boolean).join(" ");
 	                // Ensure full name or memberCode exists
-	                if (customer.memberCode && fullName) {
+	                if (customer.memberCode && fullName) {				
 
 	                    const option = `
 	                        <option value="${customer.memberCode}" data-name="${fullName}">

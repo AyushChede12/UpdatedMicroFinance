@@ -164,6 +164,8 @@ $('#approveBtn').click(function(event) {
 
     const loanId = $('#findByLoanId').val();
     const approvalDate = $('#approvalDate').val();
+	alert(loanId);
+	alert(approvalDate);
 
     const requestData = {
         loanId: loanId,
