@@ -1,5 +1,6 @@
 package com.microfinance.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -184,19 +185,16 @@ public class CustomerSavingsController {
 			@ModelAttribute SavingAccountDto savingAccountDto,
 			@RequestParam(value = "photo", required = false) String photo,
 			@RequestParam(value = "signature", required = false) String signature,
-			@RequestParam(value = "jointPhoto", required = false) String jointPhoto,
-			@RequestParam(value = "newPhoto", required = false) String newPhoto,
-			@RequestParam(value = "newSignature", required = false) String newSignature)
+			@RequestParam(value = "jointPhoto", required = false) MultipartFile jointPhoto,
+			@RequestParam(value = "newPhoto", required = false) MultipartFile newPhoto,
+			@RequestParam(value = "newSignature", required = false) MultipartFile newSignature) throws IOException
 
 	{
-		System.out.println("pol");
-
+		
 		String customerId = savingAccountDto.getSelectByCustomer(); // assuming it's Long
-		System.out.println(customerId);
 
 		// Check for existing record before saving (only for new entries)
 		if (savingAccountDto.getId() == null && customersaving.existsByCustomerId(customerId)) {
-			System.out.println("kol");
 			return ResponseEntity.status(HttpStatus.CONFLICT)
 					.body(new ApiResponse<>(HttpStatus.CONFLICT, "Customer already exists in saving account", null));
 		}
