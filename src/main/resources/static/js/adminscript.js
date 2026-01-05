@@ -58,9 +58,9 @@ $(document).ready(function() {
 			if (response.status == "FOUND") {
 				const relativeList = response.data;
 				$("#relationToApplicant").empty(); // Clear existing options
-				$("#relationToApplicant").append("<option value=''>-- Select Relative --</option>");
+				$("#relationToApplicant").append("<option value=''>-- SELECT RELATIVE --</option>");
 				$("#familyRelation").empty(); // Clear existing options
-				$("#familyRelation").append("<option value=''>-- Select Relative --</option>");
+				$("#familyRelation").append("<option value=''>-- SELECT RELATIVE --</option>");
 
 				for (let i = 0; i < relativeList.length; i++) {
 					let relative = relativeList[i];
