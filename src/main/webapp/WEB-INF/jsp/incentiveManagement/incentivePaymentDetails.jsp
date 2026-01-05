@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Incentive Management</h1>
+	<h1>INCENTIVE MANAGEMENT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-award"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Incentive Payment Details</li>
+			<li class="breadcrumb-item action">INCENTIVE PAYMENT DETAILS </li>
 		</ol>
 	</nav>
 </div>
@@ -16,17 +16,17 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Incentive List Print</li>
+					<li class="breadcrumb-item action">INCENTIVE LIST PRINT </li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>incentiveMonth</label> <select id="incentiveMonth"
+						<label>INCENTIVEMONTH</label> <select id="incentiveMonth"
 							name="Incentive Month" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select</option>
+							<option value="">SELECT</option>
 
 						</select> </select>
 					</div>
@@ -36,7 +36,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields ">
-						<label for="">Code </label> <input type="text" name="code"
+						<label for="">CODE </label> <input type="text" name="code"
 							id="code" required="required" placeholder="" />
 					</div>
 
@@ -44,7 +44,7 @@
 			</div>
 			<div class="row">
 				<div class=" col-lg-3">
-					<button id="saveBtn" class="btn btn-success">Update</button>
+					<button id="saveBtn" class="btn btn-success">UPDATE</button>
 				</div>
 
 
@@ -55,15 +55,15 @@
 
 						<div class="card-body table-responsive">
 							<h5 class="card-title">
-								Incentive Details <span>| Table View</span>
+								INCENTIVE DETAILS  <span>| TABLE VIEW </span>
 							</h5>
 
 							<table class="table table-borderless datatable overflow-scroll">
 								<thead class="table-light">
 									<tr style="font-family: 'Poppins', sans-serif;">
 										<th scope="col">S/N</th>
-										<th scope="col">Month Name</th>
-										<th scope="col">Code</th>
+										<th scope="col">MONTH NAME </th>
+										<th scope="col">CODE</th>
 									</tr>
 								</thead>
 								<tbody>

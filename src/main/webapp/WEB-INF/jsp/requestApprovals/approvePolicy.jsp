@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Request Approval</h1>
+	<h1>REQUEST APPROVAL</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-check-circle"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Approve Policy</li>
+			<li class="breadcrumb-item action"> APPROVAL POLICY</li>
 		</ol>
 	</nav>
 </div>
@@ -16,16 +16,16 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Search Box</li>
+					<li class="breadcrumb-item action">SERACH BOX</li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-4">
 					<div class="d-flex flex-column formFields">
-						<label for="">Branch Name</label> <select id="branchName"
+						<label for="">BRANCH NAME</label> <select id="branchName"
 							name="branchName" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select Branch</option>
+							<option value="">SELECT BRANCH</option>
 
 						</select>
 					</div>
@@ -33,15 +33,15 @@
 
 				<div class="col-lg-4">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Date From</label> <input type="date"
+						<label for="vehicalNo">DATE FROM</label> <input type="date"
 							name="fromDate" id="fromDate" required="required"
-							placeholder="Enter From Date" style="text-transform: uppercase;" />
+							placeholder="ENTER FROM DATE" style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-4">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Date To</label> <input type="date"
+						<label for="vehicalNo">DATE TO</label> <input type="date"
 							name="toDate" id="toDate" required="required"
 							placeholder="Enter To Date" style="text-transform: uppercase;" />
 					</div>
@@ -63,22 +63,21 @@
 		<div class="card recent-sales">
 
 			<div class="card-body table-responsive">
-				<h5 class="card-title">Search result</h5>
+				<h5 class="card-title">SEARCH RESULT</h5>
 
 				<table class="table table-borderless datatable style=" white-space:nowrap;">
 					<thead class="table-light">
 						<tr style="font-family: 'Poppins', sans-serif;">
 							<th scope="col"></th>
-							<th scope="col" style="white-space: nowrap;">Sr.No</th>
-							<th scope="col" style="white-space: nowrap;">Policy Code</th>
-							<th scope="col" style="white-space: nowrap;">Policy Date</th>
-							<th scope="col" style="white-space: nowrap;">Customer Name</th>
-							<th scope="col" style="white-space: nowrap;">Contact No.</th>
-							<th scope="col" style="white-space: nowrap;">Branch Name</th>
-							<th scope="col" style="white-space: nowrap;">Sggested
-								Nominee</th>
-							<th scope="col" style="white-space: nowrap;">Scheme Type</th>
-							<th scope="col" style="white-space: nowrap;">scheme Term</th>
+							<th scope="col" style="white-space: nowrap;">SR.NO</th>
+							<th scope="col" style="white-space: nowrap;">POLICY CODE</th>
+							<th scope="col" style="white-space: nowrap;">POLICY DATE</th>
+							<th scope="col" style="white-space: nowrap;">CUSTOMER NAME</th>
+							<th scope="col" style="white-space: nowrap;">CONTACT NO.</th>
+							<th scope="col" style="white-space: nowrap;">BRANCH NAME</th>
+							<th scope="col" style="white-space: nowrap;">SUGGESTES NOMINEE</th>
+							<th scope="col" style="white-space: nowrap;">SCHEME TYPE</th>
+							<th scope="col" style="white-space: nowrap;">SCHEME TERM</th>
 
 						</tr>
 					</thead>
@@ -92,7 +91,7 @@
 <div class="row">
 	<div class="col-12 text-center mt-3">
 		<button id="approvedBtn" class="btnStyle"
-			style="background-color: #FFA500;">Approved</button>
+			style="background-color: #FFA500;">APPROVED</button>
 	</div>
 </div>
 </div>

@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Data Correction</h1>
+	<h1>DATA CORRECTION </h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-pencil-square"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Customer Data Update</li>
+			<li class="breadcrumb-item action">CUSTOMER DATA UPDATE</li>
 		</ol>
 	</nav>
 </div>
@@ -16,17 +16,17 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action" id="editmember">Edit Member</li>
+					<li class="breadcrumb-item action" id="editmember">EDIT MEMBER</li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-5">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 20px;">
-						<label for="customerCode" id="customerSelection">Customer
-							Selection </label> <select id="customerCode" name="customerCode"
+						<label for="customerCode" id="customerSelection">CUSTOMER
+							SELECTION </label> <select id="customerCode" name="customerCode"
 							class="form-control selectField" style="width: 100%;">
-							<option value="">-- Search Customer Code --</option>
+							<option value="">-- SEARCH CUSTOMER CODE --</option>
 						</select>
 					</div>
 				</div>
@@ -59,7 +59,7 @@
               </div> -->
 					<input type="hidden" id="id" name="id">
 					<div class="d-flex flex-column formFields">
-						<label for="">Sign-up Date</label> <input type="date"
+						<label for="">SIGN-UP DATE</label> <input type="date"
 							name="signupDate" id="signupDate" required="required"
 							style="text-transform: uppercase;" />
 					</div>
@@ -67,7 +67,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="major">Authenticate For</label>
+						<label for="major">AUTHENTICATION FOR </label>
 						<!-- <select
 									id="major" name="major" required="required"
 									class="form-control selectField" style="height: 30px;">
@@ -77,7 +77,7 @@
 									<option value="Other">Other</option>
 								</select> -->
 						<input type="text" name="authenticateFor" id="authenticateFor"
-							required="required" placeholder="Enter Major"
+							required="required" placeholder="ENTER MAJOR "
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -86,18 +86,18 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Customer Name</label> <input type="text"
+						<label>CUSTOMER NAME</label> <input type="text"
 							name="customerName" id="customerName" required="required"
-							placeholder="Enter Customer Name"
+							placeholder="ENTER CUSTOMER NAME"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Family Member Name</label> <input type="text"
+						<label for="">FAMILY MEMBER NAME</label> <input type="text"
 							name="familyMemberName" id="familyMemberName" required="required"
-							placeholder="Enter Family Name"
+							placeholder="ENTER FAMILY NAME"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -106,21 +106,21 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Relation to Applicant</label>
+						<label>RELATION TO APPLICANT</label>
 						<!-- <select
 									id="relationToApplicant" name="relationToApplicant"
 									required="required" class="form-control selectField"
 									style="height: 30px;"> -->
 						<input type="text" name="relationToApplicant"
 							id="relationToApplicant" required="required"
-							placeholder="Enter Relation" style="text-transform: uppercase;" />
+							placeholder="ENTER RELATION " style="text-transform: uppercase;" />
 						</select>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Gender</label>
+						<label for="">GENDER</label>
 						<!-- <select id="customerGender"
 									name="customerGender" required="required"
 									class="form-control selectField" style="height: 30px;">
@@ -130,7 +130,7 @@
 									<option value="Other">Other</option>
 								</select> -->
 						<input type="text" name="customerGender" id="customerGender"
-							required="required" placeholder="Enter Gender" />
+							required="required" placeholder="ENTER GENDER " />
 
 					</div>
 				</div>
@@ -138,8 +138,8 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Date of Birth </label> <input type="date" name="dob"
-							id="dob" required="required" placeholder="Enter Relative Name"
+						<label>DATE OF BIRTH </label> <input type="date" name="dob"
+							id="dob" required="required" placeholder="ENTER RELATIVE NAME "
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -148,14 +148,14 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label for="">Age</label> <input type="text" name="customerAge"
-							id="customerAge" required="required" placeholder="Enter Age" />
+						<label for="">AGE</label> <input type="text" name="customerAge"
+							id="customerAge" required="required" placeholder="ENTER AGE" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Relationship Status</label>
+						<label for="">REALTIONSHIP STATUS </label>
 						<!-- <select
 									id="relationshipStatus" name="relationshipStatus"
 									required="required" class="form-control selectField"
@@ -168,13 +168,13 @@
 								</select> -->
 						<input type="text" name="relationshipStatus"
 							id="relationshipStatus" required="required"
-							placeholder="Enter Relationship Status" />
+							placeholder="ENTER RELATIONSHIP STATUS " />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Address</label>
+						<label for="">ADDRESS</label>
 						<textarea name="customerAddress" id="customerAddress"
 							style="border: 1px solid rgb(224, 224, 224); border-radius: 5px; outline: none; padding: 5px; font-size: 12px;"></textarea>
 					</div>
@@ -183,112 +183,112 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>District</label> <input type="text" name="district"
-							id="district" required="required" placeholder="Enter District" />
+						<label>DISTRICT</label> <input type="text" name="district"
+							id="district" required="required" placeholder="ENTER DISTRICT " />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">State</label> <input type="text" name="state"
-							id="state" required="required" placeholder="Enter State" />
+						<label for="">STATE</label> <input type="text" name="state"
+							id="state" required="required" placeholder="ENTER STATE" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Branch Name</label>
+						<label for="">BRANCH  NAME </label>
 						<!-- <select id="branchName"
 									name="branchName" required="required"
 									class="form-control selectField" style="height: 30px;">
 
 								</select> -->
 						<input type="text" name="branchName" id="branchName"
-							required="required" placeholder="Enter Branch" />
+							required="required" placeholder="ENTER BRANCH" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Pin Code</label> <input type="text" name="pinCode"
-							id="pinCode" required="required" placeholder="Enter Pincode" />
+						<label>PIN CODE </label> <input type="text" name="pinCode"
+							id="pinCode" required="required" placeholder="ENTER PINCODE" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Aadhar No</label> <input type="text" name="aadharNo"
-							id="aadharNo" required="required" placeholder="Enter Aadhar No" />
+						<label for="">AADHAR NO</label> <input type="text" name="aadharNo"
+							id="aadharNo" required="required" placeholder="ENTER AADHAR NO" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Pan No</label> <input type="text" name="panNo"
-							id="panNo" required="required" placeholder="Enter Pan No" />
+						<label for="">PAN NO</label> <input type="text" name="panNo"
+							id="panNo" required="required" placeholder="ENTER PAN NO" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Voter No</label> <input type="text" name="voterNo"
-							id="voterNo" required="required" placeholder="Enter Voter No" />
+						<label>VOTOR NO</label> <input type="text" name="voterNo"
+							id="voterNo" required="required" placeholder="ENTER VOTOR NO" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Contact No</label> <input type="text"
+						<label for="">CONTACT NO</label> <input type="text"
 							name="contactNo" id="contactNo" required="required"
-							placeholder="Enter Contact No" />
+							placeholder="ENTER CONTACT NO" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Email ID</label> <input type="text" name="emailId"
-							id="emailId" required="required" placeholder="Enter Email ID" />
+						<label for="">EMAIL ID</label> <input type="text" name="emailId"
+							id="emailId" required="required" placeholder="ENTER EMAIL ID" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Profession</label> <input type="text"
+						<label for="">PROFESSION </label> <input type="text"
 							name="profession" id="profession" required="required"
-							placeholder="Enter Profession" />
+							placeholder="ENTER PROFESSION" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px;">
-						<label for="">Academic background</label> <input type="text"
+						<label for="">ACADEMIC BACKGROUND </label> <input type="text"
 							name="academicBackground" id="academicBackground"
-							required="required" placeholder="Enter Academic background" />
+							required="required" placeholder="ENTER ACADEMIC BACKGROUND " />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label>Referral Code</label> <input type="text"
+						<label>REFERRAL CODE</label> <input type="text"
 							name="referralCode" id="referralCode" required="required"
-							placeholder="Enter Intro Referral Code" />
+							placeholder="ENTER INTRO REFERRAL CODE " />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label>Referral Name</label> <input type="text"
+						<label>REFERRAL NAME</label> <input type="text"
 							name="referralName" id="referralName" required="required"
-							placeholder="Enter Intro Referral Name" />
+							placeholder="ENTER INTRO REFERRAL NAME " />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label>Is Minor</label>
+						<label>IS Minor</label>
 						<!-- <select id="minor" name="minor"
 									required="required" class="form-control selectField"
 									style="height: 30px;">
@@ -298,7 +298,7 @@
 
 								</select> -->
 						<input type="text" name="minor" id="minor" required="required"
-							placeholder="Enter Minor" />
+							placeholder="ENTER MINOR" />
 					</div>
 				</div>
 
@@ -307,8 +307,8 @@
 			<div class="row mt-4">
 				<div class="col-lg-3 mb-5">
 					<label for=""
-						style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">Upload
-						Photo <span class="star">*</span>
+						style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">UPLOAD
+						PHOTO <span class="star">*</span>
 					</label> <label for="customerPhoto" id="drop-area"> <input
 						type="file" accept="image/*" name="customerPhoto"
 						id="customerPhoto" hidden="hidden" onchange="photoUpload();"
@@ -330,8 +330,8 @@
 
 				<div class="col-lg-3 mb-5">
 					<label for=""
-						style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">Upload
-						Signature <span class="star">*</span>
+						style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">UPLOAD
+						SIGNATURE <span class="star">*</span>
 					</label> <label for="customerSignature" id="drop-area"> <input
 						type="file" accept="image/*" name="customerSignature"
 						id="customerSignature" hidden="hidden"
@@ -361,23 +361,23 @@
 		<div class="mt-5">
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Nominee Details</li>
+					<li class="breadcrumb-item action">NOMINEE DEATILS </li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Suggested Nominee </label> <input type="text"
+						<label>SUGGESTED NOMINEE  </label> <input type="text"
 							name="nomineeName" id="nomineeName" required="required"
-							placeholder="Enter Nominee Name"
+							placeholder="ENTER NOMINEE NAME "
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="relationToApplicant">Nominee Relation</label>
+						<label for="relationToApplicant">NOMINEE RELATION </label>
 						<!-- <select
 									id="nomineeRelationToApplicant"
 									name="nomineeRelationToApplicant" required="required"
@@ -386,7 +386,7 @@
 								</select> -->
 						<input type="text" name="nomineeRelationToApplicant"
 							id="nomineeRelationToApplicant" required="required"
-							placeholder="Enter Nominee Relation"
+							placeholder="ENTER NOMINEE RELATION "
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -394,48 +394,48 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Nominee Address</label> <input type="text"
+						<label>NOMINEE ADDRESS</label> <input type="text"
 							name="nomineeAddress" id="nomineeAddress" required="required"
-							placeholder="Enter Nominee Address"
+							placeholder="ENTER NOMINEE ADDRESS"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Nominee KYC ID </label> <input type="text"
+						<label for="">NOMINEE KYC ID </label> <input type="text"
 							name="nomineeKycNo" id="nomineeKycNo" required="required"
-							placeholder="Enter Nominee KYC" />
+							placeholder="ENTER NOMINEE KYC" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Nominee Contact No. </label> <input type="text"
+						<label for="">NOMINEE CONTACT NO. </label> <input type="text"
 							name="nomineeMobileNo" id="nomineeMobileNo" required="required"
-							placeholder="Enter Nominee No" />
+							placeholder="ENTER NOMINEE NO" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Age Of Nominee </label> <input type="text"
+						<label for="">AGE OF NOMINEE </label> <input type="text"
 							name="nomineeAge" id="nomineeAge" required="required"
-							placeholder="Enter Nominee Age" />
+							placeholder="ENTER NOMINEE AGE" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Nominee Pan No. </label> <input type="text"
+						<label for="">NOMINEE PAN NO. </label> <input type="text"
 							name="nomineePanNo" id="nomineePanNo" required="required"
-							placeholder="Enter Pan No" />
+							placeholder="ENTER PAN NO" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Nominee KYC Type </label>
+						<label for="">NOMINEE KYC TYPE </label>
 						<!-- <select
 									id="nomineeKycType" name="nomineeKycType" required="required"
 									class="form-control selectField" style="height: 30px;">
@@ -445,7 +445,7 @@
 
 								</select> -->
 						<input type="text" name="nomineeKycType" id="nomineeKycType"
-							required="required" placeholder="Enter Nominee KYC Type"
+							required="required" placeholder="ENTER NOMINEE KYC TYPE"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -479,8 +479,8 @@
 					<div class=" h-100 d-flex justify-content-start align-items-center">
 						<div
 							class="d-flex justify-content-start align-items-center  formFields">
-							<label style="margin-left: 20px;" class="mb-2">Mobile
-								Bank Access</label>
+							<label style="margin-left: 20px;" class="mb-2">MOBILE
+								BANK ACCESS</label>
 							<div class="cont">
 								<div class="toggle">
 									<input type="checkbox" id="toggle-mobile-banking"
@@ -497,8 +497,8 @@
 					<div class=" h-100 d-flex justify-content-start align-items-center">
 						<div
 							class="d-flex justify-content-start align-items-center  formFields">
-							<label style="margin-left: 20px;" class="mb-2">Net
-								Banking</label>
+							<label style="margin-left: 20px;" class="mb-2">NET
+								BANKING</label>
 							<div class="cont">
 								<div class="toggle">
 									<input type="checkbox" id="toggle-net-banking"
@@ -516,7 +516,7 @@
 						style="margin-bottom: 30px;">
 						<div
 							class="d-flex justify-content-start align-items-center  formFields">
-							<label style="margin-left: 20px;" class="mb-2">SMS Send</label>
+							<label style="margin-left: 20px;" class="mb-2">SMS SEND</label>
 							<div class="cont">
 								<div class="toggle">
 									<input type="checkbox" id="toggle-sms-send" name="smsSend"
@@ -531,9 +531,9 @@
 
 			<div class="row">
 				<div class="col-12 text-center" style="margin-top: 30px;">
-					<button id="printBtn" class="btn btn-warning">Print</button>
-					<button id="updateBtn" class="btn btn-success">Update</button>
-					<button id="deleteBtn" class="btn btn-danger">Delete</button>
+					<button id="printBtn" class="btn btn-warning">PRINT</button>
+					<button id="updateBtn" class="btn btn-success">UPDATE</button>
+					<button id="deleteBtn" class="btn btn-danger">DELETE</button>
 				</div>
 			</div>
 		</div>
