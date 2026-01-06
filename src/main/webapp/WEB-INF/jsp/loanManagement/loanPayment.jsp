@@ -82,7 +82,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for=""> AGE </label> <input type="text" name="age" id="age"
-							required="required" placeholder="" />
+							required="required" placeholder="ENTER AGE" />
 					</div>
 				</div>
 
@@ -152,14 +152,14 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">LOAN TERM</label> <input type="text" name="loanTerm"
 							id="loanTerm" required="required"
-							placeholder="ENTER PLAN DURATION"
+							placeholder="ENTER LOAN TERM"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">LOAN MODE</label> <input type="text" name="loanMode"
-							id="loanMode" required="required" placeholder="LOAN CATEGORY"
+							id="loanMode" required="required" placeholder="LOAN MODE"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -219,7 +219,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">MEMBER ID</label> <input type="text"
 							name="guarantorMemberId" id="guarantorMemberId"
-							required="required" placeholder="ENTER GURANTOR ID" />
+							required="required" placeholder="ENTER MEMBER ID" />
 					</div>
 				</div>
 
@@ -382,7 +382,7 @@
 						<div class="d-flex flex-column formFields mb-4">
 							<input type="text" name="financialConsultantId"
 								id="financialConsultantId" required="required"
-								placeholder="ENTER MEMBER ID" />
+								placeholder="ENTER CONSULTANT ID" />
 						</div>
 					</div>
 				</div>
@@ -390,7 +390,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">FINANCIAL CONSULTANT NAME</label> <input type="text"
 							name="financialConsultantName" id="financialConsultantName"
-							required="required" placeholder="ENTER ADVISOR/COLLECTOR NAME"
+							required="required" placeholder="ENTER COLLECTOR NAME"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -478,7 +478,7 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">REF NUMBER/UPI ID</label> <input type="text"
 							name="ref_UpiId" id="ref_UpiId" required="required"
-							placeholder="ENTER DEPOSIT ACCOUNT"
+							placeholder="ENTER UPI ID"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>

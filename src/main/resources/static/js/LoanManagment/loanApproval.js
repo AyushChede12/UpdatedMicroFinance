@@ -16,7 +16,7 @@ function populateLoanIdDropdown() {
 				$dropdown.empty(); // Clear existing options
 
 				// ✅ Wrap your <option> in quotes!
-				$dropdown.append('<option value="" disabled selected>Select Loan ID</option>');
+				$dropdown.append('<option value="" disabled selected>SELECT LOAN ID</option>');
 
 				response.data.forEach(function(id) {
 					$dropdown.append(`<option value="${id}">${id}</option>`);

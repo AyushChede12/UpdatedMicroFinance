@@ -38,22 +38,22 @@
 				<div class="d-flex flex-column formFields mb-4">
 					<label for="loanName"> BEGINNING DATE</label> <input type="date"
 						name="DateofLoan" id="DateofLoan" required="required"
-						placeholder="" style="text-transform: uppercase;" />
+						placeholder="ENTER BEGINNING DATE" style="text-transform: uppercase;" />
 				</div>
 			</div>
 			<div class="col-lg-3">
 				<div class="d-flex flex-column formFields mb-4">
 					<label for="loanName">FINAL DATE</label> <input type="date"
-						name="finaldate" id="finaldate" required="required" placeholder=""
+						name="finaldate" id="finaldate" required="required" placeholder="ENTER FINAL DATE"
 						style="text-transform: uppercase;" />
 				</div>
 			</div>
 
 			<div class="col-lg-3">
 				<div class="d-flex flex-column formFields mb-4">
-					<label for="">MEMBER NAME: </label> <input type="text"
+					<label for="">MEMBER NAME </label> <input type="text"
 						name="memberName" id="memberName" required="required"
-						placeholder="ENTER APPLICATION NAME" />
+						placeholder="ENTER MEMBER NAME" />
 				</div>
 			</div>
 
@@ -78,7 +78,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<input type="text" name="financialConsultantId"
 							id="financialConsultantId" required="required"
-							placeholder="ENTER MEMBER ID" />
+							placeholder="ENTER FINANCIAL CONSULTANT ID" />
 					</div>
 				</div>
 			</div>
@@ -86,7 +86,7 @@
 				<div class="d-flex flex-column formFields mb-4">
 					<label for="">FINANCIAL CONSULTANT NAME</label> <input type="text"
 						name="financialConsultantName" id="financialConsultantName"
-						required="required" placeholder="ENTER ADVISOR/COLLECTOR NAME"
+						required="required" placeholder="ENTER CONSULTANT NAME"
 						style="text-transform: uppercase;" />
 				</div>
 			</div>

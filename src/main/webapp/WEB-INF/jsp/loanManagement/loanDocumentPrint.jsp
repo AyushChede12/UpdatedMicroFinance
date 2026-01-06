@@ -87,7 +87,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="loanName">RATE OF INTEREST</label> <input type="text"
 							name="rateOfInterest" id="rateOfInterest" readonly="readonly"
-							required="required" placeholder="ENTER FAMILY MEMBER NAME"
+							required="required" placeholder="ENTER RATE OF INTEREST"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -114,7 +114,7 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">INTEREST TYPE</label> <input type="text"
 							name="interestType" id="interestType" required="required"
-							placeholder="ENTER MOBILE NO." />
+							placeholder="ENTER INTEREST TYPE." />
 					</div>
 				</div>
 
@@ -122,7 +122,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">RELATIVE DETAILS</label> <input type="text"
 							readonly="readonly" name="relativeDetails" id="relativeDetails"
-							required="required" placeholder=" MESSAGESTATUS" />
+							required="required" placeholder=" RELATIVE DETAILS" />
 					</div>
 				</div>
 
@@ -139,7 +139,7 @@
 					<div class="d-flex flex-column formFields">
 						<label for="loanName">EMI PAYMENT</label> <input type="text"
 							name="emiPayment" id="emiPayment" required="required"
-							readonly="readonly" placeholder="ENTER PIN CODE"
+							readonly="readonly" placeholder="ENTER EMI PAYMENT"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -148,7 +148,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">CONTACT NO.</label> <input type="text"
 							readonly="readonly" name="contactNo" id="contactNo"
-							required="required" placeholder="ENTER BRANCH  NAME"
+							required="required" placeholder="ENTER CONTACT NO."
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -157,7 +157,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">LOAN AMOUNT</label> <input type="text"
 							readonly="readonly" name="loanAmount" id="loanAmount"
-							required="required" placeholder="ENTER LOAN PLAN NAME"
+							required="required" placeholder="ENTER LOAN AMOUNT"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>

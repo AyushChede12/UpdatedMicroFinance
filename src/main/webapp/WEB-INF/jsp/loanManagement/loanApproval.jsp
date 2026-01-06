@@ -73,7 +73,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">AGE </label> <input type="text" name="age" id="age"
-							required="required" placeholder="" />
+							required="required" placeholder="Enter Age" />
 					</div>
 				</div>
 
@@ -149,7 +149,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">LOAN MODE</label> <input type="text" name="loanMode"
-							id="loanMode" required="required" placeholder="LOAN CATEGORY"
+							id="loanMode" required="required" placeholder=" ENTER LOAN MODE"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -371,7 +371,7 @@
 						<div class="d-flex flex-column formFields mb-4">
 							<input type="text" name="financialConsultantId"
 								id="financialConsultantId" required="required"
-								placeholder="ENTER MEMBER ID" />
+								placeholder="ENTER FINANCIAL CONSULTANT ID" />
 						</div>
 					</div>
 				</div>
@@ -379,7 +379,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">FINANCIAL CONSULTANT NAME</label> <input type="text"
 							name="financialConsultantName" id="financialConsultantName"
-							required="required" placeholder="ENTER ADVISOR/COLLECTOR NAME"
+							required="required" placeholder="ENTER CONSULTANT NAME"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>

@@ -250,7 +250,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for=""> MONTHLY PENALTY </label> <input type="numbtexter"
 							name="pennaltyMonthly" id="pennaltyMonthly" required="required"
-							placeholder="" />
+							placeholder="ENTER MONTHLY PENALTY" />
 					</div>
 				</div>
 			</div>
@@ -272,7 +272,8 @@
 
 	<div class="row mt-5">
 		<div class="col-12">
-			<div class="card recent-sales">
+			<div class="c
+			card recent-sales">
 
 				<div class="card-body table-responsive">
 					<h5 class="card-title">

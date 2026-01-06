@@ -47,7 +47,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">CUSTOMER CODE</label> <input type="text"
 							name="customercode" id="customercode" required="required"
-							placeholder="ENTER ID & FULL NAME" />
+							placeholder="ENTER CUSTOMER CODE" />
 					</div>
 				</div>
 
@@ -183,7 +183,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="vehicalNo">REGISTRATION DATE</label> <input
 							type="date" name="registrationDate" id="registrationDate"
-							required="required" placeholder="ENTER VEHICLE NO"
+							required="required" placeholder="ENTER REGISTRATION DATE"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -203,7 +203,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">TOTAL AMOUNT DUE</label> <input type="text"
 							name="dueAmounttotal" id="dueAmounttotal" required="required"
-							placeholder="ENTER LOCATION" />
+							placeholder="ENTER TOTAL AMOUNT DUE" />
 					</div>
 				</div>
 
@@ -213,7 +213,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">PAYMENT AMOUNT</label> <input type="text"
 							name="paymentAmount" id="paymentAmount" required="required"
-							placeholder="ENTER RELATIVE NAME" />
+							placeholder="ENTER PAYMENT AMOUNT" />
 					</div>
 				</div>
 
@@ -221,7 +221,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="vehicalNo">PAYMENT DATE</label> <input type="date"
 							name="PaymentDate" id="PaymentDate" required="required"
-							placeholder="ENTER VEHICLE NO" style="text-transform: uppercase;" />
+							placeholder="ENTER PAYMENT DATE" style="text-transform: uppercase;" />
 					</div>
 				</div>
 
@@ -231,7 +231,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">NET AMOUNT</label> <input type="text"
 							name="netAmount" id="netAmount" required="required"
-							placeholder="ENTER DOB" />
+							placeholder="ENTER NET AMOUNT" />
 					</div>
 				</div>
 
@@ -262,7 +262,7 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">FINANCIAL CONSULTANT ID</label> <input type="text"
 							name="financialConsultantId" id="financialConsultantId"
-							required="required" placeholder="" />
+							required="required" placeholder="ENTER FINANCIAL CONSULTANT ID" />
 					</div>
 				</div>
 
@@ -270,7 +270,7 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">FINANCIAL CONSULTANT NAME</label> <input type="text"
 							name="financialConsultantName" id="financialConsultantName"
-							required="required" placeholder="" />
+							required="required" placeholder="ENTER FINANCIAL CONSULTANT NAME" />
 					</div>
 				</div>
 

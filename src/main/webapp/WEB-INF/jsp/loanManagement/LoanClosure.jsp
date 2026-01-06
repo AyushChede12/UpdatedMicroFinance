@@ -100,7 +100,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">LOAN TERM</label> <input type="text" name="loanTerm"
-							id="loanTerm" required="required" placeholder="ENTER DURATION" />
+							id="loanTerm" required="required" placeholder="ENTER LOAN TERM" />
 					</div>
 				</div>
 
@@ -108,7 +108,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">LOAN MODE</label> <input type="text" name="loanMode"
 							id="loanMode" required="required"
-							placeholder="ENTER LOAN CATEGORY" />
+							placeholder="ENTER LOAN MODE" />
 					</div>
 				</div>
 
@@ -125,7 +125,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="loanName">RATE OF INTEREST(%) </label> <input
 							type="text" name="rateOfInterest" id="rateOfInterest"
-							required="required" placeholder="ENTER LOAN ROI OF LOAN"
+							required="required" placeholder="ENTER ROI OF LOAN"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -143,7 +143,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="loanName">EMI PAYMENT</label> <input type="text"
 							name="emiPayment" id="emiPayment" required="required"
-							placeholder="Enter EMI Amount" style="text-transform: uppercase;" />
+							placeholder="Enter EMI PAYMENT" style="text-transform: uppercase;" />
 					</div>
 				</div>
 
@@ -161,7 +161,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">SANCTIONED AMOUNT</label> <input type="text"
 							name="sanctionedAmount" id="sanctionedAmount" required="required"
-							placeholder="ENTER TOTAL PRINCIPAL OF LOAN"
+							placeholder="ENTER SANCTIONED AMOUNT"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -218,7 +218,7 @@
 			<div class="d-flex flex-column formFields mb-4">
 				<label for="">AMOUNT PAID TILL DATE</label> <input type="text"
 					name="amountPaid" id="amountPaid" required="required"
-					placeholder="ENTER TOTAL DUE AMOUNT" />
+					placeholder="ENTER TOTAL PAID AMOUNT" />
 			</div>
 		</div>
 
@@ -226,7 +226,7 @@
 			<div class="d-flex flex-column formFields mb-4">
 				<label for="">LOAN BALANCE AMOUNT</label> <input type="text"
 					name="balanceLoanAmount" id="balanceLoanAmount" required="required"
-					placeholder="ENTER TOTAL DUE AMOUNT" />
+					placeholder="ENTER LOAN BALANCE AMOUNT" />
 			</div>
 		</div>
 
@@ -275,14 +275,14 @@
 			<div class="d-flex flex-column formFields mb-4">
 				<label for="">PAYMENT AMOUNT</label> <input type="text"
 					name="paymentamount" id="paymentamount" required="required"
-					placeholder="ENTER PAYABLE AMOUNT" />
+					placeholder="ENTER PAYMENT AMOUNT" />
 			</div>
 		</div>
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
 				<label for="">NET AMOUNT</label> <input type="text" name="netamount"
 					id="netamount" required="required"
-					placeholder="ENTER TOTAL PAYABLE AMOUNT" />
+					placeholder="ENTER NET AMOUNT" />
 			</div>
 		</div>
 
@@ -337,7 +337,7 @@
 			<div class="d-flex flex-column formFields">
 				<label for="">REF NUMBER/UPI ID</label> <input type="text"
 					name="refNo" id="refNo" required="required"
-					placeholder="ENTER DEPOSIT ACCOUNT"
+					placeholder="ENTER UPI ID"
 					style="text-transform: uppercase;" />
 			</div>
 		</div>
@@ -350,7 +350,7 @@
 				<div class="d-flex flex-column formFields mb-4">
 					<input type="text" name="financialConsultantId"
 						id="financialConsultantId" required="required"
-						placeholder="ENTER MEMBER ID" />
+						placeholder="ENTER CONSULTANT ID" />
 				</div>
 			</div>
 		</div>
@@ -358,7 +358,7 @@
 			<div class="d-flex flex-column formFields mb-4">
 				<label for="">FINANCIAL CONSULTANT NAME</label> <input type="text"
 					name="financialConsultantName" id="financialConsultantName"
-					required="required" placeholder="ENTER ADVISOR/COLLECTOR NAME"
+					required="required" placeholder="ENTER CONSULTANT NAME"
 					style="text-transform: uppercase;" />
 			</div>
 		</div>

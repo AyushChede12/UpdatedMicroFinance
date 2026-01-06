@@ -56,14 +56,14 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="loanName">DATE OF BIRTH </label> <input type="date"
 							name="dateOfBirth" id="dateOfBirth" required="required"
-							placeholder="" style="text-transform: uppercase;" />
+							placeholder="ENTER DATE OF BIRTH" style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">AGE</label> <input type="text" name="age" id="age"
-							required="required" placeholder="AGE" />
+							required="required" placeholder="ENTER AGE" />
 					</div>
 				</div>
 
@@ -98,7 +98,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">BRANCH NAME </label> <input type="text"
 							name="branchName" id="branchName" required="required"
-							placeholder="BRANCH NAME" />
+							placeholder=" ENTER BRANCH NAME" />
 					</div>
 				</div>
 
@@ -119,7 +119,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">TYPE OF LOAN</label> <input type="text"
 							name="typeOfLoan" id="typeOfLoan" required="required"
-							placeholder="TYPE OF PLAN" style="text-transform: uppercase;" />
+							placeholder="ENTER TYPE OF PLAN" style="text-transform: uppercase;" />
 
 					</div>
 				</div>
@@ -128,7 +128,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">LOAN MODE</label> <input type="text" name="loanMode"
 							id="loanMode" required="required"
-							placeholder="ENTER LOAN CATEGORY"
+							placeholder="ENTER LOAN MODE"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -137,7 +137,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">LOAN TERM</label> <input type="text" name="loanTerm"
-							id="loanTerm" required="required" placeholder="PLAN DURATION"
+							id="loanTerm" required="required" placeholder="ENTER LOAN TERM"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -460,7 +460,7 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">STATIONARY CHARGES FEE</label> <input type="text"
 							name="stationaryFee" id="stationaryFee" required="required"
-							placeholder="ENTER STATIONARY NUMBER FEE" />
+							placeholder="ENTER STATIONARY CHARGES FEE" />
 					</div>
 				</div>
 
@@ -483,7 +483,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">FINANCIAL CONSULTANT NAME</label> <input type="text"
 							name="financialConsultantName" id="financialConsultantName"
-							required="required" placeholder=""
+							required="required" placeholder="ENTER FINANCIAL CONSULTANT NAME"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>

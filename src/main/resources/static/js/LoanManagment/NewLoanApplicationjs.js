@@ -2,62 +2,62 @@ $(document).ready(function() {
 	console.log("Document ready");
 
 	$.ajax({
-	    url: '/api/customermanagement/approved',
-	    type: 'GET',
-	    success: function(response) {
+		url: '/api/customermanagement/approved',
+		type: 'GET',
+		success: function(response) {
 
-	        console.log("API response:", response);
+			console.log("API response:", response);
 
-	        const customers = response.data;
+			const customers = response.data;
 
-	        if (Array.isArray(customers) && customers.length > 0) {
+			if (Array.isArray(customers) && customers.length > 0) {
 
-	            const memberDropdown = $('#memberId');
-	            const guarantorDropdown = $('#guarantorMemberId');
-	            const coApplicantDropdown = $('#coApplicantMemberId');
+				const memberDropdown = $('#memberId');
+				const guarantorDropdown = $('#guarantorMemberId');
+				const coApplicantDropdown = $('#coApplicantMemberId');
 
-	            memberDropdown.empty();
-	            guarantorDropdown.empty();
-	            coApplicantDropdown.empty();
+				memberDropdown.empty();
+				guarantorDropdown.empty();
+				coApplicantDropdown.empty();
 
-	            const defaultOption = '<option value="">Select Member</option>';
+				const defaultOption = '<option value="">SELECT MEMBER</option>';
 
-	            memberDropdown.append(defaultOption);
-	            guarantorDropdown.append(defaultOption);
-	            coApplicantDropdown.append(defaultOption);
+				memberDropdown.append(defaultOption);
+				guarantorDropdown.append(defaultOption);
+				coApplicantDropdown.append(defaultOption);
 
-	            customers.forEach(function(customer) {
+				customers.forEach(function(customer) {
 
-	                // 👍 Create full name safely
-	                let fullName = [
-	                    customer.firstName,
-	                    customer.middleName,
-	                    customer.lastName
-	                ].filter(Boolean).join(" ");
-	                // Ensure full name or memberCode exists
-	                if (customer.memberCode && fullName) {				
+					// 👍 Create full name safely
+					let fullName = [
+						customer.firstName,
+						customer.middleName,
+						customer.lastName
+					].filter(Boolean).join(" ");
+					// Ensure full name or memberCode exists
+					if (customer.memberCode && fullName) {
 
-	                    const option = `
+						const option = `
 	                        <option value="${customer.memberCode}" data-name="${fullName}">
-	                            ${fullName} - ${customer.memberCode}
+	                            ${(fullName).toUpperCase()} - ${customer.memberCode}
 	                        </option>
 	                    `;
 
-	                    memberDropdown.append(option);
-	                    guarantorDropdown.append(option);
-	                    coApplicantDropdown.append(option);
-	                }
-	            });
+						memberDropdown.append(option);
+						guarantorDropdown.append(option);
+						coApplicantDropdown.append(option);
+					}
+				});
 
-	        } else {
-	            alert('No member data found');
-	        }
-	    },
+			} else {
+				alert('No member data found');
+			}
+		},
 
-	    error: function(xhr, status, error) {
-	        console.error('AJAX Error:', status, error);
-	        alert('Failed to fetch members');
-	    }
+		error: function(xhr, status, error) {
+			console.error('AJAX Error:', status, error);
+			alert('Failed to fetch members');
+		}
 	});
 
 });
@@ -84,7 +84,7 @@ $(document).ready(function() {
 						if (Array.isArray(dataList) && dataList.length > 0) {
 							// ✅ Get the first customer in the list
 							const d = dataList[0];
-								
+
 							if (changedId === 'memberId') {
 								$('#relativeDetails').val(d.relationToApplicant || '');
 								$('#dateOfBirth').val(d.dob || '');
@@ -175,11 +175,11 @@ $(document).ready(function() {
 
 			var dropdown = $('#loanPlanName');     // shows: memberCode only
 			dropdown.empty();
-			dropdown.append('<option value="">Select</option>');
+			dropdown.append('<option value="">SELECT</option>');
 
 			if (response.status === "FOUND" && response.data) {
 				$.each(response.data, function(index, customer) {
-					dropdown.append('<option value="' + customer.loanPlaneName + '">' + customer.loanPlaneName + '</option>');
+					dropdown.append('<option value="' + customer.loanPlaneName + '">' + (customer.loanPlaneName).toUpperCase() + '</option>');
 				});
 			} else {
 				dropdown.append('<option value="">No customers found</option>');
@@ -404,7 +404,7 @@ $(document).ready(function() {
 
 			const consultantDropdown = $('#financialConsultantId');
 			consultantDropdown.empty();
-			consultantDropdown.append('<option value="">Select Consultant</option>');
+			consultantDropdown.append('<option value="">SELECT CONSULTANT</option>');
 
 			response.data.forEach(function(customer) {
 				// ✅ Only the code
@@ -412,6 +412,7 @@ $(document).ready(function() {
 				consultantDropdown.append(option);
 			});
 		},
+
 		error: function(xhr, status, error) {
 			console.error('AJAX Error:', status, error);
 			alert('Failed to fetch consultant data.');
