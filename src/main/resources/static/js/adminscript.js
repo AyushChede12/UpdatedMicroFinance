@@ -26,13 +26,13 @@ $(document).ready(function() {
 			if (response.status == "FOUND") {
 				const branchList = response.data;
 				$("#branchName").empty(); // Clear existing options
-				$("#branchName").append("<option value=''>-- Select Branch --</option>");
+				$("#branchName").append("<option value=''>-- SELECT BRANCH --</option>");
 				$("#closingbranchName").empty(); // Clear existing options
 				$("#closingbranchName").append("<option value=''>-- Select Branch --</option>");
 
 				for (let i = 0; i < branchList.length; i++) {
 					let branch = branchList[i];
-					let option = `<option value="${branch.branchName}">${branch.branchName}</option>`;
+					let option = `<option value="${branch.branchName}">${(branch.branchName).toUpperCase()}</option>`;
 					$("#branchName").append(option);
 
 					$("#closingbranchName").append(option);
@@ -58,13 +58,13 @@ $(document).ready(function() {
 			if (response.status == "FOUND") {
 				const relativeList = response.data;
 				$("#relationToApplicant").empty(); // Clear existing options
-				$("#relationToApplicant").append("<option value=''>-- Select Relative --</option>");
+				$("#relationToApplicant").append("<option value=''>-- SELECT RELATIVE --</option>");
 				$("#familyRelation").empty(); // Clear existing options
-				$("#familyRelation").append("<option value=''>-- Select Relative --</option>");
+				$("#familyRelation").append("<option value=''>-- SELECT RELATIVE --</option>");
 
 				for (let i = 0; i < relativeList.length; i++) {
 					let relative = relativeList[i];
-					let option = `<option value="${relative.relation}">${relative.relation}</option>`;
+					let option = `<option value="${relative.relation}">${(relative.relation).toUpperCase()}</option>`;
 					$("#relationToApplicant").append(option);
 					$("#familyRelation").append(option);
 				}

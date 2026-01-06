@@ -17,17 +17,17 @@
 			<div class="row">
 				<div class="col-lg-4">
 					<div class="d-flex flex-column formFields">
-						<label for="selectMember" id="customerSelection">Customer
-							Selection </label> <select id="selectMember" name="selectMember"
+						<label for="selectMember" id="customerSelection">CUSTOMER
+							SELECTION </label> <select id="selectMember" name="selectMember"
 							class="form-control selectField" style="width: 100%;">
-							<option value="">-- Search Customer Code --</option>
+							<option value="">-- SEARCH CUSTOMER CODE --</option>
 						</select>
 					</div>
 				</div>
 				<div class="col-lg-12">
 					<nav>
 						<ol class="breadcrumb breadcrumb-title">
-							<li class="breadcrumb-item action mt-3">Client Details</li>
+							<li class="breadcrumb-item action mt-3">CUSTOMER DETAILS</li>
 						</ol>
 					</nav>
 				</div>
@@ -37,96 +37,95 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Customer Code</label> <input type="text"
+						<label for="">CUSTOMER CODE</label> <input type="text"
 							name="customerCode" id="customerCode" required="required"
-							placeholder="Enter Customer Code" disabled />
+							placeholder="ENTER CUSTOMER CODE" disabled />
 					</div>
 				</div>
 
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Customer Name</label> <input type="text"
+						<label for="">CUSTOMER NAME</label> <input type="text"
 							name="customerName" id="customerName" required="required"
-							placeholder="Enter Customer Name" disabled />
+							placeholder="ENTER CUSTOMER NAME" disabled />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Sign-up Date</label> <input type="date"
-							name="singupDate" id="singupDate" required="required"
-							placeholder="Enter Sign-up Date" disabled />
+						<label for="">SIGN-UP DATE</label> <input type="date"
+							name="singupDate" id="singupDate" required="required" disabled />
 					</div>
 				</div>
 
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Relative Name</label> <input type="text"
+						<label for="">RELATIVE NAME</label> <input type="text"
 							name="guardianName" id="guardianName" required="required"
-							placeholder="Enter Relative Name" disabled />
+							placeholder="ENTER RELATIVE NAME" disabled />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Address</label> <input type="text"
+						<label for="">ADDRESS</label> <input type="text"
 							name="customerAddress" id="customerAddress" required="required"
-							placeholder="Enter Address" disabled />
+							placeholder="ENTER ADDRESS" disabled />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for=""> PinCode</label> <input type="text" name="pinCode"
-							id="pinCode" required="required" placeholder="Enter pincode"
+						<label for=""> PINCODE</label> <input type="text" name="pinCode"
+							id="pinCode" required="required" placeholder="ENTER PINCODE"
 							disabled />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">State</label> <input type="text" name="state"
-							id="state" required="required" placeholder="Enter State" disabled />
+						<label for="">STATE</label> <input type="text" name="state"
+							id="state" required="required" placeholder="ENTER STATE" disabled />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Mobile No.</label> <input type="text"
+						<label for="">MOBILE NO.</label> <input type="text"
 							name="contactNo" id="contactNo" required="required"
-							placeholder="Enter mobileno" disabled />
+							placeholder="ENTER MOBILE NO" disabled />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Aadhar No.</label> <input type="text"
+						<label for="">AADHAR NO.</label> <input type="text"
 							name="aadharNo" id="aadharNo" required="required"
-							placeholder="Enter Aadhar No" disabled />
+							placeholder="ENTER AADHAR NO" disabled />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">PAN</label> <input type="text" name="pan" id="pan"
-							required="required" placeholder="Enter PAN" disabled />
+							required="required" placeholder="ENTER PAN" disabled />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Nominee Name</label> <input type="text"
+						<label for="">NOMINEE NAME</label> <input type="text"
 							name="nomineeName" id="nomineeName" required="required"
-							placeholder="Enter Nominee Name" disabled />
+							placeholder="ENTER NOMINEE NAME" disabled />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Email ID</label> <input type="text" name="emailId"
-							id="emailId" required="required" placeholder="Enter Email ID"
+						<label for="">EMAIL ID</label> <input type="text" name="emailId"
+							id="emailId" required="required" placeholder="ENTER EMAIL ID"
 							disabled />
 					</div>
 				</div>
@@ -134,45 +133,40 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">DOB</label> <input type="text" name="dob" id="dob"
-							required="required" placeholder="Enter DOB" disabled />
+							required="required" placeholder="ENTER DOB" disabled />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Age</label> <input type="text" name="customerAge"
-							id="customerAge" required="required" placeholder="Enter Age"
+						<label for="">AGE</label> <input type="text" name="customerAge"
+							id="customerAge" required="required" placeholder="ENTER AGE"
 							disabled />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Branch Code</label> <input type="text"
+						<label for="">BRANCH CODE</label> <input type="text"
 							name="branchName" id="branchName" required="required"
-							placeholder="Enter Branch Code" disabled />
+							placeholder="ENTER BRANCH CODE" disabled />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Gender</label> <input type="text"
+						<label for="">GENDER</label> <input type="text"
 							name="customerGender" id="customerGender" required="required"
-							placeholder="Enter gender" disabled />
+							placeholder="ENTER GENDER" disabled />
 					</div>
 				</div>
-
-
-
-
-
 
 			</div>
 
 			<div class="row mt-4">
 				<div class="col-lg-3 mb-5">
 					<label for=""
-						style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">UPLOAD
+						style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">
 						CUSTOMER PHOTO <span class="star">*</span>
 					</label> <label for="signature" id="drop-area"> <input type="file"
 						accept="image/*" name="photo" id="photo" hidden="hidden"
@@ -190,8 +184,6 @@
 			</div>
 		</div>
 	</form>
-
-
 
 </div>
 <script

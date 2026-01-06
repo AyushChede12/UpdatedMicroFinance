@@ -1,5 +1,5 @@
 <div class="pagetitle">
-	<h1>CUSTOMER SAVINGS</h1>
+	<h1>SAVINGS / CURRENT ACCOUNT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"><i
@@ -13,7 +13,7 @@
 <!-- ************** FORM START ************** -->
 <form id="savingForm">
 
-	<!-- 🔥 Hidden ID (FIXED) -->
+	<!-- Hidden ID -->
 	<input type="hidden" id="savingAccountId" />
 
 	<nav>
@@ -26,145 +26,169 @@
 
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
-				<label>PLAN NAME</label> <input type="text" id="policyName"
-					placeholder="ENTER PLAN NAME" />
+				<label>PLAN NAME</label>
+				<input type="text" id="policyName" class="form-control"
+					placeholder="ENTER PLAN NAME" required />
 			</div>
 		</div>
 
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
-				<label>YEARLY ROI(%)</label> <input type="text" id="yearlyROI"
-					placeholder="ENTER YEARLY ROI" />
+				<label>YEARLY ROI (%)</label>
+				<input type="number" id="yearlyROI" class="form-control"
+					placeholder="ENTER YEARLY ROI" step="0.01" required />
 			</div>
 		</div>
 
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
-				<label>CUSTOMER NAME</label> <input type="text" id="customerName"
-					placeholder="ENTER CUSTOMER NAME" />
+				<label>CUSTOMER NAME</label>
+				<input type="text" id="customerName" class="form-control"
+					placeholder="ENTER CUSTOMER NAME" required />
 			</div>
 		</div>
 
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
-				<label>INITIAL DEPOSITE</label> <input type="text"
-					id="initialDeposite" placeholder="ENTER INITIAL DEPOSITE" />
+				<label>INITIAL DEPOSIT</label>
+				<input type="number" id="initialDeposit" class="form-control"
+					placeholder="ENTER INITIAL DEPOSIT" required />
 			</div>
 		</div>
 
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
-				<label>MINIMUM OPENING BALANCE</label> <input type="text"
-					id="monthlyMinimumBalance"
+				<label>MINIMUM OPENING BALANCE</label>
+				<input type="number" id="minimumOpeningBalance"
+					class="form-control"
 					placeholder="ENTER MINIMUM OPENING BALANCE" />
 			</div>
 		</div>
 
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
-				<label>RESERVED FUNDS</label> <input type="text" id="reservedFunds"
+				<label>RESERVED FUNDS</label>
+				<input type="number" id="reservedFunds" class="form-control"
 					placeholder="ENTER RESERVED FUNDS" />
 			</div>
 		</div>
 
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
-				<label>MESSAGING FEES</label> <input type="text" id="messagingFees"
-					placeholder="ENTER MESSAGING FEES" />
-			</div>
-		</div>
-
-		<div class="col-lg-3">
-			<div class="d-flex flex-column formFields mb-4">
-				<label>MESSAGING INTERVAL</label> <select id="messagingInterval"
-					class="form-control">
+				<label>MESSAGING FEES</label>
+				<select id="messagingFees" class="form-control" required>
 					<option value="">SELECT</option>
-					<option value="Monthly">MONTHLY</option>
+					<option value="YES">YES</option>
+					<option value="NO">NO</option>
 				</select>
 			</div>
 		</div>
 
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
-				<label>MONTHLY FREE IFSC</label> <input type="text"
-					id="monthlyFreeIFSCTransactions"
+				<label>MESSAGING INTERVAL</label>
+				<select id="messagingInterval" class="form-control">
+					<option value="">SELECT</option>
+					<option value="MONTHLY">MONTHLY</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="col-lg-3">
+			<div class="d-flex flex-column formFields mb-4">
+				<label>MONTHLY FREE IFSC</label>
+				<input type="number" id="monthlyFreeIFSC"
+					class="form-control"
 					placeholder="ENTER MONTHLY FREE IFSC" />
 			</div>
 		</div>
 
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
-				<label>FREE MONEY TRANSFERS</label> <input type="text"
-					id="freeMoneyTransfers" placeholder="ENTER FREE MONEY TRANSFERS" />
+				<label>FREE MONEY TRANSFERS</label>
+				<input type="number" id="freeMoneyTransfers"
+					class="form-control"
+					placeholder="ENTER FREE MONEY TRANSFERS" />
 			</div>
 		</div>
 
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
-				<label>LIMIT PER TRANSACTION</label> <input type="text"
-					id="limitperTransaction" placeholder="ENTER LIMIT PER TRANSACTION" />
+				<label>LIMIT PER TRANSACTION</label>
+				<input type="number" id="limitPerTransaction"
+					class="form-control"
+					placeholder="ENTER LIMIT PER TRANSACTION" />
 			</div>
 		</div>
 
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
-				<label>DAILY LIMIT</label> <input type="text" id="dailyLimit"
+				<label>DAILY LIMIT</label>
+				<input type="number" id="dailyLimit" class="form-control"
 					placeholder="ENTER DAILY LIMIT" />
 			</div>
 		</div>
 
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
-				<label>WEEKLY LIMIT</label> <input type="text" id="weeklyLimit"
+				<label>WEEKLY LIMIT</label>
+				<input type="number" id="weeklyLimit" class="form-control"
 					placeholder="ENTER WEEKLY LIMIT" />
 			</div>
 		</div>
 
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
-				<label>MONTHLY LIMIT</label> <input type="text" id="monthlyLimit"
+				<label>MONTHLY LIMIT</label>
+				<input type="number" id="monthlyLimit" class="form-control"
 					placeholder="ENTER MONTHLY LIMIT" />
 			</div>
 		</div>
 
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
-				<label>SERVICE FEE</label> <input type="text" id="serviceFee"
+				<label>SERVICE FEE</label>
+				<input type="number" id="serviceFee" class="form-control"
 					placeholder="ENTER SERVICE FEE" />
 			</div>
 		</div>
 
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
-				<label>BILLING CYCLE</label> <select id="billingCycle"
-					class="form-control">
+				<label>BILLING CYCLE</label>
+				<select id="billingCycle" class="form-control">
 					<option value="">SELECT</option>
-					<option value="Daily">DAILY</option>
-					<option value="Weekly">WEEKLY</option>
-					<option value="Monthly">MONTHLY</option>
-					<option value="Yearly">YEARLY</option>
+					<option value="DAILY">DAILY</option>
+					<option value="WEEKLY">WEEKLY</option>
+					<option value="MONTHLY">MONTHLY</option>
+					<option value="YEARLY">YEARLY</option>
 				</select>
 			</div>
 		</div>
 
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
-				<label>CARD FEE</label> <input type="text" id="cardFee"
+				<label>CARD FEE</label>
+				<input type="number" id="cardFee" class="form-control"
 					placeholder="ENTER CARD FEE" />
 			</div>
 		</div>
 
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
-				<label>MONTHLY CARD LIMIT</label> <input type="text"
-					id="monthlyCardLimit" placeholder="MONTHLY CARD LIMIT" />
+				<label>MONTHLY CARD LIMIT</label>
+				<input type="number" id="monthlyCardLimit"
+					class="form-control"
+					placeholder="MONTHLY CARD LIMIT" />
 			</div>
 		</div>
 
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
-				<label>YEARLY CARD LIMIT</label> <input type="text"
-					id="yearlyCardLimit" placeholder="YEARLY CARD LIMIT" />
+				<label>YEARLY CARD LIMIT</label>
+				<input type="number" id="yearlyCardLimit"
+					class="form-control"
+					placeholder="YEARLY CARD LIMIT" />
 			</div>
 		</div>
 

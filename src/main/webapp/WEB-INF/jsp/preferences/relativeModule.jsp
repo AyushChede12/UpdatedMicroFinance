@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Preferences</h1>
+	<h1>PREFERENCES</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-gear"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Relative Module</li>
+			<li class="breadcrumb-item action">RELATIVE MODULE</li>
 		</ol>
 	</nav>
 </div>
@@ -16,7 +16,7 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Relative</li>
+					<li class="breadcrumb-item action">ENTER RELATION</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -45,9 +45,9 @@
               </div> -->
 					<input type="hidden" name="id" id="id">
 					<div class="d-flex flex-column formFields">
-						<label for="">Add Relation <span class="star">*</span></label> <input
+						<label for="">ADD RELATION <span class="star">*</span></label> <input
 							type="text" name="relation" id="relation"
-							placeholder="Enter Relation" style="text-transform: uppercase;" />
+							placeholder="ENTER RELATION" style="text-transform: uppercase;" />
 						<small id="chkrelation" style="color: red;"></small>
 					</div>
 				</div>
@@ -55,9 +55,9 @@
 				<div class="row" style="margin-top: 15px; margin-left: 10px;">
 					<div class="col-12 text-center">
 						<button type="button" id="saveBtn" class="btnStyle bg-warning"
-							onclick="saveRelative()">Add</button>
+							onclick="saveRelative()">ADD</button>
 						<button type="button" id="updateBtn" class="btnStyle bg-success"
-							onclick="updateRelative()">Update</button>
+							onclick="updateRelative()">UPDATE</button>
 					</div>
 				</div>
 
@@ -69,14 +69,6 @@
                             </div>
                         </div> -->
 
-
-
-
-
-
-
-
-
 			</div>
 
 
@@ -87,16 +79,16 @@
 
 							<div class="card-body table-responsive">
 								<h5 class="card-title">
-									Relative Details <span>| Table View</span>
+									RELATIVE DETAILS <span>| TABLE VIEW</span>
 								</h5>
 
 								<table class="table table-borderless datatable overflow-scroll">
 									<thead class="table-light">
 										<tr style="font-family: 'Poppins', sans-serif;">
-											<th scope="col">Sr No</th>
-											<th scope="col">Relation</th>
-											<th scope="col">Edit</th>
-											<th scope="col">Delete</th>
+											<th scope="col">SR NO</th>
+											<th scope="col">RELATION</th>
+											<th scope="col">EDIT</th>
+											<th scope="col">DELETE</th>
 										</tr>
 									</thead>
 									<tbody id="tableBody">

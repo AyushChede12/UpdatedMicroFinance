@@ -1,9 +1,3 @@
-$(document).ready(function() {
-	alert("vfv");
-	// Fetch all customers and populate the "select by code" dropdown
-	
-
-});
 
 function fetchBySelectedCustomer() {
 	const memberCode = $("#selectByCode").val();
@@ -52,7 +46,8 @@ function fetchBySelectedCustomer() {
 				const baseUrl = window.location.origin + "/Uploads/";
 				$("#photoPreview").attr("src", c.customerPhoto ? baseUrl + c.customerPhoto : baseUrl + "default-placeholder.jpg");
 				$("#signaturePreview").attr("src", c.customerSignature ? baseUrl + c.customerSignature : baseUrl + "default-placeholder.jpg");
-
+				//$("#signaturePreview").attr("src", c.customerSignature ? baseUrl + c.customerSignature : baseUrl + "default-placeholder.jpg");
+				//$("#signaturePreview").attr("src", c.customerSignature ? baseUrl + c.customerSignature : baseUrl + "default-placeholder.jpg");
 
 				// ⭐ BUTTON STATUS ⭐
 				if (c.verified === true) {
@@ -66,7 +61,7 @@ function fetchBySelectedCustomer() {
 						"padding": "8px 15px",
 						"border-radius": "6px",
 						"cursor": "not-allowed"
-					}).text("Verified")
+					}).text("VERIFIED")
 						.prop("disabled", true);
 
 				} else {
@@ -80,7 +75,7 @@ function fetchBySelectedCustomer() {
 						"padding": "8px 15px",
 						"border-radius": "6px",
 						"cursor": "pointer"
-					}).text("Click Here to Authenticate Complete")
+					}).text("CLICK HERE TO AUTHENTICATE COMPLETE")
 						.prop("disabled", false);
 				}  // ← THIS CLOSING BRACE WAS MISSING!!
 
@@ -183,3 +178,40 @@ function verifyFetchedData() {
 			alert("Something went wrong while verifying.");
 		});
 }
+
+$(document).ready(function () {
+	$.ajax({
+	    url: "api/customermanagement/approved",
+	    method: "GET",
+	    success: function(response) {
+	        if (response.status === "OK") {
+
+	            let dropdown = $("#selectByCode");
+	            dropdown.empty(); // Clear old options
+	            dropdown.append(`<option value="">-- Select Customer --</option>`);
+
+	            response.data.forEach(function(item) {
+	                let fullName = [
+	                    item.firstName,
+	                    item.middleName,
+	                    item.lastName
+	                ].filter(Boolean).join(" ");
+	                
+	                let optionHtml = `
+	                    <option value="${item.memberCode}">
+	                        ${item.memberCode} - ${fullName}
+	                    </option>
+	                `;
+
+	                dropdown.append(optionHtml);
+	            });
+	        } else {
+	            console.warn("Unexpected response:", response);
+	        }
+	    },
+	    error: function(err) {
+	        console.error("Error fetching customers:", err);
+	    }
+	});
+});
+

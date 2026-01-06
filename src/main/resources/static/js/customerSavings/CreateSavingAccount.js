@@ -1,6 +1,98 @@
 //shubham kewat
 //fetch Policy Name
+document.getElementById("newPhoto").addEventListener("click", function() {
+	document.getElementById("newPhotoFile").click();
+});
+
+document.getElementById("newPhotoFile").addEventListener("change", function() {
+	const file = this.files[0];
+	const error = document.getElementById("chknewPhoto");
+
+	if (!file) {
+		error.innerText = "Please select photo";
+		return;
+	}
+
+	if (!file.type.startsWith("image/")) {
+		error.innerText = "Only image files allowed";
+		this.value = "";
+		return;
+	}
+
+	const reader = new FileReader();
+	reader.onload = function(e) {
+		document.getElementById("newPhoto").src = e.target.result;
+		error.innerText = "";
+	};
+	reader.readAsDataURL(file);
+});
+
+
+// -------- SIGNATURE --------
+document.getElementById("newSignature").addEventListener("click", function() {
+	document.getElementById("newSignatureFile").click();
+});
+
+document.getElementById("newSignatureFile").addEventListener("change", function() {
+	const file = this.files[0];
+	const error = document.getElementById("chknewSignature");
+
+	if (!file) {
+		error.innerText = "Please select signature";
+		return;
+	}
+
+	if (!file.type.startsWith("image/")) {
+		error.innerText = "Only image files allowed";
+		this.value = "";
+		return;
+	}
+
+	const reader = new FileReader();
+	reader.onload = function(e) {
+		document.getElementById("newSignature").src = e.target.result;
+		error.innerText = "";
+	};
+	reader.readAsDataURL(file);
+});
+document.getElementById("jointPhoto").addEventListener("click", function() {
+	document.getElementById("jointPhotoFile").click();
+});
+
+/* When file selected */
+document.getElementById("jointPhotoFile").addEventListener("change", function() {
+	const file = this.files[0];
+	const errorMsg = document.getElementById("chkjointPhoto");
+
+	if (!file) {
+		errorMsg.innerText = "Please select joint photo";
+		return;
+	}
+
+	/* Validate image type */
+	if (!file.type.startsWith("image/")) {
+		errorMsg.innerText = "Only image files are allowed";
+		this.value = "";
+		return;
+	}
+
+	/* Validate image size (2MB) */
+	if (file.size > 2 * 1024 * 1024) {
+		errorMsg.innerText = "Image size must be less than 2MB";
+		this.value = "";
+		return;
+	}
+
+	/* Preview image */
+	const reader = new FileReader();
+	reader.onload = function(e) {
+		document.getElementById("jointPhoto").src = e.target.result;
+		errorMsg.innerText = "";
+	};
+	reader.readAsDataURL(file);
+});
 $(document).ready(function() {
+	$("#myJointPhoto").hide();
 	$.ajax({
 		url: "api/customersavings/fetchsavingchemecatalog",
 		type: "GET",
@@ -52,32 +144,39 @@ $('#selectPlan').on('change', function() {
 });
 
 
-
-//janvi : Customer name list fetch
 $(document).ready(function() {
-	// Fetch all customers and populate the "select by code" dropdown
+
 	$.ajax({
-		url: '/api/customermanagement/approved', // Make sure this path is correct
+		url: '/api/customermanagement/approved',
 		type: 'GET',
 		success: function(response) {
 			if (response.status === "OK" && Array.isArray(response.data)) {
+
 				const $select = $('#selectByCustomer');
 				const $select1 = $('#jointOperationCode');
+
 				$select.empty().append('<option value="">Select</option>');
 				$select1.empty().append('<option value="">Select</option>');
 
 				response.data.forEach(customer => {
-					if (customer.customerName && customer.memberCode) {
-						const optionText = `${customer.customerName} - ${customer.memberCode}`;
-						const optionValue = customer.memberCode; // or use customer.id or full object if needed
+
+					// Build customer full name
+					const fullName = [
+						customer.firstName,
+						customer.middleName,
+						customer.lastName
+					].filter(Boolean).join(" ");
+
+					// Only add if name & code exist
+					if (fullName && customer.memberCode) {
+						const optionText = `${fullName} - ${customer.memberCode}`;
+						const optionValue = customer.memberCode;
+
 						$select.append(`<option value="${optionValue}">${optionText}</option>`);
-					}
-					if (customer.customerName && customer.memberCode) {
-						const optionText = `${customer.memberCode}`;
-						const optionValue = customer.memberCode; // or use customer.id or full object if needed
-						$select1.append(`<option value="${optionValue}">${optionText}</option>`);
+						$select1.append(`<option value="${optionValue}">${customer.memberCode}</option>`);
 					}
 				});
+
 			} else {
 				alert("No approved customers found.");
 			}
@@ -89,29 +188,28 @@ $(document).ready(function() {
 });
 
 
+
 //Member Code fetch in Customer Name 
 
-$('#selectByCustomer').on('change', function () {
+$('#selectByCustomer').on('change', function() {
+	let selectedCode = $(this).val();
 
-    let selectedCode = $(this).val();
-
-    if (selectedCode !== "") {
-
-        $.ajax({
-            url: 'api/customersavings/fetchCustomerByCode',
-            type: 'POST',
-            contentType: 'application/json',
-            dataType: 'json',
-            data: JSON.stringify({
-                memberCode: selectedCode
-            }),
-
-            success: function (response) {
+	if (selectedCode !== "") {
+		$.ajax({
+			url: 'api/customersavings/fetchCustomerCode',
+			type: 'POST',
+			contentType: 'application/json',
+			data: JSON.stringify({ memberCode: selectedCode }),
+			success: function(response) {
 				if (response.status === "FOUND") {
 					let customer = response.data[0];
-
-					// Fill the fields
-					$('#enterCustomerName').val(customer.customerName);
+					// Build full name
+					const fullName = [
+						customer.firstName,
+						customer.middleName,
+						customer.lastName
+					].filter(Boolean).join(" ");
+					$('#enterCustomerName').val(fullName);
 					$('#familyDetails').val(customer.guardianName);
 					$('#contactNumber').val(customer.contactNo);
 					$('#suggestedNomineeName').val(customer.nomineeName);
@@ -121,40 +219,34 @@ $('#selectByCustomer').on('change', function () {
 					$('#district').val(customer.district);
 					$('#branchName').val(customer.branchName);
 					$('#pinCode').val(customer.pinCode);
+					$('#district').val(customer.district);
 					$('#state').val(customer.state);
 					$('#dateOfBirth').val(customer.dob);
 					$('#emailId').val(customer.emailId);
 					$('#aadharNo').val(customer.aadharNo);
-
-					// Make all fetched fields readonly
-					$('#enterCustomerName, #familyDetails, #contactNumber, #suggestedNomineeName, #suggestedNomineeAge, #suggestedNomineeRelation, #address, #district, #branchName, #pinCode, #state, #dateOfBirth, #emailId, #aadharNo')
-					.prop("readonly", true);
-
 					//photo
 					if (customer.customerPhoto) {
-						const imagePath = `Uploads/${customer.customerPhoto}`;
-						document.getElementById("photo").src = imagePath;
-						document.getElementById("photoHidden").value = customer.customerPhoto;
+						const imagePath = `Uploads/${customer.customerPhoto}`; // Construct full image path
+						document.getElementById("photo").src = imagePath; // Set image source
+						document.getElementById("photoHidden").value = customer.customerPhoto; // Set hidden input value
 					} else {
-						document.getElementById("photo").src = 'Uploads/upload.jpg';
-						document.getElementById("photoHidden").value = '';
+						document.getElementById("photo").src = 'Uploads/upload.jpg'; // Default placeholder
+						document.getElementById("photoHidden").value = ''; // Clear hidden input value
 					}
 					//signature
 					if (customer.customerSignature) {
-						const imagePath = `Uploads/${customer.customerSignature}`;
-						document.getElementById("signature").src = imagePath;
-						document.getElementById("signatureHidden").value = customer.customerSignature;
+						const imagePath = `Uploads/${customer.customerSignature}`; // Construct full image path
+						document.getElementById("signature").src = imagePath; // Set image source
+						document.getElementById("signatureHidden").value = customer.customerSignature; // Set hidden input value
 					} else {
-						document.getElementById("signature").src = 'Uploads/upload.jpg';
-						document.getElementById("signatureHidden").value = '';
+						document.getElementById("signature").src = 'Uploads/upload.jpg'; // Default placeholder
+						document.getElementById("signatureHidden").value = ''; // Clear hidden input value
 					}
 				} else {
 					alert('No customer data found!');
-
-					// Clear values and remove readonly
-					$('#enterCustomerName, #familyDetails, #contactNumber, #suggestedNomineeName, #suggestedNomineeAge, #suggestedNomineeRelation, #address, #district, #branchName, #pinCode, #state, #dateOfBirth, #emailId, #aadharNo')
-					.prop("readonly", false)
-					.val('');
+					$('#enterCustomerName').val('');
+					$('#previousShareCount').val('');
+					//$('#panCardNumber').val('');
 				}
 			},
 			error: function() {
@@ -162,12 +254,12 @@ $('#selectByCustomer').on('change', function () {
 			}
 		});
 	} else {
-		// Clear values and remove readonly if dropdown is empty
-		$('#enterCustomerName, #familyDetails, #contactNumber, #suggestedNomineeName, #suggestedNomineeAge, #suggestedNomineeRelation, #address, #district, #branchName, #pinCode, #state, #dateOfBirth, #emailId, #aadharNo')
-		.prop("readonly", false)
-		.val('');
+		$('#enterCustomerName').val('');
+		$('#previousShareCount').val('');
+		$('#panCardNumber').val('');
 	}
 });
+
 
 //fetch only customer name on cahnge in dropdown
 $('#jointOperationCode').on('change', function() {
@@ -175,7 +267,7 @@ $('#jointOperationCode').on('change', function() {
 
 	if (selectedCode !== "") {
 		$.ajax({
-			url: 'api/customersavings/fetchCustomerByCode',
+			url: 'api/customersavings/fetchCustomerCode',
 			type: 'POST',
 			contentType: 'application/json',
 			data: JSON.stringify({ memberCode: selectedCode }),
@@ -214,7 +306,7 @@ $('#financialConsultantCode').on('blur', function() {
 
 	if (selectedCode !== "") {
 		$.ajax({
-			url: 'api/customersavings/fetchfinancialcode?financialCode=' + encodeURIComponent(selectedCode),
+			url: 'api/customersavings/fetchfinancialcode?financialCode=' + encodeURIComponent(selectedCode), // Pass as query param
 			type: 'GET',
 			success: function(response) {
 				if (response.status === "FOUND") {
@@ -250,84 +342,137 @@ $(document).ready(function() {
 	$('#signatureHidden').val(imageName1);
 
 	// Ensure the hidden input is updated with the image file name
-	let imageSrc2 = $('#jointPhoto').attr('src');
+	/*let imageSrc2 = $('#jointPhoto').attr('src');
 	let imageName2 = imageSrc2.split('/').pop(); // Extract the file name
 	$('#jointPhotoHidden').val(imageName2);
+
+	let imageSrc3 = $('#newPhoto').attr('src');
+	let imageName3 = imageSrc2.split('/').pop(); // Extract the file name
+	$('#newPhotoHidden').val(imageName3);
+
+	let imageSrc4 = $('#newSignature').attr('src');
+	let imageName4 = imageSrc2.split('/').pop(); // Extract the file name
+	$('#newSignatureHidden').val(imageName4);*/
+
+
+
 
 	$('#saveBtn').click(function(event) {
 		event.preventDefault();
 
-		// ------------ REQUIRED FIELD VALIDATION ------------
-		if ($("#selectByCustomer").val().trim() === "") {
-			alert("Please select customer first!");
-			return;
-		}
-		if ($("#enterCustomerName").val().trim() === "") {
-			alert("Please enter customer name!");
-			return;
-		}
-		if ($("#contactNumber").val().trim() === "") {
-			alert("Please enter contact number!");
-			return;
-		}
-		if ($("#aadharNo").val().trim() === "") {
-			alert("Please enter Aadhar Number!");
-			return;
-		}
-		if ($("#openingDate").val().trim() === "") {
-			alert("Please select opening date!");
-			return;
-		}
-		// Add more fields if needed...
+		// Update the hidden input with the current file name from the image
+		let updatedImageSrc = $('#photo').attr('src');
+		let updatedImageName = updatedImageSrc.split('/').pop(); // Extract the file name
+		$('#photoHidden').val(updatedImageName);
 
-		// ------------ HIDDEN IMAGES UPDATE ------------
-		$('#photoHidden').val($('#photo').attr('src').split('/').pop());
-		$('#signatureHidden').val($('#signature').attr('src').split('/').pop());
-		$('#jointPhotoHidden').val($('#jointPhoto').attr('src').split('/').pop());
+		// Update the hidden input with the current file name from the image
+		let updatedImageSrc1 = $('#signature').attr('src');
+		let updatedImageName1 = updatedImageSrc1.split('/').pop(); // Extract the file name
+		$('#signatureHidden').val(updatedImageName1);
 
-		// ------------ CREATE FORMDATA ------------
+	/*	// Update the hidden input with the current file name from the image
+		let updatedImageSrc2 = $('#jointPhoto').attr('src');
+		let updatedImageName2 = updatedImageSrc2.split('/').pop(); // Extract the file name
+		$('#jointPhotoHidden').val(updatedImageName2);
+
+		let updatedImageSrc3 = $('#newPhoto').attr('src');
+		let updatedImageName3 = updatedImageSrc3.split('/').pop(); // Extract the file name
+		$('#newPhotoHidden').val(updatedImageName3);
+
+
+		let updatedImageSrc4 = $('#newSignature').attr('src');
+		let updatedImageName4 = updatedImageSrc4.split('/').pop(); // Extract the file name
+		$('#newSignatureHidden').val(updatedImageName4);*/
+		const jointPhoto = $('#jointPhoto')[0].files[0];
+		const newPhoto = $('#newPhoto')[0].files[0];
+		const newSignature = $('#newSignature')[0].files[0];
 		const formData = new FormData();
 
-		const fields = [
-			"typeofaccount", "openingDate", "selectByCustomer", "enterCustomerName",
-			"dateOfBirth", "familyDetails", "contactNumber", "suggestedNomineeName",
-			"suggestedNomineeAge", "suggestedNomineeRelation", "address", "district",
-			"branchName", "state", "pinCode", "operationType", "jointOperationCode",
-			"jointSurvivorCode", "familyRelation", "selectPlan",
-			"financialConsultantCode", "financialConsultantName", "balance",
-			"emailId", "aadharNo", "authenticateWith", "modeOfPayment",
-			"chequeNo", "chequeDate", "depositAcc1", "refNumber1", "depositAcc2",
-			"refNumber2", "depositAcc3", "comment", "accountNumber"
-		];
+		formData.append("typeofaccount", $('#typeofaccount').val());
+		formData.append("openingDate", $('#openingDate').val());
+		formData.append("selectByCustomer", $('#selectByCustomer').val());
+		formData.append("enterCustomerName", $('#enterCustomerName').val());
+		formData.append("dateOfBirth", $('#dateOfBirth').val());
+		formData.append("familyDetails", $('#familyDetails').val());
+		formData.append("contactNumber", $('#contactNumber').val());
+		formData.append("suggestedNomineeName", $('#suggestedNomineeName').val());
+		formData.append("suggestedNomineeAge", $('#suggestedNomineeAge').val());
+		formData.append("suggestedNomineeRelation", $('#suggestedNomineeRelation').val());
+		formData.append("address", $('#address').val());
+		formData.append("district", $('#district').val());
+		formData.append("branchName", $('#branchName').val());
+		formData.append("state", $('#state').val());
+		formData.append("pinCode", $('#pinCode').val());
+		formData.append("operationType", $('#operationType').val());
+		formData.append("jointOperationCode", $('#jointOperationCode').val());
+		formData.append("jointSurvivorCode", $('#jointSurvivorCode').val());
+		formData.append("familyRelation", $('#familyRelation').val());
+		formData.append("selectPlan", $('#selectPlan').val());
+		formData.append("balance", $('#balance').val());
+		formData.append("financialConsultantCode", $('#financialConsultantCode').val());
+		formData.append("financialConsultantName", $('#financialConsultantName').val());
+		formData.append("openingFees", $('#openingFees').val());
+		formData.append("emailId", $('#emailId').val());
+		formData.append("aadharNo", $('#aadharNo').val());
+		formData.append("authenticateWith", $('#authenticateWith').val());
+		formData.append("modeOfPayment", $('#modeOfPayment').val());
+		formData.append("chequeNo", $('#chequeNo').val());
+		formData.append("chequeDate", $('#chequeDate').val());
+		formData.append("depositAcc1", $('#depositAcc1').val());
+		formData.append("refNumber1", $('#refNumber1').val());
+		formData.append("depositAcc2", $('#depositAcc2').val());
+		formData.append("refNumber2", $('#refNumber2').val());
+		formData.append("depositAcc3", $('#depositAcc3').val());
+		formData.append("comment", $('#comment').val());
+		formData.append("accountNumber", $('#accountNumber').val());
+		formData.append("accountStatus", $('#toggle-member-status').is(':checked') ? 1 : 0);
+		formData.append("messageSend", $('#toggle-member-status1').is(':checked') ? 1 : 0);
+		formData.append("debitCardIssue", $('#toggle-member-status2').is(':checked') ? 1 : 0);
+		formData.append("isLocker", $('#toggle-member-status3').is(':checked') ? 1 : 0);
+		formData.append("accountFreeze", $('#toggle-account-freeze').is(':checked') ? 1 : 0);
 
-		fields.forEach(f => formData.append(f, $('#' + f).val()));
-
-		// Checkbox toggles
-		formData.append("accountStatus", $('#toggle-member-status').is(":checked") ? 1 : 0);
-		formData.append("messageSend", $('#toggle-member-status1').is(":checked") ? 1 : 0);
-		formData.append("debitCardIssue", $('#toggle-member-status2').is(":checked") ? 1 : 0);
-		formData.append("isLocker", $('#toggle-member-status3').is(":checked") ? 1 : 0);
-
-		// Image values
+		// Append the extracted photoWithAadhar file name
 		formData.append("photo", $('#photoHidden').val());
-		formData.append("signature", $('#signatureHidden').val());
-		formData.append("jointPhoto", $('#jointPhotoHidden').val());
 
-		// ------------ AJAX SAVE CALL ------------
+		// Append the extracted photoWithAadhar file name
+		formData.append("signature", $('#signatureHidden').val());
+
+		if (jointPhoto) formData.append("jointPhoto", jointPhoto);
+		if (newPhoto) formData.append("newPhoto", newPhoto);
+		if (newSignature) formData.append("newSignature", newSignature);
+
+		// Append files (photo and signature)
+		/*const photo = $('#photo')[0].files[0];
+		const signature = $('#signature')[0].files[0];
+
+		if (photo) {
+			formData.append("photo", photo);
+		}
+		if (signature) {
+			formData.append("signature", signature);
+		}
+*/
+		// Debug: Log all key-value pairs from FormData
+		for (let pair of formData.entries()) {
+			if (!pair[1]) {
+				console.warn(`⚠️ Field "${pair[0]}" is EMPTY or NULL ->`, pair[1]);
+			} else {
+				console.log(`✅ ${pair[0]}:`, pair[1]);
+			}
+		}
 		$.ajax({
-			type: "POST",
-			url: "api/customersavings/saveandupdatesavingaccount",
+			type: 'POST',
+			url: 'api/customersavings/saveandupdatesavingaccount',
 			data: formData,
 			processData: false,
 			contentType: false,
-
 			success: function(response) {
 				alert("Saving Account data saved successfully!\nAccount No : " + $('#accountNumber').val());
 				location.reload();
 			},
-
 			error: function(xhr) {
-				alert("Customer already exists in saving account.");
+				console.error('Error:', xhr.responseText);
+				alert('Customer already exists in saving account.');
 			}
 		});
 	});
@@ -349,15 +494,13 @@ $(document).ready(function() {
 									<td>${(item.typeofaccount).toUpperCase()}</td>
 			                        <td>${item.selectByCustomer}</td>
 			                        <td>${(item.enterCustomerName).toUpperCase()}</td>
-									<td>${item.contactNumber}</td>
+									<td>${(item.contactNumber).toUpperCase()}</td>
 									<td>${(item.branchName).toUpperCase()}</td>
 									<td>${(item.address).toUpperCase()}</td>
 									<td>${(item.district).toUpperCase()}</td>
 									<td>${(item.state).toUpperCase()}</td>
 									<td><button class="iconbutton" onclick="viewData(${item.id})" title="View"><i class="fa-solid fa-pen-to-square text-primary"></i></button></td>
-									<td>									<button class="iconbutton" onclick="deleteData(${item.id}, this)" title="Delete">
-									       <i class="fa-solid fa-trash text-danger"></i>
-									   </button></td>
+									<td><button class="iconbutton" onclick="deleteData(${item.id})" title="Delete"><i class="fa-solid fa-trash text-danger"></i></button></td>
 			                    </tr>`;
 					tableBody.append(row);
 				});
@@ -372,143 +515,131 @@ $(document).ready(function() {
 });
 
 function viewData(id) {
-    $.ajax({
-        url: "api/customersavings/getSavingAccountDataById",
-        type: "GET",
-        data: { id: id },
-        success: function(response) {
-            if (response.status == "FOUND") {
-                const data = response.data;
+	$.ajax({
+		url: "api/customersavings/getSavingAccountDataById",
+		type: "GET",
+		data: { id: id },
+		success: function(response) {
+			if (response.status == "FOUND") {
+				const data = response.data;
+				$("#id").val(data.id);
+				$("#openingDate").val(data.openingDate);
+				$("#selectByCustomer").val(data.selectByCustomer);
+				$("#enterCustomerName").val(data.enterCustomerName);
+				$("#dateOfBirth").val(data.dateOfBirth);
+				$("#familyDetails").val(data.familyDetails);
+				$("#contactNumber").val(data.contactNumber);
+				$("#suggestedNomineeName").val(data.suggestedNomineeName);
+				$("#suggestedNomineeAge").val(data.suggestedNomineeAge);
+				$("#suggestedNomineeRelation").val(data.suggestedNomineeRelation);
+				$("#address").val(data.address);
+				$("#district").val(data.district);
+				$("#branchName").val(data.branchName);
+				$("#state").val(data.state);
+				$("#pinCode").val(data.pinCode);
+				$("#operationType").val(data.operationType);
+				$("#jointOperationCode").val(data.jointOperationCode);
+				$("#jointSurvivorCode").val(data.jointSurvivorCode);
+				$("#familyRelation").val(data.familyRelation);
+				$("#selectPlan").val(data.selectPlan);
+				$("#balance").val(data.balance);
+				$("#financialConsultantCode").val(data.financialConsultantCode);
+				$("#financialConsultantName").val(data.financialConsultantName);
+				$("#openingFees").val(data.openingFees);
+				$("#emailId").val(data.emailId);
+				$("#aadharNo").val(data.aadharNo);
+				$("#authenticateWith").val(data.authenticateWith);
+				$("#modeOfPayment").val(data.modeOfPayment);
+				$("#chequeNo").val(data.chequeNo);
+				$("#chequeDate").val(data.chequeDate);
+				$("#depositAcc1").val(data.depositAcc1);
+				$("#depositAcc2").val(data.depositAcc2);
+				$("#refNumber1").val(data.refNumber1);
+				$("#depositAcc3").val(data.depositAcc3);
+				$("#refNumber2").val(data.refNumber2);
+				$("#comment").val(data.comment);
+				//$("#messageSend").val(data.messageSend);
+				//$("#debitCardIssue").val(data.debitCardIssue);
+				$("#accountNumber").val(data.accountNumber);
 
-                $("#id").val(data.id);
-                $("#openingDate").val(data.openingDate);
-                $("#selectByCustomer").val(data.selectByCustomer);
-                $("#enterCustomerName").val(data.enterCustomerName);
-                $("#dateOfBirth").val(data.dateOfBirth);
-                $("#familyDetails").val(data.familyDetails);
-                $("#contactNumber").val(data.contactNumber);
-                $("#suggestedNomineeName").val(data.suggestedNomineeName);
-                $("#suggestedNomineeAge").val(data.suggestedNomineeAge);
-                $("#suggestedNomineeRelation").val(data.suggestedNomineeRelation);
-                $("#address").val(data.address);
-                $("#district").val(data.district);
-                $("#branchName").val(data.branchName);
-                $("#state").val(data.state);
-                $("#pinCode").val(data.pinCode);
-                $("#operationType").val(data.operationType);
-                $("#jointOperationCode").val(data.jointOperationCode);
-                $("#jointSurvivorCode").val(data.jointSurvivorCode);
-                $("#familyRelation").val(data.familyRelation);
-                $("#selectPlan").val(data.selectPlan);
-                $("#balance").val(data.balance);
-                $("#financialConsultantCode").val(data.financialConsultantCode);
-                $("#financialConsultantName").val(data.financialConsultantName);
-                $("#emailId").val(data.emailId);
-                $("#aadharNo").val(data.aadharNo);
-                $("#authenticateWith").val(data.authenticateWith);
-                $("#modeOfPayment").val(data.modeOfPayment);
-                $("#chequeNo").val(data.chequeNo);
-                $("#chequeDate").val(data.chequeDate);
-                $("#depositAcc1").val(data.depositAcc1);
-                $("#depositAcc2").val(data.depositAcc2);
-                $("#refNumber1").val(data.refNumber1);
-                $("#depositAcc3").val(data.depositAcc3);
-                $("#refNumber2").val(data.refNumber2);
-                $("#comment").val(data.comment);
-                $("#accountNumber").val(data.accountNumber);
+				if (data.photo) {
+					const imagePath = `Uploads/${data.photo}`; // Construct full image path
+					document.getElementById("photo").src = imagePath; // Set image source
+					document.getElementById("photoHidden").value = data.photo; // Set hidden input value
+				} else {
+					document.getElementById("photo").src = 'Uploads/upload.jpg'; // Default placeholder
+					document.getElementById("photoHidden").value = ''; // Clear hidden input value
+				}
+				//signature
+				if (data.signature) {
+					const imagePath = `Uploads/${data.signature}`; // Construct full image path
+					document.getElementById("signature").src = imagePath; // Set image source
+					document.getElementById("signatureHidden").value = data.signature; // Set hidden input value
+				} else {
+					document.getElementById("signature").src = 'Uploads/upload.jpg'; // Default placeholder
+					document.getElementById("signatureHidden").value = ''; // Clear hidden input value
+				}
+				//Jointphoto
+				if (data.jointPhoto) {
+					const imagePath = `Uploads/${data.jointPhoto}`; // Construct full image path
+					document.getElementById("jointPhoto").src = imagePath; // Set image source
+					document.getElementById("jointPhotoHidden").value = data.jointPhoto; // Set hidden input value
+				} else {
+					document.getElementById("jointPhoto").src = 'Uploads/upload.jpg'; // Default placeholder
+					document.getElementById("jointPhotoHidden").value = ''; // Clear hidden input value
+				}
 
-                // Photo
-                if (data.photo) {
-                    const imagePath = `Uploads/${data.photo}`;
-                    $("#photo").attr("src", imagePath);
-                    $("#photoHidden").val(data.photo);
-                } else {
-                    $("#photo").attr("src", 'Uploads/upload.jpg');
-                    $("#photoHidden").val('');
-                }
-
-                // Signature
-                if (data.signature) {
-                    const imagePath = `Uploads/${data.signature}`;
-                    $("#signature").attr("src", imagePath);
-                    $("#signatureHidden").val(data.signature);
-                } else {
-                    $("#signature").attr("src", 'Uploads/upload.jpg');
-                    $("#signatureHidden").val('');
-                }
-
-                // Joint Photo
-                if (data.jointPhoto) {
-                    const imagePath = `Uploads/${data.jointPhoto}`;
-                    $("#jointPhoto").attr("src", imagePath);
-                    $("#jointPhotoHidden").val(data.jointPhoto);
-                } else {
-                    $("#jointPhoto").attr("src", 'Uploads/upload.jpg');
-                    $("#jointPhotoHidden").val('');
-                }
-
-                // Status Toggles  
-                document.getElementById("toggle-member-status").checked =
-                    data.accountStatus === true || data.accountStatus === '1';
-                document.getElementById("toggle-member-status1").checked =
-                    data.messageSend === true || data.messageSend === '1';
-                document.getElementById("toggle-member-status2").checked =
-                    data.debitCardIssue === true || data.debitCardIssue === '1';
-                document.getElementById("toggle-member-status3").checked =
-                    data.isLocker === true || data.isLocker === '1';
-
-                updateToggleColor(document.getElementById("toggle-member-status"));
-                updateToggleColor(document.getElementById("toggle-member-status1"));
-                updateToggleColor(document.getElementById("toggle-member-status2"));
-                updateToggleColor(document.getElementById("toggle-member-status3"));
-
-                // 👉 SCROLL TO FORM (SMOOTH)
-                document.getElementById("formid").scrollIntoView({
-                    behavior: "smooth",
-                    block: "start"
-                });
-
-            } else {
-                alert("Account not found: " + response.message);
-            }
-        },
-        error: function(xhr) {
-            alert("Request failed: " + xhr.responseText);
-        }
-    });
+				/*let isChecked = data.accountStatus === 1;
+				$("#toggle-member-status").prop('checked', isChecked);
+				let isChecked2 = data.messageSend === 1;
+				$("#toggle-member-status1").prop('checked', isChecked2);
+				let isChecked3 = data.debitCardIssue === 1;
+				$("#toggle-member-status2").prop('checked', isChecked3);*/
+				document.getElementById("toggle-member-status").checked = data.accountStatus === true || data.accountStatus === '1';
+				document.getElementById("toggle-member-status1").checked = data.messageSend === true || data.messageSend === '1';
+				document.getElementById("toggle-member-status2").checked = data.debitCardIssue === true || data.debitCardIssue === '1';
+				document.getElementById("toggle-member-status3").checked = data.isLocker === true || data.isLocker === '1';
+				// Call updateToggleColor manually
+				updateToggleColor(document.getElementById("toggle-member-status"));
+				updateToggleColor(document.getElementById("toggle-member-status1"));
+				updateToggleColor(document.getElementById("toggle-member-status2"));
+				updateToggleColor(document.getElementById("toggle-member-status3"));
+				console.log(data.accountStatus)
+				console.log(data.messageSend)
+				console.log(data.debitCardIssue)
+				console.log(dataisLocker)
+			} else {
+				alert("Account not found: " + response.message);
+			}
+		},
+		error: function(xhr) {
+			alert("Request failed: " + xhr.responseText);
+		}
+	});
 }
 
-function deleteData(id, button) {
+function deleteData(id) {
+	if (confirm("Are you sure you want to delete this branch?")) {
+		$.ajax({
+			url: "api/customersavings/deleteSavingAccountDataById",
+			type: "POST",
+			data: { id: id },
+			success: function(response) {
+				if (response.success) {
+					alert(response.message);
+					location.reload();
+				} else {
+					alert("Delete failed: " + response.message);
+				}
+			},
+			error: function(xhr, status, error) {
+				alert("Failed to delete financial Year.");
+				console.error("Error:", error);
+			}
+		});
+	}
 
-    if (confirm("Are you sure you want to delete this data?")) {
-
-        $.ajax({
-            url: "/api/customersavings/deleteSavingAccountDataById",
-            type: "POST",
-            data: { id: id },
-
-            success: function (response) {
-                console.log("Delete API Response:", response);
-
-                alert(response.message || "Deleted Successfully");
-
-                // Row remove instant
-                if (button) {
-                    $(button).closest('tr').remove();
-                }
-
-                // Force page reload
-                window.location.reload(true);
-            },
-
-            error: function (xhr, status, error) {
-                alert("Error deleting record.");
-                console.error("Error:", error);
-            }
-        });
-    }
 }
-
 
 
 $(document).ready(function() {
@@ -569,6 +700,7 @@ $(document).ready(function() {
 		formData.append("balance", $('#balance').val());
 		formData.append("financialConsultantCode", $('#financialConsultantCode').val());
 		formData.append("financialConsultantName", $('#financialConsultantName').val());
+		formData.append("openingFees", $('#openingFees').val());
 		formData.append("emailId", $('#emailId').val());
 		formData.append("aadharNo", $('#aadharNo').val());
 		formData.append("authenticateWith", $('#authenticateWith').val());
@@ -622,17 +754,7 @@ $(document).ready(function() {
 			processData: false,
 			contentType: false,
 			success: function(response) {
-
-				let id = $('#id').val(); // check if id is present
-
-				if (id === "" || id === null || id === "0") {
-					// 🔵 NEW ACCOUNT SAVED
-					alert("Saving Account Saved Successfully!\nAccount Number : " + $('#accountNumber').val());
-				} else {
-					// 🟢 EXISTING ACCOUNT UPDATED
-					alert("Saving Account Updated Successfully!\nAccount Number : " + $('#accountNumber').val());
-				}
-
+				alert("Saving Account data saved successfully!\nAccount No : " + $('#accountNumber').val());
 				location.reload();
 			},
 			error: function(xhr) {
@@ -641,127 +763,15 @@ $(document).ready(function() {
 			}
 		});
 	});
+
 });
 
-document.addEventListener("DOMContentLoaded", function() {
-	document.getElementById("openingFeesTable").style.display = "none";
-});
-
-document.getElementById("balance").addEventListener("click", function(event) {
-	event.stopPropagation();
-
-	let table = document.getElementById("openingFeesTable");
-	table.style.display = (table.style.display === "none" || table.style.display === "")
-		? "block" : "none";
-});
-
-
-document.getElementById("openingFeesTable").addEventListener("click", function(event) {
-	event.stopPropagation();
-});
-
-
-document.addEventListener("click", function() {
-	document.getElementById("openingFeesTable").style.display = "none";
-});
-
-
-
-function calcOpeningFees() {
-
-	let n2000 = (document.getElementById("qty2000").value || 0) * 2000;
-	let n500 = (document.getElementById("qty500").value || 0) * 500;
-	let n200 = (document.getElementById("qty200").value || 0) * 200;
-	let n100 = (document.getElementById("qty100").value || 0) * 100;
-	let n50 = (document.getElementById("qty50").value || 0) * 50;
-	let n20 = (document.getElementById("qty20").value || 0) * 20;
-	let n10 = (document.getElementById("qty10").value || 0) * 10;
-	let n5 = (document.getElementById("qty5").value || 0) * 5;
-
-	document.getElementById("res2000").innerText = n2000;
-	document.getElementById("res500").innerText = n500;
-	document.getElementById("res200").innerText = n200;
-	document.getElementById("res100").innerText = n100;
-	document.getElementById("res50").innerText = n50;
-	document.getElementById("res20").innerText = n20;
-	document.getElementById("res10").innerText = n10;
-	document.getElementById("res5").innerText = n5;
-
-	let total = n2000 + n500 + n200 + n100 + n50 + n20 + n10 + n5;
-
-	document.getElementById("totalOpening").innerText = total;
-	document.getElementById("balance").value = total;
+function operationTypeFunc() {
+	var operationType = $("#operationType").val();
+	if (operationType === 'Single') {
+		$("#myJointPhoto").hide();
+	}
+	else {
+		$("#myJointPhoto").show();
+	}
 }
-$(document).ready(function() {
-
-
-	$("#jointPhotoDiv").hide();
-
-
-	$("#operationType").on("change", function() {
-		let type = $(this).val();
-
-		if (type === "Joint") {
-			$("#jointPhotoDiv").show();
-		} else {
-			$("#jointPhotoDiv").hide();
-		}
-	});
-
-});
-document.addEventListener("DOMContentLoaded", function() {
-
-	let operationType = document.getElementById("operationType");
-	let jointDiv = document.getElementById("jointOperationCodeDiv");
-	let jointOperationCode = document.getElementById("jointOperationCode");
-
-
-	jointDiv.style.display = "none";
-
-	operationType.addEventListener("change", function() {
-
-		if (operationType.value === "Joint") {
-			jointDiv.style.display = "block";
-			jointOperationCode.disabled = false;
-		} else {
-			jointDiv.style.display = "none";
-			jointOperationCode.disabled = true;
-		}
-	});
-});
-document.getElementById("printBtn").addEventListener("click", function() {
-	window.print();
-});
-
-$(document).ready(function() {
-	// Fetch Financial Consultant Codes on page load                                          
-	fetchFinancialConsultantCodes();
-});
-
-function fetchFinancialConsultantCodes() {
-	$.ajax({
-		url: '/api/financialconsultant/getAllFinancialConsultantCodes', // Controller endpoint
-		type: 'GET',
-		contentType: 'application/json',
-		success: function(response) {
-			if (response.status === 200 && response.data) {
-				// response.data is the list of codes                                         
-				let codes = response.data;
-
-				// Example: Populate a select dropdown with codes                             
-				let dropdown = $("#financialCodeDropdown");
-				dropdown.empty(); // clear existing options                                   
-				dropdown.append("<option value=''>-- Select Code --</option>");
-
-				codes.forEach(function(code) {
-					dropdown.append(`<option value="${code}">${code}</option>`);
-				});
-			} else {
-				console.log("No codes found or error:", response.message);
-			}
-		},
-		error: function(err) {
-			console.error("AJAX error fetching financial codes:", err);
-		}
-	});
-}                                                                                             

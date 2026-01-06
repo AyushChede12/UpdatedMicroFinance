@@ -25,13 +25,13 @@
 }
 </style>
 <div class="pagetitle">
-	<h1>Customer Saving</h1>
+	<h1>SAVING / CURRENT ACCOUNT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-bank text-blue"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Savings PassBook</li>
+			<li class="breadcrumb-item action">SAVINGS RECORD BOOK</li>
 		</ol>
 	</nav>
 </div>
@@ -40,17 +40,17 @@
 <div>
 	<nav>
 		<ol class="breadcrumb breadcrumb-title">
-			<li class="breadcrumb-item action">Search Details</li>
+			<li class="breadcrumb-item action">SEARCH DETAILS</li>
 		</ol>
 	</nav>
 	<div class="row">
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
-				<label for="">Select Account Type</label> <select id="accountType"
+				<label for="">SELECT ACCOUNT TYPE</label> <select id="accountType"
 					class="form-control selectField" style="height: 30px;">
-					<option value="">Select Account</option>
-					<option value="savingaccount">Saving Account</option>
-					<option value="currentaccount">Current Account</option>
+					<option value="">SELECT ACCOUNT</option>
+					<option value="savingaccount">SAVING ACCOUNT</option>
+					<option value="currentaccount">CURRENT ACCOUNT</option>
 
 				</select>
 			</div>
@@ -58,9 +58,9 @@
 
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
-				<label for="">Select Account Number</label> <select id=accountNumber
+				<label for="">SELECT ACCOUNT NUMBER</label> <select id=accountNumber
 					class="form-control selectField" style="height: 30px;">
-					<option value="">Select Account</option>
+					<option value="">SELECT ACCOUNT</option>
 
 				</select>
 			</div>
@@ -75,13 +75,13 @@
 				SEARCH</a> <a id="btnFrontPageOnSavingPassbook"
 				href="javascript:displaySavingfrontPage()"
 				class="btn btn-success margin-20" style="background-color: orange;">
-				Front Page</a> <a id="btnTransactionPageOnSavingPassbook"
+				FRONT PAGE</a> <a id="btnTransactionPageOnSavingPassbook"
 				href="javascript:displaySavingTransaction()"
 				class="btn btn-success margin-20" style="background-color: #87CEEB;">
-				Transaction</a> <a id="btnHeadingOnSavingPassbook"
+				TRANSACTION</a> <a id="btnHeadingOnSavingPassbook"
 				href="javascript:displayHeadingSA()"
 				class="btn btn-success margin-20" style="background-color: #FF4040;">
-				Heading</a>
+				HEADING</a>
 		</div>
 	</div>
 </div>
@@ -90,20 +90,20 @@
 	<div class="col-12" id="tableSection" style="display: none;">
 		<div class="card recent-sales">
 			<div class="card-body table-responsive">
-				<h5 class="card-title">Account Holder Details</h5>
+				<h5 class="card-title">ACCOUNT HOLDER DETAILS</h5>
 
 				<table class="table table-bordered">
 					<thead class="table-light">
 						<tr>
 							<th>ID</th>
-							<th>Branch Name</th>
-							<th>Account No</th>
-							<th>Customer Name</th>
-							<th>Customer Code</th>
-							<th>Mobile No</th>
-							<th>Address</th>
-							<th>Opening Date</th>
-							<th>Opening Balance</th>
+							<th>BRACH NAME</th>
+							<th>ACCOUNT NO</th>
+							<th>CUSTOMER NAME</th>
+							<th>CUSTOMER CODE</th>
+							<th>MOBILE NO</th>
+							<th>ADDRESS</th>
+							<th>OPENING DATE</th>
+							<th>OPENING BALANCE</th>
 						</tr>
 					</thead>
 					<tbody id="customerDetails">
@@ -210,22 +210,22 @@
 		<div id="passbookSection" class="passbookSection"
 			style="display: none;">
 			<div style="width: 100%; margin: auto">
-				<h1>Microfinance Services</h1>
-				<p>Address : Nagpur(440024) - Maharashtra</p>
+				<h1>MICROFINANCE SERVICES</h1>
+				<p>ADDRESS : NAGPUR(440024) - MAHARASHTRA</p>
 				<hr />
 				<div class="d-flex justify-content-between">
 					<p>
-						Customer No. <span id="customerNo"
+						CUSTOMER NO. <span id="customerNo"
 							style="width: 12vw; display: inline-block;"></span>
 					</p>
 					<p>
-						Account No.: <span id="accountNo"
+						ACCOUNT NO.: <span id="accountNo"
 							style="width: 20vw; display: inline-block;"></span>
 					</p>
 				</div>
 				<div class="d-flex justify-content-between">
 					<p>
-						Account Holder Name: <span id="customerName"
+						ACCOUNT HOLDER NAME: <span id="customerName"
 							style="width: 12vw; display: inline-block;"></span>
 					</p>
 					<p>
@@ -235,42 +235,42 @@
 				</div>
 				<div class="d-flex justify-content-between">
 					<p>
-						Date Of Birth: <span id="dateOfBirth"
+						DATE OF BIRTH: <span id="dateOfBirth"
 							style="width: 12vw; display: inline-block;"></span>
 					</p>
 					<p>
-						Contact No.: <span id="contactNo"
+						CONTACT NO.: <span id="contactNo"
 							style="width: 20vw; display: inline-block;"></span>
 					</p>
 				</div>
 				<div class="d-flex justify-content-between">
 					<p>
-						Email ID: <span id="emailId"
+						EMAIL ID: <span id="emailId"
 							style="width: 12vw; display: inline-block;"></span>
 					</p>
 					<p>
-						Mode Of Operation: <span id="operationType"
+						MODE OF OPERATION: <span id="operationType"
 							style="width: 17vw; display: inline-block;"></span>
 					</p>
 				</div>
 				<div class="d-flex justify-content-between">
 					<p>
-						Aadhar No.: <span id="aadharNo"
+						AADHAR NO.: <span id="aadharNo"
 							style="width: 12vw; display: inline-block;"></span>
 					</p>
 					<p>
-						Address: <span id="address"
+						ADDRESS: <span id="address"
 							style="width: 22vw; display: inline-block;"></span>
 					</p>
 				</div>
 				<div class="d-flex justify-content-between">
 
 					<p>
-						Account Type: <span id="typeofaccount"
+						ACCOUNT TYPE: <span id="typeofaccount"
 							style="width: 20vw; display: inline-block;"></span>
 					</p>
 					<p>
-						Date Of Issue: <span id="dateOfIssue"
+						DATE OF ISSUE: <span id="dateOfIssue"
 							style="width: 20vw; display: inline-block;"></span>
 					</p>
 				</div>
@@ -283,7 +283,7 @@
 
 				<div class="d-flex justify-content-between">
 					<p>
-						Branch: <span id="branchName"
+						BRANCH: <span id="branchName"
 							style="width: 12vw; display: inline-block;"></span>
 					</p>
 					<p>
@@ -297,8 +297,8 @@
 
 				<div class="d-flex justify-content-end">
 					<hr style="border-color: black; width: 20vw;">
-					<p style="position: relative; top: 23px; right: 17rem">Authorized
-						Signature</p>
+					<p style="position: relative; top: 23px; right: 17rem">AUTHORIZED
+						SIGNATURE</p>
 				</div>
 			</div>
 		</div>

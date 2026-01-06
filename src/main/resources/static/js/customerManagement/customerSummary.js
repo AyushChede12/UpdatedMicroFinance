@@ -44,7 +44,7 @@ $(document).ready(function() {
 			if (response.status === "OK") {
 				const customerList = response.data;
 				$("#selectMember").empty(); // Clear existing options
-				$("#selectMember").append("<option value=''>-- Select Code --</option>");
+				$("#selectMember").append("<option value=''>-- SELECT CODE --</option>");
 
 				// Bind approved customers to dropdown
 				customerList.forEach(function(customer) {
@@ -53,7 +53,7 @@ $(document).ready(function() {
 						customer.middleName || '',
 						customer.lastName || ''
 					].filter(Boolean).join(" ");
-					let displayText = customer.memberCode + " - " + fullName;
+					let displayText = customer.memberCode + " - " + fullName.toUpperCase();
 					let option = `<option value="${customer.memberCode}">${displayText}</option>`;
 					$("#selectMember").append(option);
 				});

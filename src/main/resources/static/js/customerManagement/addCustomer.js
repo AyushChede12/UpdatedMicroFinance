@@ -23,13 +23,148 @@ $(document).ready(function() {
 
 
 	$('#saveBtn').click(function(event) {
-		var firstName = $('#firstName').val();
-		alert(firstName);
-		var middleName = $('#middleName').val();
-		alert(middleName);
-		var lastName = $('#lastName').val();
-		alert(lastName);
+
 		event.preventDefault();
+
+		// 1️⃣ Clear all validation messages
+		$("[id^='chk']").text('');
+		let isValid = true;
+
+		/* ===============================
+		   TEXT FIELD VALIDATION
+		================================ */
+		function validateText(fieldId, chkId, message) {
+			const value = $('#' + fieldId).val().trim();
+			if (value === '') {
+				$('#' + chkId).text(message);
+				isValid = false;
+			}
+			return value;
+		}
+
+		/* ===============================
+		   FILE / IMAGE VALIDATION
+		================================ */
+		function validateFile(fieldId, chkId, message, allowedTypes = [], maxSizeMB = 2) {
+			const input = $('#' + fieldId)[0];
+
+			if (!input || input.files.length === 0) {
+				$('#' + chkId).text(message);
+				isValid = false;
+				return null;
+			}
+
+			const file = input.files[0];
+
+			if (allowedTypes.length && !allowedTypes.includes(file.type)) {
+				$('#' + chkId).text('Only JPG / PNG allowed');
+				isValid = false;
+				return null;
+			}
+
+			if (file.size > maxSizeMB * 1024 * 1024) {
+				$('#' + chkId).text(`File size must be < ${maxSizeMB}MB`);
+				isValid = false;
+				return null;
+			}
+
+			return file;
+		}
+
+		/* ===============================
+		   TEXT VALIDATIONS
+		================================ */
+		validateText('authenticateFor', 'chkauthenticatefor', 'Please select authenticate for');
+		validateText('aadharNo', 'chkaadharno', 'Please enter Aadhar number');
+		validateText('signupDate', 'chksignupdate', 'Please select signup date');
+		validateText('firstName', 'chkfirstname', 'Please enter first name');
+		validateText('middleName', 'chkmiddlename', 'Please enter middle name');
+		validateText('lastName', 'chklastname', 'Please enter last name');
+		validateText('dob', 'chkdob', 'Please select date of birth');
+		validateText('minor', 'chkminor', 'Please select minor');
+		validateText('guardianName', 'chkguardianname', 'Please enter guardian name');
+		validateText('guardianAccNo', 'chkguardianaccno', 'Please enter guardian account no');
+		validateText('relationToApplicant', 'chkrelationtoapplicant', 'Please select relation');
+		validateText('customerGender', 'chkgender', 'Please select gender');
+		validateText('customerAge', 'chkage', 'Please enter age');
+		validateText('customerAddress', 'chkaddress', 'Please enter address');
+		validateText('category', 'chkcategory', 'Please select category');
+		validateText('caste', 'chkcaste', 'Please select caste');
+		validateText('state', 'chkstate', 'Please select state');
+		validateText('district', 'chkdistrict', 'Please select district');
+		validateText('pinCode', 'chkpincode', 'Please enter pincode');
+		validateText('branchName', 'chkbranch', 'Please select branch');
+		validateText('contactNo', 'chkcontactno', 'Please enter contact number');
+		validateText('emailId', 'chkemailid', 'Please enter email ID');
+		validateText('panNo', 'chkpanno', 'Please enter PAN number');
+		validateText('voterNo', 'chkvoterno', 'Please enter voter ID');
+		validateText('drivingLicenceNo', 'chkdrivinglicenseno', 'Please enter license number');
+
+		/* ===============================
+		   FILE VALIDATIONS
+		================================ */
+		const customerPhoto1 = validateFile(
+			'customerPhoto',
+			'chkaadharimage',
+			'Please select aadhar card image',
+			['image/jpeg', 'image/png'],
+			2
+		);
+
+		const customerSignature1 = validateFile(
+			'customerSignature',
+			'chkpanimage',
+			'Please select pan card image',
+			['image/jpeg', 'image/png'],
+			1
+		);
+
+		const customerVoter1 = validateFile(
+			'customerVoter',
+			'chkvoterimage',
+			'Please select voter ID image',
+			['image/jpeg', 'image/png'],
+			2
+		);
+
+		const customerDriving1 = validateFile(
+			'customerDriving',
+			'chklicenseimage',
+			'Please select driving license image',
+			['image/jpeg', 'image/png'],
+			2
+		);
+
+		const nomineAadhar1 = validateFile(
+			'nomineAadhar',
+			'chknomineeaadhar',
+			'Please select nomoniee aadhar',
+			['image/jpeg', 'image/png'],
+			2
+		);
+
+		const nomineSignature1 = validateFile(
+			'nomineSignature',
+			'chknomineesignature',
+			'Please select nominee signature',
+			['image/jpeg', 'image/png'],
+			2
+		);
+
+		validateText('nomineeName', 'chknomineename', 'Please enter nominee name');
+		validateText('nomineeRelationToApplicant', 'chknomineerelationtoapplicant', 'Please select nominee relation');
+		validateText('nomineeDOB', 'chknomineedob', 'Please select nominee DOB');
+		validateText('nomineeAge', 'chknomineeage', 'Please enter nominee age');
+		validateText('nomineeMobileNo', 'chknomineemobileno', 'Please enter nominee mobile no');
+		validateText('nomineeAddress', 'chknomineeaddress', 'Please enter nominee address');
+		validateText('nomineePanNo', 'chknomineepan', 'Please enter nominee pan');
+		validateText('nomineeKycNo', 'chknomineekycno', 'Please enter nominee Kyc No(if not type NA)');
+		validateText('nomineeKycType', 'chknoimneekyctype', 'Please select nominee kyc type');
+
+		/* ===============================
+		   STOP IF INVALID
+		================================ */
+		if (!isValid) return false;
 
 		var formData = new FormData();
 
@@ -140,6 +275,7 @@ $(document).ready(function() {
 				}
 			},
 			error: function(xhr) {
+				alert("error");
 				console.error("❌ Error response: ", xhr);
 				let msg = "Something went wrong while saving.";
 				if (xhr.responseJSON && xhr.responseJSON.message) {
@@ -152,7 +288,7 @@ $(document).ready(function() {
 		});
 	});
 
-	$('#saveBtn').click(function(e) {
+	/*$('#saveBtn').click(function(e) {
 		e.preventDefault();
 
 		// ✅ Create FormData
@@ -229,7 +365,7 @@ $(document).ready(function() {
 				alert("❌ Something went wrong while saving data!");
 			}
 		});
-	});
+	});*/
 
 });
 
@@ -337,7 +473,7 @@ function loadCustomerTable() {
 					<tr>
 					                        <td>${(idx + 1).toString().toUpperCase()}</td>
 					                        <td>${(cust.memberCode || "").toUpperCase()}</td>
-					                        <td>${fullName}</td>
+					                        <td>${(fullName || "").toUpperCase()}</td>
 					                        <td>${(cust.contactNo || "").toUpperCase()}</td>
 					                        <td>${(cust.aadharNo || "").toUpperCase()}</td>
 					                        <td>${(cust.district || "").toUpperCase()}</td>
@@ -843,21 +979,60 @@ $(document).ready(function() {
 	// trigger on load
 
 
+	/*	$.ajax({
+			url: 'api/preference/getAllCategoryModule',
+			method: "GET",
+			success: function(response) {
+				if (response.status === 'FOUND') {
+					console.log("Fetched Category:", response.data);
+					response.data.forEach(function(category) {
+						$('#category').append(
+							$('<option>', {
+								value: category.category,  // What will be saved to DB
+								text: category.category,   // What user sees
+								'data-id': category.stateId // Optional: internal use
+							})
+						);
+					});
+				} else {
+					console.warn("No Category data available.");
+				}
+			},
+			error: function(err) {
+				console.error("Error fetching Categories:", err);
+			}
+		});*/
+
 	$.ajax({
 		url: 'api/preference/getAllCategoryModule',
 		method: "GET",
 		success: function(response) {
+
 			if (response.status === 'FOUND') {
+
 				console.log("Fetched Category:", response.data);
+
+				$('#category').empty().append('<option value="">Select Category</option>');
+
+				// Set to store unique category names
+				const uniqueCategories = new Set();
+
 				response.data.forEach(function(category) {
+					if (category.category) {
+						uniqueCategories.add(category.category.trim());
+					}
+				});
+
+				// Append unique categories
+				uniqueCategories.forEach(function(categoryName) {
 					$('#category').append(
 						$('<option>', {
-							value: category.category,  // What will be saved to DB
-							text: category.category,   // What user sees
-							'data-id': category.stateId // Optional: internal use
+							value: categoryName,
+							text: categoryName
 						})
 					);
 				});
+
 			} else {
 				console.warn("No Category data available.");
 			}
@@ -866,6 +1041,7 @@ $(document).ready(function() {
 			console.error("Error fetching Categories:", err);
 		}
 	});
+
 
 	$('#category').on('change', function() {
 		const selectedCategory = $("#category").val();

@@ -10,11 +10,11 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
-	<groupId>com.societybank</groupId>
-	<artifactId>societybank</artifactId>
+	<groupId>com.microfinance</groupId>
+	<artifactId>microfinance</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>societybank</name>
+	<name>microfinance</name>
 	<description>Infosai Product</description>
 	<url />
 	<licenses>
