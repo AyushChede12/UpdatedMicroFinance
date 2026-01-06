@@ -1,10 +1,10 @@
 //shubham kewat
 //fetch Policy Name
-document.getElementById("newPhoto").addEventListener("click", function() {
+/*document.getElementById("newPhoto").addEventListener("click", function() {
 	document.getElementById("newPhotoFile").click();
 });
 
-document.getElementById("newPhotoFile").addEventListener("change", function() {
+document.getElementById("newPhoto").addEventListener("change", function() {
 	const file = this.files[0];
 	const error = document.getElementById("chknewPhoto");
 
@@ -59,7 +59,7 @@ document.getElementById("jointPhoto").addEventListener("click", function() {
 	document.getElementById("jointPhotoFile").click();
 });
 
-/* When file selected */
+ When file selected 
 document.getElementById("jointPhotoFile").addEventListener("change", function() {
 	const file = this.files[0];
 	const errorMsg = document.getElementById("chkjointPhoto");
@@ -69,28 +69,28 @@ document.getElementById("jointPhotoFile").addEventListener("change", function() 
 		return;
 	}
 
-	/* Validate image type */
+	 Validate image type 
 	if (!file.type.startsWith("image/")) {
 		errorMsg.innerText = "Only image files are allowed";
 		this.value = "";
 		return;
 	}
 
-	/* Validate image size (2MB) */
+	 Validate image size (2MB) 
 	if (file.size > 2 * 1024 * 1024) {
 		errorMsg.innerText = "Image size must be less than 2MB";
 		this.value = "";
 		return;
 	}
 
-	/* Preview image */
+	 Preview image 
 	const reader = new FileReader();
 	reader.onload = function(e) {
 		document.getElementById("jointPhoto").src = e.target.result;
 		errorMsg.innerText = "";
 	};
 	reader.readAsDataURL(file);
-});
+});*/
 $(document).ready(function() {
 	$("#myJointPhoto").hide();
 	$.ajax({
@@ -225,23 +225,47 @@ $('#selectByCustomer').on('change', function() {
 					$('#emailId').val(customer.emailId);
 					$('#aadharNo').val(customer.aadharNo);
 					//photo
-					if (customer.customerPhoto) {
+					/*if (customer.customerPhoto) {
 						const imagePath = `Uploads/${customer.customerPhoto}`; // Construct full image path
 						document.getElementById("photo").src = imagePath; // Set image source
 						document.getElementById("photoHidden").value = customer.customerPhoto; // Set hidden input value
 					} else {
 						document.getElementById("photo").src = 'Uploads/upload.jpg'; // Default placeholder
 						document.getElementById("photoHidden").value = ''; // Clear hidden input value
+					}*/
+					if (customer.customerPhoto) {
+						const imagePath = `Uploads/${customer.customerPhoto}`;
+						$("#photoPreview").attr("src", imagePath);
+						$("#photoHidden").val(imagePath);
+						const fakePhotoEvent = { target: { result: imagePath } };
+						photoSizeEdit(fakePhotoEvent);
+
+					} else {
+						$("#photoPreview").attr("src", "Uploads/default-placeholder.jpg");
+						$("#photoHidden").val("");
+					}
+
+					if (customer.customerSignature) {
+						const imagePath = `Uploads/${customer.customerSignature}`;
+						$("#signaturePreview").attr("src", imagePath);
+						$("#signatureHidden").val(imagePath);
+						const fakePhotoEvent = { target: { result: imagePath } };
+						photoSizeEdit(fakePhotoEvent);
+
+					} else {
+						$("#signaturePreview").attr("src", "Uploads/default-placeholder.jpg");
+						$("#signatureHidden").val("");
 					}
 					//signature
-					if (customer.customerSignature) {
+					/*if (customer.customerSignature) {
 						const imagePath = `Uploads/${customer.customerSignature}`; // Construct full image path
 						document.getElementById("signature").src = imagePath; // Set image source
 						document.getElementById("signatureHidden").value = customer.customerSignature; // Set hidden input value
 					} else {
 						document.getElementById("signature").src = 'Uploads/upload.jpg'; // Default placeholder
 						document.getElementById("signatureHidden").value = ''; // Clear hidden input value
-					}
+					}*/
+
 				} else {
 					alert('No customer data found!');
 					$('#enterCustomerName').val('');
@@ -259,6 +283,116 @@ $('#selectByCustomer').on('change', function() {
 		$('#panCardNumber').val('');
 	}
 });
+
+function newPhotoUpload() {
+	const file = document.getElementById("newPhoto").files[0];
+	if (file && file.type.startsWith("image/")) {
+		const reader = new FileReader();
+		reader.onload = function(e) {
+			newPhotoSizeEdit(e);
+			$("#newPhotoHidden").val("");
+		};
+		reader.readAsDataURL(file);
+	} else {
+		alert("Please upload a valid image file for photo.");
+	}
+}
+
+function newSignatureUpload() {
+	const file = document.getElementById("newSignature").files[0];
+	if (file && file.type.startsWith("image/")) {
+		const reader = new FileReader();
+		reader.onload = function(e) {
+			newSignatureSizeEdit(e);
+			$("#newSignatureHidden").val("");
+		};
+		reader.readAsDataURL(file);
+	} else {
+		alert("Please upload a valid image file for photo.");
+	}
+}
+
+function jointPhotoUpload() {
+	const file = document.getElementById("jointPhoto").files[0];
+	if (file && file.type.startsWith("image/")) {
+		const reader = new FileReader();
+		reader.onload = function(e) {
+			jointPhotoSizeEdit(e);
+			$("#jointPhotoHidden").val("");
+		};
+		reader.readAsDataURL(file);
+	} else {
+		alert("Please upload a valid image file for photo.");
+	}
+}
+
+//Ayush
+/*function signatureUpload() {
+	const file = document.getElementById("signature").files[0];
+	if (file && file.type.startsWith("image/")) {
+		const reader = new FileReader();
+		reader.onload = function(e) {
+			signatureSizeEdit(e);
+			$("#signatureHidden").val("");
+		};
+		reader.readAsDataURL(file);
+	} else {
+		alert("Please upload a valid image file for signature.");
+	}
+}*/
+
+function photoSizeEdit(e) {
+	const previewimg = document.getElementById("photoPreview");
+	previewimg.src = e.target.result;
+	previewimg.style.width = "100%";
+	previewimg.style.height = "100%";
+	previewimg.style.objectFit = "cover";
+	previewimg.style.overflow = "hidden";
+	previewimg.style.borderRadius = "20px";
+}
+
+function signatureSizeEdit(e) {
+	const previewimg = document.getElementById("signaturePreview");
+	previewimg.src = e.target.result;
+	previewimg.style.width = "100%";
+	previewimg.style.height = "100%";
+	previewimg.style.objectFit = "cover";
+	previewimg.style.overflow = "hidden";
+	previewimg.style.borderRadius = "20px";
+}
+
+function newPhotoSizeEdit(e) {
+	const previewimg = document.getElementById("newPhotoPreview");
+	previewimg.src = e.target.result;
+	previewimg.style.width = "100%";
+	previewimg.style.height = "100%";
+	previewimg.style.objectFit = "cover";
+	previewimg.style.overflow = "hidden";
+	previewimg.style.borderRadius = "20px";
+}
+
+
+function newSignatureSizeEdit(e) {
+	const previewimg = document.getElementById("newSignaturePreview");
+	previewimg.src = e.target.result;
+	previewimg.style.width = "100%";
+	previewimg.style.height = "100%";
+	previewimg.style.objectFit = "cover";
+	previewimg.style.overflow = "hidden";
+	previewimg.style.borderRadius = "20px";
+}
+
+function jointPhotoSizeEdit(e) {
+	const previewimg = document.getElementById("jointPhotoPreview");
+	previewimg.src = e.target.result;
+	previewimg.style.width = "100%";
+	previewimg.style.height = "100%";
+	previewimg.style.objectFit = "cover";
+	previewimg.style.overflow = "hidden";
+	previewimg.style.borderRadius = "20px";
+}
+
+
 
 
 //fetch only customer name on cahnge in dropdown
@@ -331,15 +465,51 @@ $('#financialConsultantCode').on('blur', function() {
 
 // save saving account details 
 $(document).ready(function() {
-	// Ensure the hidden input is updated with the image file name
-	let imageSrc = $('#photo').attr('src');
-	let imageName = imageSrc.split('/').pop(); // Extract the file name
-	$('#photoHidden').val(imageName);
 
+	$.ajax({
+		type: "GET",
+		url: "api/customersavings/getAllSavingAccountData",
+		contentType: "application/json",
+		success: function(response) {
+			console.log("Full Response from API:", response);
+			if (response.status == "FOUND") {
+				let data = response.data;
+				let tableBody = $(".datatable tbody");
+				tableBody.empty();
+				data.forEach((item, index) => {
+					let row = `<tr>
+				                        <td>${index + 1}</td>
+				                        <td>${item.accountNumber}</td>
+										<td>${item.typeofaccount}</td>
+				                        <td>${item.selectByCustomer}</td>
+				                        <td>${item.enterCustomerName}</td>
+										<td>${item.contactNumber}</td>
+										<td>${item.branchName}</td>
+										<td>${item.address}</td>
+										<td>${item.district}</td>
+										<td>${(item.state).toUpperCase()}</td>
+										<td><button class="iconbutton" onclick="viewData(${item.id})" title="View"><i class="fa-solid fa-pen-to-square text-primary"></i></button></td>
+										<td><button class="iconbutton" onclick="deleteData(${item.id})" title="Delete"><i class="fa-solid fa-trash text-danger"></i></button></td>
+				                    </tr>`;
+					tableBody.append(row);
+				});
+			} else {
+				alert("Failed to fetch saving account data: " + response.message);
+			}
+		},
+		error: function() {
+			alert("Error while calling the API.");
+		}
+	});
 	// Ensure the hidden input is updated with the image file name
-	let imageSrc1 = $('#signature').attr('src');
-	let imageName1 = imageSrc1.split('/').pop(); // Extract the file name
-	$('#signatureHidden').val(imageName1);
+	/*	let imageSrc = $('#photo').attr('src');
+		let imageName = imageSrc.split('/').pop(); // Extract the file name
+		$('#photoHidden').val(imageName);
+	
+		// Ensure the hidden input is updated with the image file name
+		let imageSrc1 = $('#signature').attr('src');
+		let imageName1 = imageSrc1.split('/').pop(); // Extract the file name
+		$('#signatureHidden').val(imageName1);*/
 
 	// Ensure the hidden input is updated with the image file name
 	/*let imageSrc2 = $('#jointPhoto').attr('src');
@@ -353,41 +523,13 @@ $(document).ready(function() {
 	let imageSrc4 = $('#newSignature').attr('src');
 	let imageName4 = imageSrc2.split('/').pop(); // Extract the file name
 	$('#newSignatureHidden').val(imageName4);*/
-
-
-
-
 	$('#saveBtn').click(function(event) {
 		event.preventDefault();
 
-		// Update the hidden input with the current file name from the image
-		let updatedImageSrc = $('#photo').attr('src');
-		let updatedImageName = updatedImageSrc.split('/').pop(); // Extract the file name
-		$('#photoHidden').val(updatedImageName);
-
-		// Update the hidden input with the current file name from the image
-		let updatedImageSrc1 = $('#signature').attr('src');
-		let updatedImageName1 = updatedImageSrc1.split('/').pop(); // Extract the file name
-		$('#signatureHidden').val(updatedImageName1);
-
-	/*	// Update the hidden input with the current file name from the image
-		let updatedImageSrc2 = $('#jointPhoto').attr('src');
-		let updatedImageName2 = updatedImageSrc2.split('/').pop(); // Extract the file name
-		$('#jointPhotoHidden').val(updatedImageName2);
-
-		let updatedImageSrc3 = $('#newPhoto').attr('src');
-		let updatedImageName3 = updatedImageSrc3.split('/').pop(); // Extract the file name
-		$('#newPhotoHidden').val(updatedImageName3);
-
-
-		let updatedImageSrc4 = $('#newSignature').attr('src');
-		let updatedImageName4 = updatedImageSrc4.split('/').pop(); // Extract the file name
-		$('#newSignatureHidden').val(updatedImageName4);*/
-		const jointPhoto = $('#jointPhoto')[0].files[0];
-		const newPhoto = $('#newPhoto')[0].files[0];
-		const newSignature = $('#newSignature')[0].files[0];
 		const formData = new FormData();
 
+		/* ================= DTO FIELDS ================= */
+		formData.append("id", $('#id').val());
 		formData.append("typeofaccount", $('#typeofaccount').val());
 		formData.append("openingDate", $('#openingDate').val());
 		formData.append("selectByCustomer", $('#selectByCustomer').val());
@@ -425,93 +567,57 @@ $(document).ready(function() {
 		formData.append("depositAcc3", $('#depositAcc3').val());
 		formData.append("comment", $('#comment').val());
 		formData.append("accountNumber", $('#accountNumber').val());
+
 		formData.append("accountStatus", $('#toggle-member-status').is(':checked') ? 1 : 0);
 		formData.append("messageSend", $('#toggle-member-status1').is(':checked') ? 1 : 0);
 		formData.append("debitCardIssue", $('#toggle-member-status2').is(':checked') ? 1 : 0);
 		formData.append("isLocker", $('#toggle-member-status3').is(':checked') ? 1 : 0);
-		formData.append("accountFreeze", $('#toggle-account-freeze').is(':checked') ? 1 : 0);
 
-		// Append the extracted photoWithAadhar file name
+		/* ================= STRING IMAGES ================= */
+		// Existing images (already saved)
 		formData.append("photo", $('#photoHidden').val());
-
-		// Append the extracted photoWithAadhar file name
 		formData.append("signature", $('#signatureHidden').val());
+
+		/* ================= MULTIPART FILES ================= */
+		const jointPhoto = $('#jointPhotoFile')[0]?.files[0];
+		const newPhoto = $('#newPhotoFile')[0]?.files[0];
+		const newSignature = $('#newSignatureFile')[0]?.files[0];
 
 		if (jointPhoto) formData.append("jointPhoto", jointPhoto);
 		if (newPhoto) formData.append("newPhoto", newPhoto);
 		if (newSignature) formData.append("newSignature", newSignature);
 
-		// Append files (photo and signature)
-		/*const photo = $('#photo')[0].files[0];
-		const signature = $('#signature')[0].files[0];
-
-		if (photo) {
-			formData.append("photo", photo);
-		}
-		if (signature) {
-			formData.append("signature", signature);
-		}
-*/
-		// Debug: Log all key-value pairs from FormData
+		/* ================= DEBUG ================= */
 		for (let pair of formData.entries()) {
-			if (!pair[1]) {
-				console.warn(`⚠️ Field "${pair[0]}" is EMPTY or NULL ->`, pair[1]);
-			} else {
-				console.log(`✅ ${pair[0]}:`, pair[1]);
-			}
+			console.log(pair[0], pair[1]);
 		}
+
+		/* ================= AJAX ================= */
 		$.ajax({
-			type: 'POST',
-			url: 'api/customersavings/saveandupdatesavingaccount',
+			type: "POST",
+			url: "api/customersavings/saveandupdatesavingaccount",
 			data: formData,
 			processData: false,
 			contentType: false,
 			success: function(response) {
-				alert("Saving Account data saved successfully!\nAccount No : " + $('#accountNumber').val());
-				location.reload();
+				alert("success");
+				if (response.status == 'OK') {
+					alert("OK");
+					alert(response.message + "\nAccount No: " + $('#accountNumber').val());
+					location.reload();
+				}
+				else{
+					alert("else");
+					alert("Customer already exists!");
+				}
 			},
 			error: function(xhr) {
-				console.error('Error:', xhr.responseText);
-				alert('Customer already exists in saving account.');
+				alert("Customer already exists!");
 			}
 		});
 	});
 
-	$.ajax({
-		type: "GET",
-		url: "api/customersavings/getAllSavingAccountData",
-		contentType: "application/json",
-		success: function(response) {
-			console.log("Full Response from API:", response);
-			if (response.status == "FOUND") {
-				let data = response.data;
-				let tableBody = $(".datatable tbody");
-				tableBody.empty();
-				data.forEach((item, index) => {
-					let row = `<tr>
-			                        <td>${index + 1}</td>
-			                        <td>${item.accountNumber}</td>
-									<td>${(item.typeofaccount).toUpperCase()}</td>
-			                        <td>${item.selectByCustomer}</td>
-			                        <td>${(item.enterCustomerName).toUpperCase()}</td>
-									<td>${(item.contactNumber).toUpperCase()}</td>
-									<td>${(item.branchName).toUpperCase()}</td>
-									<td>${(item.address).toUpperCase()}</td>
-									<td>${(item.district).toUpperCase()}</td>
-									<td>${(item.state).toUpperCase()}</td>
-									<td><button class="iconbutton" onclick="viewData(${item.id})" title="View"><i class="fa-solid fa-pen-to-square text-primary"></i></button></td>
-									<td><button class="iconbutton" onclick="deleteData(${item.id})" title="Delete"><i class="fa-solid fa-trash text-danger"></i></button></td>
-			                    </tr>`;
-					tableBody.append(row);
-				});
-			} else {
-				alert("Failed to fetch saving account data: " + response.message);
-			}
-		},
-		error: function() {
-			alert("Error while calling the API.");
-		}
-	});
+	
 });
 
 function viewData(id) {
