@@ -47,8 +47,8 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">AADHAR NO <span class="star">*</span></label> <input
 							type="text" name="aadharNo" id="aadharNo" required="required"
-							placeholder="ENTER AADHAR NO" /> <small id="chkaadharno"
-							style="color: red;"></small>
+							style="text-transform: uppercase;" placeholder="ENTER AADHAR NO" />
+						<small id="chkaadharno" style="color: red;"></small>
 					</div>
 				</div>
 
@@ -77,8 +77,8 @@
 					<div class="d-flex flex-column formFields">
 						<label for="firstName">FIRST NAME <span class="star">*</span></label>
 						<input type="text" name="firstName" id="firstName"
-							placeholder="ENTER FIRST NAME" required /> <small
-							id="chkfirstname" style="color: red;"></small>
+							style="text-transform: uppercase;" placeholder="ENTER FIRST NAME"
+							required /> <small id="chkfirstname" style="color: red;"></small>
 					</div>
 				</div>
 
@@ -86,6 +86,7 @@
 					<div class="d-flex flex-column formFields">
 						<label for="middleName">MIDDLE NAME <span class="star">*</span></label>
 						<input type="text" name="middleName" id="middleName"
+							style="text-transform: uppercase;"
 							placeholder="ENTER MIDDLE NAME" /> <small id="chkmiddlename"
 							style="color: red;"></small>
 					</div>
@@ -96,8 +97,8 @@
 
 						<label for="lastName">LAST NAME <span class="star">*</span></label>
 						<input type="text" name="lastName" id="lastName"
-							placeholder="ENTER LAST NAME" required /> <small
-							id="chklastname" style="color: red;"></small>
+							style="text-transform: uppercase;" placeholder="ENTER LAST NAME"
+							required /> <small id="chklastname" style="color: red;"></small>
 					</div>
 				</div>
 
@@ -129,7 +130,7 @@
 							class="star">*</span></label> <select id="guardianName"
 							name="guardianName" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="No"></option>
+							<option value="">SELECT GUARDIAN NAME</option>
 						</select> <small id="chkguardianname" style="color: red;"></small>
 
 					</div>
@@ -204,6 +205,7 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">ADDRESS <span class="star">*</span></label>
 						<textarea name="customerAddress" id="customerAddress"
+							style="text-transform: uppercase;"
 							style="border: 1px solid rgb(224, 224, 224); border-radius: 5px; outline: none; padding: 5px; font-size: 12px;"></textarea>
 						<small id="chkaddress" style="color: red;"></small>
 					</div>
@@ -288,8 +290,8 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">EMAIL ID <span class="star">*</span></label> <input
 							type="text" name="emailId" id="emailId" required="required"
-							placeholder="ENTER EMAIL ID" /> <small id="chkemailid"
-							style="color: red;"></small>
+							style="text-transform: uppercase;" placeholder="ENTER EMAIL ID" />
+						<small id="chkemailid" style="color: red;"></small>
 					</div>
 				</div>
 
@@ -297,17 +299,18 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">PAN NO <span class="star">*</span></label> <input
 							type="text" name="panNo" id="panNo" required="required"
-							placeholder="ENTER PAN NO" /> <small id="chkpanno"
-							style="color: red;"></small>
+							style="text-transform: uppercase;" placeholder="ENTER PAN NO" />
+						<small id="chkpanno" style="color: red;"></small>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
-					<div class="d-flex flex-column formFields">
+					<div class="d-flex flex-column formFields"
+						style="margin-bottom: 30px;">
 						<label for="">VOTER NO <span class="star">*</span></label> <input
 							type="text" name="voterNo" id="voterNo" required="required"
-							placeholder="ENTER VOTER NO" /> <small id="chkvoterno"
-							style="color: red;"></small>
+							style="text-transform: uppercase;" placeholder="ENTER VOTER NO" />
+						<small id="chkvoterno" style="color: red;"></small>
 					</div>
 				</div>
 
@@ -316,7 +319,8 @@
 						style="margin-bottom: 30px;">
 						<label for="">DRIVING LICENSE NO <span class="star">*</span></label>
 						<input type="text" name="drivingLicenceNo" id="drivingLicenceNo"
-							required="required" placeholder="ENTER LICENSE NO" /> <small
+							style="text-transform: uppercase;" required="required"
+							placeholder="ENTER LICENSE NO" /> <small
 							id="chkdrivinglicenseno" style="color: red;"></small>
 					</div>
 				</div>
@@ -338,7 +342,8 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">REFERRAL NAME</label> <input type="text"
-							name="referralName" id="referralName" required="required"
+							style="text-transform: uppercase;" name="referralName"
+							id="referralName" required="required"
 							placeholder="ENTER REFERRAL NAME" />
 					</div>
 				</div>
@@ -346,7 +351,8 @@
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
 						<label for="">PROFESSION</label> <input type="text"
-							name="profession" id="profession" required="required"
+							style="text-transform: uppercase;" name="profession"
+							id="profession" required="required"
 							placeholder="ENTER PROFESSION" />
 					</div>
 				</div>
@@ -355,14 +361,16 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">ACADEMIC BACKGROUND</label> <input type="text"
 							name="academicBackground" id="academicBackground"
-							required="required" placeholder="ENTER ACADEMIC BACKGROUND" />
+							style="text-transform: uppercase;" required="required"
+							placeholder="ENTER ACADEMIC BACKGROUND" />
 					</div>
 				</div>
 
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
 						<label for="shareValue">SHARE VALUE</label> <input type="text"
-							name="shareValue" id="shareValue" value="10" required="required"
+							style="text-transform: uppercase;" name="shareValue"
+							id="shareValue" value="10" required="required"
 							placeholder="ENTER SHARE VALUE" />
 					</div>
 				</div>
@@ -370,7 +378,8 @@
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
 						<label for="noOfShare">NO OF SHARE</label> <input type="text"
-							name="noOfShare" id="noOfShare" required="required"
+							style="text-transform: uppercase;" name="noOfShare"
+							id="noOfShare" required="required"
 							placeholder="ENTER NO OF SHARE" />
 					</div>
 				</div>
@@ -378,7 +387,8 @@
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
 						<label for="shareAmount">SHARE AMOUNT</label> <input type="text"
-							name="shareAmount" id="shareAmount" required="required"
+							style="text-transform: uppercase;" name="shareAmount"
+							id="shareAmount" required="required"
 							placeholder="ENTER SHARE AMOUNT" readonly />
 					</div>
 				</div>
@@ -389,7 +399,8 @@
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
 						<label for="lightBill">LIGHT BILL</label> <input type="text"
-							name="lightBill" id="lightBill" required="required"
+							style="text-transform: uppercase;" name="lightBill"
+							id="lightBill" required="required"
 							placeholder="ENTER LIGHT BILL NO" />
 					</div>
 				</div>
@@ -397,8 +408,8 @@
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
 						<label for="taxBill">TAX BILL</label> <input type="text"
-							name="taxBill" id="taxBill" required="required"
-							placeholder="ENTER TAX BILL NO" />
+							style="text-transform: uppercase;" name="taxBill" id="taxBill"
+							required="required" placeholder="ENTER TAX BILL NO" />
 					</div>
 				</div>
 			</div>
@@ -490,8 +501,9 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">NOMINEE NAME <span class="star">*</span></label> <input
 							type="text" name="nomineeName" id="nomineeName"
-							required="required" placeholder="ENTER NOMINEE NAME" /> <small
-							id="chknomineename" style="color: red;"></small>
+							style="text-transform: uppercase;" required="required"
+							placeholder="ENTER NOMINEE NAME" /> <small id="chknomineename"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -540,6 +552,7 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">ADDRESS <span class="star">*</span></label>
 						<textarea name="nomineeAddress" id="nomineeAddress"
+							style="text-transform: uppercase;"
 							style="border: 1px solid rgb(224, 224, 224); border-radius: 5px; outline: none; padding: 5px; font-size: 12px;"></textarea>
 						<small id="chknomineeaddress" style="color: red;"></small>
 					</div>
@@ -550,8 +563,9 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">PAN NO <span class="star">*</span></label> <input
 							type="text" name="nomineePanNo" id="nomineePanNo"
-							required="required" placeholder="ENTER PAN NO" /> <small
-							id="chknomineepan" style="color: red;"></small>
+							style="text-transform: uppercase;" required="required"
+							placeholder="ENTER PAN NO" /> <small id="chknomineepan"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -560,8 +574,9 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">NOMINEE KYC NO <span class="star">*</span></label> <input
 							type="text" name="nomineeKycNo" id="nomineeKycNo"
-							required="required" placeholder="ENTER KYC NO" /> <small
-							id="chknomineekycno" style="color: red;"></small>
+							style="text-transform: uppercase;" required="required"
+							placeholder="ENTER KYC NO" /> <small id="chknomineekycno"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -639,7 +654,8 @@
 						style="position: relative; margin-bottom: 1rem;">
 
 						<label for="memberFees">MEMBER FEES</label> <input type="text"
-							name="memberFees" id="memberFees" class="form-control mb-3"
+							style="text-transform: uppercase;" name="memberFees"
+							id="memberFees" class="form-control mb-3"
 							placeholder="ENTER MEMBER FEES" />
 
 						<!-- POPUP TABLE (SMALL SIZE) -->
@@ -743,37 +759,41 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label>BUILDING FUND</label> <input type="text" id="buildingFund"
-							name="buildingFund" placeholder="ENTER BUILDING FUND" />
+							style="text-transform: uppercase;" name="buildingFund"
+							placeholder="ENTER BUILDING FUND" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label>ADMIN CHARGE</label> <input type="text" id="adminCharge"
-							name="adminCharge" placeholder="ENTER ADMIN CHARGE" />
+							style="text-transform: uppercase;" name="adminCharge"
+							placeholder="ENTER ADMIN CHARGE" />
 					</div>
 				</div>
 
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
 						<label>DOCUMENT CHARGE</label> <input type="text"
-							id="documentCharge" name="documentCharge"
-							placeholder="ENTER DOCUMENT CHARGE" />
+							style="text-transform: uppercase;" id="documentCharge"
+							name="documentCharge" placeholder="ENTER DOCUMENT CHARGE" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label>ENTRY FEE</label> <input type="text" id="entryFee"
-							name="entryFee" placeholder="ENTER ENTRY FEE" />
+							style="text-transform: uppercase;" name="entryFee"
+							placeholder="ENTER ENTRY FEE" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label>OTHER CHARGE</label> <input type="text" id="otherCharge"
-							name="otherCharge" placeholder="ENTER OTHER CHARGE"
-							value="ADARSH UPAVIDHI" readonly="readonly" />
+							style="text-transform: uppercase;" name="otherCharge"
+							placeholder="ENTER OTHER CHARGE" value="ADARSH UPAVIDHI"
+							readonly="readonly" />
 					</div>
 				</div>
 
@@ -793,7 +813,8 @@
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
 						<label>REMARKS</label> <input type="text" id="remarks"
-							name="remarks" placeholder="ENTER REMARKS" />
+							style="text-transform: uppercase;" name="remarks"
+							placeholder="ENTER REMARKS" />
 					</div>
 				</div>
 			</div>
@@ -950,9 +971,6 @@
 	</div> -->
 	<!-- ================== TABLE END ================== -->
 
-
-
-
 </div>
 
 <script>
@@ -965,6 +983,7 @@
     });
 </script>
 <script>
+
 	document.addEventListener('DOMContentLoaded', () => {
 		const toggles = document.querySelectorAll('.toggle__input');
 

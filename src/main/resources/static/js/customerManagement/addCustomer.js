@@ -25,7 +25,8 @@ $(document).ready(function() {
 	$('#saveBtn').click(function(event) {
 
 		event.preventDefault();
-
+		var authenticate = $("#authenticateFor").val();
+		var minor = $("#minor").val();
 		// 1️⃣ Clear all validation messages
 		$("[id^='chk']").text('');
 		let isValid = true;
@@ -75,15 +76,19 @@ $(document).ready(function() {
 		   TEXT VALIDATIONS
 		================================ */
 		validateText('authenticateFor', 'chkauthenticatefor', 'Please select authenticate for');
-		validateText('aadharNo', 'chkaadharno', 'Please enter Aadhar number');
+		if (authenticate == 'aadhar') {
+			validateText('aadharNo', 'chkaadharno', 'Please enter Aadhar number');
+		}
 		validateText('signupDate', 'chksignupdate', 'Please select signup date');
 		validateText('firstName', 'chkfirstname', 'Please enter first name');
 		validateText('middleName', 'chkmiddlename', 'Please enter middle name');
 		validateText('lastName', 'chklastname', 'Please enter last name');
 		validateText('dob', 'chkdob', 'Please select date of birth');
 		validateText('minor', 'chkminor', 'Please select minor');
-		validateText('guardianName', 'chkguardianname', 'Please enter guardian name');
-		validateText('guardianAccNo', 'chkguardianaccno', 'Please enter guardian account no');
+		if (minor == 'Yes') {
+			validateText('guardianName', 'chkguardianname', 'Please enter guardian name');
+			validateText('guardianAccNo', 'chkguardianaccno', 'Please enter guardian account no');
+		}
 		validateText('relationToApplicant', 'chkrelationtoapplicant', 'Please select relation');
 		validateText('customerGender', 'chkgender', 'Please select gender');
 		validateText('customerAge', 'chkage', 'Please enter age');
@@ -368,12 +373,6 @@ $(document).ready(function() {
 	});*/
 
 });
-
-
-
-
-
-
 
 function photopreview() {
 	const file = document.getElementById("customerPhoto").files[0];
@@ -918,24 +917,41 @@ $(document).ready(function() {
 
 			const customers = response.data || response;
 
-			// Clear old options except 'No'
-			$('#guardianName').find("option:not([value='No'])").remove();
+			// Clear old options
+			$('#guardianName').empty();
+
+			// Add default option
+			$('#guardianName').append(
+				$('<option>', {
+					value: '',
+					text: 'SELECT GUARDIAN NAME'
+				})
+			);
 
 			// Populate dropdown
-			customers.forEach(function(customer) {
-				const optionText = `${customer.enterCustomerName} - ${customer.selectByCustomer}`;
-				$('#guardianName').append(
-					$('<option>', {
-						value: customer.selectByCustomer.trim(),
-						text: optionText
-					})
-				);
-			});
+			if (Array.isArray(customers) && customers.length > 0) {
+				customers.forEach(function(customer) {
+
+					const guardianValue = customer.selectByCustomer
+						? customer.selectByCustomer.trim()
+						: '';
+
+					const optionText = `${customer.enterCustomerName || ''} - ${guardianValue}`;
+
+					$('#guardianName').append(
+						$('<option>', {
+							value: guardianValue,
+							text: optionText
+						})
+					);
+				});
+			}
 		},
 		error: function(err) {
 			console.error("❌ Error fetching customers:", err);
 		}
 	});
+
 
 	$('#guardianName').on('change', function() {
 		const selectedCode = $(this).val().trim();
