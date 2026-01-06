@@ -480,13 +480,13 @@ $(document).ready(function() {
 					let row = `<tr>
 				                        <td>${index + 1}</td>
 				                        <td>${item.accountNumber}</td>
-										<td>${(item.typeofaccount).toUpperCase()}</td>
+										<td>${item.typeofaccount}</td>
 				                        <td>${item.selectByCustomer}</td>
-				                        <td>${(item.enterCustomerName).toUpperCase()}</td>
-										<td>${(item.contactNumber).toUpperCase()}</td>
-										<td>${(item.branchName).toUpperCase()}</td>
-										<td>${(item.address).toUpperCase()}</td>
-										<td>${(item.district).toUpperCase()}</td>
+				                        <td>${item.enterCustomerName}</td>
+										<td>${item.contactNumber}</td>
+										<td>${item.branchName}</td>
+										<td>${item.address}</td>
+										<td>${item.district}</td>
 										<td>${(item.state).toUpperCase()}</td>
 										<td><button class="iconbutton" onclick="viewData(${item.id})" title="View"><i class="fa-solid fa-pen-to-square text-primary"></i></button></td>
 										<td><button class="iconbutton" onclick="deleteData(${item.id})" title="Delete"><i class="fa-solid fa-trash text-danger"></i></button></td>
@@ -602,54 +602,22 @@ $(document).ready(function() {
 			success: function(response) {
 				alert("success");
 				if (response.status == 'OK') {
+					alert("OK");
 					alert(response.message + "\nAccount No: " + $('#accountNumber').val());
 					location.reload();
 				}
 				else{
+					alert("else");
 					alert("Customer already exists!");
 				}
 			},
 			error: function(xhr) {
-				alert(xhr.responseText || "Error occurred");
+				alert("Customer already exists!");
 			}
 		});
 	});
 
-	$.ajax({
-		type: "GET",
-		url: "api/customersavings/getAllSavingAccountData",
-		contentType: "application/json",
-		success: function(response) {
-			console.log("Full Response from API:", response);
-			if (response.status == "FOUND") {
-				let data = response.data;
-				let tableBody = $(".datatable tbody");
-				tableBody.empty();
-				data.forEach((item, index) => {
-					let row = `<tr>
-			                        <td>${index + 1}</td>
-			                        <td>${item.accountNumber}</td>
-									<td>${(item.typeofaccount).toUpperCase()}</td>
-			                        <td>${item.selectByCustomer}</td>
-			                        <td>${(item.enterCustomerName).toUpperCase()}</td>
-									<td>${(item.contactNumber).toUpperCase()}</td>
-									<td>${(item.branchName).toUpperCase()}</td>
-									<td>${(item.address).toUpperCase()}</td>
-									<td>${(item.district).toUpperCase()}</td>
-									<td>${(item.state).toUpperCase()}</td>
-									<td><button class="iconbutton" onclick="viewData(${item.id})" title="View"><i class="fa-solid fa-pen-to-square text-primary"></i></button></td>
-									<td><button class="iconbutton" onclick="deleteData(${item.id})" title="Delete"><i class="fa-solid fa-trash text-danger"></i></button></td>
-			                    </tr>`;
-					tableBody.append(row);
-				});
-			} else {
-				alert("Failed to fetch saving account data: " + response.message);
-			}
-		},
-		error: function() {
-			alert("Error while calling the API.");
-		}
-	});
+	
 });
 
 function viewData(id) {
