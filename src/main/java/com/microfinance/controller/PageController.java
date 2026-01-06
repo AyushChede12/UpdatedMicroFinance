@@ -417,9 +417,10 @@ public class PageController {
 
 	@GetMapping("/earlyLoanClosureJointLiability")
 	public String getEarlyLoanClosure(Model model) {
-		model.addAttribute("contentPage", "jointLiabilityLoan/earlyLoanClosure.jsp");
+		model.addAttribute("contentPage", "jointLiabilityLoan/LoanClosure.jsp");
 		return "main";
 	}
+	
 
 	@GetMapping("/completedLoansRecord")
 	public String getClosedLoanDetails(Model model) {
@@ -941,7 +942,13 @@ public class PageController {
 
 	@GetMapping("/earlyLoanClosureLoan")
 	public String getEarlyLoanClosureLoan(Model model) {
-		model.addAttribute("contentPage", "loanManagement/earlyLoanClosure.jsp");
+		model.addAttribute("contentPage", "loanManagement/EarlyLoanClosure.jsp");
+		return "main";
+	}
+	
+	@GetMapping("/LoanClosureLoan")
+	public String getLoanClosureLoan(Model model) {
+		model.addAttribute("contentPage", "loanManagement/LoanClosure.jsp");
 		return "main";
 	}
 
