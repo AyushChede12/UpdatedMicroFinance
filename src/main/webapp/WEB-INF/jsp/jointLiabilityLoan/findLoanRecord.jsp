@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Joint Liability Loan</h1>
+	<h1>JOINT LIABILITY LOAN</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-person-bounding-box"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Find Loan Record</li>
+			<li class="breadcrumb-item action">FIND LOAN RECORD</li>
 		</ol>
 	</nav>
 </div>
@@ -16,18 +16,18 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Loan Search for Print</li>
+					<li class="breadcrumb-item action">LOAN SEARCH FOR PRINT</li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Loan Branch*</label>
+						<label>LOAN BRANCH*</label>
 						<div class="position-relative">
 							<div class="select-btn1" style="cursor: pointer;">
-								<span name="loanName" id="loanNameId" style="font-size: 12px;">Select
-									GroupID</span> <i class="fa-solid fa-angle-down"></i>
+								<span name="loanName" id="loanNameId" style="font-size: 12px;">SELECT
+									GROUPID</span> <i class="fa-solid fa-angle-down"></i>
 							</div>
 							<div class="content" id="contentCityName" style="display: none;">
 								<div class="search">
@@ -45,34 +45,34 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Start Date:</label> <input type="date"
+						<label for="vehicalNo">START DATE:</label> <input type="date"
 							name="vehicalNo" id="vehicalNo" required="required"
-							placeholder="Enter Vehicle No" style="text-transform: uppercase;" />
+							placeholder="" style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">End Date :</label> <input type="date"
+						<label for="vehicalNo">END DATE :</label> <input type="date"
 							name="vehicalNo" id="vehicalNo" required="required"
 							placeholder="Enter Vehicle No" style="text-transform: uppercase;" />
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Customer Name:</label> <input type="date"
+						<label for="vehicalNo">CUSTOMER NAME:</label> <input type="date"
 							name="vehicalNo" id="vehicalNo" required="required"
-							placeholder="Enter Vehicle No" style="text-transform: uppercase;" />
+							placeholder="Enter CUSTOMER NAME" style="text-transform: uppercase;" />
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Loan Reference No.*</label>
+						<label>LOAN REFFERNCE NO.*</label>
 						<div class="position-relative">
 							<div class="select-btn1" style="cursor: pointer;">
-								<span name="loanName" id="loanNameId" style="font-size: 12px;">Select
-									GroupID</span> <i class="fa-solid fa-angle-down"></i>
+								<span name="loanName" id="loanNameId" style="font-size: 12px;">SELECT
+									GROUPID</span> <i class="fa-solid fa-angle-down"></i>
 							</div>
 							<div class="content" id="contentCityName" style="display: none;">
 								<div class="search">
@@ -90,23 +90,23 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Customer code:</label> <input type="text"
+						<label for="vehicalNo">CUSTOMER CODE:</label> <input type="text"
 							name="membercode" id="vehicalNo" required="required"
-							placeholder="Enter membercode" style="text-transform: uppercase;" />
+							placeholder="Enter CUSTOMER CODE" style="text-transform: uppercase;" />
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Scheme Name:</label> <input type="text"
+						<label for="vehicalNo">SCHEME NAME:</label> <input type="text"
 							name="vehicalNo" id="vehicalNo" required="required"
-							placeholder="Enter plan name" style="text-transform: uppercase;" />
+							placeholder="ENTER SCHEME NAM" style="text-transform: uppercase;" />
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Agent Code:</label> <input type="text"
+						<label for="vehicalNo">AGENT CODE:</label> <input type="text"
 							name="vehicalNo" id="vehicalNo" required="required"
-							placeholder="Enter Advisor code"
+							placeholder="ENTER AGENT CODE "
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -119,7 +119,7 @@
 
 					<button id="saveBtn" class="btnStyle"
 						style="background-color: #FFA500;">
-						<i class="bi bi-search"></i>Serach
+						<i class="bi bi-search"></i>SEARCH
 					</button>
 
 				</div>
@@ -137,7 +137,7 @@
 			<div class="card recent-sales">
 
 				<div class="card-body table-responsive">
-					<h5 class="card-title">Serach Result</h5>
+					<h5 class="card-title">SEARCH RESULT</h5>
 
 					<table class="table table-borderless datatable overflow-scroll">
 						<thead class="table-light">
