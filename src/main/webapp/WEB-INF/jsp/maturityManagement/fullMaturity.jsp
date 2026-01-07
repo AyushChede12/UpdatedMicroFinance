@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Maturity Management</h1>
+	<h1>MATURITY MANAGEMENT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-calendar-check"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Full Maturity Payment</li>
+			<li class="breadcrumb-item action">FULL MATURITY PAYMENT </li>
 		</ol>
 	</nav>
 </div>
@@ -16,17 +16,17 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Search Box</li>
+					<li class="breadcrumb-item action">SERACH BOX </li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3">
 
 					<div class="d-flex flex-column formFields">
-						<label for="">Plan type :<span id="star"> *</span></label> <select
+						<label for="">PLAN TYPE  :<span id="star"> *</span></label> <select
 							id="plantype" name="plantype" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="Select">Select</option>
+							<option value="Select">SELECT</option>
 							<option value="DRD">DRD</option>
 							<option value="RD">RD</option>
 							<option value="MIS">MIS</option>
@@ -37,10 +37,10 @@
 				<div class="col-lg-3">
 					<input type="hidden" name="id" id="id">
 					<div class="d-flex flex-column formFields">
-						<label for="policyCode">Policy Code</label> <select
+						<label for="policyCode">POLICY CODE </label> <select
 							id="policyCode" name="policyCode" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">-- Policy Code --</option>
+							<option value="">-- POLICY CODE --</option>
 
 						</select>
 					</div>
@@ -54,13 +54,13 @@
 		<div class="mt-5">
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Policy Details</li>
+					<li class="breadcrumb-item action">POLICY DETAILS </li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">plan code:</label> <input type="text"
+						<label for="">PLAN CODE :</label> <input type="text"
 							name="planCode" id="planCode" required="required" placeholder="" />
 					</div>
 				</div>
@@ -68,7 +68,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Policy Name:</label> <input type="text" name="policyName"
+						<label>POLICY NAME :</label> <input type="text" name="policyName"
 							id="policyName" required="required" placeholder=""
 							style="text-transform: uppercase;" />
 					</div>
@@ -76,7 +76,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Customer Name :</label> <input type="text"
+						<label for="vehicalNo">CUSTOMER NAME  :</label> <input type="text"
 							name="customerName" id="customerName" required="required"
 							placeholder="" style="text-transform: uppercase;" />
 					</div>
@@ -85,7 +85,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Duration:</label> <input type="text" name="duration"
+						<label>DURATION:</label> <input type="text" name="duration"
 							id="duration" required="required" placeholder="" />
 
 					</div>
@@ -94,7 +94,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Policy Amount:</label> <input type="text"
+						<label>POLICY AMOUNT :</label> <input type="text"
 							name="policyAmount" id="policyAmount" required="required"
 							placeholder="" />
 
@@ -105,7 +105,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Actual Maturity:</label> <input type="text"
+						<label>ACTUAL MATURITY :</label> <input type="text"
 							name="maturityAmount" id="maturityAmount" required="required"
 							placeholder="" />
 
@@ -116,7 +116,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Maturity Date:</label> <input type="text"
+						<label>MATURITY DATE:</label> <input type="text"
 							name="maturityDate" id="maturityDate" required="required"
 							placeholder="" />
 
@@ -126,7 +126,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Sys.Payable:</label> <input type="text" name="sysPayable"
+						<label>SYS.PAYABLE :</label> <input type="text" name="sysPayable"
 							id="sysPayable" required="required" placeholder="" />
 
 					</div>
@@ -136,7 +136,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Deduction(-):</label> <input type="text" name="deduction"
+						<label>DEDUCTION(-):</label> <input type="text" name="deduction"
 							id="deduction" required="required" placeholder="" />
 
 					</div>
@@ -147,7 +147,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Net Payable:</label> <input type="text" name="netPayable"
+						<label> PAYABLE:</label> <input type="text" name="netPayable"
 							id="netPayable" required="required" placeholder="" />
 
 					</div>
@@ -157,7 +157,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Approval Branch:</label> <input type="text"
+						<label>APPROVAL BRANCH :</label> <input type="text"
 							name="Approvebranch" id="Approvebranch" required="required"
 							placeholder="" />
 
@@ -169,7 +169,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Approve Status:</label> <input type="text"
+						<label>APPROVE STATUS :</label> <input type="text"
 							name="approveStatus" id="approveStatus" required="required"
 							value="NotApproved" readonly="readonly" />
 
@@ -183,10 +183,10 @@
 						style="margin-bottom: 30px">
 						<input type="hidden" name="id" id="id">
 						<div class="d-flex flex-column formFields">
-							<label> User Approver:</label> <select id="userApprover"
+							<label> USER APPROVER :</label> <select id="userApprover"
 								name="userApprover" required="required"
 								class="form-control selectField" style="height: 30px;">
-								<option value="">Team Member</option>
+								<option value="">TEAM MEMBER</option>
 
 							</select>
 						</div>
@@ -203,7 +203,7 @@
 		<div class="mt-5">
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Payable Deatil</li>
+					<li class="breadcrumb-item action">PAYABLE DETAIL</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -211,7 +211,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Panelty (if any):</label> <input type="text" name="panelty"
+						<label>PANELTY (IF ANY):</label> <input type="text" name="panelty"
 							id="panelty" required="required" placeholder=""
 							style="text-transform: uppercase;" />
 					</div>
@@ -219,7 +219,7 @@
 				<div class="col-lg-3">
 
 					<div class="d-flex flex-column formFields">
-						<label for="">Amount: <span id="star"> *</span></label> <input
+						<label for="">AMOUNT: <span id="star"> *</span></label> <input
 							type="text" name="amount" id="amount" required="required"
 							style="text-transform: uppercase;" />
 					</div>
@@ -228,7 +228,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Paid Amount: <span id="star">
+						<label for="vehicalNo">PAID AMOUNT : <span id="star">
 								*</span></label> <input type="text" name="depositAmount" id="depositAmount"
 							required="required" placeholder=""
 							style="text-transform: uppercase;" />
@@ -238,7 +238,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Due Amount:</label> <input type="text" name="dueAmount"
+						<label>DUE AMOUNT:</label> <input type="text" name="dueAmount"
 							id="dueAmount" required="required" placeholder=""
 							style="text-transform: uppercase;" />
 					</div>
@@ -256,14 +256,14 @@
 		<div class="mt-5">
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Payment Detail</li>
+					<li class="breadcrumb-item action">PAYMENT DEYTAIL </li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3">
 
 					<div class="d-flex flex-column formFields">
-						<label for="">Payment Date: <span id="star"> *</span></label> <input
+						<label for="">PAYMENT DATE : <span id="star"> *</span></label> <input
 							type="date" name="paymentDate" id="paymentDate"
 							required="required" placeholder=""
 							style="text-transform: uppercase;" />
@@ -272,10 +272,10 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Pay Branch:<span id="star">
+						<label for="vehicalNo">PAY BRANCH :<span id="star">
 								*</span></label> <select id="branchName" name="branchName" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select</option>
+							<option value="">SELECT</option>
 
 						</select>
 					</div>
@@ -284,7 +284,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Pay Remark:</label> <input type="text" name="payRemark"
+						<label>PAY REMARK:</label> <input type="text" name="payRemark"
 							id="payRemark" required="required" placeholder=""
 							style="text-transform: uppercase;" />
 					</div>
@@ -292,12 +292,12 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Mode of Payment <span id="star"> *</span></label> <select
+						<label for="">MODE OF PAYMENT <span id="star"> *</span></label> <select
 							id="modeofPayment" name="modeofPayment" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="Select">Select</option>
-							<option value="Online">Online</option>
-							<option value="Cash">Cash</option>
+							<option value="Select">SELECT</option>
+							<option value="Online">ONLINE</option>
+							<option value="Cash">CASH</option>
 
 						</select>
 					</div>
@@ -311,7 +311,7 @@
 
 			<div class="row">
 				<div class="col-12 text-center">
-					<button id="saveBtn" class="btn btn-success">Payment</button>
+					<button id="saveBtn" class="btn btn-success">PAYMENT</button>
 				</div>
 			</div>
 		</div>
@@ -334,18 +334,18 @@
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLongTitle">Total
-					payment</h5>
+				<h5 class="modal-title" id="exampleModalLongTitle">TATAL
+					PAYMENT</h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body">You Have to Pay :</div>
+			<div class="modal-body">YOU HAVE TO PAY :</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 				<button type="submit" id="Pay" class="btn btn-primary"
-					data-dismiss="modal">Pay</button>
+					data-dismiss="modal">PAY</button>
 			</div>
 		</div>
 	</div>

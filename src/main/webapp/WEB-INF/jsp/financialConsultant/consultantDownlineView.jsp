@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Financial Consultant</h1>
+	<h1>FINANCIAL CONSULTANT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-briefcase text-blue"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Consultant Downline View</li>
+			<li class="breadcrumb-item action">CONSULTANT DOWNLINE VIEW</li>
 		</ol>
 	</nav>
 </div>
@@ -16,14 +16,14 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Search</li>
+					<li class="breadcrumb-item action">SEARCH</li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3">
 					<input type="hidden" id="id" name="name">
 					<div class="d-flex flex-column formFields">
-						<label for="">Search By Name Or Consultant Code <span
+						<label for="">SEARCH BY NAME OR CONUSLTANT CODE <span
 							id="star">*</span></label> <input type="text" id="searchKeyword"
 							placeholder="Search by Name or Code"
 							class="form-control d-inline w-auto" />
@@ -42,7 +42,7 @@
 			<div class="card recent-sales">
 				<div class="card-body">
 					<h5 class="card-title">
-						Table View <span>| Record</span>
+						TABLE VIEW <span>| RECORED</span>
 					</h5>
 
 					<div style="overflow-x: auto; white-space: nowrap;">

@@ -42,12 +42,12 @@
 </style>
 
 <div class="pagetitle">
-	<h1>Joint Liability Loan</h1>
+	<h1>JOINT LIABILITY LOAN</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"><i
 					class="bi bi-person-bounding-box"></i></a></li>
-			<li class="breadcrumb-item active">Group Directory</li>
+			<li class="breadcrumb-item active">GROUP DIRECTORY</li>
 		</ol>
 	</nav>
 </div>
@@ -55,17 +55,17 @@
 <form id="groupdirectordform">
 	<div class="row">
 		<div class="col-12">
-			<h4 style="font-size: 20px;">Group Info</h4>
+			<h4 style="font-size: 20px;">GROUP INFO</h4>
 		</div>
 		<div class="col-lg-3" style="display: none;">
 			<div class="d-flex flex-column formFields">
-				<label>id*</label> <input type="text" id="id" name="id"
+				<label>ID*</label> <input type="text" id="id" name="id"
 					class="form-control" required />
 			</div>
 		</div>
 		<div class="col-lg-3" style="display: none;">
 			<div class="d-flex flex-column formFields">
-				<label>Group ID*</label> <input type="text" id="groupID"
+				<label>GROUP ID*</label> <input type="text" id="groupID"
 					name="groupID" value="${memberCodeGD}" class="form-control"
 					required />
 			</div>
@@ -73,15 +73,15 @@
 
 		<div class="col-lg-3 ">
 			<div class="d-flex flex-column formFields">
-				<label>Community Name*</label> <input type="text" id="communityName"
+				<label>COMMUNITY NAME*</label> <input type="text" id="communityName"
 					name="communityName" class="form-control" required
-					placeholder="Enter Community Name" />
+					placeholder="ENTER COMMUNITY NAME" />
 			</div>
 		</div>
 
 		<div class="col-lg-3 ">
 			<div class="d-flex flex-column formFields">
-				<label>Opening Date*</label> <input type="date" id="openingDate"
+				<label>OPENING DATE*</label> <input type="date" id="openingDate"
 					name="openingDate" class="form-control" required />
 			</div>
 		</div>
@@ -89,12 +89,12 @@
 
 		<div class="col-lg-3 mb-4 ">
 			<div class="d-flex flex-column formFields">
-				<label for="">Branch Name*</label> <select id="branchName"
+				<label for="">BRANCH NAME*</label> <select id="branchName"
 					name="branchName" required="required"
 					class="form-control selectField" style="height: 30px;">
-					<option value="">Select Branch</option>
-					<option>Branch A</option>
-					<option>Branch B</option>
+					<option value="">SELECT BRANCH</option>
+					<option>BRANCH A</option>
+					<option>BRANCH B</option>
 				</select>
 			</div>
 		</div>
@@ -109,10 +109,10 @@
 
 		<div class="col-lg-3 mb-4 ">
 			<div class="d-flex flex-column formFields">
-				<label for="">Community Leader*</label> <select id="communityLeader"
+				<label for="">COMMMUNITY LEADER*</label> <select id="communityLeader"
 					name="communityLeader" required="required"
 					class="form-control selectField" style="height: 30px;">
-					<option value="">Select Member</option>
+					<option value="">SELECT MEMBER</option>
 				</select>
 			</div>
 		</div>
@@ -120,29 +120,29 @@
 
 		<div class="col-lg-3 ">
 			<div class="d-flex flex-column formFields">
-				<label>Contact No.*</label> <input type="text" id="contactNo"
+				<label>CONTACT NO.*</label> <input type="text" id="contactNo"
 					name="contactNo" class="form-control" required maxlength="10"
-					placeholder="Enter Contact No" />
+					placeholder="ENTER CONTACT NO" />
 			</div>
 		</div>
 
 		<div class="col-lg-3 ">
 			<div class="d-flex flex-column formFields">
-				<label>Community Address*</label> <input type="text"
+				<label>COMMUNITY ADDRESS *</label> <input type="text"
 					id="communityAddress" name="communityAddress" class="form-control"
-					required placeholder="Enter Address" />
+					required placeholder="ENTER ADDRESS" />
 			</div>
 		</div>
 
 
 		<div class="col-lg-3 mb-4 ">
 			<div class="d-flex flex-column formFields">
-				<label for="">Allocated Staff*</label> <select id="allocatedStaff"
+				<label for="">ALLOCATED STAFF*</label> <select id="allocatedStaff"
 					name="allocatedStaff" required="required"
 					class="form-control selectField" style="height: 30px;">
-					<option value="">Select Staff</option>
-					<option>Staff A</option>
-					<option>Staff B</option>
+					<option value="">SELECT STAFF</option>
+					<option>STAFF A</option>
+					<option>STAFF B</option>
 
 				</select>
 			</div>
@@ -150,12 +150,12 @@
 
 		<div class="col-lg-3 mb-4 ">
 			<div class="d-flex flex-column formFields">
-				<label for="">Scheduled Collection Days*</label> <select
+				<label for="">SCHEDULED COLLECTION DAYS *</label> <select
 					id="collectionDay" name="collectionDay" required="required"
 					class="form-control selectField" style="height: 30px;">
-					<option value="">Select Day</option>
-					<option>Monday</option>
-					<option>Wednesday</option>
+					<option value="">SELECT DAY</option>
+					<option>MONDAY</option>
+					<option>WEDNESDAY</option>
 
 				</select>
 			</div>
@@ -163,10 +163,10 @@
 
 		<div class="col-lg-3 mb-4 ">
 			<div class="d-flex flex-column formFields">
-				<label for="">Scheduled Time*</label> <select id="collectionTime"
+				<label for="">SCHEDULED TIME*</label> <select id="collectionTime"
 					name="collectionTime" required="required"
 					class="form-control selectField" style="height: 30px;">
-					<option value="">Select Time</option>
+					<option value="">SELECT TIME</option>
 					<option>10:00 AM</option>
 					<option>02:00 PM</option>
 				</select>
@@ -180,8 +180,8 @@
 	<div class="row mt-4">
 		<div class="col-lg-3 mb-5">
 			<label for=""
-				style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">Upload
-				Photo <span class="star">*</span>
+				style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">UPLOAD
+				PHOTO <span class="star">*</span>
 			</label> <label for="uploadPhoto" id="drop-area"> <input type="file"
 				accept="image/*" name="uploadPhoto" id="uploadPhoto" hidden="hidden"
 				onchange="photoUpload();"
@@ -197,8 +197,8 @@
 
 		<div class="col-lg-3 mb-5">
 			<label for=""
-				style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">Upload
-				Signature <span class="star">*</span>
+				style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">UPLOAD
+				SIGNATURE  <span class="star">*</span>
 			</label> <label for="uploadSignature" id="drop-area"> <input
 				type="file" accept="image/*" name="uploadSignature"
 				id="uploadSignature" hidden="hidden" onchange="signatureUpload();"
@@ -218,16 +218,16 @@
 
 	<hr class="mt-5" />
 	<div class="col-12">
-		<h4>Group Member Link</h4>
+		<h4>GROUP MEMBER LINK</h4>
 	</div>
 
 	<div class="row">
 		<div class="col-lg-3 mb-4 ">
 			<div class="d-flex flex-column formFields">
-				<label for="">Select Member*</label> <select id="selectedMember"
+				<label for="">SELECT MEMBER*</label> <select id="selectedMember"
 					name="selectedMember" required="required"
 					class="form-control selectField" style="height: 30px;">
-					<option value="">Select Member</option>
+					<option value="">SELECT MEMBER</option>
 				</select>
 			</div>
 		</div>
@@ -235,25 +235,25 @@
 
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields">
-				<label>Customer Name*</label> <input type="text" id="customerName"
+				<label>CUSTOMER NAME*</label> <input type="text" id="customerName"
 					name="customerName" class="form-control" required
-					placeholder="Enter Member Name" />
+					placeholder="ENTER MEMBER NAME" />
 			</div>
 		</div>
 
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields">
-				<label>Referral Details*</label> <input type="text"
+				<label>REFERRAL DETAILS*</label> <input type="text"
 					id="referralDetails" name="referralDetails" class="form-control"
-					required placeholder="Enter Relative Details" />
+					required placeholder="ENTER REFERRAL DETAILS" />
 			</div>
 		</div>
 
 		<div class="col-lg-3 ">
 			<div class="d-flex flex-column formFields">
-				<label>Contact*</label> <input type="text" id="contact"
+				<label>CONTACT*</label> <input type="text" id="contact"
 					name="contact" class="form-control" maxlength="10" required
-					placeholder="Enter Mobile Number" />
+					placeholder="ENTER MOBILE NUMBER" />
 			</div>
 		</div>
 
@@ -262,22 +262,22 @@
 	</div>
 
 	<div class="col-12 text-right">
-		<button type="button" id="addque" class="btn btn-success mt-3">Add
-			Que</button>
+		<button type="button" id="addque" class="btn btn-success mt-3">ADD
+			QUE</button>
 	</div>
 	<div class="row mt-5">
 		<div class="col-12">
 			<div class="card recent-sales">
 				<div class="card-body table-responsive">
-					<h5 class="card-title">Details Search List</h5>
+					<h5 class="card-title">DETAILS SEARCH LIST</h5>
 					<table class="table table-bordered" id="tab1">
 						<thead class="thead-light">
 							<tr>
-								<th>id</th>
-								<th>Customer Name</th>
-								<th>Referral Details</th>
-								<th>Contact</th>
-								<th>Action</th>
+								<th>ID</th>
+								<th>CUSTOMER NAME</th>
+								<th>REFFERAL DEATILS</th>
+								<th>CONTACT</th>
+								<th>ACTION</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -293,11 +293,11 @@
 
 	<div class="col-12 text-right">
 		<button id="savegroupdirectory" type="button"
-			class="btn btn-success mt-3">Save</button>
+			class="btn btn-success mt-3">SAVE</button>
 		<!-- <button id="updategroupdirectory" type="button"
 						class="btn btn-success mt-3">Update</button> -->
 		<button id="showGroupDirectory" type="button"
-			class="btn btn-warning mt-3">Show Tabel</button>
+			class="btn btn-warning mt-3">SHOW TABLE</button>
 	</div>
 
 
@@ -305,23 +305,23 @@
 		<div class="col-12">
 			<div class="card recent-sales">
 				<div class="card-body table-responsive">
-					<h5 class="card-title">Details Search List</h5>
+					<h5 class="card-title">DETAILS SEARCH LIST</h5>
 					<table class="table table-bordered" id="">
 						<thead class="thead-light">
 							<tr>
-								<th>Group ID</th>
-								<th>Group Name</th>
-								<th>Opening Date</th>
-								<th>Assigned Branch</th>
-								<th>Group Leader</th>
-								<th>GL Contact No</th>
-								<th>Community Address</th>
-								<th>Allocated Staff</th>
-								<th>Collection Day</th>
-								<th>Collection Time</th>
-								<th>Group Members ID's</th>
-								<th>Group Members Name</th>
-								<th>Action</th>
+								<th>GROUP ID</th>
+								<th>GROUP NAME</th>
+								<th>OPENING DATE </th>
+								<th>ASSIGNED BRANCH</th>
+								<th>GROUP LEADER</th>
+								<th>GL CONTACT NO</th>
+								<th>COMMUNITY ADDRESS</th>
+								<th>ALLOCATED STAFF</th>
+								<th>COLLECTION DAY</th>
+								<th>COLLECTION TIME</th>
+								<th>GROUP MEMBERS ID'S</th>
+								<th>GROUP MEMBERS NAME</th>
+								<th>ACTIONS</th>
 							</tr>
 						</thead>
 						<tbody id="groupDirectoryBody">

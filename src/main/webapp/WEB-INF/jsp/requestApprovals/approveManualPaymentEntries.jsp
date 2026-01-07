@@ -1,13 +1,13 @@
 
 <div class="pagetitle">
-	<h1>Request Approval</h1>
+	<h1>REQUEST APPROVAL</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-check-circle"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Approve Manual Payment
-				Entries</li>
+			<li class="breadcrumb-item action">APPROVE MANUAL PAYMENT
+				ENTRIES </li>
 		</ol>
 	</nav>
 </div>
@@ -17,13 +17,13 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Find Box</li>
+					<li class="breadcrumb-item action">FIND BOX</li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-4">
 					<div class="d-flex flex-column formFields">
-						<label for="">Branch Name</label> <select id="branchName"
+						<label for="">BRANCH NAME</label> <select id="branchName"
 							name="branchName" required="required"
 							class="form-control selectField" style="height: 30px;">
 							<option value="">Select Branch</option>
@@ -34,7 +34,7 @@
 
 				<div class="col-lg-4">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Date From</label> <input type="date"
+						<label for="vehicalNo">DATE FROM</label> <input type="date"
 							name="fromDate" id="fromDate" required="required"
 							placeholder="Enter From Date" style="text-transform: uppercase;" />
 					</div>
@@ -42,7 +42,7 @@
 
 				<div class="col-lg-4">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Date To</label> <input type="date"
+						<label for="vehicalNo">DATE TO</label> <input type="date"
 							name="toDate" id="toDate" required="required"
 							placeholder="Enter To Date" style="text-transform: uppercase;" />
 					</div>
@@ -64,7 +64,7 @@
 		<div class="card recent-sales">
 
 			<div class="card-body table-responsive">
-				<h5 class="card-title">Search result</h5>
+				<h5 class="card-title">SEARCH RESULT</h5>
 
 				<div style="overflow-x: auto; white-space: nowrap;">
 					<table class="table table-borderless datatable">
