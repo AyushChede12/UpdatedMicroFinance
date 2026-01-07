@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Loan Management</h1>
+	<h1>LOAN MANAGEMENT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-house-door"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Regular Loan Statement</li>
+			<li class="breadcrumb-item action">REGULAR LOAN STATEMENT</li>
 		</ol>
 	</nav>
 </div>
@@ -16,25 +16,25 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Search Details</li>
+					<li class="breadcrumb-item action">SEARCH DETAILS</li>
 				</ol>
 			</nav>
 			<div class="row">
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Select Loan Type</label> <select id="loanId&Name"
+						<label for="">SELECT LOAN TYPE</label> <select id="loanId&Name"
 							name="loanId&Name" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select Loan Type</option>
-							<option value="Regular">Regular Loan Statement</option>
-							<option value="Irregular">Irregular Loan Statement</option>
+							<option value="">SELECT LOAN TYPE</option>
+							<option value="Regular">REGULAR LOAN STATEMENT</option>
+							<option value="Irregular">IRREGULAR LOAN STATEMENT</option>
 						</select>
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for=""> Loan Id</label> <select id="loanStatementID"
+						<label for="">LOAN ID</label> <select id="loanStatementID"
 							name="loanStatementID" required="required"
 							class="form-control selectField" style="height: 30px;">
 
@@ -47,7 +47,7 @@
 
 		<div class="row mt-4">
 			<div class="col-12 text-center">
-				<button id="searchLoanStatement" class="btnStyle bg-success">search</button>
+				<button id="searchLoanStatement" class="btnStyle bg-success">SEARCH</button>
 
 			</div>
 		</div>

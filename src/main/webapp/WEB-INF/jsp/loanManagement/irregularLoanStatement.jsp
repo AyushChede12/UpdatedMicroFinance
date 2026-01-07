@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Loan Management</h1>
+	<h1>LOAN MANAGEMENT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-cash-coin"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Irregular Loan Statement</li>
+			<li class="breadcrumb-item action">IRREGULAR LOAN STATEMENT</li>
 		</ol>
 	</nav>
 </div>
@@ -16,7 +16,7 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Search Details</li>
+					<li class="breadcrumb-item action">SEARCH DETAILS</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -44,11 +44,11 @@
                 </div>
               </div> -->
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Find Loan Id & Name</label> <select id="loanid"
+						<label for="">FIND LOAN ID & NAME</label> <select id="loanid"
 							name="loanid" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select Colour</option>
-							<option value="Blue">Blue</option>
+							<option value="">SELECT COLOR</option>
+							<option value="Blue">BLUE</option>
 						</select>
 					</div>
 				</div>
@@ -66,7 +66,7 @@
 
 		<div class="row mt-4">
 			<div class="col-12 text-center">
-				<button id="saveBtn" class="btnStyle bg-success">search</button>
+				<button id="saveBtn" class="btnStyle bg-success">SEARCH</button>
 
 			</div>
 		</div>
@@ -78,18 +78,18 @@
 
 				<div class="card-body table-responsive">
 					<h5 class="card-title">
-						Recent Sales <span>| Today</span>
+						RECENT SALES <span>| TODAY</span>
 					</h5>
 
 					<table class="table table-borderless datatable overflow-scroll">
 						<thead class="table-light">
 							<tr style="font-family: 'Poppins', sans-serif;">
 								<th scope="col">#</th>
-								<th scope="col">Customer</th>
-								<th scope="col">Product</th>
-								<th scope="col">Price</th>
-								<th scope="col">Status</th>
-								<th scope="col">Action</th>
+								<th scope="col">CUSTOMER</th>
+								<th scope="col">PRODUCT</th>
+								<th scope="col">PRICE</th>
+								<th scope="col">STATUS</th>
+								<th scope="col">ACTION</th>
 							</tr>
 						</thead>
 						<tbody>
