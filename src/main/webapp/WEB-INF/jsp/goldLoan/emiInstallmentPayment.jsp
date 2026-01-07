@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Secured Gold Loan</h1>
+	<h1>SECURED GOLD LOAN</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-cash-coin"></i>
 			</a></li>
-			<li class="breadcrumb-item action">EMI Installment Payment</li>
+			<li class="breadcrumb-item action">EMI INSTALLMENT PAYMENT </li>
 		</ol>
 	</nav>
 </div>
@@ -14,10 +14,10 @@
 <div class="row">
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
-			<label for="findByGoldLoanId" id="goldSelection">Customer
-				Selection </label> <select id="findByGoldLoanId" name="findByGoldLoanId"
+			<label for="findByGoldLoanId" id="goldSelection">CUSTOMER
+				SELECTION </label> <select id="findByGoldLoanId" name="findByGoldLoanId"
 				class="form-control selectField" style="width: 100%;">
-				<option value="">-- Search Gold ID --</option>
+				<option value="">-- SERACH GOLD ID --</option>
 			</select>
 		</div>
 	</div>
@@ -28,7 +28,7 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Search Details</li>
+					<li class="breadcrumb-item action">SERACH DETAILS</li>
 				</ol>
 			</nav>
 			<div class="row">
