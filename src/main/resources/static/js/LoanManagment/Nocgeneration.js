@@ -14,7 +14,7 @@ function populateDropdown() {
 			$dropdown.empty(); // Clear previous entries
 
 			if (response.status === "OK" && Array.isArray(response.data) && response.data.length > 0) {
-				$dropdown.append('<option value="" disabled selected>Select Loan ID</option>');
+				$dropdown.append('<option value="" disabled selected>SELECT LOAN ID</option>');
 				response.data.forEach(function(id) {
 					$dropdown.append(`<option value="${id}">${id}</option>`);
 				});

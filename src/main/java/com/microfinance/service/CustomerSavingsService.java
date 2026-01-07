@@ -116,7 +116,7 @@ public class CustomerSavingsService {
 //	}
 
 	public ApiResponse<CreateSavingsAccount> saveSavingAccountDetails(SavingAccountDto savingAccountDto, String photo,
-			String signature, String jointPhoto, String newPhoto, String newSignature ) {
+			String signature, MultipartFile jointPhoto, MultipartFile newPhoto, MultipartFile newSignature) throws IOException {
 		// TODO Auto-generated method stub
 		CreateSavingsAccount createSavingsAccount = new CreateSavingsAccount();
 		boolean isNew = true;
@@ -183,17 +183,21 @@ public class CustomerSavingsService {
 			createSavingsAccount.setSignature(signature);
 		}
 
-		// Handle signature upload
 		if (jointPhoto != null && !jointPhoto.isEmpty()) {
-			createSavingsAccount.setJointPhoto(jointPhoto);
-		}
-		if (newPhoto != null && !newPhoto.isEmpty()) {
-			createSavingsAccount.setNewPhoto(newPhoto);
-		}
-		if (newSignature != null && !newSignature.isEmpty()) {
-			createSavingsAccount.setNewSignature(newSignature);
+			String jointPhotoFileName = saveFile(jointPhoto);
+			createSavingsAccount.setJointPhoto(jointPhotoFileName);
 		}
 
+		if (newPhoto != null && !newPhoto.isEmpty()) {
+			String newPhotoFileName = saveFile(newPhoto);
+			createSavingsAccount.setNewPhoto(newPhotoFileName);
+		}
+
+		if (newSignature != null && !newSignature.isEmpty()) {
+			String newSignatureFileName = saveFile(newSignature);
+			createSavingsAccount.setNewSignature(newSignatureFileName);
+			;
+		}
 		// Handle photo upload
 		/*
 		 * if (photo != null && !photo.isEmpty()) { try { String fileName1 =
@@ -226,21 +230,25 @@ public class CustomerSavingsService {
 		}
 	}
 
-	/*
-	 * private String saveFile(MultipartFile photo) throws IOException { // TODO
-	 * Auto-generated method stub if (photo != null && !photo.isEmpty()) {
-	 * ensureUploadDirectoryExists(); // Ensure the upload directory exists String
-	 * fileName = System.currentTimeMillis() + "_" + photo.getOriginalFilename(); //
-	 * Generate a unique // filename File destinationFile = new File(uploadDirectory
-	 * + File.separator + fileName);
-	 * 
-	 * try { photo.transferTo(destinationFile); // Save the file to the destination
-	 * path System.out.println("File successfully saved at: " +
-	 * destinationFile.getAbsolutePath()); return fileName; // Return the saved
-	 * file's name } catch (IOException e) {
-	 * System.err.println("File saving failed: " + e.getMessage()); throw e; //
-	 * Rethrow the exception to handle errors } } return null; }
-	 */
+	private String saveFile(MultipartFile photo) throws IOException {
+		// TODO Auto-generated method stub
+		if (photo != null && !photo.isEmpty()) {
+			ensureUploadDirectoryExists(); // Ensure the upload directory exists
+			String fileName = System.currentTimeMillis() + "_" + photo.getOriginalFilename(); // Generate a unique //
+																								// filename
+			File destinationFile = new File(uploadDirectory + File.separator + fileName);
+
+			try {
+				photo.transferTo(destinationFile); // Save the file to the destination path
+				System.out.println("File successfully saved at: " + destinationFile.getAbsolutePath());
+				return fileName; // Return the saved file's name
+			} catch (IOException e) {
+				System.err.println("File saving failed: " + e.getMessage());
+				throw e; // Rethrow the exception to handle errors
+			}
+		}
+		return null;
+	}
 
 	/*
 	 * private String saveFile1(MultipartFile signature) throws IOException { //
@@ -258,14 +266,15 @@ public class CustomerSavingsService {
 	 * Rethrow the exception to handle errors } } return null; }
 	 */
 
-	/*
-	 * private void ensureUploadDirectoryExists() { File uploadDir = new
-	 * File(uploadDirectory); if (!uploadDir.exists()) { boolean created =
-	 * uploadDir.mkdirs(); // Create directories if they don't exist if (created) {
-	 * System.out.println("Upload directory created at: " + uploadDirectory); } else
-	 * { System.err.println("Failed to create upload directory: " +
-	 * uploadDirectory); } } }
-	 */
+	private void ensureUploadDirectoryExists() {
+		File uploadDir = new File(uploadDirectory);
+		if (!uploadDir.exists()) {
+			boolean created = uploadDir.mkdirs(); // Create directories if they don't exist if (created) {
+			System.out.println("Upload directory created at: " + uploadDirectory);
+		} else {
+			System.err.println("Failed to create upload directory: " + uploadDirectory);
+		}
+	}
 
 	public List<CreateSavingsAccount> fetchAllSavingAccountData() {
 		// TODO Auto-generated method stub
