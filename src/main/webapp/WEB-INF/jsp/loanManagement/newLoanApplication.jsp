@@ -152,10 +152,12 @@
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
+					<input type="hidden" id="hiddenLoanAmount">
 						<label for="">AMOUNT OF LOAN </label> <input type="text"
 							name="loanAmount" id="loanAmount" required="required"
-							placeholder="ENTER AMOUNT OF LOAN"
+							placeholder="ENTER AMOUNT OF LOAN" oninput="calculateNewFees()"
 							style="text-transform: uppercase;" />
+							<small id="chkloanamount" style="color: red;"></small>
 					</div>
 				</div>
 				<div class="col-lg-3">
@@ -411,6 +413,7 @@
 				<div class="col-lg-3">
 
 					<div class="d-flex flex-column formFields mb-4">
+					<input type="hidden" id="hiddenProcessingFee">
 						<label for="loanName">PROCESSING FEE </label> <input type="text"
 							name="processingFee" id="processingFee" required="required"
 							style="text-transform: uppercase;" />
@@ -419,6 +422,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
+					<input type="hidden" id="hiddenLegalCharges">
 						<label for="loanName">LEGAL CHARGES </label> <input type="text"
 							name="legalCharges" id="legalCharges" required="required"
 							style="text-transform: uppercase;" />
@@ -429,6 +433,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
+					<input type="hidden" id="hiddenGST">
 						<label for="loanName">GST</label> <input type="text" name="gst"
 							id="gst" required="required" placeholder="ENTER STAMP DUTY FEE"
 							style="text-transform: uppercase;" />
@@ -438,6 +443,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
+					<input type="hidden" id="hiddenInsuranceFee">
 						<label for="loanName">INSURANCE FEE</label> <input type="text"
 							name="insuranceFee" id="insuranceFee" required="required"
 							placeholder="ENTER INSURANCE FEE"
@@ -447,6 +453,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
+					<input type="hidden" id="hiddenValuationFees">
 						<label for="loanName">VALUATION FEES</label> <input type="text"
 							name="valuationFees" id="valuationFees" required="required"
 							placeholder="ENTER INTEREST CHARGE"
@@ -458,6 +465,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
+					<input type="hidden" id="hiddenStationaryCharge">
 						<label for="">STATIONARY CHARGES FEE</label> <input type="text"
 							name="stationaryFee" id="stationaryFee" required="required"
 							placeholder="ENTER STATIONARY CHARGES FEE" />
