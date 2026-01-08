@@ -17,7 +17,7 @@ function populateLoanIdDropdown() {
 				$dropdown.empty(); // Clear existing options
 
 				// ✅ Wrap your <option> in quotes!
-				$dropdown.append('<option value="" disabled selected>Select Loan ID</option>');
+				$dropdown.append('<option value="" disabled selected>SELECT LOAN ID</option>');
 
 				response.data.forEach(function(id) {
 					$dropdown.append(`<option value="${id}">${id}</option>`);
@@ -55,34 +55,34 @@ $(document).ready(function() {
 
 					var detailsHtml = `
     <div style="border:1px dashed #333; padding:15px; border-radius:10px;">
-        <!-- Header with Loan Statement + Print Button -->
+        <!-- Header with LOAN STATEMENT + Print Button -->
         <div style="display:flex; justify-content:space-between; align-items:center;">
-            <h4 style="margin:0;">Loan Statement</h4>
+            <h4 style="margin:0;">LOAN STATEMENT</h4>
             <button onclick="loanStatement()"  
                 style="padding:6px 12px; border:none; background:#007bff; color:#fff; border-radius:6px; cursor:pointer;">
-                Print
+                PRINT
             </button>
         </div>
 
         <!-- Customer Name and Loan Type in same row -->
         <div style="display:flex; justify-content:space-between; margin-top:10px;">
-            <p><b>Customer Name:</b> ${first.memberName}</p>
-            <p><b>Interest Type:</b> ${first.interestType}</p>
+            <p><b>CUSTOMER NAME:</b> ${(first.memberName).toUpperCase()}</p>
+            <p><b>INTEREST TYPE:</b> ${(first.interestType).toUpperCase()}</p>
         </div>
 
         <div style="display:flex; justify-content:space-between; margin-top:10px;">
-           <p><b>Loan ID:</b> ${first.loanId}</p>
-           <p style="margin-left:5px;"><b>Plan Name:</b> ${first.loanPlanName}</p>
+           <p><b>LOAN ID:</b> ${first.loanId}</p>
+           <p style="margin-left:5px;"><b>PLAN NAME:</b> ${(first.loanPlanName).toUpperCase()}</p>
         </div>
         <hr/>
 
-        <h5>Payments</h5>
+        <h5>PAYMENTS</h5>
         <div style="display:grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; font-weight:bold; border-bottom:2px solid #000; padding:6px 0;">
-            <div>Payment Date</div>
-			<div>Installment No.</div>
-            <div>Amount Paid</div>
-            <div>Amount Due</div>
-            <div>Payment Status</div>
+            <div>PAYMENT DATE</div>
+			<div>INSTALLMENT NO.</div>
+            <div>AMOUNT PAID</div>
+            <div>AMOUNT DUE</div>
+            <div>PAYMENT STATUS</div>
         </div>
    
                     `;
@@ -92,10 +92,10 @@ $(document).ready(function() {
     detailsHtml += `
         <div style="display:grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; border-bottom:1px solid #ccc; padding:5px 0;">
             <div>${txn.paymentDate}</div>
-            <div>${txn.remarks}</div>
+            <div>${(txn.remarks).toUpperCase()}</div>
             <div>${txn.emiPayment}</div>
             <div>${Number(txn.amountDue).toFixed(2)}</div>
-            <div style="padding-left:50px;">${txn.paymentStatus}</div>
+            <div style="padding-left:50px;">${(txn.paymentStatus).toUpperCase()}</div>
         </div>
     `;
 });

@@ -17,7 +17,7 @@ function populateapprovedLoanIdDropdown() {
 				$dropdown.empty(); // Clear existing options
 
 				// ✅ Wrap your <option> in quotes!
-				$dropdown.append('<option value="" disabled selected>Select Loan ID</option>');
+				$dropdown.append('<option value="" disabled selected>SELECT LOAN ID</option>');
 
 				response.data.forEach(function(id) {
 					$dropdown.append(`<option value="${id}">${id}</option>`);
@@ -71,121 +71,96 @@ function fetchInstallmentCount(loanId, callback) {
 		}
 	});
 }
-
 function fetchLoanDetails(loanId, installmentCount) {
+
 	$.ajax({
 		url: "api/loanmanegment/getLoanById",
 		type: "GET",
 		data: { loanId: loanId },
 		dataType: "json",
+
 		success: function(response) {
-			if (response.status === "OK" && response.data) {
-				const data = response.data;
 
-				// ✅ Populate fields
-				$("#dateofLoan").val(data.loanDate);
-				$("#memberId").val(`${data.memberId} - ${data.memberName || "-"}`);
-				$("#relativeDetails").val(data.relativeDetails);
-				$("#branchName").val(data.branchName);
-				$("#contactNo").val(data.contactNo);
-				$("#loanPlanName").val(data.loanPlanName);
-				$("#typeOfLoan").val(data.typeOfLoan);
-				$("#emiPayment").val(data.emiPayment);
-				$("#totalprincipalloan").val(data.sanctionedAmount);
-				$("#loanAmount").val(data.loanAmount);
-				$("#rateOfInterest").val(data.rateOfInterest);
-				$("#loanTerm").val(data.loanTerm);
-				$("#loanMode").val(data.loanMode);
-				$("#interestType").val(data.interestType);
-				$("#sanctionedAmount").val(data.sanctionedAmount);
-				$("#noOfInst").val(installmentCount + " INSTALLMENTS");
-				$("#financialConsultantId").val(data.financialConsultantId);
-				$("#financialConsultantName").val(data.financialConsultantName);
-
-				// ✅ Variables
-				let loanAmount = parseFloat(data.loanAmount) || 0;
-				let rateOfInterest = parseFloat(data.rateOfInterest) || 0;
-				let loanTerm = parseFloat(data.loanTerm) || 0;
-				let loanMode = (data.loanMode || "").toLowerCase();
-				let interestType = (data.interestType || "").toLowerCase();
-				let emiPayment = parseFloat(data.emiPayment) || 0;
-
-				// ✅ Determine payments per year
-				let paymentsPerYear = 1;
-				if (loanMode === "daily") paymentsPerYear = 365;
-				else if (loanMode === "weekly") paymentsPerYear = 52;
-				else if (loanMode === "monthly") paymentsPerYear = 12;
-				else if (loanMode === "quarterly") paymentsPerYear = 4;
-				else if (loanMode === "yearly") paymentsPerYear = 1;
-
-				// ✅ Convert term to years
-				let termInYears = loanTerm;
-				if (loanMode === "daily") termInYears = loanTerm / 365;
-				else if (loanMode === "weekly") termInYears = loanTerm / 52;
-				else if (loanMode === "monthly") termInYears = loanTerm / 12;
-				else if (loanMode === "quarterly") termInYears = loanTerm / 4;
-
-				// ✅ Total installments
-				let totalPayments = loanTerm;
-
-				// ✅ Calculate total interest
-				let totalinterestofLoan = 0;
-				let emi = 0;
-
-				if (interestType === "flat interest") {
-					totalinterestofLoan = (loanAmount * rateOfInterest * termInYears) / 100;
-				} else if (interestType === "reducing interest") {
-					totalPayments = loanTerm * paymentsPerYear;
-					let periodicRate = rateOfInterest / paymentsPerYear / 100;
-					emi = (loanAmount * periodicRate * Math.pow(1 + periodicRate, totalPayments)) /
-						(Math.pow(1 + periodicRate, totalPayments) - 1);
-					totalinterestofLoan = emi * totalPayments - loanAmount;
-				}
-
-				$("#totalinterestofLoan").val(totalinterestofLoan.toFixed(2));
-
-				let totalPayableofLoan = (loanAmount + totalinterestofLoan).toFixed(2);
-				$("#totalPayableofLoan").val(totalPayableofLoan);
-
-				// 🔹 Calculate Interest Due
-				let interestDue = 0;
-				if (interestType === "flat interest") {
-					let interestPerInstallment = totalinterestofLoan / totalPayments;
-					interestDue = totalinterestofLoan - (interestPerInstallment * installmentCount);
-				} else if (interestType === "reducing interest") {
-					let interestPerInstallment = totalinterestofLoan / totalPayments;
-					interestDue = totalinterestofLoan - (interestPerInstallment * installmentCount);
-				}
-
-				// 🔹 Calculate Principal Due
-				let principalPerInstallment = loanAmount / totalPayments;
-				let principalPaid = principalPerInstallment * installmentCount;
-				let principaldue = loanAmount - principalPaid;
-
-				// 🔹 Calculate Total Amount Due
-				let amountPaid = emiPayment * installmentCount;
-				let balanceLoanAmount = totalPayableofLoan - amountPaid;
-
-				// ✅ Bind values
-				$("#interestDue").val(interestDue.toFixed(2));
-				$("#principaldue").val(principaldue.toFixed(2));
-				$("#amountPaid").val(amountPaid.toFixed(2));
-				$("#balanceLoanAmount").val(balanceLoanAmount.toFixed(2));
-
-				console.log("Installments Paid:", installmentCount);
-				console.log("Interest Due:", interestDue);
-				console.log("Principal Due:", principaldue);
-				console.log("Total Amount Due:", amountPaid);
-
-			} else {
-				alert("Loan data not found.");
+			if (response.status !== "OK" || !response.data) {
+				alert("Loan data not found");
+				return;
 			}
+
+			const d = response.data;
+
+			// ===============================
+			// 1️⃣ Populate Loan Info
+			// ===============================
+			$("#dateofLoan").val(d.loanDate);
+			$("#memberId").val(d.memberId + " - " + d.memberName);
+			$("#loanPlanName").val(d.loanPlanName);
+			$("#loanMode").val(d.loanMode);
+			$("#loanTerm").val(d.loanTerm);
+			$("#interestType").val(d.interestType);
+			$("#emiPayment").val(d.emiPayment);
+			$("#rateOfInterest").val(d.rateOfInterest);
+			$("#loanAmount").val(d.loanAmount);
+			$("#sanctionedAmount").val(d.sanctionedAmount);
+
+			$("#noOfInst").val(installmentCount + " INSTALLMENTS");
+
+			// ===============================
+			// 2️⃣ Variables
+			// ===============================
+			let principal = parseFloat(d.loanAmount);
+			let roi = parseFloat(d.rateOfInterest);
+			let emi = parseFloat(d.emiPayment);
+			let totalInst = parseInt(d.loanTerm);
+			let paidInst = installmentCount;
+
+			let monthlyRate = roi / 12 / 100;
+
+			let outstandingPrincipal = principal;
+			let interestPaid = 0;
+			let principalPaid = 0;
+
+			// ===============================
+			// 3️⃣ REDUCING BALANCE EMI LOOP
+			// ===============================
+			for (let i = 1; i <= paidInst; i++) {
+				let interest = outstandingPrincipal * monthlyRate;
+				let principalComponent = emi - interest;
+
+				interestPaid += interest;
+				principalPaid += principalComponent;
+				outstandingPrincipal -= principalComponent;
+			}
+
+			// ===============================
+			// 4️⃣ EARLY CLOSURE CALCULATION
+			// ===============================
+			let interestDueCurrentMonth = outstandingPrincipal * monthlyRate;
+
+			// EARLY closure me future interest NOT waived
+			let earlyClosureAmount =
+				outstandingPrincipal + interestDueCurrentMonth;
+
+			// ===============================
+			// 5️⃣ Bind Values
+			// ===============================
+			$("#interestDue").val(interestDueCurrentMonth.toFixed(2));
+			$("#principaldue").val(outstandingPrincipal.toFixed(2));
+			$("#amountPaid").val((emi * paidInst).toFixed(2));
+			$("#balanceLoanAmount").val(earlyClosureAmount.toFixed(2));
+			$("#totalPayableofLoan").val(earlyClosureAmount.toFixed(2));
+
+			console.log("Paid EMI:", paidInst);
+			console.log("Outstanding Principal:", outstandingPrincipal);
+			console.log("Interest Due (Current):", interestDueCurrentMonth);
+			console.log("Early Closure Amount:", earlyClosureAmount);
 		},
+
 		error: function(xhr) {
-			alert("Error fetching loan data: " + xhr.responseText);
+			alert("Error fetching loan data");
 		}
 	});
 }
+
 
 $(document).ready(function() {
 	$("#closeLoanBtn").on("click", function(e) {

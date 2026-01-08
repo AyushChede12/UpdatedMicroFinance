@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Joint Liability Loan</h1>
+	<h1>JOINT LIABILITY LOAN</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-person-bounding-box"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Group Loan Payment</li>
+			<li class="breadcrumb-item action">GROUP LOAN PAYMENT</li>
 		</ol>
 	</nav>
 </div>
@@ -16,16 +16,16 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Loan Search Details</li>
+					<li class="breadcrumb-item action">LOAN SEARCH DETAILS</li>
 				</ol>
 			</nav>
 
 			<div class="col-lg-3" style="margin-left: -15px;">
 				<div class="d-flex flex-column formFields mb-4">
-					<label for="">Select BY GroupID*</label> <select id="groupid"
+					<label for="">SELECT BY GROUP ID*</label> <select id="groupid"
 						name="groupid" required="required"
 						class="form-control selectField" style="height: 30px;">
-						<option value="">Select Group ID</option>
+						<option value="">SELECT GROUP ID</option>
 
 					</select>
 				</div>
@@ -36,98 +36,98 @@
 		<div class="mt-5">
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Loan Info</li>
+					<li class="breadcrumb-item action">LOAN INFO</li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3 mb-4 ">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo"> Opening Date</label> <input type="date"
+						<label for="vehicalNo"> OPENING DATE</label> <input type="date"
 							name="openingDate" id="openingDate" required="required"
-							readonly="readonly" placeholder="Enter Vehicle No"
+							readonly="readonly" placeholder=""
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for="">Community Name*</label> <input type="text"
+						<label for="">COMMUNITY NAME</label> <input type="text"
 							readonly="readonly" name="communityName" id="communityName"
-							required="required" placeholder="Enter Location" />
+							required="required" placeholder="ENTER COMMUNITY NAME " />
 					</div>
 				</div>
 
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for="">Branch Name*</label> <input type="text"
+						<label for="">BRANCH NAME*</label> <input type="text"
 							readonly="readonly" name="branchname" id="branchname"
-							required="required" placeholder="Enter Location" />
+							required="required" placeholder="ENTER BRANCH NAME" />
 					</div>
 				</div>
 
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for="">Loan Scheme Name*</label> <input type="text"
+						<label for="">LOAN SCHEME NAME*</label> <input type="text"
 							readonly="readonly" name="loanSchemeName" id="loanSchemeName"
-							required="required" placeholder="Enter Location" />
+							required="required" placeholder="ENTER LOAN SCHEME NAME" />
 					</div>
 				</div>
 
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for="">Community Address* </label> <input type="text"
+						<label for="">COMMUNITY ADDRESS * </label> <input type="text"
 							readonly="readonly" name="communityAddress" id="communityAddress"
-							required="required" placeholder="Enter Location" />
+							required="required" placeholder="ENTER ADDRESS" />
 					</div>
 				</div>
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for="">Contact Number,* </label> <input type="text"
+						<label for="">CONTACT NUMBER,* </label> <input type="text"
 							readonly="readonly" name="contactNumber" id="contactNumber"
-							required="required" placeholder="Enter Location" />
+							required="required" placeholder="ENTER NUMBER" />
 					</div>
 				</div>
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Loan Purpose* </label> <input type="text"
+						<label for=""> LOAN PURPOSE* </label> <input type="text"
 							name="loanpurpose" id="loanpurpose" required="required"
-							placeholder="Enter Location" />
+							placeholder="ENTER LOAN PURPOSE" />
 					</div>
 				</div>
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> EMI Mode* </label> <input type="text"
+						<label for=""> EMI MODE* </label> <input type="text"
 							readonly="readonly" name="emiType" id="emiType"
-							required="required" placeholder="Enter Location" />
+							required="required" placeholder="ENTER EMI MODE" />
 					</div>
 				</div>
 
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Term* </label> <input type="text" name="term"
+						<label for=""> TERM* </label> <input type="text" name="term"
 							readonly="readonly" id="term" required="required"
-							placeholder="Enter Location" />
+							placeholder="ENTER TERM" />
 					</div>
 				</div>
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Rate of Interest(%)* </label> <input type="text"
+						<label for=""> RATE OF INTEREST(%)* </label> <input type="text"
 							readonly="readonly" name="rateOfInterest" id="rateOfInterest"
-							required="required" placeholder="Enter Location" />
+							required="required" placeholder="ENTER RATE OF INTEREST" />
 					</div>
 				</div>
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Interest Type* </label> <input type="text"
+						<label for=""> INTEREST TYPE* </label> <input type="text"
 							readonly="readonly" name="interestType" id="interestType"
-							required="required" placeholder="Enter Location" />
+							required="required" placeholder="ENTER  INTEREST TYPE" />
 					</div>
 				</div>
 
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
-						<label style="color: red; font-weight: bold;">Loan Amount*</label>
+						<label style="color: red; font-weight: bold;">LOAN AMOUNT*</label>
 						<input type="text" id="loanAmount" name="loanAmount"
-							required="required" placeholder="Enter Loan Amount"
+							required="required" placeholder="ENTER LOAN AMOUNT"
 							style="color: red; font-weight: bold; font-size: 12px; text-transform: uppercase;" />
 					</div>
 				</div>
@@ -136,7 +136,7 @@
 
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> EMI Amount* </label> <input type="text"
+						<label for=""> EMI AMOUNT* </label> <input type="text"
 							readonly="readonly" name="loanEmi" id="loanEmi"
 							required="required" placeholder="Emi" />
 					</div>
@@ -153,8 +153,8 @@
 		<div class="row mt-4">
 			<div class="col-lg-3 mb-5">
 				<label for=""
-					style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">Upload
-					Photo <span id="star">*</span>
+					style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">UPLOAD
+					PHOTO <span id="star">*</span>
 				</label> <label for="Photo" id="drop-area"> <input type="file"
 					accept="image/*" name="photo" id="photo" hidden="hidden"
 					onchange=""
@@ -171,8 +171,8 @@
 
 			<div class="col-lg-3 mb-5">
 				<label for=""
-					style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">Upload
-					Signature <span id="star">*</span>
+					style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">UPLOAD
+					SIGNATURE <span id="star">*</span>
 				</label> <label for="signature" id="drop-area"> <input type="file"
 					accept="image/*" name="signature" id="signature" hidden="hidden"
 					onchange="signatureUpload();"
@@ -191,50 +191,50 @@
 		<div class="mt-5">
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Deduction Details</li>
+					<li class="breadcrumb-item action">DEDUCTION DETAILS</li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Processing Charges* </label> <input type="text"
+						<label for="">PROCESSING CHARGES * </label> <input type="text"
 							readonly="readonly" name="processingFee" id="processingFee"
-							required="required" placeholder="Enter Location" />
+							required="required" placeholder="ENTER PROCESSING CHARGES " />
 					</div>
 				</div>
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> GST Value* </label> <input type="text"
+						<label for=""> GST VALUE* </label> <input type="text"
 							readonly="readonly" name="gstPercentage" id="gstPercentage"
-							required="required" placeholder="Enter Location" />
+							required="required" placeholder="ENTER GST VALUE" />
 					</div>
 				</div>
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Legal Charges* </label> <input type="text"
+						<label for=""> LEGAL CHARGES* </label> <input type="text"
 							readonly="readonly" name="legalCharges" id="legalCharges"
-							required="required" placeholder="Enter Location" />
+							required="required" placeholder="ENTER LEGAL CHARGES" />
 					</div>
 				</div>
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Insurence Amount* </label> <input type="text"
+						<label for=""> INSURENCE AMOUNT* </label> <input type="text"
 							readonly="readonly" name="insuranceFee" id="insuranceFee"
-							required="required" placeholder="Enter Location" />
+							required="required" placeholder="ENTER INSURENCE AMOUNT" />
 					</div>
 				</div>
 				<div class="col-lg-3  ">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Valuation Charges* </label> <input type="text"
+						<label for=""> VALUATION CHARGES* </label> <input type="text"
 							readonly="readonly" name="valuationFee" id="valuationFee"
-							required="required" placeholder="Enter Location" />
+							required="required" placeholder="ENTER  VALUATION CHARGES" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4"
 						style="margin-bottom: 30px">
-						<label> Financial Consultant Id</label>
+						<label> FINANCILA CONSULTANT ID</label>
 						<div class="position-relative">
 							<select id="financialConsultantId" name="financialConsultantId"
 								required="required" class="form-control selectField"
@@ -248,7 +248,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Financial Consultant Name</label> <input type="text"
+						<label for="">FINANCIAL CONSULTANT NAME</label> <input type="text"
 							name="financialConsultantName" readonly="readonly"
 							id="financialConsultantName" required="required" placeholder=""
 							style="text-transform: uppercase;" />
@@ -265,14 +265,14 @@
 			<div class="mt-5">
 				<nav>
 					<ol class="breadcrumb breadcrumb-title">
-						<li class="breadcrumb-item action">Payment Detalis</li>
+						<li class="breadcrumb-item action">PAYMENT DETAILS</li>
 					</ol>
 				</nav>
 				<div class="row">
 					<div class="col-lg-3">
 
 						<div class="d-flex flex-column formFields mb-4">
-							<label for="loanName"> Date Of Payment </label> <input
+							<label for="loanName"> DATE OF PAYMENT </label> <input
 								type="date" name="paymentDate" id="paymentDate"
 								required="required" style="text-transform: uppercase;" />
 						</div>
@@ -280,7 +280,7 @@
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields mb-4">
-							<label for="loanName">Payment Status</label> <input type="text"
+							<label for="loanName">PAYMENT STATUS</label> <input type="text"
 								value="" name="paymentStatus" id="paymentStatus"
 								style="color: red; font-weight: bold; font-size: 12px; text-transform: uppercase;"
 								required="required" />
@@ -290,14 +290,14 @@
 					</div>
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields">
-							<label for="referenceCode">Mode of Payment <span
+							<label for="referenceCode">MODE OF PAYMENT <span
 								id="star">*</span></label> <select id="paymentMode" name="paymentMode"
 								required="required" class="form-control selectField"
 								style="height: 30px;">
-								<option value="">Enter Mode of Payment</option>
+								<option value="">ENTER MMODE OF PAYMENT</option>
 								<option value="Cash">CASH</option>
-								<option value="Online">Online</option>
-								<option value="Cheque">Cheque</option>
+								<option value="Online">ONLINE</option>
+								<option value="Cheque">CHEQUE</option>
 								<option value="NEFT">NEFT</option>
 
 
@@ -309,18 +309,18 @@
 					<div class="col-lg-3" id="displayCheque">
 						<div class="d-flex flex-column formFields"
 							style="margin-bottom: 30px">
-							<label>Cheque Number <span id="star">*</span></label> <input
+							<label>CHEQUE NUMBER <span id="star">*</span></label> <input
 								type="text" name="chequeNo" id="chequeNo" required="required"
-								placeholder="Enter Cheque No" style="text-transform: uppercase;" />
+								placeholder="ENTER CHEQUE NO" style="text-transform: uppercase;" />
 						</div>
 					</div>
 
 					<div class="col-lg-3" id="displaycheqdate">
 						<div class="d-flex flex-column formFields"
 							style="margin-bottom: 30px">
-							<label>Cheque Date <span id="star">*</span></label> <input
+							<label>CHEQUE DATE <span id="star">*</span></label> <input
 								type="date" name="chequeDate" id="chequeDate"
-								required="required" placeholder="Enter Cheque Date"
+								required="required" placeholder="ENTER CHEQUE DATE"
 								style="text-transform: uppercase;" />
 						</div>
 					</div>
@@ -329,9 +329,9 @@
 					<div class="col-lg-3" id="displaydeposit">
 						<div class="d-flex flex-column formFields"
 							style="margin-bottom: 30px">
-							<label>Deposit Account <span id="star">*</span></label> <input
+							<label>DEPOSITE ACCOUNT <span id="star">*</span></label> <input
 								type="text" name="accountNo" id="accountNo" required="required"
-								placeholder="Enter Deposit Account"
+								placeholder="ENTER DEPOSITE ACCOUNT"
 								style="text-transform: uppercase;" />
 						</div>
 					</div>
@@ -339,21 +339,21 @@
 
 					<div class="col-lg-3" id="displayRef">
 						<div class="d-flex flex-column formFields">
-							<label for="">Ref Number/UPI ID</label> <input type="text"
+							<label for="">GEF NUMBER/UPI ID</label> <input type="text"
 								name="ref_UpiId" id="ref_UpiId" required="required"
-								placeholder="Enter Deposit Account"
+								placeholder="ENTER UPI ID"
 								style="text-transform: uppercase;" />
 						</div>
 					</div>
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields mb-4">
-							<label for="">Chrg. Deduct Cash</label> <select id="charges"
+							<label for="">CHRG. DEDUCT CASH</label> <select id="charges"
 								name=charges required="required"
 								class="form-control selectField" style="height: 30px;">
-								<option value="">Select Yes/No</option>
-								<option value="YES">Yes</option>
-								<option value="NO">No</option>
+								<option value="">SELECT YES/NO</option>
+								<option value="YES">YES</option>
+								<option value="NO">NO</option>
 							</select>
 						</div>
 					</div>
@@ -364,7 +364,7 @@
 			<div class="row">
 				<div class="col-12 text-center">
 					<button id="groupPaymentBtn" class="btnStyle bg-success"
-						style="margin-left: 80%">Payment</button>
+						style="margin-left: 80%">PAYMENT</button>
 
 				</div>
 			</div>

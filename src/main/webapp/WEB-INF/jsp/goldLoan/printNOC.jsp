@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Secured Gold Loan</h1>
+	<h1>SECURED GOLD LOAN</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-cash-coin"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Print NOC</li>
+			<li class="breadcrumb-item action">PRINT NOC</li>
 		</ol>
 	</nav>
 </div>
@@ -16,16 +16,16 @@
 		<div class="">
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Search Details For Print</li>
+					<li class="breadcrumb-item action">SEARCH DETAILS FOR PRINT</li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="findByGoldLoanId" id="goldSelection">Find By
-							Gold Id </label> <select id="findByGoldLoanId" name="findByGoldLoanId"
+						<label for="findByGoldLoanId" id="goldSelection">FIND BY
+							GOLD ID </label> <select id="findByGoldLoanId" name="findByGoldLoanId"
 							class="form-control selectField" style="width: 100%;">
-							<option value="">-- Select Gold ID --</option>
+							<option value="">-- SELECT GOLD ID --</option>
 						</select>
 					</div>
 				</div>
@@ -35,7 +35,7 @@
 			<div class="col-12 text-center">
 
 				<button class="btnStyle" style="background-color: #FFA500;"
-					id="generateNoc">Generate NOC</button>
+					id="generateNoc">GENERATE NOC</button>
 
 			</div>
 		</div>
@@ -51,7 +51,7 @@
 	<div style="text-align: center; margin-top: 20px;">
 		<button id="printBtn" onclick="printDocument()"
 			style="display: none; padding: 8px 20px; font-size: 16px; font-weight: bold; background: #007bff; color: #fff; border: none; border-radius: 6px; cursor: pointer;">
-			Print</button>
+			PRINT</button>
 	</div>
 </div>
 

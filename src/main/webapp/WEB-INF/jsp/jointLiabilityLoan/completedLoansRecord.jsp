@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Joint Liability Loan</h1>
+	<h1>JOINT LIABILITY LOAN</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-person-bounding-box"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Completed Loan Records</li>
+			<li class="breadcrumb-item action">COMPLETED LOAN RECORDS</li>
 		</ol>
 	</nav>
 </div>
@@ -16,18 +16,18 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Loan Search</li>
+					<li class="breadcrumb-item action">LOAN SEARCH</li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Loan Branch*</label>
+						<label>LOAN BRANCH*</label>
 						<div class="position-relative">
 							<div class="select-btn1" style="cursor: pointer;">
-								<span name="loanName" id="loanNameId" style="font-size: 12px;">Select
-									GroupID</span> <i class="fa-solid fa-angle-down"></i>
+								<span name="loanName" id="loanNameId" style="font-size: 12px;">SELECT
+									GROUPID</span> <i class="fa-solid fa-angle-down"></i>
 							</div>
 							<div class="content" id="contentCityName" style="display: none;">
 								<div class="search">
@@ -45,15 +45,15 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Start Date</label> <input type="date"
+						<label for="vehicalNo">START DATE</label> <input type="date"
 							name="vehicalNo" id="vehicalNo" required="required"
-							placeholder="Enter Vehicle No" style="text-transform: uppercase;" />
+							placeholder="" style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">End Date </label> <input type="date"
+						<label for="vehicalNo">END DATE </label> <input type="date"
 							name="vehicalNo" id="vehicalNo" required="required"
 							placeholder="Enter Vehicle No" style="text-transform: uppercase;" />
 					</div>
@@ -67,7 +67,7 @@
 
 					<button id="saveBtn" class="btnStyle"
 						style="background-color: #FFA500;">
-						<i class="bi bi-search"></i>Serach
+						<i class="bi bi-search"></i>SEARCH
 					</button>
 
 				</div>
@@ -85,17 +85,17 @@
 			<div class="card recent-sales">
 
 				<div class="card-body table-responsive">
-					<h5 class="card-title">Serach Result</h5>
+					<h5 class="card-title">SEARCH RESULT</h5>
 
 					<table class="table table-borderless datatable overflow-scroll">
 						<thead class="table-light">
 							<tr style="font-family: 'Poppins', sans-serif;">
 								<th scope="col">#</th>
-								<th scope="col">Customer</th>
-								<th scope="col">Product</th>
-								<th scope="col">Price</th>
-								<th scope="col">Status</th>
-								<th scope="col">Action</th>
+								<th scope="col">CUSTOMER</th>
+								<th scope="col">PRODUCT</th>
+								<th scope="col">PRICE</th>
+								<th scope="col">STATUS</th>
+								<th scope="col">ACTION</th>
 							</tr>
 						</thead>
 						<tbody>

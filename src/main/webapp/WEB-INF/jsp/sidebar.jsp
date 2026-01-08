@@ -499,6 +499,11 @@
 						<span style="font-family: 'Poppins', sans-serif">EARLY LOAN
 							CLOSURE</span>
 				</a></li>
+				
+				<li><a href="LoanClosureLoan"> <i class="bi bi-circle"></i>
+						<span style="font-family: 'Poppins', sans-serif">LOAN
+							CLOSURE</span>
+				</a></li>
 
 				<li><a href="settleLoanRecords"> <i class="bi bi-circle"></i>
 						<span style="font-family: 'Poppins', sans-serif">SETTLED
