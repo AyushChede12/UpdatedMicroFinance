@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Team Management</h1>
+	<h1>TTEAM MANAGEMNTE</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-person-workspace"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Team Search</li>
+			<li class="breadcrumb-item action">TEAM SEARCH </li>
 		</ol>
 	</nav>
 </div>
@@ -16,7 +16,7 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Search Box</li>
+					<li class="breadcrumb-item action">SEARCH BOX </li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -24,27 +24,27 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px;">
-						<label for="">Branch </label> <select id="branchName"
+						<label for="">BRANCH </label> <select id="branchName"
 							name="branchName" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select Branch</option>
+							<option value="">SELECT BRANCH </option>
 						</select>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Date From :</label> <input type="date"
+						<label for="vehicalNo">DATE FROM :</label> <input type="date"
 							name="dateFrom" id="dateFrom" required="required"
-							placeholder="Enter fDate" style="text-transform: uppercase;" />
+							placeholder="ENTER FDATE" style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Date To :</label> <input type="date"
+						<label for="vehicalNo">DATE TO :</label> <input type="date"
 							name="dateTo" id="dateTo" required="required"
-							placeholder="Enter tDate" style="text-transform: uppercase;" />
+							placeholder="ENTER TDATE" style="text-transform: uppercase;" />
 					</div>
 				</div>
 
@@ -58,36 +58,36 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Team Member Code </label> <input type="text"
+						<label for="">TEAM MEMBER CODE </label> <input type="text"
 							name="teamMamberCode" id="teamMamberCode" required="required"
-							placeholder="Enter Employee Code" />
+							placeholder="ENTER EMPLOYEE CODE" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Contact Number </label> <input type="text"
+						<label for="">CONTACT NUMBER </label> <input type="text"
 							name="contactNo" id="contactNo" required="required"
-							placeholder="Enter Employee Name" />
+							placeholder="ENTER EMPLOYEE NAME" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Designation </label> <select id="designation"
+						<label for="">DESIGANATION </label> <select id="designation"
 							name="designation" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select Designation</option>
+							<option value="">SELECT DESIGNATION </option>
 						</select>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Department </label> <select id="department"
+						<label for="">DEPARTMENT </label> <select id="department"
 							name="department" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select Department</option>
+							<option value="">SELECT DEPARTMENT</option>
 						</select>
 					</div>
 				</div>
@@ -110,7 +110,7 @@
 			<div class="card recent-sales">
 
 				<div class="card-body table-responsive">
-					<h5 class="card-title">Search Result</h5>
+					<h5 class="card-title">SEARCH RESULT</h5>
 
 					<table class="table table-borderless datatable overflow-scroll">
 						<thead class="table-light">

@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Incentive Management</h1>
+	<h1>INCENTIVE MANAGEMENT </h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-award"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Incentive Scheme Master</li>
+			<li class="breadcrumb-item action">INCENTIVE SCHEME MASTER </li>
 		</ol>
 	</nav>
 </div>
@@ -16,16 +16,16 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Incentive Master</li>
+					<li class="breadcrumb-item action">INCENTIVE MASTER </li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Incentive Month</label> <select id="incentiveMonth"
+						<label for="">INCENTIVE MONTH </label> <select id="incentiveMonth"
 							name="incentiveMonth" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select</option>
+							<option value="">SELECT</option>
 
 						</select>
 					</div>
@@ -34,17 +34,17 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="vehicalNo">Date From</label> <input type="date"
+						<label for="vehicalNo">DATE FROM </label> <input type="date"
 							name="dateFrom" id="dateFrom" required="required"
-							placeholder="Enter Date From" style="text-transform: uppercase;" />
+							placeholder="ENTER DATE FROM " style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="vehicalNo">Date To</label> <input type="date"
+						<label for="vehicalNo">DATE TO </label> <input type="date"
 							name="dateTo" id="dateTo" required="required"
-							placeholder="Enter Date To" style="text-transform: uppercase;" />
+							placeholder="ENTER DATE TO " style="text-transform: uppercase;" />
 					</div>
 				</div>
 
@@ -60,8 +60,8 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Comments </label> <input type="text" name="comments"
-							id="comments" required="required" placeholder="Enter Comments" />
+						<label for="">COMMENTS </label> <input type="text" name="comments"
+							id="comments" required="required" placeholder="ENTER COMMENTS" />
 					</div>
 
 				</div>
@@ -70,7 +70,7 @@
 
 				<div class="row" style="margin-left: 45%;">
 					<div class="col-12 text-center">
-						<button id="saveBtn" class="btn btn-info ">Save</button>
+						<button id="saveBtn" class="btn btn-info ">SAVE</button>
 					</div>
 				</div>
 
@@ -81,10 +81,10 @@
 					<thead class="table-light">
 						<tr style="font-family: 'Poppins', sans-serif;">
 							<th scope="col">S/N</th>
-							<th scope="col">Incentive Month</th>
-							<th scope="col">Date From</th>
-							<th scope="col">Date To</th>
-							<th scope="col">Comments</th>
+							<th scope="col">INCENTIVE MONTH</th>
+							<th scope="col">DATE FROM</th>
+							<th scope="col">DATE T</th>
+							<th scope="col">COMMENTS</th>
 
 						</tr>
 					</thead>

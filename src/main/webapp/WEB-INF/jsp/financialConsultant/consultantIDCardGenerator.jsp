@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Financial Consultant</h1>
+	<h1>FINANCIAL CONUSLTANT </h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-briefcase text-blue"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Consultant ID Card Generator</li>
+			<li class="breadcrumb-item action">CONSULTANT ID CARD GENERATOR </li>
 		</ol>
 	</nav>
 </div>
@@ -16,13 +16,13 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Search</li>
+					<li class="breadcrumb-item action">SEARCH</li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Financial Code</label> <input type="text"
+						<label for="">FINANCIAL CODE</label> <input type="text"
 							id="searchKeyword" required="required"
 							placeholder="Enter Advisor Code"
 							style="text-transform: uppercase;" />
@@ -44,7 +44,7 @@
 
 				<div class="card-body table-responsive">
 					<h5 class="card-title">
-						Table View <span>| Record</span>
+						TABLE VIEW  <span>| RECORED</span>
 					</h5>
 
 					<div style="overflow-x: auto; white-space: nowrap;">
