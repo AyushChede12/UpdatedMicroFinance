@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Request Approval</h1>
+	<h1>REQUEST APPROVAL</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-check-circle"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Approve Maturity Applications</li>
+			<li class="breadcrumb-item action">APPROVE MATURITY APPLICATIONS</li>
 		</ol>
 	</nav>
 </div>
@@ -17,10 +17,10 @@
 			<div class="row">
 				<div class="col-lg-4">
 					<div class="d-flex flex-column formFields">
-						<label for="">Policy Code</label> <select id="policyCode"
+						<label for="">POLICY CODE</label> <select id="policyCode"
 							name="policyCode" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select</option>
+							<option value="">SELECT</option>
 						</select>
 					</div>
 				</div>
@@ -35,7 +35,7 @@
 				<div class="col-lg-12">
 					<nav>
 						<ol class="breadcrumb breadcrumb-title">
-							<li class="breadcrumb-item action mt-3">Policy Information</li>
+							<li class="breadcrumb-item action mt-3">POLICY INFORMATION</li>
 						</ol>
 					</nav>
 				</div>
@@ -45,14 +45,14 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Policy ID</label> <input type="text" name="policyId"
+						<label for="">POLICY ID</label> <input type="text" name="policyId"
 							id="policyId" required="required" placeholder="" disabled />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Client Name</label> <input type="text"
+						<label for="">CLIENT NAME</label> <input type="text"
 							name="clientName" id="clientName" required="required"
 							placeholder="" disabled />
 					</div>
@@ -60,7 +60,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Policy Type</label> <input type="text"
+						<label for="">POLICY TYPE</label> <input type="text"
 							name="policyType" id="policyType" required="required"
 							placeholder="" disabled />
 					</div>
@@ -69,7 +69,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Policy Code</label> <input type="text"
+						<label for="">POLICY CODE</label> <input type="text"
 							name="policyCode" id="policyCode" required="required"
 							placeholder="" disabled />
 					</div>
@@ -77,7 +77,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Mode Of Operation</label> <input type="text"
+						<label for="">MODE OF OPERATION</label> <input type="text"
 							name="modeOfOperation" id="modeOfOperation" required="required"
 							placeholder="" disabled />
 					</div>
@@ -85,7 +85,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Scheme Term</label> <input type="text"
+						<label for="">SCHEME TERM</label> <input type="text"
 							name="schemeTerm" id="schemeTerm" required="required"
 							placeholder="" disabled />
 					</div>
@@ -93,7 +93,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Policy Date</label> <input type="text"
+						<label for="">POLICY DATE</label> <input type="text"
 							name="policyDate" id="policyDate" required="required"
 							placeholder="" disabled />
 					</div>
@@ -101,7 +101,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Payoff Date</label> <input type="text"
+						<label for="">PAYOFF DATE</label> <input type="text"
 							name="payoffDate" id="payoffDate" required="required"
 							placeholder="" disabled />
 					</div>
@@ -109,7 +109,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Plan Amount</label> <input type="text"
+						<label for="">PLAN AMOUNT</label> <input type="text"
 							name="planAmount" id="planAmount" required="required"
 							placeholder="" disabled />
 					</div>
@@ -117,7 +117,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Maturity Amount</label> <input type="text"
+						<label for="">MATURITY AMOUNT</label> <input type="text"
 							name="maturityAmount" id="maturityAmount" required="required"
 							placeholder="" disabled />
 					</div>
@@ -125,14 +125,14 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Inst paid</label> <input type="text" name="InstPaid"
+						<label for="">INST PAID</label> <input type="text" name="InstPaid"
 							id="InstPaid" required="required" placeholder="" disabled />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Total Deposits</label> <input type="text"
+						<label for="">TOTAL DEPOSITS</label> <input type="text"
 							name="totalDeposits" id="totalDeposits" required="required"
 							placeholder="" disabled />
 					</div>
@@ -144,14 +144,14 @@
 				<div class="col-lg-12">
 					<nav>
 						<ol class="breadcrumb breadcrumb-title">
-							<li class="breadcrumb-item action mt-3">Payment Information</li>
+							<li class="breadcrumb-item action mt-3">PAYMENT INFORMATION </li>
 						</ol>
 					</nav>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Sys. Payable</label> <input type="text"
+						<label for="">SYS. PAYABLE</label> <input type="text"
 							name="SysPayable" id="SysPayable" required="required"
 							placeholder="" disabled />
 					</div>
@@ -159,7 +159,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">deduction(-)</label> <input type="text"
+						<label for="">DEDUCTION(-)</label> <input type="text"
 							name="deduction" id="deduction" required="required"
 							placeholder="" />
 					</div>
@@ -167,7 +167,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Adjustment(+)</label> <input type="text"
+						<label for="">ADJUSTMENT (+)</label> <input type="text"
 							name="Adjustment" id="Adjustment" required="required"
 							placeholder="" />
 					</div>
@@ -175,7 +175,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Net Payable</label> <input type="text"
+						<label for="">NET PAYABLE</label> <input type="text"
 							name="netPayable" id="netPayable" required="required"
 							placeholder="" disabled />
 					</div>
@@ -183,7 +183,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Application Branch</label> <input type="text"
+						<label for="">APPLICATION BRANCH</label> <input type="text"
 							name="applicationBranch" id="applicationBranch"
 							required="required" placeholder="" disabled />
 					</div>
@@ -191,7 +191,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Approve Date</label> <input type="date"
+						<label for="">APPROVE DATE</label> <input type="date"
 							name="ApproveDate" id="ApproveDate" required="required"
 							placeholder="" />
 					</div>
@@ -199,7 +199,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Approve Branch Name</label> <input type="text"
+						<label for="">APPROVE BRANCH NAME </label> <input type="text"
 							name="Branch" id="Branch" required="required" placeholder="" />
 					</div>
 				</div>
@@ -208,7 +208,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Approve Comments</label> <input type="text"
+						<label for="">APPROVE COMMENTS</label> <input type="text"
 							name="ApproveComments" id="ApproveComments" required="required"
 							placeholder="" />
 					</div>
@@ -219,7 +219,7 @@
 				<div class="row">
 					<div class="col-12 text-right mt-3">
 						<button id="approvedBtn" class="btnStyle"
-							style="background-color: #FFA500;">Approve Maturity</button>
+							style="background-color: #FFA500;">APPROVE MATURITY</button>
 					</div>
 				</div>
 

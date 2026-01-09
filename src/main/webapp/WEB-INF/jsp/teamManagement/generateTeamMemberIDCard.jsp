@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Team Management</h1>
+	<h1>TEAM MANAGEMENT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-person-workspace"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Generate Team ID Card</li>
+			<li class="breadcrumb-item action"> GENERATE TEAM ID CARD </li>
 		</ol>
 	</nav>
 </div>
@@ -16,18 +16,18 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Search Box</li>
+					<li class="breadcrumb-item action">SEARCH BOX</li>
 				</ol>
 			</nav>
 			<div class="row">
 
 				<div class="col-lg-3 mb-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">State</label> <select id="teamMemberCode"
+						<label for="">STATE</label> <select id="teamMemberCode"
 							name="teamMemberCode" required="required"
 							onchange="fetchTeamMemberDataByCode();"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select State</option>
+							<option value="">SELECT STATE</option>
 						</select>
 					</div>
 				</div>
@@ -48,7 +48,7 @@
 			<div class="card recent-sales">
 
 				<div class="card-body table-responsive">
-					<h5 class="card-title">Search Result</h5>
+					<h5 class="card-title">SEARCH RESULT </h5>
 
 					<table class="table table-borderless datatable overflow-scroll">
 						<thead class="table-light">

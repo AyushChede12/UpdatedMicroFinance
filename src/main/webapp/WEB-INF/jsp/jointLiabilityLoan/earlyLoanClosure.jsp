@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Joint Liability Loan</h1>
+	<h1>JOINT LIABILITY LOAN</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-person-bounding-box"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Early Loan Closure</li>
+			<li class="breadcrumb-item action">EARLY LOAN CLOSURE</li>
 		</ol>
 	</nav>
 </div>
@@ -16,18 +16,18 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Loan Pre Settlement</li>
+					<li class="breadcrumb-item action">LAON PRE SETTLEMENT</li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Select Name ID & Name*</label>
+						<label>SELECT NAME ID & NAME*</label>
 						<div class="position-relative">
 							<div class="select-btn1" style="cursor: pointer;">
-								<span name="loanName" id="loanNameId" style="font-size: 12px;">Select
-									GroupID</span> <i class="fa-solid fa-angle-down"></i>
+								<span name="loanName" id="loanNameId" style="font-size: 12px;">SELECT
+									GROUPID</span> <i class="fa-solid fa-angle-down"></i>
 							</div>
 							<div class="content" id="contentCityName" style="display: none;">
 								<div class="search">
@@ -54,30 +54,30 @@
 		<div class="mt-5">
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Loan Details</li>
+					<li class="breadcrumb-item action">LOAN DETAILS </li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Loan Start Date*</label> <input type="date"
+						<label for="vehicalNo">LOAN START DATE*</label> <input type="date"
 							name="vehicalNo" id="vehicalNo" required="required"
-							placeholder="Enter Vehicle No" style="text-transform: uppercase;" />
+							placeholder="" style="text-transform: uppercase;" />
 					</div>
 				</div>
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Loan Schemes* </label> <input type="text"
+						<label for=""> LOAN SCHEMES * </label> <input type="text"
 							name="location" id="location" required="required"
-							placeholder="Enter Location" />
+							placeholder="ENTER LOAN SCHEMES" />
 					</div>
 				</div>
 
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Interest Rate Type* </label> <input type="text"
+						<label for=""> INTEREST RATE TYPE * </label> <input type="text"
 							name="location" id="location" required="required"
-							placeholder="Enter Location" />
+							placeholder="ENTER INTEREST RATE TYPE" />
 					</div>
 				</div>
 
@@ -86,79 +86,79 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Agent Code & Name* </label> <input type="text"
+						<label for="">AGENT CODE & NAME * </label> <input type="text"
 							name="location" id="location" required="required"
-							placeholder="Enter Location" />
+							placeholder="ENTER AGENT CODE & NAME" />
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Loan Tenure* </label> <input type="text"
+						<label for=""> LOAN TENURE * </label> <input type="text"
 							name="location" id="location" required="required"
-							placeholder="Enter Location" />
+							placeholder="ENTER LOAN TENURE" />
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Monthly Insatllment* </label> <input type="text"
+						<label for=""> MONTHLY INSATLLMENT * </label> <input type="text"
 							name="location" id="location" required="required"
-							placeholder="Enter Location" />
+							placeholder="ENTER MONTHLY INSATLLMENT" />
 					</div>
 				</div>
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Nominee Details* </label> <input type="text"
+						<label for=""> NOMINEE DETAILS* </label> <input type="text"
 							name="location" id="location" required="required"
-							placeholder="Enter Location" />
+							placeholder="ENTER DETAILS" />
 					</div>
 				</div>
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Interest Amount* </label> <input type="text"
+						<label for=""> INTEREST AMOUNT * </label> <input type="text"
 							name="location" id="location" required="required"
-							placeholder="Enter Location" />
+							placeholder="ENTER INTEREST AMOUNT" />
 					</div>
 				</div>
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Contact NO* </label> <input type="text"
+						<label for=""> CONTACT NO* </label> <input type="text"
 							name="location" id="location" required="required"
-							placeholder="Enter Location" />
+							placeholder="ENTER CONTACT NO" />
 					</div>
 				</div>
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Principal Amount* </label> <input type="text"
+						<label for=""> PRINCIPAL AMOUNT* </label> <input type="text"
 							name="location" id="location" required="required"
-							placeholder="Enter Location" />
+							placeholder="ENTER PRINCIPLE AMOUN" />
 					</div>
 				</div>
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Total Loan Principal* </label> <input type="text"
+						<label for=""> TOTAL LOAN PRINCIPAL* </label> <input type="text"
 							name="location" id="location" required="required"
-							placeholder="Enter Location" />
+							placeholder="ENTER TOTAL LOAN PRINCIPAL" />
 					</div>
 				</div>
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for="">Loan Branch </label> <input type="text"
+						<label for="">LOAN BRANCH </label> <input type="text"
 							name="location" id="location" required="required"
-							placeholder="Enter Location" />
+							placeholder="ENTER BRANCH" />
 					</div>
 				</div>
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Rate of Interest* </label> <input type="text"
+						<label for=""> RATE OF INTEREST* </label> <input type="text"
 							name="location" id="location" required="required"
-							placeholder="Enter Location" />
+							placeholder="ENTER RATE OF INTEREST" />
 					</div>
 				</div>
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Total Payable Amount* </label> <input type="text"
+						<label for=""> TOTAL PAYABLE AMOUNT* </label> <input type="text"
 							name="location" id="location" required="required"
-							placeholder="Enter Location" />
+							placeholder="ENTER TOTAL PAYABLE AMOUNT" />
 					</div>
 				</div>
 
@@ -170,82 +170,82 @@
 		<div class="mt-5">
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Payment Detalis</li>
+					<li class="breadcrumb-item action">PAYMENT DETAILS</li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Settled Interest* </label> <input type="text"
+						<label for=""> SETTLED INTEREST * </label> <input type="text"
 							name="location" id="location" required="required"
-							placeholder="Enter Location" />
+							placeholder="ENTER  SETTLED INTEREST" />
 					</div>
 				</div>
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Interest Pending* </label> <input type="text"
+						<label for=""> INTEREST PENDING* </label> <input type="text"
 							name="location" id="location" required="required"
-							placeholder="Enter Location" />
+							placeholder="TYPA INTEREST PENDING" />
 					</div>
 				</div>
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Agent code* </label> <input type="text"
+						<label for=""> AGENT CODE* </label> <input type="text"
 							name="location" id="location" required="required"
-							placeholder="Enter Location" />
+							placeholder="ENTER AGENT CODE" />
 					</div>
 				</div>
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Settled Principal* </label> <input type="text"
+						<label for=""> SETTLED PRINCIPAL* </label> <input type="text"
 							name="location" id="location" required="required"
-							placeholder="Enter Location" />
+							placeholder="ENTER SETTLED PRINCIPAL" />
 					</div>
 				</div>
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> OutStanding Principal * </label> <input type="text"
+						<label for=""> OUTSTANDING PRINCIPAL * </label> <input type="text"
 							name="location" id="location" required="required"
-							placeholder="Enter Location" />
+							placeholder="ENTER OUTSTANDING PRINCIPAL" />
 					</div>
 				</div>
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Agent Name* </label> <input type="text"
+						<label for=""> AGENT NAME* </label> <input type="text"
 							name="location" id="location" required="required"
-							placeholder="Enter Location" />
+							placeholder="ENTER AGENT NAME" />
 					</div>
 				</div>
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Total Amount Paid* </label> <input type="text"
+						<label for=""> TOTAL AMOUNT PAID * </label> <input type="text"
 							name="location" id="location" required="required"
-							placeholder="Enter Location" />
+							placeholder="ENTER AMOUNT PAID " />
 					</div>
 				</div>
 				<div class="col-lg-3 ">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Total OutStanding* </label> <input type="text"
+						<label for=""> TOTAL OUTSTANDING * </label> <input type="text"
 							name="location" id="location" required="required"
-							placeholder="Enter Location" />
+							placeholder="ENTER TOTAL OUTSTANDING " />
 					</div>
 				</div>
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for="">Loan Remark* </label> <input type="text"
+						<label for="">LOAN REMARK* </label> <input type="text"
 							name="location" id="location" required="required"
-							placeholder="Enter Location" />
+							placeholder="ENTER REMARK" />
 					</div>
 				</div>
 
 				<div class="col-lg-3 ">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Payment Branch*</label>
+						<label>PAYMENT  BRANCH*</label>
 						<div class="position-relative">
 							<div class="select-btn1" style="cursor: pointer;">
-								<span name="loanName" id="loanNameId" style="font-size: 12px;">Select
-									GroupID</span> <i class="fa-solid fa-angle-down"></i>
+								<span name="loanName" id="loanNameId" style="font-size: 12px;">SELECT
+									GROUPID</span> <i class="fa-solid fa-angle-down"></i>
 							</div>
 							<div class="content" id="contentCityName" style="display: none;">
 								<div class="search">
@@ -262,7 +262,7 @@
 				</div>
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Date of Payment</label> <input type="date"
+						<label for="vehicalNo">DATE OF PAYMENT </label> <input type="date"
 							name="vehicalNo" id="vehicalNo" required="required"
 							placeholder="Enter Vehicle No" style="text-transform: uppercase;" />
 					</div>
@@ -273,8 +273,8 @@
 						<label>Paid By*</label>
 						<div class="position-relative">
 							<div class="select-btn1" style="cursor: pointer;">
-								<span name="loanName" id="loanNameId" style="font-size: 12px;">Select
-									GroupID</span> <i class="fa-solid fa-angle-down"></i>
+								<span name="loanName" id="loanNameId" style="font-size: 12px;">SELECT
+									GROUPID</span> <i class="fa-solid fa-angle-down"></i>
 							</div>
 							<div class="content" id="contentCityName" style="display: none;">
 								<div class="search">
@@ -292,11 +292,11 @@
 				<div class="col-lg-3 ">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Loan Closure Fee*</label>
+						<label>LOAN CLOSURE FEE *</label>
 						<div class="position-relative">
 							<div class="select-btn1" style="cursor: pointer;">
-								<span name="loanName" id="loanNameId" style="font-size: 12px;">Select
-									GroupID</span> <i class="fa-solid fa-angle-down"></i>
+								<span name="loanName" id="loanNameId" style="font-size: 12px;">SELECT GROUPID
+									</span> <i class="fa-solid fa-angle-down"></i>
 							</div>
 							<div class="content" id="contentCityName" style="display: none;">
 								<div class="search">
@@ -315,7 +315,7 @@
 			<div class="row">
 				<div class="col-12 text-center">
 					<button id="saveBtn" class="btnStyle bg-success"
-						style="margin-left: 80%">Closing Loan</button>
+						style="margin-left: 80%">CLOSING LOAN</button>
 
 				</div>
 			</div>

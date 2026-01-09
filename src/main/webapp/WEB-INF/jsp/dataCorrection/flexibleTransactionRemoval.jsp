@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Data Correction</h1>
+	<h1>DATA CORRECTION</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-piggy-bank"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Flexible Transaction Removal</li>
+			<li class="breadcrumb-item action">FLEXIBLE TRANSCATION REMOVAL</li>
 		</ol>
 	</nav>
 </div>
@@ -16,17 +16,17 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Search Box</li>
+					<li class="breadcrumb-item action">SEARCH BOX</li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3">
 					<input type="hidden" name="id" id="id">
 					<div class="d-flex flex-column formFields">
-						<label for="Agent">Policy Code*</label> <select id="policyCode"
+						<label for="Agent">POLICY CODE*</label> <select id="policyCode"
 							name="policyCode" required class="form-control selectField"
 							style="height: 30px;">
-							<option value="">Select Policy Code</option>
+							<option value="">SELECT POLICY CODE</option>
 						</select>
 					</div>
 				</div>
@@ -34,9 +34,9 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Renewal Date</label> <input type="date" name="renewalDate"
+						<label>RENEWAL DATE</label> <input type="date" name="renewalDate"
 							id="renewalDate" required="required"
-							placeholder="Enter Vehicle No" style="text-transform: uppercase;" />
+							placeholder="" style="text-transform: uppercase;" />
 					</div>
 				</div>
 
@@ -47,25 +47,25 @@
 			<div class="mt-5">
 				<nav>
 					<ol class="breadcrumb breadcrumb-title">
-						<li class="breadcrumb-item action">Policy Information</li>
+						<li class="breadcrumb-item action">POLICY INFORMATION</li>
 					</ol>
 				</nav>
 				<div class="row">
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields"
 							style="margin-bottom: 30px">
-							<label>Policy Date*</label> <input type="date" name="policyDate"
+							<label>POLICY DATE*</label> <input type="date" name="policyDate"
 								id="policyDate" required="required"
-								placeholder="Enter Vehicle No"
+								placeholder=""
 								style="text-transform: uppercase;" />
 						</div>
 					</div>
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields">
-							<label for="">Maturity Date*</label> <input type="date"
+							<label for="">MATURITY DATE*</label> <input type="date"
 								name="maturityDate" id="maturityDate" required="required"
-								placeholder="Enter Vehicle No"
+								placeholder=""
 								style="text-transform: uppercase;" />
 						</div>
 					</div>
@@ -73,43 +73,43 @@
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields">
-							<label for="">Customer Code* </label> <input type="text"
+							<label for="">CUSTOMER CODE* </label> <input type="text"
 								name="customerCode" id="customerCode" required="required"
-								placeholder="Enter Advisor/Collector Code" />
+								placeholder="ENTER ADVISOR/COLLECTOR CODE " />
 						</div>
 					</div>
 
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields">
-							<label for="">Client Name </label> <input type="text"
+							<label for="">CLIENT NAME </label> <input type="text"
 								name="clientName" id="clientName" required="required"
-								placeholder="Enter Relative Name" />
+								placeholder="ENTER RELATION NAME" />
 						</div>
 					</div>
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields">
-							<label for="">Branch Name </label> <input type="text"
+							<label for="">BRANCH NAME </label> <input type="text"
 								name="branchname" id="branchname" required="required"
-								placeholder="Enter Relative Name" />
+								placeholder="ENTER RELATIVE NAME" />
 						</div>
 					</div>
 
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields">
-							<label for="">Contact No*</label> <input type="text"
+							<label for="">CONATCT NO*</label> <input type="text"
 								name="contactNo" id="contactNo" required="required"
-								placeholder="Enter Mobile No." />
+								placeholder="ENTER MOBILE NO." />
 						</div>
 					</div>
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields">
-							<label for="">Policy Amount*</label> <input type="text"
+							<label for="">POLICY AMOUNT*</label> <input type="text"
 								name="policyAmount" id="policyAmount" required="required"
-								placeholder="Enter Nominee Name" />
+								placeholder="ENTER NOMINEE NAME" />
 						</div>
 					</div>
 
@@ -119,9 +119,9 @@
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields"
 							style="margin-bottom: 30px">
-							<label>Policy Type </label> <input type="text" name="policyType"
+							<label>POLICY TYPE </label> <input type="text" name="policyType"
 								id="policyType" required="required"
-								placeholder="Enter Nominee Name" />
+								placeholder="ENTER NOMINEE NAME" />
 						</div>
 					</div>
 
@@ -129,78 +129,78 @@
 					<!-- in this two text fieldds are required -->
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields">
-							<label for="">Policy Trem </label> <input type="text"
+							<label for="">POLICY TREM </label> <input type="text"
 								name="policyTerm" id="policyTerm" required="required"
-								placeholder="Enter Education" />
+								placeholder="ENTER POLICY TERM" />
 						</div>
 					</div>
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields">
-							<label for="">Maturity Amt.*</label> <input type="text"
+							<label for="">MATURITY AMT.*</label> <input type="text"
 								name="maturityAmount" id="maturityAmount" required="required"
-								placeholder="Enter Education" />
+								placeholder="ENTER MATURITY AMOUNT" />
 						</div>
 					</div>
 
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields">
-							<label for="">Total Deposits*</label> <input type="text"
+							<label for="">TOTAL DEPOSITE*</label> <input type="text"
 								name="totalDeposit" id="totalDeposit" required="required"
-								placeholder="Enter Education" />
+								placeholder="ENTER TOTAL DEPOSITE" />
 						</div>
 					</div>
 
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields">
-							<label for="">Payment Due*</label> <input type="text"
+							<label for="">PAYMENT DUE*</label> <input type="text"
 								name="paymentDue" id="paymentDue" required="required"
-								placeholder="Enter Education" />
+								placeholder="ENTER PAYMENT DEU " />
 						</div>
 					</div>
 
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields mt-4">
-							<label for="">Last Payment Date *</label> <input type="text"
+							<label for="">LAST PAYMENT DATE  *</label> <input type="text"
 								name="lastPaymentDate" id="lastPaymentDate" required="required"
-								placeholder="Enter Education" />
+								placeholder="ENTER LAST PAYMNET DATE" />
 						</div>
 					</div>
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields mt-4">
-							<label for="">Due Date*</label> <input type="date" name="dueDate"
-								id="dueDate" required="required" placeholder="Enter Vehicle No"
+							<label for="">DUE DATE*</label> <input type="date" name="dueDate"
+								id="dueDate" required="required" placeholder=""
 								style="text-transform: uppercase;" />
 						</div>
 					</div>
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields mt-4">
-							<label for="">No Of Installment*</label> <input type="text"
+							<label for="">NO OF INSTALLMENT*</label> <input type="text"
 								name="noOfInst" id="noOfInst" required="required"
-								placeholder="Enter Education" />
+								placeholder="ENTER NO OF INSTALLMENT" />
 						</div>
 					</div>
 
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields mt-4">
-							<label for="">Installments Completed*</label> <input type="text"
+							<label for="">INASTALLMENT COMPLETED *</label> <input type="text"
 								name="noOfInstPaid" id="noOfInstPaid" required="required"
-								placeholder="Enter Education" />
+								placeholder="ENTER INSTALLMENT COMPLETED " />
 						</div>
 					</div>
 
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields mt-4">
-							<label for="">Mode Of Payment*</label> <input type="text"
+							<label for="">MODE OF PAYMENT*</label> <input type="text"
 								name="modeOfPayment" id="modeOfPayment" required="required"
-								placeholder="Enter Education" />
+								placeholder="PAYMENT" />
 						</div>
 					</div>
 
@@ -220,7 +220,7 @@
 			<div class="row">
 				<div class="col-12 text-center" style="margin-top: 30px;">
 					<button type="button" id="deleteBtn" class="btnStyle bg-danger"
-						style="background-color: #FFA500;">Delete Last Entry</button>
+						style="background-color: #FFA500;">DELETE LAST ENTRY</button>
 				</div>
 			</div>
 

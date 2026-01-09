@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Joint Liability Loan</h1>
+	<h1>JOINT LIABILITY LOAN</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-person-bounding-box"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Statement Of Account</li>
+			<li class="breadcrumb-item action">STATEMENT OF ACCOUNT</li>
 		</ol>
 	</nav>
 </div>
@@ -16,16 +16,16 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Search Details for Print</li>
+					<li class="breadcrumb-item action">SEARCH DETAILS FOR PRINT</li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="groupCode">Find by Group Code*</label> <select
+						<label for="groupCode">FIND BY GROUP CODE *</label> <select
 							id="groupCode" name="groupCode" required
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select Customer Name</option>
+							<option value="">SELECT CUSTOMER NAME</option>
 						</select>
 					</div>
 				</div>
@@ -45,19 +45,19 @@
 		<div class="col-12">
 			<div class="card recent-sales">
 				<div class="card-body table-responsive">
-					<h5 class="card-title">Details Search List</h5>
+					<h5 class="card-title">DETAILS SEARCH LIST </h5>
 					<table class="table table-bordered">
 						<thead class="thead-light">
 							<tr>
-								<th>Group ID</th>
-								<th>Community Name</th>
-								<th>Opening Date</th>
-								<th>Branch Name</th>
-								<th>Community Leader</th>
-								<th>Community Address</th>
-								<th>Contact No</th>
-								<th>Scheduled Collection Days</th>
-								<th>Scheduled Time</th>
+								<th>GROUP ID</th>
+								<th>COMMUNITY NAME</th>
+								<th>OPENING DATE</th>
+								<th>BRANCH NAME</th>
+								<th>COMMUNITY LEADER</th>
+								<th>COMMUNITY ADDRESS</th>
+								<th>CONTACT NO</th>
+								<th>SCHEDULED COLLECTION DAYS</th>
+								<th>SCHEDULED TIME</th>
 
 
 

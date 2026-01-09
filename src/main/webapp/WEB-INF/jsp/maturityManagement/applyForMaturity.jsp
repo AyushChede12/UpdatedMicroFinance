@@ -67,13 +67,13 @@
 </style>
 
 <div class="pagetitle">
-	<h1>Maturity Management</h1>
+	<h1>MATURITY MANAGEMENT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-calendar-check"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Apply For Maturity</li>
+			<li class="breadcrumb-item action">APPLY FOR MATURITY</li>
 		</ol>
 	</nav>
 </div>
@@ -83,27 +83,27 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Serach box</li>
+					<li class="breadcrumb-item action">SEARCH BOX </li>
 				</ol>
 			</nav>
 			<div class="row">
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Branch <span id="star"> *</span></label> <select
+						<label for="">BRANCH <span id="star"> *</span></label> <select
 							id="branchName" name="branchName" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select Branch</option>
+							<option value="">SELECT BRANCH </option>
 						</select> <small id="chkbranch" style="color: red;"></small>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Policy Code<span id="star"> *</span></label> <select
+						<label for="">POLICY CODE <span id="star"> *</span></label> <select
 							id="policyCode" name="policyCode" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">select Policy ID</option>
+							<option value="">SELECT POLICY ID </option>
 						</select> <small id="chkpolicycode" style="color: red;"></small>
 					</div>
 				</div>
@@ -111,7 +111,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Maturity Date </label> <input type="date"
+						<label>MATURITY DATE  </label> <input type="date"
 							name="maturityDate" id="maturityDate" required="required"
 							placeholder="" style="text-transform: uppercase;" />
 					</div>
@@ -120,7 +120,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Customer Name ></label> <input type="text"
+						<label for="vehicalNo">CUSTOMER DATE </label> <input type="text"
 							name="customerName" id="customerName" required="required"
 							style="text-transform: uppercase;" />
 					</div>
@@ -128,7 +128,7 @@
 
 				<div class="col-lg-3 mb-4 ">
 					<div class="d-flex flex-column formFields">
-						<label for="">Scheme Type</label> <input type="text"
+						<label for="">SCHEME TYPE </label> <input type="text"
 							name="schemeType" id="schemeType" required="required"
 							style="text-transform: uppercase;" />
 					</div>
@@ -136,7 +136,7 @@
 
 				<div class="col-lg-3 mb-4 ">
 					<div class="d-flex flex-column formFields">
-						<label for="">Scheme Mode</label> <input type="text"
+						<label for="">SCVHEME MODE</label> <input type="text"
 							name="schemeMode" id="schemeMode" required="required"
 							style="text-transform: uppercase;" />
 					</div>
@@ -144,33 +144,33 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Policy Amount</label> <input type="text"
+						<label for="">POLICY AMOUNT</label> <input type="text"
 							name="policyAmount" id="policyAmount" required="required"
-							placeholder="Enter Voter No" />
+							placeholder="ENTER VOTOR NO" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Deposit Amount </label> <input type="text"
+						<label for="">DEPOSITE AMOUNT </label> <input type="text"
 							name="depositAmount" id="depositAmount" required="required"
-							placeholder="Enter Licence No" />
+							placeholder="ENTER LICENCE NO " />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Maturity Amount </label> <input type="text"
+						<label for="">MATURITY AMOUNT  </label> <input type="text"
 							name="maturityAmount" id="maturityAmount" required="required"
-							placeholder="Enter Intro Member Name" />
+							placeholder="ENTER INTRO MEMBRE NAME " />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Remark <span id="star"> *</span></label> <input
+						<label for="">REMARK <span id="star"> *</span></label> <input
 							type="text" name="remark" id="remark" required="required"
-							placeholder="Enter Voter No" /> <small id="chkremark"
+							placeholder="ENTER VOTOR NO " /> <small id="chkremark"
 							style="color: red;"></small>
 					</div>
 				</div>
@@ -178,9 +178,9 @@
 			</div>
 			<div class="row">
 				<div class="col-12 text-center">
-					<button id="viewBtn" class="btn btn-primary">View Policy
-						Detail</button>
-					<button id="Add" class="btn btn-info">Save</button>
+					<button id="viewBtn" class="btn btn-primary">VIEW POLICY DETAIL
+						</button>
+					<button id="Add" class="btn btn-info">SAVE</button>
 				</div>
 			</div>
 		</div>
@@ -194,7 +194,7 @@
 
 			<div class="card-body table-responsive">
 				<h5 class="card-title">
-					Marurity Application<span>|</span>
+					MATURITY APPLICATION <span>|</span>
 				</h5>
 
 				<table class="table table-borderless datatable overflow-scroll"
@@ -202,15 +202,15 @@
 					<thead class="table-light">
 						<tr style="font-family: 'Poppins', sans-serif;">
 
-							<th scope="col">Policy No.</th>
-							<th scope="col">Branch Name</th>
-							<th scope="col">Maturity Date</th>
-							<th scope="col">Customer Name</th>
-							<th scope="col">Scheme Name</th>
-							<th scope="col">Scheme Type</th>
-							<th scope="col">Policy Amount</th>
-							<th scope="col">Maturity Amount</th>
-							<th scope="col">Remark</th>
+							<th scope="col">POLICY NO.</th>
+							<th scope="col">BRANCH NAME </th>
+							<th scope="col">MATURITY DATE</th>
+							<th scope="col">CUSTOMER NAME</th>
+							<th scope="col">SCHEME NAME</th>
+							<th scope="col">SCHEME TYPE</th>
+							<th scope="col">POLICY AMOUNT </th>
+							<th scope="col">MATURITY AMOUNT </th>
+							<th scope="col">REMARK</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -219,7 +219,7 @@
 				</table>
 				<div class="pagination">
 					<h6>
-						Page <span id="page-info">1</span>
+						PAGE <span id="page-info">1</span>
 					</h6>
 					<div class="pagination-controls"></div>
 				</div>

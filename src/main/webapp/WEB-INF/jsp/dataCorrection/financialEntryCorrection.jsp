@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Data Correction</h1>
+	<h1>DATE CORRECTION </h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bbi bi-pencil-square"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Financial Entry Correction</li>
+			<li class="breadcrumb-item action">FINANCILA ENTRY CORRECTION </li>
 		</ol>
 	</nav>
 </div>
@@ -17,7 +17,7 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Search Details</li>
+					<li class="breadcrumb-item action">SEARCH DETAILS </li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -47,10 +47,10 @@
 					<input type="hidden" name="id" id="id">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 40px;">
-						<label for="financialCode">Choose by Code</label> <select
+						<label for="financialCode">CHOOSE BY CODE </label> <select
 							id="financialCode" name="financialCode" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">-- Search Financial Code --</option>
+							<option value="">-- SEARCH FINANCIAL CODE --</option>
 						</select>
 					</div>
 				</div>
@@ -66,7 +66,7 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Financial Details</li>
+					<li class="breadcrumb-item action">FINANCIAL DETAILS </li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -94,26 +94,26 @@
                 </div>
               </div> -->
 					<div class="d-flex flex-column formFields">
-						<label for="">Date of Joining</label> <input type="date"
+						<label for="">DATE OF JOINING</label> <input type="date"
 							name="joiningDate" id="joiningDate" required="required"
-							placeholder="Enter Vehicle No" style="text-transform: uppercase;" />
+							placeholder="" style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Financial Name</label> <input type="text"
+						<label>FINANCILA NAME </label> <input type="text"
 							name="financialName" id="financialName" required="required"
-							placeholder="Enter Financial Name"
+							placeholder="ENTER FINANCILA NAME "
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Date of Birth </label> <input type="date" name="dob"
-							id="dob" required="required" placeholder="Enter "
+						<label for="">DATE OF BIRTH </label> <input type="date" name="dob"
+							id="dob" required="required" placeholder=" "
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -122,8 +122,8 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Age</label> <input type="text" name="age" id="age"
-							required="required" placeholder="Enter Age"
+						<label>AGE</label> <input type="text" name="age" id="age"
+							required="required" placeholder="ENTER AGE"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -131,30 +131,30 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label for="">Contact No</label> <input type="text"
+						<label for="">CONTACT NO</label> <input type="text"
 							name="contactNo" id="contactNo" required="required"
-							placeholder="Enter Contact No" />
+							placeholder="ENTER CONTACT NO" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Branch Name</label>
+						<label>BRANCH NAME </label>
 						<!-- <select id="branchName"
 									name="branchName" required="required"
 									class="form-control selectField" style="height: 30px;">
 
 								</select> -->
 						<input type="text" name="branchName" id="branchName"
-							required="required" placeholder="Enter Branch" />
+							required="required" placeholder="ENTER BARNCH " />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Address</label>
+						<label>ADDRESS</label>
 						<textarea name="address" id="address"
 							style="border: 1px solid rgb(224, 224, 224); border-radius: 5px; outline: none; padding: 5px; font-size: 12px;"></textarea>
 					</div>
@@ -162,23 +162,23 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">District</label> <input type="text" name="district"
-							id="district" required="required" placeholder="Enter District" />
+						<label for="">DISTRICT </label> <input type="text" name="district"
+							id="district" required="required" placeholder="ENTER DISTRICT " />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">State</label> <input type="text" name="state"
-							id="state" required="required" placeholder="Enter State" />
+						<label for="">STATE</label> <input type="text" name="state"
+							id="state" required="required" placeholder="ENTER STATE" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="pinCode">Pin Code</label> <input type="text"
+						<label for="pinCode">PIN CODE </label> <input type="text"
 							name="pinCode" id="pinCode" required="required"
-							placeholder="Enter Pin Code" />
+							placeholder="ENTER PIN CODE" />
 					</div>
 				</div>
 
@@ -187,17 +187,17 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Profession</label> <input type="text" name="profession"
+						<label>PROFESSION</label> <input type="text" name="profession"
 							id="profession" required="required"
-							placeholder="Enter profession" />
+							placeholder="ENTER PROFESSION" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Academic background</label> <input type="text"
+						<label for="">ACADEMIC BACKGROUND </label> <input type="text"
 							name="academicBackground" id="academicBackground"
-							required="required" placeholder="Enter Academic background" />
+							required="required" placeholder="ENTER ACADEMIC BACKGROUND" />
 					</div>
 				</div>
 			</div>
@@ -205,8 +205,8 @@
 			<div class="row mt-4">
 				<div class="col-lg-3 mb-5">
 					<label for=""
-						style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">Upload
-						Photo <span id="star">*</span>
+						style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">UPLOAD
+						PHOTO <span id="star">*</span>
 					</label> <label for="financialPhoto" id="drop-area"> <input
 						type="file" accept="image/*" name="financialPhoto"
 						id="financialPhoto" hidden="hidden" onchange="photoUpload();"
@@ -227,8 +227,8 @@
 
 				<div class="col-lg-3 mb-5">
 					<label for=""
-						style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">Upload
-						Signature <span id="star">*</span>
+						style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">UPLOAD
+						SIGNATURE  <span id="star">*</span>
 					</label> <label for="finnacialSignature" id="drop-area"> <input
 						type="file" accept="image/*" name="finnacialSignature"
 						id="finnacialSignature" hidden="hidden"
@@ -255,7 +255,7 @@
 		<div class="mt-5">
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Introducer Details</li>
+					<li class="breadcrumb-item action">INTRODUCE DETAILS</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -263,17 +263,17 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Position</label> <input type="text" name="selectPosition"
-							id="selectPosition" required="required" placeholder="Enter Role"
+						<label>POSITION</label> <input type="text" name="selectPosition"
+							id="selectPosition" required="required" placeholder="ENTER ROLE "
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Reference Code</label> <input type="text"
+						<label for="vehicalNo">REFERENCE Code</label> <input type="text"
 							name="referralCode" id="referralCode" required="required"
-							placeholder="Enter Reference Code"
+							placeholder="ENTER REFERENCE CODE"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -281,9 +281,9 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Reference Name</label> <input type="text"
+						<label>REFERENCE NAME</label> <input type="text"
 							name="referralName" id="referralName" required="required"
-							placeholder="Enter Reference Name"
+							placeholder="ENTER REFERENCE NAME"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -295,27 +295,27 @@
 			<div class="mt-5">
 				<nav>
 					<ol class="breadcrumb breadcrumb-title">
-						<li class="breadcrumb-item action">Payment Details</li>
+						<li class="breadcrumb-item action">PAYMENT DETAILS</li>
 					</ol>
 				</nav>
 				<div class="row">
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields"
 							style="margin-bottom: 30px">
-							<label>Charges (if any)</label> <input type="text" name="fees"
-								id="fees" required="required" placeholder="Enter Fees"
+							<label>CHARGES (IF ANY)</label> <input type="text" name="fees"
+								id="fees" required="required" placeholder="ENTER FEES "
 								style="text-transform: uppercase;" />
 						</div>
 					</div>
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields">
-							<label for="vehicalNo">Mode of payment</label> <select
+							<label for="vehicalNo">MODE OF PAYMENTS</label> <select
 								id="modeofPayment" name="modeofPayment" required="required"
 								class="form-control selectField" style="height: 30px;">
-								<option value="">Select</option>
-								<option value="Cash">Cash</option>
-								<option value="Online">Online</option>
+								<option value="">SELECT</option>
+								<option value="Cash">CASH</option>
+								<option value="Online">ONLINE</option>
 
 							</select>
 						</div>
@@ -323,9 +323,9 @@
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields">
-							<label>Comments</label>
+							<label>COMMENTS</label>
 							<textarea name="comments" id="comments"
-								placeholder="Enter Remarks"
+								placeholder="ENTER REMARKS"
 								style="border: 1px solid rgb(224, 224, 224); border-radius: 5px; outline: none; padding: 5px; font-size: 12px;"></textarea>
 						</div>
 					</div>
@@ -342,8 +342,8 @@
 							class=" h-100 d-flex justify-content-start align-items-center">
 							<div
 								class="d-flex justify-content-start align-items-center  formFields">
-								<label style="margin-left: 20px;" class="mb-2">Financial
-									Status</label>
+								<label style="margin-left: 20px;" class="mb-2">FINANCIAL
+									STATUS</label>
 								<div class="cont">
 									<div class="toggle">
 										<input type="checkbox" id="toggle-financial-status"
@@ -362,7 +362,7 @@
 							style="margin-bottom: 30px;">
 							<div
 								class="d-flex justify-content-start align-items-center  formFields">
-								<label style="margin-left: 20px;" class="mb-2">SMS Send</label>
+								<label style="margin-left: 20px;" class="mb-2">SMS SEND</label>
 								<div class="cont">
 									<div class="toggle">
 										<input type="checkbox" id="toggle-sms-send" name="smsSend"
@@ -384,9 +384,9 @@
 
 			<div class="row">
 				<div class="col-12 text-center" style="margin-top: 30px;">
-					<button type="button" id="printBtn" class="btn btn-warning">Print</button>
-					<button type="button" id="updateBtn" class="btn btn-success">Update</button>
-					<button type="button" id="deleteBtn" class="btn btn-danger">Delete</button>
+					<button type="button" id="printBtn" class="btn btn-warning">PRINT</button>
+					<button type="button" id="updateBtn" class="btn btn-success">UPDATE</button>
+					<button type="button" id="deleteBtn" class="btn btn-danger">DELETE</button>
 				</div>
 			</div>
 	</form>
