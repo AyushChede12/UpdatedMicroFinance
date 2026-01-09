@@ -1,6 +1,6 @@
 
 <div class="pagetitle">
-	<h1>Policy Management</h1>
+	<h1>POLICY MANAGEMENT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i

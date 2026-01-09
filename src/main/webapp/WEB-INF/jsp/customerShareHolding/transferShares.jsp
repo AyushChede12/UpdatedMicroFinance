@@ -1,12 +1,12 @@
 
 		<div class="pagetitle">
-			<h1>Customer Shareholding</h1>
+			<h1>CUSTOMER SHAREHOLDING</h1>
 			<nav>
 				<ol class="breadcrumb">
 					<li class="breadcrumb-item"><a href="openDashboard"> <i
 							class="bi bi-building-fill-down"></i>
 					</a></li>
-					<li class="breadcrumb-item action">Transfer Share</li>
+					<li class="breadcrumb-item action">TRANSFER SHARE </li>
 				</ol>
 			</nav>
 		</div>
@@ -16,7 +16,7 @@
 				<div>
 					<nav>
 						<ol class="breadcrumb breadcrumb-title">
-							<li class="breadcrumb-item action">Customer Details</li>
+							<li class="breadcrumb-item action">CUTOMER DETAILS</li>
 						</ol>
 					</nav>
 					<div class="row">
@@ -26,10 +26,10 @@
 								<input type="hidden" value="${generatedCertificateNo}" id="certificateNo"  name="certificateNo"/>
 								
 								
-								<label for="">Find By Code</label> <select id="findByCode"
+								<label for="">FIND BY CODE</label> <select id="findByCode"
 									name="findByCode" required="required"
 									class="form-control selectField" style="height: 30px;">
-									<option value="">Select Code</option>
+									<option value="">SELECT CODE</option>
 									
 								</select>
 							</div>
@@ -38,15 +38,15 @@
 
 						<div class="col-lg-3">
 							<div class="d-flex flex-column formFields">
-								<label for="">Customer Name</label> <input type="text"
+								<label for="">CUSTOMER NAME</label> <input type="text"
 									name="customerName" id="customerName" required="required"
-									placeholder="Enter Customer Name" readonly="readonly"/>
+									placeholder="ENTER CUSTOMER NAME" readonly="readonly"/>
 							</div>
 						</div>
 
 						<div class="col-lg-3">
 							<div class="d-flex flex-column formFields">
-								<label for="vehicalNo">Start Date</label> <input type="date"
+								<label for="vehicalNo">START DATE</label> <input type="date"
 									name="startDate" id="startDate" required="required"
 									placeholder="Enter" readonly="readonly"
 									style="text-transform: uppercase;" />
@@ -56,68 +56,68 @@
 
 						<div class="col-lg-3">
 							<div class="d-flex flex-column formFields mb-4">
-								<label for="">Previous Account Balance</label> <input type="text"
+								<label for="">PREVIOUS ACCOUNT BALANCE </label> <input type="text"
 									name="previousAccountBalance" id="previousAccountBalance" required="required"
-									placeholder="Enter Previous Account Balance" />
+									placeholder="ENTER PREVIOUS ACCOUNT BALANCE" />
 							</div>
 						</div>
 
 						<div class="col-lg-3">
 							<div class="d-flex flex-column formFields">
-								<label for="">Previous Share Count</label> <input type="text"
+								<label for="">PREVIOUS SHARE COUNT</label> <input type="text"
 									name="previousShareCount" id="previousShareCount" required="required"
-									placeholder="Enter Previous Share Count" />
+									placeholder="ENTER PREVIOUS SHARE COUNT" />
 							</div>
 						</div>
 
 						<div class="col-lg-3"baseValue>
 							<div class="d-flex flex-column formFields">
-								<label for="">Base Value</label> <input type="text" name="baseValue"
+								<label for="">BASE VALUE</label> <input type="text" name="baseValue"
 									id="baseValue" required="required"
-									placeholder="Enter Base Value" />
+									placeholder="ENTER BASE VALUE" />
 							</div>
 						</div>
 
 						<div class="col-lg-3">
 							<div class="d-flex flex-column formFields">
-								<label for="">Branch</label> <select id="branch" name="branch"
+								<label for="">BRANCH</label> <select id="branch" name="branch"
 									required="required" class="form-control selectField"
-									style="height: 30px; " placeholder="Enter Branch">
-									<option value="">Select Branch</option>
+									style="height: 30px; " placeholder="ENTER BRANCH">
+									<option value="">SELECT BRANCH </option>
 								</select>
 							</div>
 						</div>
 
 						<div class="col-lg-3">
 							<div class="d-flex flex-column formFields mb-4">
-								<label for="vehicalNo">Date of Transfer</label> <input type="date"
+								<label for="vehicalNo">DATE OF TRANSFER</label> <input type="date"
 									name="dateOfTransfer" id="dateOfTransfer" required="required"
-									placeholder="Enter Vehicle No"
+									placeholder=""
 									style="text-transform: uppercase;" />
 							</div>
 						</div>
 
 						<div class="col-lg-3">
 							<div class="d-flex flex-column formFields  mb-4">
-								<label for="">Shares Issued To Customer </label> <select id="shareIssuedBy"
+								<label for="">SHARE ISSUED TO CUSTOMER </label> <select id="shareIssuedBy"
 									name="shareIssuedBy" required="required"
 									class="form-control selectField" style="height: 30px;">
-									<option value="">Select </option>
+									<option value="">SELECT </option>
 								</select>
 							</div>
 						</div>
 
 						  <div class="col-lg-3">
 							<div class="d-flex flex-column formFields  mb-4">
-								<label for="">No. Of Share</label> <input type="text"
+								<label for="">NO. OF SHARE</label> <input type="text"
 									name="noOfShare" id="noOfShare" required="required"
-									placeholder="Enter No. Of Share" />
+									placeholder="ENTER NO. OF SHARE" />
 							</div>
 						</div> 
 
 						<div class="col-lg-3">
 							<div class="d-flex flex-column formFields">
-								<label for="">Amount Transferred</label> <input type="text"
+								<label for="">AMOUNT TRANSFERRED</label> <input type="text"
 									name="amountTransferred" id="amountTransferred" required="required"
 									placeholder="Enter Amount Transferred" />
 							</div>
@@ -125,7 +125,7 @@
 
 						<div class="col-lg-3">
 							<div class="d-flex flex-column formFields">
-								<label for="">Balance Shares </label> <input type="text" readonly="readonly"
+								<label for="">BALANCE SHARE </label> <input type="text" readonly="readonly"
 									name="balanceShares" id="balanceShares" required="required"
 									placeholder="" />
 							</div>
@@ -133,16 +133,16 @@
 						
 						<div class="col-lg-3">
 							<div class="d-flex flex-column formFields">
-								<label for="">Previous Account Balance</label> <input type="text"
+								<label for="">PREVIOUS ACCOUNT BALANCE</label> <input type="text"
 									name="previousAccountBalance" id="previousAccountBalance" required="required"
-									placeholder="Enter Previous Account Balance" />
+									placeholder="ENTER PREVIOUS ACCOUNT BALANCE" />
 							</div>
 						</div>
 						<div class="col-lg-3">
 							<div class="d-flex flex-column formFields ">
-								<label for="">Previous Share Count</label> <input type="text"
+								<label for="">PREVIOUS SHARE COUNT</label> <input type="text"
 									name="previousShareCount" id="previousShareCount" required="required"
-									placeholder="Enter Previous Share Count" />
+									placeholder="ENTER PREVIOUS SHARE COUNT" />
 							</div>
 						</div>
 
@@ -151,28 +151,28 @@
 					<div class="mt-5">
 						<nav>
 							<ol class="breadcrumb breadcrumb-title">
-								<li class="breadcrumb-item action">Payment Details</li>
+								<li class="breadcrumb-item action">PAYMENTS DETAILS</li>
 							</ol>
 						</nav>
 						<div class="row">
 
 							<div class="col-lg-3">
 								<div class="d-flex flex-column formFields">
-									<label for="">Mode of Payment </label> <select id="modeOfPayment"
+									<label for="">MODE OF PAYMENT </label> <select id="modeOfPayment"
 										name="modeOfPayment" required="required"
 										class="form-control selectField" style="height: 30px;">
-										<option value="">Select Payment </option>
-										<option value="cash">Cash</option>
-										<option value="cheque">Cheque</option>
+										<option value="">SELECT PAYMENT </option>
+										<option value="cash">CASH</option>
+										<option value="cheque">CHEQUE</option>
 										<option value="neft">NEFT</option>
-										<option value="online">Online</option>
+										<option value="online">ONLINE</option>
 									</select>
 								</div>
 							</div>
 
 							<div class="col-lg-3">
 								<div class="d-flex flex-column formFields mb-4">
-									<label for="">Comments</label>
+									<label for="">COMMENTS</label>
 									<textarea name="comments" id="comments"
 									style="border: 1px solid rgb(224, 224, 224); border-radius: 5px; outline: none; padding: 5px; font-size: 12px;"></textarea>
 								</div>
@@ -184,8 +184,8 @@
 
 					<div class="row">
 						<div class="col-3">
-							<button type="button" id="saveBtn" class="btnStyle bg-success" onclick="saveShares()">Save</button>
-							<button type="button" id="updateBtn" class="btnStyle bg-success" onclick="updateShares()">Update</button>
+							<button type="button" id="saveBtn" class="btnStyle bg-success" onclick="saveShares()">SAVE</button>
+							<button type="button" id="updateBtn" class="btnStyle bg-success" onclick="updateShares()">UPDATE</button>
 
 						</div>
 					</div>
@@ -198,22 +198,21 @@
 
 						<div class="card-body table-responsive">
 							<h5 class="card-title">
-								Recent Sales <span>| Today</span>
+								RECENT SALES <span>| TODAY</span>
 							</h5>
 
 							<table class="table table-borderless datatable overflow-scroll">
 								<thead class="table-light">
 									<tr style="font-family: 'Poppins', sans-serif;">
-										<th scope="col">Sr No.</th>
-										<th scope="col">Customer Code</th>
-										<th scope="col">Customer Name</th>
-										<th scope="col">Start Date</th>
-										<th scope="col">Branch</th>
-										<th scope="col">No. Of Share</th>
-										<th scope="col">Date of Transfer</th>
-										
-										<th scope="col">Edit</th>	
-										<th scope="col">Delete</th>				
+										<th scope="col">SR NO.</th>
+										<th scope="col">CUSTOMER CODE</th>
+										<th scope="col">CUSTOMER NAME</th>
+										<th scope="col">START DATE</th>
+										<th scope="col">BRANCH</th>
+										<th scope="col">NO. OF SHARE</th>
+										<th scope="col">DATE OF TRANSFER</th>
+										<th scope="col">EDIT</th>	
+										<th scope="col">DELETE</th>				
 									</tr>
 								</thead>
 								<tbody id="transfersharetable">

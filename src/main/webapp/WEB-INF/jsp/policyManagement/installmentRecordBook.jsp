@@ -1,11 +1,11 @@
 
 <div class="pagetitle">
-	<h1>Policy Management</h1>
+	<h1>POLICY MANAGEMENT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"><i
 					class="bi bi-piggy-bank"></i></a></li>
-			<li class="breadcrumb-item active">Installment Record Book</li>
+			<li class="breadcrumb-item active">INSTALLMENT RECORD BOOK</li>
 		</ol>
 	</nav>
 </div>
@@ -15,7 +15,7 @@
 	<div>
 		<nav>
 			<ol class="breadcrumb breadcrumb-title">
-				<li class="breadcrumb-item active">Print Search Results</li>
+				<li class="breadcrumb-item active">PRINT SEARCH RESULT</li>
 			</ol>
 		</nav>
 
@@ -23,10 +23,10 @@
 		<div class="row align-items-center mb-4">
 			<!-- Dropdown -->
 			<div class="col-md-6 d-flex align-items-center">
-				<label class="mr-2 mb-0">Find by Policy Code*</label> <select
+				<label class="mr-2 mb-0">FIND BY POLICY CODE*</label> <select
 					id="findByPolicyNumber" name="findByPolicyNumber"
 					class="form-control w-50">
-					<option value="">Select Policy Code</option>
+					<option value="">SLECT POLICY CODE</option>
 				</select>
 			</div>
 
@@ -36,7 +36,7 @@
 
 
 				<button type="button" class="btn btn-dark mr-2"
-					onclick="toggleTransaction()">Transaction</button>
+					onclick="toggleTransaction()">TRANSCATION</button>
 
 				<button type="button" class="btn btn-dark"
 					onclick="printTransactionSection()">
@@ -52,12 +52,12 @@
 <div id="transactionSection" class="transaction-section"
 	style="display: none;">
 	<div style="width: 70%; margin: auto">
-		<h1>Microfinance Services</h1>
-		<p>Address : Nagpur(440024) - Maharashtra</p>
+		<h1>MICROFINACE SERVICES</h1>
+		<p>ADDRESS : NAGPUR(440024) - MAHRASHTRA</p>
 		<hr />
 		<div class="d-flex justify-content-between">
 			<p>
-				Branch and Code: <span id="branchCodeSpan"
+				BRANCH AND CODE: <span id="branchCodeSpan"
 					style="width: 12vw; display: inline-block;"></span>
 			</p>
 			<p>
@@ -66,42 +66,42 @@
 		</div>
 		<div class="d-flex justify-content-between">
 			<p>
-				Policy No.: <span id="policyNoSpan"
+				POLICY NO.: <span id="policyNoSpan"
 					style="width: 12vw; display: inline-block;"></span>
 			</p>
 			<p>
-				Member Code: <span id="memberCodeSpan"
+				MEMBER CODE: <span id="memberCodeSpan"
 					style="width: 12vw; display: inline-block;"></span>
 			</p>
 		</div>
 		<p>
-			Applicant Name: <span id="applicantNameSpan"
+			APPLICANT NAME: <span id="applicantNameSpan"
 				style="width: 12vw; display: inline-block;"></span>
 		</p>
 		<p>
-			Father/Husband Name: <span id="fatherNameSpan"
+			FATHER/HUSBEND NAME: <span id="fatherNameSpan"
 				style="width: 12vw; display: inline-block;"></span>
 		</p>
 		<p>
-			Nominee Name: <span id="nomineeNameSpan"
+			NOMINEE NAME: <span id="nomineeNameSpan"
 				style="width: 12vw; display: inline-block;"></span>
 		</p>
 		<p>
-			Address: <span id="addressSpan"
+			ADDRESS: <span id="addressSpan"
 				style="width: 12vw; display: inline-block;"></span>
 		</p>
 
 		<div class="d-flex justify-content-between">
 			<p>
-				Scheme: <span id="schemeSpan"
+				SCHEME: <span id="schemeSpan"
 					style="width: 12vw; display: inline-block;"></span>
 			</p>
 			<p>
-				Plan: <span id="planSpan"
+				PLAN: <span id="planSpan"
 					style="width: 12vw; display: inline-block;"></span>
 			</p>
 			<p>
-				Relationship: <span id="relationshipSpan"
+				RELATIONSHIP: <span id="relationshipSpan"
 					style="width: 12vw; display: inline-block;"></span>
 			</p>
 		</div>
@@ -111,43 +111,43 @@
 				ROI: <span id="roiSpan" style="width: 12vw; display: inline-block;"></span>
 			</p>
 			<p>
-				Mode: <span id="modeSpan"
+				MODE: <span id="modeSpan"
 					style="width: 12vw; display: inline-block;"></span>
 			</p>
 			<p>
-				Maturity: <span id="maturitySpan"
-					style="width: 12vw; display: inline-block;"></span>
-			</p>
-		</div>
-
-		<div class="d-flex justify-content-between">
-			<p>
-				Renewal Amount: <span id="renewalAmountSpan"
-					style="width: 12vw; display: inline-block;"></span>
-			</p>
-			<p>
-				Total Value: <span id="totalValueSpan"
-					style="width: 12vw; display: inline-block;"></span>
-			</p>
-			<p>
-				Term: <span id="termSpan"
+				MATURITY: <span id="maturitySpan"
 					style="width: 12vw; display: inline-block;"></span>
 			</p>
 		</div>
 
 		<div class="d-flex justify-content-between">
 			<p>
-				Maturity Date: <span id="maturityDateSpan"
+				RENEWAL AMOUNT: <span id="renewalAmountSpan"
 					style="width: 12vw; display: inline-block;"></span>
 			</p>
 			<p>
-				Mobile No: <span id="mobileSpan"
+				TOTAL VALUE: <span id="totalValueSpan"
+					style="width: 12vw; display: inline-block;"></span>
+			</p>
+			<p>
+				TERM: <span id="termSpan"
+					style="width: 12vw; display: inline-block;"></span>
+			</p>
+		</div>
+
+		<div class="d-flex justify-content-between">
+			<p>
+				MATURITY DATE: <span id="maturityDateSpan"
+					style="width: 12vw; display: inline-block;"></span>
+			</p>
+			<p>
+				MOBILE NO: <span id="mobileSpan"
 					style="width: 12vw; display: inline-block;"></span>
 			</p>
 		</div>
 
 		<p>
-			Collector Name: <span id="collectorSpan"
+			COLLECTOR NAME: <span id="collectorSpan"
 				style="width: 12vw; display: inline-block;"></span>
 		</p>
 
@@ -155,8 +155,8 @@
 
 		<div class="d-flex justify-content-end">
 			<hr style="border-color: black; width: 20vw;">
-			<p style="position: relative; top: 23px; right: 17rem">Authorized
-				Signature</p>
+			<p style="position: relative; top: 23px; right: 17rem">AUTHORIZED 
+				SIGNATURE</p>
 		</div>
 	</div>
 </div>
