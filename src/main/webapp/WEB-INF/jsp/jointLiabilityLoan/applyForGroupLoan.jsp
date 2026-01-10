@@ -1,11 +1,11 @@
 
 <div class="pagetitle">
-	<h1>Joint Liability Loan</h1>
+	<h1>JOINT LIABILITY LOAN</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"><i
 					class="bi bi-person-bounding-box"></i></a></li>
-			<li class="breadcrumb-item action">Apply For Group Loan</li>
+			<li class="breadcrumb-item action">APPLY FOR GROUP LOAN</li>
 		</ol>
 	</nav>
 </div>
@@ -15,16 +15,16 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Data Search Panel</li>
+					<li class="breadcrumb-item action">DATA SEARCH PANEL</li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="groupCode">Find by Group Code*</label> <select
+						<label for="groupCode">FIND BY GROUP CODE*</label> <select
 							id="groupCode" name="groupCode" required
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select Customer Name</option>
+							<option value="">SELECT CUSTOMER NAME</option>
 						</select>
 					</div>
 				</div>
@@ -34,12 +34,12 @@
 		<div class="mt-5">
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Group Profile</li>
+					<li class="breadcrumb-item action">GROUP PROFILE</li>
 				</ol>
 			</nav>
 			<div class="col-lg-3" style="display: none;">
 				<div class="d-flex flex-column formFields">
-					<label>Selected Member*</label> <input type="hidden"
+					<label>SELECTED MEMBER*</label> <input type="hidden"
 						id="selectedMember" name="selectedMember" class="form-control"
 						required />
 				</div>
@@ -47,7 +47,7 @@
 
 			<div class="col-lg-3" style="display: none;">
 				<div class="d-flex flex-column formFields">
-					<label>Customer Name*</label> <input type="hidden"
+					<label>CUSTOMER NAME*</label> <input type="hidden"
 						id="customerName" name="customerName" class="form-control"
 						required />
 				</div>
@@ -56,76 +56,76 @@
 			<div class="row">
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for="openingDate">Opening Date*</label> <input type="date"
+						<label for="openingDate">OPENING DATE*</label> <input type="date"
 							name="openingDate" id="openingDate" required
-							placeholder="Enter Opening Date"
+							placeholder="ENTER OPENING DATE"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for="communityName">Community Name*</label> <input
+						<label for="communityName">COMMUNITY NAME*</label> <input
 							type="text" name="communityName" id="communityName" required
-							placeholder="Enter Community Name" />
+							placeholder="ENTER COMMUNITY NAME" />
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="communityName">Community Address*</label> <input
+						<label for="communityName">COMMUNITY ADDRESS*</label> <input
 							type="text" name="communityaddress" id="communityaddress"
-							required placeholder="Enter Community Name" />
+							required placeholder="ENTER COMMUNITY NAME" />
 					</div>
 				</div>
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for="allocatedStaff">Allocated Staff*</label> <input
+						<label for="allocatedStaff">ALLOCATED STAFF*</label> <input
 							type="text" name="allocatedStaff" id="allocatedStaff" required
-							placeholder="Enter Allocated Staff" />
+							placeholder="ENTER ALLOCATED STAFF" />
 					</div>
 				</div>
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for="branchName">Branch Name*</label> <select
+						<label for="branchName">BRANCH NAME*</label> <select
 							id="branchName" name="branchName" required
 							class="form-control selectField" style="height: 30px;"></select>
 					</div>
 				</div>
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for="collectionDays">Scheduled Collection Days*</label> <input
+						<label for="collectionDays">SCHEDULED COLLECTION DAYS *</label> <input
 							type="text" name="collectionDays" id="collectionDays" required
-							placeholder="Enter Collection Days" />
+							placeholder="ENTER COLLECTION DAYS" />
 					</div>
 				</div>
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for="communityLeader">Community Leader*</label> <input
+						<label for="communityLeader">COMMUNITY LEADER*</label> <input
 							type="text" name="communityLeader" id="communityLeader" required
-							placeholder="Enter Community Leader" />
+							placeholder="ENTER COMMUNITY LEADER" />
 					</div>
 				</div>
 
 
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
-						<label>Community Address*</label> <input type="text"
+						<label>COMMUNITY ADDRESS*</label> <input type="text"
 							id="communityAddress" name="communityAddress"
-							class="form-control" required placeholder="Enter Address" />
+							class="form-control" required placeholder="ENTER ADDRESS" />
 					</div>
 				</div>
 
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for="contactNumber">Contact Number*</label> <input
+						<label for="contactNumber">CONTACT NUMBER*</label> <input
 							type="text" name="contactNumber" id="contactNumber" required
-							placeholder="Enter Contact Number" />
+							placeholder="ENTER CONTACT NUMBER" />
 					</div>
 				</div>
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for="loanPurpose">Purpose of Loan*</label> <input
+						<label for="loanPurpose">PURPOSE OF LOAN *</label> <input
 							type="text" name="loanPurpose" id="loanPurpose" required
-							placeholder="Enter Loan Purpose" />
+							placeholder="ENTER LOAN PURPOSE" />
 					</div>
 				</div>
 			</div>
@@ -134,38 +134,38 @@
 		<div class="mt-5">
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Financial Deductions</li>
+					<li class="breadcrumb-item action">FINANCIAL DEDUCTIONS </li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3 ">
 					<div class="d-flex flex-column formFields">
-						<label for="planCode">Fetch by Plan Code*</label> <select
+						<label for="planCode">FETCH BY PLAN CODE *</label> <select
 							id="planCode" name="planCode" required
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select Plan Code</option>
+							<option value="">SELECT PLAN CODE</option>
 						</select>
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="loanSchemeName"> Loan Scheme Name </label> <input
+						<label for="loanSchemeName"> LOAN SCHEME NAME </label> <input
 							type="text" name="loanSchemeName" id="loanSchemeName" required
-							placeholder="Enter Loan Scheme" />
+							placeholder="ENTER LOAN SCHEME" />
 					</div>
 				</div>
 
 
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for="processingFee">Processing Fee (%)*</label> <input
+						<label for="processingFee">PROCESSING FEE (%)*</label> <input
 							type="text" name="processingFee" id="processingFee" required
-							placeholder="Enter Processing Fee" />
+							placeholder="ENTER PROCESSING FEE" />
 					</div>
 				</div>
 				<div class="col-lg-3" style="display: none;">
 					<div class="d-flex flex-column formFields">
-						<label>Plan ID*</label> <input type="hidden" id="planCode"
+						<label>PLAN ID*</label> <input type="hidden" id="planCode"
 							name="planCode" value="${memberCodePI}" class="form-control"
 							required />
 					</div>
@@ -174,66 +174,66 @@
 
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for="legalCharges">Legal Charges (%)*</label> <input
+						<label for="legalCharges">LEGAL CHARGES (%)*</label> <input
 							type="text" name="legalCharges" id="legalCharges" required
-							placeholder="Enter Legal Charges" />
+							placeholder="ENTER LEGAL CHARGES" />
 					</div>
 				</div>
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
 						<label for="gstPercentage">GST(%)*</label> <input type="text"
 							name="gstPercentage" id="gstPercentage" required
-							placeholder="Enter GST" />
+							placeholder="ENTER GST" />
 					</div>
 				</div>
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for="insuranceFee">Insurence.Fee(%)*</label> <input
+						<label for="insuranceFee">INSURENCE.FEE(%)*</label> <input
 							type="text" name="insuranceFee" id="insuranceFee" required
-							placeholder="Enter Insurance Fee" />
+							placeholder="ENTER INSURANCE FEE" />
 					</div>
 				</div>
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for="valuationFee">Valuation Fee (%)*</label> <input
+						<label for="valuationFee">VALUATION FEE (%)*</label> <input
 							type="text" name="valuationFee" id="valuationFee" required
-							placeholder="Enter Valuation Fee" />
+							placeholder="ENTER VALUATION FEE" />
 					</div>
 				</div>
 
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for="penaltyMode">Penalty Mode*</label> <input type="text"
+						<label for="penaltyMode">PENALTY MODE*</label> <input type="text"
 							name="penaltyMode" id="penaltyMode" required
-							placeholder="Enter Penalty Mode" />
+							placeholder="ENTER PENALTY MODE" />
 					</div>
 				</div>
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for="monthlyPenalty">Monthly Penalty*</label> <input
+						<label for="monthlyPenalty">MONTHLY PENALTY*</label> <input
 							type="text" name="monthlyPenalty" id="monthlyPenalty" required
-							placeholder="Enter Monthly Penalty" />
+							placeholder="ENTER MONTHLY PENALTY" />
 					</div>
 				</div>
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for="emiFrequency">EMI Frequency*</label> <input
+						<label for="emiFrequency">EMI FREQUENCY*</label> <input
 							type="text" name="emiFrequency" id="emiFrequency" required
-							placeholder="Enter EMI Frequency" />
+							placeholder="ENTER EMI FREQUENCY" />
 					</div>
 				</div>
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for="rateOfInterest">Rate of Interest (% p.a.)*</label> <input
+						<label for="rateOfInterest">RATE OF INTEREST (% P.A.)*</label> <input
 							type="text" name="rateOfInterest" id="rateOfInterest" required
-							placeholder="Enter Rate of Interest" />
+							placeholder="ENTER RATE OF INTEREST" />
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="minLoanDurationMonths">Term * </label> <input
+						<label for="minLoanDurationMonths">TERM * </label> <input
 							type="text" name="term" id="term" required
-							placeholder="Enter Term" />
+							placeholder="ENTER TERM" />
 
 
 					</div>
@@ -246,16 +246,16 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="interestType">Interest Type*</label> <input
+						<label for="interestType">INTEREST TYPE*</label> <input
 							type="text" name="interestType" id="interestType" required
-							placeholder="Enter Term" />
+							placeholder="ENTER TERM" />
 
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="emiType">EMI mode*</label> <input type="text"
-							name="emiType" id="emiType" required placeholder="Enter Term" />
+						<label for="emiType">EMI MODE*</label> <input type="text"
+							name="emiType" id="emiType" required placeholder="ENTER TERM" />
 
 
 					</div>
@@ -268,7 +268,7 @@
 			<div class="row">
 				<div class="col-12 text-center">
 					<button id="saveBtn" name="saveBtn" class="btnStyle bg-success"
-						style="margin-left: 80%">Save</button>
+						style="margin-left: 80%">SAVE</button>
 				</div>
 			</div>
 		</div>
@@ -278,18 +278,18 @@
 	<div class="col-12">
 		<div class="card recent-sales">
 			<div class="card-body table-responsive">
-				<h5 class="card-title">Details Search List</h5>
+				<h5 class="card-title">DETAILS SEARCH LIST</h5>
 				<table class="table table-bordered">
 					<thead class="thead-light">
 						<tr>
-							<th>Group ID</th>
-							<th>Plan Code</th>
-							<th>Group Leader</th>
-							<th>Loan Plan Name</th>
-							<th>Group Member ID's</th>
-							<th>Group Member Name</th>
-							<th>Emi Type</th>
-							<th>GL Contact No</th>
+							<th>GROP ID</th>
+							<th>PLAN CODE</th>
+							<th>GROUP LEADER</th>
+							<th>LOAN PLAN NAME </th>
+							<th>GROUP MEMBER ID'S</th>
+							<th>GROUP MEMBER NAME</th>
+							<th>EMI TYPE</th>
+							<th>GL CONTACT NO</th>
 
 						</tr>
 					</thead>

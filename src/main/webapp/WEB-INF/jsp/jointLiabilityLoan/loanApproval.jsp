@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Joint Liability Loan</h1>
+	<h1>JOINT LIABILITY LOAN</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-person-bounding-box"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Loan Approval</li>
+			<li class="breadcrumb-item action">LOAN APPROVAL</li>
 		</ol>
 	</nav>
 </div>
@@ -17,17 +17,17 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Data Search Panel</li>
+					<li class="breadcrumb-item action">DATA SEARCH PANAL</li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3">
 
 					<div class="d-flex flex-column formFields">
-						<label for="groupCode">Find by Group Code*</label> <select
+						<label for="groupCode">FIND BY GROUP CODE*</label> <select
 							id="groupcode" name="groupcode" required
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select Customer Name</option>
+							<option value="">SELECT CUSTOMER NAME</option>
 						</select>
 					</div>
 
@@ -44,62 +44,62 @@
 		<div class="mt-5">
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Loan Details</li>
+					<li class="breadcrumb-item action">LAON DETAILS </li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="openingDate">Opening Date*</label> <input type="date"
+						<label for="openingDate">OPENING DATE*</label> <input type="date"
 							name="openingDate" id="openingDate" required
-							placeholder="Enter Opening Date"
+							placeholder="ENTER OPENING DATE"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="communityName">Community Name*</label> <input
+						<label for="communityName">COMMUNITY NAME*</label> <input
 							type="text" name="communityName" id="communityName" required
-							placeholder="Enter Community Name" />
+							placeholder="ENTER COMMUNITY NAME" />
 					</div>
 				</div>
 
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for="allocatedStaff">Allocated Staff*</label> <input
+						<label for="allocatedStaff">ALLOCATED STAFF*</label> <input
 							type="text" name="allocatedStaff" id="allocatedStaff" required
-							placeholder="Enter Allocated Staff" />
+							placeholder="ENTER ALLOCATED STAFF" />
 					</div>
 				</div>
 
 
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Branch Name* </label> <input type="text"
+						<label for=""> BRANCH NAME* </label> <input type="text"
 							name="branchName" id="branchName" required="required"
-							placeholder="Enter  Branch Name" />
+							placeholder="ENTER  BRANCH NAME" />
 					</div>
 				</div>
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Collection Schedule* </label> <input type="text"
+						<label for=""> COLLECTIONS SCHEDULE* </label> <input type="text"
 							name="collectionDays" id="collectionDays" required="required"
-							placeholder="Enter Location" />
+							placeholder="ENTER LOACTION" />
 					</div>
 				</div>
 
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Contact Number* </label> <input type="text"
+						<label for=""> CONTACT NUMBER* </label> <input type="text"
 							name="contactNumber" id="contactNumber" required="required"
-							placeholder="Enter Location" />
+							placeholder="ENTER CONTACT NUMBER" />
 					</div>
 				</div>
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Purpose of Loan* </label> <input type="text"
+						<label for=""> PURPOSE OF LOAN* </label> <input type="text"
 							name="purposeOfLoan" id="purposeOfLoan" required="required"
-							placeholder="Enter Location" />
+							placeholder="ENTER PURPOSE OF LOAN " />
 					</div>
 				</div>
 
@@ -111,22 +111,22 @@
 		<div class="mt-5">
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Loan Approval Info</li>
+					<li class="breadcrumb-item action">LOAN APPROVAL INFO </li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Date of Approval*</label> <input
+						<label for="vehicalNo">DATE OF APPROVAL*</label> <input
 							type="date" name="approvalDate" id="approvalDate"
-							required="required" placeholder="Enter Vehicle No"
+							required="required" placeholder=""
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="loanName">Approval Status</label> <input type="text"
+						<label for="loanName">APPROVAL STATUS </label> <input type="text"
 							id="approvalStatus" name="approvalStatus" class="form-control"
 							readonly
 							style="font-size: 12px; font-weight: bold; text-transform: uppercase;" />
@@ -139,7 +139,7 @@
 			<div class="row">
 				<div class="col-12 text-center">
 					<button type="button" id="approveBtn" class="btnStyle bg-success"
-						style="margin-left: 80%">Approve</button>
+						style="margin-left: 80%">APPROVE</button>
 
 				</div>
 			</div>

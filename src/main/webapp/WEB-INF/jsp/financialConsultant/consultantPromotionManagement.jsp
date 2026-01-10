@@ -1,13 +1,13 @@
 
 <div class="pagetitle">
-	<h1>Financial Consultant</h1>
+	<h1>FINANCILA CONSULTANT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-briefcase text-blue"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Consultant Promotion
-				Management</li>
+			<li class="breadcrumb-item action">CONSULTANT PROMOTION
+				MANAGEMENT </li>
 		</ol>
 	</nav>
 </div>
@@ -17,8 +17,8 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Financial Consultant
-						Promotion</li>
+					<li class="breadcrumb-item action">FINANCIAL CONSULTANT PROMOTION 
+						</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -26,10 +26,10 @@
 				<div class="col-lg-3">
 
 					<div class="d-flex flex-column formFields">
-						<label for="">Select Code</label> <select id="financialCode"
+						<label >SELECT CODE</label> <select id="financialCode"
 							name="financialCode" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select Code</option>
+							<option value="">SELECT CODE</option>
 
 						</select>
 					</div>
@@ -108,7 +108,7 @@
  -->
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Select Branch</label> <input type="text" id="Branch"
+						<label for="">SELECT BRANCH </label> <input type="text" id="Branch"
 							name="branchName" required="required"
 							class="form-control selectField"
 							style="height: 30px; background-color: #fff;" readonly="readonly">
@@ -118,7 +118,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Old Position</label> <input type="text" id="oldPosition"
+						<label>OLD POSITION </label> <input type="text" id="oldPosition"
 							name="oldPosition" required="required"
 							class="form-control selectField"
 							style="height: 30px; background-color: #fff;" readonly="readonly">
@@ -128,10 +128,10 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>New Position</label> <select id="newPosition"
+						<label>NEW POSITION</label> <select id="newPosition"
 							name="newPosition" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">New Position</option>
+							<option value="">NEW POSITION </option>
 							<option value="L1">L1</option>
 							<option value="L2">L2</option>
 							<option value="L3">L3</option>
@@ -143,41 +143,41 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Promotion Date</label> <input type="date"
+						<label for="">PROMOTION DATE </label> <input type="date"
 							name="promotionDate" id="promotionDate" required="required"
-							placeholder="Enter New Senior" />
+							placeholder="ENTER NEW SENIOR" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">New Senior Code</label> <input type="text"
+						<label for="">NEW SENIOR CODE </label> <input type="text"
 							name="seniorCode" id="newseniorCode" required="required"
-							placeholder="Enter New Senior" readonly="readonly" />
+							placeholder="ENTER NEW SENIOR " readonly="readonly" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Senior Name</label> <input type="text" name="seniorName"
+						<label>SENIOR NAME NAME </label> <input type="text" name="seniorName"
 							id="newseniorname" required="required"
-							placeholder="Enter Senior Name" readonly="readonly" />
+							placeholder="ENTER SENIOR NAME " readonly="readonly" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Senior Position</label> <input type="text"
+						<label for="">SENIOR POSITION </label> <input type="text"
 							name="seniorPosition" id="newseniorposition" required="required"
-							placeholder="Enter New Senior Position" readonly="readonly" />
+							placeholder="ENTER NEW SENIOR POSITION " readonly="readonly" />
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-12 text-center">
 					<button type="button" id="updateBtn" class="btnStyle"
-						style="background-color: #FFA500;">Update</button>
+						style="background-color: #FFA500;">UPDATE</button>
 				</div>
 
 			</div>
@@ -192,7 +192,7 @@
 			<div class="card recent-sales">
 
 				<div class="card-body table-responsive">
-					<h5 class="card-title">Promotion Management Details</h5>
+					<h5 class="card-title">PROMOTION MANAGEMENT DEATILS </h5>
 
 
 					<div style="overflow-x: auto; white-space: nowrap;">
