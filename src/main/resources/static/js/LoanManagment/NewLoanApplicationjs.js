@@ -167,17 +167,18 @@ function signatureSizeEdit(e) {
 }
 
 $(document).ready(function() {
-	$.ajax({
+/*	$.ajax({
 		url: "api/loanmanegment/fetchLoanSchemeCatalog",
 		type: "GET",
 		success: function(response) {
+			var plan=response.data;
 			console.log("API response:", response);
 
 			var dropdown = $('#loanPlanName');     // shows: memberCode only
 			dropdown.empty();
 			dropdown.append('<option value="">SELECT</option>');
 
-			if (response.status === "FOUND" && response.data) {
+			if (response.status === "FOUND") {
 				$.each(response.data, function(index, customer) {
 					dropdown.append('<option value="' + customer.loanPlaneName + '">' + (customer.loanPlaneName).toUpperCase() + '</option>');
 				});
@@ -188,7 +189,35 @@ $(document).ready(function() {
 		error: function() {
 			alert("Failed to fetch customer list.");
 		}
+	});*/
+	
+	$.ajax({
+	    url: "api/loanmanegment/fetchLoanSchemeCatalog",
+	    type: "GET",
+	    success: function (response) {
+	        console.log("API response:", response);
+
+	        var dropdown = $('#loanPlanName');
+	        dropdown.empty();
+	        dropdown.append('<option value="">SELECT</option>');
+
+	        if (response.status === "FOUND" && Array.isArray(response.data)) {
+	            $.each(response.data, function (index, scheme) {
+	                dropdown.append(
+	                    `<option value="${scheme.loanPlaneName}">
+	                        ${(scheme.loanPlaneName || "").toUpperCase()}
+	                     </option>`
+	                );
+	            });
+	        } else {
+	            dropdown.append('<option value="">No data found</option>');
+	        }
+	    },
+	    error: function () {
+	        alert("Failed to fetch loan scheme list.");
+	    }
 	});
+
 });
 
 $('#loanPlanName').on('change', function() {
@@ -407,7 +436,7 @@ $(document).ready(function() {
 
 			const consultantDropdown = $('#financialConsultantId');
 			consultantDropdown.empty();
-			consultantDropdown.append('<option value="">SELECT CONSULTANT</option>');
+			consultantDropdown.append('<option value="">SELECT CONSULTANT ID</option>');
 
 			response.data.forEach(function(customer) {
 				// ✅ Only the code
@@ -456,7 +485,7 @@ $(document).ready(function() {
 	});
 });
 
-
+/*
 function calculateNewFees() {
 	var hiddenloanAmount = parseFloat(document.getElementById('hiddenLoanAmount').value);
 
@@ -476,6 +505,44 @@ function calculateNewFees() {
 	else {
 		errorDiv.innerHTML = "";
 		errorDiv.style.display = "none";
-	}
+	}*/
+	function calculateNewFees() {
 
+		var hiddenloanAmount = parseFloat(document.getElementById('hiddenLoanAmount').value || 0);
+		var loanAmount = parseFloat(document.getElementById('loanAmount').value || 0);
+		var rateOfInterest = parseFloat(document.getElementById('rateOfInterest').value || 0);
+
+		var processingPercent = parseFloat(document.getElementById('hiddenProcessingFee').value || 0);
+		var legalPercent = parseFloat(document.getElementById('hiddenLegalCharges').value || 0);
+		var gstPercent = parseFloat(document.getElementById('hiddenGST').value || 0);
+		var insurancePercent = parseFloat(document.getElementById('hiddenInsuranceFee').value || 0);
+		var valuationPercent = parseFloat(document.getElementById('hiddenValuationFees').value || 0);
+
+		var errorDiv = document.getElementById('chkloanamount');
+		if (loanAmount < hiddenloanAmount) {
+			errorDiv.innerHTML = "* loan amount should be greater than " + hiddenloanAmount;
+			errorDiv.style.display = "block";
+			return false;
+		} else {
+			errorDiv.innerHTML = "";
+			errorDiv.style.display = "none";
+		}
+
+		var processingFee = (loanAmount * processingPercent) / 100;
+		var legalCharges = (loanAmount * legalPercent) / 100;
+		var gstCharges = (loanAmount * gstPercent) / 100;
+		var insuranceFee = (loanAmount * insurancePercent) / 100;
+		var valuationFee = (loanAmount * valuationPercent) / 100;
+		/*var gstAmount = ((processingFee + legalCharges + valuationFee) * gstPercent) / 100;*/
+
+		var stationaryFee = 50; // fixed
+		var stationaryFees = (loanAmount * rateOfInterest) / 100;
+		// ✅ SET VALUES IN INPUTS
+		document.getElementById('processingFee').value = processingFee.toFixed(2);
+		document.getElementById('legalCharges').value = legalCharges.toFixed(2);
+		document.getElementById('insuranceFee').value = insuranceFee.toFixed(2);
+		document.getElementById('valuationFees').value = valuationFee.toFixed(2);
+		document.getElementById('gst').value = gstCharges.toFixed(2);
+		document.getElementById('stationaryFee').value = stationaryFees.toFixed(2);
+	
 }

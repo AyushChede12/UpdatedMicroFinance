@@ -445,4 +445,9 @@ public class LoanManagementService {
 		public List<LoanClosure> getLoanClosuresByLoanId(String loanId) {
 			return loanClosurerepo.findByLoanId(loanId);
 		}
+
+		public List<LoanApplication> getNotApprovedLoanCustomer() {
+			// TODO Auto-generated method stub
+			return loanApplicationRepo.findByApprovalStatusFalse();
+		}
 }

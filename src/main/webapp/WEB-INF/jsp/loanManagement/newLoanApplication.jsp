@@ -416,7 +416,7 @@
 					<input type="hidden" id="hiddenProcessingFee">
 						<label for="loanName">PROCESSING FEE </label> <input type="text"
 							name="processingFee" id="processingFee" required="required"
-							style="text-transform: uppercase;" />
+							placeholder="ENTER PROCESSING FEE" style="text-transform: uppercase;" />
 					</div>
 				</div>
 
@@ -425,7 +425,7 @@
 					<input type="hidden" id="hiddenLegalCharges">
 						<label for="loanName">LEGAL CHARGES </label> <input type="text"
 							name="legalCharges" id="legalCharges" required="required"
-							style="text-transform: uppercase;" />
+							placeholder="ENTER LEGAL CHARGES" style="text-transform: uppercase;" />
 					</div>
 				</div>
 
@@ -436,7 +436,7 @@
 					<input type="hidden" id="hiddenGST">
 						<label for="loanName">GST</label> <input type="text" name="gst"
 							id="gst" required="required" placeholder="ENTER STAMP DUTY FEE"
-							style="text-transform: uppercase;" />
+							placeholder="ENTER GST" style="text-transform: uppercase;" />
 					</div>
 				</div>
 
@@ -480,7 +480,7 @@
 							<select id="financialConsultantId" name="financialConsultantId"
 								required="required" class="form-control selectField"
 								style="height: 30px;">
-								<option value=""></option>
+								<option value="">ENTER FINANCIAL CONSULTANT ID</option>
 
 							</select>
 						</div>
