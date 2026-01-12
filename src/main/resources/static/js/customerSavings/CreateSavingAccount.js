@@ -1,3 +1,25 @@
+function updateToggleColor(toggleElement) {
+	if (!toggleElement) return;
+
+	const label = toggleElement.nextElementSibling; // assumes label is just after input
+	if (label) {
+		if (toggleElement.checked) {
+			label.classList.add('active'); // checkbox checked hone par class add
+		} else {
+			label.classList.remove('active'); // unchecked hone par class remove
+		}
+	}
+}
+
+// Aur optional: click/change par automatically update
+document.querySelectorAll('.toggle__input').forEach(function(toggle) {
+	toggle.addEventListener('change', function() {
+		updateToggleColor(toggle);
+	});
+});
+
+
+
 //shubham kewat
 //fetch Policy Name
 /*document.getElementById("newPhoto").addEventListener("click", function() {
@@ -572,16 +594,30 @@ $(document).ready(function() {
 		formData.append("messageSend", $('#toggle-member-status1').is(':checked') ? 1 : 0);
 		formData.append("debitCardIssue", $('#toggle-member-status2').is(':checked') ? 1 : 0);
 		formData.append("isLocker", $('#toggle-member-status3').is(':checked') ? 1 : 0);
-
+		formData.append("accountFreeze", $('#toggle-member-status4').is(':checked') ? 1 : 0);
 		/* ================= STRING IMAGES ================= */
 		// Existing images (already saved)
-		formData.append("photo", $('#photoHidden').val());
-		formData.append("signature", $('#signatureHidden').val());
+		function getFileName(path) {
+			if (!path) return "";
+			return path.substring(path.lastIndexOf('/') + 1);
+		}
+
+		var photoPath = $('#photoHidden').val();
+		var signaturePath = $('#signatureHidden').val();
+
+		var photoName = getFileName(photoPath);
+		var signatureName = getFileName(signaturePath);
+
+		formData.append("photo", photoName);
+		formData.append("signature", signatureName);
+
+		alert(photoName);
+		alert(signatureName);
 
 		/* ================= MULTIPART FILES ================= */
-		const jointPhoto = $('#jointPhotoFile')[0]?.files[0];
-		const newPhoto = $('#newPhotoFile')[0]?.files[0];
-		const newSignature = $('#newSignatureFile')[0]?.files[0];
+		const jointPhoto = $('#jointPhoto')[0]?.files[0];
+		const newPhoto = $('#newPhoto')[0]?.files[0];
+		const newSignature = $('#newSignature')[0]?.files[0];
 
 		if (jointPhoto) formData.append("jointPhoto", jointPhoto);
 		if (newPhoto) formData.append("newPhoto", newPhoto);
@@ -606,7 +642,7 @@ $(document).ready(function() {
 					alert(response.message + "\nAccount No: " + $('#accountNumber').val());
 					location.reload();
 				}
-				else{
+				else {
 					alert("else");
 					alert("Customer already exists!");
 				}
@@ -617,7 +653,7 @@ $(document).ready(function() {
 		});
 	});
 
-	
+
 });
 
 function viewData(id) {
@@ -669,30 +705,64 @@ function viewData(id) {
 				$("#accountNumber").val(data.accountNumber);
 
 				if (data.photo) {
-					const imagePath = `Uploads/${data.photo}`; // Construct full image path
-					document.getElementById("photo").src = imagePath; // Set image source
-					document.getElementById("photoHidden").value = data.photo; // Set hidden input value
+					const photoPath = `Uploads/${data.photo}`; // Construct full image path
+					$("#photoPreview").attr("src", photoPath);
+					$("#photoHidden").val(photoPath);
+					const fakePhotoEvent = { target: { result: photoPath } };
+					photoSizeEdit(fakePhotoEvent);
 				} else {
-					document.getElementById("photo").src = 'Uploads/upload.jpg'; // Default placeholder
-					document.getElementById("photoHidden").value = ''; // Clear hidden input value
+					$("#photoPreview").attr("src", "Uploads/default-placeholder.jpg");
+					$("#photoHidden").val("");
 				}
 				//signature
 				if (data.signature) {
-					const imagePath = `Uploads/${data.signature}`; // Construct full image path
-					document.getElementById("signature").src = imagePath; // Set image source
-					document.getElementById("signatureHidden").value = data.signature; // Set hidden input value
+					const signPath = `Uploads/${data.signature}`; // Construct full image path
+					$("#signaturePreview").attr("src", signPath);
+					$("#signatureHidden").val(signPath);
+					const fakeSignEvent = { target: { result: signPath } };
+					signatureSizeEdit(fakeSignEvent);
 				} else {
-					document.getElementById("signature").src = 'Uploads/upload.jpg'; // Default placeholder
-					document.getElementById("signatureHidden").value = ''; // Clear hidden input value
+					$("#signaturePreview").attr("src", "Uploads/default-placeholder.jpg");
+					$("#signatureHidden").val("");
 				}
 				//Jointphoto
-				if (data.jointPhoto) {
-					const imagePath = `Uploads/${data.jointPhoto}`; // Construct full image path
-					document.getElementById("jointPhoto").src = imagePath; // Set image source
-					document.getElementById("jointPhotoHidden").value = data.jointPhoto; // Set hidden input value
+				var operationType=$("#operationType").val();
+				alert(operationType);
+				if (operationType == "Joint") {
+					$("#myJointPhoto").show();
+					if (data.jointPhoto) {
+						const jointPhotoPath = `Uploads/${data.jointPhoto}`; // Construct full image path
+						$("#jointPhotoPreview").attr("src", jointPhotoPath);
+						$("#jointPhotoHidden").val(jointPhotoPath);
+						const fakeJointEvent = { target: { result: jointPhotoPath } };
+						jointPhotoSizeEdit(fakeJointEvent);
+					} else {
+						$("#jointPhotoPreview").attr("src", "Uploads/default-placeholder.jpg");
+						$("#signatureHidden").val("");
+					}
+				}
+
+
+				if (data.newPhoto) {
+					const newPhotoPath = `Uploads/${data.newPhoto}`; // Construct full image path
+					$("#newPhotoPreview").attr("src", newPhotoPath);
+					$("#newPhotoHidden").val(newPhotoPath);
+					const fakeNewPhotoEvent = { target: { result: newPhotoPath } };
+					newPhotoSizeEdit(fakeNewPhotoEvent);
 				} else {
-					document.getElementById("jointPhoto").src = 'Uploads/upload.jpg'; // Default placeholder
-					document.getElementById("jointPhotoHidden").value = ''; // Clear hidden input value
+					$("#newPhotoPreview").attr("src", "Uploads/default-placeholder.jpg");
+					$("#newPhotoHidden").val("");
+				}
+
+				if (data.newSignature) {
+					const newSignPath = `Uploads/${data.newSignature}`; // Construct full image path
+					$("#newSignaturePreview").attr("src", newSignPath);
+					$("#newSignatureHidden").val(newSignPath);
+					const fakeNewSignEvent = { target: { result: newSignPath } };
+					newSignatureSizeEdit(fakeNewSignEvent);
+				} else {
+					$("#newSignaturePreview").attr("src", "Uploads/default-placeholder.jpg");
+					$("#newSignatureHidden").val("");
 				}
 
 				/*let isChecked = data.accountStatus === 1;
@@ -705,15 +775,13 @@ function viewData(id) {
 				document.getElementById("toggle-member-status1").checked = data.messageSend === true || data.messageSend === '1';
 				document.getElementById("toggle-member-status2").checked = data.debitCardIssue === true || data.debitCardIssue === '1';
 				document.getElementById("toggle-member-status3").checked = data.isLocker === true || data.isLocker === '1';
+				document.getElementById("toggle-member-status4").checked = data.accountFreeze === true || data.accountFreeze === '1';
 				// Call updateToggleColor manually
 				updateToggleColor(document.getElementById("toggle-member-status"));
 				updateToggleColor(document.getElementById("toggle-member-status1"));
 				updateToggleColor(document.getElementById("toggle-member-status2"));
 				updateToggleColor(document.getElementById("toggle-member-status3"));
-				console.log(data.accountStatus)
-				console.log(data.messageSend)
-				console.log(data.debitCardIssue)
-				console.log(dataisLocker)
+				updateToggleColor(document.getElementById("toggle-member-status4"));
 			} else {
 				alert("Account not found: " + response.message);
 			}
@@ -749,19 +817,7 @@ function deleteData(id) {
 
 
 $(document).ready(function() {
-	let imageSrc = $('#photo').attr('src');
-	let imageName = imageSrc.split('/').pop(); // Extract the file name
-	$('#photoHidden').val(imageName);
 
-	// Ensure the hidden input is updated with the image file name
-	let imageSrc1 = $('#signature').attr('src');
-	let imageName1 = imageSrc1.split('/').pop(); // Extract the file name
-	$('#signatureHidden').val(imageName1);
-
-	// Ensure the hidden input is updated with the image file name
-	let imageSrc2 = $('#jointPhoto').attr('src');
-	let imageName2 = imageSrc2.split('/').pop(); // Extract the file name
-	$('#jointPhotoHidden').val(imageName2);
 
 	$('#updateBtn').click(function(event) {
 		event.preventDefault();
@@ -780,6 +836,10 @@ $(document).ready(function() {
 		let updatedImageSrc2 = $('#jointPhoto').attr('src');
 		let updatedImageName2 = updatedImageSrc2.split('/').pop(); // Extract the file name
 		$('#jointPhotoHidden').val(updatedImageName2);
+
+		const newPhoto = $('#newPhoto').val();
+		const newSignature = $('#newSignature').val();
+		const jointPhoto = $('#jointPhoto').val();
 
 		const formData = new FormData();
 		formData.append("id", $('#id').val());
@@ -824,26 +884,41 @@ $(document).ready(function() {
 		formData.append("messageSend", $('#toggle-member-status1').is(':checked') ? 1 : 0);
 		formData.append("debitCardIssue", $('#toggle-member-status2').is(':checked') ? 1 : 0);
 		formData.append("isLocker", $('#toggle-member-status3').is(':checked') ? 1 : 0);
+		formData.append("accountFreeze", $('#toggle-member-status4').is(':checked') ? 1 : 0);
 		// Append the extracted photoWithAadhar file name
 		formData.append("photo", $('#photoHidden').val());
 
 		// Append the extracted photoWithAadhar file name
-		formData.append("signature", $('#signatureHidden').val());
+		//formData.append("signature", $('#signatureHidden').val());
 
 		// Append the extracted photoWithAadhar file name
-		formData.append("jointPhoto", $('#jointPhotoHidden').val());
+		//formData.append("jointPhoto", $('#jointPhotoHidden').val());
+		// Append actual files
+		/*const jointPhotoFile = $('#jointPhoto')[0].files[0];
+		if (jointPhotoFile) formData.append("jointPhoto", jointPhotoFile);*/
+
+		//const photoFile = $('#photo')[0].files[0];
+		//if (photoFile) formData.append("photo", photoFile);
+
+		//const signatureFile = $('#signature')[0].files[0];
+		//if (signatureFile) formData.append("signature", signatureFile);
+
+
+
 
 		// Append files (photo and signature)
 		/*const photo = $('#photo')[0].files[0];
 		const signature = $('#signature')[0].files[0];
-
-		if (photo) {
-			formData.append("photo", photo);
-		}
-		if (signature) {
-			formData.append("signature", signature);
-		}
 */
+		if (newPhoto) {
+			formData.append("newPhoto", newPhoto);
+		}
+		if (newSignature) {
+			formData.append("newSignature", newSignature);
+		}
+		if (jointPhoto) {
+			formData.append("jointPhoto", jointPhoto);
+		}
 		// Debug: Log all key-value pairs from FormData
 		for (let pair of formData.entries()) {
 			if (!pair[1]) {
@@ -860,7 +935,7 @@ $(document).ready(function() {
 			processData: false,
 			contentType: false,
 			success: function(response) {
-				alert("Saving Account data saved successfully!\nAccount No : " + $('#accountNumber').val());
+				alert("Saving Account data updated successfully!\nAccount No : " + $('#accountNumber').val());
 				location.reload();
 			},
 			error: function(xhr) {

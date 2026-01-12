@@ -190,17 +190,19 @@ public class CustomerSavingsController {
 			@RequestParam(value = "newSignature", required = false) MultipartFile newSignature) throws IOException
 
 	{
-		
+
 		String customerId = savingAccountDto.getSelectByCustomer(); // assuming it's Long
 
 		// Check for existing record before saving (only for new entries)
-		if (savingAccountDto.getId() == null && customersaving.existsByCustomerId(customerId)) {
-			return ResponseEntity.status(HttpStatus.CONFLICT)
-					.body(new ApiResponse<>(HttpStatus.CONFLICT, "Customer already exists in saving account", null));
+		if (savingAccountDto.getId() == null) {
+			if (customersaving.existsByCustomerId(customerId)) {
+				return ResponseEntity.status(HttpStatus.CONFLICT).body(
+						new ApiResponse<>(HttpStatus.CONFLICT, "Customer already exists in saving account", null));
+			}
 		}
-		
+
 		ApiResponse<CreateSavingsAccount> response = customersaving.saveSavingAccountDetails(savingAccountDto, photo,
-				signature, jointPhoto,newPhoto, newSignature);
+				signature, jointPhoto, newPhoto, newSignature);
 		// return new ResponseEntity<>(response, response.getStatus());
 		return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK,
 				savingAccountDto.getId() != null ? "Data updated successfully" : "Data saved successfully",

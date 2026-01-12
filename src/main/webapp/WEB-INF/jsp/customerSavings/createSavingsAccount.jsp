@@ -305,90 +305,72 @@
 						style="border: 1px solid rgb(224, 224, 224); border-radius: 5px; outline: none; padding: 5px; font-size: 12px;"></textarea>
 				</div>
 			</div>
-			<div class="col-lg-3">
-				<div class="h-100 d-flex justify-content-start align-items-center">
-					<div
-						class="d-flex justify-content-start align-items-center formFields">
-						<label style="margin-left: 20px;" class="mb-2">ACCOUNT
-							STATUS</label>&nbsp;
-						<div class="cont">
-							<div class="toggle">
-								<input type="checkbox" id="toggle-member-status"
-									name="toggle-member-status" class="toggle__input"
-									data-toggle-type="member-status"> <label
-									for="toggle-member-status" class="toggle__label"></label>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+		<div class="col-lg-3">
+    <div class="h-100 d-flex justify-content-start align-items-center">
+        <div class="d-flex justify-content-start align-items-center formFields">
+            <label style="margin-left: 20px;" class="mb-2">ACCOUNT STATUS</label>&nbsp;
+            <div class="cont">
+                <div class="toggle">
+                    <input type="checkbox" id="toggle-member-status" name="toggle-member-status" class="toggle__input" data-toggle-type="member-status">
+                    <label for="toggle-member-status" class="toggle__label"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-			<div class="col-lg-3">
-				<div class="h-100 d-flex justify-content-start align-items-center">
-					<div
-						class="d-flex justify-content-start align-items-center formFields">
-						<label style="margin-left: 20px;" class="mb-2">MESSAGE
-							SEND</label>&nbsp;
-						<div class="cont">
-							<div class="toggle">
-								<input type="checkbox" id="toggle-member-status1"
-									name="toggle-member-status1" class="toggle__input"
-									data-toggle-type="member-status"> <label
-									for="toggle-member-status1" class="toggle__label"></label>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+<div class="col-lg-3">
+    <div class="h-100 d-flex justify-content-start align-items-center">
+        <div class="d-flex justify-content-start align-items-center formFields">
+            <label style="margin-left: 20px;" class="mb-2">MESSAGE SEND</label>&nbsp;
+            <div class="cont">
+                <div class="toggle">
+                    <input type="checkbox" id="toggle-member-status1" name="toggle-member-status1" class="toggle__input" data-toggle-type="member-status">
+                    <label for="toggle-member-status1" class="toggle__label"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-			<div class="col-lg-3">
-				<div class="h-100 d-flex justify-content-start align-items-center">
-					<div
-						class="d-flex justify-content-start align-items-center formFields">
-						<label style="margin-left: 20px;" class="mb-2">DEBIT CARD
-							ISSUE</label>&nbsp;
-						<div class="cont">
-							<div class="toggle">
-								<input type="checkbox" id="toggle-member-status2"
-									name="toggle-member-status2" class="toggle__input"
-									data-toggle-type="member-status"> <label
-									for="toggle-member-status2" class="toggle__label"></label>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+<div class="col-lg-3">
+    <div class="h-100 d-flex justify-content-start align-items-center">
+        <div class="d-flex justify-content-start align-items-center formFields">
+            <label style="margin-left: 20px;" class="mb-2">DEBIT CARD ISSUE</label>&nbsp;
+            <div class="cont">
+                <div class="toggle">
+                    <input type="checkbox" id="toggle-member-status2" name="toggle-member-status2" class="toggle__input" data-toggle-type="member-status">
+                    <label for="toggle-member-status2" class="toggle__label"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-			<div class="row">
+<div class="row">
+    <div class="col-lg-6">
+        <div class="d-flex align-items-center formFields" style="gap: 80px;">
+            <!-- Check Locker -->
+            <div class="d-flex align-items-center">
+                <label class="mb-0 me-3">CHECK LOCKER</label>&nbsp;
+                <div class="toggle">
+                    <input type="checkbox" id="toggle-member-status3" name="checkLocker" class="toggle__input">
+                    <label for="toggle-member-status3" class="toggle__label"></label>
+                </div>
+            </div>
 
-				<div class="col-lg-6">
-					<div class="d-flex align-items-center formFields"
-						style="gap: 80px;">
+            <!-- Account Freeze -->
+            <div class="d-flex align-items-center">
+                <label class="mb-0 me-3">ACCOUNT FREEZE</label>&nbsp;
+                <div class="toggle">
+                    <input type="checkbox" id="toggle-member-status4" name="accountFreeze" class="toggle__input">
+                    <label for="toggle-member-status4" class="toggle__label"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-						<!-- Check Locker -->
-						<div class="d-flex align-items-center">
-							<label class="mb-0 me-3">CHECK LOCKER</label>&nbsp;
-							<div class="toggle">
-								<input type="checkbox" id="toggle-check-locker"
-									name="checkLocker" class="toggle__input"> <label
-									for="toggle-check-locker" class="toggle__label"></label>
-							</div>
-						</div>
-
-						<!-- Account Freeze -->
-						<div class="d-flex align-items-center">
-							<label class="mb-0 me-3">ACCOUNT FREEZE</label>&nbsp;
-							<div class="toggle">
-								<input type="checkbox" id="toggle-account-freeze"
-									name="accountFreeze" class="toggle__input"> <label
-									for="toggle-account-freeze" class="toggle__label"></label>
-							</div>
-						</div>
-
-					</div>
-				</div>
-
-			</div>
 
 			<!-- Cheque input fields -->
 			<div id="chequeInputs" style="display: none;">
