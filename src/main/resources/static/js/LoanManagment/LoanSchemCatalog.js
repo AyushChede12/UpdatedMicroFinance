@@ -190,3 +190,15 @@ function deleteLoan(id) {
 		});
 	}
 }
+
+function validateLoanAmount() {
+	const loanAmount = document.getElementById("loanAmount").value;
+	const error = document.getElementById("loanAmountError");
+
+	if (loanAmount !== "" && Number(loanAmount) < 100000) {
+		error.style.display = "block";
+	} else {
+		error.style.display = "none";
+	}
+}
+

@@ -95,13 +95,13 @@ td {
 </style>
 
 <div class="pagetitle">
-	<h1>Policy Management</h1>
+	<h1>POLICY MANAGEMENT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-piggy-bank"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Plan Management</li>
+			<li class="breadcrumb-item action">PLAN MANEGEMENT</li>
 		</ol>
 	</nav>
 </div>
@@ -111,7 +111,7 @@ td {
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Daily Deposit</li>
+					<li class="breadcrumb-item action">DAILY DEOPSIT </li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -120,48 +120,48 @@ td {
 						required="required" />
 
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Plan Code <span class="star">*</span></label> <input
+						<label for="">PLAN CODE <span class="star">*</span></label> <input
 							type="text" name="planCodeDD" id="planCodeDD" required="required"
-							placeholder="Enter Plan Code" value="${memberCodeDD}"
+							placeholder="ENTER PLAN CODE" value="${memberCodeDD}"
 							readonly="readonly" style="text-transform: uppercase;" />
 					</div>
 				</div>
 				<div class="col-lg-3 ">
 					<div class="d-flex flex-column formFields  mb-4 ">
-						<label for="vehicalNo">Plan Name <span class="star">*</span></label>
+						<label for="vehicalNo">PLAN NAME <span class="star">*</span></label>
 						<input type="text" name="planNameDD" id="planNameDD"
-							required="required" placeholder="Enter Plan Name" />
+							required="required" placeholder="ENTER PLAN NAME" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields  mb-4">
-						<label for="vehicalNo">Minimum Deposit <span class="star">*</span></label>
+						<label for="vehicalNo">MINIMUM DEPOSIT  <span class="star">*</span></label>
 						<input type="text" name="minimumDeposit" id="minimumDeposit"
-							required="required" placeholder="Enter Minimum Amount"
+							required="required" placeholder="ENTER MINIMUM AMOUNT"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields  mb-4">
-						<label for="vehicalNo">Rate of Interest (%) <span
+						<label for="vehicalNo">RATE OF INTEREST (%) <span
 							class="star">*</span></label> <input type="text" name="rateOfInterest"
 							id="rateOfInterest" required="required"
-							placeholder="Enter Interest Rate"
+							placeholder="ENTER RATE OF INTEREST"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
 				<div class="col-lg-3 mb-4 ">
 					<div class="d-flex flex-column formFields">
-						<label for="">Installment Type <span class="star">*</span></label>
+						<label for="">INSTALLMENT TYPE <span class="star">*</span></label>
 						<select id="installmentType" name="installmentType"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
-							<option value="">Select Installment Type</option>
-							<option value="Cash">Cash</option>
-							<option value="Cheque">Cheque</option>
-							<option value="Online">Online</option>
+							<option value="">SELECT INSTALLMENT TYPE</option>
+							<option value="Cash">CASH</option>
+							<option value="Cheque">CHEQUE</option>
+							<option value="Online">ONLINE</option>
 							<option value="UPI">UPI</option>
 
 						</select>
@@ -172,41 +172,41 @@ td {
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Term <span class="star">*</span></label> <input
+						<label for="">TERM <span class="star">*</span></label> <input
 							type="text" name="ddterm" id="ddterm" required="required"
-							placeholder="Enter Term" />
+							placeholder="ENTER TERM" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Commission on New <span class="star">*</span></label>
+						<label for="">COMMISSION ON NEW <span class="star">*</span></label>
 						<input type="text" name="commissionOnNew" id="commissionOnNew"
-							required="required" placeholder="Enter Commission on New" />
+							required="required" placeholder="ENTER COMMISSION ON NEW" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Renewal Commission (%) <span class="star">*</span></label>
+						<label for="">RENEWAL COMMISSION (%) <span class="star">*</span></label>
 						<input type="text" name="renewalCommission" id="renewalCommission"
-							required="required" placeholder="Enter Renewal Commission" />
+							required="required" placeholder="ENYTER RENEWAL COMMISSION " />
 					</div>
 				</div>
 
 				<div class="col-lg-3 mb-4 ">
 					<div class="d-flex flex-column formFields">
-						<label for="">Interest Interval <span class="star">*</span></label>
+						<label for="">INTEREST INTERVAL <span class="star">*</span></label>
 						<select id="interestInterval" name="interestInterval"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
-							<option value="">Select Interest Interval</option>
-							<option value="Daily">Daily</option>
-							<option value="Monthly">Monthly</option>
-							<option value="Quarterly">Quarterly</option>
-							<option value="Half-Yearly">Half-Yearly</option>
-							<option value="Yearly">Yearly</option>
-							<option value="On Maturity">On Maturity</option>
+							<option value="">SELECT INTEREST INTERVAL</option>
+							<option value="Daily">DAILY</option>
+							<option value="Monthly">MONTHLY</option>
+							<option value="Quarterly">QUARTERLY </option>
+							<option value="Half-Yearly">HALF-YEARLY</option>
+							<option value="Yearly">YEARLY</option>
+							<option value="On Maturity">ON MATURITY </option>
 
 						</select>
 					</div>
@@ -216,29 +216,29 @@ td {
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Total Paid <span class="star">*</span></label> <input
+						<label for="">TOTAL PAID <span class="star">*</span></label> <input
 							type="text" name="totalPaid" id="totalPaid" required="required"
-							readonly="readonly" placeholder="Enter Total Paid" />
+							readonly="readonly" placeholder="ENTER TOTAL PAID" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Maturity Amount <span class="star">*</span></label>
+						<label for="">MATURITY AMOUNT<span class="star">*</span></label>
 						<input type="text" name="maturityAmount" id="maturityAmount"
 							readonly="readonly" required="required"
-							placeholder="Enter Maturity Amount" />
+							placeholder="ENTER MATURITY AMOUNT" />
 					</div>
 				</div>
 
 				<div class="col-lg-3 mb-4 ">
 					<div class="d-flex flex-column formFields">
-						<label for="">Is Flexible Plan? <span class="star">*</span></label>
+						<label for="">IS FLEXIBLE PLAN? <span class="star">*</span></label>
 						<select id="flexiblePlan" name="flexiblePlan" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select Flexible Plan</option>
-							<option value="Yes">Yes</option>
-							<option value="No">No</option>
+							<option value="">SELECT FLEXIBLE PLAN </option>
+							<option value="Yes">YES</option>
+							<option value="No">NO</option>
 
 						</select>
 					</div>
@@ -250,17 +250,17 @@ td {
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Grace Days <span class="star">*</span></label> <input
+						<label for="">GRACE DAYS  <span class="star">*</span></label> <input
 							type="text" name="graceDays" id="graceDays" required="required"
-							placeholder="Enter Grace Days" />
+							placeholder="ENTER GRACE DAY" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Penalty Rate (%) <span class="star">*</span></label>
+						<label for="">PENALTY RATE (%) <span class="star">*</span></label>
 						<input type="text" name="penaltyRate" id="penaltyRate"
-							required="required" placeholder="Enter Penalty Rate" />
+							required="required" placeholder="ENTER PENALITY RATE" />
 					</div>
 				</div>
 
@@ -269,8 +269,8 @@ td {
 						style="margin-bottom: 30px;">
 						<div
 							class="d-flex justify-content-start align-items-center  formFields">
-							<label style="margin-left: 20px;" class="mb-2">Status
-								Plan</label>
+							<label style="margin-left: 20px;" class="mb-2">STATUS
+								PLAN</label>
 							<div class="cont">
 								<div class="toggle">
 									<input type="checkbox" id="toggle-status-planDD"
@@ -287,8 +287,8 @@ td {
 
 			<div class="row" style="margin-left: 80%;">
 				<div class="col-12 text-center">
-					<button id="saveBtn" class="btnStyle bg-warning ">Save</button>
-					<button id="updateBtn" class="btnStyle bg-warning style="display:none;">Update</button>
+					<button id="saveBtn" class="btnStyle bg-warning ">SAVE</button>
+					<button id="updateBtn" class="btnStyle bg-warning style="display:none;">UPDATE</button>
 
 				</div>
 			</div>
@@ -298,7 +298,7 @@ td {
 					<div class="card recent-sales">
 						<div class="card-body table-responsive">
 							<h5 class="card-title">
-								Daily Deposit <span>| Table View</span>
+								DAILY DEPOSITE <span>| TABLE VIEW</span>
 							</h5>
 
 							<table class="table table-bordered">
@@ -345,7 +345,7 @@ td {
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Recurring Deposit</li>
+					<li class="breadcrumb-item action">RECURRING DEPOSITE</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -354,35 +354,35 @@ td {
 						required="required" style="text-transform: uppercase;" />
 
 					<div class="d-flex flex-column formFields">
-						<label for="">Plan Code <span class="star">*</span></label> <input
+						<label for="">PLAN CODE <span class="star">*</span></label> <input
 							type="text" name="planCodeRD" id="planCodeRD" required="required"
-							placeholder="Enter Plan Code" value="${memberCodeRD}"
+							placeholder="ENTER PLAN CODE" value="${memberCodeRD}"
 							readonly="readonly" style="text-transform: uppercase;" />
 					</div>
 				</div>
 				<div class="col-lg-3 ">
 					<div class="d-flex flex-column formFields  mb-4 ">
-						<label for="vehicalNo">Plan Name <span class="star">*</span></label>
+						<label for="vehicalNo">PLAN NAME <span class="star">*</span></label>
 						<input type="text" name="planNameRD" id="planNameRD"
-							required="required" placeholder="Enter Minimum Amount"
+							required="required" placeholder="ENTER PLAN NAME"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Minimum Amount <span class="star">*</span></label>
+						<label for="vehicalNo">MINIMUM AMOUNT <span class="star">*</span></label>
 						<input type="text" name="minimumAmountRD" id="minimumAmountRD"
-							required="required" placeholder="Enter Minimum Amount"
+							required="required" placeholder="ENTER MINIMUM AMOUNT "
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Interest Rate(%) <span class="star">*</span></label>
+						<label for="vehicalNo">INTEREST RATE Interest Rate(%) <span class="star">*</span></label>
 						<input type="text" name="rateOfInterestRD" id="rateOfInterestRD"
-							required="required" placeholder="Enter Interest Rate"
+							required="required" placeholder="ENTER INTEREST RATE"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -392,21 +392,21 @@ td {
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Term <span class="star">*</span></label> <input
+						<label for="">TERM <span class="star">*</span></label> <input
 							type="text" name="rdterm" id="rdterm" required="required"
-							placeholder="Enter Term" />
+							placeholder="ENTER TERM" />
 					</div>
 				</div>
 				<div class="col-lg-3 mb-4 ">
 					<div class="d-flex flex-column formFields">
-						<label for="">Installment Type <span class="star">*</span></label>
+						<label for="">INSTALLMENT TYPE <span class="star">*</span></label>
 						<select id="installmentTypeRD" name="installmentTypeRD"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
-							<option value="">Select Installment Type</option>
-							<option value="Cash">Cash</option>
-							<option value="Cheque">Cheque</option>
-							<option value="Online">Online</option>
+							<option value="">SELECT INSTALLMENT TYPE</option>
+							<option value="Cash">CASH</option>
+							<option value="Cheque">CHEQUE</option>
+							<option value="Online">ONLINE</option>
 							<option value="UPI">UPI</option>
 
 						</select>
@@ -416,33 +416,33 @@ td {
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">new Commission(%) <span class="star">*</span></label>
+						<label for="">NEW COMMISSION(%) <span class="star">*</span></label>
 						<input type="text" name="commissionOnNewRD" id="commissionOnNewRD"
-							required="required" placeholder="Enter Comm.New(%)" />
+							required="required" placeholder="ENTER COMM.NEW(%)" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Renewal Commission(%) <span class="star">*</span></label>
+						<label for="">RENEWAL COMMISION(%) <span class="star">*</span></label>
 						<input type="text" name="renewalCommissionRD"
 							id="renewalCommissionRD" required="required"
-							placeholder="Enter Comm.Renew(%)" />
+							placeholder="ENTER RENEW" />
 					</div>
 				</div>
 
 				<div class="col-lg-3 mb-4 ">
 					<div class="d-flex flex-column formFields">
-						<label for="">Interest Interval <span class="star">*</span></label>
+						<label for="">INTEREST INTERNAL <span class="star">*</span></label>
 						<select id="componentIntervalRD" name="componentIntervalRD"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
-							<option value="">Select Compound Interval</option>
-							<option value="Monthly">Monthly</option>
-							<option value="Quarterly">Quarterly</option>
-							<option value="Half-Yearly">Half-Yearly</option>
-							<option value="Yearly">Yearly</option>
-							<option value="On Maturity">On Maturity</option>
+							<option value="">SELECT COMPOUND INTERVAL</option>
+							<option value="Monthly">MONTHLY</option>
+							<option value="Quarterly">QUATERLYQ</option>
+							<option value="Half-Yearly">HALF-YEARLY</option>
+							<option value="Yearly">YEARLY</option>
+							<option value="On Maturity">ON MATURITY</option>
 						</select>
 					</div>
 				</div>
@@ -451,31 +451,31 @@ td {
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Total Deposit <span class="star">*</span></label> <input
+						<label for="">TOTAL DEPOSIT <span class="star">*</span></label> <input
 							type="text" name="totalPaidRD" id="totalPaidRD"
 							readonly="readonly" required="required"
-							placeholder="Enter Total Deposit" />
+							placeholder="ENTER TOTAL DEPOSIT" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Maturity Amount <span class="star">*</span></label>
+						<label for="">MATURITY AMOUNT <span class="star">*</span></label>
 						<input type="text" name="maturityAmountRD" id="maturityAmountRD"
 							readonly="readonly" required="required"
-							placeholder="Enter Maturity Amount" />
+							placeholder="ENTER MATURITY AMOUNT" />
 					</div>
 				</div>
 
 				<div class="col-lg-3 mb-4 ">
 					<div class="d-flex flex-column formFields">
-						<label for="">Is Flexible Plan? <span class="star">*</span></label>
+						<label for="">IS FLEXIBLE PLAN? <span class="star">*</span></label>
 						<select id="flexiblePlanRD" name="flexiblePlanRD"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
-							<option value="">Select Flexible Plan</option>
-							<option value="Yes">Yes</option>
-							<option value="No">No</option>
+							<option value="">SELECT FLEXIBLE PLAN</option>
+							<option value="Yes">YES</option>
+							<option value="No">NO</option>
 
 						</select>
 					</div>
@@ -487,9 +487,9 @@ td {
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Grace Period <span class="star">*</span></label> <input
+						<label>GRACE PERIOD <span class="star">*</span></label> <input
 							type="text" name="graceDaysRD" id="graceDaysRD"
-							required="required" placeholder="Enter Grace Period" />
+							required="required" placeholder="ENTER GRACE PERIOD" />
 					</div>
 				</div>
 
@@ -497,9 +497,9 @@ td {
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Penalty Fine(%) <span class="star">*</span></label>
+						<label for="">PENALTY FINE(%) <span class="star">*</span></label>
 						<input type="text" name="penaltyfineRD" id="penaltyfineRD"
-							required="required" placeholder="Enter Penalty Fine" />
+							required="required" placeholder="ENTER PENALTY FINE" />
 					</div>
 				</div>
 
@@ -508,8 +508,8 @@ td {
 						style="margin-bottom: 30px;">
 						<div
 							class="d-flex justify-content-start align-items-center  formFields">
-							<label style="margin-left: 20px;" class="mb-2">Status
-								Plan</label>
+							<label style="margin-left: 20px;" class="mb-2">STATUS
+								PLAN</label>
 							<div class="cont">
 								<div class="toggle">
 									<input type="checkbox" id="toggle-status-planRD"
@@ -527,8 +527,8 @@ td {
 
 			<div class="row" style="margin-left: 80%;">
 				<div class="col-12 text-center">
-					<button id="ReccuringsaveBtn" class="btnStyle bg-warning ">Save</button>
-					<button id="ReccuringupdateBtn" class="btnStyle bg-warning style="display:none;">Update</button>
+					<button id="ReccuringsaveBtn" class="btnStyle bg-warning ">SAVE</button>
+					<button id="ReccuringupdateBtn" class="btnStyle bg-warning style="display:none;">UPDATE</button>
 
 				</div>
 			</div>
@@ -538,7 +538,7 @@ td {
 					<div class="card recent-sales">
 						<div class="card-body table-responsive">
 							<h5 class="card-title">
-								Recurring Deposit <span>| Table View</span>
+								RECURRING DEPOSITE <span>| TABLE VIEW</span>
 							</h5>
 
 							<table class="table table-bordered">
@@ -585,7 +585,7 @@ td {
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Fixed Deposit</li>
+					<li class="breadcrumb-item action">FIXED DEPOSITE </li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -594,48 +594,48 @@ td {
 						required="required" style="text-transform: uppercase;" />
 
 					<div class="d-flex flex-column formFields">
-						<label for="">Plan Code <span class="star">*</span></label> <input
+						<label for="">PLAN CODE <span class="star">*</span></label> <input
 							type="text" name="planCodeFD" id="planCodeFD" required="required"
 							value="${memberCodeFD}" readonly="readonly"
-							placeholder="Enter Plan Code" style="text-transform: uppercase;" />
+							placeholder="ENTER PLAN CODE" style="text-transform: uppercase;" />
 					</div>
 				</div>
 				<div class="col-lg-3 ">
 					<div class="d-flex flex-column formFields  mb-4 ">
-						<label for="vehicalNo">Plan Name <span class="star">*</span></label>
+						<label for="vehicalNo">PLAN NAME <span class="star">*</span></label>
 						<input type="text" name="planNameFD" id="planNameFD"
-							required="required" placeholder="Enter Minimum Amount"
+							required="required" placeholder="ENTER PLAN NAME"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Minimum Amount <span class="star">*</span></label>
+						<label for="vehicalNo">MINIMUM AMOUNT <span class="star">*</span></label>
 						<input type="text" name="minimumAmountFD" id="minimumAmountFD"
-							required="required" placeholder="Enter Minimum Amount"
+							required="required" placeholder="ENTER MINIMUM AMOUNT"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Interest Rate(%) <span class="star">*</span></label>
+						<label for="vehicalNo">INTEREST RATE(%) <span class="star">*</span></label>
 						<input type="text" name="rateOfInterestFD" id="rateOfInterestFD"
-							required="required" placeholder="Enter Interest Rate"
+							required="required" placeholder="ENTER INTEREST RATE"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
 				<div class="col-lg-3 mb-4 ">
 					<div class="d-flex flex-column formFields">
-						<label for="">Installment Type <span class="star">*</span></label>
+						<label for="">INSTALLMENT TYPE<span class="star">*</span></label>
 						<select id="installmentTypeFD" name="installmentTypeFD"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
-							<option value="">Select Installment Type</option>
-							<option value="Cash">Cash</option>
-							<option value="Cheque">Cheque</option>
-							<option value="Online">Online</option>
+							<option value="">SELECT INSTALLMENT TYPE</option>
+							<option value="Cash">CASH</option>
+							<option value="Cheque">CHEQUE</option>
+							<option value="Online">ONLINE</option>
 							<option value="UPI">UPI</option>
 
 						</select>
@@ -644,33 +644,33 @@ td {
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Term <span class="star">*</span></label> <input
+						<label for="">TERM <span class="star">*</span></label> <input
 							type="text" name="fdterm" id="fdterm" required="required"
-							placeholder="Enter Term" />
+							placeholder="ENTER TERM" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Renewal Commission(%) <span class="star">*</span></label>
+						<label for="">RENEWAL COMMISSION (%) <span class="star">*</span></label>
 						<input type="text" name="renewalCommissionFD"
 							id="renewalCommissionFD" required="required"
-							placeholder="Enter Comm.Renew(%)" />
+							placeholder="ENTER COMM.RENEW(%)" />
 					</div>
 				</div>
 
 				<div class="col-lg-3 mb-4 ">
 					<div class="d-flex flex-column formFields">
-						<label for="">Interest Interval <span class="star">*</span></label>
+						<label for="">INTEREST INTERVAL <span class="star">*</span></label>
 						<select id="componentIntervalFD" name="componentIntervalFD"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
-							<option value="">Select Compound Interval</option>
-							<option value="Monthly">Monthly</option>
-							<option value="Quarterly">Quarterly</option>
-							<option value="Half-Yearly">Half-Yearly</option>
-							<option value="Yearly">Yearly</option>
-							<option value="On Maturity">On Maturity</option>
+							<option value="">SELECT COMPOUND INTERVAL</option>
+							<option value="Monthly">MONTHLY</option>
+							<option value="Quarterly">QUARTERLY </option>
+							<option value="Half-Yearly">HALF-YEARLY</option>
+							<option value="Yearly">YEARLY</option>
+							<option value="On Maturity">ON MATURITY</option>
 
 						</select>
 					</div>
@@ -678,29 +678,29 @@ td {
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Total Deposit <span class="star">*</span></label> <input
+						<label for="">TOTAL DEPOSIT <span class="star">*</span></label> <input
 							type="text" name="totalPaidFD" id="totalPaidFD"
 							readonly="readonly" required="required"
-							placeholder="Enter Total Deposit" />
+							placeholder="ENTER TOTAL DEPOSITE" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Maturity Amount <span class="star">*</span></label>
+						<label for="">MATURITY AMOUNT <span class="star">*</span></label>
 						<input type="text" name="maturityAmountFD" id="maturityAmountFD"
 							readonly="readonly" required="required"
-							placeholder="Enter maturityAmountFD" />
+							placeholder="ENTER MATURITYAMOUNTFD " />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px;">
-						<label for="">Interest Earned <span class="star">*</span></label>
+						<label for="">INTEREST EARNED <span class="star">*</span></label>
 						<input type="text" name="interestEarnedFD" id="interestEarnedFD"
 							readonly="readonly" required="required"
-							placeholder="Interest Earned" />
+							placeholder="INTREST EARNED" />
 					</div>
 				</div>
 
@@ -716,20 +716,20 @@ td {
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">New Commission(%) <span class="star">*</span></label>
+						<label for="">NEW COMMISSION(%) <span class="star">*</span></label>
 						<input type="text" name="commissionOnNewFD" id="commissionOnNewFD"
-							required="required" placeholder="Enter Comm.New(%)" />
+							required="required" placeholder="ENTER COMM.NEW(%)" />
 					</div>
 				</div>
 				<div class="col-lg-3 mb-4 ">
 					<div class="d-flex flex-column formFields">
-						<label for="">Is Flexible Plan? <span class="star">*</span></label>
+						<label for="">IS FLEXIBLE PLAN? <span class="star">*</span></label>
 						<select id="flexiblePlanFD" name="flexiblePlanFD"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
-							<option value="">Select Flexible Plan</option>
-							<option value="Yes">Yes</option>
-							<option value="No">No</option>
+							<option value="">SELECT FLEXIBLE PLAN</option>
+							<option value="Yes">YES</option>
+							<option value="No">NO</option>
 
 						</select>
 					</div>
@@ -737,9 +737,9 @@ td {
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Grace Period <span class="star">*</span></label> <input
+						<label>GRACE PERIOD <span class="star">*</span></label> <input
 							type="text" name="graceDaysFD" id="graceDaysFD"
-							required="required" placeholder="Enter Grace Period" />
+							required="required" placeholder="ENTER GRACE PERIOD" />
 					</div>
 				</div>
 
@@ -747,9 +747,9 @@ td {
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Penalty Fine(%) <span class="star">*</span></label>
+						<label for="">PENALTY FINE(%) <span class="star">*</span></label>
 						<input type="text" name="penltyfineFD" id="penltyfineFD"
-							required="required" placeholder="Enter Penalty Fine" />
+							required="required" placeholder="ENTER PENALTY FINE" />
 					</div>
 				</div>
 
@@ -759,8 +759,8 @@ td {
 						style="margin-bottom: 30px;">
 						<div
 							class="d-flex justify-content-start align-items-center  formFields">
-							<label style="margin-left: 20px;" class="mb-2">Status
-								Plan</label>
+							<label style="margin-left: 20px;" class="mb-2">STATUS
+								PLAN</label>
 							<div class="cont">
 								<div class="toggle">
 									<input type="checkbox" id="toggle-status-planFD"
@@ -781,8 +781,8 @@ td {
 
 		<div class="row" style="margin-left: 80%;">
 			<div class="col-12 text-center">
-				<button id="FixedsaveBtn" class="btnStyle bg-warning ">Save</button>
-				<button id="FixedupdateBtn" class="btnStyle bg-warning style="display:none;">Update</button>
+				<button id="FixedsaveBtn" class="btnStyle bg-warning ">SAVE</button>
+				<button id="FixedupdateBtn" class="btnStyle bg-warning style="display:none;">UPDATE</button>
 			</div>
 		</div>
 
@@ -791,7 +791,7 @@ td {
 				<div class="card recent-sales">
 					<div class="card-body table-responsive">
 						<h5 class="card-title">
-							Fixed Deposit <span>| Table View</span>
+							FIXED DEPOSIT <span>| TABLE VIEW</span>
 						</h5>
 
 						<table class="table table-bordered">
@@ -838,7 +838,7 @@ td {
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">MIS Deposit</li>
+					<li class="breadcrumb-item action">MIS DEPOSIT</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -847,47 +847,47 @@ td {
 						required="required" style="text-transform: uppercase;" />
 
 					<div class="d-flex flex-column formFields">
-						<label for="">Plan Code <span class="star">*</span></label> <input
+						<label for="">PLAN CODE <span class="star">*</span></label> <input
 							type="text" name="planCodeMD" id="planCodeMD" required="required"
-							placeholder="Enter Plan Code" value="${memberCodeMD}"
+							placeholder="ENTER PLAN CODE" value="${memberCodeMD}"
 							readonly="readonly" style="text-transform: uppercase;" />
 					</div>
 				</div>
 				<div class="col-lg-3 ">
 					<div class="d-flex flex-column formFields  mb-4 ">
-						<label for="vehicalNo">Plan Name <span class="star">*</span></label>
+						<label for="vehicalNo">PLAN NAME <span class="star">*</span></label>
 						<input type="text" name="planNameMD" id="planNameMD"
-							required="required" placeholder="Enter Minimum Amount"
+							required="required" placeholder="ENTER PLAN NAME"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Minimum Amount <span class="star">*</span></label>
+						<label for="vehicalNo">MINIMUM AMOUNTT  <span class="star">*</span></label>
 						<input type="text" name="minimumAmountMD" id="minimumAmountMD"
-							required="required" placeholder="Enter Minimum Amount"
+							required="required" placeholder="MINIMUM AMOUNT"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Interest Rate(%) <span class="star">*</span></label>
+						<label for="vehicalNo">INTEREST RATE(%) <span class="star">*</span></label>
 						<input type="text" name="rateOfInterestMD" id="rateOfInterestMD"
-							required="required" placeholder="Enter Interest Rate"
+							required="required" placeholder="ENTEREST RATE"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
 				<div class="col-lg-3 mb-4 ">
 					<div class="d-flex flex-column formFields">
-						<label for="">Installment Type <span class="star">*</span></label>
+						<label for="">INSTALLMENT TYPE <span class="star">*</span></label>
 						<select id="installmentTypeMD" name="installmentTypeMD"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
-							<option value="">Select Installment Type</option>
-							<option value="Cash">Cash</option>
-							<option value="Cheque">Cheque</option>
-							<option value="Online">Online</option>
+							<option value="">SELECT INSTALLMENT TYPE</option>
+							<option value="Cash">CASH</option>
+							<option value="Cheque">CHEQUE</option>
+							<option value="Online">ONLINE</option>
 							<option value="UPI">UPI</option>
 
 						</select>
@@ -896,82 +896,82 @@ td {
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Term <span class="star">*</span></label> <input
+						<label for="">TERM <span class="star">*</span></label> <input
 							type="text" name="misTerm" id="misTerm" required="required"
-							placeholder="Enter Term" />
+							placeholder="ENTER TERM" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Total Deposit <span class="star">*</span></label> <input
+						<label for="">TOTAL DEPOSITE <span class="star">*</span></label> <input
 							type="text" name="totalPaidMD" id="totalPaidMD"
 							readonly="readonly" required="required"
-							placeholder="Enter Total Deposit" />
+							placeholder="ENTER TOTAL DEPOSIT" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Maturity Amount <span class="star">*</span></label>
+						<label for="">MATURITY AMOUNT <span class="star">*</span></label>
 						<input type="text" name="maturityAmountMD" id="maturityAmountMD"
 							readonly="readonly" required="required"
-							placeholder="Enter Maturity Amount" />
+							placeholder="ENTER MATURITY AMOUNT" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px;">
-						<label for="">Interest Earned <span class="star">*</span></label>
+						<label for="">INTEREST EARNED <span class="star">*</span></label>
 						<input type="text" name="interestEarnedMD" id="interestEarnedMD"
 							readonly="readonly" required="required"
-							placeholder="Interest Earned" />
+							placeholder="INTEREST EARNED" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">New Commission(%) <span class="star">*</span></label>
+						<label for="">NEW COMMISSION(%) <span class="star">*</span></label>
 						<input type="text" name="commissionOnNewMD" id="commissionOnNewMD"
-							required="required" placeholder="Enter Comm.New(%)" />
+							required="required" placeholder="ENTER COMM.NEW(%)" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Renewal Commission(%) <span class="star">*</span></label>
+						<label for="">RENEWAL COMMISSION(%) <span class="star">*</span></label>
 						<input type="text" name="renewalCommissionMD"
 							id="renewalCommissionMD" required="required"
-							placeholder="Enter Comm.Renew(%)" />
+							placeholder="ENTER COMM.RENW(%)" />
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>Grace Period <span class="star">*</span></label> <input
+						<label>GRACE PERIOD  <span class="star">*</span></label> <input
 							type="text" name="graceDaysMD" id="graceDaysMD"
-							required="required" placeholder="Enter Grace Period" />
+							required="required" placeholder="ENTER GRACE PERIOD " />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Penalty Fine(%) <span class="star">*</span></label>
+						<label for="">PENALTY FINE(%) <span class="star">*</span></label>
 						<input type="text" name="penltyfineMD" id="penltyfineMD"
-							required="required" placeholder="Enter Penalty Fine" />
+							required="required" placeholder="ENTER PENALTY FINE" />
 					</div>
 				</div>
 
 				<div class="col-lg-3 mb-4 ">
 					<div class="d-flex flex-column formFields">
-						<label for="">Is Flexible Plan? <span class="star">*</span></label>
+						<label for="">IS FLEXIBLE PLAN? <span class="star">*</span></label>
 						<select id="flexiblePlanMD" name="flexiblePlanMD"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
-							<option value="">Select Flexible Plan</option>
-							<option value="Yes">Yes</option>
-							<option value="No">No</option>
+							<option value="">SELECT FLEXIBLE PLAN</option>
+							<option value="Yes">YES</option>
+							<option value="No">NO</option>
 
 						</select>
 					</div>
@@ -982,8 +982,8 @@ td {
 						style="margin-bottom: 30px;">
 						<div
 							class="d-flex justify-content-start align-items-center  formFields">
-							<label style="margin-left: 20px;" class="mb-2">Status
-								Plan</label>
+							<label style="margin-left: 20px;" class="mb-2">STATUS
+								PLAN</label>
 							<div class="cont">
 								<div class="toggle">
 									<input type="checkbox" id="toggle-status-planMIS"
@@ -1001,8 +1001,8 @@ td {
 
 		<div class="row" style="margin-left: 80%;">
 			<div class="col-12 text-center">
-				<button id="missaveBtn" class="btnStyle bg-warning ">Save</button>
-				<button id="misdupdateBtn" class="btnStyle bg-warning style="display:none;">Update</button>
+				<button id="missaveBtn" class="btnStyle bg-warning ">SAVE</button>
+				<button id="misdupdateBtn" class="btnStyle bg-warning style="display:none;">UPDATE</button>
 			</div>
 		</div>
 
@@ -1011,7 +1011,7 @@ td {
 				<div class="card recent-sales">
 					<div class="card-body table-responsive">
 						<h5 class="card-title">
-							MIS Deposit <span>| Table View</span>
+							MIS DEPOSIT <span>| TABLE VIEW</span>
 						</h5>
 
 						<table class="table table-bordered">

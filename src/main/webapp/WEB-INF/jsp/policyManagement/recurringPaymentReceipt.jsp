@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Policy Management</h1>
+	<h1>POLICY MANAGEMENT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-piggy-bank"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Recurring Payment Receipt</li>
+			<li class="breadcrumb-item action">RECURRING PAYMENT RECEIPT </li>
 		</ol>
 	</nav>
 </div>
@@ -16,7 +16,7 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Print Search Results</li>
+					<li class="breadcrumb-item action">PRINT SEARCH RESULTS</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -47,10 +47,10 @@
 
 					<div class="col-lg-12 mb-4 ">
 						<div class="d-flex flex-column formFields">
-							<label for="">Find by Policy Code <span class="star">*</span></label>
+							<label for="">FIND BY POLICY CODE <span class="star">*</span></label>
 							<select id="policyCode" name="policyCode" required="required"
 								class="form-control selectField" style="height: 30px;">
-								<option value="">Select Policy Code</option>
+								<option value="">SELECT POLICY CODE</option>
 
 							</select>
 						</div>
@@ -65,7 +65,7 @@
 
 				<div class="row" style="margin-top: 20px; margin-left: 750px;">
 					<div class="col-12 text-center">
-						<button type="button" id="findBtn" class="btn btn-dark">Find</button>
+						<button type="button" id="findBtn" class="btn btn-dark">FIND</button>
 					</div>
 				</div>
 
@@ -76,24 +76,24 @@
 					<div class="card recent-sales">
 						<div class="card-body table-responsive">
 							<h5 class="card-title">
-								Recurring Policy Details <span>| Table View</span>
+								RECURRING POLICY DETAILS  <span>| TABLE VIEW</span>
 							</h5>
 
 							<table class="table table-bordered" style="text-align: center;">
 								<thead class="table-light">
 									<tr>
-										<th style="white-space: nowrap;">Sr. No</th>
-										<th style="white-space: nowrap;">Policy Code</th>
-										<th style="white-space: nowrap;">Customer Name</th>
-										<th style="white-space: nowrap;">Payment Date</th>
-										<th style="white-space: nowrap;">Policy Amount</th>
-										<th style="white-space: nowrap;">Plan Code</th>
-										<th style="white-space: nowrap;">Maturity Date</th>
-										<th style="white-space: nowrap;">Maturity Amount</th>
-										<th style="white-space: nowrap;">Time Duration</th>
-										<th style="white-space: nowrap;">Branch</th>
-										<th style="white-space: nowrap;">Payment Mode</th>
-										<th style="white-space: nowrap;">Print Receipt</th>
+										<th style="white-space: nowrap;">SR. NO</th>
+										<th style="white-space: nowrap;">POLICY CODE</th>
+										<th style="white-space: nowrap;">CUSTOMER NAME</th>
+										<th style="white-space: nowrap;">PAYMENT DATE</th>
+										<th style="white-space: nowrap;">POLICY AMOUNT</th>
+										<th style="white-space: nowrap;">PLAN CODE</th>
+										<th style="white-space: nowrap;">MATURITY DATE</th>
+										<th style="white-space: nowrap;">MATURITY AMOUNT</th>
+										<th style="white-space: nowrap;">TIME DURATION</th>
+										<th style="white-space: nowrap;">BRANCH</th>
+										<th style="white-space: nowrap;">PAYMENT MODE</th>
+										<th style="white-space: nowrap;">PRINT RECEIPT</th>
 									</tr>
 								</thead>
 								<tbody id="policyTableBody">

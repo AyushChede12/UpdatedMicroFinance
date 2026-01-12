@@ -64,13 +64,13 @@
 </style>
 
 <div class="pagetitle">
-	<h1>Policy Management</h1>
+	<h1>POLICY MANAGEMENT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-piggy-bank"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Investment Transaction Slip</li>
+			<li class="breadcrumb-item action">INVESTMENT TRANSCATION SLIP</li>
 		</ol>
 	</nav>
 </div>
@@ -80,18 +80,18 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Print Search Results</li>
+					<li class="breadcrumb-item action">PRINT SEARCH RESULTS</li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="col-lg-12 mb-4 ">
 						<div class="d-flex flex-column formFields">
-							<label for="">Find by Policy Code <span class="star">*</span></label>
+							<label for="">FIND BY POLICY CODE <span class="star">*</span></label>
 							<select id="findPolicyNumber" name="findPolicyNumber"
 								required="required" class="form-control selectField"
 								style="height: 30px;">
-								<option value="">Select Policy Code</option>
+								<option value="">SELECT POLICY CODE</option>
 
 							</select>
 						</div>
@@ -105,7 +105,7 @@
 
 				<div class="row" style="margin-top: 20px; margin-left: 750px;">
 					<div class="col-12 text-center">
-						<button type="button" id="findBtn" class="btn btn-dark">Find</button>
+						<button type="button" id="findBtn" class="btn btn-dark">FIND</button>
 					</div>
 				</div>
 
@@ -121,24 +121,24 @@
 								<thead class="thead-dark"
 									style="position: sticky; top: 0; background-color: #343a40; color: white;">
 									<tr>
-										<th>Policy Code</th>
-										<th>Customer Name</th>
-										<th>Policy Amount</th>
-										<th>Renewal Date</th>
-										<th>Policy Type</th>
-										<th>Maturity Amount</th>
-										<th>Deposit Amount</th>
-										<th>Start Date</th>
-										<th>Policy Term</th>
-										<th>Maturity Date</th>
-										<th>Customer Code</th>
-										<th>Contact No</th>
-										<th>Total Deposit</th>
-										<th>Payment Due</th>
-										<th>No. of Installments Paid</th>
-										<th>Approved</th>
-										<th>Branch Name</th>
-										<th>Action</th>
+										<th>POLICY CODE</th>
+										<th>CUSTOMER NAME</th>
+										<th>POLICY AMOUNT</th>
+										<th>RENEWAL DATE</th>
+										<th>POLICY TYPE</th>
+										<th>MATURITY AMOUNT</th>
+										<th>DEPOSITE AMOUNT</th>
+										<th>START DATE</th>
+										<th>POLICY TERM</th>
+										<th>MATURITY DATE</th>
+										<th>CUSTOMER CODE</th>
+										<th>CONTACT NO</th>
+										<th>TOTAL DEPOSIT</th>
+										<th>PAYMENT DUE</th>
+										<th>NO. OF INSTALLMENTS PAID</th>
+										<th>APPROVED</th>
+										<th>BRANCH NAME</th>
+										<th>ACTION</th>
 									</tr>
 								</thead>
 								<tbody id="policyTableBody">
@@ -259,8 +259,8 @@
 				class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
 				<div class="modal-content">
 					<div class="modal-header bg-primary text-white">
-						<h5 class="modal-title" id="printModalLabel">Policy Report
-							Preview</h5>
+						<h5 class="modal-title" id="printModalLabel">POLICY REPORT
+							PREVIEW</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 					</div>
 
@@ -270,7 +270,7 @@
 
 					<div class="modal-footer">
 						<button id="printBtn" class="btn btn-success">
-							<i class="bi bi-printer"></i> Print
+							<i class="bi bi-printer"></i> PRINT
 						</button>
 						<button id="downloadBtn" class="btn btn-danger">
 							<i class="bi bi-file-earmark-pdf"></i> PDF

@@ -4,32 +4,43 @@ $(document).ready(function() {
 });
 
 function populateLoanIdDropdown() {
-	$.ajax({
-		url: "api/loanmanegment/getAllActiveLoanIds",
-		type: "GET",
-		dataType: "json",
-		success: function(response) {
-			console.log("Loan ID response:", response); // for debugging
+    $.ajax({
+        url: "api/loanmanegment/getAllNotApprovedLoanCustomer",
+        type: "GET",
+        dataType: "json",
+        success: function(response) {
+            console.log("Loan response:", response);
 
-			if (response.status === "OK" && Array.isArray(response.data)) {
-				const $dropdown = $("#findByLoanId"); // Make sure this matches your HTML ID exactly
-				$dropdown.empty(); // Clear existing options
+            // ✅ status may come as "OK"
+            if (response.status === "OK" && Array.isArray(response.data)) {
 
-				// ✅ Wrap your <option> in quotes!
-				$dropdown.append('<option value="" disabled selected>SELECT LOAN ID</option>');
+                const $dropdown = $("#findByLoanId");
+                $dropdown.empty();
 
-				response.data.forEach(function(id) {
-					$dropdown.append(`<option value="${id}">${id}</option>`);
-				});
-			} else {
-				console.warn("No Loan IDs found in response.");
-			}
-		},
-		error: function(xhr, status, error) {
-			console.error("Error fetching Loan IDs:", error);
-		}
-	});
+                $dropdown.append(
+                    '<option value="" disabled selected>SELECT LOAN ID</option>'
+                );
+
+                response.data.forEach(function(loan) {
+                    if (loan.loanId) {
+                        $dropdown.append(
+                            `<option value="${loan.loanId}">
+                                ${loan.loanId}
+                             </option>`
+                        );
+                    }
+                });
+
+            } else {
+                console.warn("No unapproved loan data found");
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error fetching Loan IDs:", xhr.responseText);
+        }
+    });
 }
+
 
 // Js for binding data in textfields (Vaibhav)
 $(document).ready(function() {

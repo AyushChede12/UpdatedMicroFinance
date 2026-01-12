@@ -1,12 +1,12 @@
 
 		<div class="pagetitle">
-			<h1>Policy Management</h1>
+			<h1>POLICY MANAGEMENT</h1>
 			<nav>
 				<ol class="breadcrumb">
 					<li class="breadcrumb-item"><a href="openDashboard"> <i
 							class="bi bi-piggy-bank"></i>
 					</a></li>
-					<li class="breadcrumb-item action">Issue Certificate</li>
+					<li class="breadcrumb-item action">ISSUE CERTIFICATE </li>
 				</ol>
 			</nav>
 		</div>
@@ -16,7 +16,7 @@
 				<div>
 					<nav>
 						<ol class="breadcrumb breadcrumb-title">
-							<li class="breadcrumb-item action">Print Search Results</li>
+							<li class="breadcrumb-item action">PRINT SEARCH RESULTS </li>
 						</ol>
 					</nav>
 					<div class="row">
@@ -47,10 +47,10 @@
 
 							<div class="col-lg-12 mb-4 ">
 								<div class="d-flex flex-column formFields">
-									<label for="">Find by Policy Code <span class="star">*</span></label>
+									<label for="">FIND bB POLICY CODE <span class="star">*</span></label>
 									<select id="policyCode" name="policyCode" required="required"
 										class="form-control selectField" style="height: 30px;">
-										<option value="">Select Policy Code</option>
+										<option value="">SELECT POLICY CODE</option>
 
 									</select>
 								</div>
@@ -66,7 +66,7 @@
 
 						<div class="row" style="margin-top: 20px; margin-left: 750px;">
 							<div class="col-12 text-center">
-								<button type="button" id="findBtn" class="btn btn-dark">Find</button>
+								<button type="button" id="findBtn" class="btn btn-dark">FIND</button>
 							</div>
 						</div>
 
@@ -82,15 +82,15 @@
 										<thead class="thead-dark"
 											style="position: sticky; top: 0; background-color: #343a40; color: white;">
 											<tr>
-												<th>Policy Code</th>
-												<th>Customer Name</th>
-												<th>Policy Amount</th>
-												<th>Maturity Date</th>
-												<th>Maturity Amount</th>
-												<th>Contact No</th>
-												<th>Nominee</th>
-												<th>Address</th>
-												<th>Action</th>
+												<th>POLICY CODE</th>
+												<th>CUSTOMER NAME</th>
+												<th>POLICY AMOUNT</th>
+												<th>MATURITY DATE</th>
+												<th>MATURITY AMOUNT</th>
+												<th>CONTACT NO.</th>
+												<th>NOMINEE</th>
+												<th>ADDRESS</th>
+												<th>ACTION</th>
 											</tr>
 										</thead>
 										<tbody id="policyTableBody">
@@ -107,33 +107,33 @@
 						style="font-family: Arial, sans-serif; padding: 30px;">
 						<div
 							style="border: 3px solid black; padding: 20px; border-radius: 10px; text-align: center;">
-							<h2 style="text-decoration: underline;">Policy Issue
-								Certificate</h2>
-							<p>This is to certify that</p>
+							<h2 style="text-decoration: underline;">POLICY ISSUE
+								CERTIFICATE</h2>
+							<p>THIS IS TO CERTIFY THAT</p>
 							<h3 id="certClientName"></h3>
 							<p>
-								is the holder of Policy Code <strong id="certPolicyCode"></strong>.
+								IS THE HOLDER OF POLICY CODE<strong id="certPolicyCode"></strong>.
 							</p>
 							<p>
-								Policy Amount: <strong id="certPolicyAmount"></strong>
+								POLICY AMOUNT: <strong id="certPolicyAmount"></strong>
 							</p>
 							<p>
-								Maturity Amount: <strong id="certMaturityAmount"></strong>
+								MATURITY AMOUNT: <strong id="certMaturityAmount"></strong>
 							</p>
 							<p>
-								Maturity Date: <strong id="certMaturityDate"></strong>
+								MATURITY DATE: <strong id="certMaturityDate"></strong>
 							</p>
 							<p>
-								Contact No: <strong id="certContact"></strong>
+								CONTACT NO: <strong id="certContact"></strong>
 							</p>
 							<p>
-								Nominee: <strong id="certNominee"></strong>
+								NOMINEE: <strong id="certNominee"></strong>
 							</p>
 							<p>
-								Address: <strong id="certAddress"></strong>
+								ADDRESS: <strong id="certAddress"></strong>
 							</p>
 							<br> <br>
-							<p style="text-align: right;">Authorized Signatory</p>
+							<p style="text-align: right;">AUTHORIZED SIGNATURE</p>
 						</div>
 					</div>
 				</div>

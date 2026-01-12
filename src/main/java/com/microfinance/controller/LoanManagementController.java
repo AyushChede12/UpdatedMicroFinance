@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import com.microfinance.dto.ApiResponse;
+import com.microfinance.model.ApplyForGold;
 import com.microfinance.model.LoanApplication;
 import com.microfinance.model.LoanClosure;
 import com.microfinance.model.LoanPayment;
@@ -385,6 +386,20 @@ public class LoanManagementController {
 		    }
 		}
 
+		@GetMapping("/getAllNotApprovedLoanCustomer")
+		public ResponseEntity<ApiResponse<List<LoanApplication>>> getNotApprovedLoanCustomer() {
+			List<LoanApplication> loan = loanServices.getNotApprovedLoanCustomer();
+			if (loan != null && !loan.isEmpty()) {
+
+				ApiResponse<List<LoanApplication>> response = new ApiResponse<>(HttpStatus.OK,
+						"UnApproved Loan Data fetched successfully.", loan);
+				return ResponseEntity.ok(response);
+			} else {
+				ApiResponse<List<LoanApplication>> response = new ApiResponse<>(HttpStatus.NOT_FOUND,
+						"No Unapproved Loan Customer found.", null);
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+			}
+		}
 
 		
 }
