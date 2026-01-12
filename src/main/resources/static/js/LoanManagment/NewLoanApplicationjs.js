@@ -167,17 +167,18 @@ function signatureSizeEdit(e) {
 }
 
 $(document).ready(function() {
-	$.ajax({
+/*	$.ajax({
 		url: "api/loanmanegment/fetchLoanSchemeCatalog",
 		type: "GET",
 		success: function(response) {
+			var plan=response.data;
 			console.log("API response:", response);
 
 			var dropdown = $('#loanPlanName');     // shows: memberCode only
 			dropdown.empty();
 			dropdown.append('<option value="">SELECT</option>');
 
-			if (response.status === "FOUND" && response.data) {
+			if (response.status === "FOUND") {
 				$.each(response.data, function(index, customer) {
 					dropdown.append('<option value="' + customer.loanPlaneName + '">' + (customer.loanPlaneName).toUpperCase() + '</option>');
 				});
@@ -188,7 +189,35 @@ $(document).ready(function() {
 		error: function() {
 			alert("Failed to fetch customer list.");
 		}
+	});*/
+	
+	$.ajax({
+	    url: "api/loanmanegment/fetchLoanSchemeCatalog",
+	    type: "GET",
+	    success: function (response) {
+	        console.log("API response:", response);
+
+	        var dropdown = $('#loanPlanName');
+	        dropdown.empty();
+	        dropdown.append('<option value="">SELECT</option>');
+
+	        if (response.status === "FOUND" && Array.isArray(response.data)) {
+	            $.each(response.data, function (index, scheme) {
+	                dropdown.append(
+	                    `<option value="${scheme.loanPlaneName}">
+	                        ${(scheme.loanPlaneName || "").toUpperCase()}
+	                     </option>`
+	                );
+	            });
+	        } else {
+	            dropdown.append('<option value="">No data found</option>');
+	        }
+	    },
+	    error: function () {
+	        alert("Failed to fetch loan scheme list.");
+	    }
 	});
+
 });
 
 $('#loanPlanName').on('change', function() {
@@ -205,12 +234,17 @@ $('#loanPlanName').on('change', function() {
 					const emicollection = $('#loanMode').val(customer.loanMode).val();
 					const tensure = $('#loanTerm').val(customer.loanTerm).val();
 					const interestinyear = $('#rateOfInterest').val(customer.rateIntrestType).val();
-
-					$('#loanAmount').val(customer.loanAmount);
+					$("#hiddenLoanAmount").val(customer.loanAmount);
+					$('#hiddenProcessingFee').val(customer.feeProcessing);
+					$('#hiddenLegalCharges').val(customer.chargesLegal);
+					$('#hiddenGST').val(customer.gst);
+					$('#hiddenInsuranceFee').val(customer.feeInsurence);
+					$('#hiddenValuationFees').val(customer.feeValuation);
+					/*$('#loanAmount').val(customer.loanAmount);*/
 					const loanamount = parseFloat($('#loanAmount').val());
 					const roitype = $('#interestType').val(customer.typeIntrest).val();
 
-					calculateEMI(emicollection, tensure, interestinyear, loanamount, roitype);
+					/*calculateEMI(emicollection, tensure, interestinyear, loanamount, roitype);*/
 
 
 					const feeProcessing = parseFloat(customer.feeProcessing) || 0;
@@ -221,7 +255,6 @@ $('#loanPlanName').on('change', function() {
 
 
 					calculateCharges(feeProcessing, chargesLegal, gst, feeInsurence, feeValuation, loanamount);
-
 				} else {
 					alert('No data found!');
 					$('#openingAmount').val('');
@@ -236,7 +269,7 @@ $('#loanPlanName').on('change', function() {
 		$('#openingAmount').val('');
 	}
 });
-
+/*
 function calculateEMI(emicollection, tensure, interestinyear, loanamount, roitype) {
 	const periods = tensure; // ✅ ALWAYS use entered term — no conversion!
 	let periodicRate;
@@ -258,40 +291,39 @@ function calculateEMI(emicollection, tensure, interestinyear, loanamount, roityp
 		case "Quarterly":
 			periodicRate = interestinyear / 4 / 100;
 			break;
+	}*/
+
+let emi;
+
+if (roitype === "Flat Interest") {
+	const totalInterest = loanamount * periodicRate * periods;
+	const totalAmount = loanamount + totalInterest;
+	emi = totalAmount / periods;
+
+	document.getElementById("emiPayment").value = emi.toFixed(2);
+
+}
+
+else if (roitype === "Reducing Interest") {
+	const r = periodicRate;
+	emi = (loanamount * r * Math.pow(1 + r, periods)) / (Math.pow(1 + r, periods) - 1);
+
+	document.getElementById("emiPayment").value = emi.toFixed(2);
+}
+
+else if (roitype === "Rule 78") {
+	const totalInterest = loanamount * periodicRate * periods;
+	const sumOfDigits = (periods * (periods + 1)) / 2;
+
+	let interestPerPeriod = [];
+	for (let i = periods; i >= 1; i--) {
+		interestPerPeriod.push((i / sumOfDigits) * totalInterest);
 	}
 
-	let emi;
+	const totalAmount = loanamount + totalInterest;
+	emi = totalAmount / periods;
 
-	if (roitype === "Flat Interest") {
-		const totalInterest = loanamount * periodicRate * periods;
-		const totalAmount = loanamount + totalInterest;
-		emi = totalAmount / periods;
-
-		document.getElementById("emiPayment").value = emi.toFixed(2);
-
-	}
-
-	else if (roitype === "Reducing Interest") {
-		const r = periodicRate;
-		emi = (loanamount * r * Math.pow(1 + r, periods)) / (Math.pow(1 + r, periods) - 1);
-
-		document.getElementById("emiPayment").value = emi.toFixed(2);
-	}
-
-	else if (roitype === "Rule 78") {
-		const totalInterest = loanamount * periodicRate * periods;
-		const sumOfDigits = (periods * (periods + 1)) / 2;
-
-		let interestPerPeriod = [];
-		for (let i = periods; i >= 1; i--) {
-			interestPerPeriod.push((i / sumOfDigits) * totalInterest);
-		}
-
-		const totalAmount = loanamount + totalInterest;
-		emi = totalAmount / periods;
-
-		document.getElementById("emiPayment").value = emi.toFixed(2);
-	}
+	document.getElementById("emiPayment").value = emi.toFixed(2);
 }
 
 function calculateCharges(feeProcessing, chargesLegal, gst, feeInsurence, feeValuation, loanamount) {
@@ -404,7 +436,7 @@ $(document).ready(function() {
 
 			const consultantDropdown = $('#financialConsultantId');
 			consultantDropdown.empty();
-			consultantDropdown.append('<option value="">SELECT CONSULTANT</option>');
+			consultantDropdown.append('<option value="">SELECT CONSULTANT ID</option>');
 
 			response.data.forEach(function(customer) {
 				// ✅ Only the code
@@ -453,5 +485,64 @@ $(document).ready(function() {
 	});
 });
 
+/*
+function calculateNewFees() {
+	var hiddenloanAmount = parseFloat(document.getElementById('hiddenLoanAmount').value);
 
+	var loanAmount = parseFloat(document.getElementById('loanAmount').value);
+	var processingfee = parseFloat(document.getElementById('hiddenProcessingFee').value || 0);
+	var legalcharge = parseFloat(document.getElementById('hiddenLegalCharges').value || 0);
+	var gst = parseFloat(document.getElementById('hiddenGST').value || 0);
+	var insurancefee = parseFloat(document.getElementById('hiddenInsuranceFee').value || 0);
+	var valuationfee = parseFloat(document.getElementById('hiddenValuationFees').value || 0);
+	var errorDiv = document.getElementById('chkloanamount');
 
+	if (loanAmount < hiddenloanAmount) {
+		document.getElementById('chkloanamount').innerHTML = "* loan amount should be greater than " + hiddenloanAmount;
+		errorDiv.style.display = "block";
+		return false;
+	}
+	else {
+		errorDiv.innerHTML = "";
+		errorDiv.style.display = "none";
+	}*/
+	function calculateNewFees() {
+
+		var hiddenloanAmount = parseFloat(document.getElementById('hiddenLoanAmount').value || 0);
+		var loanAmount = parseFloat(document.getElementById('loanAmount').value || 0);
+		var rateOfInterest = parseFloat(document.getElementById('rateOfInterest').value || 0);
+
+		var processingPercent = parseFloat(document.getElementById('hiddenProcessingFee').value || 0);
+		var legalPercent = parseFloat(document.getElementById('hiddenLegalCharges').value || 0);
+		var gstPercent = parseFloat(document.getElementById('hiddenGST').value || 0);
+		var insurancePercent = parseFloat(document.getElementById('hiddenInsuranceFee').value || 0);
+		var valuationPercent = parseFloat(document.getElementById('hiddenValuationFees').value || 0);
+
+		var errorDiv = document.getElementById('chkloanamount');
+		if (loanAmount < hiddenloanAmount) {
+			errorDiv.innerHTML = "* loan amount should be greater than " + hiddenloanAmount;
+			errorDiv.style.display = "block";
+			return false;
+		} else {
+			errorDiv.innerHTML = "";
+			errorDiv.style.display = "none";
+		}
+
+		var processingFee = (loanAmount * processingPercent) / 100;
+		var legalCharges = (loanAmount * legalPercent) / 100;
+		var gstCharges = (loanAmount * gstPercent) / 100;
+		var insuranceFee = (loanAmount * insurancePercent) / 100;
+		var valuationFee = (loanAmount * valuationPercent) / 100;
+		/*var gstAmount = ((processingFee + legalCharges + valuationFee) * gstPercent) / 100;*/
+
+		var stationaryFee = 50; // fixed
+		var stationaryFees = (loanAmount * rateOfInterest) / 100;
+		// ✅ SET VALUES IN INPUTS
+		document.getElementById('processingFee').value = processingFee.toFixed(2);
+		document.getElementById('legalCharges').value = legalCharges.toFixed(2);
+		document.getElementById('insuranceFee').value = insuranceFee.toFixed(2);
+		document.getElementById('valuationFees').value = valuationFee.toFixed(2);
+		document.getElementById('gst').value = gstCharges.toFixed(2);
+		document.getElementById('stationaryFee').value = stationaryFees.toFixed(2);
+	
+}
