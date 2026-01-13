@@ -16,7 +16,7 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">SAVINGS DETAILS</li>
+					<li class="breadcrumb-item action">SAVING / CURRENT DETAILS</li>
 				</ol>
 			</nav>
 			<div class="row">

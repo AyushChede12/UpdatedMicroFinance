@@ -44,7 +44,9 @@ import com.microfinance.service.CustomerSavingsService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -599,5 +601,18 @@ public class CustomerSavingsController {
 			return ApiResponse.error(HttpStatus.NOT_FOUND, "No Data Found");
 		}
 	}
+	
+	
 
-}
+	    @PutMapping("/update/{id}")
+	    public ResponseEntity<?> updateSavingAccount(
+	            @PathVariable Long id,
+	            @RequestBody Map<String, Object> payload) {
+
+	        customersaving.updateSavingAccount(id, payload);
+
+	        return ResponseEntity.ok("UPDATED");
+	    }
+	}
+
+
