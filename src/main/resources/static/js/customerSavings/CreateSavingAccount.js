@@ -122,14 +122,14 @@ $(document).ready(function() {
 			console.log("API response:", response);
 			var dropdown = $('#selectPlan');
 			dropdown.empty();
-			dropdown.append('<option value="">Select</option>');
+			dropdown.append('<option value="">SELECT</option>');
 
 			if (response.status === "FOUND" && response.data) {
 				$.each(response.data, function(index, item) {
 					dropdown.append('<option value="' + item + '">' + item + '</option>');
 				});
 			} else {
-				dropdown.append('<option value="">No Policyname found</option>');
+				dropdown.append('<option value="">NO POLICY FOUND</option>');
 			}
 		},
 		error: function() {
@@ -177,8 +177,8 @@ $(document).ready(function() {
 				const $select = $('#selectByCustomer');
 				const $select1 = $('#jointOperationCode');
 
-				$select.empty().append('<option value="">Select</option>');
-				$select1.empty().append('<option value="">Select</option>');
+				$select.empty().append('<option value="">SELECT</option>');
+				$select1.empty().append('<option value="">SELECT</option>');
 
 				response.data.forEach(customer => {
 
@@ -611,9 +611,6 @@ $(document).ready(function() {
 		formData.append("photo", photoName);
 		formData.append("signature", signatureName);
 
-		alert(photoName);
-		alert(signatureName);
-
 		/* ================= MULTIPART FILES ================= */
 		const jointPhoto = $('#jointPhoto')[0]?.files[0];
 		const newPhoto = $('#newPhoto')[0]?.files[0];
@@ -727,7 +724,6 @@ function viewData(id) {
 				}
 				//Jointphoto
 				var operationType=$("#operationType").val();
-				alert(operationType);
 				if (operationType == "Joint") {
 					$("#myJointPhoto").show();
 					if (data.jointPhoto) {
@@ -815,137 +811,120 @@ function deleteData(id) {
 
 }
 
+$(document).ready(function () {
 
-$(document).ready(function() {
+    $('#updateBtn').click(function (event) {
+        event.preventDefault();
 
+        const formData = new FormData();
 
-	$('#updateBtn').click(function(event) {
-		event.preventDefault();
+        // ================= SAFE FILE INPUTS =================
+        const newPhotoInput = document.getElementById("newPhoto");
+        const newSignatureInput = document.getElementById("newSignature");
+        const jointPhotoInput = document.getElementById("jointPhoto");
 
-		// Update the hidden input with the current file name from the image
-		let updatedImageSrc = $('#photo').attr('src');
-		let updatedImageName = updatedImageSrc.split('/').pop(); // Extract the file name
-		$('#photoHidden').val(updatedImageName);
+        const newPhotoFile =
+            newPhotoInput && newPhotoInput.files.length > 0
+                ? newPhotoInput.files[0]
+                : null;
 
-		// Update the hidden input with the current file name from the image
-		let updatedImageSrc1 = $('#signature').attr('src');
-		let updatedImageName1 = updatedImageSrc1.split('/').pop(); // Extract the file name
-		$('#signatureHidden').val(updatedImageName1);
+        const newSignatureFile =
+            newSignatureInput && newSignatureInput.files.length > 0
+                ? newSignatureInput.files[0]
+                : null;
 
-		// Update the hidden input with the current file name from the image
-		let updatedImageSrc2 = $('#jointPhoto').attr('src');
-		let updatedImageName2 = updatedImageSrc2.split('/').pop(); // Extract the file name
-		$('#jointPhotoHidden').val(updatedImageName2);
+        const newJointPhotoFile =
+            jointPhotoInput && jointPhotoInput.files.length > 0
+                ? jointPhotoInput.files[0]
+                : null;
 
-		const newPhoto = $('#newPhoto').val();
-		const newSignature = $('#newSignature').val();
-		const jointPhoto = $('#jointPhoto').val();
+        // ================= NORMAL FIELDS =================
+        formData.append("id", $('#id').val());
+        formData.append("typeofaccount", $('#typeofaccount').val());
+        formData.append("openingDate", $('#openingDate').val());
+        formData.append("selectByCustomer", $('#selectByCustomer').val());
+        formData.append("enterCustomerName", $('#enterCustomerName').val());
+        formData.append("dateOfBirth", $('#dateOfBirth').val());
+        formData.append("familyDetails", $('#familyDetails').val());
+        formData.append("contactNumber", $('#contactNumber').val());
+        formData.append("suggestedNomineeName", $('#suggestedNomineeName').val());
+        formData.append("suggestedNomineeAge", $('#suggestedNomineeAge').val());
+        formData.append("suggestedNomineeRelation", $('#suggestedNomineeRelation').val());
+        formData.append("address", $('#address').val());
+        formData.append("district", $('#district').val());
+        formData.append("branchName", $('#branchName').val());
+        formData.append("state", $('#state').val());
+        formData.append("pinCode", $('#pinCode').val());
+        formData.append("operationType", $('#operationType').val());
+        formData.append("jointOperationCode", $('#jointOperationCode').val());
+        formData.append("jointSurvivorCode", $('#jointSurvivorCode').val());
+        formData.append("familyRelation", $('#familyRelation').val());
+        formData.append("selectPlan", $('#selectPlan').val());
+        formData.append("balance", $('#balance').val());
+        formData.append("financialConsultantCode", $('#financialConsultantCode').val());
+        formData.append("financialConsultantName", $('#financialConsultantName').val());
+        formData.append("openingFees", $('#openingFees').val());
+        formData.append("emailId", $('#emailId').val());
+        formData.append("aadharNo", $('#aadharNo').val());
+        formData.append("authenticateWith", $('#authenticateWith').val());
+        formData.append("modeOfPayment", $('#modeOfPayment').val());
+        formData.append("chequeNo", $('#chequeNo').val());
+        formData.append("chequeDate", $('#chequeDate').val());
+        formData.append("depositAcc1", $('#depositAcc1').val());
+        formData.append("refNumber1", $('#refNumber1').val());
+        formData.append("depositAcc2", $('#depositAcc2').val());
+        formData.append("refNumber2", $('#refNumber2').val());
+        formData.append("depositAcc3", $('#depositAcc3').val());
+        formData.append("comment", $('#comment').val());
+        formData.append("accountNumber", $('#accountNumber').val());
 
-		const formData = new FormData();
-		formData.append("id", $('#id').val());
-		formData.append("typeofaccount", $('#typeofaccount').val());
-		formData.append("openingDate", $('#openingDate').val());
-		formData.append("selectByCustomer", $('#selectByCustomer').val());
-		formData.append("enterCustomerName", $('#enterCustomerName').val());
-		formData.append("dateOfBirth", $('#dateOfBirth').val());
-		formData.append("familyDetails", $('#familyDetails').val());
-		formData.append("contactNumber", $('#contactNumber').val());
-		formData.append("suggestedNomineeName", $('#suggestedNomineeName').val());
-		formData.append("suggestedNomineeAge", $('#suggestedNomineeAge').val());
-		formData.append("suggestedNomineeRelation", $('#suggestedNomineeRelation').val());
-		formData.append("address", $('#address').val());
-		formData.append("district", $('#district').val());
-		formData.append("branchName", $('#branchName').val());
-		formData.append("state", $('#state').val());
-		formData.append("pinCode", $('#pinCode').val());
-		formData.append("operationType", $('#operationType').val());
-		formData.append("jointOperationCode", $('#jointOperationCode').val());
-		formData.append("jointSurvivorCode", $('#jointSurvivorCode').val());
-		formData.append("familyRelation", $('#familyRelation').val());
-		formData.append("selectPlan", $('#selectPlan').val());
-		formData.append("balance", $('#balance').val());
-		formData.append("financialConsultantCode", $('#financialConsultantCode').val());
-		formData.append("financialConsultantName", $('#financialConsultantName').val());
-		formData.append("openingFees", $('#openingFees').val());
-		formData.append("emailId", $('#emailId').val());
-		formData.append("aadharNo", $('#aadharNo').val());
-		formData.append("authenticateWith", $('#authenticateWith').val());
-		formData.append("modeOfPayment", $('#modeOfPayment').val());
-		formData.append("chequeNo", $('#chequeNo').val());
-		formData.append("chequeDate", $('#chequeDate').val());
-		formData.append("depositAcc1", $('#depositAcc1').val());
-		formData.append("refNumber1", $('#refNumber1').val());
-		formData.append("depositAcc2", $('#depositAcc2').val());
-		formData.append("refNumber2", $('#refNumber2').val());
-		formData.append("depositAcc3", $('#depositAcc3').val());
-		formData.append("comment", $('#comment').val());
-		formData.append("accountNumber", $('#accountNumber').val());
-		formData.append("accountStatus", $('#toggle-member-status').is(':checked') ? 1 : 0);
-		formData.append("messageSend", $('#toggle-member-status1').is(':checked') ? 1 : 0);
-		formData.append("debitCardIssue", $('#toggle-member-status2').is(':checked') ? 1 : 0);
-		formData.append("isLocker", $('#toggle-member-status3').is(':checked') ? 1 : 0);
-		formData.append("accountFreeze", $('#toggle-member-status4').is(':checked') ? 1 : 0);
-		// Append the extracted photoWithAadhar file name
-		formData.append("photo", $('#photoHidden').val());
+        formData.append("accountStatus", $('#toggle-member-status').is(':checked') ? 1 : 0);
+        formData.append("messageSend", $('#toggle-member-status1').is(':checked') ? 1 : 0);
+        formData.append("debitCardIssue", $('#toggle-member-status2').is(':checked') ? 1 : 0);
+        formData.append("isLocker", $('#toggle-member-status3').is(':checked') ? 1 : 0);
+        formData.append("accountFreeze", $('#toggle-member-status4').is(':checked') ? 1 : 0);
 
-		// Append the extracted photoWithAadhar file name
-		//formData.append("signature", $('#signatureHidden').val());
+        // ================= FILE APPEND (VERY IMPORTANT) =================
+        // NOTE: MultipartFile ke liye STRING kabhi mat bhejo
 
-		// Append the extracted photoWithAadhar file name
-		//formData.append("jointPhoto", $('#jointPhotoHidden').val());
-		// Append actual files
-		/*const jointPhotoFile = $('#jointPhoto')[0].files[0];
-		if (jointPhotoFile) formData.append("jointPhoto", jointPhotoFile);*/
+        if (newPhotoFile) {
+            formData.append("photo", newPhotoFile);
+        }
 
-		//const photoFile = $('#photo')[0].files[0];
-		//if (photoFile) formData.append("photo", photoFile);
+        if (newSignatureFile) {
+            formData.append("signature", newSignatureFile);
+        }
 
-		//const signatureFile = $('#signature')[0].files[0];
-		//if (signatureFile) formData.append("signature", signatureFile);
+        if (newJointPhotoFile) {
+            formData.append("jointPhoto", newJointPhotoFile);
+        }
 
+        // ================= DEBUG =================
+        for (let pair of formData.entries()) {
+            console.log(pair[0], pair[1]);
+        }
 
-
-
-		// Append files (photo and signature)
-		/*const photo = $('#photo')[0].files[0];
-		const signature = $('#signature')[0].files[0];
-*/
-		if (newPhoto) {
-			formData.append("newPhoto", newPhoto);
-		}
-		if (newSignature) {
-			formData.append("newSignature", newSignature);
-		}
-		if (jointPhoto) {
-			formData.append("jointPhoto", jointPhoto);
-		}
-		// Debug: Log all key-value pairs from FormData
-		for (let pair of formData.entries()) {
-			if (!pair[1]) {
-				console.warn(`⚠️ Field "${pair[0]}" is EMPTY or NULL ->`, pair[1]);
-			} else {
-				console.log(`✅ ${pair[0]}:`, pair[1]);
-			}
-		}
-
-		$.ajax({
-			type: 'POST',
-			url: 'api/customersavings/saveandupdatesavingaccount',
-			data: formData,
-			processData: false,
-			contentType: false,
-			success: function(response) {
-				alert("Saving Account data updated successfully!\nAccount No : " + $('#accountNumber').val());
-				location.reload();
-			},
-			error: function(xhr) {
-				console.error('Error:', xhr.responseText);
-				alert('Customer already exists in saving account.');
-			}
-		});
-	});
+        // ================= AJAX =================
+        $.ajax({
+            type: "POST",
+            url: "api/customersavings/saveandupdatesavingaccount",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function () {
+                alert("Saving Account data updated successfully!\nAccount No : " + $('#accountNumber').val());
+                location.reload();
+            },
+            error: function (xhr) {
+                console.error(xhr.responseText);
+                alert("Update failed");
+            }
+        });
+    });
 
 });
+ss
+
 
 function operationTypeFunc() {
 	var operationType = $("#operationType").val();

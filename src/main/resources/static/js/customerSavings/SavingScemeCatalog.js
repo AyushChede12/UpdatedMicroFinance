@@ -41,7 +41,7 @@ $(document).ready(function () {
         });
     });
 
-    // ------------------- UPDATE -------------------
+	// ------------------- UPDATE -------------------
 	$("#updateBtn").on("click", function (e) {
 	    e.preventDefault();
 
@@ -76,22 +76,26 @@ $(document).ready(function () {
 	    };
 
 	    $.ajax({
+	        url: window.location.origin + "/api/customersavings/update/" + id,
 	        type: "PUT",
-	        url: "/api/customersavings/update/" + id,   // 🔥 IMPORTANT
 	        contentType: "application/json",
+	        dataType: "text",
 	        data: JSON.stringify(formData),
-	        success: function () {
+
+	        success: function (res) {
+	            console.log("Update response:", res);
 	            alert("Record updated successfully!");
 	            $("#savingAccountId").val("");
 	            $("#savingForm")[0].reset();
 	            fetchAllData();
 	        },
+
 	        error: function (xhr) {
-	            alert("Update failed : " + xhr.responseText);
+	            console.error("Update error:", xhr);
+	            alert("Update failed! Status: " + xhr.status);
 	        }
 	    });
 	});
-
 
     // ------------------- FETCH ALL -------------------
     function fetchAllData() {

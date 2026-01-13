@@ -15,7 +15,7 @@
 	<!-- Search Box Title -->
 	<nav>
 		<ol class="breadcrumb breadcrumb-title">
-			<li class="breadcrumb-item action">CURRENT ACCOUNT SEARCH</li>
+			<li class="breadcrumb-item action">SEARCH DATA</li>
 		</ol>
 	</nav>
 
@@ -43,8 +43,8 @@
 				<label>ACCOUNT</label>
 				<select id="accountType" class="form-control selectField" style="height: 45px;">
 					<option value="">SELECT</option>
-					<option value="CURRENT" selected>CURRENT</option>
-					<option value="SAVINGS">SAVINGS</option>
+					<option value="SAVINGS" selected>SAVINGS</option>
+					<option value="CURRENT">CURRENT</option>
 				</select>
 			</div>
 		</div>
@@ -90,7 +90,7 @@
 		<div class="col-12">
 			<div class="card recent-sales">
 				<div class="card-body table-responsive">
-					<h5 class="card-title">CURRENT ACCOUNT RECORDS</h5>
+					<h5 class="card-title">SMS CHARGES ACCOUNT RECORDS</h5>
 					<table class="table table-borderless datatable">
 						<thead class="table-light">
 							<tr>
@@ -100,7 +100,6 @@
 								<th>OPENING DATE</th>
 								<th>BALANCE</th>
 								<th>SMS STATUS</th>
-								<th>APPLY</th>
 							</tr>
 						</thead>
 						<tbody id="tbody"></tbody>
@@ -109,6 +108,16 @@
 			</div>
 		</div>
 	</div>
+<!-- APPLY BUTTON -->
+<div class="row mt-3">
+    <div class="col-12 d-flex justify-content-center">
+        <button type="button" id="applyBtn" class="btnStyle"
+            style="background-color:#28a745;">
+            APPLY
+        </button>
+    </div>
+</div>
+
 
 </form>
 
