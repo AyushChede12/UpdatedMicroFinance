@@ -170,6 +170,7 @@ public class CustomerDto {
 	public void setRelationToApplicant(String relationToApplicant) {
 		this.relationToApplicant = relationToApplicant;
 	}
+	private Integer accountFreeze;
 
 	public String getDob() {
 		return dob;

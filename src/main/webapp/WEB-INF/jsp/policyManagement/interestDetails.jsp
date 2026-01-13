@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Policy Management</h1>
+	<h1>POLICY MANAGEMENT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-piggy-bank"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Interest Details</li>
+			<li class="breadcrumb-item action">INTEREST DETAILS</li>
 		</ol>
 	</nav>
 </div>
@@ -16,7 +16,7 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">:Print Search Results</li>
+					<li class="breadcrumb-item action">:PRINT SEARCH RESULT</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -46,11 +46,11 @@
 
 					<div class="col-lg-12 mb-4 ">
 						<div class="d-flex flex-column formFields">
-							<label for="">Find by Policy Number*</label> <select
+							<label for="">FIND BY POLICY CODE*</label> <select
 								id="findByPolicyNumber" name="findByPolicyNumber"
 								required="required" class="form-control selectField"
 								style="height: 30px;">
-								<option value="">Select Policy Number</option>
+								<option value="">SELECT POLICY CODE</option>
 
 							</select>
 						</div>
@@ -64,7 +64,7 @@
 
 				<div class="row" style="margin-top: 20px; margin-left: 750px;">
 					<div class="col-12 text-center">
-						<button id="saveBtn" class="btnStyle bg-warning">Find</button>
+						<button id="saveBtn" class="btnStyle bg-warning">FIND</button>
 					</div>
 				</div>
 

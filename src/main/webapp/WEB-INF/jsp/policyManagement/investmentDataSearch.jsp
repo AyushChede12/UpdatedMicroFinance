@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Policy Management</h1>
+	<h1>POLICY MANAGEMENT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-piggy-bank"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Investment Data Search</li>
+			<li class="breadcrumb-item action">INVESTMENT DATA SEARCH</li>
 		</ol>
 	</nav>
 </div>
@@ -16,24 +16,24 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Print Search Results</li>
+					<li class="breadcrumb-item action">PRINT SEARCH RESULTS </li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-5">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 20px;">
-						<label for="policyCode" id="policySelection">Policy Code </label>
+						<label for="policyCode" id="policySelection">POLICY CODE </label>
 						<select id="policyCode" name="policyCode"
 							class="form-control selectField" style="width: 100%;">
-							<option value="">-- Search Policy Number --</option>
+							<option value="">-- SEARCH POLICY NUMBER --</option>
 						</select>
 					</div>
 				</div>
 
 				<div class="row" style="margin-top: 20px;">
 					<div class="col-12 text-center">
-						<button type="button" id="findBtn" class="btn btn-dark">Find</button>
+						<button type="button" id="findBtn" class="btn btn-dark">FIND</button>
 					</div>
 				</div>
 
@@ -81,26 +81,26 @@
 					<div class="card recent-sales">
 						<div class="card-body table-responsive">
 							<h5 class="card-title">
-								Policy Details <span>| Data</span>
+								POLICY DETAILS <span>| DATA</span>
 							</h5>
 
 							<table class="table table-bordered">
 								<thead class="table-light">
 									<tr>
-										<th style="white-space: nowrap;">Sr. No</th>
-										<th style="white-space: nowrap;">Policy Code</th>
-										<th style="white-space: nowrap;">Customer Name</th>
-										<th style="white-space: nowrap;">Start Date</th>
-										<th style="white-space: nowrap;">Contact No</th>
-										<th style="white-space: nowrap;">Address</th>
-										<th style="white-space: nowrap;">District</th>
-										<th style="white-space: nowrap;">State</th>
-										<th style="white-space: nowrap;">Branch</th>
-										<th style="white-space: nowrap;">Policy Type</th>
-										<th style="white-space: nowrap;">Policy Amount</th>
-										<th style="white-space: nowrap;">Maturity Amount</th>
-										<th style="white-space: nowrap;">Payment Mode</th>
-										<th style="white-space: nowrap;">Approved Status</th>
+										<th style="white-space: nowrap;">SR. NO</th>
+										<th style="white-space: nowrap;">POLICY CODE</th>
+										<th style="white-space: nowrap;">CUSTOMER NAME</th>
+										<th style="white-space: nowrap;">START DATE</th>
+										<th style="white-space: nowrap;">CONTACT NO</th>
+										<th style="white-space: nowrap;">ADDRESS</th>
+										<th style="white-space: nowrap;">DISTRICT</th>
+										<th style="white-space: nowrap;">STATE</th>
+										<th style="white-space: nowrap;">BRANCH</th>
+										<th style="white-space: nowrap;">POLICY TYPE</th>
+										<th style="white-space: nowrap;">POLICY AMOUNT</th>
+										<th style="white-space: nowrap;">MATURITY AMOUNT</th>
+										<th style="white-space: nowrap;">PAYMENT MODE</th>
+										<th style="white-space: nowrap;">APPROVED STATUS</th>
 									</tr>
 								</thead>
 								<tbody id="policyTableBody">
