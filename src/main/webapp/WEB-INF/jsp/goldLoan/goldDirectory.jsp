@@ -376,8 +376,10 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">AMOUNT OF LOAN </label> <input type="text"
 							name="loanAmount" id="loanAmount" required="required"
-							readonly="readonly" placeholder="ENTER AMOUNT OF LOAN"
+						 placeholder="ENTER AMOUNT OF LOAN" oninput="validateLoanAmount()"
 							style="text-transform: uppercase;" />
+							<small id="loanAmountError" style="color: red; display: none;">
+							Amount must be greater than or equal to 100000 </small>
 					</div>
 				</div>
 				<div class="col-lg-3">
@@ -393,7 +395,7 @@
 						</select>
 					</div>
 				</div>
-				<!-- EMI Payment -->
+				<!-- EMI Payment 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">EMI PAYMENT</label> <input type="text"
@@ -402,6 +404,7 @@
 							style="text-transform: uppercase; background: #f5f5f5;" />
 					</div>
 				</div>
+				-->
 
 
 

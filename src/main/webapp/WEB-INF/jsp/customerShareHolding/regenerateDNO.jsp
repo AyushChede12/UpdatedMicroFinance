@@ -55,8 +55,7 @@
 								<th scope="col">Share DATE</th>
 								<th scope="col">NO. OF SHARE</th>
 								<th scope="col">SHARE AMT</th>
-
-
+	
 							</tr>
 						</thead>
 						<tbody>

@@ -227,3 +227,14 @@ document.addEventListener("DOMContentLoaded", function() {
 function formatNumber(num) {
 	return num.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
+
+function validateLoanAmount() {
+    let amount = document.getElementById("loanAmount").value;
+    let error = document.getElementById("loanAmountError");
+
+    if (amount !== "" && amount < 100000) {
+        error.style.display = "block";
+    } else {
+        error.style.display = "none";
+    }
+}
