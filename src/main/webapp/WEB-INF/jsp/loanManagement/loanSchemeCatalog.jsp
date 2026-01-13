@@ -248,7 +248,7 @@
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for=""> MONTHLY PENALTY </label> <input type="numbtexter"
+						<label for=""> MONTHLY PENALTY </label> <input type="text"
 							name="pennaltyMonthly" id="pennaltyMonthly" required="required"
 							placeholder="ENTER MONTHLY PENALTY" />
 					</div>
@@ -260,10 +260,8 @@
 		<input type="hidden" id="loanId" value="" />
 		<div class="row">
 			<div class="col-12 text-center">
-				<button id="saveBtn" class="btnStyle bg-success">SAVE</button>
-
-
-				<button id="updateBtn" class="btnStyle"
+				<button type="button" id="saveBtn" class="btnStyle bg-success">SAVE</button>
+				<button type="button" id="updateBtn" class="btnStyle"
 					style="background-color: #FFA500;">UPDATE</button>
 
 			</div>
@@ -306,6 +304,33 @@
 	</div>
 
 </div>
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const toggles = document.querySelectorAll('.toggle__input');
+
+		toggles.forEach((toggle) => {
+			// Initialize colors
+			updateToggleColor(toggle);
+
+			// console.log("updated toggle" , toggle)
+
+			// Add change event listener
+			toggle.addEventListener('change', () => {
+				updateToggleColor(toggle);
+				// console.log(${ toggle.dataset.toggleType } is now ${ toggle.checked });
+			});
+		});
+
+		function updateToggleColor(input) {
+			const label = input.nextElementSibling;
+			if (input.checked) {
+				label.style.backgroundColor = '#28a745'; // Green ON
+			} else {
+				label.style.backgroundColor = '#ccc'; // Gray OFF
+			}
+		}
+	}); 
+</script>
 
 <script
 	src="${pageContext.request.contextPath}/js/LoanManagment/LoanSchemCatalog.js"></script>

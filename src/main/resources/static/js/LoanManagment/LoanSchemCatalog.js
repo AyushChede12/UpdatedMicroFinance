@@ -1,20 +1,8 @@
 $(document).ready(function() {
-
+	$("#updateBtn").hide();
 	// SAVE Button
 	$("#saveBtn").on("click", function() {
-		submitLoanForm("save");
-	});
-
-	// UPDATE Button
-	$("#updateBtn").on("click", function() {
-		submitLoanForm("update");
-	});
-
-	function submitLoanForm(mode) {
-		const id = $("#loanId").val();
-
 		const loanData = {
-			id: mode === "update" && id ? parseInt(id) : null,
 			loanSchemeCode: $("#loanSchemeCode").val(),
 			loanPlaneName: $("#loanPlaneName").val(),
 			typeLoan: $("#typeLoan").val(),
@@ -51,7 +39,7 @@ $(document).ready(function() {
 			data: JSON.stringify(loanData),
 			success: function(response) {
 				if (response.status === "OK") {
-					alert(response.message);
+					alert("Data Saved Successfully");
 					loadLoanTable(); // refresh the table
 				} else {
 					alert("Failed: " + response.message);
@@ -61,7 +49,61 @@ $(document).ready(function() {
 				alert("Error occurred: " + xhr.responseText);
 			}
 		});
-	}
+	});
+
+	// UPDATE Button
+	$("#updateBtn").on("click", function() {
+		const id = $("#loanId").val();
+		//submitLoanForm("update");
+		const loanData = {
+			id: id,
+			loanSchemeCode: $("#loanSchemeCode").val(),
+			loanPlaneName: $("#loanPlaneName").val(),
+			typeLoan: $("#typeLoan").val(),
+			age: $("#age").val(),
+			loanTerm: $("#loanTerm").val(),
+			emiType: $("#emiType").val(),
+			loanAmount: $("#loanAmount").val(),
+			loanMode: $("#loanMode").val(),
+			rateIntrestType: $("#rateIntrestType").val(),
+			typeIntrest: $("#typeIntrest").val(),
+			typesecurity: $("#typesecurity").val(),
+
+			// Deductions
+			feeProcessing: $("#feeProcessing").val(),
+			chargesLegal: $("#chargesLegal").val(),
+			gst: $("#gst").val(),
+			feeInsurence: $("#feeInsurence").val(),
+			feeValuation: $("#feeValuation").val(),
+
+			// Late Penalty
+			lateAllowanceday: $("#lateAllowanceday").val(),
+			modePanalty: $("#modePanalty").val(),
+			pennaltyMonthly: $("#pennaltyMonthly").val(),
+
+			// ✅ Toggle value for Plan Status
+			planStatus: $("#planStatus").is(":checked") ? 1 : 0
+		};
+
+		$.ajax({
+			type: "POST",
+			url: "api/loanmanegment/saveLoanManagment",
+			contentType: "application/json",
+			dataType: "json",
+			data: JSON.stringify(loanData),
+			success: function(response) {
+				if (response.status === "OK") {
+					alert("Data Updated Successfully");
+					loadLoanTable(); // refresh the table
+				} else {
+					alert("Failed: " + response.message);
+				}
+			},
+			error: function(xhr) {
+				alert("Error occurred: " + xhr.responseText);
+			}
+		});
+	});
 
 	loadLoanTable();
 });
@@ -113,6 +155,8 @@ function loadLoanTable() {
 
 // Js for fetching data into the textfields
 function editLoanById(id) {
+	$("#updateBtn").show();
+	$("#saveBtn").hide();
 	$.ajax({
 		url: "api/loanmanegment/getLoanByIdEdite",
 		type: "GET",
@@ -172,24 +216,28 @@ function deleteLoan(id) {
 	if (confirm("Are you sure you want to delete this loan?")) {
 		$.ajax({
 			url: "api/loanmanegment/deleteLoanById",
-			type: 'POST',
-			contentType: 'application/json',
-			dataType: 'json',
-			data: JSON.stringify({ id: id }),
+			type: "POST",
+			data: { id: id },   // ✅ RequestParam ke liye sahi
 			success: function(response) {
+
 				if (response.status === "OK") {
 					alert("Loan deleted successfully");
-					loadLoanTable(); // Refresh table
+					loadLoanTable();   // refresh table
 				} else {
-					alert("Failed to delete: " + response.message);
+					alert("Failed: " + response.message);
 				}
+
 			},
-			error: function(xhr, status, error) {
-				alert("Error while deleting loan: " + error);
+			error: function(xhr) {
+				alert("Error while deleting loan");
+				console.log("Status:", xhr.status);
+				console.log("Response:", xhr.responseText);
 			}
 		});
 	}
 }
+
+
 
 function validateLoanAmount() {
 	const loanAmount = document.getElementById("loanAmount").value;

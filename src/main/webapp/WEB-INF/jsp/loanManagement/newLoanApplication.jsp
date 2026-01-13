@@ -56,7 +56,8 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="loanName">DATE OF BIRTH </label> <input type="date"
 							name="dateOfBirth" id="dateOfBirth" required="required"
-							placeholder="ENTER DATE OF BIRTH" style="text-transform: uppercase;" />
+							placeholder="ENTER DATE OF BIRTH"
+							style="text-transform: uppercase;" />
 					</div>
 				</div>
 
@@ -119,7 +120,8 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">TYPE OF LOAN</label> <input type="text"
 							name="typeOfLoan" id="typeOfLoan" required="required"
-							placeholder="ENTER TYPE OF PLAN" style="text-transform: uppercase;" />
+							placeholder="ENTER TYPE OF PLAN"
+							style="text-transform: uppercase;" />
 
 					</div>
 				</div>
@@ -127,8 +129,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">LOAN MODE</label> <input type="text" name="loanMode"
-							id="loanMode" required="required"
-							placeholder="ENTER LOAN MODE"
+							id="loanMode" required="required" placeholder="ENTER LOAN MODE"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -152,12 +153,11 @@
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-					<input type="hidden" id="hiddenLoanAmount">
-						<label for="">AMOUNT OF LOAN </label> <input type="text"
-							name="loanAmount" id="loanAmount" required="required"
-							placeholder="ENTER AMOUNT OF LOAN" oninput="calculateNewFees()"
-							style="text-transform: uppercase;" />
-							<small id="chkloanamount" style="color: red;"></small>
+						<input type="hidden" id="hiddenLoanAmount"> <label for="">AMOUNT
+							OF LOAN </label> <input type="text" name="loanAmount" id="loanAmount"
+							required="required" placeholder="ENTER AMOUNT OF LOAN"
+							oninput="calculateNewFees()" style="text-transform: uppercase;" />
+						<small id="chkloanamount" style="color: red;"></small>
 					</div>
 				</div>
 				<div class="col-lg-3">
@@ -170,10 +170,11 @@
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">EMI PAYMENT</label> <input type="text"
-							onclick="calculateEMI()" name="emiPayment" id="emiPayment"
-							required="required" placeholder="ENTER EMI PAYMENT"
+						<label for="">EMI PAYMENT</label> <input type="number"
+							name="emiPayment" id="emiPayment" required="required" class="form-control" 
+							placeholder="ENTER EMI PAYMENT"
 							style="text-transform: uppercase;" />
+							
 					</div>
 				</div>
 				<div class="col-lg-3">
@@ -413,19 +414,21 @@
 				<div class="col-lg-3">
 
 					<div class="d-flex flex-column formFields mb-4">
-					<input type="hidden" id="hiddenProcessingFee">
-						<label for="loanName">PROCESSING FEE </label> <input type="text"
+						<input type="hidden" id="hiddenProcessingFee"> <label
+							for="loanName">PROCESSING FEE </label> <input type="text"
 							name="processingFee" id="processingFee" required="required"
-							placeholder="ENTER PROCESSING FEE" style="text-transform: uppercase;" />
+							placeholder="ENTER PROCESSING FEE"
+							style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-					<input type="hidden" id="hiddenLegalCharges">
-						<label for="loanName">LEGAL CHARGES </label> <input type="text"
+						<input type="hidden" id="hiddenLegalCharges"> <label
+							for="loanName">LEGAL CHARGES </label> <input type="text"
 							name="legalCharges" id="legalCharges" required="required"
-							placeholder="ENTER LEGAL CHARGES" style="text-transform: uppercase;" />
+							placeholder="ENTER LEGAL CHARGES"
+							style="text-transform: uppercase;" />
 					</div>
 				</div>
 
@@ -433,18 +436,18 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-					<input type="hidden" id="hiddenGST">
-						<label for="loanName">GST</label> <input type="text" name="gst"
-							id="gst" required="required" placeholder="ENTER STAMP DUTY FEE"
-							placeholder="ENTER GST" style="text-transform: uppercase;" />
+						<input type="hidden" id="hiddenGST"> <label for="loanName">GST</label>
+						<input type="text" name="gst" id="gst" required="required"
+							placeholder="ENTER STAMP DUTY FEE" placeholder="ENTER GST"
+							style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-					<input type="hidden" id="hiddenInsuranceFee">
-						<label for="loanName">INSURANCE FEE</label> <input type="text"
+						<input type="hidden" id="hiddenInsuranceFee"> <label
+							for="loanName">INSURANCE FEE</label> <input type="text"
 							name="insuranceFee" id="insuranceFee" required="required"
 							placeholder="ENTER INSURANCE FEE"
 							style="text-transform: uppercase;" />
@@ -453,8 +456,8 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-					<input type="hidden" id="hiddenValuationFees">
-						<label for="loanName">VALUATION FEES</label> <input type="text"
+						<input type="hidden" id="hiddenValuationFees"> <label
+							for="loanName">VALUATION FEES</label> <input type="text"
 							name="valuationFees" id="valuationFees" required="required"
 							placeholder="ENTER INTEREST CHARGE"
 							style="text-transform: uppercase;" />
@@ -465,8 +468,8 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-					<input type="hidden" id="hiddenStationaryCharge">
-						<label for="">STATIONARY CHARGES FEE</label> <input type="text"
+						<input type="hidden" id="hiddenStationaryCharge"> <label
+							for="">STATIONARY CHARGES FEE</label> <input type="text"
 							name="stationaryFee" id="stationaryFee" required="required"
 							placeholder="ENTER STATIONARY CHARGES FEE" />
 					</div>
@@ -478,8 +481,7 @@
 						<label> FINANCIAL CONSULTANT ID</label>
 						<div class="position-relative">
 							<select id="financialConsultantId" name="financialConsultantId"
-								required="required" class="form-control selectField"
-								style="height: 30px;">
+								class="form-control selectField" style="height: 30px;">
 								<option value="">ENTER FINANCIAL CONSULTANT ID</option>
 
 							</select>
@@ -491,23 +493,48 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">FINANCIAL CONSULTANT NAME</label> <input type="text"
 							name="financialConsultantName" id="financialConsultantName"
-							required="required" placeholder="ENTER FINANCIAL CONSULTANT NAME"
+							placeholder="ENTER FINANCIAL CONSULTANT NAME"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
-
-
-
 			</div>
 		</div>
 
 		<div class="row">
 			<div class="col-12 text-center">
-				<button id="saveBtn" class="btnStyle bg-success">SAVE</button>
+				<button type="button" id="saveBtn" class="btnStyle bg-success">SAVE</button>
 				<!-- <button id="saveBtn" class="btnStyle" style="background-color: #FFA500;">Update</button>
                         <button id="saveBtn" class="btnStyle bg-primary">Print</button> -->
 			</div>
 		</div>
 	</form>
-	<script
-		src="${pageContext.request.contextPath}/js/LoanManagment/NewLoanApplicationjs.js"></script>
+</div>
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const toggles = document.querySelectorAll('.toggle__input');
+
+		toggles.forEach((toggle) => {
+			// Initialize colors
+			updateToggleColor(toggle);
+
+			// console.log("updated toggle" , toggle)
+
+			// Add change event listener
+			toggle.addEventListener('change', () => {
+				updateToggleColor(toggle);
+				// console.log(${ toggle.dataset.toggleType } is now ${ toggle.checked });
+			});
+		});
+
+		function updateToggleColor(input) {
+			const label = input.nextElementSibling;
+			if (input.checked) {
+				label.style.backgroundColor = '#28a745'; // Green ON
+			} else {
+				label.style.backgroundColor = '#ccc'; // Gray OFF
+			}
+		}
+	}); 
+</script>
+<script
+	src="${pageContext.request.contextPath}/js/LoanManagment/NewLoanApplicationjs.js"></script>

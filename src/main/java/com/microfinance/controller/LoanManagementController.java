@@ -43,7 +43,7 @@ public class LoanManagementController {
 		LoanSchemCatalog savedLoan = loanServices.saveLoanManagmentData(loan);
 
 		if (savedLoan != null) {
-			String message = (loan.getId() != null) ? "Data updated successfully" : "Data saved successfully";
+			String message = (loan.getId() != null) ? "Data Saved successfully" : "Data Updated successfully";
 			ApiResponse<LoanSchemCatalog> response = new ApiResponse<>(HttpStatus.OK, message, savedLoan);
 			return ResponseEntity.ok(response);
 		} else {
