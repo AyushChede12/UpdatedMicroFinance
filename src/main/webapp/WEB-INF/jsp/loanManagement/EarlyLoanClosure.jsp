@@ -143,7 +143,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="loanName">EMI PAYMENT</label> <input type="text"
 							name="emiPayment" id="emiPayment" required="required"
-							placeholder="Enter EMI Amount" style="text-transform: uppercase;" />
+							placeholder="Enter EMI PAYMENT" style="text-transform: uppercase;" />
 					</div>
 				</div>
 
@@ -194,7 +194,7 @@
 			<div class="d-flex flex-column formFields mb-4">
 				<label for="">NO OF INST PAID</label><input type="text"
 					name="noOfInst" id="noOfInst" required="required"
-					placeholder="ENTER INTEREST DUE" />
+					placeholder="ENTER NO OF INST PAID" />
 			</div>
 		</div>
 
