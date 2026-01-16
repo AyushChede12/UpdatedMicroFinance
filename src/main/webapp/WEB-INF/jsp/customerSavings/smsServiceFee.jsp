@@ -124,3 +124,6 @@
 </div>
 <script
 	src="${pageContext.request.contextPath}/js/customerSavings/SMSServiceFee.js"></script>
+	<script src="jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/customerSavings/SMSServiceFee.js"></script>
+	
