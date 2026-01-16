@@ -115,10 +115,11 @@
 											<tr style="font-family: 'Poppins', sans-serif;">
 												<th scope="col">ACCOUNT NO.</th>
 												<th scope="col">TXN DATE</th>
-												<th scope="col">DEPOSITE/WITHDRAWAL</th>
+												<th scope="col">CREDIT</th>
+												<th scope="col">DEBIT</th>
 												<th scope="col">BALANCE</th>
 												<th scope="col">PAYMODE</th>
-												<th scope="col">BRACH</th>
+												<th scope="col">BRANCH</th>
 												<th scope="col">REMARKS</th>
 											</tr>
 										</thead>
