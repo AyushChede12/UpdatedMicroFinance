@@ -561,12 +561,24 @@ public class CustomerSavingsController {
 				"Unapproved Saving Transaction fetched successfully", list);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
+	 @PostMapping("/deduct-sms-charges")
+	    public ResponseEntity<ApiResponse<CreateSavingsAccount>> deductSmsCharges(
+	            @RequestBody Map<String, Object> payload) {
 
-	@PostMapping("/deduct-sms-charges")
-	public double deductSmsCharges(@RequestBody CreateSavingsAccount account) {
-		return customersaving.calculateBalanceAfterSmsCharges(account);
-	}
+	        Long id = Long.valueOf(payload.get("id").toString());
+	        double amount = Double.parseDouble(payload.get("amount").toString());
 
+	        CreateSavingsAccount updatedAccount =
+	        		 customersaving.deductSmsCharges(id, amount);
+
+	        return ResponseEntity.ok(
+	                ApiResponse.success(
+	                        HttpStatus.OK,
+	                        "SMS charges deducted successfully",
+	                        updatedAccount
+	                )
+	        );
+	    }
 	@GetMapping("/getAccountNumbers")
 	public ResponseEntity<ApiResponse<Map<String, List<String>>>> getAccountNumbers(
 			@RequestParam List<String> selectByCustomer) {
