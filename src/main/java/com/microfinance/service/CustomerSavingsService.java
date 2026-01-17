@@ -447,4 +447,36 @@ public class CustomerSavingsService {
 		}
 	}
 
+	 public void updateSavingAccount(Long id, Map<String, Object> payload) {
+
+	        // 1️⃣ Existing record fetch karo
+		 SavingSchemeCatalog entity = savingSchmeCatalogRepo.findById(id)
+	                .orElseThrow(() -> new RuntimeException("Saving account not found with id : " + id));
+
+	        // 2️⃣ JS payload ke fields set karo
+	        entity.setPolicyName((String) payload.get("policyName"));
+	        entity.setYearlyROI((String) payload.get("yearlyROI"));
+	        entity.setCustomerName((String) payload.get("customerName"));
+	        entity.setInitialDeposite((String) payload.get("initialDeposite"));
+	        entity.setMonthlyMinimumBalance((String) payload.get("monthlyMinimumBalance"));
+	        entity.setReservedFunds((String) payload.get("reservedFunds"));
+	        entity.setMessagingFees((String) payload.get("messagingFees"));
+	        entity.setMessagingInterval((String) payload.get("messagingInterval"));
+	        entity.setMonthlyFreeIFSCTransactions(
+	                (String) payload.get("monthlyFreeIFSCTransactions"));
+	        entity.setFreeMoneyTransfers((String) payload.get("freeMoneyTransfers"));
+	        entity.setLimitperTransaction((String) payload.get("limitperTransaction"));
+	        entity.setDailyLimit((String) payload.get("dailyLimit"));
+	        entity.setWeeklyLimit((String) payload.get("weeklyLimit"));
+	        entity.setMonthlyLimit((String) payload.get("monthlyLimit"));
+	        entity.setServiceFee((String) payload.get("serviceFee"));
+	        entity.setBillingCycle((String) payload.get("billingCycle"));
+	        entity.setCardFee((String) payload.get("cardFee"));
+	        entity.setMonthlyCardLimit((String) payload.get("monthlyCardLimit"));
+	        entity.setYearlyCardLimit((String) payload.get("yearlyCardLimit"));
+
+	        // 3️⃣ Save → UPDATE
+	        savingSchmeCatalogRepo.save(entity);
+	    }
+
 }

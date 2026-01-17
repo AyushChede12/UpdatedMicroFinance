@@ -6,6 +6,7 @@
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-bank text-blue"></i>
 			</a></li>
+			
 			<li class="breadcrumb-item action">SAVINGS ACCOUNT INTEREST TRANSFER</li>
 		</ol>
 	</nav>
@@ -45,7 +46,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">COMMNTS</label> <input type="text" name="price"
+						<label for="">COMMENTS</label> <input type="text" name="price"
 							id="price" required="required" placeholder="Member Code" />
 					</div>
 				</div>
