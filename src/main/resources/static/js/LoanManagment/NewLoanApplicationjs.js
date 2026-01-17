@@ -200,27 +200,65 @@ function calculateEMI() {
 		return;
 	}
 
-	let rate = 0;
+	let perInstallmentRate = 0;
+	let totalInstallments = tenure;   // default = term (like 12 months)
+	let tenureInYears = 0;
+
+	// ✅ convert tenure into years + set rate as per mode
 	switch (emiMode) {
-		case "DAILY": rate = annualRate / 365 / 100; break;
-		case "WEEKLY": rate = annualRate / 52 / 100; break;
-		case "FORTNIGHTLY": rate = annualRate / 24 / 100; break;
-		case "MONTHLY": rate = annualRate / 12 / 100; break;
-		default: return;
+
+		case "DAILY":
+			perInstallmentRate = annualRate / 365 / 100;
+			tenureInYears = tenure / 365;
+			totalInstallments = tenure;
+			break;
+
+		case "WEEKLY":
+			perInstallmentRate = annualRate / 52 / 100;
+			tenureInYears = tenure / 52;
+			totalInstallments = tenure;
+			break;
+
+		case "FORTNIGHTLY":
+			perInstallmentRate = annualRate / 24 / 100;
+			tenureInYears = tenure / 24;
+			totalInstallments = tenure;
+			break;
+
+		case "MONTHLY":
+			perInstallmentRate = annualRate / 12 / 100;
+			tenureInYears = tenure / 12;
+			totalInstallments = tenure;
+			break;
+
+		default:
+			$('#emiPayment').val('');
+			return;
 	}
 
 	let emi = 0;
 
+	// ✅ REDUCING INTEREST EMI formula (same as before)
 	if (roiType === "REDUCING INTEREST") {
-		emi = (loanAmount * rate * Math.pow(1 + rate, tenure)) /
-			(Math.pow(1 + rate, tenure) - 1);
+
+		emi = (loanAmount * perInstallmentRate * Math.pow(1 + perInstallmentRate, totalInstallments)) /
+			(Math.pow(1 + perInstallmentRate, totalInstallments) - 1);
 	}
+
+	// ✅ FLAT INTEREST Correct formula (year based)
 	else if (roiType === "FLAT INTEREST") {
-		emi = (loanAmount + (loanAmount * rate * tenure)) / tenure;
+
+		let yearlyRate = annualRate / 100;
+
+		let totalInterest = loanAmount * yearlyRate * tenureInYears;
+		let totalPayable = loanAmount + totalInterest;
+
+		emi = totalPayable / totalInstallments;
 	}
 
 	$('#emiPayment').val(emi.toFixed(2));
 }
+
 
 /* =====================================================
    CHARGES CALCULATION

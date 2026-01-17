@@ -51,7 +51,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="loanName">AGE</label> <input type="text" name="age"
+						<label for="loanName">AGE <span class="star">*</span></label> <input type="text" name="age"
 							id="age" required="required" placeholder="ENTER YOUR AGE"
 							style="text-transform: uppercase;" /> <span id="message"></span>
 					</div>
@@ -60,7 +60,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for=""> INTEREST TYPE</label> <select id="typeIntrest"
+						<label for=""> INTEREST TYPE <span class="star">*</span></label> <select id="typeIntrest"
 							name="typeIntrest" required="required"
 							class="form-control selectField" style="height: 30px;">
 							<option value="">SELECT ROI TYPE</option>
@@ -75,7 +75,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for=""> LOAN TERM </label> <input type="text"
+						<label for=""> LOAN TERM <span class="star">*</span></label> <input type="text"
 							name="loanTerm" id="loanTerm" onblur="validateLoanDuration()"
 							required="required" placeholder="ENTER MIN LOAN DURATION " /><span
 							id="durationMsg"></span>
@@ -87,7 +87,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="loanAmount">LOAN AMOUNT</label> <input type="text"
+						<label for="loanAmount">LOAN AMOUNT <span class="star">*</span></label> <input type="text"
 							name="loanAmount" id="loanAmount" required
 							placeholder="ENTER MINIMUM LOAN AMOUNT"
 							oninput="validateLoanAmount()" style="text-transform: uppercase;" />
@@ -99,7 +99,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">LOAN MODE</label> <select id="loanMode"
+						<label for="">LOAN MODE <span class="star">*</span></label> <select id="loanMode"
 							name="loanMode" required="required"
 							class="form-control selectField" style="height: 30px;">
 							<option value="">SELECT LOAN MODE</option>
@@ -114,7 +114,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">RATE INTEREST TYPE(%P.A.)</label> <input type="text"
+						<label for="">RATE INTEREST TYPE(%P.A.) <span class="star">*</span></label> <input type="text"
 							name="rateIntrestType" id="rateIntrestType" required="required"
 							placeholder="ENTER RATE INTEREST TYPE" />
 					</div>
@@ -124,7 +124,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">SECURITY TYPE</label> <select id="typesecurity"
+						<label for="">SECURITY TYPE <span class="star">*</span></label> <select id="typesecurity"
 							name="typesecurity" required="required"
 							class="form-control selectField" style="height: 30px;">
 							<option value="">SELECT SECURITY</option>
@@ -138,7 +138,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">EMI TYPE</label> <select id="emiType" name="emiType"
+						<label for="">EMI TYPE <span class="star">*</span></label> <select id="emiType" name="emiType"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
 							<option value="">SELECT EMI TYPE</option>
@@ -154,7 +154,7 @@
 						<div
 							class="d-flex justify-content-start align-items-center formFields">
 							<label for="planStatus" style="margin-left: 20px;" class="mb-2">PLAN
-								STATUS</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								STATUS <span class="star">*</span></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<div class="cont">
 								<div class="toggle">
 									<input type="checkbox" id="planStatus" name="planStatus"
@@ -180,7 +180,7 @@
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">PROCESSING FEE(%) </label> <input type="text"
+						<label for="">PROCESSING FEE(%) <span class="star">*</span></label> <input type="text"
 							name="feeProcessing" id="feeProcessing" required="required"
 							placeholder="ENTER PROCESSING FEE" />
 					</div>
@@ -188,7 +188,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for=""> LEGAL CHARGES(%)</label> <input type="text"
+						<label for=""> LEGAL CHARGES(%) <span class="star">*</span></label> <input type="text"
 							name="chargesLegal" id="chargesLegal" required="required"
 							placeholder="ENTER LEGAL CHARGES" />
 					</div>
@@ -196,14 +196,14 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">GST(%)</label> <input type="text" name="gst"
+						<label for="">GST(%) <span class="star">*</span></label> <input type="text" name="gst"
 							id="gst" required="required" placeholder="ENTER GST" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">INSURANCE FEE(%)</label> <input type="text"
+						<label for="">INSURANCE FEE(%) <span class="star">*</span></label> <input type="text"
 							name="feeInsurence" id="feeInsurence" required="required"
 							placeholder="ENTER INSURANCE FEE" />
 					</div>
@@ -212,7 +212,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">VALUATION FEE(%) </label> <input type="text"
+						<label for="">VALUATION FEE(%) <span class="star">*</span></label> <input type="text"
 							name="feeValuation" id="feeValuation" required="required"
 							placeholder="ENTER VALUATION FEE" />
 					</div>
@@ -230,14 +230,14 @@
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">LATE ALLOWANCE DAY</label> <input type="text"
+						<label for="">LATE ALLOWANCE DAY <span class="star">*</span></label> <input type="text"
 							name="lateAllowanceday" id="lateAllowanceday" required="required"
 							placeholder="ENTER LATE ALLOWANCE DAYS" />
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">PENALTY MODE</label> <select id="modePanalty"
+						<label for="">PENALTY MODE <span class="star">*</span></label> <select id="modePanalty"
 							name="modePanalty" required="required"
 							class="form-control selectField" style="height: 30px;">
 							<option value="">SELECT PENALTY TYPE</option>
@@ -248,7 +248,7 @@
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for=""> MONTHLY PENALTY </label> <input type="text"
+						<label for=""> MONTHLY PENALTY <span class="star">*</span></label> <input type="text"
 							name="pennaltyMonthly" id="pennaltyMonthly" required="required"
 							placeholder="ENTER MONTHLY PENALTY" />
 					</div>
