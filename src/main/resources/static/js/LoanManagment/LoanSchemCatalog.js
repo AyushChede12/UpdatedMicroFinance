@@ -62,176 +62,236 @@ function convertTextToUppercase() {
 // ============================================
 function validateLoanSchemeForm() {
 
-	let loanSchemeCode = $("#loanSchemeCode").val().trim();
-	let loanPlaneName = $("#loanPlaneName").val().trim();
-	let typeLoan = $("#typeLoan").val().trim();
-	let age = $("#age").val().trim();
-	let loanTerm = $("#loanTerm").val().trim();
-	let emiType = $("#emiType").val().trim();
-	let loanAmount = $("#loanAmount").val().trim();
-	let loanMode = $("#loanMode").val().trim();
-	let rateIntrestType = $("#rateIntrestType").val().trim();
-	let typeIntrest = $("#typeIntrest").val().trim();
-	let typesecurity = $("#typesecurity").val().trim();
+    // ✅ Clear all previous errors
+    $("#chkloanplanname, #chkloantype, #chkage, #chkinteresttype, #chkloanterm, #chkloanamount, #chkloanmode, #chkroi, #chksecuritytype, #chkemitype, #chkprocessingfee, #chklegalcharges, #chkgst, #chkinsurancefee, #chkvaluationfee, #chklateallowanceday, #chkmonthlypenalty")
+        .text("");
 
-	let feeProcessing = $("#feeProcessing").val().trim();
-	let chargesLegal = $("#chargesLegal").val().trim();
-	let gst = $("#gst").val().trim();
-	let feeInsurence = $("#feeInsurence").val().trim();
-	let feeValuation = $("#feeValuation").val().trim();
+    let loanPlaneName = $("#loanPlaneName").val().trim();
+    let typeLoan = $("#typeLoan").val().trim();
+    let age = $("#age").val().trim();
+    let typeIntrest = $("#typeIntrest").val().trim();
+    let loanTerm = $("#loanTerm").val().trim();
+    let loanAmount = $("#loanAmount").val().trim();
+    let loanMode = $("#loanMode").val().trim();
+    let rateIntrestType = $("#rateIntrestType").val().trim();
+    let typesecurity = $("#typesecurity").val().trim();
+    let emiType = $("#emiType").val().trim();
 
-	let lateAllowanceday = $("#lateAllowanceday").val().trim();
-	let modePanalty = $("#modePanalty").val().trim();
-	let pennaltyMonthly = $("#pennaltyMonthly").val().trim();
+    let feeProcessing = $("#feeProcessing").val().trim();
+    let chargesLegal = $("#chargesLegal").val().trim();
+    let gst = $("#gst").val().trim();
+    let feeInsurence = $("#feeInsurence").val().trim();
+    let feeValuation = $("#feeValuation").val().trim();
 
-	// ✅ Patterns
-	let numberPattern = /^[0-9]+(\.[0-9]{1,2})?$/;
-	let intPattern = /^[0-9]+$/;
+    let lateAllowanceday = $("#lateAllowanceday").val().trim();
+    let modePanalty = $("#modePanalty").val().trim();
+    let pennaltyMonthly = $("#pennaltyMonthly").val().trim();
 
-	// ==========================
-	// ✅ Required Validations
-	// ==========================
-	if (loanSchemeCode === "") {
-		alert("Loan Scheme Code is required");
-		$("#loanSchemeCode").focus();
-		return false;
-	}
+    // ✅ Patterns
+    let numberPattern = /^[0-9]+(\.[0-9]{1,2})?$/;
+    let intPattern = /^[0-9]+$/;
 
-	if (loanPlaneName === "") {
-		alert("Loan Plan Name is required");
-		$("#loanPlaneName").focus();
-		return false;
-	}
+    // ==========================
+    // ✅ Required Validations
+    // ==========================
 
-	if (typeLoan === "" || typeLoan === "SELECT TYPE OF LOAN") {
-		alert("Please select Type of Loan");
-		$("#typeLoan").focus();
-		return false;
-	}
+    // 1) Loan Plan Name
+    if (loanPlaneName === "") {
+        $("#chkloanplanname").text("* Loan Plan Name is required");
+        $("#loanPlaneName").focus();
+        return false;
+    }
 
-	if (age === "") {
-		alert("Age is required");
-		$("#age").focus();
-		return false;
-	} else if (!intPattern.test(age) || parseInt(age) < 18 || parseInt(age) > 100) {
-		alert("Age must be between 18 to 100");
-		$("#age").focus();
-		return false;
-	}
+    // 2) Type of Loan
+    if (typeLoan === "" || typeLoan === "SELECT TYPE OF LOAN") {
+        $("#chkloantype").text("* Please select Type of Loan");
+        $("#typeLoan").focus();
+        return false;
+    }
 
-	if (loanTerm === "") {
-		alert("Loan Term is required");
-		$("#loanTerm").focus();
-		return false;
-	} else if (!intPattern.test(loanTerm) || parseInt(loanTerm) <= 0) {
-		alert("Enter valid Loan Term");
-		$("#loanTerm").focus();
-		return false;
-	}
+    // 3) Age
+    if (age === "") {
+        $("#chkage").text("* Age is required");
+        $("#age").focus();
+        return false;
+    } else if (!intPattern.test(age)) {
+        $("#chkage").text("* Age must be a number");
+        $("#age").focus();
+        return false;
+    } else if (parseInt(age) < 18 || parseInt(age) > 100) {
+        $("#chkage").text("* Age must be between 18 to 100");
+        $("#age").focus();
+        return false;
+    }
 
-	if (emiType === "" || emiType === "SELECT EMI TYPE") {
-		alert("Please select EMI Type");
-		$("#emiType").focus();
-		return false;
-	}
+    // 4) Interest Type
+    if (typeIntrest === "" || typeIntrest === "SELECT ROI TYPE") {
+        $("#chkinteresttype").text("* Please select Interest Type");
+        $("#typeIntrest").focus();
+        return false;
+    }
 
-	if (loanAmount === "") {
-		alert("Loan Amount is required");
-		$("#loanAmount").focus();
-		return false;
-	} else if (!numberPattern.test(loanAmount) || parseFloat(loanAmount) <= 0) {
-		alert("Enter valid Loan Amount");
-		$("#loanAmount").focus();
-		return false;
-	}
-	// ✅ Minimum loan amount rule (your function)
-	else if (parseFloat(loanAmount) < 100000) {
-		alert("Loan Amount must be minimum 100000");
-		$("#loanAmount").focus();
-		return false;
-	}
+    // 5) Loan Term
+    if (loanTerm === "") {
+        $("#chkloanterm").text("* Loan Term is required");
+        $("#loanTerm").focus();
+        return false;
+    } else if (!intPattern.test(loanTerm)) {
+        $("#chkloanterm").text("* Loan Term must be a number");
+        $("#loanTerm").focus();
+        return false;
+    } else if (parseInt(loanTerm) <= 0) {
+        $("#chkloanterm").text("* Loan Term must be greater than 0");
+        $("#loanTerm").focus();
+        return false;
+    }
 
-	if (loanMode === "" || loanMode === "SELECT LOAN MODE") {
-		alert("Please select Loan Mode");
-		$("#loanMode").focus();
-		return false;
-	}
+    // 6) Loan Amount
+    if (loanAmount === "") {
+        $("#chkloanamount").text("* Loan Amount is required");
+        $("#loanAmount").focus();
+        return false;
+    } else if (!numberPattern.test(loanAmount)) {
+        $("#chkloanamount").text("* Enter valid Loan Amount");
+        $("#loanAmount").focus();
+        return false;
+    } else if (parseFloat(loanAmount) < 100000) {
+        $("#chkloanamount").text("* Amount must be >= 100000");
+        $("#loanAmount").focus();
+        return false;
+    }
 
-	if (rateIntrestType === "") {
-		alert("Rate of Interest is required");
-		$("#rateIntrestType").focus();
-		return false;
-	} else if (!numberPattern.test(rateIntrestType) || parseFloat(rateIntrestType) <= 0 || parseFloat(rateIntrestType) > 60) {
-		alert("Enter valid Rate of Interest (1 to 60)");
-		$("#rateIntrestType").focus();
-		return false;
-	}
+    // 7) Loan Mode
+    if (loanMode === "" || loanMode === "SELECT LOAN MODE") {
+        $("#chkloanmode").text("* Please select Loan Mode");
+        $("#loanMode").focus();
+        return false;
+    }
 
-	if (typeIntrest === "" || typeIntrest === "SELECT ROI TYPE") {
-		alert("Please select Interest Type");
-		$("#typeIntrest").focus();
-		return false;
-	}
+    // 8) Rate of Interest Type
+    if (rateIntrestType === "") {
+        $("#chkroi").text("* Rate of Interest is required");
+        $("#rateIntrestType").focus();
+        return false;
+    } else if (!numberPattern.test(rateIntrestType)) {
+        $("#chkroi").text("* Enter valid ROI");
+        $("#rateIntrestType").focus();
+        return false;
+    } else if (parseFloat(rateIntrestType) <= 0 || parseFloat(rateIntrestType) > 60) {
+        $("#chkroi").text("* ROI must be between 1 to 60");
+        $("#rateIntrestType").focus();
+        return false;
+    }
 
-	if (typesecurity === "" || typesecurity === "SELECT SECURITY") {
-		alert("Please select Security Type");
-		$("#typesecurity").focus();
-		return false;
-	}
+    // 9) Security Type
+    if (typesecurity === "" || typesecurity === "SELECT SECURITY") {
+        $("#chksecuritytype").text("* Please select Security Type");
+        $("#typesecurity").focus();
+        return false;
+    }
 
-	// ==========================
-	// ✅ Optional Numeric Validations
-	// ==========================
-	if (feeProcessing !== "" && (!numberPattern.test(feeProcessing) || parseFloat(feeProcessing) < 0)) {
-		alert("Enter valid Processing Fee");
-		$("#feeProcessing").focus();
-		return false;
-	}
+    // 10) EMI Type
+    if (emiType === "" || emiType === "SELECT EMI TYPE") {
+        $("#chkemitype").text("* Please select EMI Type");
+        $("#emiType").focus();
+        return false;
+    }
 
-	if (chargesLegal !== "" && (!numberPattern.test(chargesLegal) || parseFloat(chargesLegal) < 0)) {
-		alert("Enter valid Legal Charges");
-		$("#chargesLegal").focus();
-		return false;
-	}
+    // ==========================
+    // ✅ Payment Deductions (Required in HTML)
+    // ==========================
 
-	if (gst !== "" && (!numberPattern.test(gst) || parseFloat(gst) < 0 || parseFloat(gst) > 28)) {
-		alert("Enter valid GST (0 to 28)");
-		$("#gst").focus();
-		return false;
-	}
+    // Processing Fee
+    if (feeProcessing === "") {
+        $("#chkprocessingfee").text("* Processing Fee is required");
+        $("#feeProcessing").focus();
+        return false;
+    } else if (!numberPattern.test(feeProcessing) || parseFloat(feeProcessing) < 0 || parseFloat(feeProcessing) > 100) {
+        $("#chkprocessingfee").text("* Enter valid Processing Fee (0 - 100)");
+        $("#feeProcessing").focus();
+        return false;
+    }
 
-	if (feeInsurence !== "" && (!numberPattern.test(feeInsurence) || parseFloat(feeInsurence) < 0)) {
-		alert("Enter valid Insurance Fee");
-		$("#feeInsurence").focus();
-		return false;
-	}
+    // Legal Charges
+    if (chargesLegal === "") {
+        $("#chklegalcharges").text("* Legal Charges is required");
+        $("#chargesLegal").focus();
+        return false;
+    } else if (!numberPattern.test(chargesLegal) || parseFloat(chargesLegal) < 0 || parseFloat(chargesLegal) > 100) {
+        $("#chklegalcharges").text("* Enter valid Legal Charges (0 - 100)");
+        $("#chargesLegal").focus();
+        return false;
+    }
 
-	if (feeValuation !== "" && (!numberPattern.test(feeValuation) || parseFloat(feeValuation) < 0)) {
-		alert("Enter valid Valuation Fee");
-		$("#feeValuation").focus();
-		return false;
-	}
+    // GST
+    if (gst === "") {
+        $("#chkgst").text("* GST is required");
+        $("#gst").focus();
+        return false;
+    } else if (!numberPattern.test(gst) || parseFloat(gst) < 0 || parseFloat(gst) > 28) {
+        $("#chkgst").text("* GST must be between 0 to 28");
+        $("#gst").focus();
+        return false;
+    }
 
-	if (lateAllowanceday !== "" && (!intPattern.test(lateAllowanceday) || parseInt(lateAllowanceday) < 0)) {
-		alert("Enter valid Late Allowance Day");
-		$("#lateAllowanceday").focus();
-		return false;
-	}
+    // Insurance Fee
+    if (feeInsurence === "") {
+        $("#chkinsurancefee").text("* Insurance Fee is required");
+        $("#feeInsurence").focus();
+        return false;
+    } else if (!numberPattern.test(feeInsurence) || parseFloat(feeInsurence) < 0 || parseFloat(feeInsurence) > 100) {
+        $("#chkinsurancefee").text("* Enter valid Insurance Fee (0 - 100)");
+        $("#feeInsurence").focus();
+        return false;
+    }
 
-	if (modePanalty === "" || modePanalty === "SELECT PENALTY TYPE") {
-		alert("Please select Penalty Mode");
-		$("#modePanalty").focus();
-		return false;
-	}
+    // Valuation Fee
+    if (feeValuation === "") {
+        $("#chkvaluationfee").text("* Valuation Fee is required");
+        $("#feeValuation").focus();
+        return false;
+    } else if (!numberPattern.test(feeValuation) || parseFloat(feeValuation) < 0 || parseFloat(feeValuation) > 100) {
+        $("#chkvaluationfee").text("* Enter valid Valuation Fee (0 - 100)");
+        $("#feeValuation").focus();
+        return false;
+    }
 
-	if (pennaltyMonthly !== "" && (!numberPattern.test(pennaltyMonthly) || parseFloat(pennaltyMonthly) < 0)) {
-		alert("Enter valid Monthly Penalty");
-		$("#pennaltyMonthly").focus();
-		return false;
-	}
+    // ==========================
+    // ✅ Late Fine Details (Required)
+    // ==========================
 
-	return true;
+    // Late Allowance Day
+    if (lateAllowanceday === "") {
+        $("#chklateallowanceday").text("* Late Allowance Day is required");
+        $("#lateAllowanceday").focus();
+        return false;
+    } else if (!intPattern.test(lateAllowanceday) || parseInt(lateAllowanceday) < 0) {
+        $("#chklateallowanceday").text("* Enter valid Late Allowance Days");
+        $("#lateAllowanceday").focus();
+        return false;
+    }
+
+    // Penalty Mode (no small id given in html for this select)
+    if (modePanalty === "" || modePanalty === "SELECT PENALTY TYPE") {
+        alert("Please select Penalty Mode");
+        $("#modePanalty").focus();
+        return false;
+    }
+
+    // Monthly Penalty
+    if (pennaltyMonthly === "") {
+        $("#chkmonthlypenalty").text("* Monthly Penalty is required");
+        $("#pennaltyMonthly").focus();
+        return false;
+    } else if (!numberPattern.test(pennaltyMonthly) || parseFloat(pennaltyMonthly) < 0) {
+        $("#chkmonthlypenalty").text("* Enter valid Monthly Penalty");
+        $("#pennaltyMonthly").focus();
+        return false;
+    }
+
+    return true;
 }
+
 
 
 // ============================================
@@ -290,6 +350,13 @@ function submitLoanForm(type) {
 
 				// ✅ Reset buttons
 				$("#saveBtn").show();
+				$("#saveBtn").click(function () {
+				    if (validateLoanSchemeForm()) {
+				        // ✅ call your save ajax function here
+				        saveLoanScheme(); 
+				    }
+				});
+
 				$("#updateBtn").hide();
 
 				// ✅ Clear form

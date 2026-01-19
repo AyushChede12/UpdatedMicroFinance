@@ -30,7 +30,8 @@
 						<label for="loanName">LOAN PLAN NAME <span class="star">*</span></label>
 						<input type="text" name="loanPlaneName" id="loanPlaneName"
 							required="required" placeholder="ENTER LOAN PLAN NAME"
-							style="text-transform: uppercase;" />
+							style="text-transform: uppercase;" /><small id="chkloanplanname"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -44,7 +45,8 @@
 							<option value="Vehicle Loan">VEHICLE LOAN</option>
 							<option value="Home Loan">HOME LOAN</option>
 							<option value="personal Loan">PERSONAL LOAN</option>
-						</select>
+						</select><small id="chkloantype"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -53,7 +55,8 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="loanName">AGE <span class="star">*</span></label> <input type="text" name="age"
 							id="age" required="required" placeholder="ENTER YOUR AGE"
-							style="text-transform: uppercase;" /> <span id="message"></span>
+							style="text-transform: uppercase;" /> <span id="message"></span><small id="chkage"
+							style="color: red;"></small>
 					</div>
 
 				</div>
@@ -68,7 +71,8 @@
 							<option value="Reducing Interest">REDUCING INTEREST</option>
 							<option value="Rule 78">RULE 78</option>
 
-						</select>
+						</select><small id="chkinteresttype"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -78,7 +82,8 @@
 						<label for=""> LOAN TERM <span class="star">*</span></label> <input type="text"
 							name="loanTerm" id="loanTerm" onblur="validateLoanDuration()"
 							required="required" placeholder="ENTER MIN LOAN DURATION " /><span
-							id="durationMsg"></span>
+							id="durationMsg"></span><small id="chkloanterm"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -92,7 +97,8 @@
 							placeholder="ENTER MINIMUM LOAN AMOUNT"
 							oninput="validateLoanAmount()" style="text-transform: uppercase;" />
 						<small id="loanAmountError" style="color: red; display: none;">
-							Amount must be greater than or equal to 100000 </small>
+							Amount must be greater than or equal to 100000 </small><small id="chkloanamount"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -108,7 +114,8 @@
 							<option value="Fortnightly">FORTNIGHTLY</option>
 							<option value="Monthly">MONTHLY</option>
 							<option value="Quarterly">QUARTERLY</option>
-						</select>
+						</select><small id="chkloanmode"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -116,7 +123,8 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">RATE INTEREST TYPE(%P.A.) <span class="star">*</span></label> <input type="text"
 							name="rateIntrestType" id="rateIntrestType" required="required"
-							placeholder="ENTER RATE INTEREST TYPE" />
+							placeholder="ENTER RATE INTEREST TYPE" /><small id="chkroi"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -132,7 +140,8 @@
 							<option value="Mortgage">MORTAGE</option>
 							<option value="Property">PROPERTY</option>
 							<option value="Gold">GOLD</option>
-						</select>
+						</select><small id="chksecuritytype"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -145,7 +154,8 @@
 							<option value="Regular">REGULAR</option>
 							<option value="Irregular">IRREGULAR</option>
 
-						</select>
+						</select><small id="chkemitype"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -154,7 +164,8 @@
 						<div
 							class="d-flex justify-content-start align-items-center formFields">
 							<label for="planStatus" style="margin-left: 20px;" class="mb-2">PLAN
-								STATUS <span class="star">*</span></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								STATUS <span class="star">*</span></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <small id="chkplanstatus"
+							style="color: red;"></small>
 							<div class="cont">
 								<div class="toggle">
 									<input type="checkbox" id="planStatus" name="planStatus"
@@ -182,7 +193,8 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">PROCESSING FEE(%) <span class="star">*</span></label> <input type="text"
 							name="feeProcessing" id="feeProcessing" required="required"
-							placeholder="ENTER PROCESSING FEE" />
+							placeholder="ENTER PROCESSING FEE" /><small id="chkprocessingfee"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -190,14 +202,16 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for=""> LEGAL CHARGES(%) <span class="star">*</span></label> <input type="text"
 							name="chargesLegal" id="chargesLegal" required="required"
-							placeholder="ENTER LEGAL CHARGES" />
+							placeholder="ENTER LEGAL CHARGES" /><small id="chklegalcharges"
+							style="color: red;"></small>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">GST(%) <span class="star">*</span></label> <input type="text" name="gst"
-							id="gst" required="required" placeholder="ENTER GST" />
+							id="gst" required="required" placeholder="ENTER GST" /><small id="chkgst"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -205,7 +219,8 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">INSURANCE FEE(%) <span class="star">*</span></label> <input type="text"
 							name="feeInsurence" id="feeInsurence" required="required"
-							placeholder="ENTER INSURANCE FEE" />
+							placeholder="ENTER INSURANCE FEE" /><small id="chkinsurancefee"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -214,7 +229,8 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">VALUATION FEE(%) <span class="star">*</span></label> <input type="text"
 							name="feeValuation" id="feeValuation" required="required"
-							placeholder="ENTER VALUATION FEE" />
+							placeholder="ENTER VALUATION FEE" /><small id="chkvaluationfee"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -232,7 +248,8 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">LATE ALLOWANCE DAY <span class="star">*</span></label> <input type="text"
 							name="lateAllowanceday" id="lateAllowanceday" required="required"
-							placeholder="ENTER LATE ALLOWANCE DAYS" />
+							placeholder="ENTER LATE ALLOWANCE DAYS" /><small id="chklateallowanceday"
+							style="color: red;"></small>
 					</div>
 				</div>
 				<div class="col-lg-3">
@@ -250,7 +267,8 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for=""> MONTHLY PENALTY <span class="star">*</span></label> <input type="text"
 							name="pennaltyMonthly" id="pennaltyMonthly" required="required"
-							placeholder="ENTER MONTHLY PENALTY" />
+							placeholder="ENTER MONTHLY PENALTY" /><small id="chkmonthlypenalty"
+							style="color: red;"></small>
 					</div>
 				</div>
 			</div>

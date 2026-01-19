@@ -290,6 +290,7 @@ function saveLoanApplication() {
 		loanId: $('#loanId').val(),
 		loanDate: $('#loanDate').val(),
 		memberId: $('#memberId').val(),
+		
 		memberName: $('#memberId option:selected').data('name'),
 		relativeDetails: $('#relativeDetails').val(),
 		dateOfBirth: $('#dateOfBirth').val(),
