@@ -1,5 +1,6 @@
 package com.microfinance.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,16 +40,18 @@ public interface CreateSavingAccountRepo extends JpaRepository<CreateSavingsAcco
 
 	List<CreateSavingsAccount> findByModeOfPayment(String string);
 
-	List<CreateSavingsAccount> findByIsApprovedTrueAndMessageSendAndOpeningDateBetween(
-            String messageSend,
-            String startDate,
-            String endDate
-    );
+	List<CreateSavingsAccount> findByIsApprovedTrueAndMessageSendAndOpeningDateBetween(String messageSend,
+			String startDate, String endDate);
 
-    // =====================================
-    // ⭐ Correct Balance Update Query
-    // =====================================
-    @Modifying
-    @Transactional
-    @Query("UPDATE CreateSavingsAccount c SET c.balance = :newBalance WHERE c.id = :id")
-    void updateBalanceById(String newBalance, Long id);}
+	// =====================================
+	// ⭐ Correct Balance Update Query
+	// =====================================
+	@Modifying
+	@Transactional
+	@Query("UPDATE CreateSavingsAccount c SET c.balance = :newBalance WHERE c.id = :id")
+	void updateBalanceById(String newBalance, Long id);
+
+	List<CreateSavingsAccount> findByIsApprovedTrueAndMessageSendAndOpeningDateBetween(String messageSend,
+			LocalDate startDate, LocalDate endDate);
+
+}
