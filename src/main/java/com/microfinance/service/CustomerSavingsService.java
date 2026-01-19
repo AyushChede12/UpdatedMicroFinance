@@ -379,31 +379,31 @@ public class CustomerSavingsService {
 		return createSavingAccountRepo.findByIsApprovedTrueAndMessageSend("1");
 	}
 
-	private static final double SMS_CHARGE_PER_MONTH = 10.0; // Example charge
-	private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-	public double calculateBalanceAfterSmsCharges(CreateSavingsAccount account) {
-		try {
-			// Parse openingDate (String → LocalDate)
-			LocalDate openingDate = LocalDate.parse(account.getOpeningDate(), DATE_FORMAT);
-			LocalDate today = LocalDate.now();
-
-			// Calculate months passed
-			Period period = Period.between(openingDate, today);
-			int monthsPassed = period.getYears() * 12 + period.getMonths();
-
-			// Parse balance (String → double)
-			double balance = Double.parseDouble(account.getBalance());
-
-			// Deduct SMS charges
-			double totalCharges = monthsPassed * SMS_CHARGE_PER_MONTH;
-			double newBalance = balance - totalCharges;
-
-			return Math.max(newBalance, 0); // Prevent negative balance
-		} catch (Exception e) {
-			throw new RuntimeException("Invalid date or balance format", e);
-		}
-	}
+//	private static final double SMS_CHARGE_PER_MONTH = 10.0; // Example charge
+//	private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//
+//	public double calculateBalanceAfterSmsCharges(CreateSavingsAccount account) {
+//		try {
+//			// Parse openingDate (String → LocalDate)
+//			LocalDate openingDate = LocalDate.parse(account.getOpeningDate(), DATE_FORMAT);
+//			LocalDate today = LocalDate.now();
+//
+//			// Calculate months passed
+//			Period period = Period.between(openingDate, today);
+//			int monthsPassed = period.getYears() * 12 + period.getMonths();
+//
+//			// Parse balance (String → double)
+//			double balance = Double.parseDouble(account.getBalance());
+//
+//			// Deduct SMS charges
+//			double totalCharges = monthsPassed * SMS_CHARGE_PER_MONTH;
+//			double newBalance = balance - totalCharges;
+//
+//			return Math.max(newBalance, 0); // Prevent negative balance
+//		} catch (Exception e) {
+//			throw new RuntimeException("Invalid date or balance format", e);
+//		}
+//	}
 
 	public Map<String, List<String>> getAccountNumbersByCustomers(List<String> customerCodes) {
 		if (customerCodes == null || customerCodes.isEmpty())
@@ -478,5 +478,20 @@ public class CustomerSavingsService {
 	        // 3️⃣ Save → UPDATE
 	        savingSchmeCatalogRepo.save(entity);
 	    }
+	 public CreateSavingsAccount deductSmsCharges(Long id, double amount) {
 
+	        CreateSavingsAccount account = createSavingAccountRepo.findById(id)
+	                .orElseThrow(() -> new RuntimeException("Saving account not found"));
+
+	        double currentBalance = Double.parseDouble(account.getBalance());
+	        double newBalance = currentBalance - amount;
+
+	        if (newBalance < 0) {
+	            newBalance = 0;
+	        }
+
+	        account.setBalance(String.valueOf(newBalance));
+
+	        return createSavingAccountRepo.save(account);
+	    }
 }
