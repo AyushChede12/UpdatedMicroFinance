@@ -136,7 +136,7 @@
 					</div>
 				</div>
 
-				<div class="col-lg-3 mb-4" id="guardianAccount">
+				<div class="col-lg-3 mb-4" style="display: none;" id="guardianAccountNo">
 					<div class="d-flex flex-column formFields">
 						<label for="guardianAccNo">GUARDIAN ACCOUNT NO <span
 							class="star">*</span></label> <input type="text" name="guardianAccNo"
@@ -164,7 +164,6 @@
 							id="customerGender" name="customerGender" required="required"
 							class="form-control selectField" style="height: 30px;">
 							<option value="SELECT GENDER">SELECT GENDER</option>
-							<option value="">SELECT GENDER</option>
 							<option value="MALE">MALE</option>
 							<option value="FEMALE">FEMALE</option>
 

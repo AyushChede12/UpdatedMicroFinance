@@ -1,7 +1,6 @@
 $(document).ready(function() {
 	$("#guardianDetails").hide();
-	$("#guardianAccount").hide();
-
+	$("#guardianAccountNo").hide();
 	loadCustomerTable();
 
 
@@ -842,11 +841,11 @@ function ifMinor() {
 	var minor = $("#minor").val();
 	if (minor === 'Yes') {
 		$("#guardianDetails").show();
-		$("#guardianAccount").show();
+		$("#guardianAccountNo").show();
 	}
 	else {
 		$("#guardianDetails").hide();
-		$("#guardianAccount").hide();
+		$("#guardianAccountNo").hide();
 	}
 }
 
@@ -870,11 +869,11 @@ $(document).ready(function() {
 		if (age < 18) {
 			$('#minor').val('Yes');
 			$('#guardianDetails').show();
-			$('#guardianAccount').show();
+			$('#guardianAccountNo').show();
 		} else {
 			$('#minor').val('No');
 			$('#guardianDetails').hide();
-			$('#guardianAccount').hide();
+			$('#guardianAccountNo').hide();
 		}
 	});
 
@@ -956,11 +955,11 @@ $(document).ready(function() {
 	$('#guardianName').on('change', function() {
 		const selectedCode = $(this).val().trim();
 
-		if (selectedCode === "No") {
-			$('#guardianAccount').hide();
+		if (selectedCode === "") {
+			$('#guardianAccountNo').hide();
 			$('#guardianAccNo').prop('required', false).val('');
 		} else {
-			$('#guardianAccount').show();
+			$('#guardianAccountNo').show();
 			$('#guardianAccNo').prop('required', true);
 
 			// Fetch account number from backend
