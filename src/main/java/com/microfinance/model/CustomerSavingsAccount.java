@@ -18,7 +18,8 @@ public class CustomerSavingsAccount {
     private LocalDate openingDate;
 
     private Double balance;
-
+    
+   
 	public Long getId() {
 		return id;
 	}

@@ -242,8 +242,9 @@
 
 		<div class="row">
 			<div class="col-12 text-center">
-				<button id="saveBtn" class="btn btn-warning"
-					style="margin-left: 80%;">Save</button>
+			<button type="button" id="saveBtn" class="btn btn-warning"
+        style="margin-left: 80%;">Save</button>
+
 			</div>
 		</div>
 	</form>
