@@ -556,29 +556,38 @@ public class CustomerSavingsController {
 	// Janvi : Fetch Data whose sms charges enabled
 	@PostMapping("/getSavingAccountDataSMSEnable")
 	public ResponseEntity<ApiResponse<List<CreateSavingsAccount>>> fetchSavingAccountDataSMSEnable() {
-		List<CreateSavingsAccount> list = customersaving.fetchSavingAccountDataSMSEnable();
-		ApiResponse<List<CreateSavingsAccount>> response = ApiResponse.success(HttpStatus.OK,
-				"Unapproved Saving Transaction fetched successfully", list);
-		return new ResponseEntity<>(response, HttpStatus.OK);
+
+	    List<CreateSavingsAccount> list = customersaving.fetchSavingAccountDataSMSEnable();
+
+	    ApiResponse<List<CreateSavingsAccount>> response =
+	            ApiResponse.success(
+	                    HttpStatus.OK,
+	                    "Unapproved Saving Transaction fetched successfully",
+	                    list
+	            );
+
+	    return new ResponseEntity<>(response, HttpStatus.OK);
 	}
-	 @PostMapping("/deduct-sms-charges")
-	    public ResponseEntity<ApiResponse<CreateSavingsAccount>> deductSmsCharges(
-	            @RequestBody Map<String, Object> payload) {
 
-	        Long id = Long.valueOf(payload.get("id").toString());
-	        double amount = Double.parseDouble(payload.get("amount").toString());
+	@PostMapping("/deduct-sms-charges")
+	public ResponseEntity<ApiResponse<CreateSavingsAccount>> deductSmsCharges(
+	        @RequestBody Map<String, Object> payload) {
 
-	        CreateSavingsAccount updatedAccount =
-	        		 customersaving.deductSmsCharges(id, amount);
+	    Long id = Long.valueOf(payload.get("id").toString());
+	    double amount = Double.parseDouble(payload.get("amount").toString());
 
-	        return ResponseEntity.ok(
-	                ApiResponse.success(
-	                        HttpStatus.OK,
-	                        "SMS charges deducted successfully",
-	                        updatedAccount
-	                )
-	        );
-	    }
+	    CreateSavingsAccount updatedAccount =
+	            customersaving.deductSmsCharges(id, amount);
+
+	    return ResponseEntity.ok(
+	            ApiResponse.success(
+	                    HttpStatus.OK,
+	                    "SMS charges deducted successfully",
+	                    updatedAccount
+	            )
+	    );
+	}
+
 	@GetMapping("/getAccountNumbers")
 	public ResponseEntity<ApiResponse<Map<String, List<String>>>> getAccountNumbers(
 			@RequestParam List<String> selectByCustomer) {
