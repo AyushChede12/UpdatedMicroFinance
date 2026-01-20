@@ -5,7 +5,7 @@ $(document).ready(function () {
     /* =========================
        SEARCH BUTTON
     ========================= */
-    $("#searchBtn").click(function () {
+    $("#searchBtn").on("click", function () {
 
         const selected = $("#byDate").val();
 
@@ -55,8 +55,7 @@ $(document).ready(function () {
                 break;
         }
 
-        const format = d =>
-            d.toISOString().split("T")[0];
+        const format = d => d.toISOString().split("T")[0];
 
         return {
             startDate: format(start),
@@ -70,13 +69,13 @@ $(document).ready(function () {
     function fetchData(startDate, endDate) {
 
         $.ajax({
-            url: "/api/customersavings/getSavingAccountDataSMSEnable",
+            url: "api/customersavings/getSavingAccountDataSMSEnable",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify({ startDate, endDate }),
             success: function (res) {
 
-                if (res && res.data.length > 0) {
+                if (res && res.data && res.data.length > 0) {
                     allmessageSendData = res.data;
                     renderTable(allmessageSendData);
                 } else {
@@ -101,11 +100,13 @@ $(document).ready(function () {
 
             $("#tbody").append(`
                 <tr>
-                    <td><input type="checkbox" value="${item.id}"></td>
+                    <td>
+                        <input type="checkbox" class="row-check" value="${item.id}">
+                    </td>
                     <td>${i + 1}</td>
                     <td>${item.accountNumber}</td>
                     <td>${item.openingDate}</td>
-                    <td>${item.openingFees}</td>
+                    <td>${item.balance}</td>
                     <td>${item.messageSend == 1 ? "Enabled" : "Disabled"}</td>
                 </tr>
             `);
@@ -115,48 +116,46 @@ $(document).ready(function () {
     /* =========================
        APPLY BUTTON
     ========================= */
-    $("#applyBtn").click(function () {
+	$("#applyBtn").on("click", function () {
 
-        const amount = parseFloat($("#amount").val());
+	    const smsCharge = parseFloat($("#amount").val());
 
-        if (!amount || amount <= 0) {
-            alert("Enter valid amount");
-            return;
-        }
+	    const selectedRows = $("#tbody .row-check:checked");
 
-        const ids = $("#tbody input:checked")
-            .map(function () { return $(this).val(); }).get();
+	    selectedRows.each(function () {
 
-        if (ids.length === 0) {
-            alert("Select at least one account");
-            return;
-        }
+	        const row = $(this).closest("tr");
 
-        if (!confirm("Deduct ₹" + amount + "?")) return;
+	        const id = $(this).val();
+	        const balance = parseFloat(row.find("td:eq(4)").text());
 
-        ids.forEach(id => deductCharge(id, amount));
-    });
+	        deductCharge(id, balance, smsCharge, row);
+	    });
+	});
 
     /* =========================
        DEDUCT CHARGE
     ========================= */
-    function deductCharge(id, amount) {
+	function deductCharge(id, balance, smsCharge, row) {
 
-        const acc = allmessageSendData.find(a => a.id == id);
+	    $.ajax({
+	        url: "/api/customersavings/deduct-sms-charges",
+	        type: "POST",
+	        contentType: "application/json",
+	        data: JSON.stringify({
+	            id: id,
+	            balance: balance,
+	            smsCharge: smsCharge
+	        }),
+	        success: function (res) {
 
-        $.ajax({
-            url: "/api/customersavings/deduct-sms-charges",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify({
-                id: acc.id,
-                balance: acc.balance,
-                smsCharge: amount
-            }),
-            success: function (res) {
-                acc.balance = res.newBalance;
-                renderTable(allmessageSendData);
-            }
-        });
-    }
+	            // ✅ Update balance in UI instantly
+	            row.find("td:eq(4)").text(res.newBalance);
+
+	        },
+	        error: function () {
+	            alert("Failed to deduct amount for ID: " + id);
+	        }
+	    });
+	}
 });

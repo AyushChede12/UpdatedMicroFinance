@@ -27,7 +27,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: "/api/customersavings/savescheme",
+            url: "api/customersavings/savescheme",
             contentType: "application/json",
             data: JSON.stringify(formData),
             success: function () {
@@ -76,7 +76,7 @@ $(document).ready(function () {
 	    };
 
 	    $.ajax({
-	        url: window.location.origin + "/api/customersavings/update/" + id,
+	        url: window.location.origin + "api/customersavings/update/" + id,
 	        type: "PUT",
 	        contentType: "application/json",
 	        dataType: "text",
@@ -101,7 +101,7 @@ $(document).ready(function () {
     function fetchAllData() {
         $.ajax({
             type: "GET",
-            url: "/api/customersavings/fetchalllll",
+            url: "api/customersavings/fetchalllll",
             success: function (response) {
                 const tableBody = $(".datatable tbody");
                 tableBody.empty();
@@ -148,7 +148,7 @@ function viewData(id) {
     console.log("EDIT CLICKED ID =", id);
 
     $.ajax({
-        url: "/api/customersavings/getSavingSchemeCatalogById",
+        url: "api/customersavings/getSavingSchemeCatalogById",
         type: "GET",
         data: { id: id },
         success: function (response) {
@@ -194,7 +194,7 @@ function deleteData(id) {
     if (!confirm("Are you sure you want to delete this Scheme?")) return;
 
     $.ajax({
-        url: "/api/customersavings/deleteSavingSchemeCatalogDataById?id=" + id,
+        url: "api/customersavings/deleteSavingSchemeCatalogDataById?id=" + id,
         type: "POST",
         success: function (response) {
             if (response.data === "success") {
