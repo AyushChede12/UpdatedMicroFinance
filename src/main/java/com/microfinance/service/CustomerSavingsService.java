@@ -116,7 +116,8 @@ public class CustomerSavingsService {
 //	}
 
 	public ApiResponse<CreateSavingsAccount> saveSavingAccountDetails(SavingAccountDto savingAccountDto, String photo,
-			String signature, MultipartFile jointPhoto, MultipartFile newPhoto, MultipartFile newSignature) throws IOException {
+			String signature, MultipartFile jointPhoto, MultipartFile newPhoto, MultipartFile newSignature)
+			throws IOException {
 		// TODO Auto-generated method stub
 		CreateSavingsAccount createSavingsAccount = new CreateSavingsAccount();
 		boolean isNew = true;
@@ -374,9 +375,8 @@ public class CustomerSavingsService {
 		return savingAccCloserRepo.save(accountCloser);
 	}
 
-	public List<CreateSavingsAccount> fetchSavingAccountDataSMSEnable() {
-		// TODO Auto-generated method stub
-		return createSavingAccountRepo.findByIsApprovedTrueAndMessageSend("1");
+	public List<CreateSavingsAccount> fetchSavingAccountDataSMSEnable(String startDate, String endDate) {
+		return createSavingAccountRepo.findByIsApprovedTrueAndMessageSendAndOpeningDateBetween("1", startDate, endDate);
 	}
 
 //	private static final double SMS_CHARGE_PER_MONTH = 10.0; // Example charge
@@ -447,51 +447,47 @@ public class CustomerSavingsService {
 		}
 	}
 
-	 public void updateSavingAccount(Long id, Map<String, Object> payload) {
+	public void updateSavingAccount(Long id, Map<String, Object> payload) {
 
-	        // 1️⃣ Existing record fetch karo
-		 SavingSchemeCatalog entity = savingSchmeCatalogRepo.findById(id)
-	                .orElseThrow(() -> new RuntimeException("Saving account not found with id : " + id));
+		// 1️⃣ Existing record fetch karo
+		SavingSchemeCatalog entity = savingSchmeCatalogRepo.findById(id)
+				.orElseThrow(() -> new RuntimeException("Saving account not found with id : " + id));
 
-	        // 2️⃣ JS payload ke fields set karo
-	        entity.setPolicyName((String) payload.get("policyName"));
-	        entity.setYearlyROI((String) payload.get("yearlyROI"));
-	        entity.setCustomerName((String) payload.get("customerName"));
-	        entity.setInitialDeposite((String) payload.get("initialDeposite"));
-	        entity.setMonthlyMinimumBalance((String) payload.get("monthlyMinimumBalance"));
-	        entity.setReservedFunds((String) payload.get("reservedFunds"));
-	        entity.setMessagingFees((String) payload.get("messagingFees"));
-	        entity.setMessagingInterval((String) payload.get("messagingInterval"));
-	        entity.setMonthlyFreeIFSCTransactions(
-	                (String) payload.get("monthlyFreeIFSCTransactions"));
-	        entity.setFreeMoneyTransfers((String) payload.get("freeMoneyTransfers"));
-	        entity.setLimitperTransaction((String) payload.get("limitperTransaction"));
-	        entity.setDailyLimit((String) payload.get("dailyLimit"));
-	        entity.setWeeklyLimit((String) payload.get("weeklyLimit"));
-	        entity.setMonthlyLimit((String) payload.get("monthlyLimit"));
-	        entity.setServiceFee((String) payload.get("serviceFee"));
-	        entity.setBillingCycle((String) payload.get("billingCycle"));
-	        entity.setCardFee((String) payload.get("cardFee"));
-	        entity.setMonthlyCardLimit((String) payload.get("monthlyCardLimit"));
-	        entity.setYearlyCardLimit((String) payload.get("yearlyCardLimit"));
+		// 2️⃣ JS payload ke fields set karo
+		entity.setPolicyName((String) payload.get("policyName"));
+		entity.setYearlyROI((String) payload.get("yearlyROI"));
+		entity.setCustomerName((String) payload.get("customerName"));
+		entity.setInitialDeposite((String) payload.get("initialDeposite"));
+		entity.setMonthlyMinimumBalance((String) payload.get("monthlyMinimumBalance"));
+		entity.setReservedFunds((String) payload.get("reservedFunds"));
+		entity.setMessagingFees((String) payload.get("messagingFees"));
+		entity.setMessagingInterval((String) payload.get("messagingInterval"));
+		entity.setMonthlyFreeIFSCTransactions((String) payload.get("monthlyFreeIFSCTransactions"));
+		entity.setFreeMoneyTransfers((String) payload.get("freeMoneyTransfers"));
+		entity.setLimitperTransaction((String) payload.get("limitperTransaction"));
+		entity.setDailyLimit((String) payload.get("dailyLimit"));
+		entity.setWeeklyLimit((String) payload.get("weeklyLimit"));
+		entity.setMonthlyLimit((String) payload.get("monthlyLimit"));
+		entity.setServiceFee((String) payload.get("serviceFee"));
+		entity.setBillingCycle((String) payload.get("billingCycle"));
+		entity.setCardFee((String) payload.get("cardFee"));
+		entity.setMonthlyCardLimit((String) payload.get("monthlyCardLimit"));
+		entity.setYearlyCardLimit((String) payload.get("yearlyCardLimit"));
 
-	        // 3️⃣ Save → UPDATE
-	        savingSchmeCatalogRepo.save(entity);
-	    }
-	 public CreateSavingsAccount deductSmsCharges(Long id, double amount) {
+		// 3️⃣ Save → UPDATE
+		savingSchmeCatalogRepo.save(entity);
+	}
 
-	        CreateSavingsAccount account = createSavingAccountRepo.findById(id)
-	                .orElseThrow(() -> new RuntimeException("Saving account not found"));
+	public double deductSmsCharges(Long id, double balance, double smsCharge) {
 
-	        double currentBalance = Double.parseDouble(account.getBalance());
-	        double newBalance = currentBalance - amount;
+		double newBalance = balance - smsCharge;
 
-	        if (newBalance < 0) {
-	            newBalance = 0;
-	        }
+		CreateSavingsAccount acc = createSavingAccountRepo.findById(id)
+				.orElseThrow(() -> new RuntimeException("Account not found"));
 
-	        account.setBalance(String.valueOf(newBalance));
+		acc.setBalance(String.valueOf(newBalance));
+		createSavingAccountRepo.save(acc);
 
-	        return createSavingAccountRepo.save(account);
-	    }
+		return newBalance;
+	}
 }
