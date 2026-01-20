@@ -15,8 +15,8 @@ public class UserMenuAccess {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "customer_id")
-	private UserCreations userCreations;
+	@JoinColumn(name = "user_id")
+	private UserCreation userCreations;
 
 	private String menuName;
 	private Boolean hasAccess;
@@ -29,11 +29,11 @@ public class UserMenuAccess {
 		this.id = id;
 	}
 
-	public UserCreations getUserCreations() {
+	public UserCreation getUserCreations() {
 		return userCreations;
 	}
 
-	public void setUserCreations(UserCreations userCreations) {
+	public void setUserCreations(UserCreation userCreations) {
 		this.userCreations = userCreations;
 	}
 

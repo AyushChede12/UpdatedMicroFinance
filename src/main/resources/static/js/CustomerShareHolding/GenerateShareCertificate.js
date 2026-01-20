@@ -4,7 +4,6 @@ $('html, body').animate({
 
 $(document).ready(function() {
 	// 1. Load dropdown data on page load
-	alert("Welcome to  Generate Share Certificate");
 	$.ajax({
 		url: "api/customershareholdingcontroller/getAllTransferShare",
 		type: "GET",

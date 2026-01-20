@@ -257,7 +257,7 @@ $(document).ready(function() {
 		formData.append("smsSend", $('#toggle-sms-status').is(":checked") ? "1" : "0");
 
 		// ✅ Auto domain + context path
-		const fullUrl = window.location.origin + "/api/customermanagement/saveOrUpdateCustomer";
+		const fullUrl = window.location.origin + "api/customermanagement/saveOrUpdateCustomer";
 
 		console.log("POST to URL: ", fullUrl);
 
@@ -354,7 +354,7 @@ $(document).ready(function() {
 
 		// ✅ AJAX request
 		$.ajax({
-			url: "http://localhost:8090/api/customermanagement/saveOrUpdateCustomer",
+			url: "api/customermanagement/saveOrUpdateCustomer",
 			type: "POST",
 			data: formData,
 			processData: false,  // Don't let jQuery convert FormData
@@ -964,7 +964,7 @@ $(document).ready(function() {
 
 			// Fetch account number from backend
 			$.ajax({
-				url: `/api/customersavings/getAccountNumbersByCode?selectByCustomer=${encodeURIComponent(selectedCode)}`,
+				url: `api/customersavings/getAccountNumbersByCode?selectByCustomer=${encodeURIComponent(selectedCode)}`,
 				method: "GET",
 				success: function(res) {
 					console.log("Account number response:", res);

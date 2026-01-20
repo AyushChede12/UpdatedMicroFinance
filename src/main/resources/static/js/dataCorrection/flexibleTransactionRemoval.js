@@ -23,7 +23,7 @@ $(document).ready(function() {
 		if (policyCode !== "") {
 			$.ajax({
 				type: "GET",
-				url: "/api/datacorrection/getFlexibleRenewalByPolicyCode",
+				url: "api/datacorrection/getFlexibleRenewalByPolicyCode",
 				data: { policyCode: policyCode },
 				success: function(response) {
 					alert("Success");

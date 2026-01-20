@@ -8,7 +8,7 @@ function fetchBySelectedCustomer() {
 		type: "POST",
 		contentType: "application/json",
 		data: JSON.stringify({ memberCode }),
-		url: window.location.origin + "/api/customermanagement/fetchBySelectedCustomer",
+		url: window.location.origin + "api/customermanagement/fetchBySelectedCustomer",
 		async: false,
 		success: function(data) {
 
@@ -130,7 +130,7 @@ function verifyFetchedData() {
 		drivingLicenceNo: $("#drivingLicenceNo").val()
 	};
 
-	fetch("/api/customermanagement/verifyFetchedData", {
+	fetch("api/customermanagement/verifyFetchedData", {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify(fetchedData)

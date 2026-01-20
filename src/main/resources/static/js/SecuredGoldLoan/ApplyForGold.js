@@ -69,7 +69,7 @@ $(document).ready(function() {
 
 	// Fetch GoldDirectory list
 	$.ajax({
-		url: "/api/securedGoldLoan/getAllGoldDirectories",
+		url: "api/securedGoldLoan/getAllGoldDirectories",
 		type: "GET",
 		success: function(response) {
 			if (response && response.data) {
@@ -80,7 +80,7 @@ $(document).ready(function() {
 
 	// Fetch addCustomer list
 	$.ajax({
-		url: "/api/securedGoldLoan/getAllCustomers",
+		url: "api/securedGoldLoan/getAllCustomers",
 		type: "GET",
 		success: function(response) {
 			if (response && response.data) {

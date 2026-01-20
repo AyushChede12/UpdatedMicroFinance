@@ -4,7 +4,7 @@ $(document).ready(function() {
 
     function loadPolicyCodes() {
         $.ajax({
-            url: "/api/requestapproval/getAllPolicyCodes",
+            url: "api/requestapproval/getAllPolicyCodes",
             type: "GET",
             success: function(response) {
                 if (response.status === "OK" && response.data && response.data.length > 0) {

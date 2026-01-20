@@ -10,7 +10,6 @@ $(document).ready(function () {
 
 // Customer List in Find By Code
 $(document).ready(function() {
-		alert("Welcome to Transfer Share");
 	    $.ajax({
 	        url: "api/customershareholdingcontroller/findAllCustomerCode", // make sure this endpoint returns customer list
 	        type: "GET",
@@ -80,7 +79,7 @@ $(document).ready(function () {
 
         if (selectedCode !== "") {
             $.ajax({
-                url: '/api/customershareholdingcontroller/fetchByCustomerCode', // your endpoint
+                url: 'api/customershareholdingcontroller/fetchByCustomerCode', // your endpoint
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({ memberCode: selectedCode }), // sending memberCode
@@ -139,7 +138,7 @@ $(document).ready(function() {
 /*$(document).ready(function() {
 		//alert("Welcome to Transfer Share");
 	    $.ajax({
-	        url: "/api/customershareholdingcontroller/findAllCustomerCode", // make sure this endpoint returns customer list
+	        url: "api/customershareholdingcontroller/findAllCustomerCode", // make sure this endpoint returns customer list
 	        type: "GET",
 	        success: function(response) {
 				console.log("API response:", response);
@@ -290,7 +289,7 @@ function saveOrUpdateLoanPlan() {
 
 	$.ajax({
 		type: "POST",
-		url: "/api/customershareholdingcontroller/saveandUpdateTransferShare",
+		url: "api/customershareholdingcontroller/saveandUpdateTransferShare",
 		contentType: "application/json",
 		dataType: "json",
 		data: JSON.stringify(formData),
