@@ -21,15 +21,15 @@
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">INTEREST TYPE</label> <select name="intrestType"
-							id="intrestType" onchange="calculateEMI()"
+						<label for="">INTEREST TYPE <span class="star">*</span></label> <select
+							name="intrestType" id="intrestType" onchange="calculateEMI()"
 							class="form-control selectField" style="height: 30px;">
 							<option value="">SELECT INTEREST TYPE</option>
 							<option value="FlatInterest">FLAT INTEREST</option>
 							<option value=reducinginterest>REDUCED INTEREST</option>
 							<option value="Rule78">RULE 78</option>
 
-						</select>
+						</select><small id="chkemiloandetails" style="color: red;"></small>
 					</div>
 				</div>
 
@@ -37,25 +37,29 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="loanName">LOAN AMOUNT</label> <input type="text"
-							name="loanAmount" id="loanAmount" required="required"
-							placeholder="LOAN AMOUNT" style="text-transform: uppercase;" />
+						<label for="loanName">LOAN AMOUNT <span class="star">*</span></label>
+						<input type="text" name="loanAmount" id="loanAmount"
+							required="required" placeholder="LOAN AMOUNT"
+							style="text-transform: uppercase;" /> <small
+							id="chkloanamount" style="color: red;"></small>
 					</div>
 				</div>
 
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="loanName">YEARLY INTEREST</label> <input type="text"
-							name="yearlyIntrest" id="yearlyIntrest" required="required"
-							placeholder="YEARLY INTEREST" style="text-transform: uppercase;" />
+						<label for="loanName">YEARLY INTEREST <span class="star">*</span></label>
+						<input type="text" name="yearlyIntrest" id="yearlyIntrest"
+							required="required" placeholder="YEARLY INTEREST"
+							style="text-transform: uppercase;" /><small
+							id="chkyearlyinterest" style="color: red;"></small>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="loanName">INTEREST MODE</label> <select
-							id="interestModeCalculater" name="interestModeCalculater"
+						<label for="loanName">INTEREST MODE <span class="star">*</span></label>
+						<select id="interestModeCalculater" name="interestModeCalculater"
 							onchange="calculateEMI()" required="required"
 							class="form-control selectField" style="height: 30px;">
 							<option value="">SELECT INTEREST MODE</option>
@@ -65,24 +69,27 @@
 							<option value="Monthly">MONTHLY</option>
 							<option value="Quarterly">QUARTERLY</option>
 
-						</select>
+						</select><small
+							id="chkinterestmode" style="color: red;"></small>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="loanName">MONTHLY TERM</label> <input type="text"
-							name="monthlyTerm" id="monthlyTerm" required="required"
-							placeholder="ENTER TERM IN MONTH"
-							style="text-transform: uppercase;" />
+						<label for="loanName">MONTHLY TERM <span class="star">*</span></label>
+						<input type="text" name="monthlyTerm" id="monthlyTerm"
+							required="required" placeholder="ENTER TERM IN MONTH"
+							style="text-transform: uppercase;" /><small
+							id="chkmonthlyterm" style="color: red;"></small>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="loanName">EMI</label> <input type="text" name="emi"
+						<label for="loanName">EMI </label> <input type="text" name="emi"
 							id="emi" readonly="readonly" placeholder="ENTER TERM IN MONTH"
-							style="text-transform: uppercase;" />
+							style="text-transform: uppercase;" /><small
+							id="chkemi" style="color: red;"></small>
 					</div>
 				</div>
 
