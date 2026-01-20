@@ -572,7 +572,7 @@ $(document).ready(function() {
 		formData.append("jointSurvivorCode", $('#jointSurvivorCode').val());
 		formData.append("familyRelation", $('#familyRelation').val());
 		formData.append("selectPlan", $('#selectPlan').val());
-		formData.append("balance", $('#balance').val());
+		formData.append("balance", $('#openingFees').val());
 		formData.append("financialConsultantCode", $('#financialConsultantCode').val());
 		formData.append("financialConsultantName", $('#financialConsultantName').val());
 		formData.append("openingFees", $('#openingFees').val());
