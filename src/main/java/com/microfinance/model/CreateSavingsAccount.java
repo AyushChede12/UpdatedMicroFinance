@@ -63,6 +63,12 @@ public class CreateSavingsAccount {
 	private String newPhoto;
 	private String newSignature;
 
+	private String byDate;
+	private String accountType;
+	private String chargeType;
+	private String amount;
+	
+	
 	public Long getId() {
 		return id;
 	}
@@ -455,4 +461,38 @@ public class CreateSavingsAccount {
 		this.newSignature = newSignature;
 	}
 
+	public String getByDate() {
+		return byDate;
+	}
+
+	public void setByDate(String byDate) {
+		this.byDate = byDate;
+	}
+
+	public String getAccountType() {
+		return accountType;
+	}
+
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
+	}
+
+	public String getChargeType() {
+		return chargeType;
+	}
+
+	public void setChargeType(String chargeType) {
+		this.chargeType = chargeType;
+	}
+
+	public String getAmount() {
+		return amount;
+	}
+
+	public void setAmount(String amount) {
+		this.amount = amount;
+	}
+
+	
+	
 }

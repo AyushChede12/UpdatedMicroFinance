@@ -115,15 +115,15 @@ function fetchLoanClosureDetails() {
     }
 
     $.ajax({
-        url: "/api/loanmanegment/getLoanClosuresByLoanId",
+        url: "api/loanmanegment/getLoanClosuresByLoanId",
         type: "GET",
         data: { loanId: loanId },
         dataType: "json",
         success: function(response) {
+			
             const $section = $("#loanClosureDetailsSection");
             const $tbody = $("#loanClosureDetailsBody");
             $tbody.empty();
-
             if (response.status === "OK" && Array.isArray(response.data) && response.data.length > 0) {
                 const closure = response.data[0];
 

@@ -410,7 +410,6 @@ function clearLoanForm() {
 
 // ============================================
 // ✅ LOAD TABLE DATA
-// ============================================
 function loadLoanTable() {
 	$.ajax({
 		url: "api/loanmanegment/allDataFetchLoanSchemCatelog",
@@ -421,14 +420,22 @@ function loadLoanTable() {
 
 			if (response.status === "OK" && Array.isArray(response.data)) {
 				response.data.forEach(function(loan) {
+
+					// ✅ convert into UPPERCASE safely
+					const loanPlaneName = (loan.loanPlaneName || "-").toString().toUpperCase();
+					const typeLoan = (loan.typeLoan || "-").toString().toUpperCase();
+					const age = (loan.age || "-").toString().toUpperCase();
+					const loanTerm = (loan.loanTerm || "-").toString().toUpperCase();
+					const emiType = (loan.emiType || "-").toString().toUpperCase();
+
 					rows += `
                         <tr>
                             <td>${loan.id}</td>
-                            <td>${loan.loanPlaneName || "-"}</td>
-                            <td>${loan.typeLoan || "-"}</td>
-                            <td>${loan.age || "-"}</td>
-                            <td>${loan.loanTerm || "-"}</td>
-                            <td>${loan.emiType || "-"}</td>
+                            <td>${loanPlaneName}</td>
+                            <td>${typeLoan}</td>
+                            <td>${age}</td>
+                            <td>${loanTerm}</td>
+                            <td>${emiType}</td>
                             <td>
                                 <button class="btn btn-sm btn-warning" onclick="editLoanById(${loan.id})">
                                     <i class="fa fa-edit"></i>
@@ -454,6 +461,7 @@ function loadLoanTable() {
 		}
 	});
 }
+
 
 
 // ============================================
