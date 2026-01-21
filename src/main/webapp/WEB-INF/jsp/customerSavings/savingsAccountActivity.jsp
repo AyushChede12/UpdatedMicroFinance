@@ -284,7 +284,7 @@
 	</div>
 </div>
 
-<script src="./js/customerSavings/SavingAccountActivity.js"></script>
+
 <script>
 	document.getElementById('payBy').addEventListener('change', function() {
 		// Get the selected payment mode

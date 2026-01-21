@@ -20,6 +20,7 @@ document.querySelectorAll('.toggle__input').forEach(function(toggle) {
 
 
 
+
 //shubham kewat
 //fetch Policy Name
 /*document.getElementById("newPhoto").addEventListener("click", function() {
@@ -169,7 +170,7 @@ $('#selectPlan').on('change', function() {
 $(document).ready(function() {
 
 	$.ajax({
-		url: '/api/customermanagement/approved',
+		url: 'api/customermanagement/approved',
 		type: 'GET',
 		success: function(response) {
 			if (response.status === "OK" && Array.isArray(response.data)) {
@@ -923,7 +924,7 @@ $(document).ready(function () {
     });
 
 });
-ss
+
 
 
 function operationTypeFunc() {
