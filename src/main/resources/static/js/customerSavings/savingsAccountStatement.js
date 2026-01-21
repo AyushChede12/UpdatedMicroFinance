@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	$.ajax({
-		url: "/api/reports/getApprovedSavingAccount",
+		url: "api/reports/getApprovedSavingAccount",
 		type: "GET",
 		success: function(response) {
 			console.log("API response:", response);

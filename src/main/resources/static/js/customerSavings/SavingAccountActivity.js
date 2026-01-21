@@ -22,7 +22,7 @@ $('#accountNumber').on('change', function () {
     }
 
     $.ajax({
-        url: "/api/customersavings/getallbyaccountnumber",
+        url: "api/customersavings/getallbyaccountnumber",
         type: "GET",
         data: { accountNumber: accountNumber },
         dataType: "json",
@@ -38,7 +38,7 @@ $('#accountNumber').on('change', function () {
                 $('#contactNumber').val(customer.contactNumber || '');
                 $('#jointHolderName').val(customer.jointSurvivorCode || '');
                 $('#savingPlanName').val(customer.selectPlan || '');
-                $('#averageBalance').val(customer.averageBalance || '');
+                $('#averageBalance').val(customer.openingFees || '');
                 $('#selectBranchName').val(customer.branch || customer.branchName || '');
 
                 // Make fields read-only
@@ -120,7 +120,7 @@ $(document).ready(function () {
         };
 
         $.ajax({
-            url: "/api/customersavings/savesavingaccountactivity",
+            url: "api/customersavings/savesavingaccountactivity",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(accountData),
@@ -148,7 +148,7 @@ function reloadTransactionTable(accountNumber) {
 
     $.ajax({
         type: "GET",
-        url: "/api/customersavings/getsavingaccountactivity",
+        url: "api/customersavings/getsavingaccountactivity",
         data: { accountNumber: accountNumber },
         dataType: "json",
         success: function (response) {
@@ -197,7 +197,7 @@ function updateMainAccountBalance(accountNumber, newBalance) {
 
     $.ajax({
         type: "POST",
-        url: "/api/customersavings/updateaveragebalance",
+        url: "api/customersavings/updateaveragebalance",
         contentType: "application/json",
         data: JSON.stringify({
             accountNumber: accountNumber,
