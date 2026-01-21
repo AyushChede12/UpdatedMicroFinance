@@ -139,7 +139,7 @@ $(document).ready(function () {
 	function deductCharge(id, balance, smsCharge, row) {
 
 	    $.ajax({
-	        url: "/api/customersavings/deduct-sms-charges",
+	        url: "api/customersavings/deduct-sms-charges",
 	        type: "POST",
 	        contentType: "application/json",
 	        data: JSON.stringify({
