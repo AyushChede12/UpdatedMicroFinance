@@ -56,7 +56,7 @@ $(document).ready(function() {
         };
 
         $.ajax({
-            url: `/api/userCreation/updateUserManage/${editUserId}`,
+            url: `api/userCreation/updateUserManage/${editUserId}`,
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(userData),
@@ -145,7 +145,7 @@ $(document).ready(function() {
 //edit the data
 function editUser(id){
     $.ajax({
-        url: `/api/userCreation/editUserManageById/${id}`,
+        url: `api/userCreation/editUserManageById/${id}`,
         type: "GET",
         success: function(user){
             alert("Data loaded for editing");
@@ -181,7 +181,7 @@ function deleteUser(id) {
 
     $.ajax({
         type: "POST",
-        url: "/api/userCreation/deleteUserManageById",
+        url: "api/userCreation/deleteUserManageById",
         contentType: "application/json",
         data: JSON.stringify({ id: id }),
         success: function(response) {

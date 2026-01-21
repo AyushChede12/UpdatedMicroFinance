@@ -5,7 +5,7 @@ $(document).ready(function() {
 		url: "api/datacorrection/fetchAllSavingAccountActivity",
 		type: "GET",
 		success: function(response) {
-			if (response.status === "FOUND") {
+			if (response.status =/api== "FOUND") {
 				$("#accountNumber").empty().append("<option value=''>-- Select Account No --</option>");
 				response.data.forEach(function(item) {
 					$("#accountNumber").append(`<option value='${item.accountNumber}'>${item.accountNumber}</option>`);
