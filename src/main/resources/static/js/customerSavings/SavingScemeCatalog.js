@@ -76,7 +76,7 @@ $(document).ready(function () {
 	    };
 
 	    $.ajax({
-	        url: window.location.origin + "api/customersavings/update/" + id,
+	        url: window.location.origin + "/api/customersavings/update/" + id,
 	        type: "PUT",
 	        contentType: "application/json",
 	        dataType: "text",
@@ -111,8 +111,8 @@ $(document).ready(function () {
                         const row = `
                             <tr>
                                 <td>${index + 1}</td>
-                                <td>${(item.policyName).toUpperCase()}</td>
-                                <td>${(item.customerName).toUpperCase()}</td>
+                                <td>${item.policyName}</td>
+                                <td>${item.customerName}</td>
                                 <td>${item.initialDeposite}</td>
                                 <td>${item.monthlyMinimumBalance}</td>
                                 <td>${item.dailyLimit}</td>
