@@ -70,7 +70,7 @@ $(document).ready(function() {
 		if (policyCode !== "") {
 			$.ajax({
 				type: "GET",
-				url: "/api/datacorrection/getDailyRenewalByPolicyCode",
+				url: "api/datacorrection/getDailyRenewalByPolicyCode",
 				data: { policyCode: policyCode },
 				success: function(response) {
 					if (response.status == "FOUND") {

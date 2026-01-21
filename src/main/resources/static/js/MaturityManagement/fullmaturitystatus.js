@@ -11,7 +11,7 @@ $(document).ready(function() {
 
 function loadedData() {
     $.ajax({
-        url: "/api/Maturitymanagement/getFullmaturitydetails",
+        url: "api/Maturitymanagement/getFullmaturitydetails",
         type: "GET",
         success: function (response) {
             console.log("Response received:", response);

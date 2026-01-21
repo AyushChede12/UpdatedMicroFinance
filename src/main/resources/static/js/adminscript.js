@@ -7,6 +7,7 @@ $(document).ready(function() {
 	$('#approvalDate').val(today);
 	$('#openingDate').val(today);//crateSavingAccount
 	$('#transactionDate').val(today);
+	$('#signupDate').val(today);
 	$('#dateOfTransfer').val(today);
 
 	$('#loanDate').val(today); //loan application

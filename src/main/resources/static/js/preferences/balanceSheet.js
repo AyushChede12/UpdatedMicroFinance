@@ -3,7 +3,7 @@ let allTransactions = [];
 $("#searchAllBranch").click(function () {
     $.ajax({
         type: "GET",
-        url: "/api/preference/fetchAllTransactions",
+        url: "api/preference/fetchAllTransactions",
         success: function (response) {
             if (response.status === "FOUND") {	
                 allTransactions = response.data;
