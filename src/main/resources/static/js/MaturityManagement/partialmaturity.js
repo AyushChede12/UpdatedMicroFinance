@@ -55,7 +55,7 @@ $(document).ready(function () {
 
 	    if (policyCode !== "") {
 	        $.ajax({
-	            url: '/api/Policymangment/getPolicyByPolicyCode?policyCode=' + encodeURIComponent(policyCode),
+	            url: 'api/Policymangment/getPolicyByPolicyCode?policyCode=' + encodeURIComponent(policyCode),
 	            type: 'GET',
 	            success: function (response) {
 	                console.log("Response:", response);
@@ -166,7 +166,7 @@ $(document).ready(function () {
 	    };
 
 		$.ajax({
-		    url: "/api/Maturitymanagement/savePartialmaturity",
+		    url: "api/Maturitymanagement/savePartialmaturity",
 		    type: "POST",
 		    contentType: "application/json",
 		    data: JSON.stringify(data),
@@ -221,7 +221,7 @@ function updateAddNewInvestmentAmount(data)
 
 	    // Make the AJAX call
 		$.ajax({
-		    url: "/api/Policymangment/deletePolicyDataById?id=" + policyid,  
+		    url: "api/Policymangment/deletePolicyDataById?id=" + policyid,  
 		    type: "POST",
 		    success: function (response) {
 		        alert("Deleted successful!");

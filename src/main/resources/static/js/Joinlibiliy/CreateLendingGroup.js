@@ -44,7 +44,7 @@ $(document).ready(function() {
 
 		// ✅ AJAX call
 		$.ajax({
-			url: '/api/joinliability/createLendingGroupsave', // ✅ Always start with /
+			url: 'api/joinliability/createLendingGroupsave', // ✅ Always start with /
 			type: 'POST',
 			contentType: 'application/json',
 			data: JSON.stringify(loanData),
