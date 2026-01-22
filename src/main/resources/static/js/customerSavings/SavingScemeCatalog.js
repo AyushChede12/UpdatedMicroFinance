@@ -1,29 +1,13 @@
 $(document).ready(function () {
-    // ------------------- SAVE -------------------
+
+    // ================= SAVE =================
     $("#saveBtn").on("click", function (e) {
         e.preventDefault();
 
-        const formData = {
-            policyName: $("#policyName").val(),
-            yearlyROI: $("#yearlyROI").val(),
-            customerName: $("#customerName").val(),
-            initialDeposite: $("#initialDeposite").val(),
-            monthlyMinimumBalance: $("#monthlyMinimumBalance").val(),
-            reservedFunds: $("#reservedFunds").val(),
-            messagingFees: $("#messagingFees").val(),
-            messagingInterval: $("#messagingInterval").val(),
-            monthlyFreeIFSCTransactions: $("#monthlyFreeIFSCTransactions").val(),
-            freeMoneyTransfers: $("#freeMoneyTransfers").val(),
-            limitperTransaction: $("#limitperTransaction").val(),
-            dailyLimit: $("#dailyLimit").val(),
-            weeklyLimit: $("#weeklyLimit").val(),
-            monthlyLimit: $("#monthlyLimit").val(),
-            serviceFee: $("#serviceFee").val(),
-            billingCycle: $("#billingCycle").val(),
-            cardFee: $("#cardFee").val(),
-            monthlyCardLimit: $("#monthlyCardLimit").val(),
-            yearlyCardLimit: $("#yearlyCardLimit").val()
-        };
+        if (!validateForm()) return;
+
+        const formData = getFormData();
+        console.log("SAVE DATA =", formData);
 
         $.ajax({
             type: "POST",
@@ -35,73 +19,57 @@ $(document).ready(function () {
                 $("#savingForm")[0].reset();
                 fetchAllData();
             },
-            error: function () {
+            error: function (xhr) {
+                console.error(xhr.responseText);
                 alert("Save failed");
             }
         });
     });
 
-	// ------------------- UPDATE -------------------
-	$("#updateBtn").on("click", function (e) {
-	    e.preventDefault();
 
-	    const id = $("#savingAccountId").val();
-	    console.log("UPDATE ID =", id);
+    // ================= UPDATE =================
+    $("#updateBtn").on("click", function (e) {
+        e.preventDefault();
 
-	    if (!id) {
-	        alert("Please select a record to update!");
-	        return;
-	    }
+        const id = $("#savingAccountId").val();
+        console.log("UPDATE ID =", id);
 
-	    const formData = {
-	        policyName: $("#policyName").val(),
-	        yearlyROI: $("#yearlyROI").val(),
-	        customerName: $("#customerName").val(),
-	        initialDeposite: $("#initialDeposite").val(),
-	        monthlyMinimumBalance: $("#monthlyMinimumBalance").val(),
-	        reservedFunds: $("#reservedFunds").val(),
-	        messagingFees: $("#messagingFees").val(),
-	        messagingInterval: $("#messagingInterval").val(),
-	        monthlyFreeIFSCTransactions: $("#monthlyFreeIFSCTransactions").val(),
-	        freeMoneyTransfers: $("#freeMoneyTransfers").val(),
-	        limitperTransaction: $("#limitperTransaction").val(),
-	        dailyLimit: $("#dailyLimit").val(),
-	        weeklyLimit: $("#weeklyLimit").val(),
-	        monthlyLimit: $("#monthlyLimit").val(),
-	        serviceFee: $("#serviceFee").val(),
-	        billingCycle: $("#billingCycle").val(),
-	        cardFee: $("#cardFee").val(),
-	        monthlyCardLimit: $("#monthlyCardLimit").val(),
-	        yearlyCardLimit: $("#yearlyCardLimit").val()
-	    };
+        if (!id) {
+            alert("Please select a record to update!");
+            return;
+        }
 
-	    $.ajax({
-	        url: window.location.origin + "/api/customersavings/update/" + id,
-	        type: "PUT",
-	        contentType: "application/json",
-	        dataType: "text",
-	        data: JSON.stringify(formData),
+        if (!validateForm()) return;
 
-	        success: function (res) {
-	            console.log("Update response:", res);
-	            alert("Record updated successfully!");
-	            $("#savingAccountId").val("");
-	            $("#savingForm")[0].reset();
-	            fetchAllData();
-	        },
+        const formData = getFormData();
 
-	        error: function (xhr) {
-	            console.error("Update error:", xhr);
-	            alert("Update failed! Status: " + xhr.status);
-	        }
-	    });
-	});
+        $.ajax({
+            type: "PUT",
+            url: "api/customersavings/update/" + id,
+            contentType: "application/json",
+            data: JSON.stringify(formData),
 
-    // ------------------- FETCH ALL -------------------
+            success: function () {
+                alert("Record updated successfully!");
+                $("#savingAccountId").val("");
+                $("#savingForm")[0].reset();
+                fetchAllData();
+            },
+
+            error: function (xhr) {
+                console.error(xhr.responseText);
+                alert("Update failed!");
+            }
+        });
+    });
+
+
+    // ================= FETCH ALL =================
     function fetchAllData() {
         $.ajax({
             type: "GET",
             url: "api/customersavings/fetchalllll",
+
             success: function (response) {
                 const tableBody = $(".datatable tbody");
                 tableBody.empty();
@@ -119,12 +87,12 @@ $(document).ready(function () {
                                 <td>${item.monthlyCardLimit}</td>
                                 <td>${item.yearlyCardLimit}</td>
                                 <td>
-                                    <button class="iconbutton" onclick="viewData('${item.id}')">
+                                    <button class="iconbutton" onclick="viewData(${item.id})">
                                         <i class="fa-solid fa-pen-to-square text-primary"></i>
                                     </button>
                                 </td>
                                 <td>
-                                    <button class="iconbutton" onclick="deleteData('${item.id}')">
+                                    <button class="iconbutton" onclick="deleteData(${item.id})">
                                         <i class="fa-solid fa-trash text-danger"></i>
                                     </button>
                                 </td>
@@ -132,47 +100,130 @@ $(document).ready(function () {
                         tableBody.append(row);
                     });
                 } else {
-                    tableBody.html(`<tr><td colspan="10" class="text-center">No data found</td></tr>`);
+                    tableBody.html(
+                        `<tr><td colspan="10" class="text-center">No data found</td></tr>`
+                    );
                 }
+            },
+
+            error: function (xhr) {
+                console.error(xhr.responseText);
             }
         });
     }
 
-    // Initial load
+    // initial load
     fetchAllData();
 });
 
 
-// ------------------- VIEW (EDIT) -------------------
+// ================= FORM DATA (ENTITY MATCHING) =================
+function getFormData() {
+    return {
+        policyName: $("#policyName").val(),
+        yearlyROI: $("#yearlyROI").val(),
+        customerName: $("#customerName").val(),
+
+        initialDeposite: $("#initialDeposit").val(),
+        monthlyMinimumBalance: $("#minimumOpeningBalance").val(),
+
+        reservedFunds: $("#reservedFunds").val(),
+        messagingFees: $("#messagingFees").val(),
+        messagingInterval: $("#messagingInterval").val(),
+
+        monthlyFreeIFSCTransactions: $("#monthlyFreeIFSC").val(),
+        FreeMoneyTransfers: $("#freeMoneyTransfers").val(),
+
+        limitperTransaction: $("#limitPerTransaction").val(),
+        dailyLimit: $("#dailyLimit").val(),
+        weeklyLimit: $("#weeklyLimit").val(),
+        monthlyLimit: $("#monthlyLimit").val(),
+
+        serviceFee: $("#serviceFee").val(),
+        billingCycle: $("#billingCycle").val(),
+        cardFee: $("#cardFee").val(),
+        monthlyCardLimit: $("#monthlyCardLimit").val(),
+        yearlyCardLimit: $("#yearlyCardLimit").val()
+    };
+}
+
+
+// ================= VALIDATION =================
+function validateForm() {
+
+    if ($("#policyName").val().trim() === "") {
+        alert("Policy Name is required");
+        $("#policyName").focus();
+        return false;
+    }
+
+    if ($("#customerName").val().trim() === "") {
+        alert("Customer Name is required");
+        $("#customerName").focus();
+        return false;
+    }
+
+    if ($("#initialDeposit").val() === "" || $("#initialDeposit").val() <= 0) {
+        alert("Initial Deposit must be greater than 0");
+        $("#initialDeposit").focus();
+        return false;
+    }
+
+    if ($("#minimumOpeningBalance").val() === "" || $("#minimumOpeningBalance").val() <= 0) {
+        alert("Monthly Minimum Balance must be greater than 0");
+        $("#minimumOpeningBalance").focus();
+        return false;
+    }
+
+    if ($("#dailyLimit").val() === "" || $("#dailyLimit").val() <= 0) {
+        alert("Daily Limit must be greater than 0");
+        $("#dailyLimit").focus();
+        return false;
+    }
+
+    if ($("#monthlyCardLimit").val() === "" || $("#yearlyCardLimit").val() === "") {
+        alert("Monthly & Yearly Card Limit are required");
+        return false;
+    }
+
+    return true;
+}
+
+
+// ================= VIEW / EDIT =================
 function viewData(id) {
-    console.log("EDIT CLICKED ID =", id);
+    console.log("EDIT ID =", id);
 
     $.ajax({
-        url: "api/customersavings/getSavingSchemeCatalogById",
         type: "GET",
+        url: "api/customersavings/getSavingSchemeCatalogById",
         data: { id: id },
-        success: function (response) {
-            console.log("VIEW RESPONSE =", response);
 
+        success: function (response) {
             if (response.status === "FOUND") {
                 const d = response.data;
 
-                $("#savingAccountId").val(d.id);   // 🔥 MOST IMPORTANT LINE
+                $("#savingAccountId").val(d.id);
 
                 $("#policyName").val(d.policyName);
                 $("#yearlyROI").val(d.yearlyROI);
                 $("#customerName").val(d.customerName);
-                $("#initialDeposite").val(d.initialDeposite);
-                $("#monthlyMinimumBalance").val(d.monthlyMinimumBalance);
+
+                $("#initialDeposit").val(d.initialDeposite);
+                $("#minimumOpeningBalance").val(d.monthlyMinimumBalance);
+
                 $("#reservedFunds").val(d.reservedFunds);
                 $("#messagingFees").val(d.messagingFees);
                 $("#messagingInterval").val(d.messagingInterval);
-                $("#monthlyFreeIFSCTransactions").val(d.monthlyFreeIFSCTransactions);
+
+                $("#monthlyFreeIFSC").val(d.monthlyFreeIFSCTransactions);
                 $("#freeMoneyTransfers").val(d.freeMoneyTransfers);
-                $("#limitperTransaction").val(d.limitperTransaction);
+
+                $("#limitPerTransaction").val(d.limitperTransaction);
                 $("#dailyLimit").val(d.dailyLimit);
                 $("#weeklyLimit").val(d.weeklyLimit);
                 $("#monthlyLimit").val(d.monthlyLimit);
+
                 $("#serviceFee").val(d.serviceFee);
                 $("#billingCycle").val(d.billingCycle);
                 $("#cardFee").val(d.cardFee);
@@ -182,6 +233,7 @@ function viewData(id) {
                 alert("Record not found");
             }
         },
+
         error: function () {
             alert("Failed to load record");
         }
@@ -189,21 +241,23 @@ function viewData(id) {
 }
 
 
-// ------------------- DELETE -------------------
+// ================= DELETE =================
 function deleteData(id) {
     if (!confirm("Are you sure you want to delete this Scheme?")) return;
 
     $.ajax({
-        url: "api/customersavings/deleteSavingSchemeCatalogDataById?id=" + id,
         type: "POST",
+        url: "api/customersavings/deleteSavingSchemeCatalogDataById?id=" + id,
+
         success: function (response) {
             if (response.data === "success") {
                 alert("Deleted successfully!");
-                location.reload(); // safe refresh
+                location.reload();
             } else {
                 alert("Delete failed");
             }
         },
+
         error: function () {
             alert("Delete error");
         }
