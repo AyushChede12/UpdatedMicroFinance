@@ -228,7 +228,7 @@ $(document).ready(function() {
 
 		// 4️⃣ AJAX request
 		$.ajax({
-			url: '/api/joinliability/savegroupdirectory',
+			url: 'api/joinliability/savegroupdirectory',
 			type: 'POST',
 			contentType: 'application/json',
 			data: JSON.stringify(groupDirectory),
@@ -259,7 +259,7 @@ $(document).ready(function() {
 	// 📌 Function to fetch and render Group Directory data
 	function fetchGroupDirectory() {
 		$.ajax({
-			url: "/api/joinliability/viewGroupDirectories", // ✅ ensure endpoint is correct
+			url: "api/joinliability/viewGroupDirectories", // ✅ ensure endpoint is correct
 			type: "GET",
 			dataType: "json",
 			success: function(response) {

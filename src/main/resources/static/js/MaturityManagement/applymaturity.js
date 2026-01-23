@@ -4,7 +4,7 @@ $(document).ready(function () {
 	
         if (branchName !== "") {
             $.ajax({
-                url: '/api/Policymangment/getinvestmentdetails?branchName=' + encodeURIComponent(branchName),
+                url: 'api/Policymangment/getinvestmentdetails?branchName=' + encodeURIComponent(branchName),
                 type: 'GET',
                 success: function (response) {
                     var dropdown = $('#policyCode');
@@ -31,7 +31,7 @@ $(document).ready(function () {
 
 	    if (policyCode !== "") {
 	        $.ajax({
-	            url: '/api/Policymangment/getPolicyByPolicyCode?policyCode=' + encodeURIComponent(policyCode),
+	            url: 'api/Policymangment/getPolicyByPolicyCode?policyCode=' + encodeURIComponent(policyCode),
 	            type: 'GET',
 	            success: function (response) {
 	                console.log("Response:", response);
@@ -81,7 +81,7 @@ $(document).ready(function () {
 	   									   
 	   								       $.ajax({
 	   										
-	   								           url: "/api/Maturitymanagement/saveApplymaturity",  
+	   								           url: "api/Maturitymanagement/saveApplymaturity",  
 	   								           type: "POST",
 	   								           contentType: "application/json",
 	   								           data: JSON.stringify(data),
@@ -108,7 +108,7 @@ $(document).ready(function () {
 									       e.preventDefault(); // <-- Stop form submission
 
 									       $.ajax({
-									           url: "/api/Maturitymanagement/getApplymaturitydetailswithPage",
+									           url: "api/Maturitymanagement/getApplymaturitydetailswithPage",
 									           type: "GET",
 											   success: function (response) {
 											       if (response.status === "OK" && response.data && response.data.content.length > 0) {

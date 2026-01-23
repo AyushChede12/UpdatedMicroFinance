@@ -490,9 +490,4 @@ public class CustomerSavingsService {
 
 		return newBalance;
 	}
-
-	public void deductSmsCharges(List<Integer> ids, double smsCharge) {
-		// TODO Auto-generated method stub
-		
-	}
 }

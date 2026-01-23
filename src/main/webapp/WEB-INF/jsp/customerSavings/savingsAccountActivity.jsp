@@ -37,13 +37,17 @@
 					</div>
 				</div>
 
-				<div class="col-lg-3">
-					<div class="d-flex flex-column formFields mb-4">
-						<label for="">ACCOUNT NUMBER</label> <input type="text"
-							name="accountNumber" id="accountNumber" required="required"
-							placeholder="ENTER ACCOUNT NUMBER" />
-					</div>
-				</div>
+				<div class="col-lg-6">   <!-- width badhane ke liye 6 -->
+    <div class="d-flex flex-column formFields mb-4">
+        <label for="accountNumber">ACCOUNT NUMBER</label>
+        <select id="accountNumber" name="accountNumber"
+            class="form-control selectField account-select"
+            required>
+            <option value="">- SELECT ACCOUNT NUMBER -</option>
+        </select>
+    </div>
+</div>
+
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
