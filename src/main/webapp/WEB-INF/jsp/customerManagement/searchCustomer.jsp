@@ -31,18 +31,13 @@
 					</div>
 				</div>
 
-
-
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">CUSTOMER NAME</label> <input type="text"
 							name="customerName" id="customerName" required="required"
-							placeholder="ENTER CUSTOMER NAME" />
+							placeholder="ENTER CUSTOMER NAME" style="text-transform: uppercase;"/>
 					</div>
 				</div>
-
-
-
 
 			</div>
 		</div>
