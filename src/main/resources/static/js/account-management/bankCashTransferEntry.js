@@ -150,14 +150,14 @@ function loadBankCashTransferData() {
 				const row = `
 								<tr> 
 									<td>${entry.id ?? ''}</td>
-									<td>${entry.branchName ?? ''}</td>
-									<td>${entry.voucherID ?? ''}</td>
-									<td>${entry.dateOfEntry ?? ''}</td>
-									<td>${entry.creditLedger ?? ''}</td>
-									<td>${entry.debitLedger ?? ''}</td>
-									<td>${entry.transferMode ?? ''}</td>
-									<td>${entry.transactionAmount ?? ''}</td>
-									<td>${entry.remarks ?? ''}</td>
+									<td>${(entry.branchName).toUpperCase() ?? ''}</td>
+									<td>${(entry.voucherID).toUpperCase() ?? ''}</td>
+									<td>${(entry.dateOfEntry).toUpperCase() ?? ''}</td>
+									<td>${(entry.creditLedger).toUpperCase() ?? ''}</td>
+									<td>${(entry.debitLedger).toUpperCase() ?? ''}</td>
+									<td>${(entry.transferMode).toUpperCase() ?? ''}</td>
+									<td>${(entry.transactionAmount).toUpperCase() ?? ''}</td>
+									<td>${(entry.remarks).toUpperCase() ?? ''}</td>
 									<td>
 											<button class="iconbutton" onclick="viewBankCashTransfer(${entry.id})" title="View">
 												<i class="fa-solid fa-eye text-primary"></i>
@@ -243,14 +243,14 @@ function searchBankCashTransfers() {
 				const row = `
 				                    <tr>
 									<td>${entry.id || ''}</td>
-									<td>${entry.branchName || ''}</td>
-									<td>${entry.voucherID || ''}</td>
-									<td>${entry.dateOfEntry || ''}</td>
-									<td>${entry.creditLedger || ''}</td>
-									<td>${entry.debitLedger || ''}</td>
-									<td>${entry.transferMode || ''}</td>
-									<td>${entry.transactionAmount || ''}</td>
-									<td>${entry.remarks || ''}</td>
+									<td>${(entry.branchName).toUpperCase() || ''}</td>
+									<td>${(entry.voucherID).toUpperCase() || ''}</td>
+									<td>${(entry.dateOfEntry).toUpperCase() || ''}</td>
+									<td>${(entry.creditLedger).toUpperCase() || ''}</td>
+									<td>${(entry.debitLedger).toUpperCase() || ''}</td>
+									<td>${(entry.transferMode).toUpperCase() || ''}</td>
+									<td>${(entry.transactionAmount).toUpperCase() || ''}</td>
+									<td>${(entry.remarks).toUpperCase() || ''}</td>
 									
 										<td>
 																	<button class="iconbutton" onclick="viewBankCashTransfer(${entry.id})" title="View">
