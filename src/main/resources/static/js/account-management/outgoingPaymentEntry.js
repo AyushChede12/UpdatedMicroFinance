@@ -156,14 +156,14 @@ function loadOutgoingPaymentData() {
 				const row = `
                     <tr>
                         <td>${payment.id ?? ''}</td>
-                        <td>${payment.branchName ?? ''}</td>
+                        <td>${(payment.branchName).toUpperCase() ?? ''}</td>
 						<td>${payment.voucherID ?? ''}</td>
-                        <td>${payment.dateOfEntry ?? ''}</td>
-						<td>${payment.creditLedger ?? ''}</td>
-                        <td>${payment.debitLedger ?? ''}</td>
-						<td>${payment.transferMode ?? ''}</td>
-                        <td>${payment.transactionAmount ?? ''}</td>
-                        <td>${payment.remarks ?? ''}</td>
+                        <td>${(payment.dateOfEntry).toUpperCase() ?? ''}</td>
+						<td>${(payment.creditLedger).toUpperCase() ?? ''}</td>
+                        <td>${(payment.debitLedger).toUpperCase() ?? ''}</td>
+						<td>${(payment.transferMode).toUpperCase() ?? ''}</td>
+                        <td>${(payment.transactionAmount).toUpperCase() ?? ''}</td>
+                        <td>${(payment.remarks).toUpperCase() ?? ''}</td>
                         <td>
                             <button class="iconbutton" onclick="viewOutgoingPayment(${payment.id})" title="View">
                                 <i class="fa-solid fa-eye text-primary"></i>
@@ -246,13 +246,13 @@ function searchOutgoingPayments() {
 				const row = `
                     <tr>
                         <td>${payment.id || ''}</td>
-                        <td>${payment.branchName || ''}</td>
-                        <td>${payment.dateOfEntry || ''}</td>
-                        <td>${payment.transferMode || ''}</td>
-                        <td>${payment.creditLedger || ''}</td>
-                        <td>${payment.debitLedger || ''}</td>
-                        <td>${payment.transactionAmount || ''}</td>
-                        <td>${payment.remarks || ''}</td>
+                        <td>${(payment.branchName).toUpperCase() || ''}</td>
+                        <td>${(payment.dateOfEntry).toUpperCase() || ''}</td>
+                        <td>${(payment.transferMode).toUpperCase() || ''}</td>
+                        <td>${(payment.creditLedger).toUpperCase() || ''}</td>
+                        <td>${(payment.debitLedger).toUpperCase() || ''}</td>
+                        <td>${(payment.transactionAmount).toUpperCase() || ''}</td>
+                        <td>${(payment.remarks).toUpperCase() || ''}</td>
                         <td>${payment.voucherID || ''}</td>
                         <td>
                             <button class="iconbutton" onclick="viewOutgoingPayment(${payment.id})" title="View">
@@ -284,9 +284,9 @@ function LedgerDropdown(branchName, selectedCr = "", selectedDr = "") {
 			const ledgers = data.data || [];
 
 			// Credit Ledger → Assets (Cash/Bank)
-			let crOptions = "<option value=''>Select Credit Ledger</option>";
+			let crOptions = "<option value=''>SELECT CREDIT LEDGER</option>";
 			// Debit Ledger → Liabilities/Expenses/Equity
-			let drOptions = "<option value=''>Select Debit Ledger</option>";
+			let drOptions = "<option value=''>SELECT DEBIT LEDGER</option>";
 			ledgers.forEach(ledger => {
 				const g = ledger.groupName.toLowerCase();
 				const t = ledger.accountType.toLowerCase();
@@ -322,10 +322,10 @@ function BranchNameDropdown() {
 		contentType: "application/json",
 		url: 'api/preference/getAllBranchModule',
 		success: function(response) {
-			let options = "<option value=''>Select Branch Name</option>";
+			let options = "<option value=''>SELECT BRANCH NAME</option>";
 			if (response && Array.isArray(response.data)) {
 				response.data.forEach(branch => {
-					options += `<option value='${branch.branchName}'>${branch.branchName}</option>`;
+					options += `<option value='${branch.branchName}'>${branch.branchName.toUpperCase()}</option>`;
 				});
 			}
 			$("#searchBranchName").html(options);

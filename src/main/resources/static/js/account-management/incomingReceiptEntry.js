@@ -154,14 +154,14 @@ function loadIncomingReceipts() {
 				const row = `
 				<tr> 
 					<td>${receipt.id ?? ''}</td>
-					<td>${receipt.branchName ?? ''}</td>
-					<td>${receipt.voucherID ?? ''}</td>
-					<td>${receipt.dateOfEntry ?? ''}</td>
-					<td>${receipt.creditLedger ?? ''}</td>
-					<td>${receipt.debitLedger ?? ''}</td>
-					<td>${receipt.transferMode ?? ''}</td>
-					<td>${receipt.transactionAmount ?? ''}</td>
-					<td>${receipt.remarks ?? ''}</td>
+					<td>${(receipt.branchName).toUpperCase() ?? ''}</td>
+					<td>${(receipt.voucherID) ?? ''}</td>
+					<td>${(receipt.dateOfEntry).toUpperCase() ?? ''}</td>
+					<td>${(receipt.creditLedger).toUpperCase() ?? ''}</td>
+					<td>${(receipt.debitLedger).toUpperCase() ?? ''}</td>
+					<td>${(receipt.transferMode).toUpperCase() ?? ''}</td>
+					<td>${(receipt.transactionAmount).toUpperCase() ?? ''}</td>
+					<td>${(receipt.remarks).toUpperCase() ?? ''}</td>
 					<td>
 							<button class="iconbutton" onclick="viewIncomingReceipt(${receipt.id})" title="View">
 								<i class="fa-solid fa-eye text-primary"></i>
@@ -251,14 +251,14 @@ function searchIncomingReceipts() {
 				const row = `
                     <tr>
 					<td>${receipt.id || ''}</td>
-					<td>${receipt.branchName || ''}</td>
-					<td>${receipt.voucherID || ''}</td>
-					<td>${receipt.dateOfEntry || ''}</td>
-					<td>${receipt.creditLedger || ''}</td>
-					<td>${receipt.debitLedger || ''}</td>
-					<td>${receipt.transferMode || ''}</td>
-					<td>${receipt.transactionAmount || ''}</td>
-					<td>${receipt.remarks || ''}</td>
+					<td>${(receipt.branchName).toUpperCase() || ''}</td>
+					<td>${(receipt.voucherID).toUpperCase() || ''}</td>
+					<td>${(receipt.dateOfEntry).toUpperCase() || ''}</td>
+					<td>${(receipt.creditLedger).toUpperCase() || ''}</td>
+					<td>${(receipt.debitLedger).toUpperCase() || ''}</td>
+					<td>${(receipt.transferMode).toUpperCase() || ''}</td>
+					<td>${(receipt.transactionAmount).toUpperCase() || ''}</td>
+					<td>${(receipt.remarks).toUpperCase() || ''}</td>
 					
 						<td>
 													<button class="iconbutton" onclick="viewIncomingReceipt(${receipt.id})" title="View">
@@ -284,7 +284,7 @@ function BranchNameDropdown() {
 		contentType: "application/json",
 		url: 'api/preference/getAllBranchModule',
 		success: function(response) {
-			let options = "<option value=''>Select Branch Name</option>";
+			let options = "<option value=''>SELECT BRANCH NAME</option>";
 			// The actual branch array is inside response.data
 			if (response && Array.isArray(response.data)) {
 				response.data.forEach(branch => {

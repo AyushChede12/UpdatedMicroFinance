@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Account Management</h1>
+	<h1>ACCOUNT MANAGEMENT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-wallet2"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Incentive Payment</li>
+			<li class="breadcrumb-item action">INCENTIVE PAYMENT</li>
 		</ol>
 	</nav>
 </div>
@@ -16,32 +16,31 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Search Box</li>
+					<li class="breadcrumb-item action">SEARCH BOX</li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Incentive Month</label> <select id="incentiveMonth"
+						<label for="">INCENTIVE MONTH</label> <select id="incentiveMonth"
 							name="incentiveMonth" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select Month Name</option>
-							<option value="Blue">Blue</option>
+							<option value="">SELECT MONTH NAME</option>
 						</select>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Agent Code</label> <input type="text"
+						<label for="">AGENT CODE</label> <input type="text"
 							name="agentCode" id="agentCode" required="required"
-							placeholder="Enter Code" />
+							placeholder="ENTER CODE" />
 					</div>
 				</div>
 
 				<div class="col-3 text-left mt-3">
 					<button id="searchBtn" class="btnStyle"
-						style="background-color: #FFA500;">Search</button>
+						style="background-color: #FFA500;">SEARCH</button>
 				</div>
 			</div>
 		</div>
@@ -52,29 +51,29 @@
 	<div class="col-lg-12">
 		<nav>
 			<ol class="breadcrumb breadcrumb-title">
-				<li class="breadcrumb-item action mt-3">Incentive Details</li>
+				<li class="breadcrumb-item action mt-3">INCENTIVE DETAILS</li>
 			</ol>
 		</nav>
 	</div>
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
-			<label for="">Full Name</label> <input type="text" name="fullName"
+			<label for="">FULL NAME</label> <input type="text" name="fullName"
 				id="fullName" required="required" placeholder="Enter Name" />
 		</div>
 	</div>
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
-			<label for="">Designation</label> <input type="text"
+			<label for="">DESIGNATION</label> <input type="text"
 				name="designation" id="designation" required="required"
-				placeholder="Enter position" />
+				placeholder="ENTER DESIGNATION" />
 		</div>
 	</div>
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
-			<label for="">Personal Sales</label> <input type="text"
+			<label for="">PERSONAL SALES</label> <input type="text"
 				name="personalSales" id="personalSales" required="required"
 				placeholder="Enter Self Business" />
 		</div>
@@ -82,7 +81,7 @@
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
-			<label for=""> Group Sales</label> <input type="text"
+			<label for=""> GROUP Sales</label> <input type="text"
 				name="groupSales" id="groupSales" required="required"
 				placeholder="Enter Team Business" />
 		</div>

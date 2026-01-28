@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	
 	BranchNameDropdown();
 	GroupNameDropdown();
 
@@ -29,7 +30,7 @@ $(document).ready(function() {
 		}
 		$("#openingBalanceType").val(drcr); // ✅ just set value
 		const $accountType = $("#accountType");
-		$accountType.empty().append('<option value="">Select Type</option>');
+		$accountType.empty().append('<option value="">SELECT TYPE</option>');
 
 		if (group && allowedCombinations[group]) {
 			allowedCombinations[group].forEach(type => {
@@ -151,52 +152,68 @@ function saveLedger() {
 }
 
 // Load data table
+let allLedgers = [];
 function loadLedgerData() {
 	$.ajax({
 		type: "GET",
 		url: "accountManagement/all",
 		contentType: "application/json",
 		success: function(response) {
-			const ledgers = response.data;
-			const tbody = $("#tableBody");
-			tbody.empty();
-
-			if (Array.isArray(ledgers) && ledgers.length > 0) {
-				$.each(ledgers, function(index, ledger) {
-					const row = `
-                        <tr>
-                            <td>${ledger.accountId || ''}</td>
-                            <td>${ledger.accountCode || ''}</td>
-                            <td>${ledger.accountTitle || ''}</td>
-                            <td>${ledger.groupName || ''}</td>
-                            <td>${ledger.accountType || ''}</td>
-                            <td>${ledger.openingBalance != null ? ledger.openingBalance.toFixed(2) : ''}</td>
-							<td>${ledger.openingBalanceType || ''}</td>
-							<td>${ledger.currentBalance != null ? ledger.currentBalance.toFixed(2) : ''}</td> <!-- ✅ NEW -->
-
-
-                            <td>${ledger.status || ''}</td>
-                            <td>${ledger.branchName || ''}</td>
-                            <td>
-                                <button class="iconbutton" onclick="viewLedger(${ledger.accountId})" title="View">
-                                    <i class="fa-solid fa-eye text-primary"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    `;
-					tbody.append(row);
-				});
-			} else {
-				tbody.append(`<tr><td colspan="9">No ledgers found.</td></tr>`);
-			}
+			allLedgers = response.data || [];   // 👈 store data globally
+			renderLedgerTable(allLedgers);      // 👈 common render function
 		},
 		error: function(xhr) {
 			const err = xhr.responseJSON;
 			const message = err && err.message ? err.message : "Failed to load ledger account list.";
-			alert(message);
-			$("#tableBody").html(`<tr><td colspan="9">${message}</td></tr>`);
+			$("#tableBody").html(`<tr><td colspan="11">${message}</td></tr>`);
 		}
 	});
+}
+function renderLedgerTable(ledgers) {
+	const tbody = $("#tableBody");
+	tbody.empty();
+
+	if (ledgers.length === 0) {
+		tbody.append(`<tr><td colspan="11" class="text-center">No ledgers found.</td></tr>`);
+		return;
+	}
+
+	$.each(ledgers, function(index, ledger) {
+		const row = `
+			<tr>
+				<td>${ledger.accountId || ''}</td>
+				<td>${ledger.accountCode || ''}</td>
+				<td>${(ledger.accountTitle || '').toUpperCase()}</td>
+				<td>${(ledger.groupName || '').toUpperCase()}</td>
+				<td>${(ledger.accountType || '').toUpperCase()}</td>
+				<td>${ledger.openingBalance != null ? ledger.openingBalance.toFixed(2) : ''}</td>
+				<td>${(ledger.openingBalanceType || '').toUpperCase()}</td>
+				<td>${ledger.currentBalance != null ? ledger.currentBalance.toFixed(2) : ''}</td>
+				<td>${(ledger.status || '').toUpperCase()}</td>
+				<td>${(ledger.branchName || '').toUpperCase()}</td>
+				<td>
+					<button class="iconbutton" onclick="viewLedger(${ledger.accountId})">
+						<i class="fa-solid fa-eye text-primary"></i>
+					</button>
+				</td>
+			</tr>
+		`;
+		tbody.append(row);
+	});
+}
+function searchLedger() {
+	let keyword = $("#ledgerSearch").val().toLowerCase();
+
+	let filteredData = allLedgers.filter(ledger =>
+		(ledger.accountCode || '').toLowerCase().includes(keyword) ||
+		(ledger.accountTitle || '').toLowerCase().includes(keyword) ||
+		(ledger.groupName || '').toLowerCase().includes(keyword) ||
+		(ledger.accountType || '').toLowerCase().includes(keyword) ||
+		(ledger.status || '').toLowerCase().includes(keyword) ||
+		(ledger.branchName || '').toLowerCase().includes(keyword)
+	);
+
+	renderLedgerTable(filteredData);
 }
 
 // View ledger by ID
@@ -232,7 +249,7 @@ function BranchNameDropdown() {
 		contentType: "application/json",
 		url: 'api/preference/getAllBranchModule',
 		success: function(response) {
-			let options = "<option value=''>Select Branch Name</option>";
+			let options = "<option value=''>SELECT BRANCH NAME</option>";
 			if (response && Array.isArray(response.data)) {
 				response.data.forEach(branch => {
 					options += `<option value='${branch.branchName}'>${branch.branchName}</option>`;
@@ -254,7 +271,7 @@ function GroupNameDropdown() {
 		url: 'accountManagement/groupNames',
 		success: function(response) {
 			const groupNames = response.data;
-			let options = "<option value=''>Select Group Name</option>";
+			let options = "<option value=''>SELECT GROUP NAME</option>";
 			groupNames.forEach(group => {
 				options += `<option value='${group}'>${group}</option>`;
 			});
