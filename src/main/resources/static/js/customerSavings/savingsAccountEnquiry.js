@@ -85,16 +85,16 @@ function renderTable(data) {
                 
                <td>${value.accountNumber}</td>
 									<td>${value.typeofaccount}</td>
-			                        <td>${value.selectByCustomer}</td>
-			                        <td>${value.enterCustomerName}</td>
+			                        <td>${(value.selectByCustomer).toUpperCase()}</td>
+			                        <td>${(value.enterCustomerName).toUpperCase()}</td>
 									<td>${value.contactNumber}</td>
-									<td>${value.branchName}</td>
-									<td>${value.address}</td>
-									<td>${value.district}</td>
-									<td>${value.state}</td>
+									<td>${(value.branchName).toUpperCase()}</td>
+									<td>${(value.address).toUpperCase()}</td>
+									<td>${(value.district).toUpperCase()}</td>
+									<td>${(value.state).toUpperCase()}</td>
 									<td>${value.openingDate}</td>
 									<td>${value.financialConsultantCode}</td>
-									<td>${value.selectPlan}</td>
+									<td>${(value.selectPlan).toUpperCase()}</td>
 									<td>${value.approved}</td>
             </tr>`
 		);
