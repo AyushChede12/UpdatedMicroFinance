@@ -30,22 +30,32 @@ $(document).ready(function() {
 // 🔍 Filtering Logic
 function filterCustomers() {
 
-	var selectedBranch = $('#branchName').val().toLowerCase();
-	var customerName = $('#customerName').val().toLowerCase();
+    var selectedBranch = $('#branchName').val().toLowerCase();
+    var searchName = $('#customerName').val().toLowerCase();
 
-	var filteredData = allCustomers.filter(function(customer) {
+    var filteredData = allCustomers.filter(function(customer) {
 
-		var branchMatch = !selectedBranch ||
-			(customer.branchName && customer.branchName.toLowerCase().includes(selectedBranch));
+        // Branch match
+        var branchMatch = !selectedBranch ||
+            (customer.branchName &&
+             customer.branchName.toLowerCase().includes(selectedBranch));
 
-		var nameMatch = !customerName ||
-			(customer.customerName && customer.customerName.toLowerCase().includes(customerName));
+        // 🔑 Full name build
+        var fullName = [
+            customer.firstName,
+            customer.middleName,
+            customer.lastName
+        ].filter(Boolean).join(" ").toLowerCase();
 
-		return branchMatch && nameMatch;
-	});
+        // Name match
+        var nameMatch = !searchName || fullName.includes(searchName);
 
-	renderTable(filteredData);
+        return branchMatch && nameMatch;
+    });
+
+    renderTable(filteredData);
 }
+
 
 // 📋 Table Rendering
 function renderTable(data) {
