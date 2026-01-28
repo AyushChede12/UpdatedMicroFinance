@@ -1,48 +1,108 @@
-//Janvi : Save Designation
-function saveDesignation() {
-	const formData = {
-		designationName: $('input[name="designationName"]').val()
-	};
+// ============================================
+// ✅ DOCUMENT READY – LOAD DESIGNATION LIST
+// ============================================
+$(document).ready(function () {
 
-	$.ajax({
-		type: "POST",
-		url: "saveDesignation", // Make sure the context path is correct
-		contentType: "application/json",
-		data: JSON.stringify(formData),
-		success: function(response) {
-			alert("success");
-			if (response === "success") {
-				alert("designation Saved Successfully");
-				location.reload();
-			}
-		},
-		error: function(xhr, status, error) {
-			$('#responseMessage').text("Error: " + xhr.responseText);
-		}
-	});
+    loadDesignationList();
+
+});
+
+
+// ============================================
+// ✅ LOAD DESIGNATION LIST
+// ============================================
+function loadDesignationList() {
+
+    $.ajax({
+        url: "getDesignationList",
+        type: "GET",
+        contentType: "application/json",
+        success: function (data) {
+
+            var tbody = $(".datatable tbody");
+            tbody.empty();
+
+            $.each(data, function (index, item) {
+                var row = `
+                    <tr style="font-family: 'Poppins', sans-serif;">
+                        <th scope="row">${index + 1}</th>
+                        <td>${item.designationName || ''}</td>
+                    </tr>`;
+                tbody.append(row);
+            });
+        },
+        error: function (xhr, status, error) {
+            console.error("Error fetching data:", error);
+            alert("Failed to load Designation data");
+        }
+    });
 }
 
-//Janvi : Get All Data From Designation table
-$(document).ready(function() {
-	$.ajax({
-		url: "getDesignationList",
-		type: "GET",
-		contentType: "application/json",
-		success: function(data) {
-			var tbody = $(".datatable tbody");
-			tbody.empty(); // Clear existing rows
 
-			$.each(data, function(index, item) {
-				var row = `<tr style="font-family: 'Poppins', sans-serif;">
-              <th scope="row"><a href="#">${index + 1}</a></th>
-              <td>${item.designationName || ''}</td>
-            </tr>`;
-				tbody.append(row);
-			});
-		},
-		error: function(xhr, status, error) {
-			console.error("Error fetching data:", error);
-			alert("Failed to load Designation module data.");
-		}
-	});
-});
+// ============================================
+// ✅ SAVE DESIGNATION
+// ============================================
+function saveDesignation() {
+
+    // 🔴 IMPORTANT: Validation call
+    if (!validateDesignationForm()) {
+        return false;   // ⛔ Stop execution
+    }
+
+    const formData = {
+        designationName: $("#designationName").val().trim()
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "saveDesignation",
+        contentType: "application/json",
+        data: JSON.stringify(formData),
+        success: function (response) {
+
+            alert("Designation Saved Successfully");
+
+            // clear input
+            $("#designationName").val("");
+
+            // reload table
+            loadDesignationList();
+        },
+        error: function (xhr) {
+            alert("Error: " + xhr.responseText);
+        }
+    });
+}
+
+
+// ============================================
+// ✅ DESIGNATION VALIDATION FUNCTION
+// ============================================
+function validateDesignationForm() {
+
+    // clear error
+    $("#chkdesignationname").text("");
+
+    let designationName = $("#designationName").val().trim();
+
+    // ==========================
+    // ✅ Required Validation
+    // ==========================
+    if (designationName === "") {
+        $("#chkdesignationname").text("* Designation Name is required");
+        $("#designationName").focus();
+        return false;
+    }
+
+    // ==========================
+    // ✅ Alphabets only
+    // ==========================
+    let namePattern = /^[A-Za-z ]+$/;
+    if (!namePattern.test(designationName)) {
+        $("#chkdesignationname").text("* Only alphabets allowed");
+        $("#designationName").focus();
+        return false;
+    }
+
+    return true;
+}
