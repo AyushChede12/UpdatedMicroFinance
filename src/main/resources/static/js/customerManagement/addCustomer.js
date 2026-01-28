@@ -30,7 +30,7 @@ $(document).ready(function() {
 		$("[id^='chk']").text('');
 		let isValid = true;
 
-		/* ===============================
+		 /*===============================
 		   TEXT FIELD VALIDATION
 		================================ */
 		function validateText(fieldId, chkId, message) {
@@ -71,7 +71,7 @@ $(document).ready(function() {
 			return file;
 		}
 
-		/* ===============================
+		 /*===============================
 		   TEXT VALIDATIONS
 		================================ */
 		validateText('authenticateFor', 'chkauthenticatefor', 'Please select authenticate for');
@@ -165,7 +165,7 @@ $(document).ready(function() {
 		validateText('nomineeKycNo', 'chknomineekycno', 'Please enter nominee Kyc No(if not type NA)');
 		validateText('nomineeKycType', 'chknoimneekyctype', 'Please select nominee kyc type');
 
-		/* ===============================
+		 /*===============================
 		   STOP IF INVALID
 		================================ */
 		if (!isValid) return false;
@@ -257,14 +257,14 @@ $(document).ready(function() {
 		formData.append("smsSend", $('#toggle-sms-status').is(":checked") ? "1" : "0");
 
 		// ✅ Auto domain + context path
-		const fullUrl = window.location.origin + "api/customermanagement/saveOrUpdateCustomer";
+		//const fullUrl = window.location.origin + "/api/customermanagement/saveOrUpdateCustomer";
 
-		console.log("POST to URL: ", fullUrl);
+		//console.log("POST to URL: ", fullUrl);
 
 		// AJAX call
 		$.ajax({
 			type: 'POST',
-			url: fullUrl,
+			url: 'api/customermanagement/saveOrUpdateCustomer',
 			data: formData,
 			processData: false,
 			contentType: false,
@@ -846,6 +846,8 @@ function ifMinor() {
 	else {
 		$("#guardianDetails").hide();
 		$("#guardianAccountNo").hide();
+		$("#guardianAccountNo").val(null);
+		$("#guardianDetails").val(null);
 	}
 }
 
