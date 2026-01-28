@@ -134,9 +134,15 @@
 				<div class="card recent-sales">
 
 					<div class="card-body table-responsive">
-						<h5 class="card-title">
-							LEDGER LIST <span>| TABLE VIEW</span>
-						</h5>
+						<div
+							class="d-flex justify-content-between align-items-center mb-3">
+							<h5 class="card-title mb-0">
+								LEDGER LIST <span>| TABLE VIEW</span>
+							</h5>
+
+							<input type="text" id="ledgerSearch" class="form-control w-25"
+								placeholder="Search Ledger..." onkeyup="searchLedger()">
+						</div>
 
 						<table class="table table-borderless datatable overflow-scroll">
 							<thead class="table-light">
@@ -159,7 +165,7 @@
 
 							</tbody>
 						</table>
-						
+
 					</div>
 				</div>
 			</div>

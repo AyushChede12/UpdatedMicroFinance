@@ -83,7 +83,7 @@
 			<div class="d-flex flex-column formFields mb-4">
 				<label for="">VOUCHER ID <span class="star">*</span>
 				</label> <input type="text" name="voucherID" id="voucherID"
-					placeholder="ENTER VOUCHER ID." disabled />
+					placeholder="ENTER VOUCHER ID." readonly="readonly" />
 
 			</div>
 		</div>

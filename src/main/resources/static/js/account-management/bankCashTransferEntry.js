@@ -275,7 +275,7 @@ function BranchNameDropdown() {
 		contentType: "application/json",
 		url: 'api/preference/getAllBranchModule',
 		success: function(response) {
-			let options = "<option value=''>Select Branch Name</option>";
+			let options = "<option value=''>SELECT BRANCH NAME</option>";
 			// The actual branch array is inside response.data
 			if (response && Array.isArray(response.data)) {
 				response.data.forEach(branch => {
@@ -304,8 +304,8 @@ function BankCashLedgerDropdown(branchName, selectedCr = "", selectedDr = "") {
 		success: function(data) {
 			const ledgers = data.data || [];
 
-			let crOptions = "<option value=''>Select Credit Ledger</option>";
-			let drOptions = "<option value=''>Select Debit Ledger</option>";
+			let crOptions = "<option value=''>SELECT CREDIT LEDGER</option>";
+			let drOptions = "<option value=''>SELECT DEBIT LEDGER</option>";
 
 			ledgers.forEach(ledger => {
 				const g = (ledger.groupName || "").toLowerCase();

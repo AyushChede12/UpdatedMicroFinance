@@ -64,7 +64,7 @@ function saveManualJournal() {
 			if (response?.status === "CREATED" || response.status == 201) {
 				alert(response.message || "Entry saved successfully.");
 				$("#formid")[0].reset();
-				$("#creditLedger, #debitLedger").html("<option value=''>Select Ledger</option>");
+				$("#creditLedger, #debitLedger").html("<option value=''>SELECT LEDGER</option>");
 				if (response.data?.voucherID) {
 					$("#voucherID").val(response.data.voucherID);
 				}
@@ -103,13 +103,13 @@ function loadManualJournalData() {
 				tbody.append(`
           <tr>
             <td>${entry.id || ''}</td>
-            <td>${entry.branchName || ''}</td>
-            <td>${entry.voucherID ?? ''}</td>
-            <td>${entry.dateOfEntry || ''}</td>
-            <td>${entry.creditLedger || ''}</td>
-            <td>${entry.debitLedger || ''}</td>
-            <td>${entry.transactionAmount || ''}</td>
-            <td>${entry.remarks || ''}</td>
+            <td>${(entry.branchName).toUpperCase() || ''}</td>
+            <td>${(entry.voucherID).toUpperCase() ?? ''}</td>
+            <td>${(entry.dateOfEntry).toUpperCase() || ''}</td>
+            <td>${(entry.creditLedger).toUpperCase() || ''}</td>
+            <td>${(entry.debitLedger).toUpperCase() || ''}</td>
+            <td>${(entry.transactionAmount).toUpperCase() || ''}</td>
+            <td>${(entry.remarks).toUpperCase() || ''}</td>
             <td>
               <button class="iconbutton" onclick="viewManualJournal(${entry.id})" title="View">
                 <i class="fa-solid fa-eye text-primary"></i>
@@ -196,13 +196,13 @@ function searchManualJournal() {
 				tbody.append(`
           <tr>
             <td>${entry.id || ''}</td>
-            <td>${entry.branchName || ''}</td>
-            <td>${entry.voucherID ?? ''}</td>
-            <td>${entry.dateOfEntry || ''}</td>
-            <td>${entry.creditLedger || ''}</td>
-            <td>${entry.debitLedger || ''}</td>
-            <td>${entry.transactionAmount || ''}</td>
-            <td>${entry.remarks || ''}</td>
+            <td>${(entry.branchName).toUpperCase() || ''}</td>
+            <td>${(entry.voucherID).toUpperCase() ?? ''}</td>
+            <td>${(entry.dateOfEntry).toUpperCase() || ''}</td>
+            <td>${(entry.creditLedger).toUpperCase() || ''}</td>
+            <td>${(entry.debitLedger).toUpperCase() || ''}</td>
+            <td>${(entry.transactionAmount).toUpperCase() || ''}</td>
+            <td>${(entry.remarks).toUpperCase() || ''}</td>
             <td>
               <button class="iconbutton" onclick="viewManualJournal(${entry.id})" title="View">
                 <i class="fa-solid fa-eye text-primary"></i>
@@ -230,7 +230,7 @@ function BranchNameDropdown() {
 		contentType: "application/json",
 		url: 'api/preference/getAllBranchModule',
 		success: function(response) {
-			let options = "<option value=''>Select Branch Name</option>";
+			let options = "<option value=''>--SELECT BRANCH NAME--</option>";
 			if (response && Array.isArray(response.data)) {
 				response.data.forEach(branch => {
 					options += `<option value='${branch.branchName}'>${branch.branchName}</option>`;

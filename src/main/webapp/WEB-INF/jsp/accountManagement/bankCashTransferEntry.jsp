@@ -72,7 +72,7 @@
 				<label for="">BRANCH NAME <span class="star">*</span></label> <select
 					id="entryBranchName" name="entryBranchName" required="required"
 					class="form-control selectField" style="height: 30px;">
-					<option value="">SELECT BRANCH</option>
+					<option value="">SELECT BRANCH NAME</option>
 				</select>
 			</div>
 		</div>
