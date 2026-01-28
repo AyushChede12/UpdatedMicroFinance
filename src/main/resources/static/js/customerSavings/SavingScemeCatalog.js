@@ -79,8 +79,8 @@ $(document).ready(function () {
                         const row = `
                             <tr>
                                 <td>${index + 1}</td>
-                                <td>${item.policyName}</td>
-                                <td>${item.customerName}</td>
+                                <td>${(item.policyName).toUpperCase()}</td>
+                                <td>${(item.customerName).toUpperCase()}</td>
                                 <td>${item.initialDeposite}</td>
                                 <td>${item.monthlyMinimumBalance}</td>
                                 <td>${item.dailyLimit}</td>
