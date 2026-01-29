@@ -146,48 +146,149 @@ function getFormData() {
         yearlyCardLimit: $("#yearlyCardLimit").val()
     };
 }
+$(document).ready(function () {
+
+    /* ===== ERROR TEXT CSS ===== */
+    $("<style>")
+        .prop("type", "text/css")
+        .html(`
+            .error-text{
+                color:red;
+                font-size:12px;
+                margin-top:4px;
+                display:block;
+            }
+        `)
+        .appendTo("head");
 
 
-// ================= VALIDATION =================
-function validateForm() {
+    /* ===== AUTO ERROR SPANS ===== */
+    $("#savingForm input, #savingForm select").each(function () {
+        let id = $(this).attr("id");
+        if (id && $("#" + id + "Error").length === 0) {
+            $(this).after(`<span class="error-text" id="${id}Error"></span>`);
+        }
+    });
 
-    if ($("#policyName").val().trim() === "") {
-        alert("Policy Name is required");
-        $("#policyName").focus();
-        return false;
-    }
 
-    if ($("#customerName").val().trim() === "") {
-        alert("Customer Name is required");
-        $("#customerName").focus();
-        return false;
-    }
+    /* ===== VALIDATION ===== */
+    window.validateForm = function () {
 
-    if ($("#initialDeposit").val() === "" || $("#initialDeposit").val() <= 0) {
-        alert("Initial Deposit must be greater than 0");
-        $("#initialDeposit").focus();
-        return false;
-    }
+        let isValid = true;
+        $(".error-text").text("");
 
-    if ($("#minimumOpeningBalance").val() === "" || $("#minimumOpeningBalance").val() <= 0) {
-        alert("Monthly Minimum Balance must be greater than 0");
-        $("#minimumOpeningBalance").focus();
-        return false;
-    }
+        function error(id, msg) {
+            $("#" + id + "Error").text(msg);
+            if (isValid) $("#" + id).focus();
+            isValid = false;
+        }
 
-    if ($("#dailyLimit").val() === "" || $("#dailyLimit").val() <= 0) {
-        alert("Daily Limit must be greater than 0");
-        $("#dailyLimit").focus();
-        return false;
-    }
+        /* ===== TEXT ===== */
+        if ($("#policyName").val().trim() === "") {
+            error("policyName", "Policy name is required");
+        }
 
-    if ($("#monthlyCardLimit").val() === "" || $("#yearlyCardLimit").val() === "") {
-        alert("Monthly & Yearly Card Limit are required");
-        return false;
-    }
+        if ($("#customerName").val().trim() === "") {
+            error("customerName", "Customer name is required");
+        }
 
-    return true;
-}
+        /* ===== REQUIRED NUMBERS ===== */
+        if ($("#yearlyROI").val() === "" || Number($("#yearlyROI").val()) <= 0) {
+            error("yearlyROI", "Enter valid yearly ROI");
+        }
+
+        if ($("#initialDeposit").val() === "" || Number($("#initialDeposit").val()) <= 0) {
+            error("initialDeposit", "Initial deposit must be greater than 0");
+        }
+
+        if ($("#minimumOpeningBalance").val() === "" ||
+            Number($("#minimumOpeningBalance").val()) <= 0) {
+            error("minimumOpeningBalance", "Minimum opening balance required");
+        }
+
+        if ($("#dailyLimit").val() === "" || Number($("#dailyLimit").val()) <= 0) {
+            error("dailyLimit", "Daily limit required");
+        }
+
+        if ($("#weeklyLimit").val() === "" || Number($("#weeklyLimit").val()) <= 0) {
+            error("weeklyLimit", "Weekly limit required");
+        }
+
+        if ($("#monthlyLimit").val() === "" || Number($("#monthlyLimit").val()) <= 0) {
+            error("monthlyLimit", "Monthly limit required");
+        }
+
+        if ($("#monthlyCardLimit").val() === "" || Number($("#monthlyCardLimit").val()) <= 0) {
+            error("monthlyCardLimit", "Monthly card limit required");
+        }
+
+        if ($("#yearlyCardLimit").val() === "" || Number($("#yearlyCardLimit").val()) <= 0) {
+            error("yearlyCardLimit", "Yearly card limit required");
+        }
+
+        /* ===== OPTIONAL NUMBERS ===== */
+        if ($("#reservedFunds").val() !== "" &&
+            Number($("#reservedFunds").val()) < 0) {
+            error("reservedFunds", "Invalid reserved funds");
+        }
+
+        if ($("#monthlyFreeIFSC").val() !== "" &&
+            Number($("#monthlyFreeIFSC").val()) < 0) {
+            error("monthlyFreeIFSC", "Invalid IFSC transactions");
+        }
+
+        if ($("#freeMoneyTransfers").val() !== "" &&
+            Number($("#freeMoneyTransfers").val()) < 0) {
+            error("freeMoneyTransfers", "Invalid free transfers");
+        }
+
+        if ($("#limitPerTransaction").val() !== "" &&
+            Number($("#limitPerTransaction").val()) <= 0) {
+            error("limitPerTransaction", "Invalid per transaction limit");
+        }
+
+        if ($("#serviceFee").val() !== "" &&
+            Number($("#serviceFee").val()) < 0) {
+            error("serviceFee", "Invalid service fee");
+        }
+
+        if ($("#cardFee").val() !== "" &&
+            Number($("#cardFee").val()) < 0) {
+            error("cardFee", "Invalid card fee");
+        }
+
+        /* ===== SELECT ===== */
+        if ($("#messagingFees").val() === "") {
+            error("messagingFees", "Select messaging fees");
+        }
+
+        if ($("#messagingFees").val() === "YES" &&
+            $("#messagingInterval").val() === "") {
+            error("messagingInterval", "Select messaging interval");
+        }
+
+        if ($("#billingCycle").val() === "") {
+            error("billingCycle", "Select billing cycle");
+        }
+
+        /* ===== LOGICAL CHECK ===== */
+        if (
+            Number($("#monthlyCardLimit").val()) >
+            Number($("#yearlyCardLimit").val())
+        ) {
+            error("monthlyCardLimit", "Monthly card limit cannot exceed yearly limit");
+        }
+
+        return isValid;
+    };
+
+
+    /* ===== CLEAR ERROR ON INPUT ===== */
+    $("#savingForm").on("input change", "input, select", function () {
+        $("#" + this.id + "Error").text("");
+    });
+
+});
 
 
 // ================= VIEW / EDIT =================
