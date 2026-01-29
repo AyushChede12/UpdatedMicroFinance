@@ -2,6 +2,7 @@
 package com.microfinance.service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -24,10 +26,12 @@ import org.springframework.stereotype.Service;
 
 import com.microfinance.dto.BankCashTransferDto;
 import com.microfinance.dto.IncomingReceiptDto;
+import com.microfinance.dto.JournalEntryReportDto;
 import com.microfinance.dto.LedgerAccountDto;
 import com.microfinance.dto.LedgerSummaryDto;
 import com.microfinance.dto.ManualJournalDto;
 import com.microfinance.dto.OutgoingPaymentDto;
+import com.microfinance.dto.TrialBalanceReportDto;
 import com.microfinance.exception.BadRequestException;
 import com.microfinance.exception.BusinessLogicException;
 import com.microfinance.exception.ResourceNotFoundException;
@@ -39,10 +43,12 @@ import com.microfinance.model.OutgoingPaymentEntry;
 import com.microfinance.repository.BankCashTransferRepo;
 import com.microfinance.repository.BranchModuleRepo;
 import com.microfinance.repository.IncomingReceiptRepo;
+import com.microfinance.repository.JournalEntryReportRepo;
 import com.microfinance.repository.LedgerAccountRepository;
 import com.microfinance.repository.LedgerSummaryRepo;
 import com.microfinance.repository.ManualJournalRepo;
 import com.microfinance.repository.OutgoingPaymentRepo;
+import com.microfinance.repository.TrialBalanceReportRepo;
 
 @Service
 public class AccountManagementService {
@@ -67,6 +73,13 @@ public class AccountManagementService {
 
 	@Autowired
 	private LedgerSummaryRepo ledgerSummaryRepo;
+
+	@Autowired
+	private JournalEntryReportRepo journalEntryReportRepo;
+	
+	@Autowired
+	private TrialBalanceReportRepo trialBalanceReportRepo;
+
 
 	/**
 	 * Create a new Ledger Account. Business Logic: - Title must be unique per
@@ -1250,7 +1263,7 @@ public class AccountManagementService {
 			dto.setVoucherId(t.getVoucherID());
 			dto.setRemarks(t.getRemarks());
 			dto.setAccountCode(accountCode);
-			
+
 			if (ledger.equalsIgnoreCase(t.getCreditLedger())) {
 				dto.setCredit(new BigDecimal(t.getTransactionAmount()).toPlainString());
 				dto.setDebit(BigDecimal.ZERO.toPlainString());
@@ -1268,8 +1281,6 @@ public class AccountManagementService {
 			dto.setRemarks(j.getRemarks());
 			dto.setAccountCode(accountCode);
 
-			
-
 			if (ledger.equalsIgnoreCase(j.getCreditLedger())) {
 				dto.setCredit(new BigDecimal(j.getTransactionAmount()).toPlainString());
 				dto.setDebit(BigDecimal.ZERO.toPlainString());
@@ -1277,13 +1288,13 @@ public class AccountManagementService {
 				dto.setDebit(new BigDecimal(j.getTransactionAmount()).toPlainString());
 				dto.setCredit(BigDecimal.ZERO.toPlainString());
 			}
-			
+
 			summaryList.add(dto);
 		}
 
 		// Add Opening & Closing Balances
 		// --- Add Opening and Closing Balances ---
-        Optional<LedgerAccountMaster> ledgerAccount = ledgerAccountRepository.findByAccountTitleAndBranchName(ledger,
+		Optional<LedgerAccountMaster> ledgerAccount = ledgerAccountRepository.findByAccountTitleAndBranchName(ledger,
 				branch);
 		ledgerAccount.ifPresent(account -> {
 			final BigDecimal opening = account.getOpeningBalance();
@@ -1294,8 +1305,201 @@ public class AccountManagementService {
 				s.setClosingBalance(current);
 			}
 		});
-      
+
 		return summaryList;
 	}
+
+	public Map<String, Object> getJournalEntryReport(String branch, String voucherType, LocalDate startDate,
+			LocalDate endDate) {
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String startDateStr = startDate.format(formatter);
+		String endDateStr = endDate.format(formatter);
+
+		List<JournalEntryReportDto> entries = new ArrayList<>();
+		BigDecimal totalDebit = BigDecimal.ZERO;
+		BigDecimal totalCredit = BigDecimal.ZERO;
+
+		switch (voucherType.toLowerCase()) {
+		case "payment":
+			List<OutgoingPaymentEntry> outgoing = journalEntryReportRepo.findAllOutgoing(branch, startDateStr,
+					endDateStr);
+			for (OutgoingPaymentEntry o : outgoing) {
+				BigDecimal amount = o.getTransactionAmount() != null ? new BigDecimal(o.getTransactionAmount())
+						: BigDecimal.ZERO;
+				// Debit entry
+				if (o.getDebitLedger() != null && !o.getDebitLedger().isEmpty()) {
+					JournalEntryReportDto debitDto = mapEntryToDto(o.getDateOfEntry(), o.getVoucherID(), o.getRemarks(),
+							branch, o.getDebitLedger(), null, amount);
+					entries.add(debitDto);
+					totalDebit = totalDebit.add(amount);
+				}
+
+				// Credit entry
+				if (o.getCreditLedger() != null && !o.getCreditLedger().isEmpty()) {
+					JournalEntryReportDto creditDto = mapEntryToDto(o.getDateOfEntry(), o.getVoucherID(),
+							o.getRemarks(), branch, null, o.getCreditLedger(), amount);
+					entries.add(creditDto);
+					totalCredit = totalCredit.add(amount);
+				}
+			}
+			break;
+
+		case "receipt":
+			List<IncomingReceiptEntry> incoming = journalEntryReportRepo.findAllIncoming(branch, startDateStr,
+					endDateStr);
+			for (IncomingReceiptEntry i : incoming) {
+				BigDecimal amount = i.getTransactionAmount() != null ? new BigDecimal(i.getTransactionAmount())
+						: BigDecimal.ZERO;
+				if (i.getDebitLedger() != null && !i.getDebitLedger().isEmpty()) {
+					JournalEntryReportDto debitDto = mapEntryToDto(i.getDateOfEntry(), i.getVoucherID(), i.getRemarks(),
+							branch, i.getDebitLedger(), null, amount);
+					entries.add(debitDto);
+					totalDebit = totalDebit.add(amount);
+				}
+
+				if (i.getCreditLedger() != null && !i.getCreditLedger().isEmpty()) {
+					JournalEntryReportDto creditDto = mapEntryToDto(i.getDateOfEntry(), i.getVoucherID(),
+							i.getRemarks(), branch, null, i.getCreditLedger(), amount);
+					entries.add(creditDto);
+					totalCredit = totalCredit.add(amount);
+				}
+			}
+			break;
+
+		case "contra":
+			List<BankCashTransferEntry> transfers = journalEntryReportRepo.findAllTransfers(branch, startDateStr,
+					endDateStr);
+			for (BankCashTransferEntry t : transfers) {
+				BigDecimal amount = t.getTransactionAmount() != null ? new BigDecimal(t.getTransactionAmount())
+						: BigDecimal.ZERO;
+				if (t.getDebitLedger() != null && !t.getDebitLedger().isEmpty()) {
+					JournalEntryReportDto debitDto = mapEntryToDto(t.getDateOfEntry(), t.getVoucherID(), t.getRemarks(),
+							branch, t.getDebitLedger(), null, amount);
+					entries.add(debitDto);
+					totalDebit = totalDebit.add(amount);
+				}
+
+				if (t.getCreditLedger() != null && !t.getCreditLedger().isEmpty()) {
+					JournalEntryReportDto creditDto = mapEntryToDto(t.getDateOfEntry(), t.getVoucherID(),
+							t.getRemarks(), branch, null, t.getCreditLedger(), amount);
+					entries.add(creditDto);
+					totalCredit = totalCredit.add(amount);
+				}
+			}
+			break;
+
+		case "manual journal":
+			List<ManualJournalEntry> journals = journalEntryReportRepo.findJournalEntryReport(branch, startDateStr,
+					endDateStr);
+			for (ManualJournalEntry j : journals) {
+				BigDecimal amount = j.getTransactionAmount() != null ? new BigDecimal(j.getTransactionAmount())
+						: BigDecimal.ZERO;
+				if (j.getDebitLedger() != null && !j.getDebitLedger().isEmpty()) {
+					JournalEntryReportDto debitDto = mapEntryToDto(j.getDateOfEntry(), j.getVoucherID(), j.getRemarks(),
+							branch, j.getDebitLedger(), null, amount);
+					entries.add(debitDto);
+					totalDebit = totalDebit.add(amount);
+				}
+
+				if (j.getCreditLedger() != null && !j.getCreditLedger().isEmpty()) {
+					JournalEntryReportDto creditDto = mapEntryToDto(j.getDateOfEntry(), j.getVoucherID(),
+							j.getRemarks(), branch, null, j.getCreditLedger(), amount);
+					entries.add(creditDto);
+					totalCredit = totalCredit.add(amount);
+				}
+			}
+			break;
+
+		default:
+			// Unknown type
+			break;
+		}
+
+		Map<String, Object> response = new LinkedHashMap<>();
+		response.put("branchName", branch);
+		response.put("voucherType", voucherType);
+		response.put("startDate", startDateStr);
+		response.put("endDate", endDateStr);
+		response.put("entries", entries);
+
+		Map<String, String> totals = new LinkedHashMap<>();
+		totals.put("totalDebit", totalDebit.setScale(2, RoundingMode.HALF_UP).toPlainString());
+		totals.put("totalCredit", totalCredit.setScale(2, RoundingMode.HALF_UP).toPlainString());
+		response.put("totals", totals);
+
+		return response;
+	}
+
+	
+	private JournalEntryReportDto mapEntryToDto(String date, String voucherID, String remarks, String branch,
+			String debitLedger, String creditLedger, BigDecimal transactionAmount) {
+
+		JournalEntryReportDto dto = new JournalEntryReportDto();
+		dto.setDateOfEntry(date);
+		dto.setVoucherID(voucherID);
+		dto.setRemarks(remarks);
+
+// pick correct ledger name
+		String ledgerName = debitLedger != null ? debitLedger : creditLedger;
+
+// fetch account code from master
+		String accountCode = ledgerAccountRepository.findByAccountTitleAndBranchName(ledgerName, branch)
+				.map(LedgerAccountMaster::getAccountCode).orElse("");
+
+		dto.setAccountCode(accountCode);
+
+		if (debitLedger != null) {
+			dto.setDebit(transactionAmount.setScale(2, RoundingMode.HALF_UP).toPlainString());
+			dto.setCredit("0.00");
+		} else {
+			dto.setDebit("0.00");
+			dto.setCredit(transactionAmount.setScale(2, RoundingMode.HALF_UP).toPlainString());
+		}
+
+		return dto;
+	}
+	
+	
+	public List<TrialBalanceReportDto> getTrialBalance(String branch, LocalDate startDate, LocalDate endDate) {
+
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	    String start = startDate.format(formatter);
+	    String end = endDate.format(formatter);
+
+	    List<Object[]> rows = trialBalanceReportRepo.fetchTrialBalanceEntries(branch, start, end);
+
+	    List<TrialBalanceReportDto> result = new ArrayList<>();
+
+	    for (Object[] r : rows) {
+
+	        String ledgerName = (String) r[0];
+	        String debit = r[1] != null ? r[1].toString() : "0";
+	        String credit = r[2] != null ? r[2].toString() : "0";
+
+	        // Fetch opening & closing from Ledger Master
+	        LedgerAccountMaster master = ledgerAccountRepository
+	                .findByAccountTitleAndBranchName(ledgerName, branch)
+	                .orElse(null);
+
+	        String opening = master != null ? master.getOpeningBalance().toPlainString() : "0";
+	        String closing = master != null ? master.getCurrentBalance().toPlainString() : "0";
+	        String accountCode = master != null ? master.getAccountCode() : "";
+
+	        TrialBalanceReportDto dto = new TrialBalanceReportDto();
+	       
+	        dto.setLedgerName(ledgerName);
+	        dto.setAccountCode(accountCode);
+	        dto.setOpening(opening);
+	        dto.setDebit(debit);
+	        dto.setCredit(credit);
+	        dto.setClosing(closing);
+
+	        result.add(dto);
+	    }
+
+	    return result;
+	}
+
 
 }

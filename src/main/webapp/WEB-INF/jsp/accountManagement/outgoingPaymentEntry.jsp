@@ -3,7 +3,7 @@
 	<h1>ACCOUNT MANAGEMENT</h1>
 	<nav>
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="openDashboard"> <i
+			<li class="breadcrumb-item"><a href="home"> <i
 					class="bi bi-wallet2"></i>
 			</a></li>
 			<li class="breadcrumb-item action">OUTGOING PAYMENT ENTRY</li>
@@ -25,7 +25,7 @@
 				<label for="">BRANCH NAME <span class="star">*</span></label> <select
 					id="searchBranchName" name="searchBranchName"
 					class="form-control selectField" style="height: 30px;">
-					<option value="">SELECT BRANCH NAME</option>
+					<option value="">--SELECT BRANCH NAME--</option>
 				</select>
 			</div>
 
@@ -34,16 +34,14 @@
 		<div class="col-lg-4">
 			<div class="d-flex flex-column formFields">
 				<label for="vehicalNo">START DATE <span class="star">*</span></label>
-				<input type="date" name="startDate" id="startDate"
-					style="text-transform: uppercase;" />
+				<input type="date" name="startDate" id="startDate" />
 			</div>
 		</div>
 
 		<div class="col-lg-4">
 			<div class="d-flex flex-column formFields">
 				<label for="vehicalNo"> END DATE <span class="star">*</span></label>
-				<input type="date" name="endDate" id="endDate"
-					style="text-transform: uppercase;" />
+				<input type="date" name="endDate" id="endDate" />
 			</div>
 		</div>
 	</div>
@@ -73,7 +71,7 @@
 				<label for="">BRANCH NAME <span class="star">*</span></label> <select
 					id="entryBranchName" name="entryBranchName"
 					class="form-control selectField" style="height: 30px;">
-					<option value="">SELECT BRANCH NAME</option>
+					<option value="">--SELECT BRANCH NAME--</option>
 				</select>
 			</div>
 
@@ -83,7 +81,7 @@
 			<div class="d-flex flex-column formFields mb-4">
 				<label for="">VOUCHER ID <span class="star">*</span>
 				</label> <input type="text" name="voucherID" id="voucherID"
-					placeholder="ENTER VOUCHER ID." readonly="readonly" />
+					placeholder="ENTER VOUCHER ID" disabled />
 
 			</div>
 		</div>
@@ -101,7 +99,7 @@
 				<label for="creditLedger">CREDIT LEDGER (SOURCE)<span
 					class="star">*</span></label> <select id="creditLedger" name="creditLedger"
 					class="form-control selectField" style="height: 30px;">
-					<option value="">SELECT CREDIT LEDGER</option>
+					<option value="">--SELECT CREDIT LEDGER--</option>
 					<!-- Populate only Cash/Bank accounts of branch -->
 				</select>
 			</div>
@@ -112,7 +110,7 @@
 				<label for="debitLedger">DEBIT LEDGER (DESTINATION)<span
 					class="star">*</span></label> <select id="debitLedger" name="debitLedger"
 					class="form-control selectField" style="height: 30px;">
-					<option value="">SELECT DEBIT LEDGER</option>
+					<option value="">--SELECT DEBIT LEDGER--</option>
 					<!-- Populate Liabilities, Expenses, Equity (no Income) -->
 				</select>
 			</div>
@@ -125,7 +123,7 @@
 					id="transferMode" name="transferMode"
 					class="form-control selectField" style="height: 30px;"
 					onchange="toggleTransferFields(this.value)">
-					<option value="">SELECT TRANSFER MODE</option>
+					<option value="">--SELECT TRANSFER MODE--</option>
 					<option value="Cash">CASH</option>
 					<option value="Bank">BANK</option>
 					<option value="UPI">UPI</option>
@@ -165,7 +163,7 @@
 			<div class="d-flex flex-column formFields">
 				<label for="">TRANSACTION REF NO <span class="star">*</span></label>
 				<input type="text" name="transactionRef" id="transactionRef"
-					placeholder="ENTER TRANSACTION REF NO" />
+					placeholder="ENTER TRANSACTION REFERENCE NO" />
 			</div>
 		</div>
 
@@ -204,21 +202,21 @@
 		<div class="card recent-sales">
 
 			<div class="card-body table-responsive">
-				<h5 class="card-title">Search result</h5>
+				<h5 class="card-title">SEARCH RESULT</h5>
 
 				<table class="table table-borderless datatable overflow-scroll">
 					<thead class="table-light">
 						<tr style="font-family: 'Poppins', sans-serif;">
 							<th>ID</th>
-							<th style="white-space: nowrap;">BRANCH</th>
-							<th style="white-space: nowrap;">VOUCHER ID</th>
-							<th style="white-space: nowrap;">DATE</th>
-							<th style="white-space: nowrap;">CREDIT LEDGER</th>
-							<th style="white-space: nowrap;">DEBIT LEDGER</th>
-							<th style="white-space: nowrap;">MODE</th>
-							<th style="white-space: nowrap;">AMOUNT</th>
-							<th style="white-space: nowrap;">REMARKS</th>
-							<th style="white-space: nowrap;">VIEW</th>
+							<th scope="col">BRANCH</th>
+							<th scope="col">VOUCHER ID</th>
+							<th scope="col">DATE</th>
+							<th scope="col">CREDIT LEDGER</th>
+							<th scope="col">DEBIT LEDGER</th>
+							<th scope="col">MODE</th>
+							<th scope="col">AMOUNT</th>
+							<th scope="col">REMARKS</th>
+							<th scope="col">VIEW</th>
 
 						</tr>
 					</thead>
@@ -231,12 +229,11 @@
 	</div>
 </div>
 
-
+<script
+	src="${pageContext.request.contextPath}/js/account-management/outgoingPaymentEntry.js"></script>
 <script>
 	$(document).ready(function() {
 		BranchNameDropdown();
 		LedgerDropdown()
 	});
 </script>
-<script
-	src="${pageContext.request.contextPath}/js/account-management/outgoingPaymentEntry.js"></script>
