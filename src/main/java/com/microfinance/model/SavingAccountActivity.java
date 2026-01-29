@@ -177,6 +177,18 @@ public class SavingAccountActivity {
 	public void setApproved(boolean isApproved) {
 		this.isApproved = isApproved;
 	}
+	public void setAmount(String valueOf) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void setBalance(String valueOf) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void setRemark(String string) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 
