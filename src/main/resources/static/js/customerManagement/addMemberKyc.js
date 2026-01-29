@@ -22,16 +22,16 @@ function fetchBySelectedCustomer() {
 					c.lastName || ""
 				].filter(Boolean).join(" ");
 
-				$("#customerName").val(fullName);
+				$("#customerName").val(fullName.toUpperCase());
 
-				$("#memberCode").val(c.memberCode || "");
-				$("#contactNo").val(c.contactNo || "");
+				$("#memberCode").val((c.memberCode).toUpperCase() || "");
+				$("#contactNo").val((c.contactNo).toUpperCase() || "");
 				$("#singupDate").val(c.signupDate || "");
 				$("#aadharNo").val(c.aadharNo || "");
 				$("#pan").val(c.panNo || "");
-				$("#state").val(c.state || "");
-				$("#drivingLicenceNo").val(c.drivingLicenceNo || "");
-				$("#voterNo").val(c.voterNo || "");
+				$("#state").val((c.state).toUpperCase() || "");
+				$("#drivingLicenceNo").val((c.drivingLicenceNo).toUpperCase() || "");
+				$("#voterNo").val((c.voterNo).toUpperCase() || "");
 				$("#guardianName").val(c.guardianName || "");
 				$("#customerAddress").val(c.customerAddress || "");
 				$("#pinCode").val(c.pinCode || "");
@@ -209,7 +209,7 @@ $(document).ready(function() {
 
 				let dropdown = $("#selectByCode");
 				dropdown.empty(); // Clear old options
-				dropdown.append(`<option value="">-- Select Customer --</option>`);
+				dropdown.append(`<option value="">-- SELECT CUSTOMER --</option>`);
 
 				response.data.forEach(function(item) {
 					let fullName = [
@@ -220,7 +220,7 @@ $(document).ready(function() {
 
 					let optionHtml = `
 	                    <option value="${item.memberCode}">
-	                        ${item.memberCode} - ${fullName}
+	                        ${item.memberCode} - ${(fullName).toUpperCase()}
 	                    </option>
 	                `;
 

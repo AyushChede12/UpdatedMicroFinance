@@ -1,12 +1,12 @@
-$(document).ready(function () {
+$(document).ready(function() {
 
 	// ================= DATE SET =================
 	const today = new Date().toISOString().split('T')[0];
 
 	const dateIds = [
-		"#applicationDate", "#fromDate", "#toDate", "#approvalDate",
+		"#applicationDate", "#fromDate", "#toDate", "#approvalDate", "#startDate", "#endDate",
 		"#openingDate", "#transactionDate", "#signupDate",
-		"#dateOfTransfer", "#loanDate", "#paymentDate",
+		"#dateOfTransfer", "#loanDate", "#paymentDate", "#dateOfEntry",
 		"#closingDate", "#dateloan", "#transferDate"
 	];
 
@@ -21,7 +21,7 @@ $(document).ready(function () {
 		$.ajax({
 			url: "api/preference/getAllBranchModule",
 			type: "GET",
-			success: function (response) {
+			success: function(response) {
 				if (response.status === "FOUND") {
 					const branchList = response.data;
 
@@ -49,7 +49,7 @@ $(document).ready(function () {
 		$.ajax({
 			url: "api/preference/getAllRelativeModule",
 			type: "GET",
-			success: function (response) {
+			success: function(response) {
 				if (response.status === "FOUND") {
 					const list = response.data;
 
@@ -78,10 +78,10 @@ $(document).ready(function () {
 
 
 // ================= SIDEBAR TOGGLE =================
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
 	const toggleSidebarBtn = document.querySelector('.toggle-sidebar-btn');
 	if (toggleSidebarBtn) {
-		toggleSidebarBtn.addEventListener('click', function () {
+		toggleSidebarBtn.addEventListener('click', function() {
 			document.body.classList.toggle('toggle-sidebar');
 		});
 	}
@@ -110,11 +110,11 @@ function uploadImage() {
 }
 
 if (dropArea && inputFile) {
-	dropArea.addEventListener("dragover", function (e) {
+	dropArea.addEventListener("dragover", function(e) {
 		e.preventDefault();
 	});
 
-	dropArea.addEventListener("drop", function (e) {
+	dropArea.addEventListener("drop", function(e) {
 		e.preventDefault();
 		inputFile.files = e.dataTransfer.files;
 		uploadImage();
@@ -161,7 +161,7 @@ if (wrapper) {
 	}
 	addmajor();
 
-	window.updateName = function (selectedLi) {
+	window.updateName = function(selectedLi) {
 		selectBtn.firstElementChild.innerText = selectedLi.innerText;
 		wrapper.classList.remove("active");
 	};
