@@ -3,7 +3,7 @@
 	<h1>Account Management</h1>
 	<nav>
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="openDashboard"> <i
+			<li class="breadcrumb-item"><a href="home"> <i
 					class="bi bi-wallet2"></i>
 			</a></li>
 			<li class="breadcrumb-item action">P&L Statement</li>
@@ -11,8 +11,8 @@
 	</nav>
 </div>
 
-<div>
-	<form id="formid">
+<form id="formid">
+	<div>
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
@@ -48,14 +48,14 @@
 				</div>
 			</div>
 		</div>
-</div>
-
-<div class="row">
-	<div class="col-12 text-center mt-3">
-		<button id="searchBtn" class="btnStyle"
-			style="background-color: #FFA500;">Search</button>
 	</div>
-</div>
+
+	<div class="row">
+		<div class="col-12 text-center mt-3">
+			<button id="searchBtn" class="btnStyle"
+				style="background-color: #FFA500;">Search</button>
+		</div>
+	</div>
 </form>
 
 <div class="row mt-5">
@@ -80,5 +80,3 @@
 		</div>
 	</div>
 </div>
-<script
-	src="${pageContext.request.contextPath}/js/account-management/p&lStatement.js"></script>

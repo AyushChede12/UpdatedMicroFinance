@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>ACCOUNT MANAGEMENT</h1>
+	<h1>Account Management</h1>
 	<nav>
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="openDashboard"> <i
+			<li class="breadcrumb-item"><a href="home"> <i
 					class="bi bi-wallet2"></i>
 			</a></li>
-			<li class="breadcrumb-item action">INCENTIVE PAYMENT</li>
+			<li class="breadcrumb-item action">Incentive Payment</li>
 		</ol>
 	</nav>
 </div>
@@ -16,31 +16,32 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">SEARCH BOX</li>
+					<li class="breadcrumb-item action">Search Box</li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">INCENTIVE MONTH</label> <select id="incentiveMonth"
+						<label for="">Incentive Month</label> <select id="incentiveMonth"
 							name="incentiveMonth" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">SELECT MONTH NAME</option>
+							<option value="">Select Month Name</option>
+							<option value="Blue">Blue</option>
 						</select>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">AGENT CODE</label> <input type="text"
+						<label for="">Agent Code</label> <input type="text"
 							name="agentCode" id="agentCode" required="required"
-							placeholder="ENTER CODE" />
+							placeholder="Enter Code" />
 					</div>
 				</div>
 
 				<div class="col-3 text-left mt-3">
 					<button id="searchBtn" class="btnStyle"
-						style="background-color: #FFA500;">SEARCH</button>
+						style="background-color: #FFA500;">Search</button>
 				</div>
 			</div>
 		</div>
@@ -51,29 +52,29 @@
 	<div class="col-lg-12">
 		<nav>
 			<ol class="breadcrumb breadcrumb-title">
-				<li class="breadcrumb-item action mt-3">INCENTIVE DETAILS</li>
+				<li class="breadcrumb-item action mt-3">Incentive Details</li>
 			</ol>
 		</nav>
 	</div>
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
-			<label for="">FULL NAME</label> <input type="text" name="fullName"
+			<label for="">Full Name</label> <input type="text" name="fullName"
 				id="fullName" required="required" placeholder="Enter Name" />
 		</div>
 	</div>
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
-			<label for="">DESIGNATION</label> <input type="text"
+			<label for="">Designation</label> <input type="text"
 				name="designation" id="designation" required="required"
-				placeholder="ENTER DESIGNATION" />
+				placeholder="Enter position" />
 		</div>
 	</div>
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
-			<label for="">PERSONAL SALES</label> <input type="text"
+			<label for="">Personal Sales</label> <input type="text"
 				name="personalSales" id="personalSales" required="required"
 				placeholder="Enter Self Business" />
 		</div>
@@ -81,7 +82,7 @@
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
-			<label for=""> GROUP Sales</label> <input type="text"
+			<label for=""> Group Sales</label> <input type="text"
 				name="groupSales" id="groupSales" required="required"
 				placeholder="Enter Team Business" />
 		</div>
@@ -184,7 +185,3 @@
 			style="background-color: #FFA500;">Pay</button>
 	</div>
 </div>
-
-<script
-	src="${pageContext.request.contextPath}/js/account-management/incentivePayment.js"></script>
-
