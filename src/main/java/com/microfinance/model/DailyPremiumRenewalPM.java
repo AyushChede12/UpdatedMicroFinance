@@ -39,6 +39,7 @@ public class DailyPremiumRenewalPM {
     private boolean isApproved;
     private String fees;
     private String branchname;
+    private double netDeposit;
 
     // Getters and Setters
 
@@ -219,6 +220,14 @@ public class DailyPremiumRenewalPM {
 
 	public void setBranchname(String branchname) {
 		this.branchname = branchname;
+	}
+
+	public double getNetDeposit() {
+		return netDeposit;
+	}
+
+	public void setNetDeposit(double netDeposit) {
+		this.netDeposit = netDeposit;
 	}
     
 	
