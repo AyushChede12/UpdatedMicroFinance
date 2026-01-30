@@ -1,9 +1,13 @@
-
+<style>
+	input[type="text"]{
+		text-transform: uppercase;
+	}
+</style>
 <div class="pagetitle">
 	<h1>ACCOUNT MANAGEMENT</h1>
 	<nav>
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="openDashboard"> <i
+			<li class="breadcrumb-item"><a href="home"> <i
 					class="bi bi-wallet2"></i>
 			</a></li>
 			<li class="breadcrumb-item action">LEDGER ACCOUNT MASTER</li>
@@ -45,7 +49,7 @@
 						<label for="groupName">ACCOUNT GROUP <span class="star">*</span></label>
 						<select id="groupName" name="groupName"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">SELECT GROUP</option>
+							<option value="">--SELECT GROUP--</option>
 							<!-- Groups (Assets, Liabilities, Income, Equity, Expenses) 
 			     will be loaded dynamically from JS/backend -->
 						</select> <span id="groupNameError" style="color: red; font-size: 12px;"></span>
@@ -58,7 +62,7 @@
 						<label for="accountType">ACCOUNT TYPE <span class="star">*</span></label>
 						<select id="accountType" name="accountType"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">SELECT TYPE</option>
+							<option value="">--SELECT TYPE--</option>
 							<!-- Sub-types will be injected dynamically based on group selection -->
 						</select> <span id="accountTypeError" style="color: red; font-size: 12px;"></span>
 					</div>
@@ -71,7 +75,7 @@
 					<div class="d-flex flex-column formFields">
 						<label>OPENING BALANCE</label> <input type="number"
 							name="openingBalance" id="openingBalance"
-							placeholder="Enter Opening Balance" step="0.01" min="0"
+							placeholder="ENTER OPENING BALANCE" step="0.01" min="0"
 							value="0.00" />
 					</div>
 				</div>
@@ -134,15 +138,9 @@
 				<div class="card recent-sales">
 
 					<div class="card-body table-responsive">
-						<div
-							class="d-flex justify-content-between align-items-center mb-3">
-							<h5 class="card-title mb-0">
-								LEDGER LIST <span>| TABLE VIEW</span>
-							</h5>
-
-							<input type="text" id="ledgerSearch" class="form-control w-25"
-								placeholder="Search Ledger..." onkeyup="searchLedger()">
-						</div>
+						<h5 class="card-title">
+							LEDGER LIST <span>| TABLE VIEW</span>
+						</h5>
 
 						<table class="table table-borderless datatable overflow-scroll">
 							<thead class="table-light">
@@ -151,7 +149,7 @@
 									<th style="white-space: nowrap;">ACCOUNT CODE</th>
 									<th style="white-space: nowrap;">ACCOUNT TITLE</th>
 									<th style="white-space: nowrap;">ACCOUNT GROUP</th>
-									<th style="white-space: nowrap;">ACCOUNT GROUP TYPE</th>
+									<th style="white-space: nowrap;">ACCOUNT TYPE</th>
 									<th style="white-space: nowrap;">OPENING BALANCE</th>
 									<th style="white-space: nowrap;">OPENING BALANCE TYPE</th>
 									<th style="white-space: nowrap;">CURRENT BALANCE</th>
@@ -171,15 +169,12 @@
 			</div>
 		</div>
 	</div>
-
-
 </div>
 
+<script
+	src="${pageContext.request.contextPath}/js/account-management/ledgeraccountmaster.js"></script>
 <script>
 	$(document).ready(function() {
 		BranchNameDropdown();
 	});
 </script>
-
-<script
-	src="${pageContext.request.contextPath}/js/account-management/ledgeraccountmaster.js"></script>
