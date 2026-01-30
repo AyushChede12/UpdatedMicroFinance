@@ -91,6 +91,12 @@ public class PageController {
 	public String getDashboard() {
 		return "dashboardPage/dashboard";
 	}
+	
+	@GetMapping("/helpmanual")
+	public String getHelpPage(Model model) {
+		model.addAttribute("contentPage", "helpPage.jsp");
+		return "main";
+	}
 
 	// Financial Consultant
 	@GetMapping("/addFinancialConsultant")

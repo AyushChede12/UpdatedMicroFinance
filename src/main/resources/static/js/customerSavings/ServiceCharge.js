@@ -66,7 +66,7 @@ $("#searchServiceChargeBtn").click(function () {
     const reqBody = { startDate, endDate };
 
     $.ajax({
-        url: "/api/customersavings/getServiceChargeData",
+        url: "api/customersavings/getServiceChargeData",
         type: "POST",
         contentType: "application/json",
         data: JSON.stringify(reqBody),
@@ -127,7 +127,7 @@ $(document).on("click", ".apply-service-btn", function () {
     if (!confirm("Are you sure you want to deduct service charges?")) return;
 
     $.ajax({
-        url: "/api/customersavings/deduct-service-charges",
+        url: "api/customersavings/deduct-service-charges",
         type: "POST",
         contentType: "application/json",
         data: JSON.stringify({ id: id }),

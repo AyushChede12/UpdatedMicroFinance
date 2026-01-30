@@ -3,7 +3,7 @@
 	<h1>Account Management</h1>
 	<nav>
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="openDashboard"> <i
+			<li class="breadcrumb-item"><a href="home"> <i
 					class="bi bi-wallet2"></i>
 			</a></li>
 			<li class="breadcrumb-item action">Bank/Cash Transfer Entry</li>
@@ -221,12 +221,11 @@
 	</div>
 </div>
 
-
+<script
+	src="${pageContext.request.contextPath}/js/account-management/bankCashTransferEntry.js"></script>
 <script>
 	$(document).ready(function() {
 		BranchNameDropdown();
 		BankCashLedgerDropdown()
 	});
 </script>
-<script
-	src="${pageContext.request.contextPath}/js/account-management/bankCashTransferEntry.js"></script>

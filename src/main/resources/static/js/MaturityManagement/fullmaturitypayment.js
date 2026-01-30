@@ -14,7 +14,7 @@ $(document).ready(function () {
         console.log("Searching:", { branchName, fromDate, toDate });
 
         $.ajax({
-            url: "/api/Maturitymanagement/getMaturityByBranchAndDate",
+            url: "api/Maturitymanagement/getMaturityByBranchAndDate",
             type: "GET",
             data: {
                 branchName: branchName,

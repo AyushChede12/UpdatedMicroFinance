@@ -3,7 +3,7 @@
 	<h1>Account Management</h1>
 	<nav>
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="openDashboard"> <i
+			<li class="breadcrumb-item"><a href="home"> <i
 					class="bi bi-wallet2"></i>
 			</a></li>
 			<li class="breadcrumb-item action">Journal Entry Report</li>
@@ -11,8 +11,8 @@
 	</nav>
 </div>
 
+<form id="formid">
 <div>
-	<form id="formid">
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
@@ -20,42 +20,42 @@
 				</ol>
 			</nav>
 			<div class="row">
-				<div class="col-lg-4">
-					<div class="d-flex flex-column formFields">
-						<label for="">Branch Name</label> <select id="branchName"
-							name="branchName" required="required"
-							class="form-control selectField" style="height: 30px;">
-							<option value="">Select Branch</option>
-							<option value="Blue">Blue</option>
-						</select>
-					</div>
+				<div class="col-lg-3">
+					<label>Branch Name</label> <select id="branchName"
+						name="branchName" required class="form-control selectField"
+						style="height: 30px;">
+						<option value="">Select Branch</option>
+					</select>
 				</div>
 
-				<div class="col-lg-4">
-					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Start Date</label> <input type="date"
-							name="startDate" id="startDate" required="required"
-							style="text-transform: uppercase;" />
-					</div>
+				<div class="col-lg-3">
+					<label>Voucher Type</label> <select id="voucherType"
+						name="voucherType" required class="form-control selectField"
+						style="height: 30px;">
+						<option value="">Select Type</option>
+					</select>
 				</div>
 
-				<div class="col-lg-4">
-					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">End Date</label> <input type="date"
-							name="endDate" id="endDate" required="required"
-							style="text-transform: uppercase;" />
-					</div>
+				<div class="col-lg-3">
+					<label>Start Date</label> <input type="date" name="startDate"
+						id="startDate" class="form-control" required />
+				</div>
+
+				<div class="col-lg-3">
+					<label>End Date</label> <input type="date" name="endDate"
+						id="endDate" class="form-control" required />
+				</div>
+			</div>
+
+			<div class="row mt-3">
+				<div class="col text-center">
+					<button type="submit" id="viewBtn"
+						class="btn btn-warning text-white px-4">View</button>
 				</div>
 			</div>
 		</div>
 </div>
 
-<div class="row">
-	<div class="col-12 text-center mt-3">
-		<button id="viewBtn" class="btnStyle"
-			style="background-color: #FFA500;">View</button>
-	</div>
-</div>
 </form>
 
 <div class="row mt-5">
@@ -67,12 +67,13 @@
 
 				<table class="table table-borderless datatable overflow-scroll">
 					<thead class="table-light">
-						<tr style="font-family: 'Poppins', sans-serif;">
-							<th scope="col">Receipt No</th>
-							<th scope="col">Date</th>
-							<th scope="col">Narration</th>
-							<th scope="col">Debit</th>
-							<th scope="col">Credit</th>
+						<tr>
+							<th>Date</th>
+							<th>Voucher ID</th>
+							<th>Remarks</th>
+							<th>Account Code</th>
+							<th>Debit</th>
+							<th>Credit</th>
 						</tr>
 					</thead>
 					<tbody>

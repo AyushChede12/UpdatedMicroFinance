@@ -115,12 +115,12 @@ function displayTransactionDataList() {
                         $("#customerDetails").html(`
                             <tr>
                                 <td>${data.id || ''}</td>
-                                <td>${data.branchName || ''}</td>
+                                <td>${(data.branchName || '').toUpperCase()}</td>
                                 <td>${data.accountNumber || ''}</td>
-                                <td>${data.enterCustomerName || ''}</td>
+                                <td>${(data.enterCustomerName || '').toUpperCase()}</td>
                                 <td>${data.selectByCustomer || ''}</td>
                                 <td>${data.contactNumber || ''}</td>
-                                <td>${data.address || ''}</td>
+                                <td>${(data.address || '').toUpperCase()}</td>
                                 <td>${data.openingDate || ''}</td>
                                 <td>${data.balance || ''}</td>
                                 <td></td>

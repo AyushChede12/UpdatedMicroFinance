@@ -265,7 +265,8 @@
 			href="#saving-account" data-toggle="collapse">
 				<div class="d-flex">
 					<i class="bi bi-bank text-white"></i> <span
-						style="font-family: 'Poppins', sans-serif">SAVING / CURRENT ACCOUNT</span>
+						style="font-family: 'Poppins', sans-serif">SAVING / CURRENT
+						ACCOUNT</span>
 				</div> <i class="bi bi-chevron-down"></i>
 		</a>
 
@@ -499,7 +500,7 @@
 						<span style="font-family: 'Poppins', sans-serif">EARLY LOAN
 							CLOSURE</span>
 				</a></li>
-				
+
 				<li><a href="LoanClosureLoan"> <i class="bi bi-circle"></i>
 						<span style="font-family: 'Poppins', sans-serif">LOAN
 							CLOSURE</span>
@@ -741,7 +742,7 @@
 							MATURITY APPLICATIONS</span>
 				</a></li>
 
-<!-- 				<li><a href="deleteMaturityApp"> <i class="bi bi-circle"></i>
+				<!-- 				<li><a href="deleteMaturityApp"> <i class="bi bi-circle"></i>
 						<span style="font-family: 'Poppins', sans-serif">DELETE
 							MATURITY APPLICATION REQUEST</span>
 				</a></li> -->
@@ -1157,12 +1158,8 @@
 
 			</ul></li>
 
-
-
 		<!-- <li class="nav-item">
         <p class="text-white">Developed by Infosai Software</p>
       </li> -->
 	</ul>
 </aside>
-
-

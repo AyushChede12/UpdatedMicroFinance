@@ -37,9 +37,9 @@ function populateTable(data) {
 		tbody.append("<tr><td colspan='10'>No matching found.</td></tr>");
 		return;
 	}
-
+	
 	data.forEach((customer, i) => {
-
+		
 		// Convert all fields to uppercase safely
 		const memberCode = (customer.memberCode || "").toUpperCase();
 		const customerName = (customer.customerName || "").toUpperCase();
@@ -52,12 +52,16 @@ function populateTable(data) {
 		const panNo = (customer.panNo || "").toUpperCase();
 		const signupDate = (customer.signupDate || "").toUpperCase();
 		const approved = customer.approved ? "YES" : "NO";
-
+		let fullName = [
+			customer.firstName,
+			customer.middleName,
+			customer.lastName
+		].filter(Boolean).join(" ");
 		tbody.append(`
 	        <tr>
 	            <td>${(i + 1).toString().toUpperCase()}</td>
 	            <td>${memberCode}</td>
-	            <td>${customerName}</td>
+	            <td>${fullName.toUpperCase()}</td>
 	            <td>${branchName}</td>
 	            <td>${dob}</td>
 	            <td>${nomineeName}</td>

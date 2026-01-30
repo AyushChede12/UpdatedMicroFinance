@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import com.microfinance.dto.ApiResponse;
+import com.microfinance.dto.DateRangeRequest;
 import com.microfinance.dto.ExecutiveFounderDto;
 import com.microfinance.dto.FinancialConsultantDto;
 import com.microfinance.dto.SavingAccountDto;
@@ -553,39 +554,31 @@ public class CustomerSavingsController {
 		return new ResponseEntity<>(savedEntry, HttpStatus.CREATED);
 	}
 
-	// Janvi : Fetch Data whose sms charges enabled
 	@PostMapping("/getSavingAccountDataSMSEnable")
-	public ResponseEntity<ApiResponse<List<CreateSavingsAccount>>> fetchSavingAccountDataSMSEnable() {
+	public ResponseEntity<ApiResponse<List<CreateSavingsAccount>>> fetchSavingAccountDataSMSEnable(
+			@RequestBody DateRangeRequest request) {
 
-	    List<CreateSavingsAccount> list = customersaving.fetchSavingAccountDataSMSEnable();
+		List<CreateSavingsAccount> list = customersaving.fetchSavingAccountDataSMSEnable(request.getStartDate(),
+				request.getEndDate());
 
-	    ApiResponse<List<CreateSavingsAccount>> response =
-	            ApiResponse.success(
-	                    HttpStatus.OK,
-	                    "Unapproved Saving Transaction fetched successfully",
-	                    list
-	            );
+		ApiResponse<List<CreateSavingsAccount>> response = ApiResponse.success(HttpStatus.OK,
+				"Data fetched successfully", list);
 
-	    return new ResponseEntity<>(response, HttpStatus.OK);
+		return ResponseEntity.ok(response);
 	}
 
 	@PostMapping("/deduct-sms-charges")
-	public ResponseEntity<ApiResponse<CreateSavingsAccount>> deductSmsCharges(
-	        @RequestBody Map<String, Object> payload) {
+	public Map<String, Object> deductSmsCharges(@RequestBody Map<String, Object> payload) {
 
-	    Long id = Long.valueOf(payload.get("id").toString());
-	    double amount = Double.parseDouble(payload.get("amount").toString());
+		Long id = Long.valueOf(payload.get("id").toString());
+		double balance = Double.parseDouble(payload.get("balance").toString());
+		double smsCharge = Double.parseDouble(payload.get("smsCharge").toString());
 
-	    CreateSavingsAccount updatedAccount =
-	            customersaving.deductSmsCharges(id, amount);
+		double newBalance = customersaving.deductSmsCharges(id, balance, smsCharge);
 
-	    return ResponseEntity.ok(
-	            ApiResponse.success(
-	                    HttpStatus.OK,
-	                    "SMS charges deducted successfully",
-	                    updatedAccount
-	            )
-	    );
+		Map<String, Object> res = new HashMap<>();
+		res.put("newBalance", newBalance);
+		return res;
 	}
 
 	@GetMapping("/getAccountNumbers")
@@ -622,18 +615,12 @@ public class CustomerSavingsController {
 			return ApiResponse.error(HttpStatus.NOT_FOUND, "No Data Found");
 		}
 	}
-	
-	
 
-	    @PutMapping("/update/{id}")
-	    public ResponseEntity<?> updateSavingAccount(
-	            @PathVariable Long id,
-	            @RequestBody Map<String, Object> payload) {
+	@PutMapping("/update/{id}")
+	public ResponseEntity<?> updateSavingAccount(@PathVariable Long id, @RequestBody Map<String, Object> payload) {
 
-	        customersaving.updateSavingAccount(id, payload);
+		customersaving.updateSavingAccount(id, payload);
 
-	        return ResponseEntity.ok("UPDATED");
-	    }
+		return ResponseEntity.ok("UPDATED");
 	}
-
-
+}

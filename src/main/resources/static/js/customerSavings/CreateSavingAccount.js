@@ -20,6 +20,7 @@ document.querySelectorAll('.toggle__input').forEach(function(toggle) {
 
 
 
+
 //shubham kewat
 //fetch Policy Name
 /*document.getElementById("newPhoto").addEventListener("click", function() {
@@ -169,7 +170,7 @@ $('#selectPlan').on('change', function() {
 $(document).ready(function() {
 
 	$.ajax({
-		url: '/api/customermanagement/approved',
+		url: 'api/customermanagement/approved',
 		type: 'GET',
 		success: function(response) {
 			if (response.status === "OK" && Array.isArray(response.data)) {
@@ -191,7 +192,7 @@ $(document).ready(function() {
 
 					// Only add if name & code exist
 					if (fullName && customer.memberCode) {
-						const optionText = `${fullName} - ${customer.memberCode}`;
+						const optionText = `${(fullName).toUpperCase()} - ${customer.memberCode}`;
 						const optionValue = customer.memberCode;
 
 						$select.append(`<option value="${optionValue}">${optionText}</option>`);
@@ -231,21 +232,21 @@ $('#selectByCustomer').on('change', function() {
 						customer.middleName,
 						customer.lastName
 					].filter(Boolean).join(" ");
-					$('#enterCustomerName').val(fullName);
-					$('#familyDetails').val(customer.guardianName);
-					$('#contactNumber').val(customer.contactNo);
-					$('#suggestedNomineeName').val(customer.nomineeName);
+					$('#enterCustomerName').val(fullName.toUpperCase());
+					$('#familyDetails').val(customer.guardianName.toUpperCase());
+					$('#contactNumber').val(customer.contactNo.toUpperCase());
+					$('#suggestedNomineeName').val(customer.nomineeName.toUpperCase());
 					$('#suggestedNomineeAge').val(customer.nomineeAge);
-					$('#suggestedNomineeRelation').val(customer.nomineeRelationToApplicant);
-					$('#address').val(customer.customerAddress);
-					$('#district').val(customer.district);
-					$('#branchName').val(customer.branchName);
+					$('#suggestedNomineeRelation').val(customer.nomineeRelationToApplicant.toUpperCase());
+					$('#address').val(customer.customerAddress.toUpperCase());
+					$('#district').val(customer.district.toUpperCase());
+					$('#branchName').val(customer.branchName.toUpperCase());
 					$('#pinCode').val(customer.pinCode);
-					$('#district').val(customer.district);
-					$('#state').val(customer.state);
+					$('#district').val(customer.district.toUpperCase());
+					$('#state').val(customer.state.toUpperCase());
 					$('#dateOfBirth').val(customer.dob);
-					$('#emailId').val(customer.emailId);
-					$('#aadharNo').val(customer.aadharNo);
+					$('#emailId').val(customer.emailId.toUpperCase());
+					$('#aadharNo').val(customer.aadharNo.toUpperCase());
 					//photo
 					/*if (customer.customerPhoto) {
 						const imagePath = `Uploads/${customer.customerPhoto}`; // Construct full image path
@@ -467,7 +468,7 @@ $('#financialConsultantCode').on('blur', function() {
 			success: function(response) {
 				if (response.status === "FOUND") {
 					let customer = response.data[0];
-					$('#financialConsultantName').val(customer.financialName);
+					$('#financialConsultantName').val(customer.financialName.toUpperCase());
 				} else {
 					alert('No data found!');
 					$('#financialConsultantName').val('');
@@ -504,11 +505,11 @@ $(document).ready(function() {
 				                        <td>${item.accountNumber}</td>
 										<td>${item.typeofaccount}</td>
 				                        <td>${item.selectByCustomer}</td>
-				                        <td>${item.enterCustomerName}</td>
+				                        <td>${(item.enterCustomerName).toUpperCase()}</td>
 										<td>${item.contactNumber}</td>
-										<td>${item.branchName}</td>
-										<td>${item.address}</td>
-										<td>${item.district}</td>
+										<td>${(item.branchName).toUpperCase()}</td>
+										<td>${(item.address).toUpperCase()}</td>
+										<td>${(item.district).toUpperCase()}</td>
 										<td>${(item.state).toUpperCase()}</td>
 										<td><button class="iconbutton" onclick="viewData(${item.id})" title="View"><i class="fa-solid fa-pen-to-square text-primary"></i></button></td>
 										<td><button class="iconbutton" onclick="deleteData(${item.id})" title="Delete"><i class="fa-solid fa-trash text-danger"></i></button></td>
@@ -572,7 +573,7 @@ $(document).ready(function() {
 		formData.append("jointSurvivorCode", $('#jointSurvivorCode').val());
 		formData.append("familyRelation", $('#familyRelation').val());
 		formData.append("selectPlan", $('#selectPlan').val());
-		formData.append("balance", $('#balance').val());
+		formData.append("balance", $('#openingFees').val());
 		formData.append("financialConsultantCode", $('#financialConsultantCode').val());
 		formData.append("financialConsultantName", $('#financialConsultantName').val());
 		formData.append("openingFees", $('#openingFees').val());
@@ -654,139 +655,107 @@ $(document).ready(function() {
 });
 
 function viewData(id) {
-	$.ajax({
-		url: "api/customersavings/getSavingAccountDataById",
-		type: "GET",
-		data: { id: id },
-		success: function(response) {
-			if (response.status == "FOUND") {
-				const data = response.data;
-				$("#id").val(data.id);
-				$("#openingDate").val(data.openingDate);
-				$("#selectByCustomer").val(data.selectByCustomer);
-				$("#enterCustomerName").val(data.enterCustomerName);
-				$("#dateOfBirth").val(data.dateOfBirth);
-				$("#familyDetails").val(data.familyDetails);
-				$("#contactNumber").val(data.contactNumber);
-				$("#suggestedNomineeName").val(data.suggestedNomineeName);
-				$("#suggestedNomineeAge").val(data.suggestedNomineeAge);
-				$("#suggestedNomineeRelation").val(data.suggestedNomineeRelation);
-				$("#address").val(data.address);
-				$("#district").val(data.district);
-				$("#branchName").val(data.branchName);
-				$("#state").val(data.state);
-				$("#pinCode").val(data.pinCode);
-				$("#operationType").val(data.operationType);
-				$("#jointOperationCode").val(data.jointOperationCode);
-				$("#jointSurvivorCode").val(data.jointSurvivorCode);
-				$("#familyRelation").val(data.familyRelation);
-				$("#selectPlan").val(data.selectPlan);
-				$("#balance").val(data.balance);
-				$("#financialConsultantCode").val(data.financialConsultantCode);
-				$("#financialConsultantName").val(data.financialConsultantName);
-				$("#openingFees").val(data.openingFees);
-				$("#emailId").val(data.emailId);
-				$("#aadharNo").val(data.aadharNo);
-				$("#authenticateWith").val(data.authenticateWith);
-				$("#modeOfPayment").val(data.modeOfPayment);
-				$("#chequeNo").val(data.chequeNo);
-				$("#chequeDate").val(data.chequeDate);
-				$("#depositAcc1").val(data.depositAcc1);
-				$("#depositAcc2").val(data.depositAcc2);
-				$("#refNumber1").val(data.refNumber1);
-				$("#depositAcc3").val(data.depositAcc3);
-				$("#refNumber2").val(data.refNumber2);
-				$("#comment").val(data.comment);
-				//$("#messageSend").val(data.messageSend);
-				//$("#debitCardIssue").val(data.debitCardIssue);
-				$("#accountNumber").val(data.accountNumber);
+    $.ajax({
+        url: "api/customersavings/getSavingAccountDataById",
+        type: "GET",
+        data: { id: id },
+        success: function(response) {
+            if (response.status == "FOUND") {
+                const data = response.data;
 
-				if (data.photo) {
-					const photoPath = `Uploads/${data.photo}`; // Construct full image path
-					$("#photoPreview").attr("src", photoPath);
-					$("#photoHidden").val(photoPath);
-					const fakePhotoEvent = { target: { result: photoPath } };
-					photoSizeEdit(fakePhotoEvent);
-				} else {
-					$("#photoPreview").attr("src", "Uploads/default-placeholder.jpg");
-					$("#photoHidden").val("");
-				}
-				//signature
-				if (data.signature) {
-					const signPath = `Uploads/${data.signature}`; // Construct full image path
-					$("#signaturePreview").attr("src", signPath);
-					$("#signatureHidden").val(signPath);
-					const fakeSignEvent = { target: { result: signPath } };
-					signatureSizeEdit(fakeSignEvent);
-				} else {
-					$("#signaturePreview").attr("src", "Uploads/default-placeholder.jpg");
-					$("#signatureHidden").val("");
-				}
-				//Jointphoto
-				var operationType=$("#operationType").val();
-				if (operationType == "Joint") {
-					$("#myJointPhoto").show();
-					if (data.jointPhoto) {
-						const jointPhotoPath = `Uploads/${data.jointPhoto}`; // Construct full image path
-						$("#jointPhotoPreview").attr("src", jointPhotoPath);
-						$("#jointPhotoHidden").val(jointPhotoPath);
-						const fakeJointEvent = { target: { result: jointPhotoPath } };
-						jointPhotoSizeEdit(fakeJointEvent);
-					} else {
-						$("#jointPhotoPreview").attr("src", "Uploads/default-placeholder.jpg");
-						$("#signatureHidden").val("");
-					}
-				}
+                // ---------- Fill input fields ----------
+                $("#id").val(data.id);
+                $("#openingDate").val(data.openingDate);
+                $("#selectByCustomer").val(data.selectByCustomer);
+                $("#enterCustomerName").val(data.enterCustomerName);
+                $("#dateOfBirth").val(data.dateOfBirth);
+                $("#familyDetails").val(data.familyDetails);
+                $("#contactNumber").val(data.contactNumber);
+                $("#suggestedNomineeName").val(data.suggestedNomineeName);
+                $("#suggestedNomineeAge").val(data.suggestedNomineeAge);
+                $("#suggestedNomineeRelation").val(data.suggestedNomineeRelation);
+                $("#address").val(data.address);
+                $("#district").val(data.district);
+                $("#branchName").val(data.branchName);
+                $("#state").val(data.state);
+                $("#pinCode").val(data.pinCode);
+                $("#operationType").val(data.operationType);
+                $("#jointOperationCode").val(data.jointOperationCode);
+                $("#jointSurvivorCode").val(data.jointSurvivorCode);
+                $("#familyRelation").val(data.familyRelation);
+                $("#selectPlan").val(data.selectPlan);
+                $("#balance").val(data.balance);
+                $("#financialConsultantCode").val(data.financialConsultantCode);
+                $("#financialConsultantName").val(data.financialConsultantName);
+                $("#openingFees").val(data.openingFees);
+                $("#emailId").val(data.emailId);
+                $("#aadharNo").val(data.aadharNo);
+                $("#authenticateWith").val(data.authenticateWith);
+                $("#modeOfPayment").val(data.modeOfPayment);
+                $("#chequeNo").val(data.chequeNo);
+                $("#chequeDate").val(data.chequeDate);
+                $("#depositAcc1").val(data.depositAcc1);
+                $("#depositAcc2").val(data.depositAcc2);
+                $("#refNumber1").val(data.refNumber1);
+                $("#depositAcc3").val(data.depositAcc3);
+                $("#refNumber2").val(data.refNumber2);
+                $("#comment").val(data.comment);
+                $("#accountNumber").val(data.accountNumber);
 
+                // ---------- Photos ----------
+                const setPhoto = (fieldId, value, sizeFunc) => {
+                    if (value) {
+                        const path = `Uploads/${value}`;
+                        $(`#${fieldId}Preview`).attr("src", path);
+                        $(`#${fieldId}Hidden`).val(path);
+                        sizeFunc({ target: { result: path } });
+                    } else {
+                        $(`#${fieldId}Preview`).attr("src", "Uploads/default-placeholder.jpg");
+                        $(`#${fieldId}Hidden`).val("");
+                    }
+                };
 
-				if (data.newPhoto) {
-					const newPhotoPath = `Uploads/${data.newPhoto}`; // Construct full image path
-					$("#newPhotoPreview").attr("src", newPhotoPath);
-					$("#newPhotoHidden").val(newPhotoPath);
-					const fakeNewPhotoEvent = { target: { result: newPhotoPath } };
-					newPhotoSizeEdit(fakeNewPhotoEvent);
-				} else {
-					$("#newPhotoPreview").attr("src", "Uploads/default-placeholder.jpg");
-					$("#newPhotoHidden").val("");
-				}
+                setPhoto("photo", data.photo, photoSizeEdit);
+                setPhoto("signature", data.signature, signatureSizeEdit);
+                setPhoto("newPhoto", data.newPhoto, newPhotoSizeEdit);
+                setPhoto("newSignature", data.newSignature, newSignatureSizeEdit);
 
-				if (data.newSignature) {
-					const newSignPath = `Uploads/${data.newSignature}`; // Construct full image path
-					$("#newSignaturePreview").attr("src", newSignPath);
-					$("#newSignatureHidden").val(newSignPath);
-					const fakeNewSignEvent = { target: { result: newSignPath } };
-					newSignatureSizeEdit(fakeNewSignEvent);
-				} else {
-					$("#newSignaturePreview").attr("src", "Uploads/default-placeholder.jpg");
-					$("#newSignatureHidden").val("");
-				}
+                // Joint photo for Joint account
+                if ($("#operationType").val() === "Joint") {
+                    $("#myJointPhoto").show();
+                    setPhoto("jointPhoto", data.jointPhoto, jointPhotoSizeEdit);
+                }
 
-				/*let isChecked = data.accountStatus === 1;
-				$("#toggle-member-status").prop('checked', isChecked);
-				let isChecked2 = data.messageSend === 1;
-				$("#toggle-member-status1").prop('checked', isChecked2);
-				let isChecked3 = data.debitCardIssue === 1;
-				$("#toggle-member-status2").prop('checked', isChecked3);*/
-				document.getElementById("toggle-member-status").checked = data.accountStatus === true || data.accountStatus === '1';
-				document.getElementById("toggle-member-status1").checked = data.messageSend === true || data.messageSend === '1';
-				document.getElementById("toggle-member-status2").checked = data.debitCardIssue === true || data.debitCardIssue === '1';
-				document.getElementById("toggle-member-status3").checked = data.isLocker === true || data.isLocker === '1';
-				document.getElementById("toggle-member-status4").checked = data.accountFreeze === true || data.accountFreeze === '1';
-				// Call updateToggleColor manually
-				updateToggleColor(document.getElementById("toggle-member-status"));
-				updateToggleColor(document.getElementById("toggle-member-status1"));
-				updateToggleColor(document.getElementById("toggle-member-status2"));
-				updateToggleColor(document.getElementById("toggle-member-status3"));
-				updateToggleColor(document.getElementById("toggle-member-status4"));
-			} else {
-				alert("Account not found: " + response.message);
-			}
-		},
-		error: function(xhr) {
-			alert("Request failed: " + xhr.responseText);
-		}
-	});
+                // ---------- Toggle Buttons ----------
+                const toggles = [
+                    { id: "toggle-member-status", value: data.accountStatus },
+                    { id: "toggle-member-status1", value: data.messageSend },
+                    { id: "toggle-member-status2", value: data.debitCardIssue },
+                    { id: "toggle-member-status3", value: data.isLocker },
+                    { id: "toggle-member-status4", value: data.accountFreeze }
+                ];
+
+                toggles.forEach(function(t) {
+                    const toggle = document.getElementById(t.id);
+                    const label = toggle.nextElementSibling; // label must be next to input
+                    toggle.checked = t.value === true || t.value === '1';
+
+                    // JS-only green color for ON, keep size intact
+                    if (label) {
+                        label.style.backgroundColor = toggle.checked ? "green" : "";
+                    }
+                });
+
+            } else {
+                alert("Account not found: " + response.message);
+            }
+        },
+        error: function(xhr) {
+            alert("Request failed: " + xhr.responseText);
+        }
+    });
 }
+
 
 function deleteData(id) {
 	if (confirm("Are you sure you want to delete this branch?")) {
@@ -887,17 +856,17 @@ $(document).ready(function () {
         // ================= FILE APPEND (VERY IMPORTANT) =================
         // NOTE: MultipartFile ke liye STRING kabhi mat bhejo
 
-        if (newPhotoFile) {
-            formData.append("photo", newPhotoFile);
-        }
+		if (newPhotoFile) {
+		    formData.append("photo", newPhotoFile); // This should match controller param
+		}
 
-        if (newSignatureFile) {
-            formData.append("signature", newSignatureFile);
-        }
+		if (newSignatureFile) {
+		    formData.append("signature", newSignatureFile);
+		}
 
-        if (newJointPhotoFile) {
-            formData.append("jointPhoto", newJointPhotoFile);
-        }
+		if (newJointPhotoFile) {
+		    formData.append("jointPhoto", newJointPhotoFile);
+		}
 
         // ================= DEBUG =================
         for (let pair of formData.entries()) {
@@ -923,7 +892,7 @@ $(document).ready(function () {
     });
 
 });
-ss
+
 
 
 function operationTypeFunc() {

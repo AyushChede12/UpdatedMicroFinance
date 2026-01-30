@@ -37,13 +37,17 @@
 					</div>
 				</div>
 
-				<div class="col-lg-3">
-					<div class="d-flex flex-column formFields mb-4">
-						<label for="">ACCOUNT NUMBER</label> <input type="text"
-							name="accountNumber" id="accountNumber" required="required"
-							placeholder="ENTER ACCOUNT NUMBER" />
-					</div>
-				</div>
+				<div class="col-lg-6">   <!-- width badhane ke liye 6 -->
+    <div class="d-flex flex-column formFields mb-4">
+        <label for="accountNumber">ACCOUNT NUMBER</label>
+        <select id="accountNumber" name="accountNumber"
+            class="form-control selectField account-select"
+            required>
+            <option value="">- SELECT ACCOUNT NUMBER -</option>
+        </select>
+    </div>
+</div>
+
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
@@ -242,8 +246,9 @@
 
 		<div class="row">
 			<div class="col-12 text-center">
-				<button id="saveBtn" class="btn btn-warning"
-					style="margin-left: 80%;">Save</button>
+			<button type="button" id="saveBtn" class="btn btn-warning"
+        style="margin-left: 80%;">Save</button>
+
 			</div>
 		</div>
 	</form>
@@ -283,7 +288,7 @@
 	</div>
 </div>
 
-<script src="./js/customerSavings/SavingAccountActivity.js"></script>
+
 <script>
 	document.getElementById('payBy').addEventListener('change', function() {
 		// Get the selected payment mode
