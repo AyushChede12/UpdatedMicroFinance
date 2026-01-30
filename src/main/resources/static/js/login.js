@@ -18,7 +18,6 @@ $(document).ready(function() {
 			success: function(response) {
 				// Assuming ApiResponse has integer status and message
 				if (response.status === 'OK') {
-					alert(response.data.username);
 					sessionStorage.setItem("username", response.data.username);
 					window.location.href = 'openDashboard'; // replace with your homepage
 

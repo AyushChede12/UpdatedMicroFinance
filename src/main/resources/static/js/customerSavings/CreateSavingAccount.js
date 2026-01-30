@@ -192,7 +192,7 @@ $(document).ready(function() {
 
 					// Only add if name & code exist
 					if (fullName && customer.memberCode) {
-						const optionText = `${fullName} - ${customer.memberCode}`;
+						const optionText = `${(fullName).toUpperCase()} - ${customer.memberCode}`;
 						const optionValue = customer.memberCode;
 
 						$select.append(`<option value="${optionValue}">${optionText}</option>`);
@@ -232,21 +232,21 @@ $('#selectByCustomer').on('change', function() {
 						customer.middleName,
 						customer.lastName
 					].filter(Boolean).join(" ");
-					$('#enterCustomerName').val(fullName);
-					$('#familyDetails').val(customer.guardianName);
-					$('#contactNumber').val(customer.contactNo);
-					$('#suggestedNomineeName').val(customer.nomineeName);
+					$('#enterCustomerName').val(fullName.toUpperCase());
+					$('#familyDetails').val(customer.guardianName.toUpperCase());
+					$('#contactNumber').val(customer.contactNo.toUpperCase());
+					$('#suggestedNomineeName').val(customer.nomineeName.toUpperCase());
 					$('#suggestedNomineeAge').val(customer.nomineeAge);
-					$('#suggestedNomineeRelation').val(customer.nomineeRelationToApplicant);
-					$('#address').val(customer.customerAddress);
-					$('#district').val(customer.district);
-					$('#branchName').val(customer.branchName);
+					$('#suggestedNomineeRelation').val(customer.nomineeRelationToApplicant.toUpperCase());
+					$('#address').val(customer.customerAddress.toUpperCase());
+					$('#district').val(customer.district.toUpperCase());
+					$('#branchName').val(customer.branchName.toUpperCase());
 					$('#pinCode').val(customer.pinCode);
-					$('#district').val(customer.district);
-					$('#state').val(customer.state);
+					$('#district').val(customer.district.toUpperCase());
+					$('#state').val(customer.state.toUpperCase());
 					$('#dateOfBirth').val(customer.dob);
-					$('#emailId').val(customer.emailId);
-					$('#aadharNo').val(customer.aadharNo);
+					$('#emailId').val(customer.emailId.toUpperCase());
+					$('#aadharNo').val(customer.aadharNo.toUpperCase());
 					//photo
 					/*if (customer.customerPhoto) {
 						const imagePath = `Uploads/${customer.customerPhoto}`; // Construct full image path
@@ -468,7 +468,7 @@ $('#financialConsultantCode').on('blur', function() {
 			success: function(response) {
 				if (response.status === "FOUND") {
 					let customer = response.data[0];
-					$('#financialConsultantName').val(customer.financialName);
+					$('#financialConsultantName').val(customer.financialName.toUpperCase());
 				} else {
 					alert('No data found!');
 					$('#financialConsultantName').val('');
