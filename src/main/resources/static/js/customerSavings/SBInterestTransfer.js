@@ -1,7 +1,8 @@
 $(document).ready(function () {
-    // =========================
-    // 1. Load Account Numbers
-    // =========================
+
+    /* =========================
+       1. LOAD ACCOUNT NUMBERS
+    ========================= */
     function loadAccountNumbers() {
         $.ajax({
             url: "api/customersavings/getAllSavingAccountData",
@@ -12,29 +13,30 @@ $(document).ready(function () {
                 dropdown.empty();
                 dropdown.append('<option value="">SELECT ACCOUNT NO</option>');
 
-                if ((response.status === "OK" || response.status === "FOUND") && response.data.length > 0) {
+                if ((response.status === "OK" || response.status === "FOUND") && response.data?.length > 0) {
                     $.each(response.data, function (i, acc) {
                         dropdown.append(`<option value="${acc.accountNumber}">${acc.accountNumber}</option>`);
                     });
                 }
             },
             error: function (xhr) {
-                console.error("Error fetching account numbers:", xhr.responseText);
+                console.error("Account load error:", xhr.responseText);
             }
         });
     }
 
     loadAccountNumbers();
 
-    // ==========================================
-    // 2. Fill Customer Details on Account Select
-    // ==========================================
+    /* =================================
+       2. FETCH CUSTOMER DETAILS
+    ================================= */
     $('#accountNumber').on('change', function () {
+
         let accNo = $(this).val();
-        if (!accNo) {
-            $('#customerName, #accountType, #currentBalance').val('');
-            return;
-        }
+
+        $('#customerName, #accountType, #currentBalance').val('');
+
+        if (!accNo) return;
 
         $.ajax({
             url: "api/customersavings/getallbyaccountnumber",
@@ -42,72 +44,107 @@ $(document).ready(function () {
             data: { accountNumber: accNo },
             dataType: "json",
             success: function (response) {
-                if ((response.status === "OK" || response.status === "FOUND") && response.data.length > 0) {
+
+                if ((response.status === "OK" || response.status === "FOUND") && response.data?.length > 0) {
+
                     let acc = response.data[0];
+
                     $('#customerName').val(acc.enterCustomerName || '');
                     $('#accountType').val(acc.accountType || 'SAVING');
                     $('#currentBalance').val(acc.averageBalance || acc.openingFees || 0);
+
                 } else {
-                    alert("Account data not found");
-                    $('#customerName, #accountType, #currentBalance').val('');
+                    alert("Account details not found");
                 }
             },
-            error: function (xhr) {
-                console.error("Error fetching account details:", xhr.responseText);
+            error: function () {
                 alert("Failed to fetch account details");
             }
         });
     });
 
-    // =========================
-    // 3. Interest Calculation
-    // =========================
+    /* =========================
+       3. GENERATE INTEREST
+    ========================= */
     $('#generateInterestBtn').on('click', function (e) {
         e.preventDefault();
 
-        let balance = parseFloat($('#currentBalance').val()) || 0;
-        let interestRate = parseFloat($('#interestRate').val()) || 0;
-        let fromDate = new Date($('#fromDate').val());
-        let toDate = new Date($('#toDate').val());
+        let balance = parseFloat($('#currentBalance').val());
+        let rate = parseFloat($('#interestRate').val());
+        let interestType = $('#interestType').val();
 
-        if (!balance || !interestRate || !fromDate || !toDate) {
-            alert("Please fill all required fields for calculation.");
+        let fromDateVal = $('#fromDate').val();
+        let toDateVal = $('#toDate').val();
+
+        if (!balance || !rate || !interestType || !fromDateVal || !toDateVal) {
+            alert("Please fill all required fields");
             return;
         }
 
-        // Calculate total days
-        let timeDiff = toDate.getTime() - fromDate.getTime();
-        let totalDays = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1; // +1 to include both days
+        let fromDate = new Date(fromDateVal);
+        let toDate = new Date(toDateVal);
+
+        if (isNaN(fromDate.getTime()) || isNaN(toDate.getTime())) {
+            alert("Invalid date selected");
+            return;
+        }
+
+        if (fromDate > toDate) {
+            alert("From Date cannot be greater than To Date");
+            return;
+        }
+
+        /* ---- Calculate Total Days ---- */
+        let timeDiff = toDate - fromDate;
+        let totalDays = Math.floor(timeDiff / (1000 * 60 * 60 * 24)) + 1;
         $('#totalDays').val(totalDays);
 
-        // Simple interest calculation: (Principal * Rate * Time)/100
-        // Assuming interestRate is yearly
-        let interestAmount = (balance * interestRate * totalDays) / 36500; 
+        /* ---- Interest Calculation ---- */
+        let interestAmount = 0;
+
+        if (interestType === "MONTHLY") {
+            if (rate > 5) {
+                alert("Monthly interest rate seems too high");
+                return;
+            }
+            interestAmount = (balance * rate) / 100;
+
+        } else { // YEARLY
+            if (rate > 20) {
+                alert("Yearly interest rate seems too high");
+                return;
+            }
+            interestAmount = (balance * rate * totalDays) / 36500;
+        }
+
         interestAmount = parseFloat(interestAmount.toFixed(2));
 
-        $('#interestAmount').val(interestAmount);
+        if (interestAmount <= 0) {
+            alert("Calculated interest is invalid");
+            return;
+        }
 
-        let newBalance = balance + interestAmount;
-        $('#newBalance').val(newBalance.toFixed(2));
+        $('#interestAmount').val(interestAmount);
+        $('#newBalance').val((balance + interestAmount).toFixed(2));
     });
 
-    // =========================
-    // 4. Transfer Interest
-    // =========================
+    /* =========================
+       4. TRANSFER INTEREST
+    ========================= */
     $('#searchDataBtn').on('click', function (e) {
         e.preventDefault();
 
         let accountNumber = $('#accountNumber').val();
         let interestType = $('#interestType').val();
-        let interestAmount = parseFloat($('#interestAmount').val()) || 0;
-        let newBalance = parseFloat($('#newBalance').val()) || 0;
+        let interestAmount = parseFloat($('#interestAmount').val());
+        let newBalance = parseFloat($('#newBalance').val());
 
-        if (!accountNumber || !interestType || interestAmount <= 0) {
-            alert("Please generate interest before transferring.");
+        if (!accountNumber || !interestType || !interestAmount || interestAmount <= 0) {
+            alert("Please generate interest first");
             return;
         }
 
-        let data = {
+        let payload = {
             accountNumber: accountNumber,
             interestType: interestType,
             interestAmount: interestAmount,
@@ -118,21 +155,23 @@ $(document).ready(function () {
             url: "api/customersavings/transferInterest",
             type: "POST",
             contentType: "application/json",
-            data: JSON.stringify(data),
+            data: JSON.stringify(payload),
             success: function (response) {
+
                 if (response.status === "OK" || response.status === "SUCCESS") {
-                    alert("Interest transferred successfully!");
-                    // Refresh balance
+                    alert("Interest transferred successfully");
+
                     $('#currentBalance').val(newBalance.toFixed(2));
                     $('#interestAmount, #newBalance, #totalDays, #interestRate').val('');
+
                 } else {
-                    alert("Failed to transfer interest: " + response.message);
+                    alert(response.message || "Transfer failed");
                 }
             },
-            error: function (xhr) {
-                console.error("Error transferring interest:", xhr.responseText);
+            error: function () {
                 alert("Error transferring interest");
             }
         });
     });
+
 });
