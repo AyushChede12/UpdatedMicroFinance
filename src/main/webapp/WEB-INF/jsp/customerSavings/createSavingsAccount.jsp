@@ -27,19 +27,20 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">TYPE OF ACCOUNT</label> <select id="typeofaccount"
+						<label for="">TYPE OF ACCOUNT <span class="star">*</span></label> <select id="typeofaccount"
 							name="typeofaccount" required="required"
 							class="form-control selectField" style="height: 30px;">
 							<option value="savingaccount">SAVING ACCOUNT</option>
 							<option value="currentaccount">CURRENT ACCOUNT</option>
 
 						</select>
+						<small id="chktypeofaccount" style="color: red;"></small>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="vehicalNo">OPENING DATE</label> <input type="date"
+						<label for="vehicalNo">OPENING DATE <span class="star">*</span></label> <input type="date"
 							name="openingDate" id="openingDate" required="required"
 							placeholder="ENTER OPENING DATE"
 							style="text-transform: uppercase;" />
@@ -48,118 +49,121 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">SELECT BY CUSTOMER</label> <select
+						<label for="">SELECT BY CUSTOMER <span class="star">*</span></label> <select
 							id="selectByCustomer" name="selectByCustomer" required
 							class="form-control selectField" style="height: 30px;">
 							<option value="">SELECT</option>
 							<!-- Add options here -->
 						</select>
+						<small id="chkselectcustomer" style="color: red;"></small>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">ENTER CUSTOMER NAME </label> <input type="text"
+						<label for="">ENTER CUSTOMER NAME <span class="star">*</span></label> <input type="text"
 							name="enterCustomerName" id="enterCustomerName"
-							required="required" placeholder="ENTER CUSTOMER NAME" />
+							readonly="readonly" required="required"
+							placeholder="ENTER CUSTOMER NAME" />
 					</div>
 				</div>
 
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="vehicalNo">DATE OF BIRTH <span class="star">*</span></label>
-						<input type="date" name="dateOfBirth" id="dateOfBirth"
-							required="required" placeholder="ENTER DATEOFBIRTH"
-							style="text-transform: uppercase;" />
+						<label for="vehicalNo">DATE OF BIRTH <span class="star">*</span> <span class="star">*</span></label>
+						<input type="text" name="dateOfBirth" id="dateOfBirth"
+							readonly="readonly" placeholder="ENTER DOB" required="required" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">FAMILY DETAILS</label> <input type="text"
-							name="familyDetails" id="familyDetails" required="required"
-							placeholder="ENTER FAMILY DETAILS" />
+						<label for="">FAMILY DETAILS <span class="star">*</span></label> <input type="text"
+							readonly="readonly" name="familyDetails" id="familyDetails"
+							required="required" placeholder="ENTER FAMILY DETAILS" />
 					</div>
 				</div>
 
-
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">CONTACT NUMBER </label> <input type="text"
-							name="contactNumber" id="contactNumber" required="required"
-							placeholder="ENTER CONTACT NUMBER" />
+						<label for="">CONTACT NUMBER <span class="star">*</span></label> <input type="text"
+							readonly="readonly" name="contactNumber" id="contactNumber"
+							required="required" placeholder="ENTER CONTACT NUMBER" />
 					</div>
 				</div>
 
-
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">SUGGESTED NOMINEE NAME </label> <input type="text"
+						<label for="">SUGGESTED NOMINEE NAME <span class="star">*</span></label> <input type="text"
 							name="suggestedNomineeName" id="suggestedNomineeName"
-							required="required" placeholder="ENTER SUGGESTED NOMINEE NAME" />
+							readonly="readonly" required="required"
+							placeholder="ENTER SUGGESTED NOMINEE NAME" />
 					</div>
 				</div>
 
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">SUGGESTED NOMINEE AGE </label> <input type="text"
-							name="suggestedNomineeAge" id=suggestedNomineeAge
-							required="required" placeholder="ENTER SUGGESTED NOMINEE AGE" />
+						<label for="">SUGGESTED NOMINEE AGE <span class="star">*</span></label> <input type="text"
+							name="suggestedNomineeAge" id="suggestedNomineeAge"
+							readonly="readonly" required="required"
+							placeholder="ENTER SUGGESTED NOMINEE AGE" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">SUGGESTED NOMINEE RELATION</label> <input
-							type="text" id="suggestedNomineeRelation"
+						<label for="">SUGGESTED NOMINEE RELATION <span class="star">*</span></label> <input
+							type="text" id="suggestedNomineeRelation" readonly="readonly"
 							name="suggestedNomineeRelation" required="required"
 							placeholder="ENTER SUGGESTED NOMINEE RELATION" />
 					</div>
 				</div>
 
-
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">ADDRESS</label>
-						<textarea name="address" id="address"
+						<label for="">ADDRESS <span class="star">*</span></label>
+						<textarea name="address" id="address" readonly="readonly"
 							style="border: 1px solid rgb(224, 224, 224); border-radius: 5px; outline: none; padding: 5px; font-size: 12px;"></textarea>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">DISTRICT</label> <input type="text" name="district"
-							id="district" required="required" placeholder="ENTER DISTRICT" />
+						<label for="">DISTRICT <span class="star">*</span></label> <input type="text" name="district"
+							readonly="readonly" id="district" required="required"
+							placeholder="ENTER DISTRICT" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">BRANCH NAME</label> <input type="text"
-							id="branchName" name="branchName" required="required"
-							placeholder="ENTER BRANCH NAME" />
+						<label for="">BRANCH NAME <span class="star">*</span></label> <input type="text"
+							readonly="readonly" id="branchName" name="branchName"
+							required="required" placeholder="ENTER BRANCH NAME" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">STATE</label> <input type="text" name="state"
-							id="state" required="required" placeholder="ENTER STATE" />
+						<label for="">STATE <span class="star">*</span></label> <input type="text" name="state"
+							readonly="readonly" id="state" required="required"
+							placeholder="ENTER STATE" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">PIN CODE</label> <input type="text" name="pinCode"
-							id="pinCode" required="required" placeholder="ENTER PIN CODE" />
+						<label for="">PIN CODE <span class="star">*</span></label> <input type="text" name="pinCode"
+							readonly="readonly" id="pinCode" required="required"
+							placeholder="ENTER PIN CODE" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">OPERATION TYPE</label> <select id="operationType"
+						<label for="">OPERATION TYPE <span class="star">*</span></label> <select id="operationType"
 							name="operationType" required="required"
 							onchange="operationTypeFunc()" class="form-control selectField"
 							style="height: 30px;">
@@ -172,7 +176,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">JOINT OPERATION CODE </label> <select
+						<label for="">JOINT OPERATION CODE <span class="star">*</span></label> <select
 							id="jointOperationCode" name="jointOperationCode"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
@@ -203,12 +207,13 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">SELECT PLAN NAME </label> <select id="selectPlan"
+						<label for="">SELECT PLAN NAME <span class="star">*</span></label> <select id="selectPlan"
 							name="selectPlan" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">SELECT</option>
+							<option value="">--SELECT PLAN NAME--</option>
 
 						</select>
+						<small id="chkselectplan" style="color: red;"></small>
 					</div>
 				</div>
 
@@ -223,26 +228,29 @@
  -->
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">FINANCIAL CONSULTANT CODE</label> <input type="text"
+						<label for="">FINANCIAL CONSULTANT CODE <span class="star">*</span></label> <input type="text"
 							name=financialConsultantCode id="financialConsultantCode"
 							style="text-transform: uppercase;" required="required"
 							placeholder="ENTER FINANCIAL CONSULTANT CODE" />
+							<small id="chkfinancialcode" style="color: red;"></small>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">FINANCIAL CONSULTANT NAME</label> <input type="text"
+						<label for="">FINANCIAL CONSULTANT NAME <span class="star">*</span></label> <input type="text"
 							name="financialConsultantName" id="financialConsultantName"
-							required="required" placeholder="ENTER FINANCIAL CONSULTANT NAME" />
+							readonly="readonly" required="required"
+							placeholder="ENTER FINANCIAL CONSULTANT NAME" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">OPENING FEES (IF ANY)</label> <input type="text"
+						<label for="">OPENING FEES <span class="star">*</span></label> <input type="text"
 							name="openingFees" id="openingFees" required="required"
 							placeholder="ENTER OPENING FEES" />
+							<small id="chkopeningfees" style="color: red;"></small>
 					</div>
 				</div>
 
@@ -288,7 +296,7 @@
 			<div class="col-lg-3">
 				<div class="d-flex flex-column formFields mb-4">
 					<label for="">MODE OF PAYMENT</label> <select id="modeOfPayment"
-						name="modeOfPayment" required="required"
+						name="modeOfPayment" required="required" onchange="modeFunc()"
 						class="form-control selectField" style="height: 30px;">
 						<option selected="selected" value="">SELECT</option>
 						<option value="Cash">CASH</option>
@@ -299,13 +307,72 @@
 				</div>
 			</div>
 
+			<div class="col-lg-3 cheque-fields">
+				<div class="d-flex flex-column formFields">
+					<label for="">CHEQUE NO. </label> <input type="text"
+						name="chequeNo" id="chequeNo" required="required"
+						placeholder="ENTER CHEQUE NO." />
+				</div>
+			</div>
+
+			<div class="col-lg-3 cheque-fields">
+				<div class="d-flex flex-column formFields">
+					<label for="">CHEQUE DATE </label> <input type="Date"
+						name="chequeDate" id="chequeDate" required="required"
+						placeholder="ENTER CHEQUE DATE" />
+				</div>
+			</div>
+
+			<div class="col-lg-3 cheque-fields">
+				<div class="d-flex flex-column formFields">
+					<label for="">DEPOSIT A/C </label> <input type="text"
+						name="depositAcc1" id="depositAcc1" required="required"
+						placeholder="ENTER DEPOSIT A/C  NO." />
+				</div>
+			</div>
+
+			<!-- Online -->
+			<div class="col-lg-3 online-fields">
+				<div class="d-flex flex-column formFields">
+					<label for="">REF NUMBER </label> <input type="text"
+						name="refNumber1" id="refNumber1" required="required"
+						placeholder="ENTER DEPOSIT REF NO." />
+				</div>
+			</div>
+
+			<div class="col-lg-3 online-fields">
+				<div class="d-flex flex-column formFields">
+					<label for="">DEPOSIT A/C </label> <input type="text"
+						name="depositAcc2" id="depositAcc2" required="required"
+						placeholder="ENTER DEPOSIT A/C  NO." />
+				</div>
+			</div>
+
+			<!-- NEFT -->
+			<div class="col-lg-3 neft-fields">
+				<div class="d-flex flex-column formFields">
+					<label for="">DEPOSIT A/C </label> <input type="text"
+						name="depositAcc3" id="depositAcc3" required="required"
+						placeholder="ENTER DEPOSIT A/C  NO." />
+				</div>
+			</div>
+
+			<div class="col-lg-3 neft-fields">
+				<div class="d-flex flex-column formFields">
+					<label for="">REF NUMBER </label> <input type="text"
+						name="refNumber2" id="refNumber2" required="required"
+						placeholder="ENTER DEPOSIT REF NO." />
+				</div>
+			</div>
+
 			<div class="col-lg-3">
 				<div class="d-flex flex-column formFields mb-4">
 					<label for=""> COMMENT</label>
-					<textarea name="comment" id="comment" style="text-transform: uppercase;"
+					<textarea name="comment" id="comment"
 						style="border: 1px solid rgb(224, 224, 224); border-radius: 5px; outline: none; padding: 5px; font-size: 12px;"></textarea>
 				</div>
 			</div>
+			<br> <br>
 			<div class="col-lg-3">
 				<div class="h-100 d-flex justify-content-start align-items-center">
 					<div
@@ -382,72 +449,6 @@
 									name="accountFreeze" class="toggle__input"> <label
 									for="toggle-member-status4" class="toggle__label"></label>
 							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-
-			<!-- Cheque input fields -->
-			<div id="chequeInputs" style="display: none;">
-				<div class="row">
-					<div class="col-lg-3">
-						<div class="d-flex flex-column formFields">
-							<label for="">CHEQUE NO. </label> <input type="text"
-								name="chequeNo" id="chequeNo" required="required"
-								placeholder="ENTER CHEQUE NO." />
-						</div>
-					</div>
-					<div class="col-lg-3">
-						<div class="d-flex flex-column formFields">
-							<label for="">CHEQUE DATE </label> <input type="Date"
-								name="chequeDate" id="chequeDate" required="required"
-								placeholder="ENTER CHEQUE DATE" />
-						</div>
-					</div>
-					<div class="col-lg-3">
-						<div class="d-flex flex-column formFields">
-							<label for="">DEPOSIT A/C </label> <input type="text"
-								name="depositAcc1" id="depositAcc1" required="required"
-								placeholder="ENTER DEPOSIT A/C  NO." />
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- Online input fields -->
-			<div id="onlineInputs" style="display: none;">
-				<div class="row">
-					<div class="col-lg-3">
-						<div class="d-flex flex-column formFields">
-							<label for="">DEPOSIT A/C </label> <input type="text"
-								name="depositAcc2" id="depositAcc2" required="required"
-								placeholder="ENTER DEPOSIT A/C  NO." />
-						</div>
-					</div>
-					<div class="col-lg-3">
-						<div class="d-flex flex-column formFields">
-							<label for="">REF NUMBER </label> <input type="text"
-								name="refNumber1" id="refNumber1" required="required"
-								placeholder="ENTER DEPOSIT REF NO." />
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- NEFT input fields -->
-			<div id="neftInputs" style="display: none;">
-				<div class="row">
-					<div class="col-lg-3">
-						<div class="d-flex flex-column formFields">
-							<label for="">DEPOSIT A/C </label> <input type="text"
-								name="depositAcc3" id="depositAcc3" required="required"
-								placeholder="ENTER DEPOSIT A/C  NO." />
-						</div>
-					</div>
-					<div class="col-lg-3">
-						<div class="d-flex flex-column formFields">
-							<label for="">REF NUMBER </label> <input type="text"
-								name="refNumber2" id="refNumber2" required="required"
-								placeholder="ENTER DEPOSIT REF NO." />
 						</div>
 					</div>
 				</div>
@@ -600,32 +601,6 @@
 			</div>
 		</div>
 	</div>
-	<!-- Cheque input fields -->
-	<div id="chequeInputs" style="display: none;">
-		<div class="row">
-			<div class="col-lg-3">
-				<div class="d-flex flex-column formFields">
-					<label for="">CHEQUE NO. </label> <input type="text"
-						name="chequeNo" id="chequeNo" required="required"
-						placeholder="Enter Cheque No." />
-				</div>
-			</div>
-			<div class="col-lg-3">
-				<div class="d-flex flex-column formFields">
-					<label for="">CHEQUE DATE </label> <input type="Date"
-						name="chequeDate" id="chequeDate" required="required"
-						placeholder="Enter Cheque Date" />
-				</div>
-			</div>
-			<div class="col-lg-3">
-				<div class="d-flex flex-column formFields">
-					<label for="">DEPOSIT A/C </label> <input type="text"
-						name="depositAcc1" id="depositAcc1" required="required"
-						placeholder="ENTER DEPOSIT A/C NO." />
-				</div>
-			</div>
-		</div>
-	</div>
 
 	<div class="row">
 		<div class="col-12 text-center">
@@ -675,33 +650,37 @@
 
 <script>    
 
-document.addEventListener('DOMContentLoaded', function () {
-
-    const modeSelect = document.getElementById('modeOfPayment');
-    if (!modeSelect) return;
-
-    modeSelect.addEventListener('change', function () {
-
-        const chequeInputs = document.getElementById('chequeInputs');
-        const onlineInputs = document.getElementById('onlineInputs');
-        const neftInputs = document.getElementById('neftInputs');
-
-        if (chequeInputs) chequeInputs.style.display = 'none';
-        if (onlineInputs) onlineInputs.style.display = 'none';
-        if (neftInputs) neftInputs.style.display = 'none';
-
-        if (this.value === 'Cheque' && chequeInputs) {
-            chequeInputs.style.display = 'block';
-        }
-        if (this.value === 'Online' && onlineInputs) {
-            onlineInputs.style.display = 'block';
-        }
-        if (this.value === 'NEFT' && neftInputs) {
-            neftInputs.style.display = 'block';
-        }
-    });
+$(document).ready(function(){
+	$(".cheque-fields").hide();
+	$(".online-fields").hide();
+	$(".neft-fields").hide();
+	 
 });
 
+function modeFunc(){
+	var mode=$("#modeOfPayment").val();
+	
+	if(mode=="Cash"){
+		$(".cheque-fields").hide();
+		$(".online-fields").hide();
+		$(".neft-fields").hide();
+	}
+	else if(mode=="Cheque"){
+		$(".cheque-fields").show();
+		$(".online-fields").hide();
+		$(".neft-fields").hide();
+	}
+	else if(mode=="Online"){
+		$(".cheque-fields").hide();
+		$(".online-fields").show();
+		$(".neft-fields").hide();
+	}
+	else if(mode=="NEFT"){
+		$(".cheque-fields").hide();
+		$(".online-fields").hide();
+		$(".neft-fields").show();
+	}
+}
 document.addEventListener('DOMContentLoaded', () => {
 	const toggles = document.querySelectorAll('.toggle__input');
 
@@ -727,6 +706,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	}
 }); 
+
 
 </script>
 <script
