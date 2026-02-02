@@ -34,7 +34,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">BRANCH NAME </label> <select id="branchName1"
+						<label for="">BRANCH NAME </label> <select id="branchName"
 							name="branchName" required="required"
 							class="form-control selectField">
 							<option value="">SELECT</option>
