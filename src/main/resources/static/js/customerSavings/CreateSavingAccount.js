@@ -918,3 +918,54 @@ function operationTypeFunc() {
 		$("#myJointPhoto").show();
 	}
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+	document.getElementById("memberFeesTable").style.display = "none";
+
+
+});
+
+document.getElementById("openingFees").addEventListener("click", function(event) {
+	event.stopPropagation();
+
+	let table = document.getElementById("memberFeesTable");
+	table.style.display = (table.style.display === "none" || table.style.display === "")
+		? "block" : "none";
+});
+
+
+document.getElementById("memberFeesTable").addEventListener("click", function(event) {
+	event.stopPropagation();
+});
+
+
+document.addEventListener("click", function() {
+	document.getElementById("memberFeesTable").style.display = "none";
+});
+
+
+function calcOpeningFees() {
+
+	let n2000 = (document.getElementById("qty2000").value || 0) * 2000;
+	let n500 = (document.getElementById("qty500").value || 0) * 500;
+	let n200 = (document.getElementById("qty200").value || 0) * 200;
+	let n100 = (document.getElementById("qty100").value || 0) * 100;
+	let n50 = (document.getElementById("qty50").value || 0) * 50;
+	let n20 = (document.getElementById("qty20").value || 0) * 20;
+	let n10 = (document.getElementById("qty10").value || 0) * 10;
+	let n5 = (document.getElementById("qty5").value || 0) * 5;
+
+	document.getElementById("res2000").innerText = n2000;
+	document.getElementById("res500").innerText = n500;
+	document.getElementById("res200").innerText = n200;
+	document.getElementById("res100").innerText = n100;
+	document.getElementById("res50").innerText = n50;
+	document.getElementById("res20").innerText = n20;
+	document.getElementById("res10").innerText = n10;
+	document.getElementById("res5").innerText = n5;
+
+	let total = n2000 + n500 + n200 + n100 + n50 + n20 + n10 + n5;
+
+	document.getElementById("totalFee").innerText = total;
+	document.getElementById("openingFees").value = total;
+}
