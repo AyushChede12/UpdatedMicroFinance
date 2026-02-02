@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <div class="pagetitle">
 	<h1>SAVING / CURRENT ACCOUNT</h1>
@@ -121,12 +122,11 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">TRANSACTION FOR</label> <input type="text"
-							name="transactionFor" id="transactionFor" required="required"
+							style="text-transform: uppercase;" name="transactionFor"
+							id="transactionFor" required="required"
 							placeholder="ENTER TRANSACTION FOR" />
 					</div>
 				</div>
-
-
 
 				<div class="col-lg-3">
 
@@ -153,14 +153,96 @@
 					</div>
 				</div>
 
-
-
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">TRANSACTION AMOUNT</label> <input type="text"
 							name="transactionAmount" id="transactionAmount"
 							required="required" placeholder="ENTER TRANSACTION AMOUNT" />
 					</div>
+					<table id="memberFeesTable" class="table table-bordered"
+						style="font-size: 10px; position: absolute; bottom: 40px; left: 0; width: 90%; display: none; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); z-index: 1000; table-layout: fixed;">
+
+						<thead>
+							<tr style="height: 26px;">
+								<th style="padding: 3px; width: 28%;">Input</th>
+								<th style="padding: 3px; width: 34%;">Qty</th>
+								<th style="padding: 3px; width: 38%;">Result</th>
+							</tr>
+						</thead>
+
+						<tbody>
+
+							<tr style="height: 26px;">
+								<td style="padding: 4px 2px;">₹2000</td>
+								<td><input type="number" id="qty2000" min="0" value="0"
+									class="form-control" oninput="calcOpeningFees()"
+									style="height: 22px; font-size: 10px; padding: 2px;"></td>
+								<td style="padding: 4px 2px;">₹<span id="res2000">0</span></td>
+							</tr>
+
+							<tr style="height: 26px;">
+								<td style="padding: 4px 2px;">₹500</td>
+								<td><input type="number" id="qty500" min="0" value="0"
+									class="form-control" oninput="calcOpeningFees()"
+									style="height: 22px; font-size: 10px; padding: 2px;"></td>
+								<td style="padding: 4px 2px;">₹<span id="res500">0</span></td>
+							</tr>
+
+							<tr style="height: 26px;">
+								<td style="padding: 4px 2px;">₹200</td>
+								<td><input type="number" id="qty200" min="0" value="0"
+									class="form-control" oninput="calcOpeningFees()"
+									style="height: 22px; font-size: 10px; padding: 2px;"></td>
+								<td style="padding: 4px 2px;">₹<span id="res200">0</span></td>
+							</tr>
+
+							<tr style="height: 26px;">
+								<td style="padding: 4px 2px;">₹100</td>
+								<td><input type="number" id="qty100" min="0" value="0"
+									class="form-control" oninput="calcOpeningFees()"
+									style="height: 22px; font-size: 10px; padding: 2px;"></td>
+								<td style="padding: 4px 2px;">₹<span id="res100">0</span></td>
+							</tr>
+
+							<tr style="height: 26px;">
+								<td style="padding: 4px 2px;">₹50</td>
+								<td><input type="number" id="qty50" min="0" value="0"
+									class="form-control" oninput="calcOpeningFees()"
+									style="height: 22px; font-size: 10px; padding: 2px;"></td>
+								<td style="padding: 4px 2px;">₹<span id="res50">0</span></td>
+							</tr>
+
+							<tr style="height: 26px;">
+								<td style="padding: 4px 2px;">₹20</td>
+								<td><input type="number" id="qty20" min="0" value="0"
+									class="form-control" oninput="calcOpeningFees()"
+									style="height: 22px; font-size: 10px; padding: 2px;"></td>
+								<td style="padding: 4px 2px;">₹<span id="res20">0</span></td>
+							</tr>
+
+							<tr style="height: 26px;">
+								<td style="padding: 4px 2px;">₹10</td>
+								<td><input type="number" id="qty10" min="0" value="0"
+									class="form-control" oninput="calcOpeningFees()"
+									style="height: 22px; font-size: 10px; padding: 2px;"></td>
+								<td style="padding: 4px 2px;">₹<span id="res10">0</span></td>
+							</tr>
+
+							<tr style="height: 26px;">
+								<td style="padding: 4px 2px;">₹5</td>
+								<td><input type="number" id="qty5" min="0" value="0"
+									class="form-control" oninput="calcOpeningFees()"
+									style="height: 22px; font-size: 10px; padding: 2px;"></td>
+								<td style="padding: 4px 2px;">₹<span id="res5">0</span></td>
+							</tr>
+
+							<tr style="height: 30px;">
+								<th colspan="2" style="padding: 4px 2px;">Total Member Fees</th>
+								<th style="padding: 4px 2px;">₹<span id="totalFee">0</span></th>
+							</tr>
+
+						</tbody>
+					</table>
 				</div>
 
 				<div class="col-lg-3">
