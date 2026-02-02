@@ -10,7 +10,6 @@ $(document).ready(function () {
             url: "api/Policymangment/getApprovedPolicies",
             type: "GET",
             success: function (response) {
-
                 console.log("API RESPONSE =", response);
 
                 if (response && Array.isArray(response.data)) {
@@ -36,40 +35,28 @@ $(document).ready(function () {
         let branches = new Set();
 
         data.forEach(p => {
-
             let branchName =
-                p.branchName ||
-                p.branch ||
-                p.branch_name ||
-                p.branch?.branchName;
+                (p.branchName || (p.branch && p.branch.branchName) || "")
+                    .toString()
+                    .trim();
 
-            if (branchName) {
-                branchName = branchName.toString().trim();
-                if (!branches.has(branchName)) {
-                    branches.add(branchName);
-                    branchDropdown.append(
-                        `<option value="${branchName}">${branchName}</option>`
-                    );
-                }
+            if (branchName && !branches.has(branchName.toLowerCase())) {
+                branches.add(branchName.toLowerCase());
+                branchDropdown.append(
+                    `<option value="${branchName.toLowerCase()}">${branchName}</option>`
+                );
             }
         });
     }
 
-    // ================= DATE PARSER (SAFE) =================
+    // ================= DATE PARSER =================
     function parseDate(dateStr) {
-
         if (!dateStr) return null;
 
-        // yyyy-MM-dd or yyyy-MM-ddTHH:mm:ss
-        let iso = new Date(dateStr);
-        if (!isNaN(iso)) return iso;
-
-        // dd-MM-yyyy
-        if (dateStr.includes("-")) {
-            let p = dateStr.split("-");
-            if (p.length === 3) {
-                return new Date(p[2], p[1] - 1, p[0]);
-            }
+        let d = new Date(dateStr);
+        if (!isNaN(d)) {
+            d.setHours(0, 0, 0, 0);
+            return d;
         }
 
         return null;
@@ -88,42 +75,35 @@ $(document).ready(function () {
             return;
         }
 
-        let from = new Date(fromDate).setHours(0, 0, 0, 0);
-        let to = new Date(toDate).setHours(0, 0, 0, 0);
+        let from = new Date(fromDate);
+        from.setHours(0, 0, 0, 0);
 
-        if (from > to) {
-            alert("From Date cannot be greater than To Date");
-            return;
-        }
+        let to = new Date(toDate);
+        to.setHours(23, 59, 59, 999);
 
         let filtered = allPolicies.filter(p => {
 
-            // branch
+            // ===== BRANCH =====
             let policyBranch =
-                p.branchName ||
-                p.branch ||
-                p.branch_name ||
-                p.branch?.branchName ||
-                "";
+                (p.branchName || (p.branch && p.branch.branchName) || "")
+                    .toString()
+                    .trim()
+                    .toLowerCase();
 
-            policyBranch = policyBranch.toString().trim().toLowerCase();
-
-            // date
+            // ===== DATE (IMPORTANT FIX) =====
             let rawDate =
+                p.policyStartDate ||   // ✅ MAIN FIELD
                 p.policyDate ||
-                p.policy_date ||
                 p.createdDate ||
                 p.investmentDate;
 
             let policyDateObj = parseDate(rawDate);
             if (!policyDateObj) return false;
 
-            let policyDate = policyDateObj.setHours(0, 0, 0, 0);
-
             return (
-                policyBranch === branch.trim().toLowerCase() &&
-                policyDate >= from &&
-                policyDate <= to
+                policyBranch.includes(branch.toLowerCase()) &&
+                policyDateObj >= from &&
+                policyDateObj <= to
             );
         });
 
@@ -148,21 +128,10 @@ $(document).ready(function () {
             return;
         }
 
-        $.each(data, function (i, p) {
+        data.forEach((p, i) => {
 
-            let branch =
-                p.branchName ||
-                p.branch ||
-                p.branch_name ||
-                p.branch?.branchName ||
-                "-";
-
-            let date =
-                p.policyDate ||
-                p.policy_date ||
-                p.createdDate ||
-                p.investmentDate ||
-                "-";
+            let branch = p.branchName || (p.branch && p.branch.branchName) || "-";
+            let date = p.policyStartDate || "-";
 
             tbody.append(`
                 <tr>
@@ -185,43 +154,5 @@ $(document).ready(function () {
             `);
         });
     }
-
-    // ================= PRINT MODAL =================
-    window.openPrintModal = function (id) {
-
-        let p = allPolicies.find(x => x.id === id);
-        if (!p) return;
-
-        $("#bankName").text("MICROFINANCE BANK");
-        $("#reportTitle").text("Investment Transaction Report");
-
-        $("#customerName").text(p.customerName || "-");
-        $("#accountNumber").text(p.policyCode || "-");
-        $("#periodCovered").text(
-            p.policyDate || p.policy_date || "-"
-        );
-
-        $("#transactionTableBody").html(`
-            <tr>
-                <td>${p.policyCode || "-"}</td>
-                <td>${p.policyDate || "-"}</td>
-                <td>${p.policyAmount || "-"}</td>
-                <td>${p.policyType || "-"}</td>
-                <td>${p.policyMode || "-"}</td>
-            </tr>
-        `);
-
-        $("#bankReportModal").modal("show");
-    };
-
-    // ================= PRINT =================
-    $("#printBankReportBtn").click(function () {
-        let data = $("#bankReportContent").html();
-        let old = $("body").html();
-        $("body").html(data);
-        window.print();
-        $("body").html(old);
-        location.reload();
-    });
 
 });
