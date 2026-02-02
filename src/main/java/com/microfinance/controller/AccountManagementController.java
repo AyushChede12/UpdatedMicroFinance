@@ -2,6 +2,7 @@ package com.microfinance.controller;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -24,6 +25,7 @@ import com.microfinance.dto.LedgerAccountDto;
 import com.microfinance.dto.LedgerSummaryDto;
 import com.microfinance.dto.ManualJournalDto;
 import com.microfinance.dto.OutgoingPaymentDto;
+import com.microfinance.dto.TrialBalanceReportDto;
 import com.microfinance.model.LedgerAccountMaster;
 import com.microfinance.service.AccountManagementService;
 
@@ -245,6 +247,34 @@ public class AccountManagementController {
 	        List<LedgerSummaryDto> result = accountManagementService.getLedgerSummary(branch, ledger, startDate, endDate);
 	        return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "Fetched Successfully" , result));
 	    }
+	  
+	  @GetMapping("/journal-entry-report")
+	    public ResponseEntity<ApiResponse<Map<String, Object>>> getJournalEntryReport(
+	            @RequestParam String branch,
+	            @RequestParam String voucherType,
+	            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+	            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
+
+	        Map<String, Object> report = accountManagementService.getJournalEntryReport(branch, voucherType, startDate, endDate);
+
+	        return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "Journal Report Fetched Successfully", report));
+	    }
+	  @GetMapping("/trial-balance")
+	  public ResponseEntity<ApiResponse<List<TrialBalanceReportDto>>> getTrialBalance(
+	          @RequestParam String branch,
+	          @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+	          @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
+
+	      List<TrialBalanceReportDto> response =
+	              accountManagementService.getTrialBalance(branch, startDate, endDate);
+
+	      return ResponseEntity.ok(
+	              ApiResponse.success(HttpStatus.OK, "Trial Balance Fetched Successfully", response)
+	      );
+	  }
+
+
+
 	
 	
 	

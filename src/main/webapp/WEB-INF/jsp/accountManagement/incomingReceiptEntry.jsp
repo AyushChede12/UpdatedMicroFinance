@@ -3,7 +3,7 @@
 	<h1>Account Management</h1>
 	<nav>
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="openDashboard"> <i
+			<li class="breadcrumb-item"><a href="home"> <i
 					class="bi bi-wallet2"></i>
 			</a></li>
 			<li class="breadcrumb-item action">Incoming Receipt Entry</li>
@@ -85,7 +85,7 @@
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
 				<label for="">Voucher ID <span class="star">*</span></label> <input
-					type="text" name="voucherID" id="receiptID" required="required"
+					type="text" name="voucherID" id="voucherID" required="required"
 					placeholder="Enter Voucher ID" disabled />
 			</div>
 		</div>
@@ -229,6 +229,8 @@
 	</div>
 </div>
 
+<script
+	src="${pageContext.request.contextPath}/js/account-management/incomingReceiptEntry.js"></script>
 <script>
 	$(document).ready(function() {
 		BranchNameDropdown();
@@ -236,5 +238,3 @@
 
 	});
 </script>
-<script
-	src="${pageContext.request.contextPath}/js/account-management/incomingReceiptEntry.js"></script>

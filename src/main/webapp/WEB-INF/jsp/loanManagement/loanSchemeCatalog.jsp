@@ -30,7 +30,8 @@
 						<label for="loanName">LOAN PLAN NAME <span class="star">*</span></label>
 						<input type="text" name="loanPlaneName" id="loanPlaneName"
 							required="required" placeholder="ENTER LOAN PLAN NAME"
-							style="text-transform: uppercase;" />
+							style="text-transform: uppercase;" /><small id="chkloanplanname"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -44,23 +45,25 @@
 							<option value="Vehicle Loan">VEHICLE LOAN</option>
 							<option value="Home Loan">HOME LOAN</option>
 							<option value="personal Loan">PERSONAL LOAN</option>
-						</select>
+						</select><small id="chkloantype"
+							style="color: red;"></small>
 					</div>
 				</div>
 
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="loanName">AGE</label> <input type="text" name="age"
+						<label for="loanName">AGE <span class="star">*</span></label> <input type="text" name="age"
 							id="age" required="required" placeholder="ENTER YOUR AGE"
-							style="text-transform: uppercase;" /> <span id="message"></span>
+							style="text-transform: uppercase;" /> <span id="message"></span><small id="chkage"
+							style="color: red;"></small>
 					</div>
 
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for=""> INTEREST TYPE</label> <select id="typeIntrest"
+						<label for=""> INTEREST TYPE <span class="star">*</span></label> <select id="typeIntrest"
 							name="typeIntrest" required="required"
 							class="form-control selectField" style="height: 30px;">
 							<option value="">SELECT ROI TYPE</option>
@@ -68,17 +71,19 @@
 							<option value="Reducing Interest">REDUCING INTEREST</option>
 							<option value="Rule 78">RULE 78</option>
 
-						</select>
+						</select><small id="chkinteresttype"
+							style="color: red;"></small>
 					</div>
 				</div>
 
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for=""> LOAN TERM </label> <input type="text"
+						<label for=""> LOAN TERM <span class="star">*</span></label> <input type="text"
 							name="loanTerm" id="loanTerm" onblur="validateLoanDuration()"
 							required="required" placeholder="ENTER MIN LOAN DURATION " /><span
-							id="durationMsg"></span>
+							id="durationMsg"></span><small id="chkloanterm"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -87,19 +92,20 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="loanAmount">LOAN AMOUNT</label> <input type="text"
+						<label for="loanAmount">LOAN AMOUNT <span class="star">*</span></label> <input type="text"
 							name="loanAmount" id="loanAmount" required
 							placeholder="ENTER MINIMUM LOAN AMOUNT"
 							oninput="validateLoanAmount()" style="text-transform: uppercase;" />
 						<small id="loanAmountError" style="color: red; display: none;">
-							Amount must be greater than or equal to 100000 </small>
+							Amount must be greater than or equal to 100000 </small><small id="chkloanamount"
+							style="color: red;"></small>
 					</div>
 				</div>
 
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">LOAN MODE</label> <select id="loanMode"
+						<label for="">LOAN MODE <span class="star">*</span></label> <select id="loanMode"
 							name="loanMode" required="required"
 							class="form-control selectField" style="height: 30px;">
 							<option value="">SELECT LOAN MODE</option>
@@ -108,15 +114,17 @@
 							<option value="Fortnightly">FORTNIGHTLY</option>
 							<option value="Monthly">MONTHLY</option>
 							<option value="Quarterly">QUARTERLY</option>
-						</select>
+						</select><small id="chkloanmode"
+							style="color: red;"></small>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">RATE INTEREST TYPE(%P.A.)</label> <input type="text"
+						<label for="">RATE INTEREST TYPE(%P.A.) <span class="star">*</span></label> <input type="text"
 							name="rateIntrestType" id="rateIntrestType" required="required"
-							placeholder="ENTER RATE INTEREST TYPE" />
+							placeholder="ENTER RATE INTEREST TYPE" /><small id="chkroi"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -124,7 +132,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">SECURITY TYPE</label> <select id="typesecurity"
+						<label for="">SECURITY TYPE <span class="star">*</span></label> <select id="typesecurity"
 							name="typesecurity" required="required"
 							class="form-control selectField" style="height: 30px;">
 							<option value="">SELECT SECURITY</option>
@@ -132,20 +140,22 @@
 							<option value="Mortgage">MORTAGE</option>
 							<option value="Property">PROPERTY</option>
 							<option value="Gold">GOLD</option>
-						</select>
+						</select><small id="chksecuritytype"
+							style="color: red;"></small>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">EMI TYPE</label> <select id="emiType" name="emiType"
+						<label for="">EMI TYPE <span class="star">*</span></label> <select id="emiType" name="emiType"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
 							<option value="">SELECT EMI TYPE</option>
 							<option value="Regular">REGULAR</option>
 							<option value="Irregular">IRREGULAR</option>
 
-						</select>
+						</select><small id="chkemitype"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -154,7 +164,8 @@
 						<div
 							class="d-flex justify-content-start align-items-center formFields">
 							<label for="planStatus" style="margin-left: 20px;" class="mb-2">PLAN
-								STATUS</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								STATUS <span class="star">*</span></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <small id="chkplanstatus"
+							style="color: red;"></small>
 							<div class="cont">
 								<div class="toggle">
 									<input type="checkbox" id="planStatus" name="planStatus"
@@ -180,41 +191,46 @@
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">PROCESSING FEE(%) </label> <input type="text"
+						<label for="">PROCESSING FEE(%) <span class="star">*</span></label> <input type="text"
 							name="feeProcessing" id="feeProcessing" required="required"
-							placeholder="ENTER PROCESSING FEE" />
+							placeholder="ENTER PROCESSING FEE" /><small id="chkprocessingfee"
+							style="color: red;"></small>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for=""> LEGAL CHARGES(%)</label> <input type="text"
+						<label for=""> LEGAL CHARGES(%) <span class="star">*</span></label> <input type="text"
 							name="chargesLegal" id="chargesLegal" required="required"
-							placeholder="ENTER LEGAL CHARGES" />
+							placeholder="ENTER LEGAL CHARGES" /><small id="chklegalcharges"
+							style="color: red;"></small>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">GST(%)</label> <input type="text" name="gst"
-							id="gst" required="required" placeholder="ENTER GST" />
+						<label for="">GST(%) <span class="star">*</span></label> <input type="text" name="gst"
+							id="gst" required="required" placeholder="ENTER GST" /><small id="chkgst"
+							style="color: red;"></small>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">INSURANCE FEE(%)</label> <input type="text"
+						<label for="">INSURANCE FEE(%) <span class="star">*</span></label> <input type="text"
 							name="feeInsurence" id="feeInsurence" required="required"
-							placeholder="ENTER INSURANCE FEE" />
+							placeholder="ENTER INSURANCE FEE" /><small id="chkinsurancefee"
+							style="color: red;"></small>
 					</div>
 				</div>
 
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">VALUATION FEE(%) </label> <input type="text"
+						<label for="">VALUATION FEE(%) <span class="star">*</span></label> <input type="text"
 							name="feeValuation" id="feeValuation" required="required"
-							placeholder="ENTER VALUATION FEE" />
+							placeholder="ENTER VALUATION FEE" /><small id="chkvaluationfee"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -230,14 +246,15 @@
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">LATE ALLOWANCE DAY</label> <input type="text"
+						<label for="">LATE ALLOWANCE DAY <span class="star">*</span></label> <input type="text"
 							name="lateAllowanceday" id="lateAllowanceday" required="required"
-							placeholder="ENTER LATE ALLOWANCE DAYS" />
+							placeholder="ENTER LATE ALLOWANCE DAYS" /><small id="chklateallowanceday"
+							style="color: red;"></small>
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">PENALTY MODE</label> <select id="modePanalty"
+						<label for="">PENALTY MODE <span class="star">*</span></label> <select id="modePanalty"
 							name="modePanalty" required="required"
 							class="form-control selectField" style="height: 30px;">
 							<option value="">SELECT PENALTY TYPE</option>
@@ -248,9 +265,10 @@
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for=""> MONTHLY PENALTY </label> <input type="numbtexter"
+						<label for=""> MONTHLY PENALTY <span class="star">*</span></label> <input type="text"
 							name="pennaltyMonthly" id="pennaltyMonthly" required="required"
-							placeholder="ENTER MONTHLY PENALTY" />
+							placeholder="ENTER MONTHLY PENALTY" /><small id="chkmonthlypenalty"
+							style="color: red;"></small>
 					</div>
 				</div>
 			</div>
@@ -260,10 +278,8 @@
 		<input type="hidden" id="loanId" value="" />
 		<div class="row">
 			<div class="col-12 text-center">
-				<button id="saveBtn" class="btnStyle bg-success">SAVE</button>
-
-
-				<button id="updateBtn" class="btnStyle"
+				<button type="button" id="saveBtn" class="btnStyle bg-success">SAVE</button>
+				<button type="button" id="updateBtn" class="btnStyle"
 					style="background-color: #FFA500;">UPDATE</button>
 
 			</div>
@@ -306,6 +322,33 @@
 	</div>
 
 </div>
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const toggles = document.querySelectorAll('.toggle__input');
+
+		toggles.forEach((toggle) => {
+			// Initialize colors
+			updateToggleColor(toggle);
+
+			// console.log("updated toggle" , toggle)
+
+			// Add change event listener
+			toggle.addEventListener('change', () => {
+				updateToggleColor(toggle);
+				// console.log(${ toggle.dataset.toggleType } is now ${ toggle.checked });
+			});
+		});
+
+		function updateToggleColor(input) {
+			const label = input.nextElementSibling;
+			if (input.checked) {
+				label.style.backgroundColor = '#28a745'; // Green ON
+			} else {
+				label.style.backgroundColor = '#ccc'; // Gray OFF
+			}
+		}
+	}); 
+</script>
 
 <script
 	src="${pageContext.request.contextPath}/js/LoanManagment/LoanSchemCatalog.js"></script>

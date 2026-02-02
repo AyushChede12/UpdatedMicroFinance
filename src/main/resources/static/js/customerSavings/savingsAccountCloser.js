@@ -1,7 +1,7 @@
 //janvi : Customer Account No. list fetch
 $(document).ready(function() {
     $.ajax({
-        url: "/api/reports/getApprovedSavingAccount",
+        url: "api/reports/getApprovedSavingAccount",
         type: "GET",
         success: function(response) {
 			console.log("API response:", response);
@@ -30,7 +30,7 @@ $('#accountNumber').on('change', function () {
 
     if (accountNumber !== "") {
         $.ajax({
-            url: '/api/customersavings/getallbyaccountnumber', // Pass as query param
+            url: 'api/customersavings/getallbyaccountnumber', // Pass as query param
             type: 'GET',
             data: { accountNumber: accountNumber },
             success: function (response) {

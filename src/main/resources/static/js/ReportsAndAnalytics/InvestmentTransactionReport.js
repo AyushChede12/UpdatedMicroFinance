@@ -1,178 +1,227 @@
-$(document).ready(function() {
-	let allPolicies = [];
+$(document).ready(function () {
 
-	// ✅ 1. Fetch all approved policies on load
-	$.ajax({
-		url: "api/Policymangment/getApprovedPolicies",
-		method: "GET",
-		contentType: "application/json",
-		success: function(response) {
-			if (response?.data && Array.isArray(response.data)) {
-				allPolicies = response.data;
-				populateBranches(allPolicies);
-				renderTable(allPolicies);
-			} else {
-				$(".datatable tbody").html(
-					"<tr><td colspan='10'>No approved policies found.</td></tr>"
-				);
-			}
-		},
-		error: function() {
-			alert("Error while fetching policies data.");
-		},
-	});
+    let allPolicies = [];
 
-	// ✅ 2. Populate branch dropdown
-	function populateBranches(policies) {
-		let branches = new Set();
-		policies.forEach((p) => {
-			if (p.branchName) branches.add(p.branchName);
-		});
-		branches.forEach((branch) => {
-			$("#branchName1").append(`<option value="${branch}">${branch}</option>`);
-		});
-	}
+    // ================= LOAD DATA =================
+    loadApprovedPolicies();
 
-	// ✅ 3. Filter policies by branch/date
-	$("#findBtn").click(function(e) {
-		e.preventDefault();
-		const selectedBranch = $("#branchName1").val();
-		const fromDate = $("#fromDate").val();
-		const toDate = $("#toDate").val();
+    function loadApprovedPolicies() {
+        $.ajax({
+            url: "api/Policymangment/getApprovedPolicies",
+            type: "GET",
+            success: function (response) {
 
-		if (!fromDate || !toDate) {
-			alert("Please select both From and To dates.");
-			return;
-		}
+                console.log("API RESPONSE =", response);
 
-		const filtered = allPolicies.filter((p) => {
-			const date = p.policyStartDate;
-			return (
-				(!selectedBranch || p.branchName === selectedBranch) &&
-				date >= fromDate &&
-				date <= toDate
-			);
-		});
+                if (response && Array.isArray(response.data)) {
+                    allPolicies = response.data;
+                    loadBranchDropdown(allPolicies);
+                } else {
+                    console.error("Invalid API response");
+                }
+            },
+            error: function (e) {
+                console.error("API ERROR", e);
+            }
+        });
+    }
 
-		renderTable(filtered);
-	});
+    // ================= BRANCH DROPDOWN =================
+    function loadBranchDropdown(data) {
 
-	// ✅ 4. Render Policy Table
-	function renderTable(data) {
-		const tbody = $(".datatable tbody");
-		tbody.empty();
+        let branchDropdown = $("#branchName1");
+        branchDropdown.empty();
+        branchDropdown.append('<option value="">SELECT</option>');
 
-		if (!data.length) {
-			tbody.append("<tr><td colspan='10'>No matching policies found.</td></tr>");
-			return;
-		}
+        let branches = new Set();
 
-		data.forEach((policy, i) => {
-			tbody.append(`
-				<tr>
-					<td>${i + 1}</td>
-					<td>${policy.policyCode || ""}</td>
-					<td>${policy.customerName || ""}</td>
-					<td>${policy.schemeType || ""}</td>
-					<td>${policy.policyStartDate || ""}</td>
-					<td>${policy.policyAmount || ""}</td>
-					<td>${policy.contactNo || ""}</td>
-					<td>${policy.branchName || ""}</td>
-					<td>${policy.approved ? "Yes" : "No"}</td>
-					<td>
-						<button class="btn btn-outline-success btn-sm bankReportBtn"
-							data-id="${policy.id}"
-							data-bs-toggle="modal"
-							data-bs-target="#bankReportModal"
-							title="View Report">
-							<i class="bi bi-printer"></i>
-						</button>
-					</td>
-				</tr>
-			`);
-		});
+        data.forEach(p => {
 
-		bindModalEvents();
-	}
+            let branchName =
+                p.branchName ||
+                p.branch ||
+                p.branch_name ||
+                p.branch?.branchName;
 
-	// ✅ 5. Bank Report Modal Handler
-	function bindModalEvents() {
-		$(".bankReportBtn").off("click").on("click", function() {
-			const id = $(this).data("id");
-			const policy = allPolicies.find((p) => p.id === id);
-			if (!policy) return;
+            if (branchName) {
+                branchName = branchName.toString().trim();
+                if (!branches.has(branchName)) {
+                    branches.add(branchName);
+                    branchDropdown.append(
+                        `<option value="${branchName}">${branchName}</option>`
+                    );
+                }
+            }
+        });
+    }
 
-			// ✅ Fill modal header and bank info
-			$("#bankLogo").attr("src", "https://i.ibb.co/zFSWbkC/banklogo.png");
-			$("#bankName").text("Sterling Bank");
-			$("#reportTitle").text("Microfinance Transaction Report");
+    // ================= DATE PARSER (SAFE) =================
+    function parseDate(dateStr) {
 
-			$("#accountNumber").text(policy.memberSelection || "N/A");
-			$("#periodCovered").text(`${policy.policyStartDate} - ${policy.maturityDate}`);
+        if (!dateStr) return null;
 
-			// ✅ Customer and summary details
-			$("#customerName").text(policy.customerName || "");
-			$("#customerAddress1").text(policy.address ? `Address: ${policy.address}` : "");
-			$("#customerAddress2").text(policy.branchName ? `Branch: ${policy.branchName}` : "");
+        // yyyy-MM-dd or yyyy-MM-ddTHH:mm:ss
+        let iso = new Date(dateStr);
+        if (!isNaN(iso)) return iso;
 
-			$("#startingBalance").html(`&#8377; ${policy.policyAmount || 0}`);
-			$("#incomeAmount").html(`&#8377; ${policy.depositAmount || 0}`);
-			$("#expensesAmount").html(`&#8377; ${policy.amountDue || 0}`);
-			$("#closingBalance").html(`&#8377; ${policy.maturityAmount || 0}`);
+        // dd-MM-yyyy
+        if (dateStr.includes("-")) {
+            let p = dateStr.split("-");
+            if (p.length === 3) {
+                return new Date(p[2], p[1] - 1, p[0]);
+            }
+        }
 
-			// ✅ Fill Transactions Table
-			const tbody = $("#transactionTableBody");
-			tbody.empty();
+        return null;
+    }
 
-			if (policy.policyCode != null) {
-				tbody.append(`
-						<tr>
-							<td>${policy.policyCode || ""}</td>
-							<td>${policy.policyStartDate || ""}</td>
-							<td>${policy.policyAmount || ""}</td>
-							<td>${policy.schemeType || ""}</td>
-							<td>${policy.schemeMode || ""}</td>
-						</tr>
-					`);
-			} else {
-				tbody.append(`
-					<tr>
-						<td colspan="5" class="text-center text-muted">
-							No transaction data available
-						</td>
-					</tr>
-				`);
-			}
+    // ================= FIND BUTTON =================
+    $("#findBtn").click(function (e) {
+        e.preventDefault();
 
-			// ✅ Show modal
-			$("#bankReportModal").modal("show");
-		});
-	}
+        let branch = $("#branchName1").val();
+        let fromDate = $("#fromDate").val();
+        let toDate = $("#toDate").val();
 
-	// ✅ 6. Print Modal Content
-	$("#printBankReportBtn").click(function() {
-		const content = document.getElementById("bankReportContent").innerHTML;
-		const printWindow = window.open("", "", "width=900,height=700");
-		printWindow.document.write(`
-			<html>
-				<head>
-					<title>Transaction Report</title>
-					<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-					<style>
-						body { font-family: Arial, sans-serif; padding: 20px; }
-						h4, h5, h6 { color: #0d6efd; }
-						table { width: 100%; border-collapse: collapse; }
-						th, td { padding: 8px; border: 1px solid #ddd; }
-						th { background-color: #f2f2f2; }
-						.text-end { text-align: right; }
-						.text-center { text-align: center; }
-					</style>
-				</head>
-				<body>${content}</body>
-			</html>
-		`);
-		printWindow.document.close();
-		printWindow.focus();
-		printWindow.print();
-	});
+        if (!branch || !fromDate || !toDate) {
+            alert("All fields required");
+            return;
+        }
+
+        let from = new Date(fromDate).setHours(0, 0, 0, 0);
+        let to = new Date(toDate).setHours(0, 0, 0, 0);
+
+        if (from > to) {
+            alert("From Date cannot be greater than To Date");
+            return;
+        }
+
+        let filtered = allPolicies.filter(p => {
+
+            // branch
+            let policyBranch =
+                p.branchName ||
+                p.branch ||
+                p.branch_name ||
+                p.branch?.branchName ||
+                "";
+
+            policyBranch = policyBranch.toString().trim().toLowerCase();
+
+            // date
+            let rawDate =
+                p.policyDate ||
+                p.policy_date ||
+                p.createdDate ||
+                p.investmentDate;
+
+            let policyDateObj = parseDate(rawDate);
+            if (!policyDateObj) return false;
+
+            let policyDate = policyDateObj.setHours(0, 0, 0, 0);
+
+            return (
+                policyBranch === branch.trim().toLowerCase() &&
+                policyDate >= from &&
+                policyDate <= to
+            );
+        });
+
+        console.log("FILTERED RECORDS =", filtered.length);
+        fillTable(filtered);
+    });
+
+    // ================= TABLE FILL =================
+    function fillTable(data) {
+
+        let tbody = $("table tbody");
+        tbody.empty();
+
+        if (!data || data.length === 0) {
+            tbody.append(`
+                <tr>
+                    <td colspan="10" class="text-center text-danger">
+                        No data found
+                    </td>
+                </tr>
+            `);
+            return;
+        }
+
+        $.each(data, function (i, p) {
+
+            let branch =
+                p.branchName ||
+                p.branch ||
+                p.branch_name ||
+                p.branch?.branchName ||
+                "-";
+
+            let date =
+                p.policyDate ||
+                p.policy_date ||
+                p.createdDate ||
+                p.investmentDate ||
+                "-";
+
+            tbody.append(`
+                <tr>
+                    <td>${i + 1}</td>
+                    <td>${p.policyCode || "-"}</td>
+                    <td>${p.customerName || "-"}</td>
+                    <td>${p.policyName || "-"}</td>
+                    <td>${date}</td>
+                    <td>${p.policyAmount || "-"}</td>
+                    <td>${p.contactNumber || "-"}</td>
+                    <td>${branch}</td>
+                    <td><span class="badge bg-success">APPROVED</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-primary"
+                            onclick="openPrintModal(${p.id})">
+                            <i class="bi bi-printer"></i>
+                        </button>
+                    </td>
+                </tr>
+            `);
+        });
+    }
+
+    // ================= PRINT MODAL =================
+    window.openPrintModal = function (id) {
+
+        let p = allPolicies.find(x => x.id === id);
+        if (!p) return;
+
+        $("#bankName").text("MICROFINANCE BANK");
+        $("#reportTitle").text("Investment Transaction Report");
+
+        $("#customerName").text(p.customerName || "-");
+        $("#accountNumber").text(p.policyCode || "-");
+        $("#periodCovered").text(
+            p.policyDate || p.policy_date || "-"
+        );
+
+        $("#transactionTableBody").html(`
+            <tr>
+                <td>${p.policyCode || "-"}</td>
+                <td>${p.policyDate || "-"}</td>
+                <td>${p.policyAmount || "-"}</td>
+                <td>${p.policyType || "-"}</td>
+                <td>${p.policyMode || "-"}</td>
+            </tr>
+        `);
+
+        $("#bankReportModal").modal("show");
+    };
+
+    // ================= PRINT =================
+    $("#printBankReportBtn").click(function () {
+        let data = $("#bankReportContent").html();
+        let old = $("body").html();
+        $("body").html(data);
+        window.print();
+        $("body").html(old);
+        location.reload();
+    });
+
 });

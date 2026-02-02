@@ -1,6 +1,7 @@
 <!-- <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 pageEncoding="ISO-8859-1"%> -->
 <!DOCTYPE html>
+<%@page import="java.util.List"%>
 <html>
 
 <head>
@@ -34,8 +35,6 @@ pageEncoding="ISO-8859-1"%> -->
 <jsp:include page="../sidebar.jsp"></jsp:include>
 <jsp:include page="../header.jsp"></jsp:include>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-
 </head>
 
 
@@ -121,7 +120,7 @@ pageEncoding="ISO-8859-1"%> -->
 										</div>
 
 										<div class="ps-3" id="ShareIssueCount">
-											<h6>3246</h6>
+											<h6></h6>
 										</div>
 									</div>
 								</div>
@@ -523,6 +522,7 @@ pageEncoding="ISO-8859-1"%> -->
 	<!-- <script src="js/chartScript.js"></script> -->
 	<script src="./js/adminscript.js"></script>
 	<script src="./js/Dashboard/DashboardCard.js"></script>
+
 </body>
 
 </html>

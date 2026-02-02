@@ -56,31 +56,39 @@ function renderTable(data) {
                 </td>
             </tr>
         `;
-        tbody.append(noDataRow);0
-        return; // Exit the function early
+        tbody.append(noDataRow);
+        return;
     }
 
     data.forEach((item, index) => {
+
+        // 🔹 Build customer full name using array
+		const customerFullName =
+		    item.customerName ||
+		    [item.firstName, item.middleName, item.lastName]
+		        .filter(Boolean)
+		        .join(' ') ||
+		    '-';
+
+
         const row = `
             <tr style="font-family: 'Poppins', sans-serif;">
                 <td>
                     <input type="checkbox" class="approval-checkbox"
                         data-id="${item.id}" ${item.isApproved ? 'checked' : ''} />
-                </td>   
-				<td>${index + 1}</td>
-				                  
-				                   <td>${item.policyCode || '-'}</td>
-				                   <td>${item.policyStartDate || '-'}</td>
-								   <td>${item.customerName || '-'}</td>
-								   <td>${item.contactNo || '-'}</td>
-								   <td>${item.branchName || '-'}</td>
-								   <td>${item.suggestedNominee || '-'}</td>
-								   <td>${item.schemeType || '-'}</td>
-								   <td>${item.schemeTerm || '-'}</td>
-								   
-								   
+                </td>
+                <td>${index + 1}</td>
+                <td>${item.policyCode || '-'}</td>
+                <td>${item.policyStartDate || '-'}</td>
+                <td>${customerFullName || '-'}</td>
+                <td>${item.contactNo || '-'}</td>
+                <td>${item.branchName || '-'}</td>
+                <td>${item.suggestedNominee || '-'}</td>
+                <td>${item.schemeType || '-'}</td>
+                <td>${item.schemeTerm || '-'}</td>
             </tr>
         `;
+
         tbody.append(row);
     });
 }

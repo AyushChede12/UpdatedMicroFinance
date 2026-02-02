@@ -50,7 +50,6 @@ $(document).ready(function() {
 		}
 
 		$.ajax({
-			url: "/api/loanmanegment/getLoanById",
 			method: "GET",
 			data: { loanId: loanId }, // request param
 			success: function(result) {

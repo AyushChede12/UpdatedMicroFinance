@@ -211,7 +211,7 @@
 			<!-- Footer -->
 			<div class="modal-footer">
 				<button id="printBankReportBtn" class="btn btn-success">
-					<i class="bi bi-printer"></i> Print
+					<i class="bi bi-printer"></i>
 				</button>
 				<button type="button" class="btn btn-secondary"
 					data-bs-dismiss="modal">Close</button>
@@ -219,3 +219,6 @@
 		</div>
 	</div>
 </div>
+
+<script
+	src="${pageContext.request.contextPath}/js/ReportsAndAnalytics/InvestmentTransactionReport.js"></script>

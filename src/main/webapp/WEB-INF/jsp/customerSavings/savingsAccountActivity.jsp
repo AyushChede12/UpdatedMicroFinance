@@ -25,25 +25,29 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">SAVING TRANSACTION ID</label> <input type="text"
 							name="selectSavingTransactionId" id="selectSavingTransactionId"
-							required="required" value="${transactionCode}" placeholder=" " />
+							readonly="readonly" required="required"
+							value="${transactionCode}" placeholder=" " />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="vehicalNo">TRANSACTION DATE</label> <input type="date"
-							name="transactionDate" id="transactionDate" required="required"
-							placeholder="Enter Vehicle No" style="text-transform: uppercase;" />
+							name="transactionDate" id="transactionDate" required="required" " />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
+					<!-- width badhane ke liye 6 -->
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">ACCOUNT NUMBER</label> <input type="text"
-							name="accountNumber" id="accountNumber" required="required"
-							placeholder="ENTER ACCOUNT NUMBER" />
+						<label for="accountNumber">ACCOUNT NUMBER</label> <select
+							id="accountNumber" name="accountNumber"
+							class="form-control selectField account-select" required>
+							<option value="">--SELECT ACCOUNT NUMBER--</option>
+						</select>
 					</div>
 				</div>
+
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
@@ -58,7 +62,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">CUSTOMER CODE</label> <input type="text"
 							name="customerCode" id="customerCode" required="required"
-							placeholder=" ENTER MEMBER CODE" />
+							placeholder=" ENTER CUSTOMER CODE" />
 					</div>
 				</div>
 
@@ -80,9 +84,9 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">JOINT HOLDEE NAME</label> <input type="text"
+						<label for="">JOINT HOLDER NAME</label> <input type="text"
 							name="jointHolderName" id="jointHolderName" required="required"
-							placeholder="ENTER JOINT HOLDEE NAME" />
+							placeholder="ENTER JOINT HOLDER NAME" />
 					</div>
 				</div>
 
@@ -101,7 +105,7 @@
 		<div class="mt-5">
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">PAYMET DETAILS</li>
+					<li class="breadcrumb-item action">PAYMENT DETAILS</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -117,8 +121,8 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">TRANSACTION FOR</label> <input type="text"
-							name="transactionFor" id="transactionFor" required="required"
-							placeholder="ENTER AVERAGE BALANCE" />
+							readonly="readonly" name="transactionFor" id="transactionFor"
+							required="required" placeholder="ENTER TRANSACTION FOR" />
 					</div>
 				</div>
 
@@ -130,7 +134,7 @@
 						<label for="">TRANSACTION TYPE</label> <select
 							id="transactionType" name="transactionType" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">-SELECT-</option>
+							<option value="">--SELECT TYPE--</option>
 							<option value="Deposit">DEPOSIT</option>
 							<option value="Withdraw">WITHDRAW</option>
 
@@ -140,14 +144,14 @@
 
 
 				<div class="col-lg-3">
-	<div class="d-flex flex-column formFields mb-4">
-		<label for="">COMMENTS</label>
-		<select id="comments" name="comments" required="required"
-			class="form-control selectField" style="height: 30px;">
-			<option value="">-SELECT-</option>
-		</select>
-	</div>
-</div>
+					<div class="d-flex flex-column formFields mb-4">
+						<label for="">COMMENTS</label> <select id="comments"
+							name="comments" required="required"
+							class="form-control selectField" style="height: 30px;">
+							<option value="">--SELECT--</option>
+						</select>
+					</div>
+				</div>
 
 
 
@@ -242,8 +246,9 @@
 
 		<div class="row">
 			<div class="col-12 text-center">
-				<button id="saveBtn" class="btn btn-warning"
+				<button type="button" id="saveBtn" class="btn btn-warning"
 					style="margin-left: 80%;">Save</button>
+
 			</div>
 		</div>
 	</form>
@@ -283,7 +288,7 @@
 	</div>
 </div>
 
-<script src="./js/customerSavings/SavingAccountActivity.js"></script>
+
 <script>
 	document.getElementById('payBy').addEventListener('change', function() {
 		// Get the selected payment mode
