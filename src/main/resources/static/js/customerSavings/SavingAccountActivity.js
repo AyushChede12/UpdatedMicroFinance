@@ -31,7 +31,7 @@ function loadAccountNumberDropdown() {
             dropdown.empty();
 
             // default option
-            dropdown.append('<option value="">- SELECT ACCOUNT NUMBER -</option>');
+            dropdown.append('<option value="">--SELECT ACCOUNT NUMBER--</option>');
 
             if ((response.status === "OK" || response.status === "FOUND")
                 && response.data && response.data.length > 0) {
@@ -79,12 +79,12 @@ $('#accountNumber').on('change', function () {
                 let customer = response.data[0];
 
                 $('#customerCode').val(customer.selectByCustomer || '');
-                $('#customerName').val(customer.enterCustomerName || '');
+                $('#customerName').val((customer.enterCustomerName).toUpperCase() || '');
                 $('#contactNumber').val(customer.contactNumber || '');
-                $('#jointHolderName').val(customer.jointSurvivorCode || '');
-                $('#savingPlanName').val(customer.selectPlan || '');
+                $('#jointHolderName').val((customer.jointSurvivorCode).toUpperCase() || '');
+                $('#savingPlanName').val((customer.selectPlan).toUpperCase() || '');
                 $('#averageBalance').val(customer.openingFees || '');
-                $('#selectBranchName').val(customer.branch || customer.branchName || '');
+                $('#selectBranchName').val((customer.branch || customer.branchName).toUpperCase() || '');
 
                 // Make fields read-only
                 $('#customerCode, #customerName, #contactNumber, #jointHolderName, #savingPlanName, #averageBalance, #selectBranchName')
@@ -190,7 +190,6 @@ $(document).ready(function () {
 // LOAD TRANSACTION TABLE
 // =========================================
 function reloadTransactionTable(accountNumber) {
-alert(accountNumber);
     $.ajax({
         type: "GET",
         url: "api/customersavings/getsavingaccountactivity",

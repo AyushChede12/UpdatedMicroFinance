@@ -6,7 +6,7 @@ $(document).ready(function() {
 			console.log("API response:", response);
 			var dropdown1 = $('#accountNumber');
 			dropdown1.empty();
-			dropdown1.append('<option value="">Select</option>');
+			dropdown1.append('<option value="">--SELECT ACCOUNT NO--</option>');
 
 			if (response.status === "OK" && response.data) {
 				$.each(response.data, function(index, item) {

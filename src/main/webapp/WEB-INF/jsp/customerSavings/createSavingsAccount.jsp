@@ -71,7 +71,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="vehicalNo">DATE OF BIRTH <span class="star">*</span> <span class="star">*</span></label>
+						<label for="vehicalNo">DATE OF BIRTH <span class="star">*</span></label>
 						<input type="text" name="dateOfBirth" id="dateOfBirth"
 							readonly="readonly" placeholder="ENTER DOB" required="required" />
 					</div>

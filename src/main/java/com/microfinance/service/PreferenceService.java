@@ -688,7 +688,7 @@ public class PreferenceService {
 
 		Optional<CompanyImageUploads> opt = companyImageUploadsRepo.findById(id);
 
-		if (opt.isEmpty()) {
+		if (opt.isPresent()) {
 			return false;
 		}
 

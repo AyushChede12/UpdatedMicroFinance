@@ -51,9 +51,9 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">SELECT BRANCH NAME</label> <input type="text"
-							name="selectBranchName" id="selectBranchName" required="required"
-							placeholder="ENTER BRANCH NAME" />
+						<label for="">BRANCH NAME</label> <input type="text"
+							readonly="readonly" name="selectBranchName" id="selectBranchName"
+							required="required" placeholder="ENTER BRANCH NAME" />
 					</div>
 				</div>
 
@@ -61,40 +61,40 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">CUSTOMER CODE</label> <input type="text"
-							name="customerCode" id="customerCode" required="required"
-							placeholder=" ENTER CUSTOMER CODE" />
+							readonly="readonly" name="customerCode" id="customerCode"
+							required="required" placeholder=" ENTER CUSTOMER CODE" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">CUSTOMER NAME</label> <input type="text"
-							name="customerName" id="customerName" required="required"
-							placeholder="ENTER CUSTOMER NAME" />
+							readonly="readonly" name="customerName" id="customerName"
+							required="required" placeholder="ENTER CUSTOMER NAME" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">CONTACT NUMBER</label> <input type="text"
-							name="contactNumber" id="contactNumber" required="required"
-							placeholder="ENTER CONTACT NUMBER" />
+							readonly="readonly" name="contactNumber" id="contactNumber"
+							required="required" placeholder="ENTER CONTACT NUMBER" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">JOINT HOLDER NAME</label> <input type="text"
-							name="jointHolderName" id="jointHolderName" required="required"
-							placeholder="ENTER JOINT HOLDER NAME" />
+							readonly="readonly" name="jointHolderName" id="jointHolderName"
+							required="required" placeholder="ENTER JOINT HOLDER NAME" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">SAVING PLAN NAME</label> <input type="text"
-							name="savingPlanName" id="savingPlanName" required="required"
-							placeholder="ENTER SAVING PLAN NAME" />
+							readonly="readonly" name="savingPlanName" id="savingPlanName"
+							required="required" placeholder="ENTER SAVING PLAN NAME" />
 					</div>
 				</div>
 
@@ -121,8 +121,8 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">TRANSACTION FOR</label> <input type="text"
-							readonly="readonly" name="transactionFor" id="transactionFor"
-							required="required" placeholder="ENTER TRANSACTION FOR" />
+							name="transactionFor" id="transactionFor" required="required"
+							placeholder="ENTER TRANSACTION FOR" />
 					</div>
 				</div>
 
@@ -266,17 +266,17 @@
 				<table class="table table-borderless datatable overflow-scroll">
 					<thead class="table-light">
 						<tr style="font-family: 'Poppins', sans-serif;">
-							<th scope="col">SR NO</th>
-							<th scope="col">BRANCH NAME</th>
-							<th scope="col">OPENING DATE</th>
-							<th scope="col">ACCOUNT NUMBER</th>
-							<th scope="col">TRANSACTION TYPE</th>
-							<th scope="col">CREDIT/DEBIT</th>
-							<th scope="col">BALANCE</th>
-							<th scope="col">PAY MODE</th>
-							<th scope="col">REMARKS</th>
-							<th scope="col">TXN ID</th>
-							<th scope="col">USER ID</th>
+							<th style="white-space: nowrap;">SR NO</th>
+							<th style="white-space: nowrap;">BRANCH NAME</th>
+							<th style="white-space: nowrap;">OPENING DATE</th>
+							<th style="white-space: nowrap;">ACCOUNT NUMBER</th>
+							<th style="white-space: nowrap;">TRANSACTION TYPE</th>
+							<th style="white-space: nowrap;">CREDIT/DEBIT</th>
+							<th style="white-space: nowrap;">BALANCE</th>
+							<th style="white-space: nowrap;">PAY MODE</th>
+							<th style="white-space: nowrap;">REMARKS</th>
+							<th style="white-space: nowrap;">TXN ID</th>
+							<th style="white-space: nowrap;">USER ID</th>
 						</tr>
 					</thead>
 					<tbody id="tbody">

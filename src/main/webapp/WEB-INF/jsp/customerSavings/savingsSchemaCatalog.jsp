@@ -27,7 +27,7 @@
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
 				<label>PLAN NAME</label>
-				<input type="text" id="policyName" class="form-control"
+				<input type="text" id="policyName" class="form-control" style="text-transform: uppercase;"
 					placeholder="ENTER PLAN NAME" required />
 			</div>
 		</div>
@@ -35,7 +35,7 @@
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
 				<label>YEARLY ROI (%)</label>
-				<input type="number" id="yearlyROI" class="form-control"
+				<input type="number" id="yearlyROI" class="form-control";
 					placeholder="ENTER YEARLY ROI" step="0.01" required />
 			</div>
 		</div>
@@ -43,7 +43,7 @@
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
 				<label>CUSTOMER NAME</label>
-				<input type="text" id="customerName" class="form-control"
+				<input type="text" id="customerName" class="form-control" style="text-transform: uppercase";
 					placeholder="ENTER CUSTOMER NAME" required />
 			</div>
 		</div>
