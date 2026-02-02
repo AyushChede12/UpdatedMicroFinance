@@ -113,19 +113,29 @@
 								required="required" placeholder="Enter Nominee Name" />
 						</div>
 					</div>
-
-
-
+					
 
 					<div class="col-lg-3">
+								<div class="d-flex flex-column formFields"
+									style="margin-bottom: 30px">
+									<label>Net Deposite <span class="star">*</span></label> <input
+										type="text" name="netDeposite" id="netDeposite"
+										required="required" placeholder="Enter Net Deposite" />
+								</div>
+				  </div>
+					
+
+
+					 <div class="col-lg-3">
 						<div class="d-flex flex-column formFields"
 							style="margin-bottom: 30px">
 							<label>Policy Type <span class="star">*</span></label> <input
 								type="text" name="policyType" id="policyType"
 								required="required" placeholder="Enter Nominee Name" />
 						</div>
-					</div>
-
+					</div> 
+					
+					
 
 					<!-- in this two text fieldds are required -->
 					<div class="col-lg-3">
@@ -155,7 +165,7 @@
 
 
 					<div class="col-lg-3">
-						<div class="d-flex flex-column formFields">
+						<div class="d-flex flex-column formFields mt-4">
 							<label for="">Payment Due <span class="star">*</span></label> <input
 								type="text" name="paymentDue" id="paymentDue"
 								required="required" placeholder="Enter Education" />
@@ -163,13 +173,13 @@
 					</div>
 
 
-					<div class="col-lg-3">
+					<!-- <div class="col-lg-3">
 						<div class="d-flex flex-column formFields mt-4">
 							<label for="">Last Payment Date <span class="star">*</span></label>
 							<input type="text" name="lastPaymentDate" id="lastPaymentDate"
 								required="required" placeholder="Enter Education" />
 						</div>
-					</div>
+					</div> -->
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields mt-4">

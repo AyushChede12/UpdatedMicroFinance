@@ -190,7 +190,7 @@ $(document).ready(function () {
 // LOAD TRANSACTION TABLE
 // =========================================
 function reloadTransactionTable(accountNumber) {
-
+alert(accountNumber);
     $.ajax({
         type: "GET",
         url: "api/customersavings/getsavingaccountactivity",
@@ -198,7 +198,7 @@ function reloadTransactionTable(accountNumber) {
         dataType: "json",
         success: function (response) {
 
-            let tbody = $('#tbody');
+            let tbody = $('.datatable tbody');
             tbody.empty();
 
             if (response.data && response.data.length > 0) {

@@ -123,11 +123,11 @@ $(document).ready(function() {
 			console.log("API response:", response);
 			var dropdown = $('#selectPlan');
 			dropdown.empty();
-			dropdown.append('<option value="">SELECT</option>');
+			dropdown.append('<option value="">--SELECT PLAN NAME--</option>');
 
 			if (response.status === "FOUND" && response.data) {
 				$.each(response.data, function(index, item) {
-					dropdown.append('<option value="' + item + '">' + item + '</option>');
+					dropdown.append('<option value="' + item + '">' + item.toUpperCase() + '</option>');
 				});
 			} else {
 				dropdown.append('<option value="">NO POLICY FOUND</option>');
@@ -192,7 +192,7 @@ $(document).ready(function() {
 
 					// Only add if name & code exist
 					if (fullName && customer.memberCode) {
-						const optionText = `${fullName} - ${customer.memberCode}`;
+						const optionText = `${(fullName).toUpperCase()} - ${customer.memberCode}`;
 						const optionValue = customer.memberCode;
 
 						$select.append(`<option value="${optionValue}">${optionText}</option>`);
@@ -232,21 +232,21 @@ $('#selectByCustomer').on('change', function() {
 						customer.middleName,
 						customer.lastName
 					].filter(Boolean).join(" ");
-					$('#enterCustomerName').val(fullName);
-					$('#familyDetails').val(customer.guardianName);
-					$('#contactNumber').val(customer.contactNo);
-					$('#suggestedNomineeName').val(customer.nomineeName);
+					$('#enterCustomerName').val(fullName.toUpperCase());
+					$('#familyDetails').val(customer.guardianName.toUpperCase());
+					$('#contactNumber').val(customer.contactNo.toUpperCase());
+					$('#suggestedNomineeName').val(customer.nomineeName.toUpperCase());
 					$('#suggestedNomineeAge').val(customer.nomineeAge);
-					$('#suggestedNomineeRelation').val(customer.nomineeRelationToApplicant);
-					$('#address').val(customer.customerAddress);
-					$('#district').val(customer.district);
-					$('#branchName').val(customer.branchName);
+					$('#suggestedNomineeRelation').val(customer.nomineeRelationToApplicant.toUpperCase());
+					$('#address').val(customer.customerAddress.toUpperCase());
+					$('#district').val(customer.district.toUpperCase());
+					$('#branchName').val(customer.branchName.toUpperCase());
 					$('#pinCode').val(customer.pinCode);
-					$('#district').val(customer.district);
-					$('#state').val(customer.state);
+					$('#district').val(customer.district.toUpperCase());
+					$('#state').val(customer.state.toUpperCase());
 					$('#dateOfBirth').val(customer.dob);
-					$('#emailId').val(customer.emailId);
-					$('#aadharNo').val(customer.aadharNo);
+					$('#emailId').val(customer.emailId.toUpperCase());
+					$('#aadharNo').val(customer.aadharNo.toUpperCase());
 					//photo
 					/*if (customer.customerPhoto) {
 						const imagePath = `Uploads/${customer.customerPhoto}`; // Construct full image path
@@ -468,7 +468,7 @@ $('#financialConsultantCode').on('blur', function() {
 			success: function(response) {
 				if (response.status === "FOUND") {
 					let customer = response.data[0];
-					$('#financialConsultantName').val(customer.financialName);
+					$('#financialConsultantName').val(customer.financialName.toUpperCase());
 				} else {
 					alert('No data found!');
 					$('#financialConsultantName').val('');
@@ -548,6 +548,22 @@ $(document).ready(function() {
 	$('#newSignatureHidden').val(imageName4);*/
 	$('#saveBtn').click(function(event) {
 		event.preventDefault();
+		$('#chktypeofaccount, #chkselectcustomer, #chkselectplan, #chkfinancialcode, #chkopeningfees').text('');
+		var typeofaccount = $('#typeofaccount').val().trim();
+		var selectByCustomer = $('#selectByCustomer').val().trim();
+		var selectPlan = $('#selectPlan').val().trim();
+		var financialConsultantCode = $('#financialConsultantCode').val().trim();
+		var openingFees = $('#openingFees').val().trim();
+
+		let isValid = true;
+
+		if (typeofaccount === '') { $('#chktypeofaccount').text('* please select account type'); isValid = false; }
+		if (selectByCustomer === '') { alert("First Select Any Customer"); isValid = false; }
+		if (selectPlan === '') { $('#chkselectplan').text('* please select plan'); isValid = false; }
+		if (financialConsultantCode === '') { $('#chkfinancialcode').text('* please enter financial code'); isValid = false; }
+		if (openingFees === '') { $('#chkopeningfees').text('* opening fees is mandatory'); isValid = false; }
+
+		if (!isValid) return false;
 
 		const formData = new FormData();
 
@@ -655,116 +671,116 @@ $(document).ready(function() {
 });
 
 function viewData(id) {
-    $.ajax({
-        url: "api/customersavings/getSavingAccountDataById",
-        type: "GET",
-        data: { id: id },
-        success: function(response) {
-            if (response.status == "FOUND") {
-                const data = response.data;
+	$.ajax({
+		url: "api/customersavings/getSavingAccountDataById",
+		type: "GET",
+		data: { id: id },
+		success: function(response) {
+			if (response.status == "FOUND") {
+				const data = response.data;
 
-                // ---------- Fill input fields ----------
-                $("#id").val(data.id);
-                $("#openingDate").val(data.openingDate);
-                $("#selectByCustomer").val(data.selectByCustomer);
-                $("#enterCustomerName").val(data.enterCustomerName);
-                $("#dateOfBirth").val(data.dateOfBirth);
-                $("#familyDetails").val(data.familyDetails);
-                $("#contactNumber").val(data.contactNumber);
-                $("#suggestedNomineeName").val(data.suggestedNomineeName);
-                $("#suggestedNomineeAge").val(data.suggestedNomineeAge);
-                $("#suggestedNomineeRelation").val(data.suggestedNomineeRelation);
-                $("#address").val(data.address);
-                $("#district").val(data.district);
-                $("#branchName").val(data.branchName);
-                $("#state").val(data.state);
-                $("#pinCode").val(data.pinCode);
-                $("#operationType").val(data.operationType);
-                $("#jointOperationCode").val(data.jointOperationCode);
-                $("#jointSurvivorCode").val(data.jointSurvivorCode);
-                $("#familyRelation").val(data.familyRelation);
-                $("#selectPlan").val(data.selectPlan);
-                $("#balance").val(data.balance);
-                $("#financialConsultantCode").val(data.financialConsultantCode);
-                $("#financialConsultantName").val(data.financialConsultantName);
-                $("#openingFees").val(data.openingFees);
-                $("#emailId").val(data.emailId);
-                $("#aadharNo").val(data.aadharNo);
-                $("#authenticateWith").val(data.authenticateWith);
-                $("#modeOfPayment").val(data.modeOfPayment);
-                $("#chequeNo").val(data.chequeNo);
-                $("#chequeDate").val(data.chequeDate);
-                $("#depositAcc1").val(data.depositAcc1);
-                $("#depositAcc2").val(data.depositAcc2);
-                $("#refNumber1").val(data.refNumber1);
-                $("#depositAcc3").val(data.depositAcc3);
-                $("#refNumber2").val(data.refNumber2);
-                $("#comment").val(data.comment);
-                $("#accountNumber").val(data.accountNumber);
+				// ---------- Fill input fields ----------
+				$("#id").val(data.id);
+				$("#openingDate").val(data.openingDate);
+				$("#selectByCustomer").val(data.selectByCustomer);
+				$("#enterCustomerName").val(data.enterCustomerName);
+				$("#dateOfBirth").val(data.dateOfBirth);
+				$("#familyDetails").val(data.familyDetails);
+				$("#contactNumber").val(data.contactNumber);
+				$("#suggestedNomineeName").val(data.suggestedNomineeName);
+				$("#suggestedNomineeAge").val(data.suggestedNomineeAge);
+				$("#suggestedNomineeRelation").val(data.suggestedNomineeRelation);
+				$("#address").val(data.address);
+				$("#district").val(data.district);
+				$("#branchName").val(data.branchName);
+				$("#state").val(data.state);
+				$("#pinCode").val(data.pinCode);
+				$("#operationType").val(data.operationType);
+				$("#jointOperationCode").val(data.jointOperationCode);
+				$("#jointSurvivorCode").val(data.jointSurvivorCode);
+				$("#familyRelation").val(data.familyRelation);
+				$("#selectPlan").val(data.selectPlan);
+				$("#balance").val(data.balance);
+				$("#financialConsultantCode").val(data.financialConsultantCode);
+				$("#financialConsultantName").val(data.financialConsultantName);
+				$("#openingFees").val(data.openingFees);
+				$("#emailId").val(data.emailId);
+				$("#aadharNo").val(data.aadharNo);
+				$("#authenticateWith").val(data.authenticateWith);
+				$("#modeOfPayment").val(data.modeOfPayment);
+				$("#chequeNo").val(data.chequeNo);
+				$("#chequeDate").val(data.chequeDate);
+				$("#depositAcc1").val(data.depositAcc1);
+				$("#depositAcc2").val(data.depositAcc2);
+				$("#refNumber1").val(data.refNumber1);
+				$("#depositAcc3").val(data.depositAcc3);
+				$("#refNumber2").val(data.refNumber2);
+				$("#comment").val(data.comment);
+				$("#accountNumber").val(data.accountNumber);
 
-                // ---------- Photos ----------
-                const setPhoto = (fieldId, value, sizeFunc) => {
-                    if (value) {
-                        const path = `Uploads/${value}`;
-                        $(`#${fieldId}Preview`).attr("src", path);
-                        $(`#${fieldId}Hidden`).val(path);
-                        sizeFunc({ target: { result: path } });
-                    } else {
-                        $(`#${fieldId}Preview`).attr("src", "Uploads/default-placeholder.jpg");
-                        $(`#${fieldId}Hidden`).val("");
-                    }
-                };
+				// ---------- Photos ----------
+				const setPhoto = (fieldId, value, sizeFunc) => {
+					if (value) {
+						const path = `Uploads/${value}`;
+						$(`#${fieldId}Preview`).attr("src", path);
+						$(`#${fieldId}Hidden`).val(path);
+						sizeFunc({ target: { result: path } });
+					} else {
+						$(`#${fieldId}Preview`).attr("src", "Uploads/default-placeholder.jpg");
+						$(`#${fieldId}Hidden`).val("");
+					}
+				};
 
-                setPhoto("photo", data.photo, photoSizeEdit);
-                setPhoto("signature", data.signature, signatureSizeEdit);
-                setPhoto("newPhoto", data.newPhoto, newPhotoSizeEdit);
-                setPhoto("newSignature", data.newSignature, newSignatureSizeEdit);
+				setPhoto("photo", data.photo, photoSizeEdit);
+				setPhoto("signature", data.signature, signatureSizeEdit);
+				setPhoto("newPhoto", data.newPhoto, newPhotoSizeEdit);
+				setPhoto("newSignature", data.newSignature, newSignatureSizeEdit);
 
-                // Joint photo for Joint account
-                if ($("#operationType").val() === "Joint") {
-                    $("#myJointPhoto").show();
-                    setPhoto("jointPhoto", data.jointPhoto, jointPhotoSizeEdit);
-                }
+				// Joint photo for Joint account
+				if ($("#operationType").val() === "Joint") {
+					$("#myJointPhoto").show();
+					setPhoto("jointPhoto", data.jointPhoto, jointPhotoSizeEdit);
+				}
 
-                // ---------- Toggle Buttons ----------
-                const toggles = [
-                    { id: "toggle-member-status", value: data.accountStatus },
-                    { id: "toggle-member-status1", value: data.messageSend },
-                    { id: "toggle-member-status2", value: data.debitCardIssue },
-                    { id: "toggle-member-status3", value: data.isLocker },
-                    { id: "toggle-member-status4", value: data.accountFreeze }
-                ];
+				// ---------- Toggle Buttons ----------
+				const toggles = [
+					{ id: "toggle-member-status", value: data.accountStatus },
+					{ id: "toggle-member-status1", value: data.messageSend },
+					{ id: "toggle-member-status2", value: data.debitCardIssue },
+					{ id: "toggle-member-status3", value: data.isLocker },
+					{ id: "toggle-member-status4", value: data.accountFreeze }
+				];
 
-                toggles.forEach(function(t) {
-                    const toggle = document.getElementById(t.id);
-                    const label = toggle.nextElementSibling; // label must be next to input
-                    toggle.checked = t.value === true || t.value === '1';
+				toggles.forEach(function(t) {
+					const toggle = document.getElementById(t.id);
+					const label = toggle.nextElementSibling; // label must be next to input
+					toggle.checked = t.value === true || t.value === '1';
 
-                    // JS-only green color for ON, keep size intact
-                    if (label) {
-                        label.style.backgroundColor = toggle.checked ? "green" : "";
-                    }
-                });
+					// JS-only green color for ON, keep size intact
+					if (label) {
+						label.style.backgroundColor = toggle.checked ? "green" : "";
+					}
+				});
 
-            } else {
-                alert("Account not found: " + response.message);
-            }
-        },
-        error: function(xhr) {
-            alert("Request failed: " + xhr.responseText);
-        }
-    });
+			} else {
+				alert("Account not found: " + response.message);
+			}
+		},
+		error: function(xhr) {
+			alert("Request failed: " + xhr.responseText);
+		}
+	});
 }
 
 
 function deleteData(id) {
-	if (confirm("Are you sure you want to delete this branch?")) {
+	if (confirm("Are you sure you want to delete this saving account?")) {
 		$.ajax({
 			url: "api/customersavings/deleteSavingAccountDataById",
 			type: "POST",
 			data: { id: id },
 			success: function(response) {
-				if (response.success) {
+				if (response.status == "OK") {
 					alert(response.message);
 					location.reload();
 				} else {
@@ -780,116 +796,116 @@ function deleteData(id) {
 
 }
 
-$(document).ready(function () {
+$(document).ready(function() {
 
-    $('#updateBtn').click(function (event) {
-        event.preventDefault();
+	$('#updateBtn').click(function(event) {
+		event.preventDefault();
 
-        const formData = new FormData();
+		const formData = new FormData();
 
-        // ================= SAFE FILE INPUTS =================
-        const newPhotoInput = document.getElementById("newPhoto");
-        const newSignatureInput = document.getElementById("newSignature");
-        const jointPhotoInput = document.getElementById("jointPhoto");
+		// ================= SAFE FILE INPUTS =================
+		const newPhotoInput = document.getElementById("newPhoto");
+		const newSignatureInput = document.getElementById("newSignature");
+		const jointPhotoInput = document.getElementById("jointPhoto");
 
-        const newPhotoFile =
-            newPhotoInput && newPhotoInput.files.length > 0
-                ? newPhotoInput.files[0]
-                : null;
+		const newPhotoFile =
+			newPhotoInput && newPhotoInput.files.length > 0
+				? newPhotoInput.files[0]
+				: null;
 
-        const newSignatureFile =
-            newSignatureInput && newSignatureInput.files.length > 0
-                ? newSignatureInput.files[0]
-                : null;
+		const newSignatureFile =
+			newSignatureInput && newSignatureInput.files.length > 0
+				? newSignatureInput.files[0]
+				: null;
 
-        const newJointPhotoFile =
-            jointPhotoInput && jointPhotoInput.files.length > 0
-                ? jointPhotoInput.files[0]
-                : null;
+		const newJointPhotoFile =
+			jointPhotoInput && jointPhotoInput.files.length > 0
+				? jointPhotoInput.files[0]
+				: null;
 
-        // ================= NORMAL FIELDS =================
-        formData.append("id", $('#id').val());
-        formData.append("typeofaccount", $('#typeofaccount').val());
-        formData.append("openingDate", $('#openingDate').val());
-        formData.append("selectByCustomer", $('#selectByCustomer').val());
-        formData.append("enterCustomerName", $('#enterCustomerName').val());
-        formData.append("dateOfBirth", $('#dateOfBirth').val());
-        formData.append("familyDetails", $('#familyDetails').val());
-        formData.append("contactNumber", $('#contactNumber').val());
-        formData.append("suggestedNomineeName", $('#suggestedNomineeName').val());
-        formData.append("suggestedNomineeAge", $('#suggestedNomineeAge').val());
-        formData.append("suggestedNomineeRelation", $('#suggestedNomineeRelation').val());
-        formData.append("address", $('#address').val());
-        formData.append("district", $('#district').val());
-        formData.append("branchName", $('#branchName').val());
-        formData.append("state", $('#state').val());
-        formData.append("pinCode", $('#pinCode').val());
-        formData.append("operationType", $('#operationType').val());
-        formData.append("jointOperationCode", $('#jointOperationCode').val());
-        formData.append("jointSurvivorCode", $('#jointSurvivorCode').val());
-        formData.append("familyRelation", $('#familyRelation').val());
-        formData.append("selectPlan", $('#selectPlan').val());
-        formData.append("balance", $('#balance').val());
-        formData.append("financialConsultantCode", $('#financialConsultantCode').val());
-        formData.append("financialConsultantName", $('#financialConsultantName').val());
-        formData.append("openingFees", $('#openingFees').val());
-        formData.append("emailId", $('#emailId').val());
-        formData.append("aadharNo", $('#aadharNo').val());
-        formData.append("authenticateWith", $('#authenticateWith').val());
-        formData.append("modeOfPayment", $('#modeOfPayment').val());
-        formData.append("chequeNo", $('#chequeNo').val());
-        formData.append("chequeDate", $('#chequeDate').val());
-        formData.append("depositAcc1", $('#depositAcc1').val());
-        formData.append("refNumber1", $('#refNumber1').val());
-        formData.append("depositAcc2", $('#depositAcc2').val());
-        formData.append("refNumber2", $('#refNumber2').val());
-        formData.append("depositAcc3", $('#depositAcc3').val());
-        formData.append("comment", $('#comment').val());
-        formData.append("accountNumber", $('#accountNumber').val());
+		// ================= NORMAL FIELDS =================
+		formData.append("id", $('#id').val());
+		formData.append("typeofaccount", $('#typeofaccount').val());
+		formData.append("openingDate", $('#openingDate').val());
+		formData.append("selectByCustomer", $('#selectByCustomer').val());
+		formData.append("enterCustomerName", $('#enterCustomerName').val());
+		formData.append("dateOfBirth", $('#dateOfBirth').val());
+		formData.append("familyDetails", $('#familyDetails').val());
+		formData.append("contactNumber", $('#contactNumber').val());
+		formData.append("suggestedNomineeName", $('#suggestedNomineeName').val());
+		formData.append("suggestedNomineeAge", $('#suggestedNomineeAge').val());
+		formData.append("suggestedNomineeRelation", $('#suggestedNomineeRelation').val());
+		formData.append("address", $('#address').val());
+		formData.append("district", $('#district').val());
+		formData.append("branchName", $('#branchName').val());
+		formData.append("state", $('#state').val());
+		formData.append("pinCode", $('#pinCode').val());
+		formData.append("operationType", $('#operationType').val());
+		formData.append("jointOperationCode", $('#jointOperationCode').val());
+		formData.append("jointSurvivorCode", $('#jointSurvivorCode').val());
+		formData.append("familyRelation", $('#familyRelation').val());
+		formData.append("selectPlan", $('#selectPlan').val());
+		formData.append("balance", $('#balance').val());
+		formData.append("financialConsultantCode", $('#financialConsultantCode').val());
+		formData.append("financialConsultantName", $('#financialConsultantName').val());
+		formData.append("openingFees", $('#openingFees').val());
+		formData.append("emailId", $('#emailId').val());
+		formData.append("aadharNo", $('#aadharNo').val());
+		formData.append("authenticateWith", $('#authenticateWith').val());
+		formData.append("modeOfPayment", $('#modeOfPayment').val());
+		formData.append("chequeNo", $('#chequeNo').val());
+		formData.append("chequeDate", $('#chequeDate').val());
+		formData.append("depositAcc1", $('#depositAcc1').val());
+		formData.append("refNumber1", $('#refNumber1').val());
+		formData.append("depositAcc2", $('#depositAcc2').val());
+		formData.append("refNumber2", $('#refNumber2').val());
+		formData.append("depositAcc3", $('#depositAcc3').val());
+		formData.append("comment", $('#comment').val());
+		formData.append("accountNumber", $('#accountNumber').val());
 
-        formData.append("accountStatus", $('#toggle-member-status').is(':checked') ? 1 : 0);
-        formData.append("messageSend", $('#toggle-member-status1').is(':checked') ? 1 : 0);
-        formData.append("debitCardIssue", $('#toggle-member-status2').is(':checked') ? 1 : 0);
-        formData.append("isLocker", $('#toggle-member-status3').is(':checked') ? 1 : 0);
-        formData.append("accountFreeze", $('#toggle-member-status4').is(':checked') ? 1 : 0);
+		formData.append("accountStatus", $('#toggle-member-status').is(':checked') ? 1 : 0);
+		formData.append("messageSend", $('#toggle-member-status1').is(':checked') ? 1 : 0);
+		formData.append("debitCardIssue", $('#toggle-member-status2').is(':checked') ? 1 : 0);
+		formData.append("isLocker", $('#toggle-member-status3').is(':checked') ? 1 : 0);
+		formData.append("accountFreeze", $('#toggle-member-status4').is(':checked') ? 1 : 0);
 
-        // ================= FILE APPEND (VERY IMPORTANT) =================
-        // NOTE: MultipartFile ke liye STRING kabhi mat bhejo
+		// ================= FILE APPEND (VERY IMPORTANT) =================
+		// NOTE: MultipartFile ke liye STRING kabhi mat bhejo
 
 		if (newPhotoFile) {
-		    formData.append("photo", newPhotoFile); // This should match controller param
+			formData.append("newPhoto", newPhotoFile); // This should match controller param
 		}
 
 		if (newSignatureFile) {
-		    formData.append("signature", newSignatureFile);
+			formData.append("newSignature", newSignatureFile);
 		}
 
 		if (newJointPhotoFile) {
-		    formData.append("jointPhoto", newJointPhotoFile);
+			formData.append("jointPhoto", newJointPhotoFile);
 		}
 
-        // ================= DEBUG =================
-        for (let pair of formData.entries()) {
-            console.log(pair[0], pair[1]);
-        }
+		// ================= DEBUG =================
+		for (let pair of formData.entries()) {
+			console.log(pair[0], pair[1]);
+		}
 
-        // ================= AJAX =================
-        $.ajax({
-            type: "POST",
-            url: "api/customersavings/saveandupdatesavingaccount",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function () {
-                alert("Saving Account data updated successfully!\nAccount No : " + $('#accountNumber').val());
-                location.reload();
-            },
-            error: function (xhr) {
-                console.error(xhr.responseText);
-                alert("Update failed");
-            }
-        });
-    });
+		// ================= AJAX =================
+		$.ajax({
+			type: "POST",
+			url: "api/customersavings/saveandupdatesavingaccount",
+			data: formData,
+			processData: false,
+			contentType: false,
+			success: function() {
+				alert("Saving Account data updated successfully!\nAccount No : " + $('#accountNumber').val());
+				location.reload();
+			},
+			error: function(xhr) {
+				console.error(xhr.responseText);
+				alert("Update failed");
+			}
+		});
+	});
 
 });
 

@@ -685,7 +685,10 @@ public class PolicyManagementController {
 			String policyCode = (String) data.get("policyCode");
 			double policyAmount = Double.parseDouble(data.get("policyAmount").toString());
 			int noOfInstallments = Integer.parseInt(data.get("noOfInstallments").toString());
-
+			double totalDeposit = Double.parseDouble(data.get("totalDeposit").toString());
+	        double paymentDue = Double.parseDouble(data.get("paymentDue").toString());
+	        int noOfInstPaid = Integer.parseInt(data.get("noOfInstPaid").toString());
+	        
 			Optional<AddnewinvestmentPM> optional = addinvestmentrepo.findByPolicyCode(policyCode);
 			if (!optional.isPresent()) {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -694,29 +697,37 @@ public class PolicyManagementController {
 
 			AddnewinvestmentPM investment = optional.get();
 
-			// Parse current values
-			double currentDue = parseDoubleSafe(investment.getAmountDue());
-			int currentPaid = parseIntSafe(investment.getLastInstPaid());
-			double currentPaidAmount = parseDoubleSafe(investment.getPaidAmount());
+			 int oldLastInstPaid = parseIntSafe(investment.getLastInstPaid());
+		        int todayInstallments = noOfInstallments;
+		        int updatedLastInstPaid = oldLastInstPaid + todayInstallments;
 
-			// Calculate updated values
-			double totalDeduction = policyAmount * noOfInstallments;
-			double updatedDue = currentDue - totalDeduction;
-			int updatedPaid = currentPaid + noOfInstallments;
-			double updatedPaidAmount = currentPaidAmount + totalDeduction;
 
-			// Check if no payment is needed
-			if (currentDue <= 0) {
-				return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK,
-						"No payment needed. Policy is already settled or overpaid.", null));
-			}
 
-			// Update the investment
-			investment.setAmountDue(String.valueOf(updatedDue));
-			investment.setLastInstPaid(String.valueOf(updatedPaid));
-			investment.setPaidAmount(String.valueOf(updatedPaidAmount));
-			addinvestmentrepo.save(investment);
+		        // If policy fully paid already
+		        if (paymentDue <= 0) {
+		            return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK,
+		                    "No payment needed. Policy is already settled.", null));
+		        }
 
+		        // Today's deposit
+		        double NetDeposit = policyAmount * noOfInstallments;
+
+		        // Updated values
+//		        int updatedPaid = currentPaid + noOfInstallments;
+		        double updatedTotalDeposit = totalDeposit + NetDeposit;
+		        double updatedDue = paymentDue - NetDeposit;
+
+		        System.out.println("Payment Due :" +  updatedDue);
+		        System.out.println("Deposite :" +  updatedTotalDeposit );
+		        System.out.println("Last : "+noOfInstPaid);
+		        
+		        // Save updated values to AddnewinvestmentPM
+		        investment.setAmountDue(String.valueOf(updatedDue));
+		        investment.setLastInstPaid(String.valueOf(updatedLastInstPaid));
+		        investment.setPaidAmount(String.valueOf(updatedTotalDeposit ));
+		        addinvestmentrepo.save(investment);
+		        
+		        
 			// Save to PolicyRenewal
 			FlexibleRenewal fRenewal = new FlexibleRenewal();
 			fRenewal.setPolicyCode(investment.getPolicyCode());
@@ -738,6 +749,11 @@ public class PolicyManagementController {
 			fRenewal.setNoOfInst(parseIntSafe(investment.getNoOfInstallments()));
 			fRenewal.setNoOfInstPaid(parseIntSafe(investment.getLastInstPaid()));
 			fRenewal.setModeOfPayment(investment.getModeOfPayment());
+
+	        // >>>>>> MOST IMPORTANT FIX <<<<<<
+	        fRenewal.setNetDeposit(NetDeposit);          // today's deposit
+	        System.out.println("Net Deposite :" + NetDeposit);
+
 			flexibleRenewalRepo.save(fRenewal);
 
 			// Final message based on updatedDue
@@ -841,6 +857,9 @@ public class PolicyManagementController {
 			String policyCode = (String) data.get("policyCode");
 			double policyAmount = Double.parseDouble(data.get("policyAmount").toString());
 			int noOfInstallments = Integer.parseInt(data.get("noOfInstallments").toString());
+			double totalDeposit = Double.parseDouble(data.get("totalDeposit").toString());
+	        double paymentDue = Double.parseDouble(data.get("paymentDue").toString());
+	        int noOfInstPaid = Integer.parseInt(data.get("noOfInstPaid").toString());
 
 			// fetch all records
 			List<AddnewinvestmentPM> investments = addinvestmentrepo.findAllByPolicyCode(policyCode);
@@ -852,27 +871,32 @@ public class PolicyManagementController {
 			// if multiple records → handle first or loop all
 			AddnewinvestmentPM investment = investments.get(0);
 
-			// Parse current values
-			double currentDue = parseDoubleSafe(investment.getAmountDue());
-			int currentPaid = parseIntSafe(investment.getLastInstPaid());
-			double currentPaidAmount = parseDoubleSafe(investment.getPaidAmount());
+			int oldLastInstPaid = parseIntSafe(investment.getLastInstPaid());
+	        int todayInstallments = noOfInstallments;
+	        int updatedLastInstPaid = oldLastInstPaid + todayInstallments;
 
-			// Calculate updated values
-			double totalDeduction = policyAmount * noOfInstallments;
-			double updatedDue = currentDue - totalDeduction;
-			int updatedPaid = currentPaid + noOfInstallments;
-			double updatedPaidAmount = currentPaidAmount + totalDeduction;
+	        if (paymentDue <= 0) {
+	            return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK,
+	                    "No payment needed. Policy is already settled.", null));
+	        }
 
-			if (currentDue <= 0) {
-				return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK,
-						"No payment needed. Policy is already settled or overpaid.", null));
-			}
+	        // Today's deposit
+	        double NetDeposit = policyAmount * noOfInstallments;
 
-			// Update investment
-			investment.setAmountDue(String.valueOf(updatedDue));
-			investment.setLastInstPaid(String.valueOf(updatedPaid));
-			investment.setPaidAmount(String.valueOf(updatedPaidAmount));
-			addinvestmentrepo.save(investment);
+	        // Updated values
+//	        int updatedPaid = currentPaid + noOfInstallments;
+	        double updatedTotalDeposit = totalDeposit + NetDeposit;
+	        double updatedDue = paymentDue - NetDeposit;
+
+	        System.out.println("Payment Due :" +  updatedDue);
+	        System.out.println("Deposite :" +  updatedTotalDeposit );
+	        System.out.println("Last : "+noOfInstPaid);
+	        
+	        // Save updated values to AddnewinvestmentPM
+	        investment.setAmountDue(String.valueOf(updatedDue));
+	        investment.setLastInstPaid(String.valueOf(updatedLastInstPaid));
+	        investment.setPaidAmount(String.valueOf(updatedTotalDeposit ));
+	        addinvestmentrepo.save(investment);
 
 			// Save to DailyPremiumRenewalPM
 			DailyPremiumRenewalPM ddRenewal = new DailyPremiumRenewalPM();
@@ -895,6 +919,8 @@ public class PolicyManagementController {
 			ddRenewal.setNoOfInst(parseIntSafe(investment.getNoOfInstallments()));
 			ddRenewal.setNoOfInstPaid(parseIntSafe(investment.getLastInstPaid()));
 			ddRenewal.setModeOfPayment(investment.getModeOfPayment());
+			ddRenewal.setNetDeposit(NetDeposit);          // today's deposit
+		    System.out.println("Net Deposite :" + NetDeposit);
 			dailyPremiumRenewalRepo.save(ddRenewal);
 
 			if (updatedDue == 0) {
