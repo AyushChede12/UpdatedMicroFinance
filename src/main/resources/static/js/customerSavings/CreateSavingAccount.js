@@ -650,9 +650,7 @@ $(document).ready(function() {
 			processData: false,
 			contentType: false,
 			success: function(response) {
-				alert("success");
 				if (response.status == 'OK') {
-					alert("OK");
 					alert(response.message + "\nAccount No: " + $('#accountNumber').val());
 					location.reload();
 				}
