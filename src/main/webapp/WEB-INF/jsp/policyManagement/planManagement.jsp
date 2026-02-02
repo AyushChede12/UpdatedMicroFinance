@@ -178,7 +178,7 @@ td {
 					</div>
 				</div>
 
-				<div class="col-lg-3">
+				<!-- <div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">COMMISSION ON NEW <span class="star">*</span></label>
 						<input type="text" name="commissionOnNew" id="commissionOnNew"
@@ -193,7 +193,7 @@ td {
 							required="required" placeholder="ENYTER RENEWAL COMMISSION " />
 					</div>
 				</div>
-
+ -->
 				<div class="col-lg-3 mb-4 ">
 					<div class="d-flex flex-column formFields">
 						<label for="">INTEREST INTERVAL <span class="star">*</span></label>
@@ -214,7 +214,7 @@ td {
 
 
 
-				<div class="col-lg-3">
+				<!-- <div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">TOTAL PAID <span class="star">*</span></label> <input
 							type="text" name="totalPaid" id="totalPaid" required="required"
@@ -229,7 +229,7 @@ td {
 							readonly="readonly" required="required"
 							placeholder="ENTER MATURITY AMOUNT" />
 					</div>
-				</div>
+				</div> -->
 
 				<div class="col-lg-3 mb-4 ">
 					<div class="d-flex flex-column formFields">
@@ -324,11 +324,11 @@ td {
 						</div>
 					</div>
 					<div class="mt-2 text-center">
-						<button id="prevBtnDD" class="btn btn-sm btn-primary">
+						<button  type="button" id="prevBtnDD" class="btn btn-sm btn-primary">
 							<i class="bi bi-chevron-double-left"></i>
 						</button>
 						<span id="pageInfoDD" class="mx-2"></span>
-						<button id="nextBtnDD" class="btn btn-sm btn-primary">
+						<button   type="button" id="nextBtnDD" class="btn btn-sm btn-primary">
 							<i class="bi bi-chevron-double-right"></i>
 						</button>
 					</div>
@@ -414,7 +414,7 @@ td {
 				</div>
 
 
-				<div class="col-lg-3">
+			<!-- 	<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">NEW COMMISSION(%) <span class="star">*</span></label>
 						<input type="text" name="commissionOnNewRD" id="commissionOnNewRD"
@@ -429,7 +429,7 @@ td {
 							id="renewalCommissionRD" required="required"
 							placeholder="ENTER RENEW" />
 					</div>
-				</div>
+				</div> -->
 
 				<div class="col-lg-3 mb-4 ">
 					<div class="d-flex flex-column formFields">
@@ -449,7 +449,7 @@ td {
 
 
 
-				<div class="col-lg-3">
+				<!-- <div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">TOTAL DEPOSIT <span class="star">*</span></label> <input
 							type="text" name="totalPaidRD" id="totalPaidRD"
@@ -465,7 +465,7 @@ td {
 							readonly="readonly" required="required"
 							placeholder="ENTER MATURITY AMOUNT" />
 					</div>
-				</div>
+				</div> -->
 
 				<div class="col-lg-3 mb-4 ">
 					<div class="d-flex flex-column formFields">
@@ -564,11 +564,11 @@ td {
 						</div>
 					</div>
 					<div class="mt-2 text-center">
-						<button id="prevBtnRD" class="btn btn-sm btn-primary">
+						<button type="button" id="prevBtnRD" class="btn btn-sm btn-primary">
 							<i class="bi bi-chevron-double-left"></i>
 						</button>
 						<span id="pageInfoRD" class="mx-2"></span>
-						<button id="nextBtnRD" class="btn btn-sm btn-primary">
+						<button  type="button" id="nextBtnRD" class="btn btn-sm btn-primary">
 							<i class="bi bi-chevron-double-right"></i>
 						</button>
 					</div>
@@ -650,14 +650,14 @@ td {
 					</div>
 				</div>
 
-				<div class="col-lg-3">
+				<!-- <div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">RENEWAL COMMISSION (%) <span class="star">*</span></label>
 						<input type="text" name="renewalCommissionFD"
 							id="renewalCommissionFD" required="required"
 							placeholder="ENTER COMM.RENEW(%)" />
 					</div>
-				</div>
+				</div> -->
 
 				<div class="col-lg-3 mb-4 ">
 					<div class="d-flex flex-column formFields">
@@ -676,7 +676,7 @@ td {
 					</div>
 				</div>
 
-				<div class="col-lg-3">
+				<!-- <div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">TOTAL DEPOSIT <span class="star">*</span></label> <input
 							type="text" name="totalPaidFD" id="totalPaidFD"
@@ -692,7 +692,7 @@ td {
 							readonly="readonly" required="required"
 							placeholder="ENTER MATURITYAMOUNTFD " />
 					</div>
-				</div>
+				</div> -->
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
@@ -714,13 +714,14 @@ td {
 							</div>
 						</div> -->
 
-				<div class="col-lg-3">
+				<!-- <div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">NEW COMMISSION(%) <span class="star">*</span></label>
 						<input type="text" name="commissionOnNewFD" id="commissionOnNewFD"
 							required="required" placeholder="ENTER COMM.NEW(%)" />
 					</div>
-				</div>
+				</div> -->
+				
 				<div class="col-lg-3 mb-4 ">
 					<div class="d-flex flex-column formFields">
 						<label for="">IS FLEXIBLE PLAN? <span class="star">*</span></label>
@@ -817,11 +818,11 @@ td {
 					</div>
 				</div>
 				<div class="mt-2 text-center">
-					<button id="prevBtnFD" class="btn btn-sm btn-primary">
+					<button type="button" id="prevBtnFD" class="btn btn-sm btn-primary">
 						<i class="bi bi-chevron-double-left"></i>
 					</button>
 					<span id="pageInfoFD" class="mx-2"></span>
-					<button id="nextBtnFD" class="btn btn-sm btn-primary">
+					<button type="button"  id="nextBtnFD" class="btn btn-sm btn-primary">
 						<i class="bi bi-chevron-double-right"></i>
 					</button>
 				</div>
@@ -902,7 +903,7 @@ td {
 					</div>
 				</div>
 
-				<div class="col-lg-3">
+				<!-- <div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">TOTAL DEPOSITE <span class="star">*</span></label> <input
 							type="text" name="totalPaidMD" id="totalPaidMD"
@@ -918,7 +919,7 @@ td {
 							readonly="readonly" required="required"
 							placeholder="ENTER MATURITY AMOUNT" />
 					</div>
-				</div>
+				</div> -->
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
@@ -930,7 +931,7 @@ td {
 					</div>
 				</div>
 
-				<div class="col-lg-3">
+				<!-- <div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">NEW COMMISSION(%) <span class="star">*</span></label>
 						<input type="text" name="commissionOnNewMD" id="commissionOnNewMD"
@@ -945,7 +946,8 @@ td {
 							id="renewalCommissionMD" required="required"
 							placeholder="ENTER COMM.RENW(%)" />
 					</div>
-				</div>
+				</div> -->
+				
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
@@ -1037,11 +1039,11 @@ td {
 					</div>
 				</div>
 				<div class="mt-2 text-center">
-					<button id="prevBtnMIS" class="btn btn-sm btn-primary">
+					<button  type="button" id="prevBtnMIS" class="btn btn-sm btn-primary">
 						<i class="bi bi-chevron-double-left"></i>
 					</button>
 					<span id="pageInfoMIS" class="mx-2"></span>
-					<button id="nextBtnMIS" class="btn btn-sm btn-primary">
+					<button type="button" id="nextBtnMIS" class="btn btn-sm btn-primary">
 						<i class="bi bi-chevron-double-right"></i>
 					</button>
 				</div>
