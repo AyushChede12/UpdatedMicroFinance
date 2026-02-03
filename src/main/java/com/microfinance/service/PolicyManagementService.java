@@ -519,6 +519,9 @@ public class PolicyManagementService {
 		addnewinvestmentPM.setIntroMCode(policyManagementDto.getIntroMCode());
 		addnewinvestmentPM.setMaturityAmount(policyManagementDto.getMaturityAmount());
 		addnewinvestmentPM.setMISInterest(policyManagementDto.getMISInterest());
+		addnewinvestmentPM.setPaidAmount(policyManagementDto.getPaidAmount());
+		addnewinvestmentPM.setLastInstPaid(policyManagementDto.getLastInstPaid());
+		
 
 		addnewinvestmentPM.setPaymentBy(policyManagementDto.getPaymentBy());
 		addnewinvestmentPM.setSchemeCode(policyManagementDto.getSchemeCode());

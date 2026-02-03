@@ -125,6 +125,7 @@ $(document).ready(function() {
 			currentPageDD--;
 			renderTableDD(currentPageDD);
 			togglePageNavigationDD();
+			scrollToDDTable();
 		}
 	});
 
@@ -134,11 +135,26 @@ $(document).ready(function() {
 			currentPageDD++;
 			renderTableDD(currentPageDD);
 			togglePageNavigationDD();
+			scrollToDDTable();
 		}
 	});
+	
+	$(document).ready(function () {
+	    fetchDailyDeposits();
+	    fetchRecurringDeposits();
+	    fetchFixedDeposits();
+	    fetchMISDeposits();
+	});
+	
+	function scrollToDDTable() {
+	    $('html, body').animate({
+	        scrollTop: $('#ddTableWrapper').offset().top - 100
+	    }, 200);
+	}
+
 
 	// Call on page load
-	$(document).ready(function() {
+	/*$(document).ready(function() {
 		fetchDailyDeposits();
 	});
 
@@ -152,7 +168,7 @@ $(document).ready(function() {
 
 	$(document).ready(function() {
 		fetchMISDeposits();
-	});
+	});*/
 
 	// DELEGATED EVENT for edit button
 	$('#depositTableBody').on('click', '.edit-btnDD', function() {
@@ -517,12 +533,14 @@ $(document).ready(function() {
 		$("#nextBtnRD").prop("disabled", currentPageRD === totalPages || totalPages === 0);
 	}
 
+	
 	// Button click handlers
 	$("#prevBtnRD").click(function() {
 		if (currentPageRD > 1) {
 			currentPageRD--;
 			renderTableRD(currentPageRD);
 			togglePageNavigationRD();
+			scrollToDDTable();
 		}
 	});
 
@@ -532,6 +550,7 @@ $(document).ready(function() {
 			currentPageRD++;
 			renderTableRD(currentPageRD);
 			togglePageNavigationRD();
+			scrollToDDTable();
 		}
 	});
 
@@ -853,6 +872,7 @@ $(document).ready(function() {
 			currentPageFD--;
 			renderTableFD(currentPageFD);
 			togglePageNavigationFD();
+			scrollToDDTable();
 		}
 	});
 
@@ -862,6 +882,7 @@ $(document).ready(function() {
 			currentPageFD++;
 			renderTableFD(currentPageFD);
 			togglePageNavigationFD();
+			scrollToDDTable();
 		}
 	});
 
@@ -1173,6 +1194,7 @@ $(document).ready(function() {
 			currentPageMIS--;
 			renderTableMIS(currentPageMIS);
 			togglePageNavigationMIS();
+			scrollToDDTable();
 		}
 	});
 
@@ -1182,6 +1204,7 @@ $(document).ready(function() {
 			currentPageMIS++;
 			renderTableMIS(currentPageMIS);
 			togglePageNavigationMIS();
+			scrollToDDTable();
 		}
 	});
 

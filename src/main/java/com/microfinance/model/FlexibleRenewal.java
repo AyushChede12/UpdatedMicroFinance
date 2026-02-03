@@ -43,6 +43,7 @@ public class FlexibleRenewal {
     private boolean isApproved;
     private String fees;
     private String branchname;
+    private Double netDeposit;
 
     // Getters and Setters
 
@@ -224,7 +225,17 @@ public class FlexibleRenewal {
 	public void setBranchname(String branchname) {
 		this.branchname = branchname;
 	}
-    
+
+	public Double getNetDeposit() {
+		return netDeposit;
+	}
+
+	public void setNetDeposit(Double netDeposit) {
+		this.netDeposit = netDeposit;
+	}
+
+	
+
     
     
     

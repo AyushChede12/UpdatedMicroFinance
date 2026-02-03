@@ -84,10 +84,26 @@ $(document).ready(function() {
 		validateText('lastName', 'chklastname', 'Please enter last name');
 		validateText('dob', 'chkdob', 'Please select date of birth');
 		validateText('minor', 'chkminor', 'Please select minor');
+		
+		/*validateText('guardianName', 'chkguardianname', 'Please enter guardian name');
+		validateText('guardianAccNo', 'chkguardianaccno', 'Please enter guardian account no');*/
+		
+		const isMinor = $('#minor').val();
+
+		if (isMinor === 'Yes') {
+		    validateText('guardianName', 'chkguardianname', 'Please enter guardian name');
+		    validateText('guardianAccNo', 'chkguardianaccno', 'Please enter guardian account no');
+		} else {
+		    $('#chkguardianname').text('');
+		    $('#chkguardianaccno').text('');
+		}
+		
+
 		if (minor == 'Yes') {
 			validateText('guardianName', 'chkguardianname', 'Please enter guardian name');
 			validateText('guardianAccNo', 'chkguardianaccno', 'Please enter guardian account no');
 		}
+
 		validateText('relationToApplicant', 'chkrelationtoapplicant', 'Please select relation');
 		validateText('customerGender', 'chkgender', 'Please select gender');
 		validateText('customerAge', 'chkage', 'Please enter age');
@@ -838,6 +854,19 @@ function fetchBySelectedCustomer() {
 }
 
 function ifMinor() {
+
+    var minor = $("#minor").val();
+    if (minor === 'Yes') {
+        $("#guardianDetails").show();
+        $("#guardianAccount").show();
+        $("#guardianAccNo").prop("required", true);
+    } else {
+        $("#guardianDetails").hide();
+        $("#guardianAccount").hide();
+        $("#guardianAccNo").prop("required", false).val('');
+        $("#guardianName").val('');
+    }
+
 	var minor = $("#minor").val();
 	if (minor === 'Yes') {
 		$("#guardianDetails").show();
@@ -849,7 +878,9 @@ function ifMinor() {
 		$("#guardianAccountNo").val(null);
 		$("#guardianDetails").val(null);
 	}
+
 }
+
 
 // Auto-calculate Age and Minor detection
 $(document).ready(function() {

@@ -1,28 +1,42 @@
-$(document).ready(function() {
+$(document).ready(function () {
 	$.ajax({
-		url: 'api/customermanagement/approved', // Make sure this path is correct
+		url: '/api/customermanagement/approved',
 		type: 'GET',
-		success: function(response) {
+		success: function (response) {
 			if (response.status === "OK" && Array.isArray(response.data)) {
 				const $select = $('#selectCustomer');
 				$select.empty().append('<option value="">Select Customer Code</option>');
 
 				response.data.forEach(customer => {
-					if (customer.customerName && customer.memberCode) {
-						const optionText = `${customer.customerName} - ${customer.memberCode}`;
-						const optionValue = customer.memberCode; // or use customer.id or full object if needed
-						$select.append(`<option value="${optionValue}">${optionText}</option>`);
+
+					// ✅ Combine name using array
+					const fullName = [
+						customer.firstName,
+						customer.middleName,
+						customer.lastName
+					]
+					.filter(name => name && name.trim() !== "")
+					.join(" ");
+
+					if (fullName && customer.memberCode) {
+						const optionText = `${fullName} - ${customer.memberCode}`;
+						const optionValue = customer.memberCode;
+
+						$select.append(
+							`<option value="${optionValue}">${optionText}</option>`
+						);
 					}
 				});
 			} else {
 				alert("No approved customers found.");
 			}
 		},
-		error: function() {
+		error: function () {
 			alert("Failed to fetch approved customers.");
 		}
 	});
 });
+
 
 function fetchBySelectedCustomer() {
 	const memberCode = $("#selectCustomer").val();
@@ -39,7 +53,16 @@ function fetchBySelectedCustomer() {
 				const c = data[0];
 
 				// Populate text fields safely
-				$("#customerName").val(c.customerName || "");
+				
+				$("#customerName").val(
+									[
+										c.firstName,
+										c.middleName,
+										c.lastName
+									]
+									.filter(name => name && name.trim() !== "")
+									.join(" ")
+								);
 				$("#memberCode").val(c.memberCode || "");
 				$("#contactNo").val(c.contactNo || "");
 				$("#singupDate").val(c.signupDate || "");
