@@ -1,4 +1,37 @@
 $(document).ready(function() {
+	
+	$("#policyAmount, #noOfInst").on("keyup change input", function () {
+			calculateNetDeposit();
+		});
+
+		function calculateNetDeposit() {
+
+			const policyAmount = parseFloat($("#policyAmount").val()) || 0;
+			const noOfInst = parseInt($("#noOfInst").val(), 10) || 0;
+
+			// 🔴 ADD THESE TWO LINES
+			const totalTerm = parseInt($("#policyTerm").val(), 10) || 0;       // total installments (e.g. 34)
+			const alreadyPaid = parseInt($("#noOfInstPaid").val(), 10) || 0;   // already paid (e.g. 20)
+
+			// ❌ VALIDATION: user cannot pay more than remaining installments
+			if (alreadyPaid + noOfInst > totalTerm) {
+				alert(
+					`❌ Installment limit exceeded!\n\n` +
+					`Total Term : ${totalTerm}\n` +
+					`Already Paid : ${alreadyPaid}\n` +
+					`Remaining : ${totalTerm - alreadyPaid}`
+				);
+
+				$("#noOfInst").val("");       // reset input
+				$("#netDeposite").val("");    // reset net amount
+				return;
+			}
+
+			// ✅ CALCULATION
+			const net = noOfInst * policyAmount;
+			$("#netDeposite").val(net.toFixed(2));
+		}
+
 	// 1. Populate dropdown with approved RD policies
 	$.ajax({
 		url: "api/Policymangment/getAllDDPolicies",
@@ -52,8 +85,13 @@ $(document).ready(function() {
 						$("#branchname").val(data.branchName);
 						$("#policyTerm").val(data.schemeTerm);
 						$("#maturityAmount").val(data.maturityAmount);
-						$("#totalDeposit").val(data.depositAmount);
-						$("#paymentDue").val(data.amountDue);
+						$("#totalDeposit").val(data.paidAmount);
+												
+						let fetchedDeposit = parseFloat(data.depositAmount) || 0;
+						let userTotalDeposit = parseFloat($("#totalDeposit").val()) || 0;
+						let paymentDue = fetchedDeposit - userTotalDeposit;
+												
+						$("#paymentDue").val(paymentDue);
 						$("#financialCode").val(data.introMCode);
 						$("#lastPaymentDate").val(data.lastInstPaid);
 						$("#dueDate").val(data.maturityDate);
@@ -121,7 +159,10 @@ $(document).ready(function() {
 		const payload = {
 			policyCode: policyCode,
 			policyAmount: parseFloat(policyAmount),
-			noOfInstallments: parseInt(noOfInstallments)
+			noOfInstallments: parseInt(noOfInstallments),			
+			totalDeposit: parseFloat($("#totalDeposit").val()),
+			paymentDue: parseFloat($("#paymentDue").val()),
+			noOfInstPaid: parseInt($("#noOfInstPaid").val())
 		};
 
 		// ✅ Send AJAX request

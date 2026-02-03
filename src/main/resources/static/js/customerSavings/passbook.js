@@ -1,203 +1,203 @@
 // JS for fetching the account number on the dropdown according to the account type (vaibhav)
-$(document).ready(function () {
-    $("#accountType").on("change", function () {
-        const selectedType = $(this).val();
+$(document).ready(function() {
+	$("#accountType").on("change", function() {
+		const selectedType = $(this).val();
 
-        if (selectedType) {
-            fetchAccountNumbers(selectedType);
-        } else {
-            // Clear dropdown if no type is selected
-            $("#accountNumber").empty().append('<option value="">-- Select Account Number --</option>');
-        }
-    });
+		if (selectedType) {
+			fetchAccountNumbers(selectedType);
+		} else {
+			// Clear dropdown if no type is selected
+			$("#accountNumber").empty().append('<option value="">-- Select Account Number --</option>');
+		}
+	});
 });
 
 //janvi : fetch account numbers on dropdown
 function fetchAccountNumbers(accountType) {
-    $.ajax({
-        type: "GET",
-        url: "api/customersavings/fetchAccountNumbers",
-        data: { accountType: accountType },
-        success: function (response) {
-            const $dropdown = $("#accountNumber");
-            $dropdown.empty().append('<option value="">-- Select Account Number --</option>');
+	$.ajax({
+		type: "GET",
+		url: "api/customersavings/fetchAccountNumbers",
+		data: { accountType: accountType },
+		success: function(response) {
+			const $dropdown = $("#accountNumber");
+			$dropdown.empty().append('<option value="">-- Select Account Number --</option>');
 
-            if (response.status === "OK" && Array.isArray(response.data)) {
-                response.data.forEach(function (accNo) {
-                    $dropdown.append(`<option value="${accNo}">${accNo}</option>`);
-                });
-            } else {
-                alert("No account numbers found for selected type.");
-            }
-        },
-        error: function (xhr) {
-            alert("Error fetching account numbers: " + xhr.responseText);
-        }
-    });
+			if (response.status === "OK" && Array.isArray(response.data)) {
+				response.data.forEach(function(accNo) {
+					$dropdown.append(`<option value="${accNo}">${accNo}</option>`);
+				});
+			} else {
+				alert("No account numbers found for selected type.");
+			}
+		},
+		error: function(xhr) {
+			alert("Error fetching account numbers: " + xhr.responseText);
+		}
+	});
 }
 
 
 
 // Js for fetching the data on the tabel according to account number (All transactions)
-$(document).ready(function () {
-    $('#btnTransactionPageOnSavingPassbook').click(function () {
-        let accountNumber = $("#accountNumber").val().trim(); // correct fetch
+$(document).ready(function() {
+	$('#btnTransactionPageOnSavingPassbook').click(function() {
+		let accountNumber = $("#accountNumber").val().trim(); // correct fetch
 
-        if (accountNumber !== "") {
-            $.ajax({
-                type: "GET",
-                url: "api/customersavings/getsavingaccountactivity",
-                data: { accountNumber: accountNumber },
-                success: function(response) {
-                    console.log("API Response:", response);
+		if (accountNumber !== "") {
+			$.ajax({
+				type: "GET",
+				url: "api/customersavings/getsavingaccountactivity",
+				data: { accountNumber: accountNumber },
+				success: function(response) {
+					console.log("API Response:", response);
 
-                    if (response.status && response.status.toUpperCase() === "OK") {
-                        let data = response.data;
-                        let tableBody = $("#tableBody1"); // correct tbody ID
-                        tableBody.empty();
+					if (response.status && response.status.toUpperCase() === "OK") {
+						let data = response.data;
+						let tableBody = $("#tableBody1"); // correct tbody ID
+						tableBody.empty();
 
-                        if (data.length > 0) {
-                            $('#TransactionSection').show(); // show the hidden div
+						if (data.length > 0) {
+							$('#TransactionSection').show(); // show the hidden div
 
-                            data.forEach((item, index) => {
-                                let row = `<tr>
+							data.forEach((item, index) => {
+								let row = `<tr>
                                 <td>${item.transactionDate || ''}</td>
                                 <td>${item.accountNumber || ''}</td>
                                 <td>${item.transactionType || ''}</td>
                                 <td>${item.transactionAmount || ''}</td>
                                 <td>${item.averageBalance || ''}</td>                                   
                                 </tr>`;
-                                tableBody.append(row);
-                            });
-                            $("#tableSection").hide();
-                $('#printbtnSection').show();
-                $('#passbookSection').hide();
-                $("#headingSection").hide();
-                $("#TransactionSection").show();
-                        } else {
-                            alert("No transactions found.");
-                            $('#TransactionSection').hide();
-                        }
-                    } else {
-                        alert("No transactions found.");
-                        $('#TransactionSection').hide();
-                    }
-                },
-                
-            });
-        } else {
-            alert("Please select an Account Number.");
-            $('#TransactionSection').hide();
-        }
-    });
+								tableBody.append(row);
+							});
+							$("#tableSection").hide();
+							$('#printbtnSection').show();
+							$('#passbookSection').hide();
+							$("#headingSection").hide();
+							$("#TransactionSection").show();
+						} else {
+							alert("No transactions found.");
+							$('#TransactionSection').hide();
+						}
+					} else {
+						alert("No transactions found.");
+						$('#TransactionSection').hide();
+					}
+				},
+
+			});
+		} else {
+			alert("Please select an Account Number.");
+			$('#TransactionSection').hide();
+		}
+	});
 });
 
 
 //janvi: Show saving acc details in table format
 function displayTransactionDataList() {
-       // const accountNumber = $(this).val();
- let accountNumber = document.getElementById("accountNumber").value; // Get the selected Account No.
-    // $("#tabl").show();
-    if (!accountNumber) {
-        alert("Please select an Account Number.");
-        return;
-    }
-        if (accountNumber !== "") {
-            $.ajax({
-                type: "GET",
-                url: "api/customersavings/getDataByAccountNumber",
-                data: { accountNumber: accountNumber },
-                success: function (response) {
-                    if (response.status === "OK" && response.data) {
-                        const data = response.data;
+	// const accountNumber = $(this).val();
+	let accountNumber = document.getElementById("accountNumber").value; // Get the selected Account No.
+	// $("#tabl").show();
+	if (!accountNumber) {
+		alert("Please select an Account Number.");
+		return;
+	}
+	if (accountNumber !== "") {
+		$.ajax({
+			type: "GET",
+			url: "api/customersavings/getDataByAccountNumber",
+			data: { accountNumber: accountNumber },
+			success: function(response) {
+				if (response.status === "OK" && response.data) {
+					const data = response.data;
 
-                        // Inject table row dynamically
-                        $("#customerDetails").html(`
+					// Inject table row dynamically
+					$("#customerDetails").html(`
                             <tr>
                                 <td>${data.id || ''}</td>
-                                <td>${data.branchName || ''}</td>
+                                <td>${(data.branchName || '').toUpperCase()}</td>
                                 <td>${data.accountNumber || ''}</td>
-                                <td>${data.enterCustomerName || ''}</td>
+                                <td>${(data.enterCustomerName || '').toUpperCase()}</td>
                                 <td>${data.selectByCustomer || ''}</td>
                                 <td>${data.contactNumber || ''}</td>
-                                <td>${data.address || ''}</td>
+                                <td>${(data.address || '').toUpperCase()}</td>
                                 <td>${data.openingDate || ''}</td>
                                 <td>${data.balance || ''}</td>
                                 <td></td>
                             </tr>
                         `);
-                        $("#tableSection").show();
-                $('#printbtnSection').hide();
-                $('#passbookSection').hide();
-                $("#headingSection").hide();
-                $("#TransactionSection").hide();
-                    } else {
-                        alert("No data found for this account.");
-                        $("#customerDetails").empty();
-                    }
-                },
-                error: function (xhr) {
-                    alert("Error: " + xhr.responseText);
-                    $("#customerDetails").empty();
-                }
-            });
-        } else {
-            $("#customerDetails").empty(); // Clear if no account selected
-        }
-    }
+					$("#tableSection").show();
+					$('#printbtnSection').hide();
+					$('#passbookSection').hide();
+					$("#headingSection").hide();
+					$("#TransactionSection").hide();
+				} else {
+					alert("No data found for this account.");
+					$("#customerDetails").empty();
+				}
+			},
+			error: function(xhr) {
+				alert("Error: " + xhr.responseText);
+				$("#customerDetails").empty();
+			}
+		});
+	} else {
+		$("#customerDetails").empty(); // Clear if no account selected
+	}
+}
 
 
 function displaySavingfrontPage() {
-    let accountNumber = document.getElementById("accountNumber").value;
+	let accountNumber = document.getElementById("accountNumber").value;
 
-    if (!accountNumber) {
-        alert("Please select an account number!");
-        return;
-    }
+	if (!accountNumber) {
+		alert("Please select an account number!");
+		return;
+	}
 
-    $.ajax({
-        type: "GET",
-        url: "api/customersavings/getDataByAccountNumber",
-        data: { accountNumber: accountNumber },  // 🔥 make sure name matches @RequestParam
-        success: function (response) {
-            if (response.status === "OK" && response.data) {
-                const data = response.data;
-                let fullAddress = `${data.address}, ${data.state}, ${data.pinCode}`;
+	$.ajax({
+		type: "GET",
+		url: "api/customersavings/getDataByAccountNumber",
+		data: { accountNumber: accountNumber },  // 🔥 make sure name matches @RequestParam
+		success: function(response) {
+			if (response.status === "OK" && response.data) {
+				const data = response.data;
+				let fullAddress = `${data.address}, ${data.state}, ${data.pinCode}`;
 
-                $("#customerNo").text(data.selectByCustomer);
-                $("#accountNo").text(data.accountNumber);
-                $("#customerName").text(data.enterCustomerName);
-                $("#familyDetails").text(data.familyDetails);
-                $("#dateOfBirth").text(data.dateOfBirth);
-                $("#contactNo").text(data.contactNumber);
-                $("#emailId").text(data.emailId);
-                $("#operationType").text(data.operationType);
-                $("#aadharNo").text(data.aadharNo);
-                $("#address").text(fullAddress);
-                $("#dateOfIssue").text(data.openingDate);
-                $("#typeofaccount").text(data.typeofaccount);
-                $("#branchName").text(data.branchName);
+				$("#customerNo").text(data.selectByCustomer);
+				$("#accountNo").text(data.accountNumber);
+				$("#customerName").text(data.enterCustomerName);
+				$("#familyDetails").text(data.familyDetails);
+				$("#dateOfBirth").text(data.dateOfBirth);
+				$("#contactNo").text(data.contactNumber);
+				$("#emailId").text(data.emailId);
+				$("#operationType").text(data.operationType);
+				$("#aadharNo").text(data.aadharNo);
+				$("#address").text(fullAddress);
+				$("#dateOfIssue").text(data.openingDate);
+				$("#typeofaccount").text(data.typeofaccount);
+				$("#branchName").text(data.branchName);
 
-                // If you have these fields in your data, else remove
-                $("#IFSCCode").text(data.ifscCode || '');
-                //$("#dateOfIssue").text(data.dateOfIssue || '');
-                $("#nominationStatus").text(data.nominationStatus || '');
-                $("#nominationName").text(data.nominationName || '');
-                $("#upi").text(data.upi || '');
-                $("#tableSection").hide();
-                $('#printbtnSection').show();
-                $('#passbookSection').show();
-                $("#headingSection").hide();
-                $("#TransactionSection").hide();
+				// If you have these fields in your data, else remove
+				$("#IFSCCode").text(data.ifscCode || '');
+				//$("#dateOfIssue").text(data.dateOfIssue || '');
+				$("#nominationStatus").text(data.nominationStatus || '');
+				$("#nominationName").text(data.nominationName || '');
+				$("#upi").text(data.upi || '');
+				$("#tableSection").hide();
+				$('#printbtnSection').show();
+				$('#passbookSection').show();
+				$("#headingSection").hide();
+				$("#TransactionSection").hide();
 
-            } else {
-                alert("No account data found.");
-            }
-        },
-        error: function (xhr) {
-            alert("Error fetching data: " + (xhr.responseJSON?.error || xhr.statusText));
-        }
-    });
+			} else {
+				alert("No account data found.");
+			}
+		},
+		error: function(xhr) {
+			alert("Error fetching data: " + (xhr.responseJSON?.error || xhr.statusText));
+		}
+	});
 }
 
 //Janvi : Print Button
@@ -258,34 +258,34 @@ function displaySavingfrontPage() {
 			alert("Popup blocked. Please allow popups for this website.");
 		}
 	});*/
-	
-function displayHeadingSA(){
+
+function displayHeadingSA() {
 	$("#tableSection").hide();
 	$('#printbtnSection').show();
-    $('#passbookSection').hide();
+	$('#passbookSection').hide();
 	$("#headingSection").show();
 	$("#TransactionSection").hide();
 }
 
 //janvi : print button code
 function printTransactionSection1() {
-    let visibleSection = null;
+	let visibleSection = null;
 
-    if ($("#passbookSection").is(":visible")) {
-        visibleSection = document.getElementById("passbookSection");
-    } else if ($("#TransactionSection").is(":visible")) {
-        visibleSection = document.getElementById("TransactionSection");
-    }
-    else if ($("#headingSection").is(":visible")) {
-        visibleSection = document.getElementById("headingSection");
-    } else {
-        alert("No section visible to print.");
-        return;
-    }
+	if ($("#passbookSection").is(":visible")) {
+		visibleSection = document.getElementById("passbookSection");
+	} else if ($("#TransactionSection").is(":visible")) {
+		visibleSection = document.getElementById("TransactionSection");
+	}
+	else if ($("#headingSection").is(":visible")) {
+		visibleSection = document.getElementById("headingSection");
+	} else {
+		alert("No section visible to print.");
+		return;
+	}
 
-    const printWindow = window.open('', '', 'width=1000,height=800');
+	const printWindow = window.open('', '', 'width=1000,height=800');
 
-    printWindow.document.write(`
+	printWindow.document.write(`
         <html>
         <head>
             <title>Print Page</title>
@@ -317,13 +317,13 @@ function printTransactionSection1() {
         </html>
     `);
 
-    printWindow.document.close();
+	printWindow.document.close();
 
-    printWindow.onload = function () {
-        setTimeout(() => {
-            printWindow.print();
-            printWindow.close();
-        }, 500); // wait for styles to apply
-    };
+	printWindow.onload = function() {
+		setTimeout(() => {
+			printWindow.print();
+			printWindow.close();
+		}, 500); // wait for styles to apply
+	};
 }
 
