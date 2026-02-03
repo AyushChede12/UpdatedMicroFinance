@@ -230,7 +230,7 @@
 
 				<div class="col-lg-3 mb-4 ">
 					<div class="d-flex flex-column formFields">
-						<label for="">SHEEME MODE <span class="star">*</span></label> <select
+						<label for="">SCHEME MODE <span class="star">*</span></label> <select
 							id="schemeMode" name="schemeMode" required="required"
 							class="form-control selectField" style="height: 30px;">
 							<option value="">SELECT SCHEME MODE</option>
@@ -270,7 +270,7 @@
 						<label for="Agent">AGENT <span class="star">*</span></label> <select
 							id="Agent" name="Agent" required class="form-control selectField"
 							style="height: 30px;">
-							<option value="">ELECT AGENT</option>
+							<option value="">SELECT AGENT</option>
 						</select>
 					</div>
 				</div>
@@ -361,7 +361,7 @@
 					<div class="col-lg-3 mb-4">
 						<div class="d-flex flex-column formFields">
 							<label for="remark">REMARK <span class="star">*</span></label>
-							<textarea id="remark" name="remark" required
+							<textarea id="remark" name="remark" required placeholder="ENTER REMARK"
 								style="border: 1px solid #e0e0e0; border-radius: 5px; outline: none; padding: 5px; font-size: 12px;"></textarea>
 						</div>
 					</div>
