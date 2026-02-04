@@ -30,7 +30,7 @@ body {
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-file-earmark-text"></i>
 			</a></li>
-			<li class="breadcrumb-item action">FINANCIAL COLLECTION REPORT</li>
+			<li class="breadcrumb-item action">FINANCIAL CONSULTANT REPORT</li>
 		</ol>
 	</nav>
 </div>
@@ -40,7 +40,7 @@ body {
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">fIND INFORMATION</li>
+					<li class="breadcrumb-item action">SEARCH FINANCIAL</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -110,18 +110,18 @@ body {
 			<div class="card recent-sales">
 
 				<div class="card-body table-responsive">
-					<h5 class="card-title">FIND RESULT</h5>
+					<h5 class="card-title">FINANCIAL DATA</h5>
 
 					<h6 class="card-title" style="text-align: center; color: black;">
-						AGENT/COLLECTOR REPORT</h6>
+						FINANCIAL REPORT</h6>
 
 
 					<table class="table table-borderless datatable overflow-scroll">
 						<thead class="table-light">
 							<tr style="font-family: 'Poppins', sans-serif;">
-								<th scope="col">ID</th>
-								<th scope="col">BRANCH TYPE</th>
-								<th scope="col">ADVISOR CODE</th>
+								<th scope="col">SR</th>
+								<th scope="col">FINANCIAL NAME</th>
+								<th scope="col">FINANCIAL CODE</th>
 								<th scope="col">JOINING DATE </th>
 								<th scope="col">CUSTOMER NAME</th>
 								<th scope="col">DOB</th>
