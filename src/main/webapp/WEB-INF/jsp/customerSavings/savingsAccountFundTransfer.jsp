@@ -27,7 +27,7 @@
 							id="debitAccountNumber" name="debitAccountNumber"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
-							<option value="">SELECT</option>
+							<option value="">--SELECT ACCOUNT NO--</option>
 
 						</select>
 					</div>
@@ -37,7 +37,8 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">CUSTOMER CODE</label> <input type="text"
 							name="debitCustomerCode" id="debitCustomerCode"
-							required="required" placeholder="ENTER CUSTOMER CODE" />
+							readonly="readonly" required="required"
+							placeholder="ENTER CUSTOMER CODE" />
 					</div>
 				</div>
 
@@ -45,7 +46,8 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">ACCOUNT BRANCH</label> <input type="text"
 							name="debitAccountBranch" id="debitAccountBranch"
-							required="required" placeholder="ENTER ACCOUNT BRANCH" />
+							readonly="readonly" required="required"
+							placeholder="ENTER ACCOUNT BRANCH" />
 					</div>
 				</div>
 
@@ -53,7 +55,8 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">AVERAGE BALANCE</label> <input type="text"
 							name="debitAverageBalance" id="debitAverageBalance"
-							required="required" placeholder="ENTER AVERAGE BALANCE" />
+							readonly="readonly" required="required"
+							placeholder="ENTER AVERAGE BALANCE" />
 					</div>
 				</div>
 
@@ -61,7 +64,8 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">CONTACT NUMBER</label> <input type="text"
 							name="debitContactNumber" id="debitContactNumber"
-							required="required" placeholder="ENTER CONTACT NUMBER" />
+							readonly="readonly" required="required"
+							placeholder="ENTER CONTACT NUMBER" />
 					</div>
 				</div>
 			</div>
@@ -93,7 +97,8 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">CUSTOMER CODE</label> <input type="text"
 							name="creditCustomerCode" id="creditCustomerCode"
-							required="required" placeholder="ENTER CUSTOMER CODE" />
+							readonly="readonly" required="required"
+							placeholder="ENTER CUSTOMER CODE" />
 					</div>
 				</div>
 
@@ -101,7 +106,8 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">ACCOUNT BRANCH</label> <input type="text"
 							name="creditAccountBranch" id="creditAccountBranch"
-							required="required" placeholder="ENTER ACCOUNT BRANCH" />
+							readonly="readonly" required="required"
+							placeholder="ENTER ACCOUNT BRANCH" />
 					</div>
 				</div>
 
@@ -109,7 +115,8 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">AVERAGE BALANCE</label> <input type="text"
 							name="creditAverageBalance" id="creditAverageBalance"
-							required="required" placeholder="ENTER AVERAGE BALANCE" />
+							readonly="readonly" required="required"
+							placeholder="ENTER AVERAGE BALANCE" />
 					</div>
 				</div>
 
@@ -117,7 +124,8 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">CONTACT NUMBER</label> <input type="text"
 							name="creditContactNumber" id="creditContactNumber"
-							required="required" placeholder="ENTER CONTACT NUMBER" />
+							readonly="readonly" required="required"
+							placeholder="ENTER CONTACT NUMBER" />
 					</div>
 				</div>
 			</div>
@@ -149,16 +157,16 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">COMMENT</label>
-						<textarea name="comment" id="comment"
+						<textarea name="comment" id="comment" style="text-transform: uppercase;"
 							style="border: 1px solid rgb(224, 224, 224); border-radius: 5px; outline: none; padding: 5px; font-size: 12px;"></textarea>
 					</div>
 				</div>
 
 			</div>
 		</div>
-
+		<br>
 		<div class="row">
-			<div class="col-12 text-center">
+			<div class="col-7 text-center">
 				<button id="saveBtn" class="btn btn-warning"
 					style="margin-left: 80%;">SAVE</button>
 			</div>
@@ -167,4 +175,4 @@
 
 </div>
 <script
-		src="${pageContext.request.contextPath}/js/customerSavings/SavingAccountFundTransfer.js"></script>
+	src="${pageContext.request.contextPath}/js/customerSavings/SavingAccountFundTransfer.js"></script>

@@ -8,9 +8,9 @@ $(document).ready(function() {
             var dropdown1 = $('#debitAccountNumber');
 			var dropdown2 = $('#creditAccountNumber');
             dropdown1.empty();
-            dropdown1.append('<option value="">Select</option>');
+            dropdown1.append('<option value="">--SELECT ACCOUNT NO--</option>');
 			dropdown2.empty();
-			dropdown2.append('<option value="">Select</option>');
+			dropdown2.append('<option value="">--SELECT ACCOUNT NO--</option>');
 
 
             if (response.status === "OK" && response.data) {

@@ -17,7 +17,7 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">SEARCH BY</li>
+					<li class="breadcrumb-item action">SEARCH BOX</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -26,13 +26,13 @@
 						<label for="">SELECT ACCOUNT NUMBER</label> <select
 							id="accountNumber" name="accountNumber" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">SELECT</option>
+							<option value="">--SELECT ACCOUNT NO--</option>
 						</select>
 					</div>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-lg-12 text-center">
+				<div class="col-lg-6 text-center">
 					<button id="searchByAccNo" class="btn btn-warning"
 						style="margin-left: 80%;">SEARCH</button>
 				</div>
@@ -46,7 +46,7 @@
 
 					<div class="card-body table-responsive">
 						<h5 class="card-title">
-							SEARCH RESULT <span>| TODAY</span>
+							SAVING STATEMENT <span>| TODAY</span>
 						</h5>
 						<div class="form-div" id="form-div" style="margin-top: 20px;">
 							<div class="form-header">
@@ -82,7 +82,7 @@
 										OP. DATE : <span id="opDate"></span>
 									</p>
 									<p style="font-weight: 600;">
-										MEMBER CODE : <span id="selectMember"></span>
+										CUSTOMER CODE : <span id="selectMember"></span>
 									</p>
 									<!-- <p style="font-weight: 600;">
 														PAN : <span id="pan"></span>
@@ -91,7 +91,7 @@
 										MODE OF OP. : <span id="modeOfOp"></span>
 									</p>
 									<p style="font-weight: 600;">
-										OP. BRACH : <span id="BranchName"></span>
+										OP. BRANCH : <span id="BranchName"></span>
 									</p>
 
 

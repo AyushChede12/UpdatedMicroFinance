@@ -12,7 +12,7 @@
         </div>
 
         <!-- RIGHT -->
-        <a href="helpmanual"><span class="mb-0 mr-3 text-white">Help</span></a>
+        <a href="helpmanual"><span class="mb-0 mr-3 text-white">HELP</span></a>
 
     </div>
 </header>

@@ -406,10 +406,10 @@ public class CustomerSavingsService {
 //	}
 
 	public Map<String, List<String>> getAccountNumbersByCustomers(List<String> customerCodes) {
-		if (customerCodes == null || customerCodes.isEmpty())
-			return Map.of();
 
 		Map<String, List<String>> result = new HashMap<>();
+		if (customerCodes == null || customerCodes.isEmpty())
+			return result;
 
 		for (String code : customerCodes) {
 			// Remove spaces and newlines
