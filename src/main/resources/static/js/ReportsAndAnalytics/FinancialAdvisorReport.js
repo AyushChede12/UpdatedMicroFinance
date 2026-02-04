@@ -1,18 +1,28 @@
 $(document).ready(function () {
+
+    // 🔒 PREVENT MULTIPLE EXECUTION
+    if (window.financialConsultantInitialized) {
+        console.warn("Financial Consultant JS already initialized");
+        return;
+    }
+    window.financialConsultantInitialized = true;
+
     var allFinancialConsultants = [];
 
-    // ✅ Fetch Approved Consultants (once)
+    // ================= FETCH APPROVED CONSULTANTS =================
     $.ajax({
         url: "api/reports/getApprovedFinancialConsultant",
         method: "GET",
         contentType: "application/json; charset=ISO-8859-1",
         success: function (response) {
-            if (response && response.data && Array.isArray(response.data)) {
+
+            if (response && Array.isArray(response.data)) {
                 allFinancialConsultants = response.data;
                 populateBranchDropdown(allFinancialConsultants);
                 renderTable(allFinancialConsultants);
             } else {
-                $(".datatable tbody").html("<tr><td colspan='10'>No approved consultants found.</td></tr>");
+                $(".datatable tbody")
+                    .html("<tr><td colspan='10'>No approved consultants found.</td></tr>");
             }
         },
         error: function () {
@@ -20,18 +30,40 @@ $(document).ready(function () {
         }
     });
 
-    // ✅ Populate Branch Dropdown dynamically
-    function populateBranchDropdown(data) {
-        var branches = [...new Set(data.map(f => f.branchName).filter(Boolean))];
-        var select = $("#branchName");
-        select.empty().append('<option value="">Select</option>');
-        branches.forEach(branch => {
-            select.append(`<option value="${branch}">${branch}</option>`);
-        });
+    // ================= NORMALIZE =================
+    function normalize(text) {
+        return text
+            ?.toString()
+            .replace(/\s+/g, " ")
+            .trim()
+            .toUpperCase();
     }
 
-    // ✅ Render Consultant Table
+    // ================= BRANCH DROPDOWN (NO DUPLICATE EVER) =================
+    function populateBranchDropdown(data) {
+
+        var select = $("#branchName");
+
+        // 💣 HARD RESET
+        select.empty().append('<option value="">Select</option>');
+
+        let branchSet = new Set();
+
+        data.forEach(f => {
+            if (!f.branchName) return;
+            branchSet.add(normalize(f.branchName));
+        });
+
+        branchSet.forEach(branch => {
+            select.append(`<option value="${branch}">${branch}</option>`);
+        });
+
+        console.log("UNIQUE BRANCHES =", [...branchSet]);
+    }
+
+    // ================= TABLE RENDER =================
     function renderTable(data) {
+
         var tbody = $(".datatable tbody");
         tbody.empty();
 
@@ -41,33 +73,38 @@ $(document).ready(function () {
         }
 
         $.each(data, function (i, f) {
-            tbody.append(
-                "<tr>" +
-                "<td>" + (i + 1) + "</td>" +
-                "<td>" + (f.branchName || '-') + "</td>" +
-                "<td>" + (f.financialCode || '-') + "</td>" +
-                "<td>" + (f.joiningDate || '-') + "</td>" +
-                "<td>" + (f.financialName || '-') + "</td>" +
-				"<td>" + (f.dob || '-') + "</td>" +
-                "<td>" + (f.contactNo || '-') + "</td>" +
-				"<td><button class='btn btn-outline-success btn-sm viewReportBtn' data-id='" + f.id + "' data-bs-toggle='modal' data-bs-target='#bankReportModal' title='View Report'><i class='bi bi-printer'></i></button></td>" + 
-                "</tr>"
-            );
+            tbody.append(`
+                <tr>
+                    <td>${i + 1}</td>
+                    <td>${f.branchName || '-'}</td>
+                    <td>${f.financialCode || '-'}</td>
+                    <td>${f.joiningDate || '-'}</td>
+                    <td>${f.financialName || '-'}</td>
+                    <td>${f.dob || '-'}</td>
+                    <td>${f.contactNo || '-'}</td>
+                    <td>
+                        <button class="btn btn-outline-success btn-sm viewReportBtn"
+                            data-id="${f.id}"
+                            data-bs-toggle="modal"
+                            data-bs-target="#bankReportModal">
+                            <i class="bi bi-printer"></i>
+                        </button>
+                    </td>
+                </tr>
+            `);
         });
 
         bindModalEvents();
     }
 
-    // ✅ Bind Modal Data (same as before)
+    // ================= MODAL BIND =================
     function bindModalEvents() {
+
         $(".viewReportBtn").off("click").on("click", function () {
+
             var id = $(this).data("id");
             var f = allFinancialConsultants.find(x => x.id === id);
             if (!f) return;
-
-            $("#bankLogo").attr("src", "https://i.ibb.co/zFSWbkC/banklogo.png");
-            $("#bankName").text("Sterling Microfinance Bank");
-            $("#reportTitle").text("Financial Consultant Registration Report");
 
             $("#financialCode").text(f.financialCode || "N/A");
             $("#joiningDate").text(f.joiningDate || "N/A");
@@ -76,32 +113,10 @@ $(document).ready(function () {
             $("#age").text(f.age || "");
             $("#contactNo").text(f.contactNo || "");
             $("#branchName").text(f.branchName || "");
-            $("#selectPosition").text(f.selectPosition || "");
-
-            $("#address").text(f.address || "");
-            $("#district").text(f.district || "");
-            $("#state").text(f.state || "");
-            $("#pinCode").text(f.pinCode || "");
-            $("#profession").text(f.profession || "");
-            $("#academicBackground").text(f.academicBackground || "");
-
-            $("#fees").text(f.fees || "");
-            $("#modeofPayment").text(f.modeofPayment || "");
-            $("#chequeNo").text(f.chequeNo || "");
-            $("#chequeDate").text(f.chequeDate || "");
-            $("#depositAccount").text(f.depositAccount || "");
-            $("#refNo").text(f.refNo || "");
-
-            $("#referralCode").text(f.referralCode || "");
-            $("#referralName").text(f.referralName || "");
-            $("#comments").text(f.comments || "");
-            $("#financialStatus").text(f.financialStatus || "");
-            $("#smsSend").text(f.smsSend || "");
-            $("#isApproved").text(f.isApproved ? "Yes" : "No");
         });
     }
 
-    // ✅ Filter Form Submit Event (frontend filtering only)
+    // ================= FILTER =================
     $("#findFinancialAdvisorBtn").on("click", function (e) {
         e.preventDefault();
 
@@ -109,35 +124,23 @@ $(document).ready(function () {
         var fromDate = $("#fromDate").val();
         var toDate = $("#toDate").val();
 
-        var filtered = allFinancialConsultants;
+        let filtered = allFinancialConsultants;
 
         if (branch) {
-            filtered = filtered.filter(f => f.branchName === branch);
+            filtered = filtered.filter(f =>
+                normalize(f.branchName) === normalize(branch)
+            );
         }
 
         if (fromDate && toDate) {
             filtered = filtered.filter(f => {
                 if (!f.joiningDate) return false;
-                var joinDate = new Date(f.joiningDate);
-                return joinDate >= new Date(fromDate) && joinDate <= new Date(toDate);
+                let d = new Date(f.joiningDate);
+                return d >= new Date(fromDate) && d <= new Date(toDate);
             });
         }
 
         renderTable(filtered);
     });
 
-    // ✅ Print Report
-    $("#printBankReportBtn").click(function () {
-        var content = document.getElementById("bankReportContent").innerHTML;
-        var printWindow = window.open("", "", "width=900,height=700");
-        printWindow.document.write(
-            "<html><head><title>Financial Consultant Report</title>" +
-            "<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet'>" +
-            "<style>body { font-family: Arial; padding: 20px; } h4,h5,h6{color:#0d6efd;} table{width:100%;border-collapse:collapse;} th,td{padding:8px;border:1px solid #ddd;} th{background-color:#f2f2f2;}</style>" +
-            "</head><body>" + content + "</body></html>"
-        );
-        printWindow.document.close();
-        printWindow.focus();
-        printWindow.print();
-    });
 });
