@@ -1,5 +1,6 @@
 package com.microfinance.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,6 +33,8 @@ public class SavingAccountActivity {
 	private String refNumber1;
 	private String depositAcc3;
 	private String refNumber2;
+
+	@Column(name = "is_approved")
 	private boolean isApproved;
 
 	public Long getId() {
@@ -224,21 +227,6 @@ public class SavingAccountActivity {
 
 	public void setApproved(boolean isApproved) {
 		this.isApproved = isApproved;
-	}
-
-	public void setAmount(String valueOf) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void setBalance(String valueOf) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void setRemark(String string) {
-		// TODO Auto-generated method stub
-
 	}
 
 }

@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <div class="pagetitle">
 	<h1>SAVING / CURRENT ACCOUNT</h1>
@@ -27,42 +28,41 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">TYPE OF ACCOUNT <span class="star">*</span></label> <select id="typeofaccount"
-							name="typeofaccount" required="required"
-							class="form-control selectField" style="height: 30px;">
+						<label for="">TYPE OF ACCOUNT <span class="star">*</span></label>
+						<select id="typeofaccount" name="typeofaccount"
+							required="required" class="form-control selectField"
+							style="height: 30px;">
 							<option value="savingaccount">SAVING ACCOUNT</option>
 							<option value="currentaccount">CURRENT ACCOUNT</option>
 
-						</select>
-						<small id="chktypeofaccount" style="color: red;"></small>
+						</select> <small id="chktypeofaccount" style="color: red;"></small>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="vehicalNo">OPENING DATE <span class="star">*</span></label> <input type="date"
-							name="openingDate" id="openingDate" required="required"
-							placeholder="ENTER OPENING DATE"
+						<label for="vehicalNo">OPENING DATE <span class="star">*</span></label>
+						<input type="date" name="openingDate" id="openingDate"
+							required="required" placeholder="ENTER OPENING DATE"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">SELECT BY CUSTOMER <span class="star">*</span></label> <select
-							id="selectByCustomer" name="selectByCustomer" required
+						<label for="">SELECT BY CUSTOMER <span class="star">*</span></label>
+						<select id="selectByCustomer" name="selectByCustomer" required
 							class="form-control selectField" style="height: 30px;">
 							<option value="">SELECT</option>
 							<!-- Add options here -->
-						</select>
-						<small id="chkselectcustomer" style="color: red;"></small>
+						</select> <small id="chkselectcustomer" style="color: red;"></small>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">ENTER CUSTOMER NAME <span class="star">*</span></label> <input type="text"
-							name="enterCustomerName" id="enterCustomerName"
+						<label for="">ENTER CUSTOMER NAME <span class="star">*</span></label>
+						<input type="text" name="enterCustomerName" id="enterCustomerName"
 							readonly="readonly" required="required"
 							placeholder="ENTER CUSTOMER NAME" />
 					</div>
@@ -71,7 +71,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="vehicalNo">DATE OF BIRTH <span class="star">*</span> <span class="star">*</span></label>
+						<label for="vehicalNo">DATE OF BIRTH <span class="star">*</span></label>
 						<input type="text" name="dateOfBirth" id="dateOfBirth"
 							readonly="readonly" placeholder="ENTER DOB" required="required" />
 					</div>
@@ -79,25 +79,27 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">FAMILY DETAILS <span class="star">*</span></label> <input type="text"
-							readonly="readonly" name="familyDetails" id="familyDetails"
-							required="required" placeholder="ENTER FAMILY DETAILS" />
+						<label for="">FAMILY DETAILS <span class="star">*</span></label> <input
+							type="text" readonly="readonly" name="familyDetails"
+							id="familyDetails" required="required"
+							placeholder="ENTER FAMILY DETAILS" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">CONTACT NUMBER <span class="star">*</span></label> <input type="text"
-							readonly="readonly" name="contactNumber" id="contactNumber"
-							required="required" placeholder="ENTER CONTACT NUMBER" />
+						<label for="">CONTACT NUMBER <span class="star">*</span></label> <input
+							type="text" readonly="readonly" name="contactNumber"
+							id="contactNumber" required="required"
+							placeholder="ENTER CONTACT NUMBER" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">SUGGESTED NOMINEE NAME <span class="star">*</span></label> <input type="text"
-							name="suggestedNomineeName" id="suggestedNomineeName"
-							readonly="readonly" required="required"
+						<label for="">SUGGESTED NOMINEE NAME <span class="star">*</span></label>
+						<input type="text" name="suggestedNomineeName"
+							id="suggestedNomineeName" readonly="readonly" required="required"
 							placeholder="ENTER SUGGESTED NOMINEE NAME" />
 					</div>
 				</div>
@@ -105,17 +107,18 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">SUGGESTED NOMINEE AGE <span class="star">*</span></label> <input type="text"
-							name="suggestedNomineeAge" id="suggestedNomineeAge"
-							readonly="readonly" required="required"
+						<label for="">SUGGESTED NOMINEE AGE <span class="star">*</span></label>
+						<input type="text" name="suggestedNomineeAge"
+							id="suggestedNomineeAge" readonly="readonly" required="required"
 							placeholder="ENTER SUGGESTED NOMINEE AGE" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">SUGGESTED NOMINEE RELATION <span class="star">*</span></label> <input
-							type="text" id="suggestedNomineeRelation" readonly="readonly"
+						<label for="">SUGGESTED NOMINEE RELATION <span
+							class="star">*</span></label> <input type="text"
+							id="suggestedNomineeRelation" readonly="readonly"
 							name="suggestedNomineeRelation" required="required"
 							placeholder="ENTER SUGGESTED NOMINEE RELATION" />
 					</div>
@@ -131,40 +134,40 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">DISTRICT <span class="star">*</span></label> <input type="text" name="district"
-							readonly="readonly" id="district" required="required"
-							placeholder="ENTER DISTRICT" />
+						<label for="">DISTRICT <span class="star">*</span></label> <input
+							type="text" name="district" readonly="readonly" id="district"
+							required="required" placeholder="ENTER DISTRICT" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">BRANCH NAME <span class="star">*</span></label> <input type="text"
-							readonly="readonly" id="branchName" name="branchName"
+						<label for="">BRANCH NAME <span class="star">*</span></label> <input
+							type="text" readonly="readonly" id="branchName" name="branchName"
 							required="required" placeholder="ENTER BRANCH NAME" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">STATE <span class="star">*</span></label> <input type="text" name="state"
-							readonly="readonly" id="state" required="required"
-							placeholder="ENTER STATE" />
+						<label for="">STATE <span class="star">*</span></label> <input
+							type="text" name="state" readonly="readonly" id="state"
+							required="required" placeholder="ENTER STATE" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">PIN CODE <span class="star">*</span></label> <input type="text" name="pinCode"
-							readonly="readonly" id="pinCode" required="required"
-							placeholder="ENTER PIN CODE" />
+						<label for="">PIN CODE <span class="star">*</span></label> <input
+							type="text" name="pinCode" readonly="readonly" id="pinCode"
+							required="required" placeholder="ENTER PIN CODE" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">OPERATION TYPE <span class="star">*</span></label> <select id="operationType"
-							name="operationType" required="required"
+						<label for="">OPERATION TYPE <span class="star">*</span></label> <select
+							id="operationType" name="operationType" required="required"
 							onchange="operationTypeFunc()" class="form-control selectField"
 							style="height: 30px;">
 							<option value="">SELECT</option>
@@ -176,8 +179,8 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">JOINT OPERATION CODE <span class="star">*</span></label> <select
-							id="jointOperationCode" name="jointOperationCode"
+						<label for="">JOINT OPERATION CODE <span class="star">*</span></label>
+						<select id="jointOperationCode" name="jointOperationCode"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
 							<option value="">SELECT</option>
@@ -207,13 +210,12 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">SELECT PLAN NAME <span class="star">*</span></label> <select id="selectPlan"
-							name="selectPlan" required="required"
+						<label for="">SELECT PLAN NAME <span class="star">*</span></label>
+						<select id="selectPlan" name="selectPlan" required="required"
 							class="form-control selectField" style="height: 30px;">
 							<option value="">--SELECT PLAN NAME--</option>
 
-						</select>
-						<small id="chkselectplan" style="color: red;"></small>
+						</select> <small id="chkselectplan" style="color: red;"></small>
 					</div>
 				</div>
 
@@ -228,29 +230,123 @@
  -->
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">FINANCIAL CONSULTANT CODE <span class="star">*</span></label> <input type="text"
-							name=financialConsultantCode id="financialConsultantCode"
-							style="text-transform: uppercase;" required="required"
-							placeholder="ENTER FINANCIAL CONSULTANT CODE" />
-							<small id="chkfinancialcode" style="color: red;"></small>
+						<label for="">FINANCIAL CONSULTANT CODE <span class="star">*</span></label>
+						<input type="text" name=financialConsultantCode
+							id="financialConsultantCode" style="text-transform: uppercase;"
+							required="required" placeholder="ENTER FINANCIAL CONSULTANT CODE" />
+						<small id="chkfinancialcode" style="color: red;"></small>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">FINANCIAL CONSULTANT NAME <span class="star">*</span></label> <input type="text"
-							name="financialConsultantName" id="financialConsultantName"
-							readonly="readonly" required="required"
-							placeholder="ENTER FINANCIAL CONSULTANT NAME" />
+						<label for="">FINANCIAL CONSULTANT NAME <span class="star">*</span></label>
+						<input type="text" name="financialConsultantName"
+							id="financialConsultantName" readonly="readonly"
+							required="required" placeholder="ENTER FINANCIAL CONSULTANT NAME" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">OPENING FEES <span class="star">*</span></label> <input type="text"
-							name="openingFees" id="openingFees" required="required"
-							placeholder="ENTER OPENING FEES" />
-							<small id="chkopeningfees" style="color: red;"></small>
+						<label for="">OPENING FEES <span class="star">*</span></label> <input
+							type="text" name="openingFees" id="openingFees"
+							required="required" placeholder="ENTER OPENING FEES" /> <small
+							id="chkopeningfees" style="color: red;"></small>
+
+						<table id="memberFeesTable" class="table table-bordered"
+							style="font-size: 10px; position: absolute; bottom: 40px; left: 0; width: 90%; display: none; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); z-index: 1000; table-layout: fixed;">
+
+							<thead>
+								<tr style="height: 26px;">
+									<th style="padding: 3px; width: 28%;">Input</th>
+									<th style="padding: 3px; width: 34%;">Qty</th>
+									<th style="padding: 3px; width: 38%;">Result</th>
+								</tr>
+							</thead>
+
+							<tbody>
+
+								<tr style="height: 26px;">
+									<td style="padding: 4px 2px;">₹2000</td>
+									<td><input type="number" id="qty2000" min="0" value="0"
+										class="form-control" oninput="calcOpeningFees()"
+										style="height: 22px; font-size: 10px; padding: 2px;">
+									</td>
+									<td style="padding: 4px 2px;">₹<span id="res2000">0</span></td>
+								</tr>
+
+								<tr style="height: 26px;">
+									<td style="padding: 4px 2px;">₹500</td>
+									<td><input type="number" id="qty500" min="0" value="0"
+										class="form-control" oninput="calcOpeningFees()"
+										style="height: 22px; font-size: 10px; padding: 2px;">
+									</td>
+									<td style="padding: 4px 2px;">₹<span id="res500">0</span></td>
+								</tr>
+
+								<tr style="height: 26px;">
+									<td style="padding: 4px 2px;">₹200</td>
+									<td><input type="number" id="qty200" min="0" value="0"
+										class="form-control" oninput="calcOpeningFees()"
+										style="height: 22px; font-size: 10px; padding: 2px;">
+									</td>
+									<td style="padding: 4px 2px;">₹<span id="res200">0</span></td>
+								</tr>
+
+								<tr style="height: 26px;">
+									<td style="padding: 4px 2px;">₹100</td>
+									<td><input type="number" id="qty100" min="0" value="0"
+										class="form-control" oninput="calcOpeningFees()"
+										style="height: 22px; font-size: 10px; padding: 2px;">
+									</td>
+									<td style="padding: 4px 2px;">₹<span id="res100">0</span></td>
+								</tr>
+
+								<tr style="height: 26px;">
+									<td style="padding: 4px 2px;">₹50</td>
+									<td><input type="number" id="qty50" min="0" value="0"
+										class="form-control" oninput="calcOpeningFees()"
+										style="height: 22px; font-size: 10px; padding: 2px;">
+									</td>
+									<td style="padding: 4px 2px;">₹<span id="res50">0</span></td>
+								</tr>
+
+								<tr style="height: 26px;">
+									<td style="padding: 4px 2px;">₹20</td>
+									<td><input type="number" id="qty20" min="0" value="0"
+										class="form-control" oninput="calcOpeningFees()"
+										style="height: 22px; font-size: 10px; padding: 2px;">
+									</td>
+									<td style="padding: 4px 2px;">₹<span id="res20">0</span></td>
+								</tr>
+
+								<tr style="height: 26px;">
+									<td style="padding: 4px 2px;">₹10</td>
+									<td><input type="number" id="qty10" min="0" value="0"
+										class="form-control" oninput="calcOpeningFees()"
+										style="height: 22px; font-size: 10px; padding: 2px;">
+									</td>
+									<td style="padding: 4px 2px;">₹<span id="res10">0</span></td>
+								</tr>
+
+								<tr style="height: 26px;">
+									<td style="padding: 4px 2px;">₹5</td>
+									<td><input type="number" id="qty5" min="0" value="0"
+										class="form-control" oninput="calcOpeningFees()"
+										style="height: 22px; font-size: 10px; padding: 2px;">
+									</td>
+									<td style="padding: 4px 2px;">₹<span id="res5">0</span></td>
+								</tr>
+
+								<tr style="height: 30px;">
+									<th colspan="2" style="padding: 4px 2px;">Total Member
+										Fees</th>
+									<th style="padding: 4px 2px;">₹<span id="totalFee">0</span></th>
+								</tr>
+
+							</tbody>
+						</table>
 					</div>
 				</div>
 
@@ -369,6 +465,7 @@
 				<div class="d-flex flex-column formFields mb-4">
 					<label for=""> COMMENT</label>
 					<textarea name="comment" id="comment"
+						style="text-transform: uppercase;"
 						style="border: 1px solid rgb(224, 224, 224); border-radius: 5px; outline: none; padding: 5px; font-size: 12px;"></textarea>
 				</div>
 			</div>
@@ -468,13 +565,6 @@
 							<img src="../images/upload/upload.png" alt="upload_icon"
 								id="photoPreview" /><input type="hidden" name="photoHidden"
 								id="photoHidden">
-
-							<!-- <p id="upload-text"
-                    style="font-size: 12px; margin-top: 15px"
-                    class="text-muted"
-                  >
-                    Drag and drop or Choose File to upload the image
-                  </p> -->
 						</div>
 					</label> <small id="chkphoto" style="color: red;"></small>
 				</div>
@@ -492,12 +582,6 @@
 								id="signaturePreview" /><input type="hidden"
 								name="signatureHidden" id="signatureHidden">
 
-							<!-- <p id="upload-text"
-                    style="font-size: 12px; margin-top: 15px"
-                    class="text-muted"
-                  >
-                    Drag and drop or Choose File to upload the image
-                  </p> -->
 						</div>
 					</label> <small id="chksignature" style="color: red;"></small>
 				</div>
@@ -514,29 +598,9 @@
 							<img src="../images/upload/upload.png" alt="upload_icon"
 								id="newPhotoPreview" /><input type="hidden"
 								name="newPhotoHidden" id="newPhotoHidden">
-
-							<!-- <p id="upload-text"
-                    style="font-size: 12px; margin-top: 15px"
-                    class="text-muted"
-                  >
-                    Drag and drop or Choose File to upload the image
-                  </p> -->
 						</div>
 					</label> <small id="chkphoto" style="color: red;"></small>
 				</div>
-
-				<!-- <div class="col-lg-3 mb-5">
-				<label
-					style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">
-					SIGNATURE<span class="star">*</span>
-				</label> <label for="newSignatureFile" id="drop-area"> <img
-					id="newSignature" src="../images/upload/upload.png"
-					alt="Signature Preview"
-					style="width: 250px; height: 200px; cursor: pointer;"> <input
-					type="file" id="newSignatureFile" name="newSignature"
-					accept="image/*" style="display: none;">
-				</label> <small id="chknewSignature" style="color: red;"></small>
-			</div> -->
 
 				<div class="col-lg-3 mb-5">
 					<label for=""
@@ -550,30 +614,9 @@
 							<img src="../images/upload/upload.png" alt="upload_icon"
 								id="newSignaturePreview" /><input type="hidden"
 								name="newSignatureHidden" id="newSignatureHidden">
-
-							<!-- <p id="upload-text"
-                    style="font-size: 12px; margin-top: 15px"
-                    class="text-muted"
-                  >
-                    Drag and drop or Choose File to upload the image
-                  </p> -->
 						</div>
 					</label> <small id="chknewsignature" style="color: red;"></small>
 				</div>
-
-
-				<!-- <div class="col-lg-3 mb-5" id="myJointPhoto">
-				<label
-					style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">
-					JOINT PHOTO<span class="star">*</span>
-				</label> <label for="jointPhotoFile" id="drop-area"> <img
-					id="jointPhoto" src="../images/upload/upload.png"
-					alt="Joint Photo Preview"
-					style="width: 250px; height: 200px; cursor: pointer;"> <input
-					type="file" id="jointPhotoFile" name="jointPhoto" accept="image/*"
-					style="display: none;">
-				</label> <small id="chkjointPhoto" style="color: red;"></small>
-			</div> -->
 
 				<div class="col-lg-3 mb-5" id="myJointPhoto">
 					<label for=""
@@ -587,13 +630,6 @@
 							<img src="../images/upload/upload.png" alt="upload_icon"
 								id="jointPhotoPreview" /><input type="hidden"
 								name="jointPhotoHidden" id="jointPhotoHidden">
-
-							<!-- <p id="upload-text"
-                    style="font-size: 12px; margin-top: 15px"
-                    class="text-muted"
-                  >
-                    Drag and drop or Choose File to upload the image
-                  </p> -->
 						</div>
 					</label> <small id="chkjointPhoto" style="color: red;"></small>
 				</div>
@@ -625,18 +661,18 @@
 				<table class="table table-borderless datatable overflow-scroll">
 					<thead class="table-light">
 						<tr style="font-family: 'Poppins', sans-serif;">
-							<th scope="col">SR NO</th>
-							<th scope="col">ACCOUNT NUMBER</th>
-							<th scope="col">ACCOUNT TYPE</th>
-							<th scope="col">CUSTOMER CODE</th>
-							<th scope="col">CUSTOMER NAME</th>
-							<th scope="col">MOBILE</th>
-							<th scope="col">BRANCH NAME</th>
-							<th scope="col">ADDRESS</th>
-							<th scope="col">CITY</th>
-							<th scope="col">STATE</th>
-							<th scope="col">EDIT</th>
-							<th scope="col">DELETE</th>
+							<th style="white-space: nowrap;">SR NO</th>
+							<th style="white-space: nowrap;">ACCOUNT NUMBER</th>
+							<th style="white-space: nowrap;">ACCOUNT TYPE</th>
+							<th style="white-space: nowrap;">CUSTOMER CODE</th>
+							<th style="white-space: nowrap;">CUSTOMER NAME</th>
+							<th style="white-space: nowrap;">MOBILE</th>
+							<th style="white-space: nowrap;">BRANCH NAME</th>
+							<th style="white-space: nowrap;">ADDRESS</th>
+							<th style="white-space: nowrap;">CITY</th>
+							<th style="white-space: nowrap;">STATE</th>
+							<th style="white-space: nowrap;">EDIT</th>
+							<th style="white-space: nowrap;">DELETE</th>
 						</tr>
 					</thead>
 					<tbody>
