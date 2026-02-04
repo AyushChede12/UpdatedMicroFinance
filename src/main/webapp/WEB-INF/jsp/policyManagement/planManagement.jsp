@@ -101,7 +101,7 @@ td {
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-piggy-bank"></i>
 			</a></li>
-			<li class="breadcrumb-item action">PLAN MANEGEMENT</li>
+			<li class="breadcrumb-item action">PLAN MANAGEMENT</li>
 		</ol>
 	</nav>
 </div>
@@ -111,7 +111,7 @@ td {
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">DAILY DEOPSIT </li>
+					<li class="breadcrumb-item action">DAILY DEPOSIT </li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -311,7 +311,7 @@ td {
 										<th style="white-space: nowrap;">Rate of Interest</th>
 										<th style="white-space: nowrap;">Installment Type</th>
 										<th style="white-space: nowrap;">Term (Duration)</th>
-										<th style="white-space: nowrap;">Maturity Amount</th>
+<!-- 										<th style="white-space: nowrap;">Maturity Amount</th> -->
 										<th style="white-space: nowrap;">Status (Active/Inactive)</th>
 										<th style="white-space: nowrap;">Action</th>
 									</tr>
@@ -380,7 +380,7 @@ td {
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">INTEREST RATE Interest Rate(%) <span class="star">*</span></label>
+						<label for="vehicalNo">INTEREST RATE (%) <span class="star">*</span></label>
 						<input type="text" name="rateOfInterestRD" id="rateOfInterestRD"
 							required="required" placeholder="ENTER INTEREST RATE"
 							style="text-transform: uppercase;" />
@@ -437,7 +437,7 @@ td {
 						<select id="componentIntervalRD" name="componentIntervalRD"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
-							<option value="">SELECT COMPOUND INTERVAL</option>
+							<option value="">SELECT INTEREST INTERVAL</option>
 							<option value="Monthly">MONTHLY</option>
 							<option value="Quarterly">QUATERLYQ</option>
 							<option value="Half-Yearly">HALF-YEARLY</option>
@@ -538,7 +538,7 @@ td {
 					<div class="card recent-sales">
 						<div class="card-body table-responsive">
 							<h5 class="card-title">
-								RECURRING DEPOSITE <span>| TABLE VIEW</span>
+								RECURRING DEPOSIT <span>| TABLE VIEW</span>
 							</h5>
 
 							<table class="table table-bordered">
@@ -551,7 +551,7 @@ td {
 										<th style="white-space: nowrap;">Rate of Interest</th>
 										<th style="white-space: nowrap;">Installment Type</th>
 										<th style="white-space: nowrap;">Term (Duration)</th>
-										<th style="white-space: nowrap;">Maturity Amount</th>
+									<!-- 	<th style="white-space: nowrap;">Maturity Amount</th> -->
 										<th style="white-space: nowrap;">Status (Active/Inactive)</th>
 										<th style="white-space: nowrap;">Action</th>
 									</tr>
@@ -585,7 +585,7 @@ td {
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">FIXED DEPOSITE </li>
+					<li class="breadcrumb-item action">FIXED DEPOSIT </li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -665,7 +665,7 @@ td {
 						<select id="componentIntervalFD" name="componentIntervalFD"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
-							<option value="">SELECT COMPOUND INTERVAL</option>
+							<option value="">SELECT  INTEREST INTERVAL</option>
 							<option value="Monthly">MONTHLY</option>
 							<option value="Quarterly">QUARTERLY </option>
 							<option value="Half-Yearly">HALF-YEARLY</option>
@@ -700,7 +700,7 @@ td {
 						<label for="">INTEREST EARNED <span class="star">*</span></label>
 						<input type="text" name="interestEarnedFD" id="interestEarnedFD"
 							readonly="readonly" required="required"
-							placeholder="INTREST EARNED" />
+							placeholder=" ENTER INTREST EARNED" />
 					</div>
 				</div>
 
@@ -805,7 +805,7 @@ td {
 									<th style="white-space: nowrap;">Rate of Interest</th>
 									<th style="white-space: nowrap;">Installment Type</th>
 									<th style="white-space: nowrap;">Term (Duration)</th>
-									<th style="white-space: nowrap;">Maturity Amount</th>
+									<!-- <th style="white-space: nowrap;">Maturity Amount</th> -->
 									<th style="white-space: nowrap;">Status (Active/Inactive)</th>
 									<th style="white-space: nowrap;">Action</th>
 								</tr>
@@ -865,9 +865,9 @@ td {
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">MINIMUM AMOUNTT  <span class="star">*</span></label>
+						<label for="vehicalNo">MINIMUM AMOUNT  <span class="star">*</span></label>
 						<input type="text" name="minimumAmountMD" id="minimumAmountMD"
-							required="required" placeholder="MINIMUM AMOUNT"
+							required="required" placeholder=" ENTER MINIMUM AMOUNT"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -875,7 +875,7 @@ td {
 					<div class="d-flex flex-column formFields">
 						<label for="vehicalNo">INTEREST RATE(%) <span class="star">*</span></label>
 						<input type="text" name="rateOfInterestMD" id="rateOfInterestMD"
-							required="required" placeholder="ENTEREST RATE"
+							required="required" placeholder="ENTER INTEREST RATE"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -927,7 +927,7 @@ td {
 						<label for="">INTEREST EARNED <span class="star">*</span></label>
 						<input type="text" name="interestEarnedMD" id="interestEarnedMD"
 							readonly="readonly" required="required"
-							placeholder="INTEREST EARNED" />
+							placeholder=" ENTER INTEREST EARNED" />
 					</div>
 				</div>
 
@@ -1026,7 +1026,7 @@ td {
 									<th style="white-space: nowrap;">Rate of Interest</th>
 									<th style="white-space: nowrap;">Installment Type</th>
 									<th style="white-space: nowrap;">Term (Duration)</th>
-									<th style="white-space: nowrap;">Maturity Amount</th>
+									<!-- <th style="white-space: nowrap;">Maturity Amount</th> -->
 									<th style="white-space: nowrap;">Status (Active/Inactive)</th>
 									<th style="white-space: nowrap;">Action</th>
 								</tr>
