@@ -34,6 +34,7 @@ import com.microfinance.model.FinancialYear;
 import com.microfinance.model.ManageDepartment;
 import com.microfinance.model.SavingAccountActivity;
 import com.microfinance.model.SavingSchemeCatalog;
+import com.microfinance.model.SavingsInterestTransfer;
 import com.microfinance.model.states;
 import com.microfinance.repository.CreateSavingAccountRepo;
 import com.microfinance.repository.SavingAccountFundTransferRepo;
@@ -623,4 +624,14 @@ public class CustomerSavingsController {
 
 		return ResponseEntity.ok("UPDATED");
 	}
+
+	@PostMapping("/transferInterest")
+	public ResponseEntity<ApiResponse<SavingsInterestTransfer>> transferInterest(
+			@RequestBody SavingsInterestTransfer interest) {
+
+		ApiResponse<SavingsInterestTransfer> response = customersaving.transferInterest(interest);
+
+		return ResponseEntity.status(response.getStatus()).body(response);
+	}
+
 }

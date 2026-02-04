@@ -110,7 +110,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="totalDays">TOTAL DAYS</label> <input type="text"
-							name="totalDays" id="totalDays" required="required"
+							name="totalDays" id="totalDays" required="required" readonly="readonly"
 							placeholder="ENTER TOTAL DAYS" style="text-transform: uppercase;" />
 					</div>
 				</div>
