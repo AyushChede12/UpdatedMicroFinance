@@ -514,19 +514,30 @@ public class CustomerSavingsService {
 			return ApiResponse.error(HttpStatus.CONFLICT, "Interest already transferred for this date range");
 		}
 
+		// ===== FETCH MAIN SAVINGS ACCOUNT =====
+		CreateSavingsAccount savingsAccount = createSavingAccountRepo.findByAccountNumber(interest.getAccountNumber())
+				.orElseThrow(() -> new RuntimeException("Savings account not found"));
+
+		// ===== CURRENT BALANCE (MAIN ACCOUNT) =====
+		BigDecimal currentBalance = new BigDecimal(savingsAccount.getBalance());
+
 		// ===== INTEREST CALCULATION =====
-		BigDecimal interestAmount = interest.getCurrentBalance().multiply(interest.getInterestRate())
+		BigDecimal interestAmount = currentBalance.multiply(interest.getInterestRate())
 				.multiply(BigDecimal.valueOf(interest.getTotalDays()))
 				.divide(BigDecimal.valueOf(36500), 2, RoundingMode.HALF_UP);
-
-		BigDecimal newBalance = interest.getCurrentBalance().add(interestAmount);
-
+		BigDecimal newBalance = currentBalance.add(interestAmount);
+		interest.setCurrentBalance(currentBalance);
 		interest.setInterestAmount(interestAmount);
 		interest.setNewBalance(newBalance);
 
-		SavingsInterestTransfer saved = savingsInterestTransferRepo.save(interest);
+		SavingsInterestTransfer savedInterest = savingsInterestTransferRepo.save(interest);
 
-		return ApiResponse.success(HttpStatus.OK, "Interest transferred successfully", saved);
+		// ===== UPDATE MAIN ACCOUNT BALANCE =====
+		savingsAccount.setBalance(newBalance.toString());
+		createSavingAccountRepo.save(savingsAccount);
+
+		return ApiResponse.success(HttpStatus.OK, "Interest transferred & main account balance updated successfully",
+				savedInterest);
 	}
 
 }

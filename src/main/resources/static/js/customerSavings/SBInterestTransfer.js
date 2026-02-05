@@ -1,275 +1,269 @@
-$(document).ready(function () {
+$(document).ready(function() {
 
-    /* =========================
-       1. LOAD ACCOUNT NUMBERS
-    ========================= */
-    function loadAccountNumbers() {
-        $.ajax({
-            url: "api/customersavings/getAllSavingAccountData",
-            type: "GET",
-            dataType: "json",
-            success: function (response) {
-                let dropdown = $('#accountNumber');
-                dropdown.empty();
-                dropdown.append('<option value="">SELECT ACCOUNT NO</option>');
+	/* =========================
+	   1. LOAD ACCOUNT NUMBERS
+	========================= */
+	function loadAccountNumbers() {
+		$.ajax({
+			url: "api/customersavings/getAllSavingAccountData",
+			type: "GET",
+			dataType: "json",
+			success: function(response) {
+				let dropdown = $('#accountNumber');
+				dropdown.empty();
+				dropdown.append('<option value="">SELECT ACCOUNT NO</option>');
 
-                if ((response.status === "OK" || response.status === "FOUND") && response.data?.length > 0) {
-                    $.each(response.data, function (i, acc) {
-                        dropdown.append(`<option value="${acc.accountNumber}">${acc.accountNumber}</option>`);
-                    });
-                }
-            },
-            error: function (xhr) {
-                console.error("Account load error:", xhr.responseText);
-            }
-        });
-    }
+				if ((response.status === "OK" || response.status === "FOUND") && response.data?.length > 0) {
+					$.each(response.data, function(i, acc) {
+						dropdown.append(`<option value="${acc.accountNumber}">${acc.accountNumber}</option>`);
+					});
+				}
+			},
+			error: function(xhr) {
+				console.error("Account load error:", xhr.responseText);
+			}
+		});
+	}
 
-    loadAccountNumbers();
+	loadAccountNumbers();
 
-    /* =================================
-       2. FETCH CUSTOMER DETAILS
-    ================================= */
-    $('#accountNumber').on('change', function () {
+	/* =================================
+	   2. FETCH CUSTOMER DETAILS
+	================================= */
+	$('#accountNumber').on('change', function() {
 
-        let accNo = $(this).val();
+		let accNo = $(this).val();
 
-        $('#customerName, #accountType, #currentBalance').val('');
+		$('#customerName, #accountType, #currentBalance').val('');
 
-        if (!accNo) return;
+		if (!accNo) return;
 
-        $.ajax({
-            url: "api/customersavings/getallbyaccountnumber",
-            type: "GET",
-            data: { accountNumber: accNo },
-            dataType: "json",
-            success: function (response) {
+		$.ajax({
+			url: "api/customersavings/getallbyaccountnumber",
+			type: "GET",
+			data: { accountNumber: accNo },
+			dataType: "json",
+			success: function(response) {
 
-                if ((response.status === "OK" || response.status === "FOUND") && response.data?.length > 0) {
+				if ((response.status === "OK" || response.status === "FOUND") && response.data?.length > 0) {
 
-                    let acc = response.data[0];
+					let acc = response.data[0];
 
-                    $('#customerName').val(acc.enterCustomerName || '');
-                    $('#accountType').val(acc.accountType || 'SAVING');
-                    $('#currentBalance').val(acc.balance || 0);
+					$('#customerName').val(acc.enterCustomerName || '');
+					$('#accountType').val(acc.accountType || 'SAVING');
+					$('#currentBalance').val(acc.balance || 0);
 
-                } else {
-                    alert("Account details not found");
-                }
-            },
-            error: function () {
-                alert("Failed to fetch account details");
-            }
-        });
-    });
+				} else {
+					alert("Account details not found");
+				}
+			},
+			error: function() {
+				alert("Failed to fetch account details");
+			}
+		});
+	});
 
-    /* =========================
-       3. GENERATE INTEREST
-    ========================= */
-	$('#generateInterestBtn').on('click', function (e) {
-	    e.preventDefault();
+	/* =========================
+	   3. GENERATE INTEREST
+	========================= */
+	$('#generateInterestBtn').on('click', function(e) {
+		e.preventDefault();
 
-	    let balance = parseFloat($('#currentBalance').val());
-	    let rate = parseFloat($('#interestRate').val());
-	    let interestType = $('#interestType').val().toLowerCase();
+		let balance = parseFloat($('#currentBalance').val());
+		let rate = parseFloat($('#interestRate').val());
+		let interestType = $('#interestType').val();
 
-	    let fromDateVal = $('#fromDate').val();
-	    let toDateVal = $('#toDate').val();
+		let fromDateVal = $('#fromDate').val();
+		let toDateVal = $('#toDate').val();
 
-	    if (!balance || !rate || !interestType || !fromDateVal || !toDateVal) {
-	        alert("Please fill all required fields");
-	        return;
-	    }
+		if (!balance || !rate || !interestType || !fromDateVal || !toDateVal) {
+			alert("Please fill all required fields");
+			return;
+		}
 
-	    let fromDate = new Date(fromDateVal);
-	    let toDate = new Date(toDateVal);
+		let fromDate = new Date(fromDateVal);
+		let toDate = new Date(toDateVal);
 
-	    if (fromDate > toDate) {
-	        alert("From Date cannot be greater than To Date");
-	        return;
-	    }
+		if (fromDate > toDate) {
+			alert("From Date cannot be greater than To Date");
+			return;
+		}
 
-	    /* ---- Total Days ---- */
-	    let timeDiff = toDate - fromDate;
-	    let totalDays = Math.floor(timeDiff / (1000 * 60 * 60 * 24)) + 1;
-	    $('#totalDays').val(totalDays);
+		// ===== TOTAL DAYS (Same as backend expectation) =====
+		let timeDiff = toDate - fromDate;
+		let totalDays = Math.floor(timeDiff / (1000 * 60 * 60 * 24)) + 1;
+		$('#totalDays').val(totalDays);
 
-	    /* ---- Interest Type Days ---- */
-	    let periodDays;
+		// ===== INTEREST CALCULATION (MATCH BACKEND) =====
+		let interestAmount =
+			(balance * rate * totalDays) / 36500;
 
-	    switch (interestType) {
-	        case "monthly":
-	            periodDays = 30;
-	            break;
-	        case "quaterly":
-	            periodDays = 90;
-	            break;
-	        case "yearly":
-	            periodDays = 365;
-	            break;
-	        default:
-	            alert("Invalid interest type");
-	            return;
-	    }
+		interestAmount = parseFloat(interestAmount.toFixed(2));
 
-	    /* ---- Interest Calculation ---- */
-	    let interestAmount =
-	        (balance * rate * totalDays) / (periodDays * 100);
+		if (interestAmount <= 0) {
+			alert("Calculated interest is invalid");
+			return;
+		}
 
-	    interestAmount = parseFloat(interestAmount.toFixed(2));
-
-	    if (interestAmount <= 0) {
-	        alert("Calculated interest is invalid");
-	        return;
-	    }
-
-	    $('#interestAmount').val(interestAmount);
-	    $('#newBalance').val((balance + interestAmount).toFixed(2));
+		// ===== SET VALUES =====
+		$('#interestAmount').val(interestAmount);
+		$('#newBalance').val((balance + interestAmount).toFixed(2));
 	});
 
 
-    /* =========================
-       4. TRANSFER INTEREST
-    ========================= */
-    $('#searchDataBtn').on('click', function (e) {
-        e.preventDefault();
+});
 
-        let accountNumber = $('#accountNumber').val();
-        let interestType = $('#interestType').val();
-        let interestAmount = parseFloat($('#interestAmount').val());
-        let newBalance = parseFloat($('#newBalance').val());
+document.addEventListener("DOMContentLoaded", function() {
 
-        if (!accountNumber || !interestType || !interestAmount || interestAmount <= 0) {
-            alert("Please generate interest first");
-            return;
-        }
+	const fromDate = document.getElementById("fromDate");
+	const toDate = document.getElementById("toDate");
+	const totalDays = document.getElementById("totalDays");
 
-        let payload = {
-            accountNumber: accountNumber,
-            interestType: interestType,
-            interestAmount: interestAmount,
-            newBalance: newBalance
-        };
+	function calculateTotalDays() {
+		if (!fromDate.value || !toDate.value) {
+			totalDays.value = "";
+			return;
+		}
 
-        $.ajax({
-            url: "api/customersavings/transferInterest",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(payload),
-            success: function (response) {
+		const startDate = new Date(fromDate.value);
+		const endDate = new Date(toDate.value);
 
-                if (response.status === "OK" || response.status === "SUCCESS") {
-                    alert("Interest transferred successfully");
+		// Validate date order
+		if (endDate < startDate) {
+			alert("TO DATE cannot be earlier than FROM DATE");
+			totalDays.value = "";
+			toDate.value = "";
+			return;
+		}
 
-                    $('#currentBalance').val(newBalance.toFixed(2));
-                    $('#interestAmount, #newBalance, #totalDays, #interestRate').val('');
+		// Difference in milliseconds
+		const diffTime = endDate.getTime() - startDate.getTime();
 
-                } else {
-                    alert(response.message || "Transfer failed");
-                }
-            },
-            error: function () {
-                alert("Error transferring interest");
-            }
-        });
-    });
+		// Convert to days (+1 for inclusive count)
+		const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+		totalDays.value = diffDays;
+	}
+
+	fromDate.addEventListener("change", calculateTotalDays);
+	toDate.addEventListener("change", calculateTotalDays);
 
 });
 
-document.addEventListener("DOMContentLoaded", function () {
+$(document).ready(function() {
 
-    const fromDate = document.getElementById("fromDate");
-    const toDate = document.getElementById("toDate");
-    const totalDays = document.getElementById("totalDays");
+	$('#interestType, #fromDate').on('change', function() {
 
-    function calculateTotalDays() {
-        if (!fromDate.value || !toDate.value) {
-            totalDays.value = "";
-            return;
-        }
+		let interestType = $('#interestType').val();
+		let fromDateVal = $('#fromDate').val();
 
-        const startDate = new Date(fromDate.value);
-        const endDate = new Date(toDate.value);
+		if (!interestType || !fromDateVal) {
+			return;
+		}
 
-        // Validate date order
-        if (endDate < startDate) {
-            alert("TO DATE cannot be earlier than FROM DATE");
-            totalDays.value = "";
-            toDate.value = "";
-            return;
-        }
+		let fromDate = new Date(fromDateVal);
+		let minToDate = new Date(fromDate);
+		let maxToDate = new Date(fromDate);
 
-        // Difference in milliseconds
-        const diffTime = endDate.getTime() - startDate.getTime();
+		if (interestType === "monthly") {
+			// +1 month
+			maxToDate.setMonth(fromDate.getMonth() + 1);
 
-        // Convert to days (+1 for inclusive count)
-        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+		} else if (interestType === "quaterly") {
+			// +3 months
+			maxToDate.setMonth(fromDate.getMonth() + 3);
 
-        totalDays.value = diffDays;
-    }
+		} else if (interestType === "yearly") {
+			// +1 year
+			maxToDate.setFullYear(fromDate.getFullYear() + 1);
+		}
 
-    fromDate.addEventListener("change", calculateTotalDays);
-    toDate.addEventListener("change", calculateTotalDays);
+		// format YYYY-MM-DD
+		function formatDate(date) {
+			let d = new Date(date),
+				month = '' + (d.getMonth() + 1),
+				day = '' + d.getDate(),
+				year = d.getFullYear();
 
-});
+			if (month.length < 2) month = '0' + month;
+			if (day.length < 2) day = '0' + day;
 
-$(document).ready(function () {
+			return [year, month, day].join('-');
+		}
 
-    $('#interestType, #fromDate').on('change', function () {
+		$('#toDate').attr('min', formatDate(minToDate));
+		$('#toDate').attr('max', formatDate(maxToDate));
+		$('#toDate').val(""); // force reselect
 
-        let interestType = $('#interestType').val();
-        let fromDateVal = $('#fromDate').val();
+	});
 
-        if (!interestType || !fromDateVal) {
-            return;
-        }
+	/* ---- Extra Safety: Validate on ToDate Change ---- */
+	$('#toDate').on('change', function() {
 
-        let fromDate = new Date(fromDateVal);
-        let minToDate = new Date(fromDate);
-        let maxToDate = new Date(fromDate);
+		let toDate = new Date($(this).val());
+		let maxDate = new Date($(this).attr('max'));
 
-        if (interestType === "monthly") {
-            // +1 month
-            maxToDate.setMonth(fromDate.getMonth() + 1);
+		if (toDate > maxDate) {
+			alert("Selected date is not allowed for selected interest type");
+			$(this).val("");
+		}
+	});
 
-        } else if (interestType === "quaterly") {
-            // +3 months
-            maxToDate.setMonth(fromDate.getMonth() + 3);
+	$("#transferInterestBtn").click(function() {
 
-        } else if (interestType === "yearly") {
-            // +1 year
-            maxToDate.setFullYear(fromDate.getFullYear() + 1);
-        }
+		// ===== COLLECT FORM DATA =====
+		let interestData = {
+			accountNumber: $("#accountNumber").val(),
+			customerName: $("#customerName").val(),
+			accountType: $("#accountType").val(),
+			currentBalance: $("#currentBalance").val(),
 
-        // format YYYY-MM-DD
-        function formatDate(date) {
-            let d = new Date(date),
-                month = '' + (d.getMonth() + 1),
-                day = '' + d.getDate(),
-                year = d.getFullYear();
+			interestType: $("#interestType").val(),
+			interestRate: $("#interestRate").val(),
 
-            if (month.length < 2) month = '0' + month;
-            if (day.length < 2) day = '0' + day;
+			fromDate: $("#fromDate").val(),
+			toDate: $("#toDate").val(),
+			totalDays: $("#totalDays").val(),
 
-            return [year, month, day].join('-');
-        }
+			interestAmount: $("#interestAmount").val(),
+			newBalance: $("#newBalance").val(),
+		};
 
-        $('#toDate').attr('min', formatDate(minToDate));
-        $('#toDate').attr('max', formatDate(maxToDate));
-        $('#toDate').val(""); // force reselect
+		// ===== BASIC VALIDATION =====
+		if (!interestData.accountNumber || !interestData.interestRate || !interestData.totalDays) {
+			alert("Please fill all required interest details");
+			return;
+		}
 
-    });
+		// ===== CONFIRMATION =====
+		if (!confirm("Are you sure you want to transfer interest?")) {
+			return;
+		}
 
-    /* ---- Extra Safety: Validate on ToDate Change ---- */
-    $('#toDate').on('change', function () {
+		// ===== AJAX CALL =====
+		$.ajax({
+			url: "api/customersavings/transferInterest",
+			type: "POST",
+			contentType: "application/json",
+			data: JSON.stringify(interestData),
+			success: function(response) {
 
-        let toDate = new Date($(this).val());
-        let maxDate = new Date($(this).attr('max'));
-
-        if (toDate > maxDate) {
-            alert("Selected date is not allowed for selected interest type");
-            $(this).val("");
-        }
-    });
+				if (response.status === "OK") {
+					alert(response.message);
+					// Optional: disable button to prevent double click
+					//$("#transferInterestBtn").prop("disabled", true);
+				} else {
+					alert(response.message);
+				}
+			},
+			error: function(xhr) {
+				if (xhr.responseJSON && xhr.responseJSON.message) {
+					alert(xhr.responseJSON.message);
+				} else {
+					alert("Error while transferring interest");
+				}
+			}
+		});
+	});
 
 });

@@ -52,7 +52,8 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">CUSTOMER NAME</label> <input type="text"
 							name="customerName" id="customerName" required="required"
-							placeholder="MEMBER CODE" />
+							style="text-transform: uppercase;"
+							placeholder="ENTER CUSTOMER NAME" />
 					</div>
 				</div>
 
@@ -61,7 +62,7 @@
 						<label for="">ACCOUNT NUMBER</label> <select id="accountNumber"
 							name="accountNumber" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">SELECT</option>
+							<option value="">--SELECT ACCOUNT NO--</option>
 						</select>
 					</div>
 				</div>
@@ -69,7 +70,8 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">CUSTOMER CODE</label> <input type="text"
-							name="customerCode" id="customerCode" required="required"
+							style="text-transform: uppercase;" name="customerCode"
+							id="customerCode" required="required"
 							placeholder="ENTER CUSTOMER CODE" />
 					</div>
 				</div>
@@ -77,7 +79,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">FINANCIAL CONSULTANT CODE</label> <input type="text"
-							name="financialConsultantCode" id="financialConsultantCode"
+							name="financialConsultantCode" id="financialConsultantCode" style="text-transform: uppercase;"	
 							required="required" placeholder="ENTER FINANCIAL CONSULTANT CODE" />
 					</div>
 				</div>
@@ -86,7 +88,7 @@
 						<label for="">PLAN NAME</label> <select id="schemename"
 							name="schemename" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">SELECT</option>
+							<option value="">--SELECT PLAN NAME--</option>
 						</select>
 					</div>
 				</div>
@@ -105,26 +107,26 @@
 
 					<div class="card-body table-responsive">
 						<h5 class="card-title">
-							SEARCH RESULT <span>|TODAY</span>
+							SEARCH RESULT <span>| TABLE VIEW</span>
 						</h5>
 
 						<table class="table table-borderless datatable overflow-scroll">
 							<thead class="table-light">
 								<tr style="font-family: 'Poppins', sans-serif;">
-									<th scope="col">SR NO</th>
-									<th scope="col">ACCOUNT NUMBER</th>
-									<th scope="col">ACCOUNT TYPE</th>
-									<th scope="col">CUSTOMER CODE</th>
-									<th scope="col">CUSTOMER NAME</th>
-									<th scope="col">MOBILE</th>
-									<th scope="col">BRANCH NAME</th>
-									<th scope="col">ADDRESS</th>
-									<th scope="col">CITY</th>
-									<th scope="col">STATE</th>
-									<th scope="col">OPENING DATE</th>
-									<th scope="col">FINANCIAL CONSULTANT CODE</th>
-									<th scope="col">PLAN NAME</th>
-									<th scope="col">APPROVE STATUS</th>
+									<th style="white-space: nowrap;">SR NO</th>
+									<th style="white-space: nowrap;">ACCOUNT NUMBER</th>
+									<th style="white-space: nowrap;">ACCOUNT TYPE</th>
+									<th style="white-space: nowrap;">CUSTOMER CODE</th>
+									<th style="white-space: nowrap;">CUSTOMER NAME</th>
+									<th style="white-space: nowrap;">MOBILE</th>
+									<th style="white-space: nowrap;">BRANCH NAME</th>
+									<th style="white-space: nowrap;">ADDRESS</th>
+									<th style="white-space: nowrap;">CITY</th>
+									<th style="white-space: nowrap;">STATE</th>
+									<th style="white-space: nowrap;">OPENING DATE</th>
+									<th style="white-space: nowrap;">FINANCIAL CONSULTANT CODE</th>
+									<th style="white-space: nowrap;">PLAN NAME</th>
+									<th style="white-space: nowrap;">APPROVE STATUS</th>
 								</tr>
 							</thead>
 							<tbody id="tableSavingAcc">
@@ -140,7 +142,7 @@
 </div>
 <script>
 	$(document).ready(function() {
-		searchInTheSavingAcc();
+		loadAllSavingAccounts();
 		AccNoDropdown();
 		schemeNameDropdown();
 	});

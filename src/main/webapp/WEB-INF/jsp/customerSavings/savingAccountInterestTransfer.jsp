@@ -76,7 +76,7 @@
 						<label for="">INTEREST TYPE</label> <select id="interestType"
 							name="interestType" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">SELECT INTEREST TYPE</option>
+							<option value="">--SELECT INTEREST TYPE--</option>
 							<option value="monthly">MONTHLY</option>
 							<option value="quaterly">QUATERLY</option>
 							<option value="yearly">YEARLY</option>
@@ -86,7 +86,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="interestRate">INTEREST RATE</label> <input type="text"
+						<label for="interestRate">INTEREST RATE</label> <input type="number"
 							name="interestRate" id="interestRate" required="required"
 							placeholder="ENTER INTEREST RATE"
 							style="text-transform: uppercase;" />
@@ -151,7 +151,7 @@
 				<button id="generateInterestBtn" class="btn btn-warning">
 					GENERATE INTEREST</button>
 
-				<button id="searchDataBtn" class="btn btn-warning" style="margin-left: 20px;">TRANSFER
+				<button id="transferInterestBtn" class="btn btn-warning" style="margin-left: 20px;">TRANSFER
 					INTEREST</button>
 			</div>
 		</div>

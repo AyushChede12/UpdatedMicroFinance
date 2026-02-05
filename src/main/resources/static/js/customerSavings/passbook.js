@@ -20,7 +20,7 @@ function fetchAccountNumbers(accountType) {
 		data: { accountType: accountType },
 		success: function(response) {
 			const $dropdown = $("#accountNumber");
-			$dropdown.empty().append('<option value="">-- Select Account Number --</option>');
+			$dropdown.empty().append('<option value="">--SELECT ACCOUNT NO--</option>');
 
 			if (response.status === "OK" && Array.isArray(response.data)) {
 				response.data.forEach(function(accNo) {
@@ -166,17 +166,17 @@ function displaySavingfrontPage() {
 
 				$("#customerNo").text(data.selectByCustomer);
 				$("#accountNo").text(data.accountNumber);
-				$("#customerName").text(data.enterCustomerName);
+				$("#customerName").text(data.enterCustomerName.toUpperCase());
 				$("#familyDetails").text(data.familyDetails);
 				$("#dateOfBirth").text(data.dateOfBirth);
 				$("#contactNo").text(data.contactNumber);
-				$("#emailId").text(data.emailId);
-				$("#operationType").text(data.operationType);
+				$("#emailId").text(data.emailId.toUpperCase());
+				$("#operationType").text(data.operationType.toUpperCase());
 				$("#aadharNo").text(data.aadharNo);
-				$("#address").text(fullAddress);
+				$("#address").text(fullAddress.toUpperCase());
 				$("#dateOfIssue").text(data.openingDate);
-				$("#typeofaccount").text(data.typeofaccount);
-				$("#branchName").text(data.branchName);
+				$("#typeofaccount").text(data.typeofaccount.toUpperCase());
+				$("#branchName").text(data.branchName.toUpperCase());
 
 				// If you have these fields in your data, else remove
 				$("#IFSCCode").text(data.ifscCode || '');
