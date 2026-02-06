@@ -94,7 +94,7 @@ function applyAllFilters() {
 	const filteredData = allSavingAccData.filter(item => {
 
 		// Branch
-		if (branch && item.branchName !== branch) return false;
+		if (branch && item.branchName?.toLowerCase() !== branch.toLowerCase()) return false;
 
 		// Opening Date (STRING compare)
 		if (fromDate || toDate) {
@@ -168,7 +168,7 @@ function renderTable(data) {
 			<tr>
 				<td>${i++}</td>
 				<td>${item.accountNumber}</td>
-				<td>${item.typeofaccount}</td>
+				<td>${item.typeofaccount.toUpperCase()}</td>
 				<td>${item.selectByCustomer.toUpperCase()}</td>
 				<td>${item.enterCustomerName.toUpperCase()}</td>
 				<td>${item.contactNumber}</td>
