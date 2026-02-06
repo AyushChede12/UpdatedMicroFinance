@@ -78,37 +78,43 @@ $(document).ready(function() {
 			type: "GET",
 			data: { accountNumber: accountNumber },
 			success: function(response) {
-				console.log("Transaction Activity Response:", response);
 
 				if (response.status && response.status.toUpperCase() === "OK") {
+
 					let data = response.data;
 					let tableBody = $("#tableSavingAcc");
 					tableBody.empty();
 
+					// 🔴 IMPORTANT: Opening Balance
+					let runningBalance = parseFloat(data[0].openingBalance || 0);
+
 					data.forEach((item) => {
 
-						let credit = "0.00";
-						let debit = "0.00";
+						let credit = 0.00;
+						let debit = 0.00;
 
 						if (item.transactionType) {
 							if (item.transactionType.toUpperCase() === "DEPOSIT") {
-								credit = item.transactionAmount || "0.00";
+								credit = parseFloat(item.transactionAmount || 0);
+								runningBalance += credit;
 							}
 							else if (item.transactionType.toUpperCase() === "WITHDRAW") {
-								debit = item.transactionAmount || "0.00";
+								debit = parseFloat(item.transactionAmount || 0);
+								runningBalance -= debit;
 							}
 						}
 
-						let row = `<tr>
-		                    <td>${item.accountNumber || ''}</td>
-		                    <td>${item.transactionDate || ''}</td>
-		                    <td style="color:green;">${credit}</td>
-		                    <td style="color:red;">${debit}</td>
-		                    <td>${item.averageBalance || ''}</td>
-		                    <td>${item.payBy || ''}</td>
-		                    <td>${(item.selectBranchName).toUpperCase() || ''}</td>
-		                    <td>${(item.comments || '').toUpperCase()}</td>
-		                </tr>`;
+						let row = `
+						<tr>
+							<td>${item.accountNumber || ''}</td>
+							<td>${item.transactionDate || ''}</td>
+							<td style="color:green;">${credit.toFixed(2)}</td>
+							<td style="color:red;">${debit.toFixed(2)}</td>
+							<td>${runningBalance.toFixed(2)}</td>
+							<td>${item.payBy || ''}</td>
+							<td>${(item.selectBranchName || '').toUpperCase()}</td>
+							<td>${(item.comments || '').toUpperCase()}</td>
+						</tr>`;
 
 						tableBody.append(row);
 					});
@@ -118,8 +124,7 @@ $(document).ready(function() {
 					$("#tableSavingAcc").empty();
 				}
 			},
-			error: function(xhr) {
-				console.error("Transaction fetch error:", xhr);
+			error: function() {
 				alert("Error fetching transaction data.");
 			}
 		});

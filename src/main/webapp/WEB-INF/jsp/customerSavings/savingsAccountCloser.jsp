@@ -22,17 +22,17 @@
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">SELECT ACCOUNT NUMBER</label> <select
+						<label for="">ACCOUNT NUMBER</label> <select
 							id="accountNumber" name="accountNumber" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">SELECT</option>
+							<option value="">--SELECT ACCOUNT NO--</option>
 						</select>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">CUSTOMER CODE </label> <input type="text"
+						<label for="">CUSTOMER CODE </label> <input type="text" readonly="readonly"
 							name="customerCode" id="customerCode" required="required"
 							placeholder="ENTER CUSTOMER CODE" />
 					</div>
@@ -40,7 +40,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">CUSTOMER NAME </label> <input type="text"
+						<label for="">CUSTOMER NAME </label> <input type="text" readonly="readonly"
 							name="customerName" id="customerName" required="required"
 							placeholder="ENTER CUSTOMER NAME" />
 					</div>
@@ -48,7 +48,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">CONTACT NUMBER</label> <input type="text"
+						<label for="">CONTACT NUMBER</label> <input type="text" readonly="readonly"
 							name="contactNumber" id="contactNumber" required="required"
 							placeholder="ENTER CONTACT NUMBER" />
 					</div>
@@ -56,7 +56,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">OPENING BRANCH</label> <input type="text"
+						<label for="">OPENING BRANCH</label> <input type="text" readonly="readonly"
 							name="branchName" id="branchName" required="required"
 							placeholder="ENTER OPENING BRANCH" />
 					</div>
@@ -64,7 +64,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">OPENING DATE</label> <input type="text"
+						<label for="">OPENING DATE</label> <input type="text" readonly="readonly"
 							name="openingDate" id="openingDate" required="required"
 							placeholder="ENTER OPENING DATE" />
 					</div>
@@ -72,7 +72,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">CURRENT BALANCE</label> <input type="text"
+						<label for="">CURRENT BALANCE</label> <input type="text" readonly="readonly"
 							name="currentBalance" id="currentBalance" required="required"
 							placeholder="ENTER CURRENT BALANCE" />
 					</div>
@@ -113,7 +113,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">CLOSUNG BRANCH</label> <select
+						<label for="">CLOSING BRANCH</label> <select
 							id="closingbranchName" name="closingbranchName"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
