@@ -6,7 +6,7 @@ $(document).ready(function() {
 			console.log("API response:", response);
 			var dropdown1 = $('#accountNumber');
 			dropdown1.empty();
-			dropdown1.append('<option value="">Select</option>');
+			dropdown1.append('<option value="">--SELECT ACCOUNT NO--</option>');
 
 			if (response.status === "OK" && response.data) {
 				$.each(response.data, function(index, item) {
@@ -48,12 +48,12 @@ $(document).ready(function() {
 					let customer = response.data[0];
 
 					$('#accountNoDisplay').text(customer.accountNumber || '');
-					$('#memberName').text(customer.enterCustomerName || '');
+					$('#memberName').text((customer.enterCustomerName || '').toUpperCase());
 					$('#relativeDetails').text(customer.familyDetails || '');
-					$('#address').text(customer.state || '');
+					$('#address').text((customer.state || '').toUpperCase());
 					$('#opDate').text(customer.openingDate || '');
 					$('#selectMember').text(customer.selectByCustomer || '');
-					$('#modeOfOp').text(customer.operationType || '');
+					$('#modeOfOp').text((customer.operationType || '').toUpperCase());
 					$('#BranchName').text(customer.branchName || '');
 				} else {
 					alert('No customer data found.');
@@ -107,7 +107,7 @@ $(document).ready(function() {
 		                    <td>${item.averageBalance || ''}</td>
 		                    <td>${item.payBy || ''}</td>
 		                    <td>${(item.selectBranchName).toUpperCase() || ''}</td>
-		                    <td>${item.comments || ''}</td>
+		                    <td>${(item.comments || '').toUpperCase()}</td>
 		                </tr>`;
 
 						tableBody.append(row);

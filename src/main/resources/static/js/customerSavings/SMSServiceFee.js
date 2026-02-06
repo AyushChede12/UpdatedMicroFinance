@@ -106,7 +106,7 @@ $(document).ready(function () {
                     <td>${i + 1}</td>
                     <td>${item.accountNumber}</td>
                     <td>${item.openingDate}</td>
-                    <td>${item.balance}</td>
+                    <td>${item.openingFees}</td>
                     <td>${item.messageSend == 1 ? "Enabled" : "Disabled"}</td>
                 </tr>
             `);

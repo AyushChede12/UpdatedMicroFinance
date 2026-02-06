@@ -297,11 +297,11 @@ public class CustomerSavingsController {
 
 		if (members != null && !members.isEmpty()) {
 			ApiResponse<List<SavingAccountActivity>> response = ApiResponse.success(HttpStatus.OK,
-					"Consultants found for memberCode: " + accountNumber, members);
+					"Savings found for Customer Code: " + accountNumber, members);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} else {
 			ApiResponse<List<SavingAccountActivity>> response = ApiResponse.error(HttpStatus.NOT_FOUND,
-					"No member found with this code");
+					"No saving customer found with this code");
 			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 		}
 	}

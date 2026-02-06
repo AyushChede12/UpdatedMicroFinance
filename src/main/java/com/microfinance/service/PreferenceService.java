@@ -583,7 +583,7 @@ public class PreferenceService {
 
 	
 	public List<UserMenuAccess> getUserMenuAccess(String userId) {
-		return userMenuAccessRepo.findByUserCreation_UserId(userId);
+		return userMenuAccessRepo.findByUserCreations_UserId(userId);
 	}
 
 	public ApiResponse<BankModule> saveBankModule(BankModuleDto bankModuleDto, MultipartFile cancelledCheque) {
@@ -688,7 +688,7 @@ public class PreferenceService {
 
 		Optional<CompanyImageUploads> opt = companyImageUploadsRepo.findById(id);
 
-		if (opt.isEmpty()) {
+		if (opt.isPresent()) {
 			return false;
 		}
 

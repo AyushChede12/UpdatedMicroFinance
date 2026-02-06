@@ -3,7 +3,7 @@
 	<h1>Account Management</h1>
 	<nav>
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="openDashboard"> <i
+			<li class="breadcrumb-item"><a href="home"> <i
 					class="bi bi-wallet2"></i>
 			</a></li>
 			<li class="breadcrumb-item action">Incentive Payment</li>
@@ -185,7 +185,3 @@
 			style="background-color: #FFA500;">Pay</button>
 	</div>
 </div>
-
-<script
-	src="${pageContext.request.contextPath}/js/account-management/incentivePayment.js"></script>
-

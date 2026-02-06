@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <div class="pagetitle">
 	<h1>SAVING / CURRENT ACCOUNT</h1>
@@ -25,35 +26,35 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">SAVING TRANSACTION ID</label> <input type="text"
 							name="selectSavingTransactionId" id="selectSavingTransactionId"
-							required="required" value="${transactionCode}" placeholder=" " />
+							readonly="readonly" required="required"
+							value="${transactionCode}" placeholder=" " />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="vehicalNo">TRANSACTION DATE</label> <input type="date"
-							name="transactionDate" id="transactionDate" required="required"
-							placeholder="Enter Vehicle No" style="text-transform: uppercase;" />
+							name="transactionDate" id="transactionDate" required="required" " />
 					</div>
 				</div>
 
-				<div class="col-lg-6">   <!-- width badhane ke liye 6 -->
-    <div class="d-flex flex-column formFields mb-4">
-        <label for="accountNumber">ACCOUNT NUMBER</label>
-        <select id="accountNumber" name="accountNumber"
-            class="form-control selectField account-select"
-            required>
-            <option value="">- SELECT ACCOUNT NUMBER -</option>
-        </select>
-    </div>
-</div>
+				<div class="col-lg-3">
+					<!-- width badhane ke liye 6 -->
+					<div class="d-flex flex-column formFields mb-4">
+						<label for="accountNumber">ACCOUNT NUMBER</label> <select
+							id="accountNumber" name="accountNumber"
+							class="form-control selectField account-select" required>
+							<option value="">--SELECT ACCOUNT NUMBER--</option>
+						</select>
+					</div>
+				</div>
 
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">SELECT BRANCH NAME</label> <input type="text"
-							name="selectBranchName" id="selectBranchName" required="required"
-							placeholder="ENTER BRANCH NAME" />
+						<label for="">BRANCH NAME</label> <input type="text"
+							readonly="readonly" name="selectBranchName" id="selectBranchName"
+							required="required" placeholder="ENTER BRANCH NAME" />
 					</div>
 				</div>
 
@@ -61,40 +62,40 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">CUSTOMER CODE</label> <input type="text"
-							name="customerCode" id="customerCode" required="required"
-							placeholder=" ENTER MEMBER CODE" />
+							readonly="readonly" name="customerCode" id="customerCode"
+							required="required" placeholder=" ENTER CUSTOMER CODE" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">CUSTOMER NAME</label> <input type="text"
-							name="customerName" id="customerName" required="required"
-							placeholder="ENTER CUSTOMER NAME" />
+							readonly="readonly" name="customerName" id="customerName"
+							required="required" placeholder="ENTER CUSTOMER NAME" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">CONTACT NUMBER</label> <input type="text"
-							name="contactNumber" id="contactNumber" required="required"
-							placeholder="ENTER CONTACT NUMBER" />
+							readonly="readonly" name="contactNumber" id="contactNumber"
+							required="required" placeholder="ENTER CONTACT NUMBER" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">JOINT HOLDEE NAME</label> <input type="text"
-							name="jointHolderName" id="jointHolderName" required="required"
-							placeholder="ENTER JOINT HOLDEE NAME" />
+						<label for="">JOINT HOLDER NAME</label> <input type="text"
+							readonly="readonly" name="jointHolderName" id="jointHolderName"
+							required="required" placeholder="ENTER JOINT HOLDER NAME" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">SAVING PLAN NAME</label> <input type="text"
-							name="savingPlanName" id="savingPlanName" required="required"
-							placeholder="ENTER SAVING PLAN NAME" />
+							readonly="readonly" name="savingPlanName" id="savingPlanName"
+							required="required" placeholder="ENTER SAVING PLAN NAME" />
 					</div>
 				</div>
 
@@ -105,7 +106,7 @@
 		<div class="mt-5">
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">PAYMET DETAILS</li>
+					<li class="breadcrumb-item action">PAYMENT DETAILS</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -121,12 +122,11 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">TRANSACTION FOR</label> <input type="text"
-							name="transactionFor" id="transactionFor" required="required"
-							placeholder="ENTER AVERAGE BALANCE" />
+							style="text-transform: uppercase;" name="transactionFor"
+							id="transactionFor" required="required"
+							placeholder="ENTER TRANSACTION FOR" />
 					</div>
 				</div>
-
-
 
 				<div class="col-lg-3">
 
@@ -134,7 +134,7 @@
 						<label for="">TRANSACTION TYPE</label> <select
 							id="transactionType" name="transactionType" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">-SELECT-</option>
+							<option value="">--SELECT TYPE--</option>
 							<option value="Deposit">DEPOSIT</option>
 							<option value="Withdraw">WITHDRAW</option>
 
@@ -144,16 +144,14 @@
 
 
 				<div class="col-lg-3">
-	<div class="d-flex flex-column formFields mb-4">
-		<label for="">COMMENTS</label>
-		<select id="comments" name="comments" required="required"
-			class="form-control selectField" style="height: 30px;">
-			<option value="">-SELECT-</option>
-		</select>
-	</div>
-</div>
-
-
+					<div class="d-flex flex-column formFields mb-4">
+						<label for="">COMMENTS</label> <select id="comments"
+							name="comments" required="required"
+							class="form-control selectField" style="height: 30px;">
+							<option value="">--SELECT--</option>
+						</select>
+					</div>
+				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
@@ -161,6 +159,90 @@
 							name="transactionAmount" id="transactionAmount"
 							required="required" placeholder="ENTER TRANSACTION AMOUNT" />
 					</div>
+					<table id="memberFeesTable" class="table table-bordered"
+						style="font-size: 10px; position: absolute; bottom: 40px; left: 0; width: 90%; display: none; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); z-index: 1000; table-layout: fixed;">
+
+						<thead>
+							<tr style="height: 26px;">
+								<th style="padding: 3px; width: 28%;">Input</th>
+								<th style="padding: 3px; width: 34%;">Qty</th>
+								<th style="padding: 3px; width: 38%;">Result</th>
+							</tr>
+						</thead>
+
+						<tbody>
+
+							<tr style="height: 26px;">
+								<td style="padding: 4px 2px;">₹2000</td>
+								<td><input type="number" id="qty2000" min="0" value="0"
+									class="form-control" oninput="calcOpeningFees()"
+									style="height: 22px; font-size: 10px; padding: 2px;"></td>
+								<td style="padding: 4px 2px;">₹<span id="res2000">0</span></td>
+							</tr>
+
+							<tr style="height: 26px;">
+								<td style="padding: 4px 2px;">₹500</td>
+								<td><input type="number" id="qty500" min="0" value="0"
+									class="form-control" oninput="calcOpeningFees()"
+									style="height: 22px; font-size: 10px; padding: 2px;"></td>
+								<td style="padding: 4px 2px;">₹<span id="res500">0</span></td>
+							</tr>
+
+							<tr style="height: 26px;">
+								<td style="padding: 4px 2px;">₹200</td>
+								<td><input type="number" id="qty200" min="0" value="0"
+									class="form-control" oninput="calcOpeningFees()"
+									style="height: 22px; font-size: 10px; padding: 2px;"></td>
+								<td style="padding: 4px 2px;">₹<span id="res200">0</span></td>
+							</tr>
+
+							<tr style="height: 26px;">
+								<td style="padding: 4px 2px;">₹100</td>
+								<td><input type="number" id="qty100" min="0" value="0"
+									class="form-control" oninput="calcOpeningFees()"
+									style="height: 22px; font-size: 10px; padding: 2px;"></td>
+								<td style="padding: 4px 2px;">₹<span id="res100">0</span></td>
+							</tr>
+
+							<tr style="height: 26px;">
+								<td style="padding: 4px 2px;">₹50</td>
+								<td><input type="number" id="qty50" min="0" value="0"
+									class="form-control" oninput="calcOpeningFees()"
+									style="height: 22px; font-size: 10px; padding: 2px;"></td>
+								<td style="padding: 4px 2px;">₹<span id="res50">0</span></td>
+							</tr>
+
+							<tr style="height: 26px;">
+								<td style="padding: 4px 2px;">₹20</td>
+								<td><input type="number" id="qty20" min="0" value="0"
+									class="form-control" oninput="calcOpeningFees()"
+									style="height: 22px; font-size: 10px; padding: 2px;"></td>
+								<td style="padding: 4px 2px;">₹<span id="res20">0</span></td>
+							</tr>
+
+							<tr style="height: 26px;">
+								<td style="padding: 4px 2px;">₹10</td>
+								<td><input type="number" id="qty10" min="0" value="0"
+									class="form-control" oninput="calcOpeningFees()"
+									style="height: 22px; font-size: 10px; padding: 2px;"></td>
+								<td style="padding: 4px 2px;">₹<span id="res10">0</span></td>
+							</tr>
+
+							<tr style="height: 26px;">
+								<td style="padding: 4px 2px;">₹5</td>
+								<td><input type="number" id="qty5" min="0" value="0"
+									class="form-control" oninput="calcOpeningFees()"
+									style="height: 22px; font-size: 10px; padding: 2px;"></td>
+								<td style="padding: 4px 2px;">₹<span id="res5">0</span></td>
+							</tr>
+
+							<tr style="height: 30px;">
+								<th colspan="2" style="padding: 4px 2px;">Total Member Fees</th>
+								<th style="padding: 4px 2px;">₹<span id="totalFee">0</span></th>
+							</tr>
+
+						</tbody>
+					</table>
 				</div>
 
 				<div class="col-lg-3">
@@ -246,8 +328,8 @@
 
 		<div class="row">
 			<div class="col-12 text-center">
-			<button type="button" id="saveBtn" class="btn btn-warning"
-        style="margin-left: 80%;">Save</button>
+				<button type="button" id="saveBtn" class="btn btn-warning"
+					style="margin-left: 80%;">Save</button>
 
 			</div>
 		</div>
@@ -266,17 +348,17 @@
 				<table class="table table-borderless datatable overflow-scroll">
 					<thead class="table-light">
 						<tr style="font-family: 'Poppins', sans-serif;">
-							<th scope="col">SR NO</th>
-							<th scope="col">BRANCH NAME</th>
-							<th scope="col">OPENING DATE</th>
-							<th scope="col">ACCOUNT NUMBER</th>
-							<th scope="col">TRANSACTION TYPE</th>
-							<th scope="col">CREDIT/DEBIT</th>
-							<th scope="col">BALANCE</th>
-							<th scope="col">PAY MODE</th>
-							<th scope="col">REMARKS</th>
-							<th scope="col">TXN ID</th>
-							<th scope="col">USER ID</th>
+							<th style="white-space: nowrap;">SR NO</th>
+							<th style="white-space: nowrap;">BRANCH NAME</th>
+							<th style="white-space: nowrap;">OPENING DATE</th>
+							<th style="white-space: nowrap;">ACCOUNT NUMBER</th>
+							<th style="white-space: nowrap;">TRANSACTION TYPE</th>
+							<th style="white-space: nowrap;">CREDIT/DEBIT</th>
+							<th style="white-space: nowrap;">BALANCE</th>
+							<th style="white-space: nowrap;">PAY MODE</th>
+							<th style="white-space: nowrap;">REMARKS</th>
+							<th style="white-space: nowrap;">TXN ID</th>
+							<th style="white-space: nowrap;">USER ID</th>
 						</tr>
 					</thead>
 					<tbody id="tbody">

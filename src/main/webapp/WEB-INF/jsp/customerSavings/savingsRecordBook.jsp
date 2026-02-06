@@ -48,7 +48,7 @@
 			<div class="d-flex flex-column formFields mb-4">
 				<label for="">SELECT ACCOUNT TYPE</label> <select id="accountType"
 					class="form-control selectField" style="height: 30px;">
-					<option value="">SELECT ACCOUNT</option>
+					<option value="">--SELECT ACCOUNT--</option>
 					<option value="savingaccount">SAVING ACCOUNT</option>
 					<option value="currentaccount">CURRENT ACCOUNT</option>
 
@@ -58,7 +58,7 @@
 
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
-				<label for="">SELECT ACCOUNT NUMBER</label> <select id=accountNumber
+				<label for="">--SELECT ACCOUNT NO--</label> <select id=accountNumber
 					class="form-control selectField" style="height: 30px;">
 					<option value="">SELECT ACCOUNT</option>
 
@@ -66,22 +66,18 @@
 			</div>
 		</div>
 	</div>
-	<div class="row" style="padding-left: 800px;">
+	<div class="row"">
 		<div class="col-12 text-center">
-			<a id="btnSearchTransactionData"
-				href="javascript:displayTransactionDataList()"
-				class="btn btn-success margin-20 "
-				style="background-color: #FFDF00;"><span class="fa fa-search "></span>
-				SEARCH</a> <a id="btnFrontPageOnSavingPassbook"
-				href="javascript:displaySavingfrontPage()"
-				class="btn btn-success margin-20" style="background-color: orange;">
-				FRONT PAGE</a> <a id="btnTransactionPageOnSavingPassbook"
-				href="javascript:displaySavingTransaction()"
-				class="btn btn-success margin-20" style="background-color: #87CEEB;">
-				TRANSACTION</a> <a id="btnHeadingOnSavingPassbook"
-				href="javascript:displayHeadingSA()"
-				class="btn btn-success margin-20" style="background-color: #FF4040;">
-				HEADING</a>
+			<button id="btnSearchTransactionData" class="btn btn-success"
+				onclick="displayTransactionDataList()">
+				<span class="fa fa-search"></span> SEARCH
+			</button>
+			<button id="btnFrontPageOnSavingPassbook" class="btn btn-success"
+				onclick="displaySavingfrontPage()">FRONT PAGE</button>
+			<button id="btnTransactionPageOnSavingPassbook"
+				class="btn btn-success" onclick="displaySavingTransaction()">TRANSACTION</button>
+			<button id="btnHeadingOnSavingPassbook" onclick="displayHeadingSA()"
+				class="btn btn-success">HEADING</button>
 		</div>
 	</div>
 </div>

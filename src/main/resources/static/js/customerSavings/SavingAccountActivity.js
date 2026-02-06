@@ -31,7 +31,7 @@ function loadAccountNumberDropdown() {
             dropdown.empty();
 
             // default option
-            dropdown.append('<option value="">- SELECT ACCOUNT NUMBER -</option>');
+            dropdown.append('<option value="">--SELECT ACCOUNT NUMBER--</option>');
 
             if ((response.status === "OK" || response.status === "FOUND")
                 && response.data && response.data.length > 0) {
@@ -79,12 +79,12 @@ $('#accountNumber').on('change', function () {
                 let customer = response.data[0];
 
                 $('#customerCode').val(customer.selectByCustomer || '');
-                $('#customerName').val(customer.enterCustomerName || '');
+                $('#customerName').val((customer.enterCustomerName).toUpperCase() || '');
                 $('#contactNumber').val(customer.contactNumber || '');
-                $('#jointHolderName').val(customer.jointSurvivorCode || '');
-                $('#savingPlanName').val(customer.selectPlan || '');
+                $('#jointHolderName').val((customer.jointSurvivorCode).toUpperCase() || '');
+                $('#savingPlanName').val((customer.selectPlan).toUpperCase() || '');
                 $('#averageBalance').val(customer.openingFees || '');
-                $('#selectBranchName').val(customer.branch || customer.branchName || '');
+                $('#selectBranchName').val((customer.branch || customer.branchName).toUpperCase() || '');
 
                 // Make fields read-only
                 $('#customerCode, #customerName, #contactNumber, #jointHolderName, #savingPlanName, #averageBalance, #selectBranchName')
@@ -190,7 +190,6 @@ $(document).ready(function () {
 // LOAD TRANSACTION TABLE
 // =========================================
 function reloadTransactionTable(accountNumber) {
-
     $.ajax({
         type: "GET",
         url: "api/customersavings/getsavingaccountactivity",
@@ -198,7 +197,7 @@ function reloadTransactionTable(accountNumber) {
         dataType: "json",
         success: function (response) {
 
-            let tbody = $('#tbody');
+            let tbody = $('.datatable tbody');
             tbody.empty();
 
             if (response.data && response.data.length > 0) {
@@ -286,4 +285,56 @@ function addOption(selectBox, text) {
     option.value = text;
     option.text = text;
     selectBox.appendChild(option);
+}
+
+
+document.addEventListener("DOMContentLoaded", function() {
+	document.getElementById("memberFeesTable").style.display = "none";
+
+
+});
+
+document.getElementById("transactionAmount").addEventListener("click", function(event) {
+	event.stopPropagation();
+
+	let table = document.getElementById("memberFeesTable");
+	table.style.display = (table.style.display === "none" || table.style.display === "")
+		? "block" : "none";
+});
+
+
+document.getElementById("memberFeesTable").addEventListener("click", function(event) {
+	event.stopPropagation();
+});
+
+
+document.addEventListener("click", function() {
+	document.getElementById("memberFeesTable").style.display = "none";
+});
+
+
+function calcOpeningFees() {
+
+	let n2000 = (document.getElementById("qty2000").value || 0) * 2000;
+	let n500 = (document.getElementById("qty500").value || 0) * 500;
+	let n200 = (document.getElementById("qty200").value || 0) * 200;
+	let n100 = (document.getElementById("qty100").value || 0) * 100;
+	let n50 = (document.getElementById("qty50").value || 0) * 50;
+	let n20 = (document.getElementById("qty20").value || 0) * 20;
+	let n10 = (document.getElementById("qty10").value || 0) * 10;
+	let n5 = (document.getElementById("qty5").value || 0) * 5;
+
+	document.getElementById("res2000").innerText = n2000;
+	document.getElementById("res500").innerText = n500;
+	document.getElementById("res200").innerText = n200;
+	document.getElementById("res100").innerText = n100;
+	document.getElementById("res50").innerText = n50;
+	document.getElementById("res20").innerText = n20;
+	document.getElementById("res10").innerText = n10;
+	document.getElementById("res5").innerText = n5;
+
+	let total = n2000 + n500 + n200 + n100 + n50 + n20 + n10 + n5;
+
+	document.getElementById("totalFee").innerText = total;
+	document.getElementById("transactionAmount").value = total;
 }
