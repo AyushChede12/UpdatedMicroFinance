@@ -156,19 +156,24 @@ function loadOutgoingPaymentData() {
 				const row = `
                     <tr>
                         <td>${payment.id ?? ''}</td>
-                        <td>${payment.branchName ?? ''}</td>
-						<td>${payment.voucherID ?? ''}</td>
-                        <td>${payment.dateOfEntry ?? ''}</td>
-						<td>${payment.creditLedger ?? ''}</td>
-                        <td>${payment.debitLedger ?? ''}</td>
-						<td>${payment.transferMode ?? ''}</td>
-                        <td>${payment.transactionAmount ?? ''}</td>
-                        <td>${payment.remarks ?? ''}</td>
+                        <td>${(payment.branchName).toUpperCase() ?? ''}</td>
+						<td>${(payment.voucherID).toUpperCase() ?? ''}</td>
+                        <td>${(payment.dateOfEntry).toUpperCase() ?? ''}</td>
+						<td>${(payment.creditLedger).toUpperCase() ?? ''}</td>
+                        <td>${(payment.debitLedger).toUpperCase() ?? ''}</td>
+						<td>${(payment.transferMode).toUpperCase() ?? ''}</td>
+                        <td>${(payment.transactionAmount).toUpperCase() ?? ''}</td>
+                        <td>${(payment.remarks).toUpperCase() ?? ''}</td>
                         <td>
                             <button class="iconbutton" onclick="viewOutgoingPayment(${payment.id})" title="View">
                                 <i class="fa-solid fa-eye text-primary"></i>
                             </button>
                         </td>
+						<td>
+							<button class="iconbutton" onclick="deleteOutgoingPayment(${payment.id})" title="Delete">
+								<i class="fa-solid fa-trash text-danger"></i>
+							</button>
+						</td>
                     </tr>
                 `;
 				tbody.append(row);
@@ -246,19 +251,24 @@ function searchOutgoingPayments() {
 				const row = `
                     <tr>
                         <td>${payment.id || ''}</td>
-                        <td>${payment.branchName || ''}</td>
-                        <td>${payment.dateOfEntry || ''}</td>
-                        <td>${payment.transferMode || ''}</td>
-                        <td>${payment.creditLedger || ''}</td>
-                        <td>${payment.debitLedger || ''}</td>
-                        <td>${payment.transactionAmount || ''}</td>
-                        <td>${payment.remarks || ''}</td>
-                        <td>${payment.voucherID || ''}</td>
+                        <td>${(payment.branchName).toUpperCase() || ''}</td>
+                        <td>${(payment.dateOfEntry).toUpperCase() || ''}</td>
+                        <td>${(payment.transferMode).toUpperCase() || ''}</td>
+                        <td>${(payment.creditLedger).toUpperCase() || ''}</td>
+                        <td>${(payment.debitLedger).toUpperCase() || ''}</td>
+                        <td>${(payment.transactionAmount).toUpperCase() || ''}</td>
+                        <td>${(payment.remarks).toUpperCase() || ''}</td>
+                        <td>${(payment.voucherID).toUpperCase() || ''}</td>
                         <td>
                             <button class="iconbutton" onclick="viewOutgoingPayment(${payment.id})" title="View">
                                 <i class="fa-solid fa-eye text-primary"></i>
                             </button>
                         </td>
+						<td>
+							<button class="iconbutton" onclick="deleteOutgoingPayment(${payment.id})" title="Delete">
+								<i class="fa-solid fa-trash text-danger"></i>
+							</button>
+						</td>
                     </tr>
                 `;
 				tbody.append(row);
@@ -295,7 +305,7 @@ function LedgerDropdown(branchName, selectedCr = "", selectedDr = "") {
 				// Credit Ledger (Source of Payment → Cash/Bank under Assets)
 				if (g === "assets" && (t === "cash" || t === "bank")) {
 					const selected = title.trim().toLowerCase() === selectedCr.trim().toLowerCase() ? "selected" : "";
-					crOptions += `<option value="${title}" ${selected}>${title}</option>`;
+					crOptions += `<option value="${title}" ${selected}>${title.toUpperCase()}</option>`;
 				}
 
 				// Debit Ledger (Destination → Liabilities, Expenses, Equity, OR Loan under Assets)
@@ -303,7 +313,7 @@ function LedgerDropdown(branchName, selectedCr = "", selectedDr = "") {
 					t === "gold_loans" ||
 					t === "joint_loans")) {
 					const selected = title.trim().toLowerCase() === selectedDr.trim().toLowerCase() ? "selected" : "";
-					drOptions += `<option value="${title}" ${selected}>${title}</option>`;
+					drOptions += `<option value="${title}" ${selected}>${title.toUpperCase()}</option>`;
 				}
 			});
 
@@ -325,7 +335,7 @@ function BranchNameDropdown() {
 			let options = "<option value=''>--SELECT BRANCH NAME--</option>";
 			if (response && Array.isArray(response.data)) {
 				response.data.forEach(branch => {
-					options += `<option value='${branch.branchName}'>${branch.branchName}</option>`;
+					options += `<option value='${branch.branchName}'>${branch.branchName.toUpperCase()}</option>`;
 				});
 			}
 			$("#searchBranchName").html(options);
@@ -335,5 +345,28 @@ function BranchNameDropdown() {
 			alert("Failed to load branch names.");
 		}
 	});
+}
+
+function deleteOutgoingPayment(id) {
+	if (confirm("Are you sure you want to delete this Outgoing Payment?")) {
+		$.ajax({
+			url: "accountManagement/deleteOutgoingPaymentById",
+			type: "POST",
+			data: { id: id },
+			success: function(response) {
+				if (response.status == "OK") {
+					alert(response.message);
+					location.reload();
+				} else {
+					alert("Delete failed: " + response.message);
+				}
+			},
+			error: function(xhr, status, error) {
+				alert("Failed to delete payment.");
+				console.error("Error:", error);
+			}
+		});
+	}
+
 }
 
