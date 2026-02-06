@@ -60,8 +60,8 @@ body {
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px;">
-						<label for="">BRANCH NAME </label> <select id="branchName"
-							name="branchName" required="required"
+						<label for="">BRANCH NAME </label> <select id="branchName2"
+							name="branchName2" required="required"
 							class="form-control selectField" style="height: 30px;">
 							<option value="">SELECT</option>
 						</select>
