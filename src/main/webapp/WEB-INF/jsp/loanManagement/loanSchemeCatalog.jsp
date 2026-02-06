@@ -81,7 +81,7 @@
 					<div class="d-flex flex-column formFields">
 						<label for=""> LOAN TERM <span class="star">*</span></label> <input type="text"
 							name="loanTerm" id="loanTerm" onblur="validateLoanDuration()"
-							required="required" placeholder="ENTER MIN LOAN DURATION " /><span
+							required="required" placeholder="ENTER LOAN TERM " /><span
 							id="durationMsg"></span><small id="chkloanterm"
 							style="color: red;"></small>
 					</div>

@@ -1,5 +1,4 @@
 $(document).ready(function () {
-	alert("Welcome to UnAllotedShare");
 	// Populate dropdown from backend
 	$.ajax({
 		url: "api/customershareholdingcontroller/findAllTransferShare",

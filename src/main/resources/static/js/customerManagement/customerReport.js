@@ -52,12 +52,16 @@ function populateTable(data) {
 		const panNo = (customer.panNo || "").toUpperCase();
 		const signupDate = (customer.signupDate || "").toUpperCase();
 		const approved = customer.approved ? "YES" : "NO";
-
+		let fullName = [
+			customer.firstName,
+			customer.middleName,
+			customer.lastName
+		].filter(Boolean).join(" ");
 		tbody.append(`
 	        <tr>
 	            <td>${(i + 1).toString().toUpperCase()}</td>
 	            <td>${memberCode}</td>
-	            <td>${customerName}</td>
+	            <td>${fullName}</td>
 	            <td>${branchName}</td>
 	            <td>${dob}</td>
 	            <td>${nomineeName}</td>

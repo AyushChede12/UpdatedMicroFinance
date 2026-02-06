@@ -41,9 +41,9 @@ function fetchApprovedMembers() {
 			const guarantorDropdown = $('#guarantorMemberId');
 			const coApplicantDropdown = $('#coApplicantMemberId');
 
-			memberDropdown.empty().append('<option value="">SELECT MEMBER</option>');
-			guarantorDropdown.empty().append('<option value="">SELECT MEMBER</option>');
-			coApplicantDropdown.empty().append('<option value="">SELECT MEMBER</option>');
+			memberDropdown.empty().append('<option value="">-- SELECT CUSTOMER --</option>');
+			guarantorDropdown.empty().append('<option value="">-- SELECT CUSTOMER --</option>');
+			coApplicantDropdown.empty().append('<option value="">-- SELECT CUSTOMER --</option>');
 
 			customers.forEach(customer => {
 				const fullName = [customer.firstName, customer.middleName, customer.lastName]
@@ -87,7 +87,7 @@ function handleMemberChange() {
 				$('#dateOfBirth').val(d.dob || '');
 				$('#age').val(d.customerAge || '');
 				$('#contactNo').val(d.contactNo || '');
-				$('#address').val(d.customerAddress || '');
+				$('#address').val((d.customerAddress || '').toUpperCase());
 				$('#pinCode').val(d.pinCode || '');
 				$('#branchName').val(d.branchName || '');
 
@@ -96,13 +96,13 @@ function handleMemberChange() {
 			}
 
 			if (changedId === 'guarantorMemberId') {
-				$('#guarantorAddress').val(d.customerAddress || '');
+				$('#guarantorAddress').val((d.customerAddress).toUpperCase() || '');
 				$('#guarantorPinCode').val(d.pinCode || '');
 				$('#guarantorContactNo').val(d.contactNo || '');
 			}
 
 			if (changedId === 'coApplicantMemberId') {
-				$('#coApplicantAddress').val(d.customerAddress || '');
+				$('#coApplicantAddress').val((d.customerAddress).toUpperCase() || '');
 				$('#coApplicantPinCode').val(d.pinCode || '');
 				$('#coApplicantContactNo').val(d.contactNo || '');
 			}
@@ -469,7 +469,7 @@ function fetchFinancialConsultants() {
 		type: 'POST',
 		success: function(response) {
 			const dropdown = $('#financialConsultantId');
-			dropdown.empty().append('<option value="">SELECT CONSULTANT</option>');
+			dropdown.empty().append('<option value="">-- SELECT FINANCIAL CONSULTANT ID --</option>');
 			response.data.forEach(c =>
 				dropdown.append(`<option value="${c.financialCode}">${c.financialCode}</option>`)
 			);

@@ -1,5 +1,10 @@
 $(document).ready(function() {
 
+	$(document).on("click", "#editBtn", function() {
+		$("#updateBtn").prop("disabled", false);
+		$("#formid").find("input, textarea").prop("readonly", false);
+	});
+
 	const companyId = 1;  // Change if company ID is dynamic
 	loadCompanyDetails();
 	loadCompanyImages();
@@ -428,13 +433,3 @@ tooltipTriggerList.map(function(tooltipTriggerEl) {
 	return new bootstrap.Tooltip(tooltipTriggerEl);
 });
 
-// Enable edit mode
-document.addEventListener("DOMContentLoaded", function() {
-	const editBtn = document.getElementById("editBtn");
-	const updateBtn = document.getElementById("updateBtn");
-
-	editBtn.addEventListener("click", function() {
-		updateBtn.removeAttribute("disabled");
-		$("#formid").find("input, textarea").prop("readonly", false);
-	});
-});

@@ -389,7 +389,7 @@ $(document).ready(function() {
 
 		$.ajax({
 			type: "POST",
-			url: "/api/joinliability/saveloanPayment", // ensure this matches backend mapping
+			url: "api/joinliability/saveloanPayment", // ensure this matches backend mapping
 			data: JSON.stringify(groupLoanData),
 			contentType: "application/json",
 			success: function(response) {

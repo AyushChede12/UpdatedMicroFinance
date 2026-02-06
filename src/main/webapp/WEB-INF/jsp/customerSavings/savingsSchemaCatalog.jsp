@@ -236,5 +236,23 @@
 		</div>
 	</div>
 </div>
+<style>
+    /* Make all form inputs and selects uniform with slightly smaller size */
+    #savingForm input,
+    #savingForm select {
+        width: 100%;        /* Full width of their column */
+        height: 36px;       /* Slightly smaller height */
+        padding: 5px 10px;  /* Adjust padding for smaller height */
+        box-sizing: border-box; /* Include padding in width */
+        font-size: 0.9rem;  /* Keep text readable */
+    }
+
+    /* Optional: make placeholders consistent */
+    #savingForm input::placeholder {
+        font-size: 0.85rem;
+    }
+</style>
+
+
 <script
 	src="${pageContext.request.contextPath}/js/customerSavings/SavingScemeCatalog.js"></script>
