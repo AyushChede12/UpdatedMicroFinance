@@ -42,7 +42,7 @@ $(document).ready(function () {
     // ================= BRANCH DROPDOWN (NO DUPLICATE EVER) =================
     function populateBranchDropdown(data) {
 
-        var select = $("#branchName");
+        var select = $("#branchName2");
 
         // 💣 HARD RESET
         select.empty().append('<option value="">Select</option>');
