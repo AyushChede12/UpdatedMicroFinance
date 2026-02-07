@@ -171,7 +171,7 @@
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
 				<label for="">TRANSACTION AMOUNT <span class="star">*</span></label>
-				<input type="text" name="transactionAmount" id="transactionAmount"
+				<input type="number" name="transactionAmount" id="transactionAmount"
 					placeholder="ENTER AMOUNT" />
 
 			</div>
@@ -181,7 +181,7 @@
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields">
 				<label for="">REMARKS</label>
-				<textarea name="remarks" id="remarks"
+				<textarea name="remarks" id="remarks" style="text-transform: uppercase;"
 					style="border: 1px solid rgb(224, 224, 224); border-radius: 5px; outline: none; padding: 5px; font-size: 12px;"></textarea>
 			</div>
 		</div>
@@ -202,22 +202,22 @@
 		<div class="card recent-sales">
 
 			<div class="card-body table-responsive">
-				<h5 class="card-title">SEARCH RESULT</h5>
+				<h5 class="card-title">OUTGOING RESULT</h5>
 
 				<table class="table table-borderless datatable overflow-scroll">
 					<thead class="table-light">
 						<tr style="font-family: 'Poppins', sans-serif;">
-							<th>ID</th>
-							<th scope="col">BRANCH</th>
-							<th scope="col">VOUCHER ID</th>
-							<th scope="col">DATE</th>
-							<th scope="col">CREDIT LEDGER</th>
-							<th scope="col">DEBIT LEDGER</th>
-							<th scope="col">MODE</th>
-							<th scope="col">AMOUNT</th>
-							<th scope="col">REMARKS</th>
-							<th scope="col">VIEW</th>
-
+							<th style="white-space: nowrap;">ID</th>
+							<th style="white-space: nowrap;">BRANCH</th>
+							<th style="white-space: nowrap;">VOUCHER ID</th>
+							<th style="white-space: nowrap;">DATE</th>
+							<th style="white-space: nowrap;">CREDIT LEDGER</th>
+							<th style="white-space: nowrap;">DEBIT LEDGER</th>
+							<th style="white-space: nowrap;">MODE</th>
+							<th style="white-space: nowrap;">AMOUNT</th>
+							<th style="white-space: nowrap;">REMARKS</th>
+							<th style="white-space: nowrap;">VIEW</th>
+							<th style="white-space: nowrap;">DELETE</th>
 						</tr>
 					</thead>
 					<tbody id="tableBody">

@@ -173,15 +173,19 @@ function loadLedgerData() {
                             <td>${ledger.openingBalance != null ? ledger.openingBalance.toFixed(2) : ''}</td>
 							<td>${(ledger.openingBalanceType).toUpperCase() || ''}</td>
 							<td>${ledger.currentBalance != null ? ledger.currentBalance.toFixed(2) : ''}</td> <!-- ✅ NEW -->
-
-
-                            <td>${ledger.status || ''}</td>
-                            <td>${ledger.branchName || ''}</td>
+							
+                            <td>${(ledger.status).toUpperCase() || ''}</td>
+                            <td>${(ledger.branchName).toUpperCase() || ''}</td>
                             <td>
                                 <button class="iconbutton" onclick="viewLedger(${ledger.accountId})" title="View">
                                     <i class="fa-solid fa-eye text-primary"></i>
                                 </button>
                             </td>
+							<td>
+								<button class="iconbutton" onclick="deleteLedger(${ledger.accountId})" title="Delete">
+									<i class="fa-solid fa-trash text-danger"></i>
+								</button>
+							</td>
                         </tr>
                     `;
 					tbody.append(row);
@@ -215,7 +219,7 @@ function viewLedger(id) {
 
 			// Delay setting accountType until after dropdown is populated
 			setTimeout(() => {
-			    $('#accountType').val(ledger.accountType);
+				$('#accountType').val(ledger.accountType);
 			}, 100);
 			$('#openingBalance').val(ledger.openingBalance);
 			$('#openingBalanceType').val(ledger.openingBalanceType);
@@ -280,3 +284,25 @@ const allowedCombinations = {
 	"EXPENSES": ["SALARY", "RENT", "OFFICE", "UTILITIES", "CONSULTANT_INCENTIVES", "COMMISSIONS", "POLICY_ADMIN"]
 };
 
+function deleteLedger(id) {
+	if (confirm("Are you sure you want to delete this Ledger?")) {
+		$.ajax({
+			url: "accountManagement/deleteLedgerById",
+			type: "POST",
+			data: { id: id },
+			success: function(response) {
+				if (response.status == "OK") {
+					alert(response.message);
+					location.reload();
+				} else {
+					alert("Delete failed: " + response.message);
+				}
+			},
+			error: function(xhr, status, error) {
+				alert("Failed to delete branch.");
+				console.error("Error:", error);
+			}
+		});
+	}
+
+}
