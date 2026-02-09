@@ -297,6 +297,20 @@ public class AccountManagementController {
 				.ok(ApiResponse.success(HttpStatus.OK, "Manual Journal retrieved successfully With Id", dto));
 	}
 
+	@PostMapping("/deleteManualJournalById") // Ayush
+	public ResponseEntity<ApiResponse<String>> deleteManualJournalEntry(@RequestParam("id") Long id) {
+		boolean isDeleted = accountManagementService.deleteManualJournalEntry(id);
+		if (isDeleted) {
+			ApiResponse<String> response = new ApiResponse<>(HttpStatus.OK, "Manual Journal Entry deleted successfully",
+					"success");
+			return ResponseEntity.ok(response);
+		} else {
+			ApiResponse<String> response = new ApiResponse<>(HttpStatus.BAD_REQUEST,
+					"Manual Journal Entry deletion failed", "failure");
+			return ResponseEntity.badRequest().body(response);
+		}
+	}
+
 	@GetMapping("/eligibleLedgersForManualJournal/{branchName}")
 	public ResponseEntity<ApiResponse<List<LedgerAccountMaster>>> getEligibleLedgersForManualJournal(
 			@PathVariable String branchName) {

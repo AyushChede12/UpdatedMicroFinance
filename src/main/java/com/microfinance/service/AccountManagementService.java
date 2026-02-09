@@ -1533,4 +1533,13 @@ public class AccountManagementService {
 		return false;
 	}
 
+	public boolean deleteManualJournalEntry(Long id) {
+		// TODO Auto-generated method stub
+		if (manualJournalRepo.existsById(id)) {
+			manualJournalRepo.deleteById(id);
+			return true;
+		}
+		return false;
+	}
+
 }

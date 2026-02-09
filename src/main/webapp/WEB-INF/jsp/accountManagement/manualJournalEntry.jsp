@@ -121,7 +121,7 @@
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields">
 				<label for="">REMARKS</label>
-				<textarea name="remarks" id="remarks"
+				<textarea name="remarks" id="remarks" style="text-transform: uppercase;"
 					style="border: 1px solid rgb(224, 224, 224); border-radius: 5px; outline: none; padding: 5px; font-size: 12px;"></textarea>
 			</div>
 		</div>

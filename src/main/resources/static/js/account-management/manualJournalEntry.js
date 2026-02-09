@@ -115,6 +115,11 @@ function loadManualJournalData() {
                 <i class="fa-solid fa-eye text-primary"></i>
               </button>
             </td>
+			<td>
+				<button class="iconbutton" onclick="deleteManualJournalEntry(${entry.id})" title="Delete">
+					<i class="fa-solid fa-trash text-danger"></i>
+				</button>
+			</td>
           </tr>
         `);
 			});
@@ -208,6 +213,11 @@ function searchManualJournal() {
                 <i class="fa-solid fa-eye text-primary"></i>
               </button>
             </td>
+			<td>
+				<button class="iconbutton" onclick="deleteManualJournalEntry(${entry.id})" title="Delete">
+					<i class="fa-solid fa-trash text-danger"></i>
+				</button>
+			</td>
           </tr>
         `);
 			});
@@ -230,10 +240,10 @@ function BranchNameDropdown() {
 		contentType: "application/json",
 		url: 'api/preference/getAllBranchModule',
 		success: function(response) {
-			let options = "<option value=''>Select Branch Name</option>";
+			let options = "<option value=''>--SELECT BRANCH NAME--</option>";
 			if (response && Array.isArray(response.data)) {
 				response.data.forEach(branch => {
-					options += `<option value='${branch.branchName}'>${branch.branchName}</option>`;
+					options += `<option value='${branch.branchName}'>${branch.branchName.toUpperCase()}</option>`;
 				});
 			}
 			$("#searchBranchName").html(options);
@@ -259,15 +269,15 @@ function LedgerDropdown(branchName, selectedCr = "", selectedDr = "") {
 			const ledgers = data.data || [];
 
 			// Options for Credit and Debit (all ledgers given for manual journal)
-			let crOptions = "<option value=''>Select Credit Ledger</option>";
-			let drOptions = "<option value=''>Select Debit Ledger</option>";
+			let crOptions = "<option value=''>--SELECT CREDIT LEDGER--</option>";
+			let drOptions = "<option value=''>--SELECT DEBIT LEDGER--</option>";
 
 			ledgers.forEach(ledger => {
 				const title = ledger.accountTitle;
 				const crSelected = title.trim().toLowerCase() === (selectedCr || "").trim().toLowerCase() ? "selected" : "";
 				const drSelected = title.trim().toLowerCase() === (selectedDr || "").trim().toLowerCase() ? "selected" : "";
-				crOptions += `<option value="${title}" ${crSelected}>${title}</option>`;
-				drOptions += `<option value="${title}" ${drSelected}>${title}</option>`;
+				crOptions += `<option value="${title}" ${crSelected}>${title.toUpperCase()}</option>`;
+				drOptions += `<option value="${title}" ${drSelected}>${title.toUpperCase()}</option>`;
 			});
 
 			$("#creditLedger").html(crOptions);
@@ -279,3 +289,25 @@ function LedgerDropdown(branchName, selectedCr = "", selectedDr = "") {
 	});
 }
 
+function deleteManualJournalEntry(id) {
+	if (confirm("Are you sure you want to delete this Data?")) {
+		$.ajax({
+			url: "accountManagement/deleteManualJournalById",
+			type: "POST",
+			data: { id: id },
+			success: function(response) {
+				if (response.status == "OK") {
+					alert(response.message);
+					location.reload();
+				} else {
+					alert("Delete failed: " + response.message);
+				}
+			},
+			error: function(xhr, status, error) {
+				alert("Failed to delete data.");
+				console.error("Error:", error);
+			}
+		});
+	}
+
+}
