@@ -37,7 +37,7 @@
 						<select id="authenticateFor" name="authenticateFor"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
-							<option value="">Select</option>
+							<option value="">--SELECT AUTHENTICATE FOR--</option>
 							<option value="aadhar">AADHAR</option>
 							<option value="withoutAadhar">WITHOUT AADHAR</option>
 						</select> <small id="chkauthenticatefor" style="color: red;"></small>
@@ -64,7 +64,7 @@
 
 				<div class="col-lg-3  mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for="">(Mr/Ms) <span class="star">*</span></label> <select
+						<label for="">(MR/MS) <span class="star">*</span></label> <select
 							id="major" name="major" required="required"
 							class="form-control selectField" style="height: 30px;">
 							<option value="SELECT">SELECT</option>
@@ -118,7 +118,7 @@
 						<label for="">MINOR <span class="star">*</span></label> <select
 							id="minor" name="minor" onchange="ifMinor()" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select</option>
+							<option value="">--SELECT MINOR--</option>
 							<option value="Yes">YES(BELOW 18)</option>
 							<option value="No">NO(ABOVE 18)</option>
 						</select> <small id="chkminor" style="color: red;"></small>
@@ -164,7 +164,7 @@
 						<label for="">GENDER <span class="star">*</span></label> <select
 							id="customerGender" name="customerGender" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">SELECT GENDER</option>
+							<option value="">--SELECT GENDER--</option>
 							<option value="MALE">MALE</option>
 							<option value="FEMALE">FEMALE</option>
 
@@ -216,7 +216,7 @@
 						<label for="">CATEGORY <span class="star">*</span></label> <select
 							id="category" name="category" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">SELECT CATEGORY</option>
+							<option value="">--SELECT CATEGORY--</option>
 
 						</select> <small id="chkcategory" style="color: red;"></small>
 					</div>
@@ -227,7 +227,7 @@
 						<label for="">CASTE <span class="star">*</span></label> <select
 							id="caste" name="caste" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">SELECT CASTE</option>
+							<option value="">--SELECT CASTE--</option>
 
 						</select> <small id="chkcaste" style="color: red;"></small>
 					</div>
@@ -239,7 +239,7 @@
 						<label for="">STATE <span class="star">*</span></label> <select
 							id="state" name="state" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">SELECT STATE</option>
+							<option value="">--SELECT STATE--</option>
 
 						</select> <small id="chkstate" style="color: red;"></small>
 					</div>

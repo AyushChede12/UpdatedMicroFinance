@@ -107,7 +107,7 @@
 
 					<div class="card-body table-responsive">
 						<h5 class="card-title">
-							SEARCH RESULT <span>| TABLE VIEW</span>
+							SAVING/CURRENT DATA <span>| TABLE VIEW</span>
 						</h5>
 
 						<table class="table table-borderless datatable overflow-scroll">
@@ -124,7 +124,7 @@
 									<th style="white-space: nowrap;">CITY</th>
 									<th style="white-space: nowrap;">STATE</th>
 									<th style="white-space: nowrap;">OPENING DATE</th>
-									<th style="white-space: nowrap;">FINANCIAL CONSULTANT CODE</th>
+									<th style="white-space: nowrap;">FINANCIAL CODE</th>
 									<th style="white-space: nowrap;">PLAN NAME</th>
 									<th style="white-space: nowrap;">APPROVE STATUS</th>
 								</tr>
