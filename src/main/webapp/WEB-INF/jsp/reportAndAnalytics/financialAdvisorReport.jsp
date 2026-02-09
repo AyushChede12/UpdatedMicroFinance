@@ -50,7 +50,8 @@ body {
 								style="margin-bottom: 30px;">
 								<label for="">Business Type </label> <select id="businessType"
 									name="businessType" required="required"
-									class="form-control selectField" style="height: 30px;">
+									class="form-contr
+									ol selectField" style="height: 30px;">
 									<option value="">Select</option>
 									<option value="Blue">AAA</option>
 								</select>
@@ -119,13 +120,15 @@ body {
 					<table class="table table-borderless datatable overflow-scroll">
 						<thead class="table-light">
 							<tr style="font-family: 'Poppins', sans-serif;">
-								<th scope="col">SR</th>
-								<th scope="col">FINANCIAL NAME</th>
-								<th scope="col">FINANCIAL CODE</th>
-								<th scope="col">JOINING DATE </th>
-								<th scope="col">CUSTOMER NAME</th>
-								<th scope="col">DOB</th>
-								<th scope="col">CONTACT NUMBER</th>
+								<th style="white-space: nowrap;">SR</th>
+								<th style="white-space: nowrap;">FINANCIAL CODE</th>
+								<th style="white-space: nowrap;">FINANCIAL NAME</th>
+								<th style="white-space: nowrap;">JOINING DATE </th>
+								<th style="white-space: nowrap;">BRANCH</th>
+								<th style="white-space: nowrap;">DOB</th>
+								<th style="white-space: nowrap;">CONTACT NUMBER</th>
+								<th style="white-space: nowrap;">ADDRESS</th>
+								<th style="white-space: nowrap;">APPROVED STATUS</th>
 								<th>PRINT</th>
 
 							</tr>
@@ -298,4 +301,7 @@ body {
 		</div>
 	</div>
 </div>
+
+<script
+	src="${pageContext.request.contextPath}/js/ReportsAndAnalytics/FinancialAdvisorReport.js"></script>
 

@@ -21,7 +21,7 @@ $(document).ready(function () {
                 populateBranchDropdown(allFinancialConsultants);
                 renderTable(allFinancialConsultants);
             } else {
-                $(".datatable tbody")
+                $("#fetchFinancialConsultants")
                     .html("<tr><td colspan='10'>No approved consultants found.</td></tr>");
             }
         },
@@ -39,49 +39,57 @@ $(document).ready(function () {
             .toUpperCase();
     }
 
-    // ================= BRANCH DROPDOWN (NO DUPLICATE EVER) =================
+    // ================= BRANCH DROPDOWN =================
     function populateBranchDropdown(data) {
 
         var select = $("#branchName2");
 
-        // 💣 HARD RESET
-        select.empty().append('<option value="">Select</option>');
+        select.empty().append('<option value="">SELECT</option>');
 
         let branchSet = new Set();
 
         data.forEach(f => {
-            if (!f.branchName) return;
-            branchSet.add(normalize(f.branchName));
+            if (f.branchName) {
+                branchSet.add(normalize(f.branchName));
+            }
         });
 
         branchSet.forEach(branch => {
             select.append(`<option value="${branch}">${branch}</option>`);
         });
-
-        console.log("UNIQUE BRANCHES =", [...branchSet]);
     }
 
     // ================= TABLE RENDER =================
     function renderTable(data) {
 
-        var tbody = $(".datatable tbody");
+        var tbody = $("#fetchFinancialConsultants");
         tbody.empty();
 
-        if (!data.length) {
+        if (!data || data.length === 0) {
             tbody.append("<tr><td colspan='10'>No matching consultants found.</td></tr>");
             return;
         }
 
         $.each(data, function (i, f) {
+
+            let approvedStatus = '-';
+            if (f.approved === true) {
+                approvedStatus = '<span style="color: green; font-weight: 600;">APPROVED</span>';
+            } else if (f.approved === false) {
+                approvedStatus = '<span style="color: red; font-weight: 600;">NOT APPROVED</span>';
+            }
+
             tbody.append(`
                 <tr>
                     <td>${i + 1}</td>
-                    <td>${f.branchName || '-'}</td>
                     <td>${f.financialCode || '-'}</td>
+                    <td>${(f.financialName || '-').toUpperCase()}</td>
                     <td>${f.joiningDate || '-'}</td>
-                    <td>${f.financialName || '-'}</td>
+                    <td>${(f.branchName || '-').toUpperCase()}</td>
                     <td>${f.dob || '-'}</td>
                     <td>${f.contactNo || '-'}</td>
+                    <td>${(f.address || '-').toUpperCase()}</td>
+                    <td>${approvedStatus}</td>
                     <td>
                         <button class="btn btn-outline-success btn-sm viewReportBtn"
                             data-id="${f.id}"
@@ -108,11 +116,12 @@ $(document).ready(function () {
 
             $("#financialCode").text(f.financialCode || "N/A");
             $("#joiningDate").text(f.joiningDate || "N/A");
-            $("#financialName").text(f.financialName || "");
-            $("#dob").text(f.dob || "");
-            $("#age").text(f.age || "");
-            $("#contactNo").text(f.contactNo || "");
-            $("#branchName").text(f.branchName || "");
+            $("#financialName").text(f.financialName || "N/A");
+            $("#dob").text(f.dob || "N/A");
+            $("#age").text(f.age || "N/A");
+            $("#contactNo").text(f.contactNo || "N/A");
+            $("#branchName").text(f.branchName || "N/A");
+            $("#address").text(f.address || "N/A");
         });
     }
 
@@ -120,7 +129,7 @@ $(document).ready(function () {
     $("#findFinancialAdvisorBtn").on("click", function (e) {
         e.preventDefault();
 
-        var branch = $("#branchName").val();
+        var branch = $("#branchName2").val();
         var fromDate = $("#fromDate").val();
         var toDate = $("#toDate").val();
 
