@@ -106,7 +106,7 @@ $(document).ready(function () {
                     <td>${i + 1}</td>
                     <td>${item.accountNumber}</td>
                     <td>${item.openingDate}</td>
-                    <td>${item.openingFees}</td>
+                    <td>${item.balance}</td>
                     <td>${item.messageSend == 1 ? "Enabled" : "Disabled"}</td>
                 </tr>
             `);
@@ -148,7 +148,7 @@ $(document).ready(function () {
 	            smsCharge: smsCharge
 	        }),
 	        success: function (res) {
-
+				alert("!!!Charges Deducted Successfully!!!");
 	            // ✅ Update balance in UI instantly
 	            row.find("td:eq(4)").text(res.newBalance);
 

@@ -3,6 +3,8 @@ package com.microfinance.service;
 import java.io.File;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -25,6 +27,7 @@ import com.microfinance.model.CreateSavingsAccount;
 import com.microfinance.model.ManageDepartment;
 import com.microfinance.model.SavingAccountActivity;
 import com.microfinance.model.SavingSchemeCatalog;
+import com.microfinance.model.SavingsInterestTransfer;
 import com.microfinance.model.addCustomer;
 import com.microfinance.model.addFinancialConsultant;
 import com.microfinance.model.savingAccountFundTransfer;
@@ -36,6 +39,7 @@ import com.microfinance.repository.SavingAccountActivityRepo;
 import com.microfinance.repository.SavingAccountCloserRepo;
 import com.microfinance.repository.SavingAccountFundTransferRepo;
 import com.microfinance.repository.SavingSchmeCatalogRepo;
+import com.microfinance.repository.SavingsInterestTransferRepo;
 
 @Service
 public class CustomerSavingsService {
@@ -60,6 +64,9 @@ public class CustomerSavingsService {
 
 	@Autowired
 	SavingAccountCloserRepo savingAccCloserRepo;
+
+	@Autowired
+	SavingsInterestTransferRepo savingsInterestTransferRepo;
 
 	@Value("${upload.directory}")
 	private String uploadDirectory;
@@ -490,4 +497,47 @@ public class CustomerSavingsService {
 
 		return newBalance;
 	}
+
+	public ApiResponse<SavingsInterestTransfer> transferInterest(SavingsInterestTransfer interest) {
+		// TODO Auto-generated method stub
+		if (interest.getAccountNumber() == null || interest.getInterestRate() == null
+				|| interest.getTotalDays() == null) {
+
+			return ApiResponse.error(HttpStatus.BAD_REQUEST, "Required interest details are missing");
+		}
+
+		// ===== DUPLICATE CHECK =====
+		boolean alreadyTransferred = savingsInterestTransferRepo.existsByAccountNumberAndFromDateAndToDate(
+				interest.getAccountNumber(), interest.getFromDate(), interest.getToDate());
+
+		if (alreadyTransferred) {
+			return ApiResponse.error(HttpStatus.CONFLICT, "Interest already transferred for this date range");
+		}
+
+		// ===== FETCH MAIN SAVINGS ACCOUNT =====
+		CreateSavingsAccount savingsAccount = createSavingAccountRepo.findByAccountNumber(interest.getAccountNumber())
+				.orElseThrow(() -> new RuntimeException("Savings account not found"));
+
+		// ===== CURRENT BALANCE (MAIN ACCOUNT) =====
+		BigDecimal currentBalance = new BigDecimal(savingsAccount.getBalance());
+
+		// ===== INTEREST CALCULATION =====
+		BigDecimal interestAmount = currentBalance.multiply(interest.getInterestRate())
+				.multiply(BigDecimal.valueOf(interest.getTotalDays()))
+				.divide(BigDecimal.valueOf(36500), 2, RoundingMode.HALF_UP);
+		BigDecimal newBalance = currentBalance.add(interestAmount);
+		interest.setCurrentBalance(currentBalance);
+		interest.setInterestAmount(interestAmount);
+		interest.setNewBalance(newBalance);
+
+		SavingsInterestTransfer savedInterest = savingsInterestTransferRepo.save(interest);
+
+		// ===== UPDATE MAIN ACCOUNT BALANCE =====
+		savingsAccount.setBalance(newBalance.toString());
+		createSavingAccountRepo.save(savingsAccount);
+
+		return ApiResponse.success(HttpStatus.OK, "Interest transferred & main account balance updated successfully",
+				savedInterest);
+	}
+
 }

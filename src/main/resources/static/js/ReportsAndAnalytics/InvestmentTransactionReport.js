@@ -1,52 +1,86 @@
 $(document).ready(function () {
 
+    // 🔒 PREVENT MULTIPLE EXECUTION (PAGE / JSP RELOAD SAFE)
+    if (window.investmentTxnReportLoaded) {
+        console.warn("JS already initialized, skipping...");
+        return;
+    }
+    window.investmentTxnReportLoaded = true;
+
     let allPolicies = [];
 
-    // ================= LOAD DATA =================
-    loadApprovedPolicies();
+    // ================= LOAD APPROVED POLICIES =================
+    fetchApprovedPolicies();
 
-    function loadApprovedPolicies() {
+    function fetchApprovedPolicies() {
         $.ajax({
             url: "api/Policymangment/getApprovedPolicies",
             type: "GET",
             success: function (response) {
+
                 console.log("API RESPONSE =", response);
 
                 if (response && Array.isArray(response.data)) {
                     allPolicies = response.data;
-                    loadBranchDropdown(allPolicies);
+                    buildBranchDropdown(allPolicies);
                 } else {
                     console.error("Invalid API response");
                 }
             },
-            error: function (e) {
-                console.error("API ERROR", e);
+            error: function (err) {
+                console.error("API ERROR", err);
             }
         });
     }
 
-    // ================= BRANCH DROPDOWN =================
-    function loadBranchDropdown(data) {
+    // ================= STRING NORMALIZER =================
+    function normalize(value) {
+        return value
+            .toString()
+            .replace(/[\n\r\t]/g, "")
+            .replace(/\s+/g, " ")
+            .trim()
+            .toUpperCase();
+    }
 
-        let branchDropdown = $("#branchName1");
-        branchDropdown.empty();
-        branchDropdown.append('<option value="">SELECT</option>');
+    // ================= BRANCH DROPDOWN (ABSOLUTE UNIQUE) =================
+    function buildBranchDropdown(data) {
 
-        let branches = new Set();
+        let $branch = $("#branchName2");
+
+        // 💣 FORCE CLEAR (DOM + MEMORY)
+        $branch.empty();
+        $branch.html('<option value="">-- SELECT BRANCH --</option>');
+
+        // Map<normalizedValue, displayValue>
+        let branchMap = new Map();
 
         data.forEach(p => {
-            let branchName =
-                (p.branchName || (p.branch && p.branch.branchName) || "")
-                    .toString()
-                    .trim();
 
-            if (branchName && !branches.has(branchName.toLowerCase())) {
-                branches.add(branchName.toLowerCase());
-                branchDropdown.append(
-                    `<option value="${branchName.toLowerCase()}">${branchName}</option>`
-                );
+            let rawBranch =
+                p.branchName ||
+                (p.branch && p.branch.branchName) ||
+                "";
+
+            if (!rawBranch) return;
+
+            let normalized = normalize(rawBranch);
+
+            if (!branchMap.has(normalized)) {
+                branchMap.set(normalized, rawBranch.trim());
             }
         });
+
+        // 🔠 Alphabetical order
+        [...branchMap.entries()]
+            .sort((a, b) => a[1].localeCompare(b[1]))
+            .forEach(([key, label]) => {
+                $branch.append(
+                    `<option value="${key}">${label.toUpperCase()}</option>`
+                );
+            });
+
+        console.log("FINAL UNIQUE BRANCHES =", [...branchMap.values()]);
     }
 
     // ================= DATE PARSER =================
@@ -58,20 +92,19 @@ $(document).ready(function () {
             d.setHours(0, 0, 0, 0);
             return d;
         }
-
         return null;
     }
 
     // ================= FIND BUTTON =================
-    $("#findBtn").click(function (e) {
+    $("#findBtn").off("click").on("click", function (e) {
         e.preventDefault();
 
-        let branch = $("#branchName1").val();
+        let selectedBranch = $("#branchName2").val();
         let fromDate = $("#fromDate").val();
         let toDate = $("#toDate").val();
 
-        if (!branch || !fromDate || !toDate) {
-            alert("All fields required");
+        if (!selectedBranch || !fromDate || !toDate) {
+            alert("Please select branch and date range");
             return;
         }
 
@@ -81,44 +114,42 @@ $(document).ready(function () {
         let to = new Date(toDate);
         to.setHours(23, 59, 59, 999);
 
-        let filtered = allPolicies.filter(p => {
+        let result = allPolicies.filter(p => {
 
-            // ===== BRANCH =====
-            let policyBranch =
-                (p.branchName || (p.branch && p.branch.branchName) || "")
-                    .toString()
-                    .trim()
-                    .toLowerCase();
+            let rawBranch =
+                p.branchName ||
+                (p.branch && p.branch.branchName) ||
+                "";
 
-            // ===== DATE (IMPORTANT FIX) =====
+            let branch = normalize(rawBranch);
+
             let rawDate =
-                p.policyStartDate ||   // ✅ MAIN FIELD
+                p.policyStartDate ||
                 p.policyDate ||
                 p.createdDate ||
                 p.investmentDate;
 
-            let policyDateObj = parseDate(rawDate);
-            if (!policyDateObj) return false;
+            let policyDate = parseDate(rawDate);
+            if (!policyDate) return false;
 
             return (
-                policyBranch.includes(branch.toLowerCase()) &&
-                policyDateObj >= from &&
-                policyDateObj <= to
+                branch === selectedBranch &&
+                policyDate >= from &&
+                policyDate <= to
             );
         });
 
-        console.log("FILTERED RECORDS =", filtered.length);
-        fillTable(filtered);
+        fillTable(result);
     });
 
-    // ================= TABLE FILL =================
+    // ================= TABLE RENDER =================
     function fillTable(data) {
 
-        let tbody = $("table tbody");
-        tbody.empty();
+        let $tbody = $("table tbody");
+        $tbody.empty();
 
         if (!data || data.length === 0) {
-            tbody.append(`
+            $tbody.append(`
                 <tr>
                     <td colspan="10" class="text-center text-danger">
                         No data found
@@ -130,19 +161,26 @@ $(document).ready(function () {
 
         data.forEach((p, i) => {
 
-            let branch = p.branchName || (p.branch && p.branch.branchName) || "-";
-            let date = p.policyStartDate || "-";
+            let branch =
+                p.branchName ||
+                (p.branch && p.branch.branchName) ||
+                "-";
 
-            tbody.append(`
+            let policyDate =
+                p.policyStartDate ||
+                p.policyDate ||
+                "-";
+
+            $tbody.append(`
                 <tr>
                     <td>${i + 1}</td>
                     <td>${p.policyCode || "-"}</td>
-                    <td>${p.customerName || "-"}</td>
+                    <td>${(p.customerName || "-").toUpperCase()}</td>
                     <td>${p.policyName || "-"}</td>
-                    <td>${date}</td>
+                    <td>${policyDate}</td>
                     <td>${p.policyAmount || "-"}</td>
                     <td>${p.contactNumber || "-"}</td>
-                    <td>${branch}</td>
+                    <td>${(branch).toUpperCase()}</td>
                     <td><span class="badge bg-success">APPROVED</span></td>
                     <td>
                         <button class="btn btn-sm btn-primary"

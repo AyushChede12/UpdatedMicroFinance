@@ -76,10 +76,9 @@ public class AccountManagementService {
 
 	@Autowired
 	private JournalEntryReportRepo journalEntryReportRepo;
-	
+
 	@Autowired
 	private TrialBalanceReportRepo trialBalanceReportRepo;
-
 
 	/**
 	 * Create a new Ledger Account. Business Logic: - Title must be unique per
@@ -1431,7 +1430,6 @@ public class AccountManagementService {
 		return response;
 	}
 
-	
 	private JournalEntryReportDto mapEntryToDto(String date, String voucherID, String remarks, String branch,
 			String debitLedger, String creditLedger, BigDecimal transactionAmount) {
 
@@ -1459,47 +1457,80 @@ public class AccountManagementService {
 
 		return dto;
 	}
-	
-	
+
 	public List<TrialBalanceReportDto> getTrialBalance(String branch, LocalDate startDate, LocalDate endDate) {
 
-	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	    String start = startDate.format(formatter);
-	    String end = endDate.format(formatter);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String start = startDate.format(formatter);
+		String end = endDate.format(formatter);
 
-	    List<Object[]> rows = trialBalanceReportRepo.fetchTrialBalanceEntries(branch, start, end);
+		List<Object[]> rows = trialBalanceReportRepo.fetchTrialBalanceEntries(branch, start, end);
 
-	    List<TrialBalanceReportDto> result = new ArrayList<>();
+		List<TrialBalanceReportDto> result = new ArrayList<>();
 
-	    for (Object[] r : rows) {
+		for (Object[] r : rows) {
 
-	        String ledgerName = (String) r[0];
-	        String debit = r[1] != null ? r[1].toString() : "0";
-	        String credit = r[2] != null ? r[2].toString() : "0";
+			String ledgerName = (String) r[0];
+			String debit = r[1] != null ? r[1].toString() : "0";
+			String credit = r[2] != null ? r[2].toString() : "0";
 
-	        // Fetch opening & closing from Ledger Master
-	        LedgerAccountMaster master = ledgerAccountRepository
-	                .findByAccountTitleAndBranchName(ledgerName, branch)
-	                .orElse(null);
+			// Fetch opening & closing from Ledger Master
+			LedgerAccountMaster master = ledgerAccountRepository.findByAccountTitleAndBranchName(ledgerName, branch)
+					.orElse(null);
 
-	        String opening = master != null ? master.getOpeningBalance().toPlainString() : "0";
-	        String closing = master != null ? master.getCurrentBalance().toPlainString() : "0";
-	        String accountCode = master != null ? master.getAccountCode() : "";
+			String opening = master != null ? master.getOpeningBalance().toPlainString() : "0";
+			String closing = master != null ? master.getCurrentBalance().toPlainString() : "0";
+			String accountCode = master != null ? master.getAccountCode() : "";
 
-	        TrialBalanceReportDto dto = new TrialBalanceReportDto();
-	       
-	        dto.setLedgerName(ledgerName);
-	        dto.setAccountCode(accountCode);
-	        dto.setOpening(opening);
-	        dto.setDebit(debit);
-	        dto.setCredit(credit);
-	        dto.setClosing(closing);
+			TrialBalanceReportDto dto = new TrialBalanceReportDto();
 
-	        result.add(dto);
-	    }
+			dto.setLedgerName(ledgerName);
+			dto.setAccountCode(accountCode);
+			dto.setOpening(opening);
+			dto.setDebit(debit);
+			dto.setCredit(credit);
+			dto.setClosing(closing);
 
-	    return result;
+			result.add(dto);
+		}
+
+		return result;
 	}
 
+	public boolean deleteLedger(Long id) {
+		// TODO Auto-generated method stub
+		if (ledgerAccountRepository.existsById(id)) {
+			ledgerAccountRepository.deleteById(id);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean deleteOutgoingPayment(Long id) {
+		// TODO Auto-generated method stub
+		if (outgoingPaymentRepo.existsById(id)) {
+			outgoingPaymentRepo.deleteById(id);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean deleteIncomingPayment(Long id) {
+		// TODO Auto-generated method stub
+		if (incomingReceiptRepo.existsById(id)) {
+			incomingReceiptRepo.deleteById(id);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean deleteBankCashTransfer(Long id) {
+		// TODO Auto-generated method stub
+		if (bankCashTransferRepo.existsById(id)) {
+			bankCashTransferRepo.deleteById(id);
+			return true;
+		}
+		return false;
+	}
 
 }

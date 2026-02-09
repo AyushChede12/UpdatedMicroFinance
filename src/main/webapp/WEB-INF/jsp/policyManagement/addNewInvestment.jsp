@@ -116,7 +116,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">ADDRESS <span class="star">*</span></label>
-						<textarea name="address" id="address"
+						<textarea name="address" id="address"  placeholder="ENTER ADDRESS"
 							style="border: 1px solid rgb(224, 224, 224); border-radius: 5px; outline: none; padding: 5px; font-size: 12px;"></textarea>
 					</div>
 				</div>

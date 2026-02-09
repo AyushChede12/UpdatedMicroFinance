@@ -156,16 +156,21 @@ function loadIncomingReceipts() {
 					<td>${receipt.id ?? ''}</td>
 					<td>${receipt.branchName ?? ''}</td>
 					<td>${receipt.voucherID ?? ''}</td>
-					<td>${receipt.dateOfEntry ?? ''}</td>
-					<td>${receipt.creditLedger ?? ''}</td>
-					<td>${receipt.debitLedger ?? ''}</td>
-					<td>${receipt.transferMode ?? ''}</td>
-					<td>${receipt.transactionAmount ?? ''}</td>
-					<td>${receipt.remarks ?? ''}</td>
+					<td>${(receipt.dateOfEntry).toUpperCase() ?? ''}</td>
+					<td>${(receipt.creditLedger).toUpperCase() ?? ''}</td>
+					<td>${(receipt.debitLedger).toUpperCase() ?? ''}</td>
+					<td>${(receipt.transferMode).toUpperCase() ?? ''}</td>
+					<td>${(receipt.transactionAmount).toUpperCase() ?? ''}</td>
+					<td>${(receipt.remarks).toUpperCase() ?? ''}</td>
 					<td>
-							<button class="iconbutton" onclick="viewIncomingReceipt(${receipt.id})" title="View">
-								<i class="fa-solid fa-eye text-primary"></i>
-							</button>
+						<button class="iconbutton" onclick="viewIncomingReceipt(${receipt.id})" title="View">
+							<i class="fa-solid fa-eye text-primary"></i>
+						</button>
+					</td>
+					<td>
+						<button class="iconbutton" onclick="deleteIncomingPayment(${receipt.id})" title="Delete">
+							<i class="fa-solid fa-trash text-danger"></i>
+						</button>
 					</td>
 				</tr>
 			`;
@@ -259,12 +264,16 @@ function searchIncomingReceipts() {
 					<td>${receipt.transferMode || ''}</td>
 					<td>${receipt.transactionAmount || ''}</td>
 					<td>${receipt.remarks || ''}</td>
-					
-						<td>
-													<button class="iconbutton" onclick="viewIncomingReceipt(${receipt.id})" title="View">
-														<i class="fa-solid fa-eye text-primary"></i>
-													</button>
-												</td>
+					<td>
+						<button class="iconbutton" onclick="viewIncomingReceipt(${receipt.id})" title="View">
+							<i class="fa-solid fa-eye text-primary"></i>
+						</button>
+					</td>
+					<td>
+						<button class="iconbutton" onclick="deleteIncomingPayment(${receipt.id})" title="Delete">
+							<i class="fa-solid fa-trash text-danger"></i>
+						</button>
+					</td>
                     </tr>
                 `;
 				tbody.append(row);
@@ -284,11 +293,11 @@ function BranchNameDropdown() {
 		contentType: "application/json",
 		url: 'api/preference/getAllBranchModule',
 		success: function(response) {
-			let options = "<option value=''>Select Branch Name</option>";
+			let options = "<option value=''>--SELECT BRANCH NAME--</option>";
 			// The actual branch array is inside response.data
 			if (response && Array.isArray(response.data)) {
 				response.data.forEach(branch => {
-					options += `<option value='${branch.branchName}'>${branch.branchName}</option>`;
+					options += `<option value='${branch.branchName}'>${branch.branchName.toUpperCase()}</option>`;
 				});
 			}
 			$("#searchBranchName").html(options);
@@ -313,9 +322,9 @@ function LedgerDropdown(branchName, selectedCr = "", selectedDr = "") {
 			const ledgers = data.data || [];
 
 			// Credit Ledger → Assets (Cash/Bank)
-			let crOptions = "<option value=''>Select Credit Ledger</option>";
+			let crOptions = "<option value=''>--SELECT CREDIT LEDGER--</option>";
 			// Debit Ledger → Liabilities/Expenses/Equity
-			let drOptions = "<option value=''>Select Debit Ledger</option>";
+			let drOptions = "<option value=''>--SELECT DEBIT LEDGER--</option>";
 
 			ledgers.forEach(ledger => {
 				const g = ledger.groupName.toLowerCase();
@@ -325,7 +334,7 @@ function LedgerDropdown(branchName, selectedCr = "", selectedDr = "") {
 				// Debit Ledger (Destination → Cash/Bank under Assets)
 				if (g === "assets" && (t === "cash" || t === "bank")) {
 					const selected = title.trim().toLowerCase() === selectedDr.trim().toLowerCase() ? "selected" : "";
-					drOptions += `<option value="${title}" ${selected}>${title}</option>`;
+					drOptions += `<option value="${title}" ${selected}>${title.toUpperCase()}</option>`;
 				}
 
 				// Credit Ledger (Source → Liabilities, Equity, Income, OR Loan under Assets)
@@ -333,7 +342,7 @@ function LedgerDropdown(branchName, selectedCr = "", selectedDr = "") {
 					t === "gold_loans" ||
 					t === "joint_loans")) {
 					const selected = title.trim().toLowerCase() === selectedCr.trim().toLowerCase() ? "selected" : "";
-					crOptions += `<option value="${title}" ${selected}>${title}</option>`;
+					crOptions += `<option value="${title}" ${selected}>${title.toUpperCase()}</option>`;
 				}
 			});
 
@@ -344,4 +353,27 @@ function LedgerDropdown(branchName, selectedCr = "", selectedDr = "") {
 			alert("Failed to load ledger accounts for selected branch");
 		}
 	});
+}
+
+function deleteIncomingPayment(id) {
+	if (confirm("Are you sure you want to delete this Incoming Payment?")) {
+		$.ajax({
+			url: "accountManagement/deleteIncomingPaymentById",
+			type: "POST",
+			data: { id: id },
+			success: function(response) {
+				if (response.status == "OK") {
+					alert(response.message);
+					location.reload();
+				} else {
+					alert("Delete failed: " + response.message);
+				}
+			},
+			error: function(xhr, status, error) {
+				alert("Failed to delete payment.");
+				console.error("Error:", error);
+			}
+		});
+	}
+
 }
