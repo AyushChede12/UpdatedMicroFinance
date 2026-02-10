@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	$()
 	BranchNameDropdown();
 
 	toggleTransferFields($('#transferMode').val());

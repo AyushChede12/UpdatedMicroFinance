@@ -17,10 +17,10 @@ function loadBranchDropdown() {
 		url: "api/preference/getAllBranchModule",
 		contentType: "application/json",
 		success: function(response) {
-			let options = "<option value=''>Select Branch</option>";
+			let options = "<option value=''>--SELECT BRANCH NAME--</option>";
 			if (response && Array.isArray(response.data)) {
 				response.data.forEach(branch => {
-					options += `<option value="${branch.branchName}">${branch.branchName}</option>`;
+					options += `<option value="${branch.branchName}">${branch.branchName.toUpperCase()}</option>`;
 				});
 			}
 			$("#branchName").html(options);
@@ -40,9 +40,9 @@ function loadVoucherTypeDropdown() {
 		"Contra",
 		"Manual Journal"
 	];
-	let options = "<option value=''>Select Type</option>";
+	let options = "<option value=''>--SELECT TYPE--</option>";
 	voucherTypes.forEach(type => {
-		options += `<option value="${type.toLowerCase()}">${type}</option>`;
+		options += `<option value="${type.toLowerCase()}">${type.toUpperCase()}</option>`;
 	});
 	$("#voucherType").html(options);
 }

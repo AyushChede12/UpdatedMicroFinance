@@ -40,13 +40,20 @@ import com.microfinance.model.IncomingReceiptEntry;
 import com.microfinance.model.LedgerAccountMaster;
 import com.microfinance.model.ManualJournalEntry;
 import com.microfinance.model.OutgoingPaymentEntry;
+import com.microfinance.model.addFinancialConsultant;
+import com.microfinance.repository.AddInvestmentRepo;
+import com.microfinance.repository.ApplyForGoldRepo;
 import com.microfinance.repository.BankCashTransferRepo;
 import com.microfinance.repository.BranchModuleRepo;
+import com.microfinance.repository.CreateSavingAccountRepo;
+import com.microfinance.repository.FinancialConsultantRepo;
 import com.microfinance.repository.IncomingReceiptRepo;
 import com.microfinance.repository.JournalEntryReportRepo;
 import com.microfinance.repository.LedgerAccountRepository;
 import com.microfinance.repository.LedgerSummaryRepo;
+import com.microfinance.repository.LoanApplicationRepo;
 import com.microfinance.repository.ManualJournalRepo;
+import com.microfinance.repository.NewLoanAppicationRepo;
 import com.microfinance.repository.OutgoingPaymentRepo;
 import com.microfinance.repository.TrialBalanceReportRepo;
 
@@ -79,6 +86,21 @@ public class AccountManagementService {
 
 	@Autowired
 	private TrialBalanceReportRepo trialBalanceReportRepo;
+
+	@Autowired
+	private FinancialConsultantRepo financialConsultantRepo;
+
+	@Autowired
+	private CreateSavingAccountRepo createSavingAccountRepo;
+
+	@Autowired
+	private LoanApplicationRepo loanAppicationRepo;
+
+	@Autowired
+	private AddInvestmentRepo addInvestmentRepo;
+
+	@Autowired
+	private ApplyForGoldRepo applyForGoldRepo;
 
 	/**
 	 * Create a new Ledger Account. Business Logic: - Title must be unique per
@@ -1531,6 +1553,46 @@ public class AccountManagementService {
 			return true;
 		}
 		return false;
+	}
+
+	public boolean deleteManualJournalEntry(Long id) {
+		// TODO Auto-generated method stub
+		if (manualJournalRepo.existsById(id)) {
+			manualJournalRepo.deleteById(id);
+			return true;
+		}
+		return false;
+	}
+
+	public long calculatePersonalSales(String teamMemberCode, int month, int year) {
+
+		List<addFinancialConsultant> consultants = financialConsultantRepo.findByTeamMemberCode(teamMemberCode);
+
+		if (consultants == null || consultants.isEmpty()) {
+			return 0;
+		}
+
+		// 2️⃣ Extract financial codes (Java 1.8 way)
+		List<String> financialConsultantCode = consultants.stream().map(addFinancialConsultant::getFinancialCode)
+				.collect(Collectors.toList());
+
+		// 3️⃣ Prepare year-month (YYYY-MM)
+		String monthStr = (month < 10) ? "0" + month : String.valueOf(month);
+		String yearMonth = year + "-" + monthStr;
+
+		// 4️⃣ Count sales
+		long saving = createSavingAccountRepo
+				.countByFinancialConsultantCodeInAndOpeningDateContaining(financialConsultantCode, yearMonth);
+
+		long loan = loanAppicationRepo.countByFinancialConsultantIdInAndLoanDateContaining(financialConsultantCode,
+				yearMonth);
+
+		long policy = addInvestmentRepo.countByAgentInAndPolicyStartDateContaining(financialConsultantCode, yearMonth);
+
+		long gold = applyForGoldRepo.countByFinancialConsultantIdInAndLoanDateContaining(financialConsultantCode,
+				yearMonth);
+
+		return saving + loan + policy + gold;
 	}
 
 }

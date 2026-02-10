@@ -29,17 +29,15 @@ public interface FinancialConsultantRepo extends JpaRepository<addFinancialConsu
 
 	List<addFinancialConsultant> findByModeofPayment(String string);
 
-	
-
-	
+	List<addFinancialConsultant> findByTeamMemberCode(String teamMemberCode);
 
 	/*
 	 * @Transactional List<addFinancialConsultant> fetchAllFinancialCode(String
 	 * financialCode);
 	 */
 
-	//Optional<addCustomer> findByMemberCode(String memberCode);
+	// Optional<addCustomer> findByMemberCode(String memberCode);
 
-	//List<addFinancialConsultant> findByFinancialCode(String financialCode);
+	// List<addFinancialConsultant> findByFinancialCode(String financialCode);
 
 }

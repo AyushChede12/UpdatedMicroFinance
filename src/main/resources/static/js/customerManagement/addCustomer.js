@@ -46,7 +46,9 @@ $(document).ready(function() {
 		   FILE / IMAGE VALIDATION
 		================================ */
 		function validateFile(fieldId, chkId, message, allowedTypes = [], maxSizeMB = 2) {
-
+			
+			const input = $('#' + fieldId)[0];
+			
 			if (!input || input.files.length === 0) {
 				$('#' + chkId).text(message);
 				isValid = false;

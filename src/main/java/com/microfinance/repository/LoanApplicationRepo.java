@@ -24,8 +24,7 @@ public interface LoanApplicationRepo extends JpaRepository<LoanApplication,Long>
 	LoanApplication findByLoanId(String loanId); // assumes loanId is unique
 
 	List<LoanApplication> findByApprovalStatusFalse();
-	
-	    	
 
+	long countByFinancialConsultantIdInAndLoanDateContaining(List<String> financialConsultantCode, String yearMonth);
 
 }

@@ -42,7 +42,7 @@ public class AddnewinvestmentPM {
 	private String paymentBy;
 	private String schemeCode;
 	private String remark;
-	private String Agent;
+	private String agent;
 	private String smsSend;
 	private String image1;
 	private String image2;
@@ -305,11 +305,11 @@ public class AddnewinvestmentPM {
 	}
 
 	public String getAgent() {
-		return Agent;
+		return agent;
 	}
 
 	public void setAgent(String agent) {
-		Agent = agent;
+		this.agent = agent;
 	}
 
 	public String getSmsSend() {

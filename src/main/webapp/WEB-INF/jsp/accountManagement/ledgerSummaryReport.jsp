@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Account Management</h1>
+	<h1>ACCOUNT MANAGEMENT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="home"> <i
 					class="bi bi-wallet2"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Ledger Summary Report</li>
+			<li class="breadcrumb-item action">LEDGER SUMMARY REPORT</li>
 		</ol>
 	</nav>
 </div>
@@ -16,31 +16,31 @@
 
 		<nav>
 			<ol class="breadcrumb breadcrumb-title">
-				<li class="breadcrumb-item action">Search Information</li>
+				<li class="breadcrumb-item action">SEARCH INFORMATION</li>
 			</ol>
 		</nav>
 		<div class="row">
 			<div class="col-lg-3">
-				<label>Branch Name</label> <select id="branchName" name="branchName"
+				<label>BRANCH NAME</label> <select id="branchName" name="branchName"
 					required class="form-control selectField" style="height: 30px;">
-					<option value="">Select Branch</option>
+					<option value="">--SELECT BRANCH NAME--</option>
 				</select>
 			</div>
 
 			<div class="col-lg-3">
-				<label>Ledger Name</label> <select id="ledgerName" name="ledgerName"
+				<label>LEDGER NAME</label> <select id="ledgerName" name="ledgerName"
 					required class="form-control selectField" style="height: 30px;">
-					<option value="">Select Ledger</option>
+					<option value="">--SELECT LEDGER--</option>
 				</select>
 			</div>
 
 			<div class="col-lg-3">
-				<label>Start Date</label> <input type="date" name="startDate"
+				<label>START DATE</label> <input type="date" name="startDate"
 					id="startDate" class="form-control" required />
 			</div>
 
 			<div class="col-lg-3">
-				<label>End Date</label> <input type="date" name="endDate"
+				<label>END DATE</label> <input type="date" name="endDate"
 					id="endDate" class="form-control" required />
 			</div>
 		</div>
@@ -48,7 +48,7 @@
 		<div class="row mt-3">
 			<div class="col text-center">
 				<button type="submit" id="viewBtn"
-					class="btn btn-warning text-white px-4">View</button>
+					class="btn btn-warning text-white px-4">VIEW</button>
 			</div>
 		</div>
 	</form>
@@ -63,12 +63,12 @@
 				<table class="table table-borderless datatable">
 					<thead class="table-light">
 						<tr>
-							<th>Date</th>
-							<th>Voucher ID</th>
-							<th>Remarks</th>
-							<th>Account Code</th>
-							<th>Debit</th>
-							<th>Credit</th>
+							<th>DATE</th>
+							<th>VOUCHER ID</th>
+							<th>REMARKS</th>
+							<th>ACCOUNT CODE</th>
+							<th>DEBIT</th>
+							<th>CREDIT</th>
 						</tr>
 					</thead>
 					<tbody id="ledgerSummaryBody">
