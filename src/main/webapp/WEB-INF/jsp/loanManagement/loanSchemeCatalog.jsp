@@ -185,7 +185,7 @@
 		<div class="mt-5">
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">PAYMENT DEDUCTIONS</li>
+					<li class="breadcrumb-item action">PAYMENT DETAILS</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -240,7 +240,9 @@
 		<div class="mt-5">
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Late Fine Details</li>
+					<li class="breadcrumb-item action">LATE FINE DETAILS
+					[4r +
+					]</li>
 				</ol>
 			</nav>
 			<div class="row">
