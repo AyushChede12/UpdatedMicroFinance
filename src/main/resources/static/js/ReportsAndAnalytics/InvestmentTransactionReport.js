@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    // 🔒 PREVENT MULTIPLE EXECUTION (PAGE / JSP RELOAD SAFE)
+    // 🔒 PREVENT MULTIPLE EXECUTION
     if (window.investmentTxnReportLoaded) {
         console.warn("JS already initialized, skipping...");
         return;
@@ -18,128 +18,100 @@ $(document).ready(function () {
             type: "GET",
             success: function (response) {
 
-                console.log("API RESPONSE =", response);
-
                 if (response && Array.isArray(response.data)) {
                     allPolicies = response.data;
                     buildBranchDropdown(allPolicies);
+                    fillTable(allPolicies); // ✅ INITIAL LOAD (LIKE FIRST TABLE)
                 } else {
-                    console.error("Invalid API response");
+                    $("table tbody").html(
+                        "<tr><td colspan='10'>No approved policies found</td></tr>"
+                    );
                 }
             },
-            error: function (err) {
-                console.error("API ERROR", err);
+            error: function () {
+                alert("Error while fetching policy data");
             }
         });
     }
 
-    // ================= STRING NORMALIZER =================
+    // ================= NORMALIZE =================
     function normalize(value) {
         return value
-            .toString()
+            ?.toString()
             .replace(/[\n\r\t]/g, "")
             .replace(/\s+/g, " ")
             .trim()
             .toUpperCase();
     }
 
-    // ================= BRANCH DROPDOWN (ABSOLUTE UNIQUE) =================
+    // ================= BRANCH DROPDOWN =================
     function buildBranchDropdown(data) {
 
         let $branch = $("#branchName2");
+        $branch.empty().append('<option value="">SELECT</option>');
 
-        // 💣 FORCE CLEAR (DOM + MEMORY)
-        $branch.empty();
-        $branch.html('<option value="">-- SELECT BRANCH --</option>');
-
-        // Map<normalizedValue, displayValue>
-        let branchMap = new Map();
+        let branchSet = new Set();
 
         data.forEach(p => {
-
-            let rawBranch =
+            let branch =
                 p.branchName ||
                 (p.branch && p.branch.branchName) ||
                 "";
 
-            if (!rawBranch) return;
-
-            let normalized = normalize(rawBranch);
-
-            if (!branchMap.has(normalized)) {
-                branchMap.set(normalized, rawBranch.trim());
+            if (branch) {
+                branchSet.add(normalize(branch));
             }
         });
 
-        // 🔠 Alphabetical order
-        [...branchMap.entries()]
-            .sort((a, b) => a[1].localeCompare(b[1]))
-            .forEach(([key, label]) => {
-                $branch.append(
-                    `<option value="${key}">${label.toUpperCase()}</option>`
-                );
-            });
-
-        console.log("FINAL UNIQUE BRANCHES =", [...branchMap.values()]);
+        [...branchSet].sort().forEach(b => {
+            $branch.append(`<option value="${b}">${b}</option>`);
+        });
     }
 
     // ================= DATE PARSER =================
     function parseDate(dateStr) {
         if (!dateStr) return null;
-
         let d = new Date(dateStr);
-        if (!isNaN(d)) {
-            d.setHours(0, 0, 0, 0);
-            return d;
-        }
-        return null;
+        return isNaN(d) ? null : d;
     }
 
     // ================= FIND BUTTON =================
-    $("#findBtn").off("click").on("click", function (e) {
+    $("#findBtn").on("click", function (e) {
         e.preventDefault();
 
-        let selectedBranch = $("#branchName2").val();
+        let branch = $("#branchName2").val();
         let fromDate = $("#fromDate").val();
         let toDate = $("#toDate").val();
 
-        if (!selectedBranch || !fromDate || !toDate) {
-            alert("Please select branch and date range");
-            return;
+        let filtered = allPolicies;
+
+        if (branch) {
+            filtered = filtered.filter(p => {
+                let b =
+                    p.branchName ||
+                    (p.branch && p.branch.branchName) ||
+                    "";
+                return normalize(b) === normalize(branch);
+            });
         }
 
-        let from = new Date(fromDate);
-        from.setHours(0, 0, 0, 0);
+        if (fromDate && toDate) {
+            let from = new Date(fromDate);
+            let to = new Date(toDate);
+            to.setHours(23, 59, 59, 999);
 
-        let to = new Date(toDate);
-        to.setHours(23, 59, 59, 999);
+            filtered = filtered.filter(p => {
+                let d = parseDate(
+                    p.policyStartDate ||
+                    p.policyDate ||
+                    p.createdDate ||
+                    p.investmentDate
+                );
+                return d && d >= from && d <= to;
+            });
+        }
 
-        let result = allPolicies.filter(p => {
-
-            let rawBranch =
-                p.branchName ||
-                (p.branch && p.branch.branchName) ||
-                "";
-
-            let branch = normalize(rawBranch);
-
-            let rawDate =
-                p.policyStartDate ||
-                p.policyDate ||
-                p.createdDate ||
-                p.investmentDate;
-
-            let policyDate = parseDate(rawDate);
-            if (!policyDate) return false;
-
-            return (
-                branch === selectedBranch &&
-                policyDate >= from &&
-                policyDate <= to
-            );
-        });
-
-        fillTable(result);
+        fillTable(filtered);
     });
 
     // ================= TABLE RENDER =================
@@ -152,7 +124,7 @@ $(document).ready(function () {
             $tbody.append(`
                 <tr>
                     <td colspan="10" class="text-center text-danger">
-                        No data found
+                        No matching data found
                     </td>
                 </tr>
             `);
@@ -171,17 +143,22 @@ $(document).ready(function () {
                 p.policyDate ||
                 "-";
 
+            let approvedStatus =
+                p.approved === true
+                    ? '<span class="badge bg-success">APPROVED</span>'
+                    : '<span class="badge bg-danger">NOT APPROVED</span>';
+
             $tbody.append(`
                 <tr>
                     <td>${i + 1}</td>
                     <td>${p.policyCode || "-"}</td>
                     <td>${(p.customerName || "-").toUpperCase()}</td>
-                    <td>${p.policyName || "-"}</td>
+                    <td>${p.schemeType || "-"}</td>
                     <td>${policyDate}</td>
                     <td>${p.policyAmount || "-"}</td>
-                    <td>${p.contactNumber || "-"}</td>
-                    <td>${(branch).toUpperCase()}</td>
-                    <td><span class="badge bg-success">APPROVED</span></td>
+                    <td>${p.contactNo || "-"}</td>
+                    <td>${branch.toUpperCase()}</td>
+                    <td>${approvedStatus}</td>
                     <td>
                         <button class="btn btn-sm btn-primary"
                             onclick="openPrintModal(${p.id})">

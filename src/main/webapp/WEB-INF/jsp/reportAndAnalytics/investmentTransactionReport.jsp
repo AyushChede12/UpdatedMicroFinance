@@ -92,7 +92,7 @@
 									<th scope="col">SR NO.</th>
 									<th scope="col">POLICY CODE</th>
 									<th scope="col">CUSTOMER NAME</th>
-									<th scope="col">POLICY NAME</th>
+									<th scope="col">SCHEME TYPE</th>
 									<th scope="col">POLICY DATE</th>
 									<th scope="col">POLICY AMOUNT</th>
 									<th scope="col">CONTACT NUMBER</th>

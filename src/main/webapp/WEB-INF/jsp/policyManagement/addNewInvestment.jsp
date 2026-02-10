@@ -50,7 +50,7 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">CUSTOMER NAME <span class="star">*</span></label> <input
 							type="text" name="customerName" id="customerName"
-							required="required" placeholder="ENTER CUSTOMER NAME" />
+							required="required" placeholder="ENTER CUSTOMER NAME"  disabled/>
 					</div>
 				</div>
 
@@ -60,7 +60,7 @@
 						style="margin-bottom: 30px">
 						<label>DATE OF BIRTH <span class="star">*</span></label> <input
 							type="date" name="dateofBirth" id="dateofBirth"
-							required="required" style="text-transform: uppercase;" />
+							required="required" style="text-transform: uppercase;" disabled />
 					</div>
 				</div>
 
@@ -69,7 +69,7 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">RELATION DETAILS <span class="star">*</span></label>
 						<input type="text" name="relationDetails" id="relationDetails"
-							required="required" placeholder="ENTER RELATIVE NAME" />
+							required="required" placeholder="ENTER RELATIVE NAME" disabled/>
 					</div>
 				</div>
 
@@ -78,7 +78,7 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">CONTACT NO <span class="star">*</span></label> <input
 							type="text" name="contactNo" id="contactNo" required="required"
-							placeholder="ENTER CONTACT NO." />
+							placeholder="ENTER CONTACT NO." disabled />
 					</div>
 				</div>
 
@@ -86,7 +86,7 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">SUGGESTED NOMINEE <span class="star">*</span></label>
 						<input type="text" name="suggestedNominee" id="suggestedNominee"
-							required="required" placeholder="ENTER SUGGESTED NOMINEE" />
+							required="required" placeholder="ENTER SUGGESTED NOMINEE" disabled />
 					</div>
 				</div>
 
@@ -98,7 +98,7 @@
 						style="margin-bottom: 30px">
 						<label>AGE OF NOMINEE <span class="star">*</span></label> <input
 							type="text" name="ageOfNominee" id="ageOfNominee"
-							required="ageOfNominee" placeholder="ENTER AGE" />
+							required="ageOfNominee" placeholder="ENTER AGE" disabled />
 					</div>
 				</div>
 
@@ -108,7 +108,7 @@
 						style="margin-bottom: 30px">
 						<label>RELATION <span class="star">*</span></label> <input
 							type="text" name="relation" id="relation" required="relation"
-							placeholder="ENTER RELATION" />
+							placeholder="ENTER RELATION"  disabled/>
 					</div>
 				</div>
 
@@ -116,7 +116,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">ADDRESS <span class="star">*</span></label>
-						<textarea name="address" id="address"  placeholder="ENTER ADDRESS"
+						<textarea name="address" id="address"  placeholder="ENTER ADDRESS" disabled
 							style="border: 1px solid rgb(224, 224, 224); border-radius: 5px; outline: none; padding: 5px; font-size: 12px;"></textarea>
 					</div>
 				</div>
@@ -125,7 +125,7 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">DISTRICT <span class="star">*</span></label> <input
 							type="text" name="district" id="district" required="required"
-							placeholder="ENTER DISTRICT" />
+							placeholder="ENTER DISTRICT"  disabled/>
 					</div>
 				</div>
 
@@ -133,7 +133,7 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">STATE <span class="star">*</span></label> <input
 							type="text" name="state" id="state" required="required"
-							placeholder="ENTER STATE" />
+							placeholder="ENTER STATE"  disabled/>
 					</div>
 				</div>
 
@@ -141,7 +141,7 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">PIN CODE  <span class="star">*</span></label> <input
 							type="text" name="pinCode" id="pinCode" required="required"
-							placeholder="ENTER PIN CODE" />
+							placeholder="ENTER PIN CODE"  disabled/>
 					</div>
 				</div>
 
@@ -149,7 +149,7 @@
 					<div class="d-flex flex-column formFields">
 						<label for="branchName">BRANCH NAME <span class="star">*</span></label>
 						<select id="branchName" name="branchName" required="required"
-							class="form-control selectField" style="height: 30px;">
+							class="form-control selectField" style="height: 30px;" disabled>
 						</select> <small id="chkbranchname" style="color: red;"></small>
 					</div>
 				</div>
@@ -158,7 +158,7 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">TDS <span class="star">*</span></label> <input
 							type="text" name="tds" id="tds" required="required"
-							placeholder="ENTER TDS" />
+							placeholder="ENTER TDS" disabled/>
 					</div>
 				</div>
 

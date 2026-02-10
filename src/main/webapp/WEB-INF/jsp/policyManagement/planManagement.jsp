@@ -364,8 +364,7 @@ td {
 					<div class="d-flex flex-column formFields  mb-4 ">
 						<label for="vehicalNo">PLAN NAME <span class="star">*</span></label>
 						<input type="text" name="planNameRD" id="planNameRD"
-							required="required" placeholder="ENTER PLAN NAME"
-							style="text-transform: uppercase;" />
+							required="required" placeholder="ENTER PLAN NAME" />
 					</div>
 				</div>
 
@@ -604,8 +603,7 @@ td {
 					<div class="d-flex flex-column formFields  mb-4 ">
 						<label for="vehicalNo">PLAN NAME <span class="star">*</span></label>
 						<input type="text" name="planNameFD" id="planNameFD"
-							required="required" placeholder="ENTER PLAN NAME"
-							style="text-transform: uppercase;" />
+							required="required" placeholder="ENTER PLAN NAME" />
 					</div>
 				</div>
 
@@ -858,8 +856,7 @@ td {
 					<div class="d-flex flex-column formFields  mb-4 ">
 						<label for="vehicalNo">PLAN NAME <span class="star">*</span></label>
 						<input type="text" name="planNameMD" id="planNameMD"
-							required="required" placeholder="ENTER PLAN NAME"
-							style="text-transform: uppercase;" />
+							required="required" placeholder="ENTER PLAN NAME"/>
 					</div>
 				</div>
 
