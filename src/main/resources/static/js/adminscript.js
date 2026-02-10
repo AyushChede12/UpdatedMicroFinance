@@ -25,9 +25,9 @@ $(document).ready(function() {
 				if (response.status === "FOUND") {
 					const branchList = response.data;
 
-					$("#branchName").empty().append("<option value=''>-- SELECT BRANCH --</option>");
-					$("#closingbranchName").empty().append("<option value=''>-- SELECT BRANCH --</option>");
-					$("#branch").empty().append("<option value=''>-- SELECT BRANCH --</option>");
+					$("#branchName").empty().append("<option value=''>--SELECT BRANCH--</option>");
+					$("#closingbranchName").empty().append("<option value=''>--SELECT BRANCH--</option>");
+					$("#branch").empty().append("<option value=''>--SELECT BRANCH--</option>");
 
 					branchList.forEach(branch => {
 						const option =
