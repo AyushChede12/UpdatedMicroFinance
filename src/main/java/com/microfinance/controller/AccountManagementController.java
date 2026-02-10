@@ -1,6 +1,7 @@
 package com.microfinance.controller;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.microfinance.dto.ApiResponse;
 import com.microfinance.dto.BankCashTransferDto;
+import com.microfinance.dto.IncentiveRequest;
 import com.microfinance.dto.IncomingReceiptDto;
 import com.microfinance.dto.LedgerAccountDto;
 import com.microfinance.dto.LedgerSummaryDto;
@@ -346,6 +348,20 @@ public class AccountManagementController {
 		List<TrialBalanceReportDto> response = accountManagementService.getTrialBalance(branch, startDate, endDate);
 
 		return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "Trial Balance Fetched Successfully", response));
+	}
+
+	// Ayush - Incentive Payment
+	@PostMapping("/personal-sales")
+	public ResponseEntity<Map<String, Object>> getPersonalSales(@RequestBody IncentiveRequest request) {
+
+		long totalSales = accountManagementService.calculatePersonalSales(request.getTeamMemberCode(),
+				request.getMonth(), request.getYear());
+
+		Map<String, Object> response = new HashMap<>();
+		response.put("teamMemberCode", request.getTeamMemberCode());
+		response.put("personalSales", totalSales);
+
+		return ResponseEntity.ok(response);
 	}
 
 }

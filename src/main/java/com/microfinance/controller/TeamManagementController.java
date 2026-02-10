@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.microfinance.dto.ApiResponse;
 import com.microfinance.model.BranchModule;
 import com.microfinance.model.ManageDepartment;
 import com.microfinance.model.ManageDesignation;
@@ -87,9 +88,11 @@ public class TeamManagementController {
 	}
 
 	@GetMapping("/getAllteamMember") // Janvi
-	public List<TeamMember> fetchAllteamMember() {
+	public ResponseEntity<ApiResponse<List<TeamMember>>> fetchAllteamMember() {
 		List<TeamMember> list = teamService.fetchAllteamMember();
-		return list;
+		ApiResponse<List<TeamMember>> response = new ApiResponse<>(HttpStatus.FOUND, "Team Member fetched successfully",
+				list);
+		return ResponseEntity.ok(response);
 	}
 
 }
