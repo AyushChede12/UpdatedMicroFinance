@@ -28,4 +28,6 @@ public interface ApplyForGoldRepo extends JpaRepository<ApplyForGold, Long> {
 
 	List<ApplyForGold> findByApprovalStatusFalse();
 
+	long countByFinancialConsultantIdInAndLoanDateContaining(List<String> financialConsultantCode, String yearMonth);
+
 }

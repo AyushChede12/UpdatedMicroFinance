@@ -1,188 +1,184 @@
-$(document).ready(function() {
-	loadChequeData();
+$(document).ready(function () {
+    loadChequeData();
 
-	// --- Find button pe filter apply karna hai ---
-	$("#findBtn").click(function() {
-		applyFilters();
-	});
+    $("#findBtn").on("click", function () {
+        applyFilters();
+    });
 });
 
-// --- Global Data Store ---
+// ---------------- GLOBAL ----------------
 let allChequeData = [];
 let rowIndex = 0;
 
+// ---------------- LOAD DATA ----------------
 function loadChequeData() {
-	let tableBody = $(".datatable tbody");
-	tableBody.empty();
-	rowIndex = 0;
-	allChequeData = [];
+    allChequeData = [];
+    rowIndex = 0;
+    $(".datatable tbody").empty();
 
-	// 1st API Call (Loan Payment)
-	$.ajax({
-		type: "GET",
-		url: "api/reports/getCheckDataFromLoanPayment",
-		contentType: "application/json",
-		success: function(response) {
-			if (response.status === "OK") {
-				allChequeData = allChequeData.concat(
-					response.data.map(item => ({
-						id: item.id,
-						name: item.memberName,
-						date: item.paymentDate,
-						chequeNo: item.chequeNo,
-						source: "Loan Payment"
-					}))
-				);
-				savingActivityChequeData();
-			}
-		}
-	});
+    loadLoanPayment();
 }
 
-function savingActivityChequeData() {
-	$.ajax({
-		type: "GET",
-		url: "api/reports/getPayByFromSavingAccountActivity",
-		contentType: "application/json",
-		success: function(response) {
-			if (response.status === "OK") {
-				allChequeData = allChequeData.concat(
-					response.data.map(item => ({
-						id: item.id,
-						name: item.customerName,
-						date: item.transactionDate,
-						chequeNo: item.chequeNo,
-						source: "Saving Activity"
-					}))
-				);
-				createsavingAccountChequeData();
-			}
-		}
-	});
+function loadLoanPayment() {
+    $.get("api/reports/getCheckDataFromLoanPayment", function (res) {
+        if (res.status === "OK") {
+            allChequeData.push(...res.data.map(item => ({
+                id: item.id,
+                name: item.memberName,
+                date: item.paymentDate,
+                chequeNo: item.chequeNo,
+                type: "RECEIVED",
+                branch: item.branchName || "",
+                source: "Loan Payment"
+            })));
+            loadSavingActivity();
+        }
+    });
 }
 
-function createsavingAccountChequeData() {
-	$.ajax({
-		type: "GET",
-		url: "api/reports/getCheckDataFromCreateSavings",
-		contentType: "application/json",
-		success: function(response) {
-			if (response.status === "OK") {
-				allChequeData = allChequeData.concat(
-					response.data.map(item => ({
-						id: item.id,
-						name: item.enterCustomerName,
-						date: item.openingDate,
-						chequeNo: item.chequeNo,
-						source: "Create Savings"
-					}))
-				);
-				FinancialConsultantChequeData();
-			}
-		}
-	});
+function loadSavingActivity() {
+    $.get("api/reports/getPayByFromSavingAccountActivity", function (res) {
+        if (res.status === "OK") {
+            allChequeData.push(...res.data.map(item => ({
+                id: item.id,
+                name: item.customerName,
+                date: item.transactionDate,
+                chequeNo: item.chequeNo,
+                type: "ISSUED",
+                branch: item.branchName || "",
+                source: "Saving Activity"
+            })));
+            loadCreateSaving();
+        }
+    });
 }
 
-function FinancialConsultantChequeData() {
-	$.ajax({
-		type: "GET",
-		url: "api/reports/getCheckDataFromFinancialConsultant",
-		contentType: "application/json",
-		success: function(response) {
-			if (response.status === "OK") {
-				allChequeData = allChequeData.concat(
-					response.data.map(item => ({
-						id: item.id,
-						name: item.financialName,
-						date: item.joiningDate,
-						chequeNo: item.chequeNo,
-						source: "Financial Consultant"
-					}))
-				);
-				TeamMemberChequeData();
-			}
-		}
-	});
+function loadCreateSaving() {
+    $.get("api/reports/getCheckDataFromCreateSavings", function (res) {
+        if (res.status === "OK") {
+            allChequeData.push(...res.data.map(item => ({
+                id: item.id,
+                name: item.enterCustomerName,
+                date: item.openingDate,
+                chequeNo: item.chequeNo,
+                type: "ISSUED",
+                branch: item.branchName || "",
+                source: "Create Savings"
+            })));
+            loadFinancialConsultant();
+        }
+    });
 }
 
-function TeamMemberChequeData() {
-	$.ajax({
-		type: "GET",
-		url: "api/reports/getCheckDataFromTeamMember",
-		contentType: "application/json",
-		success: function(response) {
-			if (response.status === "OK") {
-				allChequeData = allChequeData.concat(
-					response.data.map(item => ({
-						id: item.id,
-						name: item.teamMemberName,
-						date: item.signUpDate,
-						chequeNo: item.chequeNo,
-						source: "Team Member"
-					}))
-				);
-				renderTable(allChequeData); // final render
-			}
-		}
-	});
+function loadFinancialConsultant() {
+    $.get("api/reports/getCheckDataFromFinancialConsultant", function (res) {
+        if (res.status === "OK") {
+            allChequeData.push(...res.data.map(item => ({
+                id: item.id,
+                name: item.financialName,
+                date: item.joiningDate,
+                chequeNo: item.chequeNo,
+                type: "ISSUED",
+                branch: item.branchName || "",
+                source: "Financial Consultant"
+            })));
+            loadTeamMember();
+        }
+    });
 }
 
-// -------------------- FILTERS --------------------
+function loadTeamMember() {
+    $.get("api/reports/getCheckDataFromTeamMember", function (res) {
+        if (res.status === "OK") {
+            allChequeData.push(...res.data.map(item => ({
+                id: item.id,
+                name: item.teamMemberName,
+                date: item.signUpDate,
+                chequeNo: item.chequeNo,
+                type: "ISSUED",
+                branch: item.branchName || "",
+                source: "Team Member"
+            })));
+            renderTable(allChequeData);
+        }
+    });
+}
+
+// ---------------- FILTER ----------------
 function applyFilters() {
-	let fDate = $("#fDate").val();
-	let tDate = $("#tDate").val();
-	let chequeNo = $("#chequeNo").val().trim();
 
-	let filteredData = allChequeData.filter(item => {
-		let itemDate = new Date(item.date);
-		let fromDate = fDate ? new Date(fDate) : null;
-		let toDate = tDate ? new Date(tDate) : null;
+    let fDate = $("#fDate").val();
+    let tDate = $("#tDate").val();
+    let chequeNo = $("#chequeNo").val().trim();
+    let type = $("#type").val();
+    let branch = $("#branchName").val();
 
-		let dateCondition = true;
-		if (fromDate && itemDate < fromDate) dateCondition = false;
-		if (toDate && itemDate > toDate) dateCondition = false;
+    let fromDate = fDate ? new Date(fDate) : null;
+    let toDate = tDate ? new Date(tDate) : null;
 
-		let chequeCondition = true;
-		if (chequeNo && !item.chequeNo?.toLowerCase().includes(chequeNo.toLowerCase())) {
-			chequeCondition = false;
-		}
+    let filtered = allChequeData.filter(item => {
 
-		return dateCondition && chequeCondition;
-	});
+        let itemDate = parseDate(item.date);
 
-	renderTable(filteredData);
+        if (fromDate && itemDate < fromDate) return false;
+        if (toDate && itemDate > toDate) return false;
+
+        if (chequeNo && !item.chequeNo?.toString().includes(chequeNo)) {
+            return false;
+        }
+
+        if (type && item.type !== type) return false;
+        if (branch && item.branch !== branch) return false;
+
+        return true;
+    });
+
+    renderTable(filtered);
 }
 
-// -------------------- RENDER TABLE --------------------
+// ---------------- TABLE ----------------
 function renderTable(data) {
-	let tableBody = $(".datatable tbody");
-	tableBody.empty();
-	rowIndex = 0;
 
-	if (data.length === 0) {
-		// Agar filtered data empty hai to ek hi row dikhayenge
-		let noDataRow = `<tr>
-			<td colspan="6" class="text-center text-muted">No records found</td>
-		</tr>`;
-		tableBody.append(noDataRow);
-		return;
-	}
+    let tbody = $(".datatable tbody");
+    tbody.empty();
+    rowIndex = 0;
 
-	data.forEach(item => {
-		rowIndex++;
-		let row = `<tr>
-            <td>${rowIndex}</td>
-            <td>${item.name}</td>
-            <td>${item.date}</td>
-            <td>${item.chequeNo || "-"}</td>
-            <td>Paid</td>
-            <td>
-                <button class="iconbutton" onclick="viewData(${item.id})" title="View">
-                    <i class="bi bi-printer" style="color: green;"></i>
-                </button>
-            </td>
-        </tr>`;
-		tableBody.append(row);
-	});
+    if (data.length === 0) {
+        tbody.append(`
+            <tr>
+                <td colspan="6" class="text-center text-muted">
+                    No records found
+                </td>
+            </tr>
+        `);
+        return;
+    }
+
+    data.forEach(item => {
+        rowIndex++;
+        tbody.append(`
+            <tr>
+                <td>${rowIndex}</td>
+                <td>${item.name}</td>
+                <td>${formatDate(item.date)}</td>
+                <td>${item.chequeNo || "-"}</td>
+                <td>${item.type}</td>
+                <td>
+                    <button onclick="viewData(${item.id})">
+                        <i class="bi bi-printer" style="color:green;"></i>
+                    </button>
+                </td>
+            </tr>
+        `);
+    });
 }
 
+// ---------------- HELPERS ----------------
+function parseDate(d) {
+    return d ? new Date(d.split(" ")[0]) : null;
+}
+
+function formatDate(d) {
+    if (!d) return "-";
+    return new Date(d.split(" ")[0]).toLocaleDateString("en-GB");
+}

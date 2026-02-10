@@ -54,4 +54,6 @@ public interface CreateSavingAccountRepo extends JpaRepository<CreateSavingsAcco
 	List<CreateSavingsAccount> findByIsApprovedTrueAndMessageSendAndOpeningDateBetween(String messageSend,
 			LocalDate startDate, LocalDate endDate);
 
+	long countByFinancialConsultantCodeInAndOpeningDateContaining(List<String> financialConsultantCode,
+			String yearMonth);
 }

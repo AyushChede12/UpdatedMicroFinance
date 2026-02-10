@@ -77,6 +77,7 @@ public class FinancialConsultantService {
 		// advisorCollectorDetails.setMemberId(advisorCollectorDto.getMemberId());
 		addFinancialConsultant.setDob(financialConsultantDto.getDob());
 		addFinancialConsultant.setAge(financialConsultantDto.getAge());
+		addFinancialConsultant.setTeamMemberCode(financialConsultantDto.getTeamMemberCode());
 		addFinancialConsultant.setContactNo(financialConsultantDto.getContactNo());
 		addFinancialConsultant.setBranchName(financialConsultantDto.getBranchName());
 		addFinancialConsultant.setAddress(financialConsultantDto.getAddress());
@@ -97,9 +98,6 @@ public class FinancialConsultantService {
 		addFinancialConsultant.setComments(financialConsultantDto.getComments());
 		addFinancialConsultant.setFinancialStatus(financialConsultantDto.getFinancialStatus());
 		addFinancialConsultant.setSmsSend(financialConsultantDto.getSmsSend());
-		
-		
-		
 
 		if (financialPhoto != null && !financialPhoto.isEmpty()) {
 			try {
