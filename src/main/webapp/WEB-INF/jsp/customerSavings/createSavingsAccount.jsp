@@ -166,7 +166,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">OPERATION TYPE <span class="star">*</span></label> <select
+						<label for="">ACCOUNT TYPE <span class="star">*</span></label> <select
 							id="operationType" name="operationType" required="required"
 							onchange="operationTypeFunc()" class="form-control selectField"
 							style="height: 30px;">
@@ -189,6 +189,13 @@
 						</select>
 					</div>
 				</div>
+				<div class="col-lg-3">
+    <div class="d-flex flex-column formFields mb-4">
+        <label>MEMBER NAME</label>
+        <input type="text" id="memberName" class="form-control" placeholder="Enter Member Code">
+    </div>
+</div>
+				
 
 				<!-- <div class="col-lg-3">
 							<div class="d-flex flex-column formFields mb-4">
@@ -663,7 +670,7 @@
 						<tr style="font-family: 'Poppins', sans-serif;">
 							<th style="white-space: nowrap;">SR NO</th>
 							<th style="white-space: nowrap;">ACCOUNT NUMBER</th>
-							<th style="white-space: nowrap;">ACCOUNT TYPE</th>
+							<th style="white-space: nowrap;">ACCOUNT OF TYPE</th>
 							<th style="white-space: nowrap;">CUSTOMER CODE</th>
 							<th style="white-space: nowrap;">CUSTOMER NAME</th>
 							<th style="white-space: nowrap;">MOBILE</th>
