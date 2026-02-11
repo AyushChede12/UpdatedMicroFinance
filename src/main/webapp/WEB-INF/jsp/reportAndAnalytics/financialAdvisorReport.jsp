@@ -30,7 +30,7 @@ body {
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-file-earmark-text"></i>
 			</a></li>
-			<li class="breadcrumb-item action">FINANCIAL COLLECTION REPORT</li>
+			<li class="breadcrumb-item action">FINANCIAL CONSULTANT REPORT</li>
 		</ol>
 	</nav>
 </div>
@@ -40,7 +40,7 @@ body {
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">fIND INFORMATION</li>
+					<li class="breadcrumb-item action">SEARCH FINANCIAL</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -50,7 +50,8 @@ body {
 								style="margin-bottom: 30px;">
 								<label for="">Business Type </label> <select id="businessType"
 									name="businessType" required="required"
-									class="form-control selectField" style="height: 30px;">
+									class="form-contr
+									ol selectField" style="height: 30px;">
 									<option value="">Select</option>
 									<option value="Blue">AAA</option>
 								</select>
@@ -60,8 +61,8 @@ body {
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px;">
-						<label for="">BRANCH NAME </label> <select id="branchName"
-							name="branchName" required="required"
+						<label for="">BRANCH NAME </label> <select id="branchName2"
+							name="branchName2" required="required"
 							class="form-control selectField" style="height: 30px;">
 							<option value="">SELECT</option>
 						</select>
@@ -110,22 +111,24 @@ body {
 			<div class="card recent-sales">
 
 				<div class="card-body table-responsive">
-					<h5 class="card-title">FIND RESULT</h5>
+					<h5 class="card-title">FINANCIAL DATA</h5>
 
 					<h6 class="card-title" style="text-align: center; color: black;">
-						AGENT/COLLECTOR REPORT</h6>
+						FINANCIAL REPORT</h6>
 
 
 					<table class="table table-borderless datatable overflow-scroll">
 						<thead class="table-light">
 							<tr style="font-family: 'Poppins', sans-serif;">
-								<th scope="col">ID</th>
-								<th scope="col">BRANCH TYPE</th>
-								<th scope="col">ADVISOR CODE</th>
-								<th scope="col">JOINING DATE </th>
-								<th scope="col">CUSTOMER NAME</th>
-								<th scope="col">DOB</th>
-								<th scope="col">CONTACT NUMBER</th>
+								<th style="white-space: nowrap;">SR</th>
+								<th style="white-space: nowrap;">FINANCIAL CODE</th>
+								<th style="white-space: nowrap;">FINANCIAL NAME</th>
+								<th style="white-space: nowrap;">JOINING DATE </th>
+								<th style="white-space: nowrap;">BRANCH</th>
+								<th style="white-space: nowrap;">DOB</th>
+								<th style="white-space: nowrap;">CONTACT NUMBER</th>
+								<th style="white-space: nowrap;">ADDRESS</th>
+								<th style="white-space: nowrap;">APPROVED STATUS</th>
 								<th>PRINT</th>
 
 							</tr>
@@ -298,4 +301,7 @@ body {
 		</div>
 	</div>
 </div>
+
+<script
+	src="${pageContext.request.contextPath}/js/ReportsAndAnalytics/FinancialAdvisorReport.js"></script>
 

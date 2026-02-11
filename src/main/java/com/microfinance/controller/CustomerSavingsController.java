@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import com.microfinance.dto.ApiResponse;
+import com.microfinance.dto.DateRangeRequest;
 import com.microfinance.dto.ExecutiveFounderDto;
 import com.microfinance.dto.FinancialConsultantDto;
 import com.microfinance.dto.SavingAccountDto;
@@ -33,6 +34,7 @@ import com.microfinance.model.FinancialYear;
 import com.microfinance.model.ManageDepartment;
 import com.microfinance.model.SavingAccountActivity;
 import com.microfinance.model.SavingSchemeCatalog;
+import com.microfinance.model.SavingsInterestTransfer;
 import com.microfinance.model.states;
 import com.microfinance.repository.CreateSavingAccountRepo;
 import com.microfinance.repository.SavingAccountFundTransferRepo;
@@ -44,7 +46,9 @@ import com.microfinance.service.CustomerSavingsService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -294,11 +298,11 @@ public class CustomerSavingsController {
 
 		if (members != null && !members.isEmpty()) {
 			ApiResponse<List<SavingAccountActivity>> response = ApiResponse.success(HttpStatus.OK,
-					"Consultants found for memberCode: " + accountNumber, members);
+					"Savings found for Customer Code: " + accountNumber, members);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} else {
 			ApiResponse<List<SavingAccountActivity>> response = ApiResponse.error(HttpStatus.NOT_FOUND,
-					"No member found with this code");
+					"No saving customer found with this code");
 			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 		}
 	}
@@ -551,18 +555,31 @@ public class CustomerSavingsController {
 		return new ResponseEntity<>(savedEntry, HttpStatus.CREATED);
 	}
 
-	// Janvi : Fetch Data whose sms charges enabled
 	@PostMapping("/getSavingAccountDataSMSEnable")
-	public ResponseEntity<ApiResponse<List<CreateSavingsAccount>>> fetchSavingAccountDataSMSEnable() {
-		List<CreateSavingsAccount> list = customersaving.fetchSavingAccountDataSMSEnable();
+	public ResponseEntity<ApiResponse<List<CreateSavingsAccount>>> fetchSavingAccountDataSMSEnable(
+			@RequestBody DateRangeRequest request) {
+
+		List<CreateSavingsAccount> list = customersaving.fetchSavingAccountDataSMSEnable(request.getStartDate(),
+				request.getEndDate());
+
 		ApiResponse<List<CreateSavingsAccount>> response = ApiResponse.success(HttpStatus.OK,
-				"Unapproved Saving Transaction fetched successfully", list);
-		return new ResponseEntity<>(response, HttpStatus.OK);
+				"Data fetched successfully", list);
+
+		return ResponseEntity.ok(response);
 	}
 
 	@PostMapping("/deduct-sms-charges")
-	public double deductSmsCharges(@RequestBody CreateSavingsAccount account) {
-		return customersaving.calculateBalanceAfterSmsCharges(account);
+	public Map<String, Object> deductSmsCharges(@RequestBody Map<String, Object> payload) {
+
+		Long id = Long.valueOf(payload.get("id").toString());
+		double balance = Double.parseDouble(payload.get("balance").toString());
+		double smsCharge = Double.parseDouble(payload.get("smsCharge").toString());
+
+		double newBalance = customersaving.deductSmsCharges(id, balance, smsCharge);
+
+		Map<String, Object> res = new HashMap<>();
+		res.put("newBalance", newBalance);
+		return res;
 	}
 
 	@GetMapping("/getAccountNumbers")
@@ -598,6 +615,23 @@ public class CustomerSavingsController {
 		} else {
 			return ApiResponse.error(HttpStatus.NOT_FOUND, "No Data Found");
 		}
+	}
+
+	@PutMapping("/update/{id}")
+	public ResponseEntity<?> updateSavingAccount(@PathVariable Long id, @RequestBody Map<String, Object> payload) {
+
+		customersaving.updateSavingAccount(id, payload);
+
+		return ResponseEntity.ok("UPDATED");
+	}
+
+	@PostMapping("/transferInterest")
+	public ResponseEntity<ApiResponse<SavingsInterestTransfer>> transferInterest(
+			@RequestBody SavingsInterestTransfer interest) {
+
+		ApiResponse<SavingsInterestTransfer> response = customersaving.transferInterest(interest);
+
+		return ResponseEntity.status(response.getStatus()).body(response);
 	}
 
 }

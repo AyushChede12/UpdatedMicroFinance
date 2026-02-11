@@ -88,8 +88,8 @@ $(document).ready(function() {
 						$("#singupDate").val(data.signupDate.toUpperCase());
 						$("#guardianName").val(data.relationToApplicant.toUpperCase());
 						$("#customerAddress").val(data.customerAddress.toUpperCase());
-						$("#pinCode").val(data.pinCode);
-						$("#state").val(data.state);
+						$("#pinCode").val(data.pinCode.toUpperCase());
+						$("#state").val(data.state.toUpperCase());
 						$("#contactNo").val(data.contactNo.toUpperCase());
 						$("#aadharNo").val(data.aadharNo.toUpperCase());
 						$("#pan").val(data.panNo.toUpperCase());

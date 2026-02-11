@@ -1,47 +1,58 @@
 
 <div class="pagetitle">
-	<h1>Account Management</h1>
+	<h1>ACCOUNT MANAGEMENT</h1>
 	<nav>
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="openDashboard"> <i
+			<li class="breadcrumb-item"><a href="home"> <i
 					class="bi bi-wallet2"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Incentive Payment</li>
+			<li class="breadcrumb-item action">INCENTIVE PAYMENT</li>
 		</ol>
 	</nav>
 </div>
 
 <div>
-	<form id="formid">
+	<form>
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Search Box</li>
+					<li class="breadcrumb-item action">SEARCH BOX</li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Incentive Month</label> <select id="incentiveMonth"
+						<label for="">INCENTIVE MONTH</label> <select id="incentiveMonth"
 							name="incentiveMonth" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select Month Name</option>
-							<option value="Blue">Blue</option>
+							<option value="">--SELECT MONTH--</option>
+							<option value="january">JANUARY</option>
+							<option value="february">FEBRUARY</option>
+							<option value="march">MARCH</option>
+							<option value="april">APRIL</option>
+							<option value="may">MAY</option>
+							<option value="june">JUNE</option>
+							<option value="july">JULY</option>
+							<option value="august">AUGUST</option>
+							<option value="september">SEPTEMBER</option>
+							<option value="october">OCTOBER</option>
+							<option value="november">NOVEMBER</option>
+							<option value="december">DECEMBER</option>
 						</select>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Agent Code</label> <input type="text"
-							name="agentCode" id="agentCode" required="required"
-							placeholder="Enter Code" />
+						<label for="">AGENT CODE</label> <input type="text"
+							style="text-transform: uppercase;" name="agentCode"
+							id="agentCode" required="required" placeholder="ENTER CODE" />
 					</div>
 				</div>
 
 				<div class="col-3 text-left mt-3">
-					<button id="searchBtn" class="btnStyle"
-						style="background-color: #FFA500;">Search</button>
+					<button type="button" id="searchBtn" class="btnStyle"
+						style="background-color: #FFA500;">SEARCH</button>
 				</div>
 			</div>
 		</div>
@@ -52,88 +63,89 @@
 	<div class="col-lg-12">
 		<nav>
 			<ol class="breadcrumb breadcrumb-title">
-				<li class="breadcrumb-item action mt-3">Incentive Details</li>
+				<li class="breadcrumb-item action mt-3">INCENTIVE DETAILS</li>
 			</ol>
 		</nav>
 	</div>
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
-			<label for="">Full Name</label> <input type="text" name="fullName"
-				id="fullName" required="required" placeholder="Enter Name" />
+			<label for="">FULL NAME</label> <input type="text" name="fullName"
+				readonly="readonly" id="fullName" required="required"
+				placeholder="ENTER FULL NAME" />
 		</div>
 	</div>
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
-			<label for="">Designation</label> <input type="text"
-				name="designation" id="designation" required="required"
-				placeholder="Enter position" />
+			<label for="">DESIGNATION</label> <input type="text"
+				readonly="readonly" name="designation" id="designation"
+				required="required" placeholder="ENTER DESIGNATION" />
 		</div>
 	</div>
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
-			<label for="">Personal Sales</label> <input type="text"
+			<label for="">PERSONAL SALES</label> <input type="text"
 				name="personalSales" id="personalSales" required="required"
-				placeholder="Enter Self Business" />
+				placeholder="ENTER PERSONAL SALES" />
 		</div>
 	</div>
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
-			<label for=""> Group Sales</label> <input type="text"
+			<label for=""> GROUP SALES</label> <input type="text"
 				name="groupSales" id="groupSales" required="required"
-				placeholder="Enter Team Business" />
+				placeholder="ENTER GROUP SALES" />
 		</div>
 	</div>
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
-			<label for="">Overall Sales</label> <input type="text"
+			<label for="">OVERALL SALES</label> <input type="text"
 				name="overallSales" id="overallSales" required="required"
-				placeholder="Enter Total Business" />
+				placeholder="ENTER OVERALL SALES" />
 		</div>
 	</div>
 
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
-			<label for="">Total Earnings</label> <input type="text"
+			<label for="">TOTAL EARNINGS</label> <input type="text"
 				name="totalEarnings" id="totalEarnings" required="required"
-				placeholder="Enter Total Incentive" />
+				placeholder="ENTER TOTAL EARNINGS" />
 		</div>
 	</div>
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
-			<label for="">Tax Deducted</label> <input type="text"
+			<label for="">TAX DEDUCTED</label> <input type="text"
 				name="taxDeducted" id="taxDeducted" required="required"
-				placeholder="Enter TDS" />
+				placeholder="ENTER TAX DEDUCTED" />
 		</div>
 	</div>
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
-			<label for="">Service Deduction</label> <input type="text"
+			<label for="">SERVICE DEDUCTION</label> <input type="text"
 				name="serviceDeduction" id="serviceDeduction" required="required"
-				placeholder="Enter Service Charge" />
+				placeholder="ENTER SERVICE DEDUCTION" />
 		</div>
 	</div>
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
-			<label for="">Extra Allowance</label> <input type="text"
+			<label for="">EXTRA ALLOWANCE</label> <input type="text"
 				name="extraAllowance" id="extraAllowance" required="required"
-				placeholder="Enter Allowance" />
+				placeholder="ENTER EXTRA ALLOWANCE" />
 		</div>
 	</div>
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
-			<label for="">Final Payout</label> <input type="FinalPayout"
+			<label for="">FINAL PAYOUT</label> <input type="FinalPayout"
 				name="finalPayout" id="finalPayout" required="required"
-				placeholder="Enter Net Payable" />
+				placeholder="ENTER FINAL PAYOUT" />
 		</div>
 	</div>
 </div>
@@ -141,51 +153,46 @@
 	<div class="col-lg-12">
 		<nav>
 			<ol class="breadcrumb breadcrumb-title">
-				<li class="breadcrumb-item action mt-3">Payment Details</li>
+				<li class="breadcrumb-item action mt-3">PAYMENT DETAILS</li>
 			</ol>
 		</nav>
 	</div>
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields">
-			<label for=""> Branch of Payment</label> <select id="branchOfPayment"
-				name="branchOfPayment" required="required"
+			<label for=""> BRANCH OF PAYMENT</label> <select id="branchName"
+				name="branchName" required="required"
 				class="form-control selectField" style="height: 30px;">
-				<option value="">Select Pay Branch</option>
-				<option value="Blue">Blue</option>
+				<option value="">--SELECT BRANCH--</option>
 			</select>
 		</div>
 	</div>
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
-			<label for=""> Date of Payment</label> <input type="date"
-				name="dateOfPayment" id="dateOfPayment" required="required" />
+			<label for=""> DATE OF PAYMENT</label> <input type="date"
+				name="paymentDate" id="paymentDate" required="required" />
 		</div>
 	</div>
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields">
-			<label for="">Mode of Payment</label> <select id="modeOfPayment"
+			<label for="">MODE OF PAYMENT</label> <select id="modeOfPayment"
 				name="modeOfPayment" required="required"
 				class="form-control selectField" style="height: 30px;">
-				<option value="">Select</option>
-				<option value="Blue">Cash</option>
-				<option value="Blue">Online</option>
-				<option value="Blue">Cheque</option>
-				<option value="Blue">Neft</option>
+				<option value="">--SELECT PAYMENT MODE--</option>
+				<option value="Cash">CASH</option>
 			</select>
 		</div>
 	</div>
 
 </div>
 <div class="row">
-	<div class="col-12 text-right mt-3">
+	<div class="col-6 text-right mt-3">
 		<button id="payBtn" class="btnStyle"
-			style="background-color: #FFA500;">Pay</button>
+			style="background-color: #FFA500;">PAY</button>
 	</div>
 </div>
 
 <script
 	src="${pageContext.request.contextPath}/js/account-management/incentivePayment.js"></script>
-

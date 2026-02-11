@@ -83,7 +83,7 @@
 						<div class="d-flex flex-column formFields">
 							<label for="">CUSTOMER NAME <span class="star">*</span></label> <input
 								type="text" name="customerName" id="customerName"
-								required="required" placeholder="ENTER CUSTOMER CODE" />
+								required="required" placeholder="ENTER CUSTOMER NAME" />
 						</div>
 					</div>
 
@@ -112,7 +112,15 @@
 								required="required" placeholder="ENTER POLICY AMOUNT" />
 						</div>
 					</div>
-
+					
+					<div class="col-lg-3">
+								<div class="d-flex flex-column formFields"
+									style="margin-bottom: 30px">
+									<label>NET DEPOSIT<span class="star">*</span></label> <input
+										type="text" name="netDeposite" id="netDeposite"
+										required="required" placeholder="ENTER NET DEPOSIT" />
+								</div>
+							</div>
 
 
 
@@ -137,7 +145,7 @@
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields">
-							<label for="">MATURITY AMT. <span class="star">*</span></label> <input
+							<label for="">MATURITY AMOUNT <span class="star">*</span></label> <input
 								type="text" name="maturityAmount" id="maturityAmount"
 								required="required" placeholder="ENTER MATURITY AMOUNT" />
 						</div>
@@ -154,7 +162,7 @@
 
 
 					<div class="col-lg-3">
-						<div class="d-flex flex-column formFields">
+						<div class="d-flex flex-column formFields mt-4">
 							<label for="">PAYMENT DUE <span class="star">*</span></label> <input
 								type="text" name="paymentDue" id="paymentDue"
 								required="required" placeholder="ENETR PAYMENT DUE" />
@@ -162,13 +170,13 @@
 					</div>
 
 
-					<div class="col-lg-3">
+					<!-- <div class="col-lg-3">
 						<div class="d-flex flex-column formFields mt-4">
 							<label for="">LAST INSTALLMENT PAY <span class="star">*</span></label>
 							<input type="text" name="lastInstPaid" id="lastInstPaid"
 								required="required" placeholder="ENTER LAST PAYMENT DATE" />
 						</div>
-					</div>
+					</div> -->
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields mt-4">

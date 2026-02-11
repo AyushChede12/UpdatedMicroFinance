@@ -15,7 +15,7 @@
 	<!-- Search Box Title -->
 	<nav>
 		<ol class="breadcrumb breadcrumb-title">
-			<li class="breadcrumb-item action">CURRENT ACCOUNT SEARCH</li>
+			<li class="breadcrumb-item action">SEARCH DATA</li>
 		</ol>
 	</nav>
 
@@ -26,12 +26,11 @@
 			<div class="d-flex flex-column formFields mb-4">
 				<label>BY DATE</label>
 				<select id="byDate" class="form-control selectField" style="height: 45px;">
-					<option value="">SELECT</option>
+					<option value="">--SELECT DURATION--</option>
 					<option value="today">TODAY</option>
 					<option value="yesterday">YESTERDAY</option>
 					<option value="last7">LAST 7 DAYS</option>
 					<option value="last30">LAST 30 DAYS</option>
-					<option value="thisMonth">THIS MONTH</option>
 					<option value="lastMonth">LAST MONTH</option>
 				</select>
 			</div>
@@ -40,11 +39,11 @@
 		<!-- ACCOUNT TYPE -->
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
-				<label>ACCOUNT</label>
+				<label>ACCOUNT TYPE</label>
 				<select id="accountType" class="form-control selectField" style="height: 45px;">
-					<option value="">SELECT</option>
-					<option value="CURRENT" selected>CURRENT</option>
+					<option value="">--SELECT ACCOUNT TYPE--</option>
 					<option value="SAVINGS">SAVINGS</option>
+					<option value="CURRENT">CURRENT</option>
 				</select>
 			</div>
 		</div>
@@ -54,7 +53,7 @@
 			<div class="d-flex flex-column formFields mb-4">
 				<label>CHARGE TYPE</label>
 				<select id="chargeType" class="form-control selectField" style="height: 45px;">
-					<option value="">SELECT</option>
+					<option value="">--SELECT CHARGE TYPE--</option>
 					<option value="SMS">SMS CHARGE</option>
 					<option value="SERVICE">SERVICE CHARGE</option>
 					<option value="ATM">ATM CHARGE</option>
@@ -90,7 +89,7 @@
 		<div class="col-12">
 			<div class="card recent-sales">
 				<div class="card-body table-responsive">
-					<h5 class="card-title">CURRENT ACCOUNT RECORDS</h5>
+					<h5 class="card-title">SMS CHARGES ACCOUNT RECORDS</h5>
 					<table class="table table-borderless datatable">
 						<thead class="table-light">
 							<tr>
@@ -100,7 +99,6 @@
 								<th>OPENING DATE</th>
 								<th>BALANCE</th>
 								<th>SMS STATUS</th>
-								<th>APPLY</th>
 							</tr>
 						</thead>
 						<tbody id="tbody"></tbody>
@@ -109,9 +107,21 @@
 			</div>
 		</div>
 	</div>
+<!-- APPLY BUTTON -->
+<div class="row mt-3">
+    <div class="col-12 d-flex justify-content-center">
+        <button type="button" id="applyBtn" class="btnStyle"
+            style="background-color:#28a745;">
+            APPLY
+        </button>
+    </div>
+</div>
+
 
 </form>
 
 </div>
-<script
-	src="${pageContext.request.contextPath}/js/customerSavings/SMSServiceFee.js"></script>
+<script src="jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/customerSavings/SMSServiceFee.js"></script>
+	
+	

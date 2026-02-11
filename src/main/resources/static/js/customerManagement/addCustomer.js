@@ -1,7 +1,6 @@
 $(document).ready(function() {
 	$("#guardianDetails").hide();
-	$("#guardianAccount").hide();
-
+	$("#guardianAccountNo").hide();
 	loadCustomerTable();
 
 
@@ -25,12 +24,13 @@ $(document).ready(function() {
 	$('#saveBtn').click(function(event) {
 
 		event.preventDefault();
-
+		var authenticate = $("#authenticateFor").val();
+		var minor = $("#minor").val();
 		// 1️⃣ Clear all validation messages
 		$("[id^='chk']").text('');
 		let isValid = true;
 
-		/* ===============================
+		 /*===============================
 		   TEXT FIELD VALIDATION
 		================================ */
 		function validateText(fieldId, chkId, message) {
@@ -46,8 +46,9 @@ $(document).ready(function() {
 		   FILE / IMAGE VALIDATION
 		================================ */
 		function validateFile(fieldId, chkId, message, allowedTypes = [], maxSizeMB = 2) {
+			
 			const input = $('#' + fieldId)[0];
-
+			
 			if (!input || input.files.length === 0) {
 				$('#' + chkId).text(message);
 				isValid = false;
@@ -71,19 +72,39 @@ $(document).ready(function() {
 			return file;
 		}
 
-		/* ===============================
+		 /*===============================
 		   TEXT VALIDATIONS
 		================================ */
 		validateText('authenticateFor', 'chkauthenticatefor', 'Please select authenticate for');
-		validateText('aadharNo', 'chkaadharno', 'Please enter Aadhar number');
+		if (authenticate == 'aadhar') {
+			validateText('aadharNo', 'chkaadharno', 'Please enter Aadhar number');
+		}
 		validateText('signupDate', 'chksignupdate', 'Please select signup date');
 		validateText('firstName', 'chkfirstname', 'Please enter first name');
 		validateText('middleName', 'chkmiddlename', 'Please enter middle name');
 		validateText('lastName', 'chklastname', 'Please enter last name');
 		validateText('dob', 'chkdob', 'Please select date of birth');
 		validateText('minor', 'chkminor', 'Please select minor');
-		validateText('guardianName', 'chkguardianname', 'Please enter guardian name');
-		validateText('guardianAccNo', 'chkguardianaccno', 'Please enter guardian account no');
+		
+		/*validateText('guardianName', 'chkguardianname', 'Please enter guardian name');
+		validateText('guardianAccNo', 'chkguardianaccno', 'Please enter guardian account no');*/
+		
+		const isMinor = $('#minor').val();
+
+		if (isMinor === 'Yes') {
+		    validateText('guardianName', 'chkguardianname', 'Please enter guardian name');
+		    validateText('guardianAccNo', 'chkguardianaccno', 'Please enter guardian account no');
+		} else {
+		    $('#chkguardianname').text('');
+		    $('#chkguardianaccno').text('');
+		}
+		
+
+		if (minor == 'Yes') {
+			validateText('guardianName', 'chkguardianname', 'Please enter guardian name');
+			validateText('guardianAccNo', 'chkguardianaccno', 'Please enter guardian account no');
+		}
+
 		validateText('relationToApplicant', 'chkrelationtoapplicant', 'Please select relation');
 		validateText('customerGender', 'chkgender', 'Please select gender');
 		validateText('customerAge', 'chkage', 'Please enter age');
@@ -161,7 +182,7 @@ $(document).ready(function() {
 		validateText('nomineeKycNo', 'chknomineekycno', 'Please enter nominee Kyc No(if not type NA)');
 		validateText('nomineeKycType', 'chknoimneekyctype', 'Please select nominee kyc type');
 
-		/* ===============================
+		 /*===============================
 		   STOP IF INVALID
 		================================ */
 		if (!isValid) return false;
@@ -253,14 +274,14 @@ $(document).ready(function() {
 		formData.append("smsSend", $('#toggle-sms-status').is(":checked") ? "1" : "0");
 
 		// ✅ Auto domain + context path
-		const fullUrl = window.location.origin + "/api/customermanagement/saveOrUpdateCustomer";
+		//const fullUrl = window.location.origin + "/api/customermanagement/saveOrUpdateCustomer";
 
-		console.log("POST to URL: ", fullUrl);
+		//console.log("POST to URL: ", fullUrl);
 
 		// AJAX call
 		$.ajax({
 			type: 'POST',
-			url: fullUrl,
+			url: 'api/customermanagement/saveOrUpdateCustomer',
 			data: formData,
 			processData: false,
 			contentType: false,
@@ -350,7 +371,7 @@ $(document).ready(function() {
 
 		// ✅ AJAX request
 		$.ajax({
-			url: "http://localhost:8090/api/customermanagement/saveOrUpdateCustomer",
+			url: "api/customermanagement/saveOrUpdateCustomer",
 			type: "POST",
 			data: formData,
 			processData: false,  // Don't let jQuery convert FormData
@@ -368,12 +389,6 @@ $(document).ready(function() {
 	});*/
 
 });
-
-
-
-
-
-
 
 function photopreview() {
 	const file = document.getElementById("customerPhoto").files[0];
@@ -840,16 +855,33 @@ function fetchBySelectedCustomer() {
 }
 
 function ifMinor() {
+
+    var minor = $("#minor").val();
+    if (minor === 'Yes') {
+        $("#guardianDetails").show();
+        $("#guardianAccount").show();
+        $("#guardianAccNo").prop("required", true);
+    } else {
+        $("#guardianDetails").hide();
+        $("#guardianAccount").hide();
+        $("#guardianAccNo").prop("required", false).val('');
+        $("#guardianName").val('');
+    }
+
 	var minor = $("#minor").val();
 	if (minor === 'Yes') {
 		$("#guardianDetails").show();
-		$("#guardianAccount").show();
+		$("#guardianAccountNo").show();
 	}
 	else {
 		$("#guardianDetails").hide();
-		$("#guardianAccount").hide();
+		$("#guardianAccountNo").hide();
+		$("#guardianAccountNo").val(null);
+		$("#guardianDetails").val(null);
 	}
+
 }
+
 
 // Auto-calculate Age and Minor detection
 $(document).ready(function() {
@@ -871,11 +903,11 @@ $(document).ready(function() {
 		if (age < 18) {
 			$('#minor').val('Yes');
 			$('#guardianDetails').show();
-			$('#guardianAccount').show();
+			$('#guardianAccountNo').show();
 		} else {
 			$('#minor').val('No');
 			$('#guardianDetails').hide();
-			$('#guardianAccount').hide();
+			$('#guardianAccountNo').hide();
 		}
 	});
 
@@ -918,38 +950,55 @@ $(document).ready(function() {
 
 			const customers = response.data || response;
 
-			// Clear old options except 'No'
-			$('#guardianName').find("option:not([value='No'])").remove();
+			// Clear old options
+			$('#guardianName').empty();
+
+			// Add default option
+			$('#guardianName').append(
+				$('<option>', {
+					value: '',
+					text: 'SELECT GUARDIAN NAME'
+				})
+			);
 
 			// Populate dropdown
-			customers.forEach(function(customer) {
-				const optionText = `${customer.enterCustomerName} - ${customer.selectByCustomer}`;
-				$('#guardianName').append(
-					$('<option>', {
-						value: customer.selectByCustomer.trim(),
-						text: optionText
-					})
-				);
-			});
+			if (Array.isArray(customers) && customers.length > 0) {
+				customers.forEach(function(customer) {
+
+					const guardianValue = customer.selectByCustomer
+						? customer.selectByCustomer.trim()
+						: '';
+
+					const optionText = `${customer.enterCustomerName || ''} - ${guardianValue}`;
+
+					$('#guardianName').append(
+						$('<option>', {
+							value: guardianValue,
+							text: optionText
+						})
+					);
+				});
+			}
 		},
 		error: function(err) {
 			console.error("❌ Error fetching customers:", err);
 		}
 	});
 
+
 	$('#guardianName').on('change', function() {
 		const selectedCode = $(this).val().trim();
 
-		if (selectedCode === "No") {
-			$('#guardianAccount').hide();
+		if (selectedCode === "") {
+			$('#guardianAccountNo').hide();
 			$('#guardianAccNo').prop('required', false).val('');
 		} else {
-			$('#guardianAccount').show();
+			$('#guardianAccountNo').show();
 			$('#guardianAccNo').prop('required', true);
 
 			// Fetch account number from backend
 			$.ajax({
-				url: `/api/customersavings/getAccountNumbersByCode?selectByCustomer=${encodeURIComponent(selectedCode)}`,
+				url: `api/customersavings/getAccountNumbersByCode?selectByCustomer=${encodeURIComponent(selectedCode)}`,
 				method: "GET",
 				success: function(res) {
 					console.log("Account number response:", res);
@@ -1012,7 +1061,7 @@ $(document).ready(function() {
 
 				console.log("Fetched Category:", response.data);
 
-				$('#category').empty().append('<option value="">Select Category</option>');
+				$('#category').empty().append('<option value="">--SELECT CATEGORY--</option>');
 
 				// Set to store unique category names
 				const uniqueCategories = new Set();
@@ -1045,7 +1094,7 @@ $(document).ready(function() {
 
 	$('#category').on('change', function() {
 		const selectedCategory = $("#category").val();
-		$('#caste').empty().append('<option value="">SELECT CASTE</option>');
+		$('#caste').empty().append('<option value="">--SELECT CASTE--</option>');
 
 		if (selectedCategory) {
 			$.ajax({

@@ -167,21 +167,25 @@ function loadLedgerData() {
                         <tr>
                             <td>${ledger.accountId || ''}</td>
                             <td>${ledger.accountCode || ''}</td>
-                            <td>${ledger.accountTitle || ''}</td>
-                            <td>${ledger.groupName || ''}</td>
-                            <td>${ledger.accountType || ''}</td>
+                            <td>${(ledger.accountTitle).toUpperCase() || ''}</td>
+                            <td>${(ledger.groupName).toUpperCase() || ''}</td>
+                            <td>${(ledger.accountType).toUpperCase() || ''}</td>
                             <td>${ledger.openingBalance != null ? ledger.openingBalance.toFixed(2) : ''}</td>
-							<td>${ledger.openingBalanceType || ''}</td>
+							<td>${(ledger.openingBalanceType).toUpperCase() || ''}</td>
 							<td>${ledger.currentBalance != null ? ledger.currentBalance.toFixed(2) : ''}</td> <!-- ✅ NEW -->
-
-
-                            <td>${ledger.status || ''}</td>
-                            <td>${ledger.branchName || ''}</td>
+							
+                            <td>${(ledger.status).toUpperCase() || ''}</td>
+                            <td>${(ledger.branchName).toUpperCase() || ''}</td>
                             <td>
                                 <button class="iconbutton" onclick="viewLedger(${ledger.accountId})" title="View">
                                     <i class="fa-solid fa-eye text-primary"></i>
                                 </button>
                             </td>
+							<td>
+								<button class="iconbutton" onclick="deleteLedger(${ledger.accountId})" title="Delete">
+									<i class="fa-solid fa-trash text-danger"></i>
+								</button>
+							</td>
                         </tr>
                     `;
 					tbody.append(row);
@@ -209,8 +213,14 @@ function viewLedger(id) {
 			$('#accountId').val(ledger.accountId);
 			$('#accountCode').val(ledger.accountCode);
 			$('#accountTitle').val(ledger.accountTitle);
-			$('#groupName').val(ledger.groupName);
-			$('#accountType').val(ledger.accountType);
+
+			// Set group and trigger change to populate accountType dropdown
+			$('#groupName').val(ledger.groupName).trigger('change');
+
+			// Delay setting accountType until after dropdown is populated
+			setTimeout(() => {
+				$('#accountType').val(ledger.accountType);
+			}, 100);
 			$('#openingBalance').val(ledger.openingBalance);
 			$('#openingBalanceType').val(ledger.openingBalanceType);
 			$('#currentBalance').val(ledger.currentBalance);
@@ -232,7 +242,7 @@ function BranchNameDropdown() {
 		contentType: "application/json",
 		url: 'api/preference/getAllBranchModule',
 		success: function(response) {
-			let options = "<option value=''>Select Branch Name</option>";
+			let options = "<option value=''>--SELECT BRANCH NAME--</option>";
 			if (response && Array.isArray(response.data)) {
 				response.data.forEach(branch => {
 					options += `<option value='${branch.branchName}'>${branch.branchName}</option>`;
@@ -254,7 +264,7 @@ function GroupNameDropdown() {
 		url: 'accountManagement/groupNames',
 		success: function(response) {
 			const groupNames = response.data;
-			let options = "<option value=''>Select Group Name</option>";
+			let options = "<option value=''>--SELECT GROUP NAME--</option>";
 			groupNames.forEach(group => {
 				options += `<option value='${group}'>${group}</option>`;
 			});
@@ -274,3 +284,25 @@ const allowedCombinations = {
 	"EXPENSES": ["SALARY", "RENT", "OFFICE", "UTILITIES", "CONSULTANT_INCENTIVES", "COMMISSIONS", "POLICY_ADMIN"]
 };
 
+function deleteLedger(id) {
+	if (confirm("Are you sure you want to delete this Ledger?")) {
+		$.ajax({
+			url: "accountManagement/deleteLedgerById",
+			type: "POST",
+			data: { id: id },
+			success: function(response) {
+				if (response.status == "OK") {
+					alert(response.message);
+					location.reload();
+				} else {
+					alert("Delete failed: " + response.message);
+				}
+			},
+			error: function(xhr, status, error) {
+				alert("Failed to delete branch.");
+				console.error("Error:", error);
+			}
+		});
+	}
+
+}

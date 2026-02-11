@@ -3,6 +3,8 @@ package com.microfinance.service;
 import java.io.File;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -25,6 +27,7 @@ import com.microfinance.model.CreateSavingsAccount;
 import com.microfinance.model.ManageDepartment;
 import com.microfinance.model.SavingAccountActivity;
 import com.microfinance.model.SavingSchemeCatalog;
+import com.microfinance.model.SavingsInterestTransfer;
 import com.microfinance.model.addCustomer;
 import com.microfinance.model.addFinancialConsultant;
 import com.microfinance.model.savingAccountFundTransfer;
@@ -36,6 +39,7 @@ import com.microfinance.repository.SavingAccountActivityRepo;
 import com.microfinance.repository.SavingAccountCloserRepo;
 import com.microfinance.repository.SavingAccountFundTransferRepo;
 import com.microfinance.repository.SavingSchmeCatalogRepo;
+import com.microfinance.repository.SavingsInterestTransferRepo;
 
 @Service
 public class CustomerSavingsService {
@@ -60,6 +64,9 @@ public class CustomerSavingsService {
 
 	@Autowired
 	SavingAccountCloserRepo savingAccCloserRepo;
+
+	@Autowired
+	SavingsInterestTransferRepo savingsInterestTransferRepo;
 
 	@Value("${upload.directory}")
 	private String uploadDirectory;
@@ -116,7 +123,8 @@ public class CustomerSavingsService {
 //	}
 
 	public ApiResponse<CreateSavingsAccount> saveSavingAccountDetails(SavingAccountDto savingAccountDto, String photo,
-			String signature, MultipartFile jointPhoto, MultipartFile newPhoto, MultipartFile newSignature) throws IOException {
+			String signature, MultipartFile jointPhoto, MultipartFile newPhoto, MultipartFile newSignature)
+			throws IOException {
 		// TODO Auto-generated method stub
 		CreateSavingsAccount createSavingsAccount = new CreateSavingsAccount();
 		boolean isNew = true;
@@ -374,42 +382,41 @@ public class CustomerSavingsService {
 		return savingAccCloserRepo.save(accountCloser);
 	}
 
-	public List<CreateSavingsAccount> fetchSavingAccountDataSMSEnable() {
-		// TODO Auto-generated method stub
-		return createSavingAccountRepo.findByIsApprovedTrueAndMessageSend("1");
+	public List<CreateSavingsAccount> fetchSavingAccountDataSMSEnable(String startDate, String endDate) {
+		return createSavingAccountRepo.findByIsApprovedTrueAndMessageSendAndOpeningDateBetween("1", startDate, endDate);
 	}
 
-	private static final double SMS_CHARGE_PER_MONTH = 10.0; // Example charge
-	private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-	public double calculateBalanceAfterSmsCharges(CreateSavingsAccount account) {
-		try {
-			// Parse openingDate (String → LocalDate)
-			LocalDate openingDate = LocalDate.parse(account.getOpeningDate(), DATE_FORMAT);
-			LocalDate today = LocalDate.now();
-
-			// Calculate months passed
-			Period period = Period.between(openingDate, today);
-			int monthsPassed = period.getYears() * 12 + period.getMonths();
-
-			// Parse balance (String → double)
-			double balance = Double.parseDouble(account.getBalance());
-
-			// Deduct SMS charges
-			double totalCharges = monthsPassed * SMS_CHARGE_PER_MONTH;
-			double newBalance = balance - totalCharges;
-
-			return Math.max(newBalance, 0); // Prevent negative balance
-		} catch (Exception e) {
-			throw new RuntimeException("Invalid date or balance format", e);
-		}
-	}
+//	private static final double SMS_CHARGE_PER_MONTH = 10.0; // Example charge
+//	private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//
+//	public double calculateBalanceAfterSmsCharges(CreateSavingsAccount account) {
+//		try {
+//			// Parse openingDate (String → LocalDate)
+//			LocalDate openingDate = LocalDate.parse(account.getOpeningDate(), DATE_FORMAT);
+//			LocalDate today = LocalDate.now();
+//
+//			// Calculate months passed
+//			Period period = Period.between(openingDate, today);
+//			int monthsPassed = period.getYears() * 12 + period.getMonths();
+//
+//			// Parse balance (String → double)
+//			double balance = Double.parseDouble(account.getBalance());
+//
+//			// Deduct SMS charges
+//			double totalCharges = monthsPassed * SMS_CHARGE_PER_MONTH;
+//			double newBalance = balance - totalCharges;
+//
+//			return Math.max(newBalance, 0); // Prevent negative balance
+//		} catch (Exception e) {
+//			throw new RuntimeException("Invalid date or balance format", e);
+//		}
+//	}
 
 	public Map<String, List<String>> getAccountNumbersByCustomers(List<String> customerCodes) {
-		if (customerCodes == null || customerCodes.isEmpty())
-			return Map.of();
 
 		Map<String, List<String>> result = new HashMap<>();
+		if (customerCodes == null || customerCodes.isEmpty())
+			return result;
 
 		for (String code : customerCodes) {
 			// Remove spaces and newlines
@@ -445,6 +452,92 @@ public class CustomerSavingsService {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	public void updateSavingAccount(Long id, Map<String, Object> payload) {
+
+		// 1️⃣ Existing record fetch karo
+		SavingSchemeCatalog entity = savingSchmeCatalogRepo.findById(id)
+				.orElseThrow(() -> new RuntimeException("Saving account not found with id : " + id));
+
+		// 2️⃣ JS payload ke fields set karo
+		entity.setPolicyName((String) payload.get("policyName"));
+		entity.setYearlyROI((String) payload.get("yearlyROI"));
+		entity.setCustomerName((String) payload.get("customerName"));
+		entity.setInitialDeposite((String) payload.get("initialDeposite"));
+		entity.setMonthlyMinimumBalance((String) payload.get("monthlyMinimumBalance"));
+		entity.setReservedFunds((String) payload.get("reservedFunds"));
+		entity.setMessagingFees((String) payload.get("messagingFees"));
+		entity.setMessagingInterval((String) payload.get("messagingInterval"));
+		entity.setMonthlyFreeIFSCTransactions((String) payload.get("monthlyFreeIFSCTransactions"));
+		entity.setFreeMoneyTransfers((String) payload.get("freeMoneyTransfers"));
+		entity.setLimitperTransaction((String) payload.get("limitperTransaction"));
+		entity.setDailyLimit((String) payload.get("dailyLimit"));
+		entity.setWeeklyLimit((String) payload.get("weeklyLimit"));
+		entity.setMonthlyLimit((String) payload.get("monthlyLimit"));
+		entity.setServiceFee((String) payload.get("serviceFee"));
+		entity.setBillingCycle((String) payload.get("billingCycle"));
+		entity.setCardFee((String) payload.get("cardFee"));
+		entity.setMonthlyCardLimit((String) payload.get("monthlyCardLimit"));
+		entity.setYearlyCardLimit((String) payload.get("yearlyCardLimit"));
+
+		// 3️⃣ Save → UPDATE
+		savingSchmeCatalogRepo.save(entity);
+	}
+
+	public double deductSmsCharges(Long id, double balance, double smsCharge) {
+
+		double newBalance = balance - smsCharge;
+
+		CreateSavingsAccount acc = createSavingAccountRepo.findById(id)
+				.orElseThrow(() -> new RuntimeException("Account not found"));
+
+		acc.setBalance(String.valueOf(newBalance));
+		createSavingAccountRepo.save(acc);
+
+		return newBalance;
+	}
+
+	public ApiResponse<SavingsInterestTransfer> transferInterest(SavingsInterestTransfer interest) {
+		// TODO Auto-generated method stub
+		if (interest.getAccountNumber() == null || interest.getInterestRate() == null
+				|| interest.getTotalDays() == null) {
+
+			return ApiResponse.error(HttpStatus.BAD_REQUEST, "Required interest details are missing");
+		}
+
+		// ===== DUPLICATE CHECK =====
+		boolean alreadyTransferred = savingsInterestTransferRepo.existsByAccountNumberAndFromDateAndToDate(
+				interest.getAccountNumber(), interest.getFromDate(), interest.getToDate());
+
+		if (alreadyTransferred) {
+			return ApiResponse.error(HttpStatus.CONFLICT, "Interest already transferred for this date range");
+		}
+
+		// ===== FETCH MAIN SAVINGS ACCOUNT =====
+		CreateSavingsAccount savingsAccount = createSavingAccountRepo.findByAccountNumber(interest.getAccountNumber())
+				.orElseThrow(() -> new RuntimeException("Savings account not found"));
+
+		// ===== CURRENT BALANCE (MAIN ACCOUNT) =====
+		BigDecimal currentBalance = new BigDecimal(savingsAccount.getBalance());
+
+		// ===== INTEREST CALCULATION =====
+		BigDecimal interestAmount = currentBalance.multiply(interest.getInterestRate())
+				.multiply(BigDecimal.valueOf(interest.getTotalDays()))
+				.divide(BigDecimal.valueOf(36500), 2, RoundingMode.HALF_UP);
+		BigDecimal newBalance = currentBalance.add(interestAmount);
+		interest.setCurrentBalance(currentBalance);
+		interest.setInterestAmount(interestAmount);
+		interest.setNewBalance(newBalance);
+
+		SavingsInterestTransfer savedInterest = savingsInterestTransferRepo.save(interest);
+
+		// ===== UPDATE MAIN ACCOUNT BALANCE =====
+		savingsAccount.setBalance(newBalance.toString());
+		createSavingAccountRepo.save(savingsAccount);
+
+		return ApiResponse.success(HttpStatus.OK, "Interest transferred & main account balance updated successfully",
+				savedInterest);
 	}
 
 }

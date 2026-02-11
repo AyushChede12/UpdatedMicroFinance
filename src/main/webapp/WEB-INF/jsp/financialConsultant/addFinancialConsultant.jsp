@@ -230,6 +230,18 @@
 							id="chkacademicBackground" style="color: red;"></small>
 					</div>
 				</div>
+				
+				<div class="col-lg-3">
+					<div class="d-flex flex-column formFields"
+						style="margin-bottom: 30px">
+						<label>Team Member Code<span class="star">*</span></label> <select
+							id="teamMemberCode" name="teamMemberCode" required="required"
+							class="form-control selectField" style="height: 30px;">
+
+						</select> <small id="chkteammembercode" style="color: red;"></small>
+					</div>
+				</div>
+				
 			</div>
 
 			<div class="row mt-4">
@@ -438,7 +450,7 @@
 					<div class="col-lg-3">
 						<div class="h-100">
 							<div class="formFields d-flex flex-column">
-								<label>FINANCIAL STATUS STATUS</label>
+								<label>FINANCIAL STATUS</label>
 								<div class="cont">
 									<div class="toggle">
 										<input type="checkbox" id="financialStatus"

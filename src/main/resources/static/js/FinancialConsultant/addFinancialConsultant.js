@@ -2,7 +2,7 @@ $(document).ready(function() {
 
 	// ✅ Load Customer Codes
 	/*$.ajax({
-		url: "/api/financialconsultant/getAllCustomerCodes",
+		url: "api/financialconsultant/getAllCustomerCodes",
 		type: "POST",
 		success: function (response) {
 			if (response.status === "FOUND" && response.data) {
@@ -38,6 +38,24 @@ $(document).ready(function() {
 		}
 	});
 
+	$.ajax({
+		url: "api/teammember/getAllteamMember",
+		type: "GET",
+		success: function(response) {
+			if (response.status === "FOUND") {
+				$("#teamMemberCode").empty().append("<option value=''>-- Select Team Member Code --</option>");
+				response.data.forEach(function(item) {
+					$("#teamMemberCode").append(`<option value='${item.teamMemberCode}'>${item.teamMemberCode}</option>`);
+				});
+			} else {
+				alert("No Team Member found.");
+			}
+		},
+		error: function() {
+			alert("Failed to load Team Member names.");
+		}
+	});
+
 	// ✅ Load Relation to Applicant
 	$.ajax({
 		url: "api/financialconsultant/getAllRelationToApplicant",
@@ -67,7 +85,7 @@ $(document).ready(function() {
 		if (memberCode !== "") {
 			$.ajax({
 				type: "POST",
-				url: "/api/financialconsultant/getFinancialConsultantByMemberCode",
+				url: "api/financialconsultant/getFinancialConsultantByMemberCode",
 				data: { memberCode: memberCode },
 				success: function(response) {
 					if (response.data && response.data.length > 0) {
@@ -166,6 +184,7 @@ $(document).ready(function() {
 		$('#chkreferralCode').text('');
 		$('#chkrefferalName').text('');
 		$('#chkmodeofPayment').text('');
+		$('#chkteammembercode').text('');
 
 
 
@@ -186,6 +205,7 @@ $(document).ready(function() {
 		var referralCode = $('#referralCode').val().trim();
 		var referralName = $('#referralName').val().trim();
 		var modeofPayment = $('#modeofPayment').val().trim();
+		var teamMemberCode = $('#teamMemberCode').val().trim();
 
 		const photo = $('#photo')[0].files[0];
 		const signature = $('#signature')[0].files[0];
@@ -298,6 +318,12 @@ $(document).ready(function() {
 			isValid = false;
 		}
 
+		if (teamMemberCode === '') {
+			$('#chkteammembercode').text('* This field is required');
+			$('#teamMemberCode').focus();
+			isValid = false;
+		}
+
 
 
 		if (!isValid) {
@@ -331,6 +357,7 @@ $(document).ready(function() {
 		formData.append("referralName", $('#referralName').val());
 		formData.append("fees", $('#fees').val());
 		formData.append("modeofPayment", $('#modeofPayment').val());
+		formData.append("teamMemberCode", $('#teamMemberCode').val());
 		formData.append("chequeNo", $('#chequeNo').val());
 		formData.append("chequeDate", $('#chequeDate').val());
 		formData.append("depositAccount", $('#depositAccount').val());
@@ -428,7 +455,7 @@ $(document).ready(function() {
 	/*$(document).on("click", ".editBtn", function () {
 		const id = $(this).data("id");
 		$.ajax({
-			url: "/api/financialconsultant/getFinancialConsultantById",
+			url: "api/financialconsultant/getFinancialConsultantById",
 			type: "GET",
 			data: { id: id },
 			success: function (response) {
@@ -534,7 +561,7 @@ $(document).ready(function() {
 		formData.append("customerSignature", $('#customerSignatureHidden').val());
 
 		$.ajax({
-			url: "/api/financialconsultant/saveOrUpdateFinancialConsultant",
+			url: "api/financialconsultant/saveOrUpdateFinancialConsultant",
 			type: "POST",
 			data: formData,
 			enctype: 'multipart/form-data',
@@ -562,7 +589,7 @@ $(document).ready(function() {
 			// Optional: Confirmation prompt
 			if (confirm("Are you sure you want to delete this Financial Consultant?")) {
 				$.ajax({
-					url: '/api/financialconsultant/deleteFinancialConsultantById',
+					url: 'api/financialconsultant/deleteFinancialConsultantById',
 					type: 'POST',
 					data: { id: id },
 					success: function (response) {

@@ -6,7 +6,7 @@ $(document).ready(function () {
     function loadCompanyAdministration() {
         $.ajax({
             type: "GET",
-            url: "/api/preference/fetchAllCompanyAdministration",
+            url: "api/preference/fetchAllCompanyAdministration",
             contentType: "application/json",
             success: function (response) {
                 if (response.status === "FOUND" && response.data.length > 0) {

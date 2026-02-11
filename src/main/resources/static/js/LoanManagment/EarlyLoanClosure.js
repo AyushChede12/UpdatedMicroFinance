@@ -44,7 +44,7 @@ $(document).ready(function() {
 		fetchInstallmentCount(selectedLoanId, function(count) {
 			console.log("Installment Count:", count);
 
-			// 🔹 Step 2: Fetch Loan Details and Pass the Count
+				// 🔹 Step 2: Fetch Loan Details and Pass the Count
 			fetchLoanDetails(selectedLoanId, count);
 		});
 	});

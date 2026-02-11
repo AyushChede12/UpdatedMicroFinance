@@ -1,12 +1,16 @@
-
+<style>
+	input[type="text"]{
+		text-transform: uppercase;
+	}
+</style>
 <div class="pagetitle">
-	<h1>Account Management</h1>
+	<h1>ACCOUNT MANAGEMENT</h1>
 	<nav>
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="openDashboard"> <i
+			<li class="breadcrumb-item"><a href="home"> <i
 					class="bi bi-wallet2"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Ledger Account Master</li>
+			<li class="breadcrumb-item action">LEDGER ACCOUNT MASTER</li>
 		</ol>
 	</nav>
 </div>
@@ -16,7 +20,7 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">New Ledger Entry</li>
+					<li class="breadcrumb-item action">NEW LEDGER ENTRY</li>
 				</ol>
 			</nav>
 			<!-- Hidden fields -->
@@ -25,27 +29,27 @@
 			<div class="row mb-3">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Account Code <span class="star">*</span></label> <input
+						<label for="">ACCOUNT CODE <span class="star">*</span></label> <input
 							type="text" name="accountCode" id="accountCode"
-							placeholder="Enter Code" /> <span id="accountCodeError"
+							placeholder="ENTER CODE" /> <span id="accountCodeError"
 							style="color: red; font-size: 12px;"></span>
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Account Title <span class="star">*</span></label> <input
+						<label for="">ACCOUNT TITLE <span class="star">*</span></label> <input
 							type="text" name="accountTitle" id="accountTitle"
-							placeholder="Enter Ledger name" /> <span id="accountTitleError"
+							placeholder="ENTER LEDGER NAME" /> <span id="accountTitleError"
 							style="color: red; font-size: 12px;"></span>
 
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="groupName">Account Group <span class="star">*</span></label>
+						<label for="groupName">ACCOUNT GROUP <span class="star">*</span></label>
 						<select id="groupName" name="groupName"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select Group</option>
+							<option value="">--SELECT GROUP--</option>
 							<!-- Groups (Assets, Liabilities, Income, Equity, Expenses) 
 			     will be loaded dynamically from JS/backend -->
 						</select> <span id="groupNameError" style="color: red; font-size: 12px;"></span>
@@ -55,10 +59,10 @@
 				<!-- Account Type -->
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="accountType">Account Type <span class="star">*</span></label>
+						<label for="accountType">ACCOUNT TYPE <span class="star">*</span></label>
 						<select id="accountType" name="accountType"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select Type</option>
+							<option value="">--SELECT TYPE--</option>
 							<!-- Sub-types will be injected dynamically based on group selection -->
 						</select> <span id="accountTypeError" style="color: red; font-size: 12px;"></span>
 					</div>
@@ -69,15 +73,15 @@
 			<div class="row mb-3">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label>Opening Balance</label> <input type="number"
+						<label>OPENING BALANCE</label> <input type="number"
 							name="openingBalance" id="openingBalance"
-							placeholder="Enter Opening Balance" step="0.01" min="0"
+							placeholder="ENTER OPENING BALANCE" step="0.01" min="0"
 							value="0.00" />
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="openingBalanceType">Balance Type</label> <select
+						<label for="openingBalanceType">BALANCE TYPE</label> <select
 							id="openingBalanceType" name="openingBalanceType"
 							class="form-control selectField" style="height: 30px;" disabled>
 							<option value="DR">DR</option>
@@ -90,20 +94,20 @@
 				<!-- Status -->
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Status</label> <select id="status" name="status"
+						<label for="">STATUS</label> <select id="status" name="status"
 							class="form-control selectField" style="height: 30px;">
-							<option value="Active">Active</option>
-							<option value="Inactive">Inactive</option>
+							<option value="Active">ACTIVE</option>
+							<option value="Inactive">INACTIVE</option>
 						</select>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Branch Name <span class="star">*</span>
+						<label for="">BRANCH NAME <span class="star">*</span>
 						</label> <select id="branchName" name="branchName"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select Branch Name</option>
+							<option value="">SELECT BRANCH NAME</option>
 						</select> <span id="branchNameError" style="color: red; font-size: 12px;"></span>
 
 					</div>
@@ -112,11 +116,11 @@
 
 					<div class="d-flex justify-content-start gap-3 mt-4">
 						<button id="saveBtn" type="submit" class="btnStyle"
-							style="background-color: #FFA500;">Save</button>
-						<button id="clearBtn" type="reset" class="btnStyle bg-primary">Clear</button>
+							style="background-color: #FFA500;">SAVE</button>
+						<button id="clearBtn" type="reset" class="btnStyle bg-primary">CLEAR</button>
 
 						<button type="button" id="toggleBtn" class="btnStyle bg-success"
-							onclick="showTableData()">Show</button>
+							onclick="showTableData()">SHOW</button>
 
 
 					</div>
@@ -135,23 +139,24 @@
 
 					<div class="card-body table-responsive">
 						<h5 class="card-title">
-							Ledger List <span>| Table View</span>
+							LEDGER LIST <span>| TABLE VIEW</span>
 						</h5>
 
 						<table class="table table-borderless datatable overflow-scroll">
 							<thead class="table-light">
 								<tr style="font-family: 'Poppins', sans-serif;">
-									<th scope="col">ID</th>
-									<th scope="col">Account Code</th>
-									<th scope="col">Account Title</th>
-									<th scope="col">Account Group</th>
-									<th scope="col">Account Type</th>
-									<th scope="col">Opening Balance</th>
-									<th scope="col">Opening Balance Type</th>
-									<th scope="col">Current Balance</th>
-									<th scope="col">Status</th>
-									<th scope="col">Branch Name</th>
-									<th scope="col">View</th>
+									<th style="white-space: nowrap;">ID</th>
+									<th style="white-space: nowrap;">ACCOUNT CODE</th>
+									<th style="white-space: nowrap;">ACCOUNT TITLE</th>
+									<th style="white-space: nowrap;">ACCOUNT GROUP</th>
+									<th style="white-space: nowrap;">ACCOUNT TYPE</th>
+									<th style="white-space: nowrap;">OPENING BALANCE</th>
+									<th style="white-space: nowrap;">OPENING BALANCE TYPE</th>
+									<th style="white-space: nowrap;">CURRENT BALANCE</th>
+									<th style="white-space: nowrap;">STATUS</th>
+									<th style="white-space: nowrap;">BRANCH NAME</th>
+									<th style="white-space: nowrap;">VIEW</th>
+									<th style="white-space: nowrap;">DELETE</th>
 								</tr>
 							</thead>
 							<tbody id="tableBody">
@@ -159,22 +164,18 @@
 
 							</tbody>
 						</table>
-						<button id="selectAllBtn" class="btnStyle bg-secondary">Select
-							All</button>
+
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
-
 </div>
 
+<script
+	src="${pageContext.request.contextPath}/js/account-management/ledgeraccountmaster.js"></script>
 <script>
 	$(document).ready(function() {
 		BranchNameDropdown();
 	});
 </script>
-
-<script
-	src="${pageContext.request.contextPath}/js/account-management/ledgeraccountmaster.js"></script>

@@ -1,4 +1,38 @@
 $(document).ready(function() {
+	
+	// Auto recalculate Net Deposit when user changes values
+	$("#policyAmount, #noOfInst").on("keyup change input", function () {
+		calculateNetDeposit();
+	});
+
+	function calculateNetDeposit() {
+
+		const policyAmount = parseFloat($("#policyAmount").val()) || 0;
+		const noOfInst = parseInt($("#noOfInst").val(), 10) || 0;
+
+		// 🔴 ADD THESE TWO LINES
+		const totalTerm = parseInt($("#policyTerm").val(), 10) || 0;       // total installments (e.g. 34)
+		const alreadyPaid = parseInt($("#noOfInstPaid").val(), 10) || 0;   // already paid (e.g. 20)
+
+		// ❌ VALIDATION: user cannot pay more than remaining installments
+		if (alreadyPaid + noOfInst > totalTerm) {
+			alert(
+				`❌ Installment limit exceeded!\n\n` +
+				`Total Term : ${totalTerm}\n` +
+				`Already Paid : ${alreadyPaid}\n` +
+				`Remaining : ${totalTerm - alreadyPaid}`
+			);
+
+			$("#noOfInst").val("");       // reset input
+			$("#netDeposite").val("");    // reset net amount
+			return;
+		}
+
+		// ✅ CALCULATION
+		const net = noOfInst * policyAmount;
+		$("#netDeposite").val(net.toFixed(2));
+	}
+
 	// 1. Populate dropdown with approved RD policies
 	$.ajax({
 		url: "api/Policymangment/getAllRDPolicies",
@@ -67,17 +101,24 @@ $(document).ready(function() {
 						$("#branchName").val(data.branchName);
 						$("#policyTerm").val(data.schemeTerm);
 						$("#maturityAmount").val(data.maturityAmount);
-						$("#totalDeposit").val(data.depositAmount);
-						$("#paymentDue").val(data.amountDue);
+						/*$("#totalDeposit").val(data.depositAmount);*/
+						$("#totalDeposit").val(data.paidAmount);
+						
+						let fetchedDeposit = parseFloat(data.depositAmount) || 0;
+						let userTotalDeposit = parseFloat($("#totalDeposit").val()) || 0;
+						let paymentDue = fetchedDeposit - userTotalDeposit;
+
+						$("#paymentDue").val(paymentDue);
 						$("#financialCode").val(data.introMCode);
 						$("#lastInstPaid").val(data.lastInstPaid);
 						$("#dueDate").val(data.maturityDate);
-						$("#noOfInst").val(noOfInst);
+						$("#noOfInst").val(0);
 						$("#installmentsCompleted").val(data.lastInstPaid);
 						$("#paymentMode").val(data.paymentBy);
 						$("#nomineeName").val(data.suggestedNominee);
 						$("#comment").val(data.remark);
 						$("#agentName").val(data.agent);
+						$("#noOfInstPaid").val(data.lastInstPaid);
 
 						if (data.customerPhoto) {
 							const photoPath = `Uploads/${data.customerPhoto}`;
@@ -115,9 +156,12 @@ $(document).ready(function() {
 
 		// Collect only required data for the API
 		const formData = {
-			policyCode: $("#policyCode").val()?.trim(),
-			policyAmount: $("#policyAmount").val()?.trim(),
-			noOfInstallments: $("#noOfInst").val()?.trim()
+			policyCode: $("#policyCode").val(),
+			policyAmount: $("#policyAmount").val(),
+			noOfInstallments: $("#noOfInst").val(),
+			totalDeposit: $("#totalDeposit").val(),
+			paymentDue: $("#paymentDue").val(),
+			noOfInstPaid: $("#noOfInstPaid").val() 
 		};
 
 		// Basic validation before sending

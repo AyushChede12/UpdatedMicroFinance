@@ -1,16 +1,16 @@
 //janvi : Customer Account no. list fetch
 $(document).ready(function() {
     $.ajax({
-        url: "/api/reports/getApprovedSavingAccount",
+        url: "api/reports/getApprovedSavingAccount",
         type: "GET",
         success: function(response) {
 			console.log("API response:", response);
             var dropdown1 = $('#debitAccountNumber');
 			var dropdown2 = $('#creditAccountNumber');
             dropdown1.empty();
-            dropdown1.append('<option value="">Select</option>');
+            dropdown1.append('<option value="">--SELECT ACCOUNT NO--</option>');
 			dropdown2.empty();
-			dropdown2.append('<option value="">Select</option>');
+			dropdown2.append('<option value="">--SELECT ACCOUNT NO--</option>');
 
 
             if (response.status === "OK" && response.data) {
@@ -35,7 +35,7 @@ $('#debitAccountNumber').on('change', function () {
 
     if (accountNumber !== "") {
         $.ajax({
-            url: '/api/customersavings/getallbyaccountnumber', // Pass as query param
+            url: 'api/customersavings/getallbyaccountnumber', // Pass as query param
             type: 'GET',
             data: { accountNumber: accountNumber },
             success: function (response) {
@@ -65,7 +65,7 @@ $('#creditAccountNumber').on('change', function () {
 
     if (accountNumber !== "") {
         $.ajax({
-            url: '/api/customersavings/getallbyaccountnumber', // Pass as query param
+            url: 'api/customersavings/getallbyaccountnumber', // Pass as query param
             type: 'GET',
             data: { accountNumber: accountNumber },
             success: function (response) {
@@ -113,7 +113,7 @@ $(document).ready(function () {
         console.log("Sending Data:", accountData);
 
         $.ajax({
-            url: '/api/customersavings/transferAmount',
+            url: 'api/customersavings/transferAmount',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(accountData),

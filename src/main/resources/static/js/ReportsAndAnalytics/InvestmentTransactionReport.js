@@ -1,178 +1,173 @@
-$(document).ready(function() {
-	let allPolicies = [];
+$(document).ready(function () {
 
-	// ✅ 1. Fetch all approved policies on load
-	$.ajax({
-		url: "api/Policymangment/getApprovedPolicies",
-		method: "GET",
-		contentType: "application/json",
-		success: function(response) {
-			if (response?.data && Array.isArray(response.data)) {
-				allPolicies = response.data;
-				populateBranches(allPolicies);
-				renderTable(allPolicies);
-			} else {
-				$(".datatable tbody").html(
-					"<tr><td colspan='10'>No approved policies found.</td></tr>"
-				);
-			}
-		},
-		error: function() {
-			alert("Error while fetching policies data.");
-		},
-	});
+    // 🔒 PREVENT MULTIPLE EXECUTION
+    if (window.investmentTxnReportLoaded) {
+        console.warn("JS already initialized, skipping...");
+        return;
+    }
+    window.investmentTxnReportLoaded = true;
 
-	// ✅ 2. Populate branch dropdown
-	function populateBranches(policies) {
-		let branches = new Set();
-		policies.forEach((p) => {
-			if (p.branchName) branches.add(p.branchName);
-		});
-		branches.forEach((branch) => {
-			$("#branchName1").append(`<option value="${branch}">${branch}</option>`);
-		});
-	}
+    let allPolicies = [];
 
-	// ✅ 3. Filter policies by branch/date
-	$("#findBtn").click(function(e) {
-		e.preventDefault();
-		const selectedBranch = $("#branchName1").val();
-		const fromDate = $("#fromDate").val();
-		const toDate = $("#toDate").val();
+    // ================= LOAD APPROVED POLICIES =================
+    fetchApprovedPolicies();
 
-		if (!fromDate || !toDate) {
-			alert("Please select both From and To dates.");
-			return;
-		}
+    function fetchApprovedPolicies() {
+        $.ajax({
+            url: "api/Policymangment/getApprovedPolicies",
+            type: "GET",
+            success: function (response) {
 
-		const filtered = allPolicies.filter((p) => {
-			const date = p.policyStartDate;
-			return (
-				(!selectedBranch || p.branchName === selectedBranch) &&
-				date >= fromDate &&
-				date <= toDate
-			);
-		});
+                if (response && Array.isArray(response.data)) {
+                    allPolicies = response.data;
+                    buildBranchDropdown(allPolicies);
+                    fillTable(allPolicies); // ✅ INITIAL LOAD (LIKE FIRST TABLE)
+                } else {
+                    $("table tbody").html(
+                        "<tr><td colspan='10'>No approved policies found</td></tr>"
+                    );
+                }
+            },
+            error: function () {
+                alert("Error while fetching policy data");
+            }
+        });
+    }
 
-		renderTable(filtered);
-	});
+    // ================= NORMALIZE =================
+    function normalize(value) {
+        return value
+            ?.toString()
+            .replace(/[\n\r\t]/g, "")
+            .replace(/\s+/g, " ")
+            .trim()
+            .toUpperCase();
+    }
 
-	// ✅ 4. Render Policy Table
-	function renderTable(data) {
-		const tbody = $(".datatable tbody");
-		tbody.empty();
+    // ================= BRANCH DROPDOWN =================
+    function buildBranchDropdown(data) {
 
-		if (!data.length) {
-			tbody.append("<tr><td colspan='10'>No matching policies found.</td></tr>");
-			return;
-		}
+        let $branch = $("#branchName2");
+        $branch.empty().append('<option value="">SELECT</option>');
 
-		data.forEach((policy, i) => {
-			tbody.append(`
-				<tr>
-					<td>${i + 1}</td>
-					<td>${policy.policyCode || ""}</td>
-					<td>${policy.customerName || ""}</td>
-					<td>${policy.schemeType || ""}</td>
-					<td>${policy.policyStartDate || ""}</td>
-					<td>${policy.policyAmount || ""}</td>
-					<td>${policy.contactNo || ""}</td>
-					<td>${policy.branchName || ""}</td>
-					<td>${policy.approved ? "Yes" : "No"}</td>
-					<td>
-						<button class="btn btn-outline-success btn-sm bankReportBtn"
-							data-id="${policy.id}"
-							data-bs-toggle="modal"
-							data-bs-target="#bankReportModal"
-							title="View Report">
-							<i class="bi bi-printer"></i>
-						</button>
-					</td>
-				</tr>
-			`);
-		});
+        let branchSet = new Set();
 
-		bindModalEvents();
-	}
+        data.forEach(p => {
+            let branch =
+                p.branchName ||
+                (p.branch && p.branch.branchName) ||
+                "";
 
-	// ✅ 5. Bank Report Modal Handler
-	function bindModalEvents() {
-		$(".bankReportBtn").off("click").on("click", function() {
-			const id = $(this).data("id");
-			const policy = allPolicies.find((p) => p.id === id);
-			if (!policy) return;
+            if (branch) {
+                branchSet.add(normalize(branch));
+            }
+        });
 
-			// ✅ Fill modal header and bank info
-			$("#bankLogo").attr("src", "https://i.ibb.co/zFSWbkC/banklogo.png");
-			$("#bankName").text("Sterling Bank");
-			$("#reportTitle").text("Microfinance Transaction Report");
+        [...branchSet].sort().forEach(b => {
+            $branch.append(`<option value="${b}">${b}</option>`);
+        });
+    }
 
-			$("#accountNumber").text(policy.memberSelection || "N/A");
-			$("#periodCovered").text(`${policy.policyStartDate} - ${policy.maturityDate}`);
+    // ================= DATE PARSER =================
+    function parseDate(dateStr) {
+        if (!dateStr) return null;
+        let d = new Date(dateStr);
+        return isNaN(d) ? null : d;
+    }
 
-			// ✅ Customer and summary details
-			$("#customerName").text(policy.customerName || "");
-			$("#customerAddress1").text(policy.address ? `Address: ${policy.address}` : "");
-			$("#customerAddress2").text(policy.branchName ? `Branch: ${policy.branchName}` : "");
+    // ================= FIND BUTTON =================
+    $("#findBtn").on("click", function (e) {
+        e.preventDefault();
 
-			$("#startingBalance").html(`&#8377; ${policy.policyAmount || 0}`);
-			$("#incomeAmount").html(`&#8377; ${policy.depositAmount || 0}`);
-			$("#expensesAmount").html(`&#8377; ${policy.amountDue || 0}`);
-			$("#closingBalance").html(`&#8377; ${policy.maturityAmount || 0}`);
+        let branch = $("#branchName2").val();
+        let fromDate = $("#fromDate").val();
+        let toDate = $("#toDate").val();
 
-			// ✅ Fill Transactions Table
-			const tbody = $("#transactionTableBody");
-			tbody.empty();
+        let filtered = allPolicies;
 
-			if (policy.policyCode != null) {
-				tbody.append(`
-						<tr>
-							<td>${policy.policyCode || ""}</td>
-							<td>${policy.policyStartDate || ""}</td>
-							<td>${policy.policyAmount || ""}</td>
-							<td>${policy.schemeType || ""}</td>
-							<td>${policy.schemeMode || ""}</td>
-						</tr>
-					`);
-			} else {
-				tbody.append(`
-					<tr>
-						<td colspan="5" class="text-center text-muted">
-							No transaction data available
-						</td>
-					</tr>
-				`);
-			}
+        if (branch) {
+            filtered = filtered.filter(p => {
+                let b =
+                    p.branchName ||
+                    (p.branch && p.branch.branchName) ||
+                    "";
+                return normalize(b) === normalize(branch);
+            });
+        }
 
-			// ✅ Show modal
-			$("#bankReportModal").modal("show");
-		});
-	}
+        if (fromDate && toDate) {
+            let from = new Date(fromDate);
+            let to = new Date(toDate);
+            to.setHours(23, 59, 59, 999);
 
-	// ✅ 6. Print Modal Content
-	$("#printBankReportBtn").click(function() {
-		const content = document.getElementById("bankReportContent").innerHTML;
-		const printWindow = window.open("", "", "width=900,height=700");
-		printWindow.document.write(`
-			<html>
-				<head>
-					<title>Transaction Report</title>
-					<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-					<style>
-						body { font-family: Arial, sans-serif; padding: 20px; }
-						h4, h5, h6 { color: #0d6efd; }
-						table { width: 100%; border-collapse: collapse; }
-						th, td { padding: 8px; border: 1px solid #ddd; }
-						th { background-color: #f2f2f2; }
-						.text-end { text-align: right; }
-						.text-center { text-align: center; }
-					</style>
-				</head>
-				<body>${content}</body>
-			</html>
-		`);
-		printWindow.document.close();
-		printWindow.focus();
-		printWindow.print();
-	});
+            filtered = filtered.filter(p => {
+                let d = parseDate(
+                    p.policyStartDate ||
+                    p.policyDate ||
+                    p.createdDate ||
+                    p.investmentDate
+                );
+                return d && d >= from && d <= to;
+            });
+        }
+
+        fillTable(filtered);
+    });
+
+    // ================= TABLE RENDER =================
+    function fillTable(data) {
+
+        let $tbody = $("table tbody");
+        $tbody.empty();
+
+        if (!data || data.length === 0) {
+            $tbody.append(`
+                <tr>
+                    <td colspan="10" class="text-center text-danger">
+                        No matching data found
+                    </td>
+                </tr>
+            `);
+            return;
+        }
+
+        data.forEach((p, i) => {
+
+            let branch =
+                p.branchName ||
+                (p.branch && p.branch.branchName) ||
+                "-";
+
+            let policyDate =
+                p.policyStartDate ||
+                p.policyDate ||
+                "-";
+
+            let approvedStatus =
+                p.approved === true
+                    ? '<span class="badge bg-success">APPROVED</span>'
+                    : '<span class="badge bg-danger">NOT APPROVED</span>';
+
+            $tbody.append(`
+                <tr>
+                    <td>${i + 1}</td>
+                    <td>${p.policyCode || "-"}</td>
+                    <td>${(p.customerName || "-").toUpperCase()}</td>
+                    <td>${p.schemeType || "-"}</td>
+                    <td>${policyDate}</td>
+                    <td>${p.policyAmount || "-"}</td>
+                    <td>${p.contactNo || "-"}</td>
+                    <td>${branch.toUpperCase()}</td>
+                    <td>${approvedStatus}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary"
+                            onclick="openPrintModal(${p.id})">
+                            <i class="bi bi-printer"></i>
+                        </button>
+                    </td>
+                </tr>
+            `);
+        });
+    }
+
 });

@@ -17,22 +17,22 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">SEARCH BY</li>
+					<li class="breadcrumb-item action">SEARCH BOX</li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">SELECT ACCOUNT NUMBER</label> <select
-							id="accountNumber" name="accountNumber" required="required"
+						<label for="">ACCOUNT NUMBER</label> <select id="accountNumber"
+							name="accountNumber" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">SELECT</option>
+							<option value="">--SELECT ACCOUNT NO--</option>
 						</select>
 					</div>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-lg-12 text-center">
+				<div class="col-lg-6 text-center">
 					<button id="searchByAccNo" class="btn btn-warning"
 						style="margin-left: 80%;">SEARCH</button>
 				</div>
@@ -43,101 +43,86 @@
 		<div class="row mt-5">
 			<div class="col-12">
 				<div class="card recent-sales">
+					<div class="card-body">
 
-					<div class="card-body table-responsive">
 						<h5 class="card-title">
-							SEARCH RESULT <span>| TODAY</span>
+							SAVING STATEMENT <span>| TODAY</span>
 						</h5>
-						<div class="form-div" id="form-div" style="margin-top: 20px;">
-							<div class="form-header">
-								<h2 style="color: red; margin-top: 0px;">MICROFINANCE
-									SOFTWARE</h2>
-								<p style="margin-top: -10px">NAGPUR</p>
+
+						<div id="form-div" class="mt-4">
+
+							<!-- HEADER -->
+							<div class="text-center mb-3">
+								<h3 style="color: red; margin-bottom: 0;">MICROFINANCE
+									SOFTWARE</h3>
+								<p style="margin-top: -5px;">NAGPUR</p>
 							</div>
-							<div class="form-div-main" style="padding: 5px;">
-								<div
-									style="display: flex; text-align: center; justify-item: center; width: 100%; border-bottom: 2px solid black; padding-bottom: 10px;">
-									<h4 style="margin: auto;">NEW RECEIPT</h4>
+
+							<div class="border-bottom text-center mb-3">
+								<h4 class="mb-2">NEW RECEIPT</h4>
+							</div>
+
+							<!-- DETAILS SECTION -->
+							<div class="row mb-3">
+								<div class="col-md-7 col-sm-12">
+									<p>
+										<strong>ACCOUNT NO :</strong> <span id="accountNoDisplay"></span>
+									</p>
+									<p>
+										<strong>A/C HOLDER NAME :</strong> <span id="memberName"></span>
+									</p>
+									<p>
+										<strong>RELATIVE NAME/RELATION :</strong> <span
+											id="relativeDetails"></span>
+									</p>
+									<p>
+										<strong>ADDRESS :</strong> <span id="address"></span>
+									</p>
 								</div>
 
-								<div style="width: 55%; float: left; padding-top: 20px;">
-									<p style="font-weight: 600;">
-										ACCOUNT NO : <span id="accountNoDisplay"></span>
+								<div class="col-md-5 col-sm-12">
+									<p>
+										<strong>OP. DATE :</strong> <span id="opDate"></span>
 									</p>
-									<p style="font-weight: 600;">
-										A/C HOLDER NAME : <span id="memberName"></span>
+									<p>
+										<strong>CUSTOMER CODE :</strong> <span id="selectMember"></span>
 									</p>
-									<p style="font-weight: 600;">
-										RELATIVE NAME/RELATION : <span id="relativeDetails"></span>
+									<p>
+										<strong>MODE OF OP. :</strong> <span id="modeOfOp"></span>
 									</p>
-									<p style="font-weight: 600;">
-										ADDRESS :<span id="address"></span>
+									<p>
+										<strong>OP. BRANCH :</strong> <span id="BranchName"></span>
 									</p>
 								</div>
+							</div>
 
-
-								<div style="width: 43%; float: right; padding-top: 20px;+">
-									<!-- <p style="font-weight: 600;">Print Date : <span></span></p> -->
-									<p style="font-weight: 600;">
-										OP. DATE : <span id="opDate"></span>
-									</p>
-									<p style="font-weight: 600;">
-										MEMBER CODE : <span id="selectMember"></span>
-									</p>
-									<!-- <p style="font-weight: 600;">
-														PAN : <span id="pan"></span>
-													</p> -->
-									<p style="font-weight: 600;">
-										MODE OF OP. : <span id="modeOfOp"></span>
-									</p>
-									<p style="font-weight: 600;">
-										OP. BRACH : <span id="BranchName"></span>
-									</p>
-
-
-									<!-- <p style="font-weight: 600;">Consideration Amount : 36500</p> -->
-									<!-- <p style="font-weight: 600;">Transaction Date : 22/11/2024</p> -->
-									<!-- <p style="font-weight: 600;">Maturity Date : 21/11/2025</p> -->
-								</div>
-								<div
-									style="width: 200px; height: 150px; display: flex; flex-direction: column; text-align: center; font-weight: 600;">
-									<div
-										style="width: 800%; height: 40px; border-bottom: 2px solid black;">
-									</div>
-
-
-								</div>
-								<div class="box-body">
-									<div class="clearfix margin-bottom-10"
-										style="margin-top: -50px;"></div>
-									<table class="table table-borderless datatable overflow-scroll">
-										<thead class="table-light">
-											<tr style="font-family: 'Poppins', sans-serif;">
-												<th scope="col">ACCOUNT NO.</th>
-												<th scope="col">TXN DATE</th>
-												<th scope="col">DEPOSITE/WITHDRAWAL</th>
-												<th scope="col">BALANCE</th>
-												<th scope="col">PAYMODE</th>
-												<th scope="col">BRACH</th>
-												<th scope="col">REMARKS</th>
-											</tr>
-										</thead>
-										<tbody id="tableSavingAcc">
-
-										</tbody>
-									</table>
-								</div>
+							<!-- TABLE SECTION -->
+							<div class="table-responsive" style="overflow-x: auto;">
+								<table class="table table-bordered table-striped">
+									<thead class="table-light">
+										<tr>
+											<th>ACCOUNT NO.</th>
+											<th>TXN DATE</th>
+											<th>CREDIT</th>
+											<th>DEBIT</th>
+											<th>BALANCE</th>
+											<th>PAYMODE</th>
+											<th>BRANCH</th>
+											<th>REMARKS</th>
+										</tr>
+									</thead>
+									<tbody id="tableSavingAcc">
+										<!-- dynamic rows -->
+									</tbody>
+								</table>
 							</div>
 
 						</div>
-
-						<table class="table table-borderless datatable overflow-scroll">
-
-						</table>
 					</div>
 				</div>
 			</div>
 		</div>
+
 	</form>
 
 </div>

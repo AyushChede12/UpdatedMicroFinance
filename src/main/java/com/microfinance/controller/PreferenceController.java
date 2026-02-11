@@ -38,7 +38,6 @@ import com.microfinance.model.ExecutiveFounder;
 import com.microfinance.model.RelativeModule;
 import com.microfinance.model.Statedistricts;
 import com.microfinance.model.Transactions;
-import com.microfinance.model.UserCreations;
 import com.microfinance.model.UserMenuAccess;
 import com.microfinance.model.states;
 import com.microfinance.repository.CategoryModuleRepo;

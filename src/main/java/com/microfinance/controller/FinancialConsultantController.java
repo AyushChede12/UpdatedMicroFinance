@@ -225,6 +225,6 @@ public class FinancialConsultantController {
 		List<ConsultantPromotionManagement> list = financialConsultantService.getAllPromotionManagementDetail();
 		ApiResponse<List<ConsultantPromotionManagement>> response= ApiResponse.success(HttpStatus.OK, "Details Fetched Successfully", list);
 		return new ResponseEntity<>(response,HttpStatus.OK);
-	}
-
+	}	
+	
 }
