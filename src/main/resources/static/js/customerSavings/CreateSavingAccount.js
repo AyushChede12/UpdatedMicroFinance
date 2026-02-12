@@ -969,3 +969,83 @@ function calcOpeningFees() {
 	document.getElementById("totalFee").innerText = total;
 	document.getElementById("openingFees").value = total;
 }
+
+function operationTypeFunc() {
+
+	var operationType = $("#operationType").val();
+
+	if (operationType === 'Joint') {
+
+		// show joint section
+		$("#myJointPhoto").show();
+
+		// show joint operation code field
+		$("#jointOperationCode").closest(".col-lg-3").show();
+
+		// show member code field
+		$("#memberCode").closest(".col-lg-3").show();
+
+	} else {
+
+		// hide all joint fields
+		$("#myJointPhoto").hide();
+		$("#jointOperationCode").closest(".col-lg-3").hide();
+		$("#memberCode").closest(".col-lg-3").hide();
+	}
+}
+
+$('#jointOperationCode').on('change', function () {
+
+	let selectedCode = $(this).val();
+
+	if (selectedCode !== "") {
+
+		$.ajax({
+			url: 'api/customersavings/fetchCustomerCode',
+			type: 'POST',
+			contentType: 'application/json',
+			data: JSON.stringify({ memberCode: selectedCode }),
+
+			success: function (response) {
+
+				if (response.status === "FOUND") {
+
+					let customer = response.data[0];
+
+					// ✅ MEMBER CODE
+					$("#memberCode").val(customer.memberCode);
+
+					// ✅ MEMBER FULL NAME
+					const fullName = [
+						customer.firstName,
+						customer.middleName,
+						customer.lastName
+					].filter(Boolean).join(" ");
+
+					$("#memberName").val(fullName.toUpperCase());
+
+					// ✅ PHOTO (optional)
+					if (customer.customerPhoto) {
+						const imagePath = `Uploads/${customer.customerPhoto}`;
+						$("#jointPhotoPreview").attr("src", imagePath);
+						$("#jointPhotoHidden").val(customer.customerPhoto);
+					}
+
+				} else {
+					$("#memberCode").val("");
+					$("#memberName").val("");
+				}
+			},
+
+			error: function () {
+				alert("Error fetching member");
+				$("#memberCode").val("");
+				$("#memberName").val("");
+			}
+		});
+
+	} else {
+		$("#memberCode").val("");
+		$("#memberName").val("");
+	}
+});

@@ -1,4 +1,12 @@
+/* =====================================================
+   CHEQUE TRANSACTION REPORT – FINAL FIXED JS
+   ===================================================== */
+
 $(document).ready(function () {
+
+    console.log("JS FILE LOADED");
+    console.log("Context Path =", contextPath);
+
     loadChequeData();
 
     $("#findBtn").on("click", function () {
@@ -6,12 +14,13 @@ $(document).ready(function () {
     });
 });
 
-// ---------------- GLOBAL ----------------
+/* ================= GLOBAL ================= */
 let allChequeData = [];
 let rowIndex = 0;
 
-// ---------------- LOAD DATA ----------------
+/* ================= LOAD START ================= */
 function loadChequeData() {
+
     allChequeData = [];
     rowIndex = 0;
     $(".datatable tbody").empty();
@@ -19,92 +28,168 @@ function loadChequeData() {
     loadLoanPayment();
 }
 
+/* ================= API 1 : LOAN PAYMENT ================= */
 function loadLoanPayment() {
-    $.get("api/reports/getCheckDataFromLoanPayment", function (res) {
-        if (res.status === "OK") {
-            allChequeData.push(...res.data.map(item => ({
-                id: item.id,
-                name: item.memberName,
-                date: item.paymentDate,
-                chequeNo: item.chequeNo,
-                type: "RECEIVED",
-                branch: item.branchName || "",
-                source: "Loan Payment"
-            })));
+
+    $.ajax({
+        url: contextPath + "/api/reports/getCheckDataFromLoanPayment",
+        type: "GET",
+        success: function (res) {
+
+            console.log("Loan Payment API:", res);
+
+            let data = extractData(res);
+
+            data.forEach(item => {
+                allChequeData.push({
+                    id: item.id,
+                    name: item.memberName || "-",
+                    date: item.paymentDate,
+                    chequeNo: item.chequeNo,
+                    type: "RECEIVED",
+                    branch: item.branchName || "",
+                    source: "Loan Payment"
+                });
+            });
+
             loadSavingActivity();
+        },
+        error: function () {
+            loadSavingActivity(); // chain must continue
         }
     });
 }
 
+/* ================= API 2 : SAVING ACTIVITY ================= */
 function loadSavingActivity() {
-    $.get("api/reports/getPayByFromSavingAccountActivity", function (res) {
-        if (res.status === "OK") {
-            allChequeData.push(...res.data.map(item => ({
-                id: item.id,
-                name: item.customerName,
-                date: item.transactionDate,
-                chequeNo: item.chequeNo,
-                type: "ISSUED",
-                branch: item.branchName || "",
-                source: "Saving Activity"
-            })));
+
+    $.ajax({
+        url: contextPath + "/api/reports/getPayByFromSavingAccountActivity",
+        type: "GET",
+        success: function (res) {
+
+            console.log("Saving Activity API:", res);
+
+            let data = extractData(res);
+
+            data.forEach(item => {
+                allChequeData.push({
+                    id: item.id,
+                    name: item.customerName || "-",
+                    date: item.transactionDate,
+                    chequeNo: item.chequeNo,
+                    type: "ISSUED",
+                    branch: item.branchName || "",
+                    source: "Saving Activity"
+                });
+            });
+
+            loadCreateSaving();
+        },
+        error: function () {
             loadCreateSaving();
         }
     });
 }
 
+/* ================= API 3 : CREATE SAVINGS ================= */
 function loadCreateSaving() {
-    $.get("api/reports/getCheckDataFromCreateSavings", function (res) {
-        if (res.status === "OK") {
-            allChequeData.push(...res.data.map(item => ({
-                id: item.id,
-                name: item.enterCustomerName,
-                date: item.openingDate,
-                chequeNo: item.chequeNo,
-                type: "ISSUED",
-                branch: item.branchName || "",
-                source: "Create Savings"
-            })));
+
+    $.ajax({
+        url: contextPath + "/api/reports/getCheckDataFromCreateSavings",
+        type: "GET",
+        success: function (res) {
+
+            console.log("Create Savings API:", res);
+
+            let data = extractData(res);
+
+            data.forEach(item => {
+                allChequeData.push({
+                    id: item.id,
+                    name: item.enterCustomerName || "-",
+                    date: item.openingDate,
+                    chequeNo: item.chequeNo,
+                    type: "ISSUED",
+                    branch: item.branchName || "",
+                    source: "Create Savings"
+                });
+            });
+
+            loadFinancialConsultant();
+        },
+        error: function () {
             loadFinancialConsultant();
         }
     });
 }
 
+/* ================= API 4 : FINANCIAL CONSULTANT ================= */
 function loadFinancialConsultant() {
-    $.get("api/reports/getCheckDataFromFinancialConsultant", function (res) {
-        if (res.status === "OK") {
-            allChequeData.push(...res.data.map(item => ({
-                id: item.id,
-                name: item.financialName,
-                date: item.joiningDate,
-                chequeNo: item.chequeNo,
-                type: "ISSUED",
-                branch: item.branchName || "",
-                source: "Financial Consultant"
-            })));
+
+    $.ajax({
+        url: contextPath + "/api/reports/getCheckDataFromFinancialConsultant",
+        type: "GET",
+        success: function (res) {
+
+            console.log("Financial Consultant API:", res);
+
+            let data = extractData(res);
+
+            data.forEach(item => {
+                allChequeData.push({
+                    id: item.id,
+                    name: item.financialName || "-",
+                    date: item.joiningDate,
+                    chequeNo: item.chequeNo,
+                    type: "ISSUED",
+                    branch: item.branchName || "",
+                    source: "Financial Consultant"
+                });
+            });
+
+            loadTeamMember();
+        },
+        error: function () {
             loadTeamMember();
         }
     });
 }
 
+/* ================= API 5 : TEAM MEMBER ================= */
 function loadTeamMember() {
-    $.get("api/reports/getCheckDataFromTeamMember", function (res) {
-        if (res.status === "OK") {
-            allChequeData.push(...res.data.map(item => ({
-                id: item.id,
-                name: item.teamMemberName,
-                date: item.signUpDate,
-                chequeNo: item.chequeNo,
-                type: "ISSUED",
-                branch: item.branchName || "",
-                source: "Team Member"
-            })));
+
+    $.ajax({
+        url: contextPath + "/api/reports/getCheckDataFromTeamMember",
+        type: "GET",
+        success: function (res) {
+
+            console.log("Team Member API:", res);
+
+            let data = extractData(res);
+
+            data.forEach(item => {
+                allChequeData.push({
+                    id: item.id,
+                    name: item.teamMemberName || "-",
+                    date: item.signUpDate,
+                    chequeNo: item.chequeNo,
+                    type: "ISSUED",
+                    branch: item.branchName || "",
+                    source: "Team Member"
+                });
+            });
+
+            console.log("FINAL DATA SIZE =", allChequeData.length);
+            renderTable(allChequeData);
+        },
+        error: function () {
             renderTable(allChequeData);
         }
     });
 }
 
-// ---------------- FILTER ----------------
+/* ================= FILTER ================= */
 function applyFilters() {
 
     let fDate = $("#fDate").val();
@@ -120,13 +205,10 @@ function applyFilters() {
 
         let itemDate = parseDate(item.date);
 
-        if (fromDate && itemDate < fromDate) return false;
-        if (toDate && itemDate > toDate) return false;
+        if (fromDate && itemDate && itemDate < fromDate) return false;
+        if (toDate && itemDate && itemDate > toDate) return false;
 
-        if (chequeNo && !item.chequeNo?.toString().includes(chequeNo)) {
-            return false;
-        }
-
+        if (chequeNo && !String(item.chequeNo || "").includes(chequeNo)) return false;
         if (type && item.type !== type) return false;
         if (branch && item.branch !== branch) return false;
 
@@ -136,14 +218,14 @@ function applyFilters() {
     renderTable(filtered);
 }
 
-// ---------------- TABLE ----------------
+/* ================= TABLE ================= */
 function renderTable(data) {
 
     let tbody = $(".datatable tbody");
     tbody.empty();
     rowIndex = 0;
 
-    if (data.length === 0) {
+    if (!data || data.length === 0) {
         tbody.append(`
             <tr>
                 <td colspan="6" class="text-center text-muted">
@@ -173,9 +255,26 @@ function renderTable(data) {
     });
 }
 
-// ---------------- HELPERS ----------------
+/* ================= HELPERS ================= */
+
+/* 🔥 UNIVERSAL DATA EXTRACTOR */
+function extractData(res) {
+
+    if (!res) return [];
+
+    // most common
+    if (Array.isArray(res.data)) return res.data;
+
+    // some projects use response / result
+    if (Array.isArray(res.response)) return res.response;
+    if (Array.isArray(res.result)) return res.result;
+
+    return [];
+}
+
 function parseDate(d) {
-    return d ? new Date(d.split(" ")[0]) : null;
+    if (!d) return null;
+    return new Date(d.split(" ")[0]);
 }
 
 function formatDate(d) {
