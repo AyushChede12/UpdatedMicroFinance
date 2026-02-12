@@ -189,7 +189,7 @@
 </div>
 <div class="row">
 	<div class="col-6 text-right mt-3">
-		<button id="payBtn" class="btnStyle"
+		<button type="button" id="payBtn" class="btnStyle"
 			style="background-color: #FFA500;">PAY</button>
 	</div>
 </div>
