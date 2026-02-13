@@ -391,4 +391,12 @@ public class AccountManagementController {
 		return ResponseEntity.ok(new ApiResponse(HttpStatus.OK, "Incentive Payment Saved Successfully", result));
 	}
 
+	@PostMapping("/deposit")
+	public ResponseEntity<String> deposit(@RequestParam String accountNumber, @RequestParam Double amount) {
+
+		accountManagementService.depositAmount(accountNumber, amount);
+
+		return ResponseEntity.ok("Deposit Successful");
+	}
+
 }

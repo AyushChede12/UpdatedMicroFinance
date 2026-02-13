@@ -38,6 +38,7 @@ import com.microfinance.exception.BadRequestException;
 import com.microfinance.exception.BusinessLogicException;
 import com.microfinance.exception.ResourceNotFoundException;
 import com.microfinance.model.AccountIncentivePayment;
+import com.microfinance.model.AccountTransaction;
 import com.microfinance.model.AddnewinvestmentPM;
 import com.microfinance.model.ApplyForGold;
 import com.microfinance.model.BankCashTransferEntry;
@@ -50,6 +51,7 @@ import com.microfinance.model.OutgoingPaymentEntry;
 import com.microfinance.model.TeamMember;
 import com.microfinance.model.addFinancialConsultant;
 import com.microfinance.repository.AccountIcentivePaymentRepo;
+import com.microfinance.repository.AccountTransactionRepo;
 import com.microfinance.repository.AddInvestmentRepo;
 import com.microfinance.repository.ApplyForGoldRepo;
 import com.microfinance.repository.BankCashTransferRepo;
@@ -117,6 +119,9 @@ public class AccountManagementService {
 
 	@Autowired
 	private AccountIcentivePaymentRepo accountIcentivePaymentRepo;
+
+	@Autowired
+	private AccountTransactionRepo transactionRepository;
 
 	/**
 	 * Create a new Ledger Account. Business Logic: - Title must be unique per
@@ -1787,6 +1792,42 @@ public class AccountManagementService {
 		accountIcentivePaymentRepo.save(payment);
 
 		return "SUCCESS";
+	}
+
+	@Transactional
+	public void depositAmount(String accountNumber, Double amount) {
+
+		// 1️⃣ Account fetch karo
+		CreateSavingsAccount account = createSavingAccountRepo.findByAccountNumber(accountNumber)
+				.orElseThrow(() -> new RuntimeException("Account not found with number: " + accountNumber));
+
+		// 2️⃣ Current balance nikalo (null safe)
+		Double currentBalance = 0.0;
+
+		if (account.getBalance() != null && !account.getBalance().isEmpty()) {
+			currentBalance = Double.parseDouble(account.getBalance());
+		}
+
+		// 3️⃣ New balance calculate karo
+		Double newBalance = currentBalance + amount;
+
+		// 4️⃣ Transaction object banao
+		AccountTransaction txn = new AccountTransaction();
+		txn.setAccountNumber(accountNumber);
+		txn.setTransactionDate(LocalDate.now().toString());
+		txn.setNarration("Cash Deposit");
+		txn.setCredit(amount);
+		txn.setDebit(0.0);
+		txn.setBalance(newBalance);
+		txn.setTransactionType("DEPOSIT");
+		txn.setStatus("SUCCESS");
+
+		// 5️⃣ Transaction save karo
+		transactionRepository.save(txn);	
+
+		// 6️⃣ Master table balance update karo
+		account.setBalance(String.valueOf(newBalance));
+		createSavingAccountRepo.save(account);
 	}
 
 }
