@@ -146,7 +146,6 @@ $('#paymentBtn').click(function(e) {
 		loanMode: $('#loanMode').val(),
 		loanTerm: $('#loanTerm').val(),
 		rateOfInterest: $('#rateOfInterest').val(),
-		branchName: $('#branchName').val(),
 		loanAmount: $('#loanAmount').val(),
 		interestType: $('#interestType').val(),
 		emiPayment: $('#emiPayment').val(),
@@ -169,7 +168,6 @@ $('#paymentBtn').click(function(e) {
 		chequeNo: $('#chequeNo').val(),
 		noOfInst: $('#noOfInst').val() || "1"
 	};
-	alert(paymentData.emiPayment);
 
 	$.ajax({
 		type: 'POST',
