@@ -28,7 +28,9 @@ import com.microfinance.dto.LedgerSummaryDto;
 import com.microfinance.dto.ManualJournalDto;
 import com.microfinance.dto.OutgoingPaymentDto;
 import com.microfinance.dto.TrialBalanceReportDto;
+import com.microfinance.model.AccountIncentivePayment;
 import com.microfinance.model.LedgerAccountMaster;
+import com.microfinance.model.TeamMember;
 import com.microfinance.service.AccountManagementService;
 
 @RestController
@@ -364,34 +366,37 @@ public class AccountManagementController {
 		return ResponseEntity.ok(response);
 	}
 
-	// Ayush
-	@PostMapping("/personal-sales-amount")
-	public ResponseEntity<Map<String, Object>> getPersonalSalesAmount(@RequestBody IncentiveRequest request) {
+	@PostMapping("/incentive-full-details")
+	public ResponseEntity<ApiResponse> getFullIncentiveDetails(@RequestBody IncentiveRequest request) {
 
-		double personalSales = accountManagementService.calculatePersonalSalesAmount(request.getTeamMemberCode(),
-				request.getMonth(), request.getYear());
+		Map<String, Object> response = accountManagementService.getFullIncentiveDetails(request);
 
-		Map<String, Object> response = new HashMap<>();
-		response.put("teamMemberCode", request.getTeamMemberCode());
-		response.put("personalSalesAmount", personalSales);
+		if (response == null || response.isEmpty()) {
+			return ResponseEntity.ok(new ApiResponse(HttpStatus.NOT_FOUND, "No Incentive Data Found", null));
+		}
 
-		return ResponseEntity.ok(response);
+		return ResponseEntity.ok(new ApiResponse(HttpStatus.FOUND, "Incentive Details Fetched Successfully", response));
 	}
 
-	// Ayush
-	@PostMapping("/group-sales")
-	public ResponseEntity<Map<String, Object>> getGroupSales(@RequestBody IncentiveRequest request) {
+	@PostMapping("/save-incentive-payment")
+	public ResponseEntity<ApiResponse> saveIncentivePayment(@RequestBody AccountIncentivePayment request) {
 
-		double groupSales = accountManagementService.calculateGroupSalesAmount(request.getTeamMemberCode(),
-				request.getMonth(), request.getYear());
+		String result = accountManagementService.saveIncentivePayment(request);
 
-		Map<String, Object> response = new HashMap<>();
-		response.put("teamMemberCode", request.getTeamMemberCode());
-		response.put("month", request.getMonth());
-		response.put("year", request.getYear());
-		response.put("groupSalesAmount", groupSales);
+		if (result.equals("ALREADY_PAID")) {
+			return ResponseEntity
+					.ok(new ApiResponse(HttpStatus.CONFLICT, "Incentive Already Paid For This Month", null));
+		}
 
-		return ResponseEntity.ok(response);
+		return ResponseEntity.ok(new ApiResponse(HttpStatus.OK, "Incentive Payment Saved Successfully", result));
+	}
+
+	@PostMapping("/deposit")
+	public ResponseEntity<String> deposit(@RequestParam String accountNumber, @RequestParam Double amount) {
+
+		accountManagementService.depositAmount(accountNumber, amount);
+
+		return ResponseEntity.ok("Deposit Successful");
 	}
 
 }
