@@ -120,6 +120,11 @@
 	</div>
 
 </div>
+<script>
+    var contextPath = "${pageContext.request.contextPath}";
+    console.log("JSP contextPath =", contextPath);
+</script>
+
 <script
 	src="${pageContext.request.contextPath}/js/ReportsAndAnalytics/ChequeTransactionReport.js"></script>
 

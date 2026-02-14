@@ -364,4 +364,34 @@ public class AccountManagementController {
 		return ResponseEntity.ok(response);
 	}
 
+	// Ayush
+	@PostMapping("/personal-sales-amount")
+	public ResponseEntity<Map<String, Object>> getPersonalSalesAmount(@RequestBody IncentiveRequest request) {
+
+		double personalSales = accountManagementService.calculatePersonalSalesAmount(request.getTeamMemberCode(),
+				request.getMonth(), request.getYear());
+
+		Map<String, Object> response = new HashMap<>();
+		response.put("teamMemberCode", request.getTeamMemberCode());
+		response.put("personalSalesAmount", personalSales);
+
+		return ResponseEntity.ok(response);
+	}
+
+	// Ayush
+	@PostMapping("/group-sales")
+	public ResponseEntity<Map<String, Object>> getGroupSales(@RequestBody IncentiveRequest request) {
+
+		double groupSales = accountManagementService.calculateGroupSalesAmount(request.getTeamMemberCode(),
+				request.getMonth(), request.getYear());
+
+		Map<String, Object> response = new HashMap<>();
+		response.put("teamMemberCode", request.getTeamMemberCode());
+		response.put("month", request.getMonth());
+		response.put("year", request.getYear());
+		response.put("groupSalesAmount", groupSales);
+
+		return ResponseEntity.ok(response);
+	}
+
 }

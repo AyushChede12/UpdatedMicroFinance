@@ -1,6 +1,7 @@
 package com.microfinance.repository;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,4 +57,7 @@ public interface CreateSavingAccountRepo extends JpaRepository<CreateSavingsAcco
 
 	long countByFinancialConsultantCodeInAndOpeningDateContaining(List<String> financialConsultantCode,
 			String yearMonth);
+
+	List<CreateSavingsAccount> findByFinancialConsultantCodeIn(List<String> financialCodes);
+
 }

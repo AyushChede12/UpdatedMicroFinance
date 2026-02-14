@@ -1,4 +1,3 @@
-
 package com.microfinance.service;
 
 import java.math.BigDecimal;
@@ -35,11 +34,16 @@ import com.microfinance.dto.TrialBalanceReportDto;
 import com.microfinance.exception.BadRequestException;
 import com.microfinance.exception.BusinessLogicException;
 import com.microfinance.exception.ResourceNotFoundException;
+import com.microfinance.model.AddnewinvestmentPM;
+import com.microfinance.model.ApplyForGold;
 import com.microfinance.model.BankCashTransferEntry;
+import com.microfinance.model.CreateSavingsAccount;
 import com.microfinance.model.IncomingReceiptEntry;
 import com.microfinance.model.LedgerAccountMaster;
+import com.microfinance.model.LoanApplication;
 import com.microfinance.model.ManualJournalEntry;
 import com.microfinance.model.OutgoingPaymentEntry;
+import com.microfinance.model.TeamMember;
 import com.microfinance.model.addFinancialConsultant;
 import com.microfinance.repository.AddInvestmentRepo;
 import com.microfinance.repository.ApplyForGoldRepo;
@@ -55,6 +59,7 @@ import com.microfinance.repository.LoanApplicationRepo;
 import com.microfinance.repository.ManualJournalRepo;
 import com.microfinance.repository.NewLoanAppicationRepo;
 import com.microfinance.repository.OutgoingPaymentRepo;
+import com.microfinance.repository.TeamMemberRepo;
 import com.microfinance.repository.TrialBalanceReportRepo;
 
 @Service
@@ -101,6 +106,9 @@ public class AccountManagementService {
 
 	@Autowired
 	private ApplyForGoldRepo applyForGoldRepo;
+
+	@Autowired
+	private TeamMemberRepo teamMemberRepo;
 
 	/**
 	 * Create a new Ledger Account. Business Logic: - Title must be unique per
@@ -1593,6 +1601,96 @@ public class AccountManagementService {
 				yearMonth);
 
 		return saving + loan + policy + gold;
+	}
+
+	public double calculateGroupSalesAmount(String teamMemberCode, int month, int year) {
+
+		TeamMember tm = teamMemberRepo.findByTeamMemberCode(teamMemberCode);
+		if (tm == null)
+			return 0;
+
+		// 1️⃣ Branch based group
+		String branch = tm.getBranchName();
+
+		// 2️⃣ All team members in branch
+		List<String> teamCodes = teamMemberRepo.findByBranchName(branch).stream().map(TeamMember::getTeamMemberCode)
+				.collect(Collectors.toList());
+
+		if (teamCodes.isEmpty())
+			return 0;
+
+		// 3️⃣ All financial consultants under group
+		List<String> financialCodes = financialConsultantRepo.findByTeamMemberCodeIn(teamCodes).stream()
+				.map(addFinancialConsultant::getFinancialCode).collect(Collectors.toList());
+
+		if (financialCodes.isEmpty())
+			return 0;
+
+		// 4️⃣ Calculate business
+		double savingAmount = createSavingAccountRepo.findByFinancialConsultantCodeIn(financialCodes).stream()
+				.filter(s -> isSameMonth(s.getOpeningDate(), month, year))
+				.mapToDouble(s -> parseAmount(s.getOpeningFees())).sum();
+
+		double policyAmount = addInvestmentRepo.findByAgentIn(financialCodes).stream()
+				.filter(p -> isSameMonth(p.getPolicyStartDate(), month, year))
+				.mapToDouble(p -> parseAmount(p.getDepositAmount())).sum();
+
+		double loanAmount = loanAppicationRepo.findByFinancialConsultantIdIn(financialCodes).stream()
+				.filter(l -> isSameMonth(l.getLoanDate(), month, year)).mapToDouble(l -> parseAmount(l.getLoanAmount()))
+				.sum();
+
+		double goldAmount = applyForGoldRepo.findByFinancialConsultantIdIn(financialCodes).stream()
+				.filter(g -> isSameMonth(g.getLoanDate(), month, year)).mapToDouble(g -> parseAmount(g.getLoanAmount()))
+				.sum();
+
+		return savingAmount + policyAmount + loanAmount + goldAmount;
+	}
+
+	// ================= HELPERS =================
+
+	private boolean isSameMonth(String dateStr, int month, int year) {
+		if (dateStr == null || dateStr.isEmpty())
+			return false;
+
+		LocalDate date = LocalDate.parse(dateStr); // yyyy-MM-dd
+		return date.getMonthValue() == month && date.getYear() == year;
+	}
+
+	private double parseAmount(String amount) {
+		if (amount == null || amount.trim().isEmpty())
+			return 0.0;
+		try {
+			return Double.parseDouble(amount.trim());
+		} catch (Exception e) {
+			return 0.0;
+		}
+	}
+
+	public double calculatePersonalSalesAmount(String teamMemberCode, int month, int year) {
+
+		List<String> financialCodes = financialConsultantRepo.findByTeamMemberCode(teamMemberCode).stream()
+				.map(addFinancialConsultant::getFinancialCode).collect(Collectors.toList());
+
+		if (financialCodes.isEmpty())
+			return 0.0;
+
+		double savingAmount = createSavingAccountRepo.findByFinancialConsultantCodeIn(financialCodes).stream()
+				.filter(s -> isSameMonth(s.getOpeningDate(), month, year))
+				.mapToDouble(s -> parseAmount(s.getOpeningFees())).sum();
+
+		double policyAmount = addInvestmentRepo.findByAgentIn(financialCodes).stream()
+				.filter(p -> isSameMonth(p.getPolicyStartDate(), month, year))
+				.mapToDouble(p -> parseAmount(p.getDepositAmount())).sum();
+
+		double loanAmount = loanAppicationRepo.findByFinancialConsultantIdIn(financialCodes).stream()
+				.filter(l -> isSameMonth(l.getLoanDate(), month, year)).mapToDouble(l -> parseAmount(l.getLoanAmount()))
+				.sum();
+
+		double goldAmount = applyForGoldRepo.findByFinancialConsultantIdIn(financialCodes).stream()
+				.filter(g -> isSameMonth(g.getLoanDate(), month, year)).mapToDouble(g -> parseAmount(g.getLoanAmount()))
+				.sum();
+
+		return savingAmount + policyAmount + loanAmount + goldAmount;
 	}
 
 }
