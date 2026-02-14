@@ -83,7 +83,7 @@
 						<div class="d-flex flex-column formFields">
 							<label for="">CUSTOMER NAME <span class="star">*</span></label> <input
 								type="text" name="customerName" id="customerName"
-								required="required" placeholder="ENTER CUSTOMER CODE" />
+								required="required" placeholder="ENTER CUSTOMER NAME" />
 						</div>
 					</div>
 
@@ -116,9 +116,9 @@
 					<div class="col-lg-3">
 								<div class="d-flex flex-column formFields"
 									style="margin-bottom: 30px">
-									<label>Net Deposite <span class="star">*</span></label> <input
+									<label>NET DEPOSIT<span class="star">*</span></label> <input
 										type="text" name="netDeposite" id="netDeposite"
-										required="required" placeholder="Enter Net Deposite" />
+										required="required" placeholder="ENTER NET DEPOSIT" />
 								</div>
 							</div>
 
@@ -145,7 +145,7 @@
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields">
-							<label for="">MATURITY AMT. <span class="star">*</span></label> <input
+							<label for="">MATURITY AMOUNT <span class="star">*</span></label> <input
 								type="text" name="maturityAmount" id="maturityAmount"
 								required="required" placeholder="ENTER MATURITY AMOUNT" />
 						</div>

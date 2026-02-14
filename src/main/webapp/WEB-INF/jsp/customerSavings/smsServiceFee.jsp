@@ -26,12 +26,11 @@
 			<div class="d-flex flex-column formFields mb-4">
 				<label>BY DATE</label>
 				<select id="byDate" class="form-control selectField" style="height: 45px;">
-					<option value="">SELECT</option>
+					<option value="">--SELECT DURATION--</option>
 					<option value="today">TODAY</option>
 					<option value="yesterday">YESTERDAY</option>
 					<option value="last7">LAST 7 DAYS</option>
 					<option value="last30">LAST 30 DAYS</option>
-					<option value="thisMonth">THIS MONTH</option>
 					<option value="lastMonth">LAST MONTH</option>
 				</select>
 			</div>
@@ -40,10 +39,10 @@
 		<!-- ACCOUNT TYPE -->
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
-				<label>ACCOUNT</label>
+				<label>ACCOUNT TYPE</label>
 				<select id="accountType" class="form-control selectField" style="height: 45px;">
-					<option value="">SELECT</option>
-					<option value="SAVINGS" selected>SAVINGS</option>
+					<option value="">--SELECT ACCOUNT TYPE--</option>
+					<option value="SAVINGS">SAVINGS</option>
 					<option value="CURRENT">CURRENT</option>
 				</select>
 			</div>
@@ -54,7 +53,7 @@
 			<div class="d-flex flex-column formFields mb-4">
 				<label>CHARGE TYPE</label>
 				<select id="chargeType" class="form-control selectField" style="height: 45px;">
-					<option value="">SELECT</option>
+					<option value="">--SELECT CHARGE TYPE--</option>
 					<option value="SMS">SMS CHARGE</option>
 					<option value="SERVICE">SERVICE CHARGE</option>
 					<option value="ATM">ATM CHARGE</option>

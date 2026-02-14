@@ -27,17 +27,17 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Search Box</li>
+					<li class="breadcrumb-item action">SEARCH BOX</li>
 				</ol>
 			</nav>
 			<div class="row">
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">BRANCH NAME </label> <select id="branchName"
+						<label for="">BRANCH NAME </label> <select id="branchName2"
 							name="branchName" required="required"
 							class="form-control selectField">
-							<option value="">SELECT</option>
+							
 						</select>
 					</div>
 				</div>
@@ -66,7 +66,7 @@
 
 			<div class="row">
 				<div class="col-4 text-start mt-3">
-					<button id="findBtn" class="btn btn-dark">Find</button>
+					<button id="findBtn" class="btn btn-dark">FIND</button>
 				</div>
 			</div>
 
@@ -92,7 +92,7 @@
 									<th scope="col">SR NO.</th>
 									<th scope="col">POLICY CODE</th>
 									<th scope="col">CUSTOMER NAME</th>
-									<th scope="col">POLICY NAME</th>
+									<th scope="col">SCHEME TYPE</th>
 									<th scope="col">POLICY DATE</th>
 									<th scope="col">POLICY AMOUNT</th>
 									<th scope="col">CONTACT NUMBER</th>

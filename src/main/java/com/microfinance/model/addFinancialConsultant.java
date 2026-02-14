@@ -15,6 +15,7 @@ public class addFinancialConsultant {
 	private String financialName;
 	private String dob;
 	private String age;
+	private String teamMemberCode;
 	private String contactNo;
 	private String branchName;
 	private String address;
@@ -63,12 +64,36 @@ public class addFinancialConsultant {
 		this.joiningDate = joiningDate;
 	}
 
+	public String getFinancialName() {
+		return financialName;
+	}
+
+	public void setFinancialName(String financialName) {
+		this.financialName = financialName;
+	}
+
 	public String getDob() {
 		return dob;
 	}
 
 	public void setDob(String dob) {
 		this.dob = dob;
+	}
+
+	public String getAge() {
+		return age;
+	}
+
+	public void setAge(String age) {
+		this.age = age;
+	}
+
+	public String getTeamMemberCode() {
+		return teamMemberCode;
+	}
+
+	public void setTeamMemberCode(String teamMemberCode) {
+		this.teamMemberCode = teamMemberCode;
 	}
 
 	public String getContactNo() {
@@ -78,13 +103,21 @@ public class addFinancialConsultant {
 	public void setContactNo(String contactNo) {
 		this.contactNo = contactNo;
 	}
-	
+
 	public String getBranchName() {
 		return branchName;
 	}
 
 	public void setBranchName(String branchName) {
 		this.branchName = branchName;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public String getDistrict() {
@@ -125,6 +158,22 @@ public class addFinancialConsultant {
 
 	public void setAcademicBackground(String academicBackground) {
 		this.academicBackground = academicBackground;
+	}
+
+	public String getFinancialPhoto() {
+		return financialPhoto;
+	}
+
+	public void setFinancialPhoto(String financialPhoto) {
+		this.financialPhoto = financialPhoto;
+	}
+
+	public String getFinnacialSignature() {
+		return finnacialSignature;
+	}
+
+	public void setFinnacialSignature(String finnacialSignature) {
+		this.finnacialSignature = finnacialSignature;
 	}
 
 	public String getSelectPosition() {
@@ -230,46 +279,5 @@ public class addFinancialConsultant {
 	public void setApproved(boolean isApproved) {
 		this.isApproved = isApproved;
 	}
-
-	public String getFinancialName() {
-		return financialName;
-	}
-
-	public void setFinancialName(String financialName) {
-		this.financialName = financialName;
-	}
-
-	public String getAge() {
-		return age;
-	}
-
-	public void setAge(String age) {
-		this.age = age;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getFinancialPhoto() {
-		return financialPhoto;
-	}
-
-	public void setFinancialPhoto(String financialPhoto) {
-		this.financialPhoto = financialPhoto;
-	}
-
-	public String getFinnacialSignature() {
-		return finnacialSignature;
-	}
-
-	public void setFinnacialSignature(String finnacialSignature) {
-		this.finnacialSignature = finnacialSignature;
-	}
-	
 
 }

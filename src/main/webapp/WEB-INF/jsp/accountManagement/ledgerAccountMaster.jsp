@@ -156,6 +156,7 @@
 									<th style="white-space: nowrap;">STATUS</th>
 									<th style="white-space: nowrap;">BRANCH NAME</th>
 									<th style="white-space: nowrap;">VIEW</th>
+									<th style="white-space: nowrap;">DELETE</th>
 								</tr>
 							</thead>
 							<tbody id="tableBody">

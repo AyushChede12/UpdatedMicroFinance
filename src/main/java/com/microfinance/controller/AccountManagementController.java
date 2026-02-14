@@ -1,6 +1,7 @@
 package com.microfinance.controller;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.microfinance.dto.ApiResponse;
 import com.microfinance.dto.BankCashTransferDto;
+import com.microfinance.dto.IncentiveRequest;
 import com.microfinance.dto.IncomingReceiptDto;
 import com.microfinance.dto.LedgerAccountDto;
 import com.microfinance.dto.LedgerSummaryDto;
@@ -91,6 +93,21 @@ public class AccountManagementController {
 				.ok(ApiResponse.success(HttpStatus.OK, "Ledgers for branch retrieved successfully", ledgers));
 	}
 
+	// Ayush
+	@PostMapping("/deleteLedgerById") // Ayush
+	public ResponseEntity<ApiResponse<String>> deleteLedger(@RequestParam("id") Long id) {
+		boolean isDeleted = accountManagementService.deleteLedger(id);
+		if (isDeleted) {
+			ApiResponse<String> response = new ApiResponse<>(HttpStatus.OK, "Ledger Account deleted successfully",
+					"success");
+			return ResponseEntity.ok(response);
+		} else {
+			ApiResponse<String> response = new ApiResponse<>(HttpStatus.BAD_REQUEST, "Ledger Account deletion failed",
+					"failure");
+			return ResponseEntity.badRequest().body(response);
+		}
+	}
+
 	// Search OutgoingPayment Entry
 	@GetMapping("/search")
 	public ResponseEntity<ApiResponse<List<OutgoingPaymentDto>>> searchPayments(@RequestParam String branchName,
@@ -123,6 +140,20 @@ public class AccountManagementController {
 		OutgoingPaymentDto dto = accountManagementService.getOutgoingPayment(id);
 
 		return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "Outgoing payment retrieved successfully", dto));
+	}
+
+	@PostMapping("/deleteOutgoingPaymentById") // Ayush
+	public ResponseEntity<ApiResponse<String>> deleteOutgoingPayment(@RequestParam("id") Long id) {
+		boolean isDeleted = accountManagementService.deleteOutgoingPayment(id);
+		if (isDeleted) {
+			ApiResponse<String> response = new ApiResponse<>(HttpStatus.OK, "Outgoing Payment deleted successfully",
+					"success");
+			return ResponseEntity.ok(response);
+		} else {
+			ApiResponse<String> response = new ApiResponse<>(HttpStatus.BAD_REQUEST, "Outgoing Payment deletion failed",
+					"failure");
+			return ResponseEntity.badRequest().body(response);
+		}
 	}
 
 	// SearchIncomingReceiptEntry
@@ -163,121 +194,174 @@ public class AccountManagementController {
 				.ok(ApiResponse.success(HttpStatus.OK, "Incoming Receipt Entry retrieved successfully", dto));
 	}
 
+	// Ayush
+	@PostMapping("/deleteIncomingPaymentById") // Ayush
+	public ResponseEntity<ApiResponse<String>> deleteIncomingPayment(@RequestParam("id") Long id) {
+		boolean isDeleted = accountManagementService.deleteIncomingPayment(id);
+		if (isDeleted) {
+			ApiResponse<String> response = new ApiResponse<>(HttpStatus.OK, "Incoming Payment deleted successfully",
+					"success");
+			return ResponseEntity.ok(response);
+		} else {
+			ApiResponse<String> response = new ApiResponse<>(HttpStatus.BAD_REQUEST, "Incoming Payment deletion failed",
+					"failure");
+			return ResponseEntity.badRequest().body(response);
+		}
+	}
+
 	// End Points for BankCashTransferEntry
 	@GetMapping("/searchBankCashTransfer")
-	public ResponseEntity<ApiResponse<List<BankCashTransferDto>>> searchBankCashTransfer(@RequestParam String branchName,
-			@RequestParam String startDate, @RequestParam String endDate) {
+	public ResponseEntity<ApiResponse<List<BankCashTransferDto>>> searchBankCashTransfer(
+			@RequestParam String branchName, @RequestParam String startDate, @RequestParam String endDate) {
 
 		List<BankCashTransferDto> results = accountManagementService.searchBankCashTransfer(branchName, startDate,
 				endDate);
-		return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, " BankCashTransfer Entry retrieved successfully", results));
+		return ResponseEntity
+				.ok(ApiResponse.success(HttpStatus.OK, " BankCashTransfer Entry retrieved successfully", results));
 
 	}
 
 	@PostMapping("/createBankCashTransfer")
-	public ResponseEntity<ApiResponse<BankCashTransferDto>> createBankCashTransfer(@Valid @RequestBody BankCashTransferDto dto) {
+	public ResponseEntity<ApiResponse<BankCashTransferDto>> createBankCashTransfer(
+			@Valid @RequestBody BankCashTransferDto dto) {
 		BankCashTransferDto created = accountManagementService.createBankCashTransfer(dto);
 		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(ApiResponse.success(HttpStatus.CREATED," BankCashTransfer Entry created successfully", created));
+				.body(ApiResponse.success(HttpStatus.CREATED, " BankCashTransfer Entry created successfully", created));
 	}
 
 	@GetMapping("/allBankCashTransfer")
 	public ResponseEntity<ApiResponse<List<BankCashTransferDto>>> getAllBankCashTransfer() {
 		List<BankCashTransferDto> entries = accountManagementService.getAllBankCashTransfer();
-		return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK,"All BankCashTransfer Entry fetched", entries));
-		
+		return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "All BankCashTransfer Entry fetched", entries));
+
 	}
 
 	@GetMapping("/bankCashTransfer/{id}")
 	public ResponseEntity<ApiResponse<BankCashTransferDto>> getBankCashTransfer(@PathVariable Long id) {
-		BankCashTransferDto dto= accountManagementService.getBankCashTransfer(id);
-		return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "BankCashTransfer Entry retrieved successfully With Id", dto));
+		BankCashTransferDto dto = accountManagementService.getBankCashTransfer(id);
+		return ResponseEntity
+				.ok(ApiResponse.success(HttpStatus.OK, "BankCashTransfer Entry retrieved successfully With Id", dto));
 	}
-/*	@GetMapping("/ledgerByBranchAndGroup/{branchName}")
-	public ResponseEntity<ApiResponse<List<LedgerAccountMaster>>> getBankCashLedgersByBranch(
-	        @PathVariable String branchName) {
-	    List<LedgerAccountMaster> ledgers = accountManagementService.getBankCashLedgersByBranch(branchName);
-	    return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "Filtered Ledgers", ledgers));
-	}*/
 
-
+	// Ayush
+	@PostMapping("/deleteBankCashTransferById")
+	public ResponseEntity<ApiResponse<String>> deleteBankCashTransfer(@RequestParam("id") Long id) {
+		boolean isDeleted = accountManagementService.deleteBankCashTransfer(id);
+		if (isDeleted) {
+			ApiResponse<String> response = new ApiResponse<>(HttpStatus.OK, "Bank Cash Transfer deleted successfully",
+					"success");
+			return ResponseEntity.ok(response);
+		} else {
+			ApiResponse<String> response = new ApiResponse<>(HttpStatus.BAD_REQUEST,
+					"Bank Cash Transfer deletion failed", "failure");
+			return ResponseEntity.badRequest().body(response);
+		}
+	}
+	/*
+	 * @GetMapping("/ledgerByBranchAndGroup/{branchName}") public
+	 * ResponseEntity<ApiResponse<List<LedgerAccountMaster>>>
+	 * getBankCashLedgersByBranch(
+	 * 
+	 * @PathVariable String branchName) { List<LedgerAccountMaster> ledgers =
+	 * accountManagementService.getBankCashLedgersByBranch(branchName); return
+	 * ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "Filtered Ledgers",
+	 * ledgers)); }
+	 */
 
 	// Account Management/Manual Journal Entry
 	@GetMapping("/searchManualJournal")
 	public ResponseEntity<ApiResponse<List<ManualJournalDto>>> searchManualJournal(@RequestParam String branchName,
 			@RequestParam String startDate, @RequestParam String endDate) {
 		List<ManualJournalDto> results = accountManagementService.searchManualJournal(branchName, startDate, endDate);
-		return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "Manual Journal Entry retrieved Succesfully", results));
-		
+		return ResponseEntity
+				.ok(ApiResponse.success(HttpStatus.OK, "Manual Journal Entry retrieved Succesfully", results));
+
 	}
 
 	@PostMapping("/createManualJournal")
 	public ResponseEntity<ApiResponse<ManualJournalDto>> createManualJournal(@Valid @RequestBody ManualJournalDto dto) {
-		ManualJournalDto created =accountManagementService.createManualJournal(dto);
-		
+		ManualJournalDto created = accountManagementService.createManualJournal(dto);
+
 		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(ApiResponse.success(HttpStatus.CREATED,"Manual Journal created successfully", created));
+				.body(ApiResponse.success(HttpStatus.CREATED, "Manual Journal created successfully", created));
 	}
+
 	@GetMapping("/allManualJournal")
 	public ResponseEntity<ApiResponse<List<ManualJournalDto>>> getAllManualJournal() {
 		List<ManualJournalDto> entries = accountManagementService.getAllManualJournal();
-		return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK,"All ManualJournal Entry fetched", entries));
+		return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "All ManualJournal Entry fetched", entries));
 	}
 
 	@GetMapping("/manualJournal/{id}")
 	public ResponseEntity<ApiResponse<ManualJournalDto>> getManualJournal(@PathVariable Long id) {
-		ManualJournalDto dto= accountManagementService.getManualJournal(id);
-		return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "Manual Journal retrieved successfully With Id", dto));
+		ManualJournalDto dto = accountManagementService.getManualJournal(id);
+		return ResponseEntity
+				.ok(ApiResponse.success(HttpStatus.OK, "Manual Journal retrieved successfully With Id", dto));
 	}
-	
+
+	@PostMapping("/deleteManualJournalById") // Ayush
+	public ResponseEntity<ApiResponse<String>> deleteManualJournalEntry(@RequestParam("id") Long id) {
+		boolean isDeleted = accountManagementService.deleteManualJournalEntry(id);
+		if (isDeleted) {
+			ApiResponse<String> response = new ApiResponse<>(HttpStatus.OK, "Manual Journal Entry deleted successfully",
+					"success");
+			return ResponseEntity.ok(response);
+		} else {
+			ApiResponse<String> response = new ApiResponse<>(HttpStatus.BAD_REQUEST,
+					"Manual Journal Entry deletion failed", "failure");
+			return ResponseEntity.badRequest().body(response);
+		}
+	}
+
 	@GetMapping("/eligibleLedgersForManualJournal/{branchName}")
 	public ResponseEntity<ApiResponse<List<LedgerAccountMaster>>> getEligibleLedgersForManualJournal(
-	        @PathVariable String branchName) {
-	    List<LedgerAccountMaster> ledgers = accountManagementService.getEligibleLedgersForManualJournal(branchName);
-	    return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "Eligible ledgers fetched", ledgers));
-	} 
-	
-	  @GetMapping("/ledger-summary")
-	    public ResponseEntity<ApiResponse<List<LedgerSummaryDto>>> getLedgerSummary(
-	            @RequestParam String branch,
-	            @RequestParam String ledger,
-	            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-	            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
+			@PathVariable String branchName) {
+		List<LedgerAccountMaster> ledgers = accountManagementService.getEligibleLedgersForManualJournal(branchName);
+		return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "Eligible ledgers fetched", ledgers));
+	}
 
-	        List<LedgerSummaryDto> result = accountManagementService.getLedgerSummary(branch, ledger, startDate, endDate);
-	        return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "Fetched Successfully" , result));
-	    }
-	  
-	  @GetMapping("/journal-entry-report")
-	    public ResponseEntity<ApiResponse<Map<String, Object>>> getJournalEntryReport(
-	            @RequestParam String branch,
-	            @RequestParam String voucherType,
-	            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-	            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
+	@GetMapping("/ledger-summary")
+	public ResponseEntity<ApiResponse<List<LedgerSummaryDto>>> getLedgerSummary(@RequestParam String branch,
+			@RequestParam String ledger, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
 
-	        Map<String, Object> report = accountManagementService.getJournalEntryReport(branch, voucherType, startDate, endDate);
+		List<LedgerSummaryDto> result = accountManagementService.getLedgerSummary(branch, ledger, startDate, endDate);
+		return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "Fetched Successfully", result));
+	}
 
-	        return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "Journal Report Fetched Successfully", report));
-	    }
-	  @GetMapping("/trial-balance")
-	  public ResponseEntity<ApiResponse<List<TrialBalanceReportDto>>> getTrialBalance(
-	          @RequestParam String branch,
-	          @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-	          @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
+	@GetMapping("/journal-entry-report")
+	public ResponseEntity<ApiResponse<Map<String, Object>>> getJournalEntryReport(@RequestParam String branch,
+			@RequestParam String voucherType, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
 
-	      List<TrialBalanceReportDto> response =
-	              accountManagementService.getTrialBalance(branch, startDate, endDate);
+		Map<String, Object> report = accountManagementService.getJournalEntryReport(branch, voucherType, startDate,
+				endDate);
 
-	      return ResponseEntity.ok(
-	              ApiResponse.success(HttpStatus.OK, "Trial Balance Fetched Successfully", response)
-	      );
-	  }
+		return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "Journal Report Fetched Successfully", report));
+	}
 
+	@GetMapping("/trial-balance")
+	public ResponseEntity<ApiResponse<List<TrialBalanceReportDto>>> getTrialBalance(@RequestParam String branch,
+			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
 
+		List<TrialBalanceReportDto> response = accountManagementService.getTrialBalance(branch, startDate, endDate);
 
-	
-	
-	
+		return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "Trial Balance Fetched Successfully", response));
+	}
+
+	// Ayush - Incentive Payment
+	@PostMapping("/personal-sales")
+	public ResponseEntity<Map<String, Object>> getPersonalSales(@RequestBody IncentiveRequest request) {
+
+		long totalSales = accountManagementService.calculatePersonalSales(request.getTeamMemberCode(),
+				request.getMonth(), request.getYear());
+
+		Map<String, Object> response = new HashMap<>();
+		response.put("teamMemberCode", request.getTeamMemberCode());
+		response.put("personalSales", totalSales);
+
+		return ResponseEntity.ok(response);
+	}
+
 }
-
-

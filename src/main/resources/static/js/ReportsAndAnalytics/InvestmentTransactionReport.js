@@ -1,127 +1,130 @@
 $(document).ready(function () {
 
+    // 🔒 PREVENT MULTIPLE EXECUTION
+    if (window.investmentTxnReportLoaded) {
+        console.warn("JS already initialized, skipping...");
+        return;
+    }
+    window.investmentTxnReportLoaded = true;
+
     let allPolicies = [];
 
-    // ================= LOAD DATA =================
-    loadApprovedPolicies();
+    // ================= LOAD APPROVED POLICIES =================
+    fetchApprovedPolicies();
 
-    function loadApprovedPolicies() {
+    function fetchApprovedPolicies() {
         $.ajax({
             url: "api/Policymangment/getApprovedPolicies",
             type: "GET",
             success: function (response) {
-                console.log("API RESPONSE =", response);
 
                 if (response && Array.isArray(response.data)) {
                     allPolicies = response.data;
-                    loadBranchDropdown(allPolicies);
+                    buildBranchDropdown(allPolicies);
+                    fillTable(allPolicies); // ✅ INITIAL LOAD (LIKE FIRST TABLE)
                 } else {
-                    console.error("Invalid API response");
+                    $("table tbody").html(
+                        "<tr><td colspan='10'>No approved policies found</td></tr>"
+                    );
                 }
             },
-            error: function (e) {
-                console.error("API ERROR", e);
+            error: function () {
+                alert("Error while fetching policy data");
             }
         });
     }
 
+    // ================= NORMALIZE =================
+    function normalize(value) {
+        return value
+            ?.toString()
+            .replace(/[\n\r\t]/g, "")
+            .replace(/\s+/g, " ")
+            .trim()
+            .toUpperCase();
+    }
+
     // ================= BRANCH DROPDOWN =================
-    function loadBranchDropdown(data) {
+    function buildBranchDropdown(data) {
 
-        let branchDropdown = $("#branchName1");
-        branchDropdown.empty();
-        branchDropdown.append('<option value="">SELECT</option>');
+        let $branch = $("#branchName2");
+        $branch.empty().append('<option value="">SELECT</option>');
 
-        let branches = new Set();
+        let branchSet = new Set();
 
         data.forEach(p => {
-            let branchName =
-                (p.branchName || (p.branch && p.branch.branchName) || "")
-                    .toString()
-                    .trim();
+            let branch =
+                p.branchName ||
+                (p.branch && p.branch.branchName) ||
+                "";
 
-            if (branchName && !branches.has(branchName.toLowerCase())) {
-                branches.add(branchName.toLowerCase());
-                branchDropdown.append(
-                    `<option value="${branchName.toLowerCase()}">${branchName}</option>`
-                );
+            if (branch) {
+                branchSet.add(normalize(branch));
             }
+        });
+
+        [...branchSet].sort().forEach(b => {
+            $branch.append(`<option value="${b}">${b}</option>`);
         });
     }
 
     // ================= DATE PARSER =================
     function parseDate(dateStr) {
         if (!dateStr) return null;
-
         let d = new Date(dateStr);
-        if (!isNaN(d)) {
-            d.setHours(0, 0, 0, 0);
-            return d;
-        }
-
-        return null;
+        return isNaN(d) ? null : d;
     }
 
     // ================= FIND BUTTON =================
-    $("#findBtn").click(function (e) {
+    $("#findBtn").on("click", function (e) {
         e.preventDefault();
 
-        let branch = $("#branchName1").val();
+        let branch = $("#branchName2").val();
         let fromDate = $("#fromDate").val();
         let toDate = $("#toDate").val();
 
-        if (!branch || !fromDate || !toDate) {
-            alert("All fields required");
-            return;
+        let filtered = allPolicies;
+
+        if (branch) {
+            filtered = filtered.filter(p => {
+                let b =
+                    p.branchName ||
+                    (p.branch && p.branch.branchName) ||
+                    "";
+                return normalize(b) === normalize(branch);
+            });
         }
 
-        let from = new Date(fromDate);
-        from.setHours(0, 0, 0, 0);
+        if (fromDate && toDate) {
+            let from = new Date(fromDate);
+            let to = new Date(toDate);
+            to.setHours(23, 59, 59, 999);
 
-        let to = new Date(toDate);
-        to.setHours(23, 59, 59, 999);
+            filtered = filtered.filter(p => {
+                let d = parseDate(
+                    p.policyStartDate ||
+                    p.policyDate ||
+                    p.createdDate ||
+                    p.investmentDate
+                );
+                return d && d >= from && d <= to;
+            });
+        }
 
-        let filtered = allPolicies.filter(p => {
-
-            // ===== BRANCH =====
-            let policyBranch =
-                (p.branchName || (p.branch && p.branch.branchName) || "")
-                    .toString()
-                    .trim()
-                    .toLowerCase();
-
-            // ===== DATE (IMPORTANT FIX) =====
-            let rawDate =
-                p.policyStartDate ||   // ✅ MAIN FIELD
-                p.policyDate ||
-                p.createdDate ||
-                p.investmentDate;
-
-            let policyDateObj = parseDate(rawDate);
-            if (!policyDateObj) return false;
-
-            return (
-                policyBranch.includes(branch.toLowerCase()) &&
-                policyDateObj >= from &&
-                policyDateObj <= to
-            );
-        });
-
-        console.log("FILTERED RECORDS =", filtered.length);
         fillTable(filtered);
     });
 
-    // ================= TABLE FILL =================
+    // ================= TABLE RENDER =================
     function fillTable(data) {
 
-        let tbody = $("table tbody");
-        tbody.empty();
+        let $tbody = $("table tbody");
+        $tbody.empty();
 
         if (!data || data.length === 0) {
-            tbody.append(`
+            $tbody.append(`
                 <tr>
                     <td colspan="10" class="text-center text-danger">
-                        No data found
+                        No matching data found
                     </td>
                 </tr>
             `);
@@ -130,20 +133,32 @@ $(document).ready(function () {
 
         data.forEach((p, i) => {
 
-            let branch = p.branchName || (p.branch && p.branch.branchName) || "-";
-            let date = p.policyStartDate || "-";
+            let branch =
+                p.branchName ||
+                (p.branch && p.branch.branchName) ||
+                "-";
 
-            tbody.append(`
+            let policyDate =
+                p.policyStartDate ||
+                p.policyDate ||
+                "-";
+
+            let approvedStatus =
+                p.approved === true
+                    ? '<span class="badge bg-success">APPROVED</span>'
+                    : '<span class="badge bg-danger">NOT APPROVED</span>';
+
+            $tbody.append(`
                 <tr>
                     <td>${i + 1}</td>
                     <td>${p.policyCode || "-"}</td>
-                    <td>${p.customerName || "-"}</td>
-                    <td>${p.policyName || "-"}</td>
-                    <td>${date}</td>
+                    <td>${(p.customerName || "-").toUpperCase()}</td>
+                    <td>${p.schemeType || "-"}</td>
+                    <td>${policyDate}</td>
                     <td>${p.policyAmount || "-"}</td>
-                    <td>${p.contactNumber || "-"}</td>
-                    <td>${branch}</td>
-                    <td><span class="badge bg-success">APPROVED</span></td>
+                    <td>${p.contactNo || "-"}</td>
+                    <td>${branch.toUpperCase()}</td>
+                    <td>${approvedStatus}</td>
                     <td>
                         <button class="btn btn-sm btn-primary"
                             onclick="openPrintModal(${p.id})">
