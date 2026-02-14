@@ -34,10 +34,10 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>FIND MEMBERS</label> <select id="memberId" name="memberId"
+						<label>FIND CUSTOMER</label> <select id="memberId" name="memberId"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
-							<option value="">SELECT MEMBER NAME</option>
+							<option value="">--SELECT CUSTOMERS--</option>
 
 						</select>
 					</div>
@@ -47,7 +47,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="loanName">RELATIVE DETAILS </label> <input type="text"
 							name="relativeDetails" id="relativeDetails" required="required"
-							placeholder="ENTER RELATIVE DETAILS"
+							placeholder="ENTER RELATIVE DETAILS" readonly="readonly"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -56,7 +56,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="loanName">DATE OF BIRTH </label> <input type="date"
 							name="dateOfBirth" id="dateOfBirth" required="required"
-							placeholder="ENTER DATE OF BIRTH"
+							placeholder="ENTER DATE OF BIRTH" readonly="readonly"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -64,7 +64,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">AGE</label> <input type="text" name="age" id="age"
-							required="required" placeholder="ENTER AGE" />
+							required="required" placeholder="ENTER AGE" readonly="readonly" />
 					</div>
 				</div>
 
@@ -73,7 +73,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">CONTACT NO.</label> <input type="text"
 							name="contactNo" id="contactNo" required="required"
-							placeholder="ENTER CONTACT NO." />
+							placeholder="ENTER CONTACT NO." readonly="readonly" />
 					</div>
 				</div>
 
@@ -81,7 +81,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">ADDRESS</label>
-						<textarea name="address" id="address"
+						<textarea name="address" id="address" readonly="readonly"
 							style="border: 1px solid rgb(224, 224, 224); border-radius: 5px; outline: none; padding: 5px; font-size: 12px;"></textarea>
 					</div>
 				</div>
@@ -91,7 +91,8 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="loanName">PIN CODE</label> <input type="number"
 							name="pinCode" id="pinCode" required="required"
-							placeholder="ENTER PIN CODE" style="text-transform: uppercase;" />
+							readonly="readonly" placeholder="ENTER PIN CODE"
+							style="text-transform: uppercase;" />
 					</div>
 				</div>
 
@@ -99,7 +100,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">BRANCH NAME </label> <input type="text"
 							name="branchName" id="branchName" required="required"
-							placeholder=" ENTER BRANCH NAME" />
+							readonly="readonly" placeholder=" ENTER BRANCH NAME" />
 					</div>
 				</div>
 
@@ -120,7 +121,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">TYPE OF LOAN</label> <input type="text"
 							name="typeOfLoan" id="typeOfLoan" required="required"
-							placeholder="ENTER TYPE OF PLAN"
+							readonly="readonly" placeholder="ENTER TYPE OF PLAN"
 							style="text-transform: uppercase;" />
 
 					</div>
@@ -130,7 +131,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">LOAN MODE</label> <input type="text" name="loanMode"
 							id="loanMode" required="required" placeholder="ENTER LOAN MODE"
-							style="text-transform: uppercase;" />
+							readonly="readonly" style="text-transform: uppercase;" />
 					</div>
 				</div>
 
@@ -139,7 +140,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">LOAN TERM</label> <input type="text" name="loanTerm"
 							id="loanTerm" required="required" placeholder="ENTER LOAN TERM"
-							style="text-transform: uppercase;" />
+							readonly="readonly" style="text-transform: uppercase;" />
 					</div>
 				</div>
 
@@ -147,7 +148,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">RATE OF INTEREST(%)</label> <input type="text"
 							name="rateOfInterest" id="rateOfInterest" required="required"
-							placeholder="ENTER RATE OF INTEREST"
+							readonly="readonly" placeholder="ENTER RATE OF INTEREST"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -171,10 +172,10 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">EMI PAYMENT</label> <input type="number"
-							name="emiPayment" id="emiPayment" required="required" class="form-control" 
-							placeholder="ENTER EMI PAYMENT"
+							name="emiPayment" id="emiPayment" required="required"
+							class="form-control" placeholder="ENTER EMI PAYMENT"
 							style="text-transform: uppercase;" />
-							
+
 					</div>
 				</div>
 				<div class="col-lg-3">
@@ -209,9 +210,8 @@
 					<label for=""
 						style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">UPLOAD
 						PHOTO <span id="star">*</span>
-					</label> <label for="Photo" id="drop-area"> <input type="file"
-						accept="image/*" name="photo" id="photo" hidden="hidden"
-						onchange=""
+					</label> <label for="Photo" id="drop-area"> <input accept="image/*"
+						name="photo" id="photo" hidden="hidden" onchange=""
 						style="background-size: cover; background-repeat: no-repeat" />
 						<div id="img-view">
 							<img src="../images/upload/upload.png" alt="upload_icon"
@@ -226,7 +226,7 @@
 					<label for=""
 						style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">UPLOAD
 						SIGNATURE <span id="star">*</span>
-					</label> <label for="signature" id="drop-area"> <input type="file"
+					</label> <label for="signature" id="drop-area"> <input
 						accept="image/*" name="signature" id="signature" hidden="hidden"
 						onchange="signatureUpload();"
 						style="background-size: cover; background-repeat: no-repeat" />
@@ -253,12 +253,12 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>MEMBER ID</label>
+						<label>CUSTOMER ID</label>
 						<div class="position-relative">
 							<select id="guarantorMemberId" name="guarantorMemberId"
 								required="required" class="form-control selectField"
 								style="height: 30px;">
-								<option value="">SELECT MEMBER CODE</option>
+								<option value="">SELECT CUSTOMER ID</option>
 
 							</select>
 						</div>
@@ -271,7 +271,7 @@
 							id="guarantorIdentity" name="guarantorIdentity"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
-							<option value="">-SELECT-</option>
+							<option value="">-- SELECT GUARANTOR IDENTITY --</option>
 							<option value="Aadhar">AADHAR</option>
 							<option value="Pan Card">PAN CARD</option>
 						</select>
@@ -283,6 +283,7 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">ADDRESS</label>
 						<textarea name="guarantorAddress" id="guarantorAddress"
+							readonly="readonly"
 							style="border: 1px solid rgb(224, 224, 224); border-radius: 5px; outline: none; padding: 5px; font-size: 12px;"></textarea>
 					</div>
 				</div>
@@ -291,7 +292,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">PIN CODE</label> <input type="text"
 							name="guarantorPinCode" id="guarantorPinCode" required="required"
-							placeholder="ENTER PIN CODE" />
+							readonly="readonly" placeholder="ENTER PIN CODE" />
 					</div>
 				</div>
 
@@ -300,7 +301,8 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">GUARANTOR CONTACT NO.</label> <input type="text"
 							name="guarantorContactNo" id="guarantorContactNo"
-							required="required" placeholder="ENTER GUARANTOR CONTACT NO." />
+							readonly="readonly" required="required"
+							placeholder="ENTER GUARANTOR CONTACT NO." />
 					</div>
 				</div>
 
@@ -310,7 +312,7 @@
 							id="guarantorSecurityType" name="guarantorSecurityType"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
-							<option value="">SELECT SECURITY</option>
+							<option value="">-- SELECT SECURITY TYPE --</option>
 							<option value="Pledge">PLEDGE</option>
 							<option value="Mortgage">MORTGAGE</option>
 							<option value="Property">PROPERTY</option>
@@ -334,12 +336,12 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label> MEMBER ID </label>
+						<label> CUSTOMER ID </label>
 						<div class="position-relative">
 							<select id="coApplicantMemberId" name="coApplicantMemberId"
 								required="required" class="form-control selectField"
 								style="height: 30px;">
-								<option value="">SELECT MEMBER CODE</option>
+								<option value="">SELECT CUSTOMER ID</option>
 
 							</select>
 						</div>
@@ -352,7 +354,7 @@
 							id="coApplicantIdentity" name="coApplicantIdentity"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
-							<option value="">-SELECT-</option>
+							<option value="">-- SELECT CO-APPLICANT IDENTITY --</option>
 							<option value="Aadhar">AADHAR</option>
 							<option value="Pan Card">PAN CARD</option>
 						</select>
@@ -364,6 +366,7 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">ADDRESS</label>
 						<textarea name="coApplicantAddress" id="coApplicantAddress"
+							readonly="readonly"
 							style="border: 1px solid rgb(224, 224, 224); border-radius: 5px; outline: none; padding: 5px; font-size: 12px;"></textarea>
 					</div>
 				</div>
@@ -372,7 +375,8 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">PIN CODE</label> <input type="text"
 							name="coApplicantPinCode" id="coApplicantPinCode"
-							required="required" placeholder="ENTER PIN CODE" />
+							readonly="readonly" required="required"
+							placeholder="ENTER PIN CODE" />
 					</div>
 				</div>
 
@@ -381,7 +385,8 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">CO-APPLICANT CONTACT NO.</label> <input type="text"
 							name="coApplicantContactNo" id="coApplicantContactNo"
-							required="required" placeholder="ENTER GUARANTOR CONTACT NO." />
+							readonly="readonly" required="required"
+							placeholder="ENTER GUARANTOR CONTACT NO." />
 					</div>
 				</div>
 
@@ -391,7 +396,7 @@
 							id="coApplicantSecurityType" name="coApplicantSecurityType"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
-							<option value="">SELECT SECURITY</option>
+							<option value="">-- SELECT SECURITY TYPE --</option>
 							<option value="Pledge">PLEDGE</option>
 							<option value="Mortgage">MORTGAGE</option>
 							<option value="Property">PROPERTY</option>
@@ -404,7 +409,7 @@
 		</div>
 
 
-		<div>
+		<div class="mt-5">
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
 					<li class="breadcrumb-item action">DEDUCTION DETAILS</li>
@@ -417,7 +422,7 @@
 						<input type="hidden" id="hiddenProcessingFee"> <label
 							for="loanName">PROCESSING FEE </label> <input type="text"
 							name="processingFee" id="processingFee" required="required"
-							placeholder="ENTER PROCESSING FEE"
+							readonly="readonly" placeholder="ENTER PROCESSING FEE"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -427,7 +432,7 @@
 						<input type="hidden" id="hiddenLegalCharges"> <label
 							for="loanName">LEGAL CHARGES </label> <input type="text"
 							name="legalCharges" id="legalCharges" required="required"
-							placeholder="ENTER LEGAL CHARGES"
+							readonly="readonly" placeholder="ENTER LEGAL CHARGES"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -438,8 +443,8 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<input type="hidden" id="hiddenGST"> <label for="loanName">GST</label>
 						<input type="text" name="gst" id="gst" required="required"
-							placeholder="ENTER STAMP DUTY FEE" placeholder="ENTER GST"
-							style="text-transform: uppercase;" />
+							readonly="readonly" placeholder="ENTER STAMP DUTY FEE"
+							placeholder="ENTER GST" style="text-transform: uppercase;" />
 					</div>
 				</div>
 
@@ -449,7 +454,7 @@
 						<input type="hidden" id="hiddenInsuranceFee"> <label
 							for="loanName">INSURANCE FEE</label> <input type="text"
 							name="insuranceFee" id="insuranceFee" required="required"
-							placeholder="ENTER INSURANCE FEE"
+							readonly="readonly" placeholder="ENTER INSURANCE FEE"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -459,7 +464,7 @@
 						<input type="hidden" id="hiddenValuationFees"> <label
 							for="loanName">VALUATION FEES</label> <input type="text"
 							name="valuationFees" id="valuationFees" required="required"
-							placeholder="ENTER INTEREST CHARGE"
+							readonly="readonly" placeholder="ENTER INTEREST CHARGE"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -471,7 +476,7 @@
 						<input type="hidden" id="hiddenStationaryCharge"> <label
 							for="">STATIONARY CHARGES FEE</label> <input type="text"
 							name="stationaryFee" id="stationaryFee" required="required"
-							placeholder="ENTER STATIONARY CHARGES FEE" />
+							readonly="readonly" placeholder="ENTER STATIONARY CHARGES FEE" />
 					</div>
 				</div>
 
@@ -492,7 +497,8 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">FINANCIAL CONSULTANT NAME</label> <input type="text"
-							name="financialConsultantName" id="financialConsultantName"
+							readonly="readonly" name="financialConsultantName"
+							id="financialConsultantName"
 							placeholder="ENTER FINANCIAL CONSULTANT NAME"
 							style="text-transform: uppercase;" />
 					</div>
