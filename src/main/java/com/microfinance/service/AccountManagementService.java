@@ -21,9 +21,12 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.microfinance.dto.BankCashTransferDto;
+import com.microfinance.dto.IncentiveRequest;
 import com.microfinance.dto.IncomingReceiptDto;
 import com.microfinance.dto.JournalEntryReportDto;
 import com.microfinance.dto.LedgerAccountDto;
@@ -34,6 +37,8 @@ import com.microfinance.dto.TrialBalanceReportDto;
 import com.microfinance.exception.BadRequestException;
 import com.microfinance.exception.BusinessLogicException;
 import com.microfinance.exception.ResourceNotFoundException;
+import com.microfinance.model.AccountIncentivePayment;
+import com.microfinance.model.AccountTransaction;
 import com.microfinance.model.AddnewinvestmentPM;
 import com.microfinance.model.ApplyForGold;
 import com.microfinance.model.BankCashTransferEntry;
@@ -45,6 +50,8 @@ import com.microfinance.model.ManualJournalEntry;
 import com.microfinance.model.OutgoingPaymentEntry;
 import com.microfinance.model.TeamMember;
 import com.microfinance.model.addFinancialConsultant;
+import com.microfinance.repository.AccountIcentivePaymentRepo;
+import com.microfinance.repository.AccountTransactionRepo;
 import com.microfinance.repository.AddInvestmentRepo;
 import com.microfinance.repository.ApplyForGoldRepo;
 import com.microfinance.repository.BankCashTransferRepo;
@@ -109,6 +116,12 @@ public class AccountManagementService {
 
 	@Autowired
 	private TeamMemberRepo teamMemberRepo;
+
+	@Autowired
+	private AccountIcentivePaymentRepo accountIcentivePaymentRepo;
+
+	@Autowired
+	private AccountTransactionRepo transactionRepository;
 
 	/**
 	 * Create a new Ledger Account. Business Logic: - Title must be unique per
@@ -1603,6 +1616,58 @@ public class AccountManagementService {
 		return saving + loan + policy + gold;
 	}
 
+	public Map<String, Object> getFullIncentiveDetails(IncentiveRequest request) {
+
+		Map<String, Object> response = new HashMap<>();
+
+		String teamMemberCode = request.getTeamMemberCode();
+		int month = request.getMonth();
+		int year = request.getYear();
+
+		// 🔹 1️⃣ Fetch Team Member
+		TeamMember tm = teamMemberRepo.findByTeamMemberCode(teamMemberCode);
+
+		if (tm == null) {
+			return response;
+		}
+
+		response.put("fullName", tm.getTeamMemberName());
+		response.put("designation", tm.getDesignation());
+
+		// 🔹 2️⃣ Personal Sales
+		double personalSales = calculatePersonalSalesAmount(teamMemberCode, month, year);
+
+		// 🔹 3️⃣ Group Sales
+		double groupSales = calculateGroupSalesAmount(teamMemberCode, month, year);
+
+		double overallSales = personalSales + groupSales;
+
+		// 🔹 4️⃣ Incentive Calculation
+		double totalEarnings = overallSales * 0.10;
+		double taxDeducted = totalEarnings * 0.05;
+		double serviceDeduction = totalEarnings * 0.02;
+		double extraAllowance = 1000;
+
+		double finalPayout = totalEarnings - taxDeducted - serviceDeduction + extraAllowance;
+
+		// 🔹 5️⃣ Put Values
+		response.put("teamMemberCode", teamMemberCode);
+		response.put("month", month);
+		response.put("year", year);
+
+		response.put("personalSales", personalSales);
+		response.put("groupSales", groupSales);
+		response.put("overallSales", overallSales);
+
+		response.put("totalEarnings", totalEarnings);
+		response.put("taxDeducted", taxDeducted);
+		response.put("serviceDeduction", serviceDeduction);
+		response.put("extraAllowance", extraAllowance);
+		response.put("finalPayout", finalPayout);
+
+		return response;
+	}
+
 	public double calculateGroupSalesAmount(String teamMemberCode, int month, int year) {
 
 		TeamMember tm = teamMemberRepo.findByTeamMemberCode(teamMemberCode);
@@ -1691,6 +1756,78 @@ public class AccountManagementService {
 				.sum();
 
 		return savingAmount + policyAmount + loanAmount + goldAmount;
+	}
+
+	public String saveIncentivePayment(AccountIncentivePayment request) {
+
+		// 🔴 Duplicate Check
+		boolean alreadyPaid = accountIcentivePaymentRepo
+				.existsByTeamMemberCodeAndIncentiveMonth(request.getTeamMemberCode(), request.getIncentiveMonth());
+
+		if (alreadyPaid) {
+			return "ALREADY_PAID";
+		}
+
+		AccountIncentivePayment payment = new AccountIncentivePayment();
+
+		payment.setIncentiveMonth(request.getIncentiveMonth());
+		payment.setTeamMemberCode(request.getTeamMemberCode());
+		payment.setFullName(request.getFullName());
+		payment.setDesignation(request.getDesignation());
+
+		payment.setPersonalSales(String.valueOf(request.getPersonalSales()));
+		payment.setGroupSales(String.valueOf(request.getGroupSales()));
+		payment.setOverallSales(String.valueOf(request.getOverallSales()));
+
+		payment.setTotalEarnings(String.valueOf(request.getTotalEarnings()));
+		payment.setTaxDeducted(String.valueOf(request.getTaxDeducted()));
+		payment.setServiceDeduction(String.valueOf(request.getServiceDeduction()));
+		payment.setExtraAllowance(String.valueOf(request.getExtraAllowance()));
+		payment.setFinalPayout(String.valueOf(request.getFinalPayout()));
+
+		payment.setBranchName(request.getBranchName());
+		payment.setPaymentDate(request.getPaymentDate());
+		payment.setModeOfPayment(request.getModeOfPayment());
+
+		accountIcentivePaymentRepo.save(payment);
+
+		return "SUCCESS";
+	}
+
+	@Transactional
+	public void depositAmount(String accountNumber, Double amount) {
+
+		// 1️⃣ Account fetch karo
+		CreateSavingsAccount account = createSavingAccountRepo.findByAccountNumber(accountNumber)
+				.orElseThrow(() -> new RuntimeException("Account not found with number: " + accountNumber));
+
+		// 2️⃣ Current balance nikalo (null safe)
+		Double currentBalance = 0.0;
+
+		if (account.getBalance() != null && !account.getBalance().isEmpty()) {
+			currentBalance = Double.parseDouble(account.getBalance());
+		}
+
+		// 3️⃣ New balance calculate karo
+		Double newBalance = currentBalance + amount;
+
+		// 4️⃣ Transaction object banao
+		AccountTransaction txn = new AccountTransaction();
+		txn.setAccountNumber(accountNumber);
+		txn.setTransactionDate(LocalDate.now().toString());
+		txn.setNarration("Cash Deposit");
+		txn.setCredit(amount);
+		txn.setDebit(0.0);
+		txn.setBalance(newBalance);
+		txn.setTransactionType("DEPOSIT");
+		txn.setStatus("SUCCESS");
+
+		// 5️⃣ Transaction save karo
+		transactionRepository.save(txn);	
+
+		// 6️⃣ Master table balance update karo
+		account.setBalance(String.valueOf(newBalance));
+		createSavingAccountRepo.save(account);
 	}
 
 }
