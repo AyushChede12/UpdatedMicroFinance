@@ -22,8 +22,8 @@
 			<div class="row">
 				<div class="col-lg-4">
 					<div class="d-flex flex-column formFields">
-						<label for="">TYPE OF LOAN</label> <select id="typeOfloan"
-							name="typeOfloan" required="required"
+						<label for="">TYPE OF LOAN</label> <select id="typeOfLoan"
+							name="typeOfLoan" required="required"
 							class="form-control selectField" style="height: 30px;">
 							<option value="">--SELECT LOAN TYPE--</option>
 						</select>
@@ -90,7 +90,6 @@
 							<th style="white-space: nowrap;">CHEQUE NO</th>
 							<th style="white-space: nowrap;">CHEQUE DATE</th>
 							<th style="white-space: nowrap;">CHEQUE AMOUNT</th>
-							<th style="white-space: nowrap;">BANK NAME</th>
 							<th style="white-space: nowrap;">BRANCH</th>
 							<th style="white-space: nowrap;">LOAN TYPE</th>
 							<th style="white-space: nowrap;">STATUS</th>
