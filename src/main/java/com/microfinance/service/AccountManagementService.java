@@ -24,7 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import com.microfinance.dto.BankCashTransferDto;
 import com.microfinance.dto.IncentiveRequest;
 import com.microfinance.dto.IncomingReceiptDto;
@@ -46,6 +45,7 @@ import com.microfinance.model.CreateSavingsAccount;
 import com.microfinance.model.IncomingReceiptEntry;
 import com.microfinance.model.LedgerAccountMaster;
 import com.microfinance.model.LoanApplication;
+import com.microfinance.model.LoanPayment;
 import com.microfinance.model.ManualJournalEntry;
 import com.microfinance.model.OutgoingPaymentEntry;
 import com.microfinance.model.TeamMember;
@@ -63,6 +63,7 @@ import com.microfinance.repository.JournalEntryReportRepo;
 import com.microfinance.repository.LedgerAccountRepository;
 import com.microfinance.repository.LedgerSummaryRepo;
 import com.microfinance.repository.LoanApplicationRepo;
+import com.microfinance.repository.LoanPaymentRepo;
 import com.microfinance.repository.ManualJournalRepo;
 import com.microfinance.repository.NewLoanAppicationRepo;
 import com.microfinance.repository.OutgoingPaymentRepo;
@@ -122,6 +123,9 @@ public class AccountManagementService {
 
 	@Autowired
 	private AccountTransactionRepo transactionRepository;
+
+	@Autowired
+	private LoanPaymentRepo loanPaymentRepo;
 
 	/**
 	 * Create a new Ledger Account. Business Logic: - Title must be unique per
@@ -1823,11 +1827,42 @@ public class AccountManagementService {
 		txn.setStatus("SUCCESS");
 
 		// 5️⃣ Transaction save karo
-		transactionRepository.save(txn);	
+		transactionRepository.save(txn);
 
 		// 6️⃣ Master table balance update karo
 		account.setBalance(String.valueOf(newBalance));
 		createSavingAccountRepo.save(account);
+	}
+
+	public List<LoanPayment> searchCheque(String typeOfLoan, String branchName, String startDate, String endDate,
+			String chequeNo) {
+		// TODO Auto-generated method stub
+		return loanPaymentRepo.searchCheque(typeOfLoan, branchName, startDate, endDate, chequeNo);
+	}
+
+	public LoanPayment clearCheque(Long id) {
+		LoanPayment payment = loanPaymentRepo.findById(id)
+				.orElseThrow(() -> new RuntimeException("LoanPayment not found"));
+
+		if (!"CHEQUE".equalsIgnoreCase(payment.getPaymentMode())) {
+			throw new RuntimeException("This payment is not a cheque.");
+		}
+
+		payment.setPaymentStatus("PAID"); // ✅ clear hone ke baad PAID
+		return loanPaymentRepo.save(payment);
+	}
+
+	public List<LoanPayment> findAllPendingCheques() {
+		// TODO Auto-generated method stub
+		return loanPaymentRepo.findAllPendingCheques();
+	}
+
+	public LoanPayment bounceCheque(Long id) {
+		LoanPayment payment = loanPaymentRepo.findById(id)
+				.orElseThrow(() -> new RuntimeException("LoanPayment not found"));
+
+		payment.setPaymentStatus("BOUNCED"); // ❌ cheque bounce
+		return loanPaymentRepo.save(payment);
 	}
 
 }

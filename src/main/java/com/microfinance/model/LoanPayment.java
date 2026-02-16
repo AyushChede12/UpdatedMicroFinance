@@ -23,6 +23,7 @@ public class LoanPayment {
 	private String emiPayment;
 	private String loanDate;
 	private String branchName;
+	private String typeOfLoan;
 
 	// Deduction Details
 	private String processingFee;
@@ -283,6 +284,14 @@ public class LoanPayment {
 
 	public void setBranchName(String branchName) {
 		this.branchName = branchName;
+	}
+
+	public String getTypeOfLoan() {
+		return typeOfLoan;
+	}
+
+	public void setTypeOfLoan(String typeOfLoan) {
+		this.typeOfLoan = typeOfLoan;
 	}
 
 }
