@@ -224,7 +224,7 @@
 				<label for="">MODE OF PAYMENT </label> <select id="modeOfPayment"
 					name="modeOfPayment" required="required"
 					class="form-control selectField" style="height: 30px;">
-					<option value="--SELECT PAYMENT MODE--"></option>
+					<option value="">--SELECT PAYMENT MODE--</option>
 					<option value="Cash">CASH</option>
 					<option value="Online">ONLINE</option>
 					<option value="Cheque">CHEQUE</option>
@@ -258,29 +258,29 @@
 				<table class="table table-borderless datatable overflow-scroll">
 					<thead class="table-light">
 						<tr style="font-family: 'Poppins', sans-serif;">
-							<th scope="col">FD Deposit</th>
-							<th scope="col">MIS Deposit</th>
-							<th scope="col">RD/DRD Deposite</th>
-							<th scope="col">Savings Deposit</th>
-							<th scope="col">Savings Withdrawal</th>
-							<th scope="col">Flexi Deposit</th>
-							<th scope="col">Flexi Withdrawal</th>
-							<th scope="col">Maturity Principal</th>
-							<th scope="col">Total Deposit</th>
-							<th scope="col">Total Withdrawal</th>
-							<th scope="col">Total Balance</th>
-							<th scope="col">Previous FDDeposited</th>
-							<th scope="col">Unencumbered(10%)</th>
-							<th scope="col">Unencumbered Amount(10%)</th>
-							<th scope="col">Bank Name</th>
-							<th scope="col">Bank Address</th>
-							<th scope="col">FD No.</th>
-							<th scope="col">FD Amount</th>
-							<th scope="col">Maturity Amount</th>
-							<th scope="col">FD Date</th>
-							<th scope="col">Maturity Date</th>
-							<th scope="col">Payment By</th>
-							<th scope="col">Remarks</th>
+							<th style="white-space: nowrap;">FD DEPOSIT</th>
+							<th style="white-space: nowrap;">MIS DEPOSIT</th>
+							<th style="white-space: nowrap;">RD/DRD DEPOSIT</th>
+							<th style="white-space: nowrap;">SAVINGS DEPOSIT</th>
+							<th style="white-space: nowrap;">SAVINGS WITHDRAWAL</th>
+							<th style="white-space: nowrap;">FLEXI DEPOSIT</th>
+							<th style="white-space: nowrap;">FLEXI WITHDRAWAL</th>
+							<th style="white-space: nowrap;">MATURITY PRINCIPAL</th>
+							<th style="white-space: nowrap;">TOTAL DEPOSIT</th>
+							<th style="white-space: nowrap;">TOTAL WITHDTAWAL</th>
+							<th style="white-space: nowrap;">TOTAL BALANCE</th>
+							<th style="white-space: nowrap;">PREVIOUS FD DEPOSITED</th>
+							<th style="white-space: nowrap;">UNENCUMBERED(10%)</th>
+							<th style="white-space: nowrap;">UNENCUMBERED AMOUNT(10%)</th>
+							<th style="white-space: nowrap;">BANK NAME</th>
+							<th style="white-space: nowrap;">BANK ADDRESS</th>
+							<th style="white-space: nowrap;">FD NO.</th>
+							<th style="white-space: nowrap;">FD AMOUNT</th>
+							<th style="white-space: nowrap;">MATURITY AMOUNT</th>
+							<th style="white-space: nowrap;">FD DATE</th>
+							<th style="white-space: nowrap;">MATURITY DATE</th>
+							<th style="white-space: nowrap;">PAYMENT BY</th>
+							<th style="white-space: nowrap;">REMARKS</th>
 						</tr>
 					</thead>
 					<tbody>

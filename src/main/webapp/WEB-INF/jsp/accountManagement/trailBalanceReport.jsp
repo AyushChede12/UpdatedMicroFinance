@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Account Management</h1>
+	<h1>ACCOUNT MANAGEMENT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="home"> <i
 					class="bi bi-wallet2"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Trail Balance Report</li>
+			<li class="breadcrumb-item action">TRAIL BALANCE REPORT</li>
 		</ol>
 	</nav>
 </div>
@@ -16,34 +16,31 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Search Information</li>
+					<li class="breadcrumb-item action">SEARCH INFORMATION</li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-4">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Branch Name</label> <select id=" branchName"
+						<label for=""> BRANCH NAME</label> <select id="branchName"
 							name="branchName" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select Branch Name</option>
-							<option value="Blue">Blue</option>
+							<option value="">--SELECT BRANCH--</option>
 						</select>
 					</div>
 				</div>
 
 				<div class="col-lg-4">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Start Date</label> <input type="date"
-							name="startDate" id="startDate" required="required"
-							style="text-transform: uppercase;" />
+						<label for="vehicalNo">START DATE</label> <input type="date"
+							name="startDate" id="startDate" required="required" />
 					</div>
 				</div>
 
 				<div class="col-lg-4">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">End Date</label> <input type="date"
-							name="endDate" id="endDate" required="required"
-							placeholder="Enter To Date" style="text-transform: uppercase;" />
+						<label for="vehicalNo">END DATE</label> <input type="date"
+							name="endDate" id="endDate" required="required" />
 					</div>
 				</div>
 			</div>
@@ -53,16 +50,16 @@
 	<div class="row">
 		<div class="col-12 text-center mt-3">
 			<button id="viewBtn" class="btnStyle"
-				style="background-color: #FFA500;">View</button>
+				style="background-color: #FFA500;">VIEW</button>
 		</div>
 	</div>
 </form>
 
 <div class="row mt-5">
 	<div class="col-12">
-		<label for="vehicalNo"><b><u>Trail Balance</u></b></label><br> <label
-			for="vehicalNo"><b>Branch :</b></label><br> <label
-			for="vehicalNo"><b>Date :</b></label> Between
+		<label for="vehicalNo"><b><u>TRAIL BALANCE</u></b></label><br> <label
+			for="vehicalNo"><b>BRANCH :</b></label><br> <label
+			for="vehicalNo"><b>DATE :</b></label> BETWEEN
 		<div class="card recent-sales">
 
 			<div class="card-body table-responsive">
@@ -71,11 +68,11 @@
 				<table class="table table-borderless datatable overflow-scroll">
 					<thead class="table-light">
 						<tr style="font-family: 'Poppins', sans-serif;">
-							<th scope="col">Ledger Name</th>
-							<th scope="col">Opening</th>
-							<th scope="col">Debit</th>
-							<th scope="col">Credit</th>
-							<th scope="col">Closing</th>
+							<th style="white-space: nowrap;">LEDGER NAME</th>
+							<th style="white-space: nowrap;">OPENING</th>
+							<th style="white-space: nowrap;">DEBIT</th>
+							<th style="white-space: nowrap;">CREDIT</th>
+							<th style="white-space: nowrap;">CLOSING</th>
 						</tr>
 					</thead>
 					<tbody>
