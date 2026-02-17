@@ -126,9 +126,9 @@ function bindChequeTable(response) {
                     <td>${item.chequeNo || ''}</td>
                     <td>${item.chequeDate || ''}</td>
                     <td>${item.amountDue || ''}</td>
-                    <td>${(item.branchName).toUpperCase() || ''}</td>
-                    <td>${(item.typeOfLoan).toUpperCase() || ''}</td>
-                    <td>${(item.paymentStatus).toUpperCase() || ''}</td>
+                    <td>${item.branchName || ''}</td>
+                    <td>${item.typeOfLoan || ''}</td>
+                    <td>${item.paymentStatus || ''}</td>
                     <td>
 						<div class="d-flex">
                         	<button class="btn btn-success btn-sm" ${disableBtn} onclick="clearCheque(${item.id})">Clear</button>

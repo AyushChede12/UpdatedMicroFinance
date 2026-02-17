@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Account Management</h1>
+	<h1>ACCOUNT MANAGEMENT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="home"> <i
 					class="bi bi-wallet2"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Inter Branch Cash Transfer</li>
+			<li class="breadcrumb-item action">INTER BRANCH CASH TRANSFER</li>
 		</ol>
 	</nav>
 </div>
@@ -16,45 +16,42 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Enter Details</li>
+					<li class="breadcrumb-item action">ENTER DETAILS</li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Start Date</label> <input type="date"
-							name="startDate" id="startDate" required="required"
-							placeholder="Enter From Date" style="text-transform: uppercase;" />
+						<label for="vehicalNo">START DATE</label> <input type="date"
+							name="startDate" id="startDate" required="required" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Source Branch</label> <select id="sourceBranch"
-							name="sourceBranch" required="required"
+						<label for="">SOURCE BRANCH</label> <select id="branchName"
+							name="branchName" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select From Branch</option>
-							<option value="Blue">Blue</option>
+							<option value="">--SELECT BRANCH--</option>
 						</select>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Receiving branch</label> <select
-							id="receivingbranch" name="receivingbranch" required="required"
+						<label for="">RECEIVING BRANCH</label> <select id="branchName"
+							name="branchName" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select To Branch</option>
-							<option value="Blue">Blue</option>
+							<option value="">--SELECT BRANCH--</option>
 						</select>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for=""> Total Amount</label> <input type="text"
+						<label for=""> TOTAL AMOUNT</label> <input type="text"
 							name="totalAmount" id="totalAmount" required="required"
-							placeholder="Enter Amount" />
+							placeholder="ENTER AMOUNT" />
 					</div>
 				</div>
 			</div>
@@ -64,7 +61,7 @@
 	<div class="row">
 		<div class="col-12 text-center mt-3">
 			<button id="saveBtn" class="btnStyle"
-				style="background-color: #FFA500;">Transfer</button>
+				style="background-color: #FFA500;">TRANSFER</button>
 		</div>
 	</div>
 </form>
@@ -79,9 +76,9 @@
 				<table class="table table-borderless datatable overflow-scroll">
 					<thead class="table-light">
 						<tr style="font-family: 'Poppins', sans-serif;">
-							<th scope="col">Date</th>
-							<th scope="col">Name</th>
-							<th scope="col">Amount</th>
+							<th style="white-space: nowrap;">DATE</th>
+							<th style="white-space: nowrap;">NAME</th>
+							<th style="white-space: nowrap;">AMOUNT</th>
 						</tr>
 					</thead>
 					<tbody>
