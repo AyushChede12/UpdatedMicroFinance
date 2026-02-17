@@ -1,5 +1,5 @@
 /* =====================================================
-   CHEQUE TRANSACTION REPORT – FINAL FIXED JS
+   CHEQUE TRANSACTION REPORT – FINAL WORKING JS
    ===================================================== */
 
 $(document).ready(function () {
@@ -14,11 +14,15 @@ $(document).ready(function () {
     });
 });
 
+
 /* ================= GLOBAL ================= */
+
 let allChequeData = [];
 let rowIndex = 0;
 
+
 /* ================= LOAD START ================= */
+
 function loadChequeData() {
 
     allChequeData = [];
@@ -28,7 +32,9 @@ function loadChequeData() {
     loadLoanPayment();
 }
 
+
 /* ================= API 1 : LOAN PAYMENT ================= */
+
 function loadLoanPayment() {
 
     $.ajax({
@@ -55,12 +61,14 @@ function loadLoanPayment() {
             loadSavingActivity();
         },
         error: function () {
-            loadSavingActivity(); // chain must continue
+            loadSavingActivity();
         }
     });
 }
 
+
 /* ================= API 2 : SAVING ACTIVITY ================= */
+
 function loadSavingActivity() {
 
     $.ajax({
@@ -92,7 +100,9 @@ function loadSavingActivity() {
     });
 }
 
+
 /* ================= API 3 : CREATE SAVINGS ================= */
+
 function loadCreateSaving() {
 
     $.ajax({
@@ -124,7 +134,9 @@ function loadCreateSaving() {
     });
 }
 
+
 /* ================= API 4 : FINANCIAL CONSULTANT ================= */
+
 function loadFinancialConsultant() {
 
     $.ajax({
@@ -156,7 +168,9 @@ function loadFinancialConsultant() {
     });
 }
 
+
 /* ================= API 5 : TEAM MEMBER ================= */
+
 function loadTeamMember() {
 
     $.ajax({
@@ -189,7 +203,9 @@ function loadTeamMember() {
     });
 }
 
+
 /* ================= FILTER ================= */
+
 function applyFilters() {
 
     let fDate = $("#fDate").val();
@@ -198,8 +214,8 @@ function applyFilters() {
     let type = $("#type").val();
     let branch = $("#branchName").val();
 
-    let fromDate = fDate ? new Date(fDate) : null;
-    let toDate = tDate ? new Date(tDate) : null;
+    let fromDate = parseInputDate(fDate);
+    let toDate = parseInputDate(tDate);
 
     let filtered = allChequeData.filter(item => {
 
@@ -209,8 +225,12 @@ function applyFilters() {
         if (toDate && itemDate && itemDate > toDate) return false;
 
         if (chequeNo && !String(item.chequeNo || "").includes(chequeNo)) return false;
-        if (type && item.type !== type) return false;
-        if (branch && item.branch !== branch) return false;
+
+        // enable only if dropdown values match ISSUED / RECEIVED
+        // if (type && item.type !== type) return false;
+
+        if (branch && item.branch &&
+            item.branch.toLowerCase() !== branch.toLowerCase()) return false;
 
         return true;
     });
@@ -218,7 +238,9 @@ function applyFilters() {
     renderTable(filtered);
 }
 
+
 /* ================= TABLE ================= */
+
 function renderTable(data) {
 
     let tbody = $(".datatable tbody");
@@ -238,6 +260,7 @@ function renderTable(data) {
 
     data.forEach(item => {
         rowIndex++;
+
         tbody.append(`
             <tr>
                 <td>${rowIndex}</td>
@@ -255,27 +278,36 @@ function renderTable(data) {
     });
 }
 
+
 /* ================= HELPERS ================= */
 
-/* 🔥 UNIVERSAL DATA EXTRACTOR */
 function extractData(res) {
-
     if (!res) return [];
-
-    // most common
     if (Array.isArray(res.data)) return res.data;
-
-    // some projects use response / result
     if (Array.isArray(res.response)) return res.response;
     if (Array.isArray(res.result)) return res.result;
-
     return [];
 }
+
 
 function parseDate(d) {
     if (!d) return null;
     return new Date(d.split(" ")[0]);
 }
+
+
+/* 🔥 FIXED INPUT DATE FORMAT (DD-MM-YYYY) */
+function parseInputDate(d) {
+
+    if (!d) return null;
+
+    let parts = d.split("-");
+    if (parts.length === 3) {
+        return new Date(parts[2] + "-" + parts[1] + "-" + parts[0]);
+    }
+    return new Date(d);
+}
+
 
 function formatDate(d) {
     if (!d) return "-";
