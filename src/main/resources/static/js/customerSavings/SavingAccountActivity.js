@@ -282,18 +282,18 @@ document.getElementById("transactionType").addEventListener("change", function (
     var commentsDropdown = document.getElementById("comments");
 
     // clear old options
-    commentsDropdown.innerHTML = '<option value="">-SELECT-</option>';
+    commentsDropdown.innerHTML = '<option value="">--SELECT--</option>';
 
     if (transactionType === "Deposit") {
-        addOption(commentsDropdown, "By Cash");
-        addOption(commentsDropdown, "By Transfer");
-        addOption(commentsDropdown, "By Online");
-        addOption(commentsDropdown, "By Cheque");
+        addOption(commentsDropdown, "BY CASH");
+        addOption(commentsDropdown, "BY TRANSFER");
+        addOption(commentsDropdown, "BY ONLINE");
+        addOption(commentsDropdown, "BY CHEQUE");
     }
     else if (transactionType === "Withdraw") {
-        addOption(commentsDropdown, "To Cash");
-        addOption(commentsDropdown, "To Transfer");
-        addOption(commentsDropdown, "To Cheque");
+        addOption(commentsDropdown, "TO CASH");
+        addOption(commentsDropdown, "TO TRANSFER");
+        addOption(commentsDropdown, "TO CHEQUE");
     }
 });
 

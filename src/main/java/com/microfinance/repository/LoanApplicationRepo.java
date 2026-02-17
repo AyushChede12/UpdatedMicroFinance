@@ -1,5 +1,6 @@
 package com.microfinance.repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,5 +27,7 @@ public interface LoanApplicationRepo extends JpaRepository<LoanApplication,Long>
 	List<LoanApplication> findByApprovalStatusFalse();
 
 	long countByFinancialConsultantIdInAndLoanDateContaining(List<String> financialConsultantCode, String yearMonth);
+
+	List<LoanApplication> findByFinancialConsultantIdIn(List<String> financialCodes);
 
 }

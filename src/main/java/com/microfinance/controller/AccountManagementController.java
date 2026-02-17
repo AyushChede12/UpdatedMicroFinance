@@ -28,7 +28,10 @@ import com.microfinance.dto.LedgerSummaryDto;
 import com.microfinance.dto.ManualJournalDto;
 import com.microfinance.dto.OutgoingPaymentDto;
 import com.microfinance.dto.TrialBalanceReportDto;
+import com.microfinance.model.AccountIncentivePayment;
 import com.microfinance.model.LedgerAccountMaster;
+import com.microfinance.model.LoanPayment;
+import com.microfinance.model.TeamMember;
 import com.microfinance.service.AccountManagementService;
 
 @RestController
@@ -363,5 +366,86 @@ public class AccountManagementController {
 
 		return ResponseEntity.ok(response);
 	}
+
+	@PostMapping("/incentive-full-details")
+	public ResponseEntity<ApiResponse> getFullIncentiveDetails(@RequestBody IncentiveRequest request) {
+
+		Map<String, Object> response = accountManagementService.getFullIncentiveDetails(request);
+
+		if (response == null || response.isEmpty()) {
+			return ResponseEntity.ok(new ApiResponse(HttpStatus.NOT_FOUND, "No Incentive Data Found", null));
+		}
+
+		return ResponseEntity.ok(new ApiResponse(HttpStatus.FOUND, "Incentive Details Fetched Successfully", response));
+	}
+
+	@PostMapping("/save-incentive-payment")
+	public ResponseEntity<ApiResponse> saveIncentivePayment(@RequestBody AccountIncentivePayment request) {
+
+		String result = accountManagementService.saveIncentivePayment(request);
+
+		if (result.equals("ALREADY_PAID")) {
+			return ResponseEntity
+					.ok(new ApiResponse(HttpStatus.CONFLICT, "Incentive Already Paid For This Month", null));
+		}
+
+		return ResponseEntity.ok(new ApiResponse(HttpStatus.OK, "Incentive Payment Saved Successfully", result));
+	}
+
+	@PostMapping("/deposit")
+	public ResponseEntity<String> deposit(@RequestParam String accountNumber, @RequestParam Double amount) {
+
+		accountManagementService.depositAmount(accountNumber, amount);
+
+		return ResponseEntity.ok("Deposit Successful");
+	}
+	
+	@GetMapping("/allPendingCheques")
+	public ApiResponse<List<LoanPayment>> getAllPendingCheques() {
+	    List<LoanPayment> list = accountManagementService.findAllPendingCheques();
+	    return new ApiResponse<>(HttpStatus.OK, "All pending cheques", list);
+	}
+
+
+	@PostMapping("/search")
+	public ApiResponse<List<LoanPayment>> searchCheque(@RequestParam String typeOfLoan, @RequestParam String branchName,
+			@RequestParam String startDate, @RequestParam String endDate, @RequestParam String chequeNo) {
+
+		try {
+			List<LoanPayment> list = accountManagementService.searchCheque(typeOfLoan, branchName, startDate, endDate,
+					chequeNo);
+
+			if (list == null || list.isEmpty()) {
+				return new ApiResponse<>(HttpStatus.NOT_FOUND, "No cheque records found.", list);
+			}
+
+			return new ApiResponse<>(HttpStatus.FOUND, "Cheque records fetched successfully.", list);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, "Error while fetching cheque records.", null);
+		}
+	}
+
+	@PostMapping("/clear")
+	public ApiResponse<LoanPayment> clearCheque(@RequestParam Long id) {
+		try {
+			LoanPayment updated = accountManagementService.clearCheque(id);
+			return new ApiResponse<>(HttpStatus.OK, "Cheque cleared. Payment marked as PAID.", updated);
+		} catch (Exception e) {
+			return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to clear cheque.", null);
+		}
+	}
+	
+	@PostMapping("/bounce")
+	public ApiResponse<LoanPayment> bounceCheque(@RequestParam Long id) {
+	    try {
+	        LoanPayment updated = accountManagementService.bounceCheque(id);
+	        return new ApiResponse<>(HttpStatus.OK, "Cheque bounced Successfully.", updated);
+	    } catch (Exception e) {
+	        return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to bounce cheque.", null);
+	    }
+	}
+
 
 }

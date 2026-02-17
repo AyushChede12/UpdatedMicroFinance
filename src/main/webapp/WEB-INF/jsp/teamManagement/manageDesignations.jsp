@@ -16,16 +16,18 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">ADD DESIGNATION MASTER </li>
+					<li class="breadcrumb-item action">ADD DESIGNATION </li>
 				</ol>
 			</nav>
 			<div class="row">
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">DESIGANTION NAME</label> <input type="text"
-							name="designationName" id="designationName" required="required"
-							placeholder="ENTER DESIGNATION " />
+						<label for="">DESIGNATION NAME <span class="star">*</span></label> <input type="text"
+							name="designationName" id="designationName
+							" required="required"
+							placeholder="ENTER DESIGNATION " /> <small id="chkdesignationname"
+							style="color: red;"></small>
 					</div>
 				</div>
 

@@ -1,11 +1,11 @@
 
 <div class="pagetitle">
-	<h1>Account Management</h1>
+	<h1>ACCOUNT MANAGEMENT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="home"><i
 					class="bi bi-wallet2"></i> </a></li>
-			<li class="breadcrumb-item action">Bank Statement</li>
+			<li class="breadcrumb-item action">BANK STATEMENT</li>
 		</ol>
 	</nav>
 </div>
@@ -15,34 +15,31 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Search Box</li>
+					<li class="breadcrumb-item action">SEARCH BOX</li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-4">
 					<div class="d-flex flex-column formFields">
-						<label for="">Customer Account Number.</label> <select
-							id="customerAcnumber" name="customerAcnumber" required="required"
+						<label for="">ACCOUNT NUMBER</label> <select
+							id="accountNumber" name="accountNumber" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select AC No</option>
-							<option value="Blue">Blue</option>
+							<option value="">--SELECT ACCOUNT NO--</option>
 						</select>
 					</div>
 				</div>
 
 				<div class="col-lg-4">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Start Date</label> <input type="date"
-							name="startDate" id="startDate" required="required"
-							style="text-transform: uppercase;" />
+						<label for="vehicalNo">START DATE</label> <input type="date"
+							name="startDate" id="startDate" required="required" />
 					</div>
 				</div>
 
 				<div class="col-lg-4">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">End Date</label> <input type="date"
-							name="endDate" id="endDate" required="required"
-							style="text-transform: uppercase;" />
+						<label for="vehicalNo">END DATE</label> <input type="date"
+							name="endDate" id="endDate" required="required" />
 					</div>
 				</div>
 			</div>
@@ -52,7 +49,7 @@
 	<div class="row">
 		<div class="col-12 text-center mt-3">
 			<button id="searchbtn" class="btnStyle"
-				style="background-color: #FFA500;">Search</button>
+				style="background-color: #FFA500;">SEARCH</button>
 		</div>
 	</div>
 </form>
@@ -62,7 +59,7 @@
 		<div class="card recent-sales">
 
 			<div class="card-body table-responsive">
-				<h5 class="card-title">Search Result</h5>
+				<h5 class="card-title">STATEMENT DETAILS</h5>
 
 				<table class="table table-borderless datatable overflow-scroll">
 					<thead class="table-light">
@@ -84,3 +81,6 @@
 		</div>
 	</div>
 </div>
+
+<script
+	src="${pageContext.request.contextPath}/js/account-management/bankStatement.js"></script>
