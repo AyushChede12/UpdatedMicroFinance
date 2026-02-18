@@ -399,51 +399,55 @@ $(document).ready(function() {
 });
 
 function calculateDepositAndMaturity() {
-	const policyAmount = parseFloat($("#policyAmount").val()); // This is per-installment amount
-	const term = parseInt($("#schemeTerm").val());
-	const schemeMode = $("#schemeMode").val();
-	const roi = parseFloat($("#roi").val());
+	const policyAmount = parseFloat($("#policyAmount").val());
+	 const term = parseInt($("#schemeTerm").val());  // months or days depending on scheme
+	 const schemeMode = $("#schemeMode").val();
+	 const roi = parseFloat($("#roi").val());
 
-	if (isNaN(policyAmount) || isNaN(term) || !schemeMode || isNaN(roi)) {
-		$("#depositAmount").val("");
-		$("#maturityAmount").val("");
-		return;
-	}
+	 if (isNaN(policyAmount) || isNaN(term) || !schemeMode || isNaN(roi)) {
+	     $("#depositAmount").val("");
+	     $("#maturityAmount").val("");
+	     return;
+	 }
 
-	let installmentsPerYear = 0;
+	 let maturityAmount = 0;
+	 let totalDepositAmount = 0;
+	 let n = 0; // compounding frequency
+	 let r = roi / 100;
 
-	switch (schemeMode) {
-		case "Daily":
-			installmentsPerYear = 1;
-			break;
-		case "Monthly":
-			installmentsPerYear = 1;
-			break;
-		case "Quarterly":
-			installmentsPerYear = 4;
-			break;
-		case "Half-Yearly":
-			installmentsPerYear = 2;
-			break;
-		case "Yearly":
-			installmentsPerYear = 1;
-			break;
-		default:
-			alert("Unknown scheme mode selected.");
-			return;
-	}
+	 if (schemeMode === "Daily") {
+	     // Daily Deposit (DD) — term in days
+	     const days = term;
+	     totalDepositAmount = policyAmount * days;
 
-	const totalInstallments = installmentsPerYear * term;
-	const totalDepositAmount = policyAmount * totalInstallments;
-	const r = roi / 100;
-	const n = installmentsPerYear;
-	const t = term;
+	     const interest = policyAmount * ((days * (days + 1)) / 2) * (roi / (365 * 100));
+	     maturityAmount = totalDepositAmount + interest;
+	 }
 
-	// Use Future Value of Ordinary Annuity Formula:
-	// M = P × [((1 + r/n)^(nt) - 1) / (r/n)]
-	const compoundRate = r / n;
-	const maturityAmount = policyAmount * ((Math.pow(1 + compoundRate, n * t) - 1) / compoundRate);
+	 else if (schemeMode === "Monthly") {
+	     // Recurring Deposit (RD) — term in months
+	     const months = term;
+	     totalDepositAmount = policyAmount * months;
 
+	     const interest = policyAmount * ((months * (months + 1)) / 2) * (roi / (12 * 100));
+	     maturityAmount = totalDepositAmount + interest;
+	 }
+
+	 else {
+	     // Quarterly / Half-Yearly / Yearly — FD type annuity
+	     switch (schemeMode) {
+	         case "Quarterly": n = 4; break;
+	         case "Half-Yearly": n = 2; break;
+	         case "Yearly": n = 1; break;
+	     }
+
+	     totalDepositAmount = policyAmount * term;
+
+	     const rate = r / n;
+	     maturityAmount = policyAmount *
+	         ((Math.pow(1 + rate, n * term) - 1) / rate);
+	 }
+	 
 	$("#depositAmount").val(totalDepositAmount.toFixed(2));
 	$("#maturityAmount").val(maturityAmount.toFixed(2));
 }

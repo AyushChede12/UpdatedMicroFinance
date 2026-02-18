@@ -21,8 +21,8 @@
 			<div class="row">
 				<div class="col-lg-4">
 					<div class="d-flex flex-column formFields">
-						<label for="">ACCOUNT NUMBER</label> <select
-							id="accountNumber" name="accountNumber" required="required"
+						<label for="">ACCOUNT NUMBER</label> <select id="accountNumber"
+							name="accountNumber" required="required"
 							class="form-control selectField" style="height: 30px;">
 							<option value="">--SELECT ACCOUNT NO--</option>
 						</select>
@@ -64,14 +64,14 @@
 				<table class="table table-borderless datatable overflow-scroll">
 					<thead class="table-light">
 						<tr style="font-family: 'Poppins', sans-serif;">
-							<th scope="col">Sr No.</th>
-							<th scope="col">Bank</th>
-							<th scope="col">Account No.</th>
-							<th scope="col">Date</th>
-							<th scope="col">Narration</th>
-							<th scope="col">Credit Cr.</th>
-							<th scope="col">Debit Dr.</th>
-							<th scope="col">Balance</th>
+							<th style="white-space: nowrap;">SR NO.</th>
+							<th style="white-space: nowrap;">BANK</th>
+							<th style="white-space: nowrap;">ACCOUNT NO.</th>
+							<th style="white-space: nowrap;">DATE</th>
+							<th style="white-space: nowrap;">NARATION</th>
+							<th style="white-space: nowrap;">CREDIT CR.</th>
+							<th style="white-space: nowrap;">DEBIT DR.</th>
+							<th style="white-space: nowrap;">BALANCE</th>
 						</tr>
 					</thead>
 					<tbody>

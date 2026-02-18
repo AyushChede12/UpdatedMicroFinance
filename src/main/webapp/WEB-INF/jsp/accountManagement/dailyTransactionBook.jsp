@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Account Management</h1>
+	<h1>ACCOUNT MANAGEMENT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="home"> <i
 					class="bi bi-wallet2"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Daily Transaction Book</li>
+			<li class="breadcrumb-item action">DAILY TRANSACTION BOOK</li>
 		</ol>
 	</nav>
 </div>
@@ -16,45 +16,41 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Search Information</li>
+					<li class="breadcrumb-item action">SEARCH INFORMATION</li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">branch Name</label> <select id="branchName"
+						<label for="">BRANCH NAME</label> <select id="branchName"
 							name="branchName" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select Branch</option>
-							<option value="Blue">Blue</option>
+							<option value="">--SELECT BRANCH--</option>
 						</select>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Choose Ledger</label> <select id="chooseLedger"
+						<label for="">CHOOSE LEDGER</label> <select id="chooseLedger"
 							name="chooseLedger" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select Ledger</option>
-							<option value="Blue">Blue</option>
+							<option value="">--SELECT LEDGER--</option>
 						</select>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Start Date</label> <input type="date"
-							name="startDate" id="startDate" required="required"
-							placeholder="Enter From Date" style="text-transform: uppercase;" />
+						<label for="vehicalNo">START DATE</label> <input type="date"
+							name="startDate" id="startDate" required="required" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">End Date</label> <input type="date"
-							name="endDate" id="endDate" required="required"
-							placeholder="Enter To Date" style="text-transform: uppercase;" />
+						<label for="vehicalNo">END DATE</label> <input type="date"
+							name="endDate" id="endDate" required="required" />
 					</div>
 				</div>
 			</div>
@@ -64,7 +60,7 @@
 	<div class="row">
 		<div class="col-12 text-center mt-3">
 			<button id="serachBtn" class="btnStyle"
-				style="background-color: #FFA500;">Search</button>
+				style="background-color: #FFA500;">SEARCH</button>
 		</div>
 	</div>
 </form>
@@ -74,15 +70,15 @@
 		<div class="card recent-sales">
 
 			<div class="card-body table-responsive">
-				<h5 class="card-title">Search Result</h5>
+				<h5 class="card-title">SEARCH RESULT</h5>
 
 				<table class="table table-borderless datatable overflow-scroll">
 					<thead class="table-light">
 						<tr style="font-family: 'Poppins', sans-serif;">
 							<th scope="col">ID</th>
-							<th scope="col">Branch Type</th>
-							<th scope="col">Ledger</th>
-							<th scope="col">Date</th>
+							<th scope="col">BRANCH TYPE</th>
+							<th scope="col">LEDGER</th>
+							<th scope="col">DATE</th>
 						</tr>
 					</thead>
 					<tbody>
