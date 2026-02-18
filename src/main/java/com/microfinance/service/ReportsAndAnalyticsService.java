@@ -1,11 +1,12 @@
 package com.microfinance.service;
 
 import java.util.List;
-
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.microfinance.model.AddnewinvestmentPM;
 import com.microfinance.model.CreateSavingsAccount;
 import com.microfinance.model.LoanApplication;
 import com.microfinance.model.LoanPayment;
@@ -15,6 +16,7 @@ import com.microfinance.model.addFinancialConsultant;
 import com.microfinance.repository.ReportsAndAnalyticsRepo;
 import com.microfinance.repository.SavingAccountActivityRepo;
 import com.microfinance.repository.TeamMemberRepo;
+import com.microfinance.repository.AddInvestmentRepo;
 import com.microfinance.repository.CreateSavingAccountRepo;
 import com.microfinance.repository.FinancialConsultantRepo;
 import com.microfinance.repository.LoanApplicationRepo;
@@ -45,6 +47,9 @@ public class ReportsAndAnalyticsService {
 	
 	@Autowired
 	TeamMemberRepo teamMemberRepo;
+	
+	@Autowired
+	AddInvestmentRepo addInvestmentRepo;
 
 	public List<addFinancialConsultant> getApprovedFinancialConsultant() {
 		// TODO Auto-generated method stub
@@ -99,6 +104,11 @@ public class ReportsAndAnalyticsService {
 	public List<LoanApplication> getAllLoanApplication() {
 		// TODO Auto-generated method stub
 		return loanApplicationRepo.findAll();
+	}
+
+	public Optional<AddnewinvestmentPM> getPolicyById(Long id) {
+		// TODO Auto-generated method stub
+		return addInvestmentRepo.findById(id);
 	}
 
 	
