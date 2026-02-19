@@ -64,6 +64,7 @@
 			<div class="card-body table-responsive">
 				<h5 class="card-title">SEARCH RESULT</h5>
 
+
 				<table class="table table-borderless datatable overflow-scroll">
 					<thead class="table-light">
 						<tr style="font-family: 'Poppins', sans-serif;">
