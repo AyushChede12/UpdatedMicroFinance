@@ -32,17 +32,15 @@
 
 				<div class="col-lg-4">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Start Date</label> <input type="date"
-							name="startDate" id="startDate" required="required"
-							style="text-transform: uppercase;" />
+						<label for="vehicalNo">START DATE</label> <input type="date"
+							name="startDate" id="startDate" required="required" />
 					</div>
 				</div>
 
 				<div class="col-lg-4">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">End Date</label> <input type="date"
-							name="endDate" id="endDate" required="required"
-							style="text-transform: uppercase;" />
+						<label for="vehicalNo">END DATE</label> <input type="date"
+							name="endDate" id="endDate" required="required" />
 					</div>
 				</div>
 			</div>

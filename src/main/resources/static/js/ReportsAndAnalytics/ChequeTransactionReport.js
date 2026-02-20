@@ -194,6 +194,40 @@ function loadTeamMember() {
                 });
             });
 
+            loadApprovedCustomers();   // 🔥 FINAL STEP BEFORE RENDER
+        },
+        error: function () {
+            loadApprovedCustomers();
+        }
+    });
+}
+
+
+/* ================= API 6 : APPROVED CUSTOMERS ================= */
+
+function loadApprovedCustomers() {
+
+    $.ajax({
+        url: contextPath + "/api/customermanagement/approved",
+        type: "GET",
+        success: function (res) {
+
+            console.log("Approved Customers API:", res);
+
+            let data = extractData(res);
+
+            data.forEach(item => {
+                allChequeData.push({
+                    id: item.id,
+                    name: item.customerName || "-",
+                    date: item.signupDate,
+                    chequeNo: item.chequeNo || "-",
+                    type: "ISSUED",
+                    branch: item.branchName || "",
+                    source: "Customer"
+                });
+            });
+
             console.log("FINAL DATA SIZE =", allChequeData.length);
             renderTable(allChequeData);
         },
@@ -225,9 +259,6 @@ function applyFilters() {
         if (toDate && itemDate && itemDate > toDate) return false;
 
         if (chequeNo && !String(item.chequeNo || "").includes(chequeNo)) return false;
-
-        // enable only if dropdown values match ISSUED / RECEIVED
-        // if (type && item.type !== type) return false;
 
         if (branch && item.branch &&
             item.branch.toLowerCase() !== branch.toLowerCase()) return false;
@@ -289,25 +320,19 @@ function extractData(res) {
     return [];
 }
 
-
 function parseDate(d) {
     if (!d) return null;
     return new Date(d.split(" ")[0]);
 }
 
-
-/* 🔥 FIXED INPUT DATE FORMAT (DD-MM-YYYY) */
 function parseInputDate(d) {
-
     if (!d) return null;
-
     let parts = d.split("-");
     if (parts.length === 3) {
         return new Date(parts[2] + "-" + parts[1] + "-" + parts[0]);
     }
     return new Date(d);
 }
-
 
 function formatDate(d) {
     if (!d) return "-";

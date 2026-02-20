@@ -24,16 +24,17 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px;">
-						<label for="">TYPE </label><select id="type" name="type" class="form-control selectField" style="height: 30px;">
-    <option value="">ALL TYPE</option>
-    <option value="ISSUED">CHEQUE ISSUED</option>
-    <option value="RECEIVED">CHEQUE RECEIVED</option>
-    <option value="CLEARED">CLEARED CHEQUE</option>
-    <option value="BOUNCED">BOUNCED CHEQUE</option>
-    <option value="PENDING">PENDING CHEQUE</option>
-    <option value="CANCELLED">CANCELLED CHEQUE</option>
-    <option value="TRANSFERRED">TRANSFERRED CHEQUE</option>
-</select>
+						<label for="">TYPE </label><select id="type" name="type"
+							class="form-control selectField" style="height: 30px;">
+							<option value="">ALL TYPE</option>
+							<option value="ISSUED">CHEQUE ISSUED</option>
+							<option value="RECEIVED">CHEQUE RECEIVED</option>
+							<option value="CLEARED">CLEARED CHEQUE</option>
+							<option value="BOUNCED">BOUNCED CHEQUE</option>
+							<option value="PENDING">PENDING CHEQUE</option>
+							<option value="CANCELLED">CANCELLED CHEQUE</option>
+							<option value="TRANSFERRED">TRANSFERRED CHEQUE</option>
+						</select>
 
 					</div>
 				</div>
@@ -121,8 +122,8 @@
 
 </div>
 <script>
-    var contextPath = "${pageContext.request.contextPath}";
-    console.log("JSP contextPath =", contextPath);
+	var contextPath = "${pageContext.request.contextPath}";
+	console.log("JSP contextPath =", contextPath);
 </script>
 
 <script
