@@ -65,9 +65,11 @@
 				<table class="table table-borderless datatable overflow-scroll">
 					<thead class="table-light">
 						<tr style="font-family: 'Poppins', sans-serif;">
-							<th style="white-space: nowrap;">ID</th>
-							<th style="white-space: nowrap;">BRANCH TYPE</th>
 							<th style="white-space: nowrap;">DATE</th>
+							<th style="white-space: nowrap;">BRANCH</th>
+							<th style="white-space: nowrap;">TOTAL INCOME</th>
+							<th style="white-space: nowrap;">TOTAL EXPENSE</th>
+							<th style="white-space: nowrap;">PROFIT/LOSS</th>
 						</tr>
 					</thead>
 					<tbody>
