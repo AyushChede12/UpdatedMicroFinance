@@ -1,13 +1,23 @@
 
 <style>
-.bank-report table th, .bank-report table td {
-	vertical-align: middle;
+#bankReportModal .modal-dialog {
+    max-width: 1100px;
 }
 
-.bank-report table thead th {
-	background-color: #0d6efd !important;
-	color: white;
+#bankReportModal .modal-body {
+    max-height: 75vh;
+    overflow-y: auto;
 }
+
+.bank-report {
+    font-family: Arial, sans-serif;
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+
 </style>
 
 <div class="pagetitle">
@@ -114,111 +124,126 @@
 
 </div>
 <!-- Bank Report Modal -->
-<div class="modal fade" id="bankReportModal" tabindex="-1"
-	aria-hidden="true">
-	<div class="modal-dialog modal-xl modal-dialog-scrollable">
-		<div class="modal-content">
-			<!-- Header -->
-			<div class="modal-header bg-primary text-white">
-				<h5 class="modal-title">Microfinance Transaction Report</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal"
-					aria-label="Close"></button>
-			</div>
+<div class="modal fade" id="bankReportModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content shadow-lg rounded-3">
 
-			<!-- Body -->
-			<div class="modal-body" id="bankReportContent">
-				<div class="bank-report p-4"
-					style="font-family: Arial, sans-serif; background-color: #f8f9fa;">
+            <!-- ================= HEADER ================= -->
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title fw-bold">Microfinance Transaction Report</h5>
+                <button type="button" class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"></button>
+            </div>
 
-					<!-- Bank Header -->
-					<div
-						class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
-						<div class="d-flex align-items-center">
-							<img id="bankLogo" src="" alt="Logo"
-								style="height: 50px; margin-right: 10px;">
-							<div>
-								<h4 id="bankName" class="mb-0 fw-bold text-primary"></h4>
-								<small id="reportTitle" class="text-secondary"></small>
-							</div>
-						</div>
-						<div>
-							<p class="mb-0">
-								<strong>Customer Code:</strong> <span id="accountNumber"></span>
-							</p>
-							<p class="mb-0">
-								<strong>PERIOD COVERED:</strong> <span id="periodCovered"></span>
-							</p>
-						</div>
-					</div>
+            <!-- ================= BODY ================= -->
+            <div class="modal-body p-0" id="bankReportContent">
 
-					<!-- Customer & Summary -->
-					<div class="row mb-3">
-						<div class="col-md-6">
-							<div class="border p-3 bg-white rounded shadow-sm">
-								<h6 class="fw-bold mb-2 text-primary">CUSTOMER</h6>
-								<p id="customerName" class="mb-0 fw-bold"></p>
-								<p id="customerAddress1" class="mb-0"></p>
-								<p id="customerAddress2" class="mb-0"></p>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="border p-3 bg-white rounded shadow-sm">
-								<h6 class="fw-bold mb-2 text-primary">SUMMARY</h6>
-								<table class="w-100">
-									<tr>
-										<td>Starting Balance:</td>
-										<td id="startingBalance" class="text-end fw-bold"></td>
-									</tr>
-									<tr>
-										<td>Income:</td>
-										<td id="incomeAmount" class="text-end fw-bold text-success"></td>
-									</tr>
-									<tr>
-										<td>Expenses:</td>
-										<td id="expensesAmount" class="text-end fw-bold text-danger"></td>
-									</tr>
-									<tr class="border-top">
-										<td><strong>Closing Balance:</strong></td>
-										<td id="closingBalance" class="text-end fw-bold text-primary"></td>
-									</tr>
-								</table>
-							</div>
-						</div>
-					</div>
+                <div class="bank-report p-4 bg-light">
 
-					<!-- Transactions Table -->
-					<div class="mt-4">
-						<h6 class="fw-bold text-primary mb-3">TRANSACTIONS:</h6>
-						<table
-							class="table table-bordered table-striped align-middle text-center">
-							<thead class="table-primary">
-								<tr>
-									<th>Policy Code</th>
-									<th>Policy Date</th>
-									<th>Policy Amount</th>
-									<th>Policy Type</th>
-									<th>Policy Mode</th>
-								</tr>
-							</thead>
-							<tbody id="transactionTableBody">
-								<!-- Dynamic rows will be appended here via JavaScript -->
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
+                    <!-- ===== BANK HEADER ===== -->
+                    <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
+                        <div class="d-flex align-items-center">
+                            <img id="bankLogo"
+                                 src=""
+                                 alt="Logo"
+                                 style="height:50px;width:50px;object-fit:contain;margin-right:12px;">
 
-			<!-- Footer -->
-			<div class="modal-footer">
-				<button id="printBankReportBtn" class="btn btn-success">
-					<i class="bi bi-printer"></i>
-				</button>
-				<button type="button" class="btn btn-secondary"
-					data-bs-dismiss="modal">Close</button>
-			</div>
-		</div>
-	</div>
+                            <div>
+                                <h4 id="bankName" class="mb-0 fw-bold text-primary"></h4>
+                                <small id="reportTitle" class="text-muted"></small>
+                            </div>
+                        </div>
+
+                        <div class="text-end">
+                            <p class="mb-1">
+                                <strong>Customer Code:</strong>
+                                <span id="accountNumber"></span>
+                            </p>
+                            <p class="mb-0">
+                                <strong>Period Covered:</strong>
+                                <span id="periodCovered"></span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- ===== CUSTOMER + SUMMARY ===== -->
+                    <div class="row g-3 mb-4">
+
+                        <!-- CUSTOMER -->
+                        <div class="col-md-6">
+                            <div class="bg-white border rounded p-3 h-100 shadow-sm">
+                                <h6 class="fw-bold text-primary mb-2">CUSTOMER</h6>
+                                <p id="customerName" class="fw-bold mb-1"></p>
+                                <p id="customerAddress1" class="mb-1"></p>
+                                <p id="customerAddress2" class="mb-0"></p>
+                            </div>
+                        </div>
+
+                        <!-- SUMMARY -->
+                        <div class="col-md-6">
+                            <div class="bg-white border rounded p-3 h-100 shadow-sm">
+                                <h6 class="fw-bold text-primary mb-2">SUMMARY</h6>
+
+                                <table class="table table-sm table-borderless mb-0">
+                                    <tr>
+                                        <td>Starting Balance</td>
+                                        <td id="startingBalance" class="text-end fw-bold"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Income</td>
+                                        <td id="incomeAmount" class="text-end fw-bold text-success"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Expenses</td>
+                                        <td id="expensesAmount" class="text-end fw-bold text-danger"></td>
+                                    </tr>
+                                    <tr class="border-top">
+                                        <td class="fw-bold">Closing Balance</td>
+                                        <td id="closingBalance" class="text-end fw-bold text-primary"></td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- ===== TRANSACTION TABLE ===== -->
+                    <div>
+                        <h6 class="fw-bold text-primary mb-3">TRANSACTIONS</h6>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped text-center align-middle mb-0">
+                                <thead class="table-primary">
+                                    <tr>
+                                        <th>Policy Code</th>
+                                        <th>Policy Date</th>
+                                        <th>Policy Amount</th>
+                                        <th>Policy Type</th>
+                                        <th>Policy Mode</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="transactionTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ================= FOOTER ================= -->
+            <div class="modal-footer">
+                <button id="printBankReportBtn" class="btn btn-success">
+                    <i class="bi bi-printer"></i> Print
+                </button>
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
 </div>
+
 
 <script
 	src="${pageContext.request.contextPath}/js/ReportsAndAnalytics/InvestmentTransactionReport.js"></script>
+	
