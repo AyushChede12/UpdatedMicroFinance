@@ -245,7 +245,7 @@
 		<div class="mt-5">
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">GOLD/SILVER DETAILS</li>
+					<li class="breadcrumb-item action">GOLD DETAILS</li>
 				</ol>
 			</nav>
 			<div class="row">

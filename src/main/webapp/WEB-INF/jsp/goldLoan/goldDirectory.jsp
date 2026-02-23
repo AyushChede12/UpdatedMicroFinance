@@ -400,6 +400,7 @@
 							name="emiPayment" id="emiPayment" required="required"
 							placeholder="Auto Calculated" readonly="readonly"
 							style="text-transform: uppercase; background: #f5f5f5;" />
+							<small id="vemipayment" style="color: red;"></small>
 					</div>
 				</div>
 
