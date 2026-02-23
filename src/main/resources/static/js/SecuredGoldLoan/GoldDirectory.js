@@ -87,6 +87,23 @@ $(document).ready(function() {
 	//for save the data 
 
 	$("#saveButtonforGoldDirectory").click(function(e) {
+
+		let isValid = true;
+
+		$('#vemipayment').text('');
+
+		var emiPayment = $('#emiPayment').val().trim();
+
+		if (emiPayment === "") {
+			$('#vemipayment').text('*This Fild Is Requird');
+			$('#emiPayment').focus();
+			isValid = false;
+		}
+
+		if (!isValid) {
+			return;
+		}
+
 		e.preventDefault(); // form submit ko stop kare
 
 		// Form data collect
