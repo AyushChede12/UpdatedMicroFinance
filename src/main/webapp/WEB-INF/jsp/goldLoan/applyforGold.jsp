@@ -268,9 +268,10 @@
 							name="itemType" required="required"
 							class="form-control selectField" style="height: 30px;"
 							readonly="readonly">
-
 					</div>
 				</div>
+
+				<input type="hidden" id="marketValue">
 
 
 				<div class="col-lg-3">
@@ -331,7 +332,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">GROSS WEIGHT</label> <input type="text"
 							name="grosswt" id="grossWt" required="required"
-							placeholder="ENTER GROSS WEIGHT" />
+							placeholder="ENTER GROSS WEIGHT" readonly="readonly" />
 					</div>
 				</div>
 
@@ -346,7 +347,8 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">NET WEIGHT</label> <input type="text" name="netWt"
-							id="netWt" required="required" placeholder="ENTER NET WEIGHT" />
+							id="netWt" required="required" placeholder="ENTER NET WEIGHT"
+							readonly="readonly" />
 					</div>
 				</div>
 
@@ -354,7 +356,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">MARKET VALUATION</label> <input type="text"
 							name="marketValuatiion" id="marketValuation" required="required"
-							placeholder="ENTER MARKET VALUATION" />
+							placeholder="ENTER MARKET VALUATION" readonly="readonly" />
 					</div>
 				</div>
 
@@ -362,7 +364,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">ELIGIBLE LOAN</label> <input type="text"
 							name="eligibleLoan" id="eligibleLoan" required="required"
-							placeholder="ENTER ELIGIBLE LOAN" />
+							placeholder="ENTER ELIGIBLE LOAN" readonly="readonly" />
 					</div>
 				</div>
 
@@ -758,5 +760,5 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
   </script>
-  <script
+<script
 	src="${pageContext.request.contextPath}/js/SecuredGoldLoan/ApplyForGold.js"></script>

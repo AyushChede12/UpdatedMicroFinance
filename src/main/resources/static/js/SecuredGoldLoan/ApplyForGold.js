@@ -1,28 +1,26 @@
-const LTV = 0.75;
-
 $(document).ready(function() {
-	
+
 	$.ajax({
-			url: 'api/financialconsultant/getAllFinancialConsultantDetails',
-			type: 'POST',
-			success: function(response) {
-				console.log("API Response:", response); // ✅ Debug to check!
+		url: 'api/financialconsultant/getAllFinancialConsultantDetails',
+		type: 'POST',
+		success: function(response) {
+			console.log("API Response:", response); // ✅ Debug to check!
 
-				const consultantDropdown = $('#financialConsultantId');
-				consultantDropdown.empty();
-				consultantDropdown.append('<option value="">SELECT CONSULTANT</option>');
+			const consultantDropdown = $('#financialConsultantId');
+			consultantDropdown.empty();
+			consultantDropdown.append('<option value="">SELECT CONSULTANT</option>');
 
-				response.data.forEach(function(customer) {
-					// ✅ Only the code
-					const option = `<option value="${customer.financialCode}">${customer.financialCode}</option>`;
-					consultantDropdown.append(option);
-				});
-			},
-			error: function(xhr, status, error) {
-				console.error('AJAX Error:', status, error);
-				alert('Failed to fetch consultant data.');
-			}
-		});
+			response.data.forEach(function(customer) {
+				// ✅ Only the code
+				const option = `<option value="${customer.financialCode}">${customer.financialCode}</option>`;
+				consultantDropdown.append(option);
+			});
+		},
+		error: function(xhr, status, error) {
+			console.error('AJAX Error:', status, error);
+			alert('Failed to fetch consultant data.');
+		}
+	});
 	$.ajax({
 		url: "api/securedGoldLoan/getAllGoldDirectories",
 		type: "GET",
@@ -277,7 +275,7 @@ $(document).ready(function() {
 	});
 
 	// Jab bhi user input kare to calculation trigger ho
-	$("#grossWt, #stoneWt, #purity, #custgoldRate").on("input", function() {
+	$("#itemWt, #itemQty, #stoneWt, #purity, #custgoldRate").on("input", function() {
 		calculateValuation();
 	});
 
@@ -384,23 +382,32 @@ $(document).ready(function() {
 });
 
 function calculateValuation() {
-	// Get values
-	let grossWeight = parseFloat($("#grossWt").val()) || 0;
+
+	let itemQuantity = parseFloat($("#itemQty").val()) || 0;
+	let itemWeight = parseFloat($("#itemWt").val()) || 0;
 	let stoneWeight = parseFloat($("#stoneWt").val()) || 0;
-	let purity = parseFloat($("#purity").val()) || 0;
+	let karat = parseFloat($("#karat").val()) || 0;  // example: 91.6
 	let customerKaratRate = parseFloat($("#custgoldRate").val()) || 0;
 
-	// Net weight
+	// Gross Weight
+	let grossWeight = itemQuantity * itemWeight;
+
+	// Net Weight
 	let netWeight = grossWeight - stoneWeight;
-	if (netWeight < 0) netWeight = 0;
+	netWeight = Math.max(netWeight, 0);
+	
+
+	let purity = karat / 24;
 
 	// Market Valuation
-	let marketValuation = (netWeight * purity * customerKaratRate) / 100;
+	let marketValuation = netWeight * purity * customerKaratRate;
 
-	// Eligible Loan
+	// Eligible Loan (75% LTV)
+	const LTV = 0.75;
 	let eligibleLoan = marketValuation * LTV;
 
-	// Set values back to form
+	// Set values
+	$("#grossWt").val(grossWeight.toFixed(2));
 	$("#netWt").val(netWeight.toFixed(2));
 	$("#marketValuation").val(marketValuation.toFixed(2));
 	$("#eligibleLoan").val(eligibleLoan.toFixed(2));
