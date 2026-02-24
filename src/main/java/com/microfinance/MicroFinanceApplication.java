@@ -8,6 +8,5 @@ public class MicroFinanceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MicroFinanceApplication.class, args);
-		System.out.print("run");
 	}
 }
