@@ -432,21 +432,20 @@ function calculateDepositAndMaturity() {
 	     const interest = policyAmount * ((months * (months + 1)) / 2) * (roi / (12 * 100));
 	     maturityAmount = totalDepositAmount + interest;
 	 }
-
 	 else {
-	     // Quarterly / Half-Yearly / Yearly — FD type annuity
+	     // Quarterly / Half-Yearly / Yearly — FD type
 	     switch (schemeMode) {
 	         case "Quarterly": n = 4; break;
 	         case "Half-Yearly": n = 2; break;
 	         case "Yearly": n = 1; break;
 	     }
 
-	     totalDepositAmount = policyAmount * term;
+	     totalDepositAmount = policyAmount; // Single deposit only
 
-	     const rate = r / n;
-	     maturityAmount = policyAmount *
-	         ((Math.pow(1 + rate, n * term) - 1) / rate);
+	     const maturity = policyAmount * Math.pow((1 + (r / n)), (n * term));
+	     maturityAmount = maturity;
 	 }
+
 	 
 	$("#depositAmount").val(totalDepositAmount.toFixed(2));
 	$("#maturityAmount").val(maturityAmount.toFixed(2));

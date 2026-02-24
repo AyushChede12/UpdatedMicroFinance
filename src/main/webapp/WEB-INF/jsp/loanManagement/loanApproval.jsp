@@ -24,8 +24,8 @@
 						<label for="">FIND LOAN BY ID</label> <select id="findByLoanId"
 							name="findByLoanId" class="form-control selectField"
 							style="height: 30px;">
-							<option value="">SELECT LOAN ID</option>
-						</select>
+							<option value="">SELECT LOAN ID</option><span id="star">*</span>
+						</select> <small id="chkloanid" style="color: red;"></small>
 					</div>
 				</div>
 			</div>
@@ -48,8 +48,8 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">MEMBER SEARCH</label> <input type="text"
-							name="memberId" id="memberId" required="required" readonly="readonly"
-							style="text-transform: uppercase;" />
+							name="memberId" id="memberId" required="required"
+							readonly="readonly" style="text-transform: uppercase;" />
 					</div>
 				</div>
 
@@ -57,23 +57,24 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="loanName">FAMILY MEMBER NAME</label> <input
 							type="text" name="relativeDetails" id="relativeDetails"
-							required="required" placeholder="ENTER FAMILY MEMBER NAME" readonly="readonly"
-							style="text-transform: uppercase;" />
+							required="required" placeholder="ENTER FAMILY MEMBER NAME"
+							readonly="readonly" style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="loanName">DATE OF BIRTH</label> <input type="date"
-							name="dateOfBirth" id="dateOfBirth" required="required" readonly="readonly"
-							placeholder="" style="text-transform: uppercase;" />
+							name="dateOfBirth" id="dateOfBirth" required="required"
+							readonly="readonly" placeholder=""
+							style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">AGE </label> <input type="text" name="age" id="age" readonly="readonly"
-							required="required" placeholder="Enter Age" />
+						<label for="">AGE </label> <input type="text" name="age" id="age"
+							readonly="readonly" required="required" placeholder="Enter Age" />
 					</div>
 				</div>
 
@@ -81,16 +82,16 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">CONTACT NO.</label> <input type="text"
-							name="contactNo" id="contactNo" required="required" readonly="readonly"
-							placeholder="ENTER MOBILE NUMBER" />
+							name="contactNo" id="contactNo" required="required"
+							readonly="readonly" placeholder="ENTER MOBILE NUMBER" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">MESSAGE STATUS</label> <input type="text"
-							name="messageStatus" id="messageStatus" required="required" readonly="readonly"
-							placeholder=" MESSAGE STATUS" />
+							name="messageStatus" id="messageStatus" required="required"
+							readonly="readonly" placeholder=" MESSAGE STATUS" />
 					</div>
 				</div>
 
@@ -106,16 +107,17 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="loanName">PIN CODE</label> <input type="text"
-							name="pinCode" id="pinCode" required="required" readonly="readonly"
-							placeholder="ENTER PIN CODE" style="text-transform: uppercase;" />
+							name="pinCode" id="pinCode" required="required"
+							readonly="readonly" placeholder="ENTER PIN CODE"
+							style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">BRANCH ADDRESS</label> <input type="text"
-							name="branchName" id="branchName" required="required" readonly="readonly"
-							placeholder="ENTER BRANCH NAME"
+							name="branchName" id="branchName" required="required"
+							readonly="readonly" placeholder="ENTER BRANCH NAME"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -123,8 +125,8 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">LOAN PLAN NAME</label> <input type="text"
-							name="loanPlanName" id="loanPlanName" required="required" readonly="readonly"
-							placeholder="ENTER LOAN PLAN NAME"
+							name="loanPlanName" id="loanPlanName" required="required"
+							readonly="readonly" placeholder="ENTER LOAN PLAN NAME"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -132,8 +134,8 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">TYPE OF PLAN</label> <input type="text"
-							name="typeOfLoan" id="typeOfLoan" required="required" readonly="readonly"
-							placeholder=" ENTER TYPE OF LOAN "
+							name="typeOfLoan" id="typeOfLoan" required="required"
+							readonly="readonly" placeholder=" ENTER TYPE OF LOAN "
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -149,46 +151,47 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">LOAN MODE</label> <input type="text" name="loanMode"
-							id="loanMode" required="required" readonly="readonly" placeholder=" ENTER LOAN MODE"
-							style="text-transform: uppercase;" />
+							id="loanMode" required="required" readonly="readonly"
+							placeholder=" ENTER LOAN MODE" style="text-transform: uppercase;" />
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">RATE OF INTEREST (%PA.) </label> <input type="text"
-							name="rateOfInterest" id="rateOfInterest" required="required" readonly="readonly"
-							placeholder="ENTER LOAN ROI" style="text-transform: uppercase;" />
+							name="rateOfInterest" id="rateOfInterest" required="required"
+							readonly="readonly" placeholder="ENTER LOAN ROI"
+							style="text-transform: uppercase;" />
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">AMOUNT OF LOAN</label> <input type="text"
-							name="loanAmount" id="loanAmount" required="required" readonly="readonly"
-							placeholder="ENTER AMOUNT OF LOAN"
+							name="loanAmount" id="loanAmount" required="required"
+							readonly="readonly" placeholder="ENTER AMOUNT OF LOAN"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for=""> INTEREST TYPE </label> <input type="text"
-							name="interestType" id="interestType" required="required" readonly="readonly"
-							placeholder="ENTER INTEREST TYPE"
+							name="interestType" id="interestType" required="required"
+							readonly="readonly" placeholder="ENTER INTEREST TYPE"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">EMI PAYMENT</label> <input type="text"
-							name="emiPayment" id="emiPayment" required="required" readonly="readonly"
-							placeholder="ENTER EMI PAYMENT"
+							name="emiPayment" id="emiPayment" required="required"
+							readonly="readonly" placeholder="ENTER EMI PAYMENT"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">PURPOSE OF LOAN</label> <input type="text"
-							name="purposeOfLoan" id="purposeOfLoan" required="required" readonly="readonly"
-							placeholder="ENTER PURPOSE OF LOAN"
+							name="purposeOfLoan" id="purposeOfLoan" required="required"
+							readonly="readonly" placeholder="ENTER PURPOSE OF LOAN"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -208,14 +211,16 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">MEMBER ID</label> <input type="text"
 							name="guarantorMemberId" id="guarantorMemberId"
-							required="required" readonly="readonly" placeholder="ENTER MEMBER ID" />
+							required="required" readonly="readonly"
+							placeholder="ENTER MEMBER ID" />
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">GURANTOR IDENTITY</label> <input type="text"
 							name="guarantorIdentity" id="guarantorIdentity"
-							required="required" readonly="readonly" placeholder="ENTER GURANTOR IDENTITY" />
+							required="required" readonly="readonly"
+							placeholder="ENTER GURANTOR IDENTITY" />
 					</div>
 				</div>
 
@@ -230,8 +235,8 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">PIN CODE</label> <input type="number"
-							name="guarantorPinCode" id="guarantorPinCode" required="required" readonly="readonly"
-							placeholder="ENTER PIN CODE" />
+							name="guarantorPinCode" id="guarantorPinCode" required="required"
+							readonly="readonly" placeholder="ENTER PIN CODE" />
 					</div>
 				</div>
 
@@ -240,7 +245,8 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">GURANTOR CONTACT NO.</label> <input type="text"
 							name="guarantorContactNo" id="guarantorContactNo"
-							required="required" readonly="readonly" placeholder="ENTER GURANTOR CONTACT NO." />
+							required="required" readonly="readonly"
+							placeholder="ENTER GURANTOR CONTACT NO." />
 					</div>
 				</div>
 
@@ -248,7 +254,8 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">SECURITY TYPE</label> <input type="text"
 							name="guarantorSecurityType" id="guarantorSecurityType"
-							required="required" readonly="readonly" placeholder="ENTER SECURITY TYPE" />
+							required="required" readonly="readonly"
+							placeholder="ENTER SECURITY TYPE" />
 					</div>
 				</div>
 			</div>
@@ -271,7 +278,8 @@
 							<div class="d-flex flex-column formFields mb-4">
 								<label for="">MEMBER ID </label> <input type="text"
 									name="coApplicantMemberId" id="coApplicantMemberId"
-									required="required" readonly="readonly" placeholder="ENTER MEMBER ID" />
+									required="required" readonly="readonly"
+									placeholder="ENTER MEMBER ID" />
 							</div>
 						</div>
 					</div>
@@ -281,7 +289,8 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">GURANTOR IDENTITY</label> <input type="text"
 							name="coApplicantIdentity" id="coApplicantIdentity"
-							required="required" readonly="readonly" placeholder="ENTER GURANTOR IDENTITY" />
+							required="required" readonly="readonly"
+							placeholder="ENTER GURANTOR IDENTITY" />
 					</div>
 				</div>
 
@@ -297,7 +306,8 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">PIN CODE</label> <input type="text"
 							name="coApplicantPinCode" id="coApplicantPinCode"
-							required="required" readonly="readonly" placeholder="ENTER PIN CODE" />
+							required="required" readonly="readonly"
+							placeholder="ENTER PIN CODE" />
 					</div>
 				</div>
 
@@ -306,7 +316,8 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">GURANTOR CONTACT NO.</label> <input type="text"
 							name="coApplicantContactNo" id="coApplicantContactNo"
-							required="required" readonly="readonly" placeholder="ENTER GURANTOR CONTACT NO." />
+							required="required" readonly="readonly"
+							placeholder="ENTER GURANTOR CONTACT NO." />
 					</div>
 				</div>
 
@@ -314,7 +325,8 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">SECURITY TYPE</label> <input type="text"
 							name="coApplicantSecurityType" id="coApplicantSecurityType"
-							required="required" readonly="readonly" placeholder="ENTER SECURITY TYPE" />
+							required="required" readonly="readonly"
+							placeholder="ENTER SECURITY TYPE" />
 					</div>
 				</div>
 
@@ -336,15 +348,16 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="loanName">PROCESSING FEE(%) </label> <input
 							type="text" name="processingFee" id="processingFee"
-							required="required" readonly="readonly" style="text-transform: uppercase;" />
+							required="required" readonly="readonly"
+							style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="loanName">LEGAL CHARGES(%)</label> <input type="text"
-							name="legalCharges" id="legalCharges" required="required" readonly="readonly"
-							style="text-transform: uppercase;" />
+							name="legalCharges" id="legalCharges" required="required"
+							readonly="readonly" style="text-transform: uppercase;" />
 					</div>
 				</div>
 
@@ -355,8 +368,8 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="loanName">INSURANCE FEE</label> <input type="text"
-							name="insuranceFee" id="insuranceFee" required="required" readonly="readonly"
-							placeholder="ENTER INSURANCE FEES"
+							name="insuranceFee" id="insuranceFee" required="required"
+							readonly="readonly" placeholder="ENTER INSURANCE FEES"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -370,8 +383,8 @@
 						<label> FINANCIAL CONSULTANT ID</label>
 						<div class="d-flex flex-column formFields mb-4">
 							<input type="text" name="financialConsultantId"
-								id="financialConsultantId" required="required" readonly="readonly"
-								placeholder="ENTER FINANCIAL CONSULTANT ID" />
+								id="financialConsultantId" required="required"
+								readonly="readonly" placeholder="ENTER FINANCIAL CONSULTANT ID" />
 						</div>
 					</div>
 				</div>
@@ -379,7 +392,8 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">FINANCIAL CONSULTANT NAME</label> <input type="text"
 							name="financialConsultantName" id="financialConsultantName"
-							required="required" readonly="readonly" placeholder="ENTER CONSULTANT NAME"
+							required="required" readonly="readonly"
+							placeholder="ENTER CONSULTANT NAME"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -437,8 +451,8 @@
 
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="loanName">Date Of Approval </label> <input type="date"
-							name="approvalDate" id="approvalDate" required="required" readonly="readonly"
-							style="text-transform: uppercase;" />
+							name="approvalDate" id="approvalDate" required="required"
+							readonly="readonly" style="text-transform: uppercase;" />
 					</div>
 				</div>
 

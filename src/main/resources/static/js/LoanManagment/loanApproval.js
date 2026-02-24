@@ -177,6 +177,12 @@ $('#approveBtn').click(function(event) {
     const approvalDate = $('#approvalDate').val();
 	/*alert(loanId);
 	alert(approvalDate);*/
+	if (!loanId) {
+	    alert("Please select Loan ID");
+	    $("#findByLoanId").focus();
+	    return;
+	}
+
 
     const requestData = {
         loanId: loanId,
