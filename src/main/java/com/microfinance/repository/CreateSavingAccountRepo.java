@@ -60,4 +60,7 @@ public interface CreateSavingAccountRepo extends JpaRepository<CreateSavingsAcco
 
 	List<CreateSavingsAccount> findByFinancialConsultantCodeIn(List<String> financialCodes);
 
+	@Query("SELECT COALESCE(SUM(s.openingFees),0) FROM CreateSavingsAccount s WHERE s.branchName = :branchName AND s.openingDate BETWEEN :startDate AND :endDate")
+	Double getTotalSavingOpeningIncome(String branchName, LocalDate startDate, LocalDate endDate);
+
 }
