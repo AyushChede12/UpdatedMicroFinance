@@ -1,4 +1,64 @@
 $(document).ready(function() {
+	
+	function showError(inputId, message) {
+	    const input = $("#" + inputId);
+	    input.addClass("is-invalid");
+
+	    if ($("#" + inputId + "-error").length === 0) {
+	        input.after(`<small id="${inputId}-error" class="text-danger">${message}</small>`);
+	    } else {
+	        $("#" + inputId + "-error").text(message);
+	    }
+	}
+
+	function clearError(inputId) {
+	    $("#" + inputId).removeClass("is-invalid");
+	    $("#" + inputId + "-error").remove();
+	}
+
+	function isEmpty(value) {
+	    return value === null || value.trim() === "";
+	}
+	
+	function validateDailyDeposit() {
+	    let isValid = true;
+
+	    const fields = [
+	        "planCodeDD",
+	        "planNameDD",
+	        "minimumDeposit",
+	        "rateOfInterest",
+	        "installmentType",
+	        "ddterm",
+	        "interestInterval"
+	    ];
+
+	    fields.forEach(function(field) {
+	        const value = $("#" + field).val();
+	        clearError(field);
+
+	        if (isEmpty(value)) {
+	            showError(field, "This field is required");
+	            isValid = false;
+	        }
+	    });
+
+	    // Number validation
+	    const minDeposit = parseFloat($("#minimumDeposit").val());
+	    if (minDeposit <= 0 || isNaN(minDeposit)) {
+	        showError("minimumDeposit", "Enter valid amount");
+	        isValid = false;
+	    }
+
+	    const roi = parseFloat($("#rateOfInterest").val());
+	    if (roi <= 0 || roi > 100 || isNaN(roi)) {
+	        showError("rateOfInterest", "Enter valid interest (1-100)");
+	        isValid = false;
+	    }
+
+	    return isValid;
+	}
+	
 	$("#saveBtn").show();
 	$("#genrateBtn").show();
 	$("#updateBtn").hide();
@@ -7,7 +67,11 @@ $(document).ready(function() {
 	// SAVE BUTTON
 	$('#saveBtn').on('click', function(e) {
 		e.preventDefault();
-
+	
+		if (!validateDailyDeposit()) {
+		      return; // Stop if validation fails
+		  }
+		
 		const statusPlanValue = $('#toggle-status-planDD').is(':checked') ? 1 : 0;
 
 		const dailyDeposit = {
@@ -418,9 +482,42 @@ $(document).ready(function() {
 	$("#ReccuringsaveBtn").show();
 	$("#ReccuringupdateBtn").hide();
 
+	
+	function validateRecurringDeposit() {
+	    let isValid = true;
+
+	    const fields = [
+	        "planCodeRD",
+	        "planNameRD",
+	        "minimumAmountRD",
+	        "rateOfInterestRD",
+	        "installmentTypeRD",
+	        "rdterm"
+	    ];
+
+	    fields.forEach(function(field) {
+	        const value = $("#" + field).val();
+	        clearError(field);
+
+	        if (isEmpty(value)) {
+	            showError(field, "This field is required");
+	            isValid = false;
+	        }
+	    });
+
+	    const minAmount = parseFloat($("#minimumAmountRD").val());
+	    if (minAmount <= 0 || isNaN(minAmount)) {
+	        showError("minimumAmountRD", "Enter valid amount");
+	        isValid = false;
+	    }
+
+	    return isValid;
+	}
 	// SAVE BUTTON
 	$('#ReccuringsaveBtn').on('click', function(e) {
 		e.preventDefault();
+		
+		if (!validateRecurringDeposit()) return;
 
 		const statusPlanValue = $('#toggle-status-planRD').is(':checked') ? 1 : 0;
 		const reccuringDeposite = {
@@ -751,10 +848,35 @@ $(document).ready(function() {
 	$("#FixedsaveBtn").show();
 	$("#FixedupdateBtn").hide();
 
+	function validateFixedDeposit() {
+	    let isValid = true;
+
+	    const fields = [
+	        "planCodeFD",
+	        "planNameFD",
+	        "minimumAmountFD",
+	        "rateOfInterestFD",
+	        "fdterm"
+	    ];
+
+	    fields.forEach(function(field) {
+	        const value = $("#" + field).val();
+	        clearError(field);
+
+	        if (isEmpty(value)) {
+	            showError(field, "This field is required");
+	            isValid = false;
+	        }
+	    });
+
+	    return isValid;
+	}
 
 	// SAVE BUTTON
 	$('#FixedsaveBtn').on('click', function(e) {
 		e.preventDefault();
+		
+		if (!validateFixedDeposit()) return;
 
 		const statusPlanValue = $('#toggle-status-planFD').is(':checked') ? 1 : 0;
 
@@ -1074,9 +1196,34 @@ $(document).ready(function() {
 	$("#misdupdateBtn").hide();
 
 
+	function validateMISDeposit() {
+	    let isValid = true;
+
+	    const fields = [
+	        "planCodeMD",
+	        "planNameMD",
+	        "minimumAmountMD",
+	        "rateOfInterestMD",
+	        "misTerm"
+	    ];
+
+	    fields.forEach(function(field) {
+	        const value = $("#" + field).val();
+	        clearError(field);
+
+	        if (isEmpty(value)) {
+	            showError(field, "This field is required");
+	            isValid = false;
+	        }
+	    });
+
+	    return isValid;
+	}
 
 	$('#missaveBtn').on('click', function(e) {
 		e.preventDefault();
+		
+		if (!validateMISDeposit()) return;
 
 		const statusPlanValue = $('#toggle-status-planMIS').is(':checked') ? 1 : 0;
 
