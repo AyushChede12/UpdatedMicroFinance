@@ -1,28 +1,26 @@
-const LTV = 0.75;
-
 $(document).ready(function() {
-	
+
 	$.ajax({
-			url: 'api/financialconsultant/getAllFinancialConsultantDetails',
-			type: 'POST',
-			success: function(response) {
-				console.log("API Response:", response); // ✅ Debug to check!
+		url: 'api/financialconsultant/getAllFinancialConsultantDetails',
+		type: 'POST',
+		success: function(response) {
+			console.log("API Response:", response); // ✅ Debug to check!
 
-				const consultantDropdown = $('#financialConsultantId');
-				consultantDropdown.empty();
-				consultantDropdown.append('<option value="">SELECT CONSULTANT</option>');
+			const consultantDropdown = $('#financialConsultantId');
+			consultantDropdown.empty();
+			consultantDropdown.append('<option value="">SELECT CONSULTANT</option>');
 
-				response.data.forEach(function(customer) {
-					// ✅ Only the code
-					const option = `<option value="${customer.financialCode}">${customer.financialCode}</option>`;
-					consultantDropdown.append(option);
-				});
-			},
-			error: function(xhr, status, error) {
-				console.error('AJAX Error:', status, error);
-				alert('Failed to fetch consultant data.');
-			}
-		});
+			response.data.forEach(function(customer) {
+				// ✅ Only the code
+				const option = `<option value="${customer.financialCode}">${customer.financialCode}</option>`;
+				consultantDropdown.append(option);
+			});
+		},
+		error: function(xhr, status, error) {
+			console.error('AJAX Error:', status, error);
+			alert('Failed to fetch consultant data.');
+		}
+	});
 	$.ajax({
 		url: "api/securedGoldLoan/getAllGoldDirectories",
 		type: "GET",
@@ -277,130 +275,290 @@ $(document).ready(function() {
 	});
 
 	// Jab bhi user input kare to calculation trigger ho
-	$("#grossWt, #stoneWt, #purity, #custgoldRate").on("input", function() {
+	$("#itemWt, #itemQty, #stoneWt, #purity, #custgoldRate").on("input", function() {
 		calculateValuation();
 	});
 
-	//For Saving the data 
-	$('#saveBtn').on('click', function() {
-
-		const memberCode = $('#memberCode').val();
-
-		var applyForGold = {
-			goldID: $('#goldID').val(),
-			loanDate: $('#loanDate').val(),
-			memberCode: memberCode,
-			customerName: $('#customerName').val(),
-			dateOfBirth: $('#dateOfBirth').val(),
-			age: $('#age').val(),
-			contactNo: $('#contactNo').val(),
-			address: $('#address').val(),
-			pinCode: $('#pinCode').val(),
-			branchName: $('#branchName').val(),
-			loanPlanName: $('#loanPlanName').val(),
-			typeOfLoan: $('#typeOfLoan').val(),
-			loanMode: $('#loanMode').val(),
-			loanTerm: $('#loanTerm').val(),
-			rateOfInterest: $('#rateOfInterest').val(),
-			loanAmount: $('#loanAmount').val(),
-			interestType: $('#interestType').val(),
-			emiPayment: $('#emiPayment').val(),
-			purposeOfLoan: $('#purposeOfLoan').val(),
-			smsSend: $('#toggle-sms-send').val(),
-
-			// Gold Details
-			karat: $('#karat').val(),
-			itemType: $('#itemType').val(),
-			custgoldRate: $('#custgoldRate').val(),
-			itemName: $('#itemName').val(),
-			lockerBranch: $('#lockerBranch').val(),
-			purity: $('#purity').val(),
-			itemQty: $('#itemQty').val(),
-			itemWt: $('#itemWt').val(),
-			grossWt: $('#grossWt').val(),
-			stoneWt: $('#stoneWt').val(),
-			netWt: $('#netWt').val(),
-			marketValuation: $('#marketValuation').val(),
-			eligibleLoan: $('#eligibleLoan').val(),
-
-			// Guarantor Details
-			guarantorcustomerCode: $('#guarantorcustomerCode').val(),
-			guarantorIdentity: $('#gurantorIdentity').val(),
-			guarantorAddress: $('#guarantorAddress').val(),
-			guarantorPinCode: $('#guarantorPinCode').val(),
-			guarantorContactNo: $('#guarantorContactNo').val(),
-			guarantorSecurityType: $('#guarantorSecurityType').val(),
-
-			// Co-Applicant Details
-			coApplicantMemberId: $('#coApplicantMemberId').val(),
-			coApplicantIdentity: $('#coApplicantIdentity').val(),
-			coApplicantAddress: $('#coApplicantAddress').val(),
-			coAge: $('#coAge').val(),
-			coApplicantContactNo: $('#coApplicantContactNo').val(),
-			securityDetails: $('#securityDetails').val(),
-
-			// Deduction / Charges
-			processingFee: $('#processingFee').val(),
-			legalCharges: $('#legalCharges').val(),
-			stampDuty: $('#stampDuty').val(),
-			smsCharges: $('#smsCharges').val(),
-			mainCharges: $('#mainCharges').val(),
-			stationaryFee: $('#stationaryFee').val(),
-			financialConsultantId: $('#financialConsultantId').val(),
-			gst: $('#gst').val(),
-			insuFee: $('#insuFee').val(),
-			penaltyCharge: $('#penaltyCharge').val(),
-			valuationFees: $('#valuationFees').val(),
-			overCharge: $('#overCharge').val(),
-			collectionCharge: $('#collectionCharge').val(),
-			financialConsultantName: $('#financialConsultantName').val(),
-
-			// Image Fields
-			photo: $('#photoHidden').val(),
-			signature: $('#signatureHidden').val()
-		};
-
-
-		$.ajax({
-			url: 'api/securedGoldLoan/saveApplyForGold',
-			type: 'POST',
-			contentType: 'application/json',
-			data: JSON.stringify(applyForGold),
-			success: function(response) {
-				if (response.status === 'CREATED') {
-					alert("Gold Application Saved Successfully! " + "\n" + "GoldID : " + applyForGold.goldID);
-					location.reload();
-				} else {
-					alert('❌ Failed: ' + response.message);
-				}
-			},
-			error: function(xhr, status, error) {
-				console.error('Error:', error);
-				alert('⚠️ Error while saving Gold Loan Application.');
-			}
-		});
-
-	});
 });
 
+function saveGoldapplication() {
+
+	let isValid = true;
+
+	$('#vmemberCode').text('');
+	$('#vpurposeOfLoan').text('');
+	$('#vitemQty').text('');
+	$('#vitemWt').text('');
+	$('#vstoneWt').text('');
+	$('#vgurantorIdentity').text('');
+	$('#vcoApplicantIdentity').text('');
+	$('#vprocessingFee').text('');
+	$('#vlegalCharges').text('');
+	$('#vstampDuty').text('');
+	$('#vsmsCharges').text('');
+	$('#vmainCharges').text('');
+	$('#vstationaryFee').text('');
+	$('#vgst').text('');
+	$('#vinsuFee').text('');
+	$('#vpenaltyCharge').text('');
+	$('#vvaluationFees').text('');
+	$('#voverCharge').text('');
+	$('#vcollectionCharge').text('');
+	$('#vfinancialConsultantId').text('');
+
+
+	var memberCode = $('#memberCode').val();
+	var purposeOfLoan = $('#purposeOfLoan').val().trim();
+	var itemQty = $('#itemQty').val().trim();
+	var itemWt = $('#itemWt').val().trim();
+	var stoneWt = $('#stoneWt').val().trim();
+	var gurantorIdentity = $('#gurantorIdentity').val().trim();
+	var coApplicantIdentity = $('#coApplicantIdentity').val().trim();
+	var processingFee = $('#processingFee').val().trim();
+	var legalCharges = $('#legalCharges').val().trim();
+	var stampDuty = $('#stampDuty').val().trim();
+	var smsCharges = $('#smsCharges').val().trim();
+	var mainCharges = $('#mainCharges').val().trim();
+	var stationaryFee = $('#stationaryFee').val().trim();
+	var gst = $('#gst').val().trim();
+	var insuFee = $('#insuFee').val().trim();
+	var penaltyCharge = $('#penaltyCharge').val().trim();
+	var valuationFees = $('#valuationFees').val().trim();
+	var overCharge = $('#overCharge').val().trim();
+	var collectionCharge = $('#collectionCharge').val().trim();
+	var financialConsultantId = $('#financialConsultantId').val().trim();
+
+
+
+	if (memberCode === "") {
+		$('#vmemberCode').text('*please select customer code');
+		$('#memberCode').focus();
+		isValid = false;
+	}
+	if (purposeOfLoan === "") {
+		$('#vpurposeOfLoan').text('*this field is required');
+		$('#purposeOfLoan').focus();
+		isValid = false;
+	}
+	if (itemQty === "") {
+		$('#vitemQty').text('*this field is required');
+		$('#itemQty').focus();
+		isValid = false;
+	}
+	if (itemWt === "") {
+		$('#vitemWt').text('*this field is required');
+		$('#itemWt').focus();
+		isValid = false;
+	}
+	if (stoneWt === "") {
+		$('#vstoneWt').text('*this field is required');
+		$('#stoneWt').focus();
+		isValid = false;
+	}
+	if (gurantorIdentity === "") {
+		$('#vgurantorIdentity').text('*please select guarantor identity');
+		$('#gurantorIdentity').focus();
+		isValid = false;
+	}
+	if (coApplicantIdentity === "") {
+		$('#vcoApplicantIdentity').text('*please select coapplicant identity');
+		$('#coApplicantIdentity').focus();
+		isValid = false;
+	}
+	if (processingFee === "") {
+		$('#vprocessingFee').text('*this field is required');
+		$('#processingFee').focus();
+		isValid = false;
+	}
+	if (legalCharges === "") {
+		$('#vlegalCharges').text('*this field is required');
+		$('#legalCharges').focus();
+		isValid = false;
+	}
+	if (stampDuty === "") {
+		$('#vstampDuty').text('*this field is required');
+		$('#stampDuty').focus();
+		isValid = false;
+	}
+	if (smsCharges === "") {
+		$('#vsmsCharges').text('*this field is required');
+		$('#smsCharges').focus();
+		isValid = false;
+	}
+	if (mainCharges === "") {
+		$('#vmainCharges').text('*this field is required');
+		$('#mainCharges').focus();
+		isValid = false;
+	}
+	if (stationaryFee === "") {
+		$('#vstationaryFee').text('*this field is required');
+		$('#stationaryFee').focus();
+		isValid = false;
+	}
+	if (gst === "") {
+		$('#vgst').text('*this field is required');
+		$('#gst').focus();
+		isValid = false;
+	}
+	if (insuFee === "") {
+		$('#vinsuFee').text('*this field is required');
+		$('#insuFee').focus();
+		isValid = false;
+	}
+	if (penaltyCharge === "") {
+		$('#vpenaltyCharge').text('*this field is required');
+		$('#penaltyCharge').focus();
+		isValid = false;
+	}
+	if (valuationFees === "") {
+		$('#vvaluationFees').text('*this field is required');
+		$('#valuationFees').focus();
+		isValid = false;
+	}
+	if (overCharge === "") {
+		$('#voverCharge').text('*this field is required');
+		$('#overCharge').focus();
+		isValid = false;
+	}
+	if (collectionCharge === "") {
+		$('#vcollectionCharge').text('*this field is required');
+		$('#collectionCharge').focus();
+		isValid = false;
+	}
+	if (financialConsultantId === "") {
+		$('#vfinancialConsultantId').text('*please select financial consultant id');
+		$('#financialConsultantId').focus();
+		isValid = false;
+	}
+
+	if (!isValid) {
+		return;
+	}
+
+	var applyForGold = {
+		goldID: $('#goldID').val(),
+		loanDate: $('#loanDate').val(),
+		memberCode: $('#memberCode').val(),
+		customerName: $('#customerName').val(),
+		dateOfBirth: $('#dateOfBirth').val(),
+		age: $('#age').val(),
+		contactNo: $('#contactNo').val(),
+		address: $('#address').val(),
+		pinCode: $('#pinCode').val(),
+		branchName: $('#branchName').val(),
+		loanPlanName: $('#loanPlanName').val(),
+		typeOfLoan: $('#typeOfLoan').val(),
+		loanMode: $('#loanMode').val(),
+		loanTerm: $('#loanTerm').val(),
+		rateOfInterest: $('#rateOfInterest').val(),
+		loanAmount: $('#loanAmount').val(),
+		interestType: $('#interestType').val(),
+		emiPayment: $('#emiPayment').val(),
+		purposeOfLoan: $('#purposeOfLoan').val(),
+		smsSend: $('#toggle-sms-send').val(),
+
+		// Gold Details
+		karat: $('#karat').val(),
+		itemType: $('#itemType').val(),
+		custgoldRate: $('#custgoldRate').val(),
+		itemName: $('#itemName').val(),
+		lockerBranch: $('#lockerBranch').val(),
+		purity: $('#purity').val(),
+		itemQty: $('#itemQty').val(),
+		itemWt: $('#itemWt').val(),
+		grossWt: $('#grossWt').val(),
+		stoneWt: $('#stoneWt').val(),
+		netWt: $('#netWt').val(),
+		marketValuation: $('#marketValuation').val(),
+		eligibleLoan: $('#eligibleLoan').val(),
+
+		// Guarantor Details
+		guarantorcustomerCode: $('#guarantorcustomerCode').val(),
+		guarantorIdentity: $('#gurantorIdentity').val(),
+		guarantorAddress: $('#guarantorAddress').val(),
+		guarantorPinCode: $('#guarantorPinCode').val(),
+		guarantorContactNo: $('#guarantorContactNo').val(),
+		guarantorSecurityType: $('#guarantorSecurityType').val(),
+
+		// Co-Applicant Details
+		coApplicantMemberId: $('#coApplicantMemberId').val(),
+		coApplicantIdentity: $('#coApplicantIdentity').val(),
+		coApplicantAddress: $('#coApplicantAddress').val(),
+		coAge: $('#coAge').val(),
+		coApplicantContactNo: $('#coApplicantContactNo').val(),
+		securityDetails: $('#securityDetails').val(),
+
+		// Deduction / Charges
+		processingFee: $('#processingFee').val(),
+		legalCharges: $('#legalCharges').val(),
+		stampDuty: $('#stampDuty').val(),
+		smsCharges: $('#smsCharges').val(),
+		mainCharges: $('#mainCharges').val(),
+		stationaryFee: $('#stationaryFee').val(),
+		financialConsultantId: $('#financialConsultantId').val(),
+		gst: $('#gst').val(),
+		insuFee: $('#insuFee').val(),
+		penaltyCharge: $('#penaltyCharge').val(),
+		valuationFees: $('#valuationFees').val(),
+		overCharge: $('#overCharge').val(),
+		collectionCharge: $('#collectionCharge').val(),
+		financialConsultantName: $('#financialConsultantName').val(),
+
+		// Image Fields
+		photo: $('#photoHidden').val(),
+		signature: $('#signatureHidden').val()
+	};
+
+
+	$.ajax({
+		url: 'api/securedGoldLoan/saveApplyForGold',
+		type: 'POST',
+		contentType: 'application/json',
+		data: JSON.stringify(applyForGold),
+		success: function(response) {
+			if (response.status === 'CREATED') {
+				alert("Gold Application Saved Successfully! " + "\n" + "GoldID : " + applyForGold.goldID);
+				location.reload();
+			} else {
+				alert('❌ Failed: ' + response.message);
+			}
+		},
+		error: function(xhr, status, error) {
+			console.error('Error:', error);
+			alert('⚠️ Error while saving Gold Loan Application.');
+		}
+	});
+
+}
+
+
 function calculateValuation() {
-	// Get values
-	let grossWeight = parseFloat($("#grossWt").val()) || 0;
+
+	let itemQuantity = parseFloat($("#itemQty").val()) || 0;
+	let itemWeight = parseFloat($("#itemWt").val()) || 0;
 	let stoneWeight = parseFloat($("#stoneWt").val()) || 0;
-	let purity = parseFloat($("#purity").val()) || 0;
+	let karat = parseFloat($("#karat").val()) || 0;  // example: 91.6
 	let customerKaratRate = parseFloat($("#custgoldRate").val()) || 0;
 
-	// Net weight
+	// Gross Weight
+	let grossWeight = itemQuantity * itemWeight;
+
+	// Net Weight
 	let netWeight = grossWeight - stoneWeight;
-	if (netWeight < 0) netWeight = 0;
+	netWeight = Math.max(netWeight, 0);
+
+
+	let purity = karat / 24;
 
 	// Market Valuation
-	let marketValuation = (netWeight * purity * customerKaratRate) / 100;
+	let marketValuation = netWeight * purity * customerKaratRate;
 
-	// Eligible Loan
+	// Eligible Loan (75% LTV)
+	const LTV = 0.75;
 	let eligibleLoan = marketValuation * LTV;
 
-	// Set values back to form
+	// Set values
+	$("#grossWt").val(grossWeight.toFixed(2));
 	$("#netWt").val(netWeight.toFixed(2));
 	$("#marketValuation").val(marketValuation.toFixed(2));
 	$("#eligibleLoan").val(eligibleLoan.toFixed(2));
