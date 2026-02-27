@@ -1,19 +1,16 @@
 function saveDepartment() {
 	const formData = {
-		departmentName: $('input[name="departmentName"]').val()
+		departmentName: $("#departmentName").val()
 	};
 
 	$.ajax({
 		type: "POST",
-		url: "saveDepartment", // Make sure the context path is correct
+		url: "api/teammember/saveDepartment", // Make sure the context path is correct
 		contentType: "application/json",
 		data: JSON.stringify(formData),
 		success: function(response) {
-			alert("success");
-			if (response === "success") {
-				alert("Department Saved Successfully");
-				location.reload();
-			}
+			alert("Department Saved Successfully");
+			location.reload();
 		},
 		error: function(xhr, status, error) {
 			$('#responseMessage').text("Error: " + xhr.responseText);
@@ -24,7 +21,7 @@ function saveDepartment() {
 //Janvi : Get All Data From Department table
 $(document).ready(function() {
 	$.ajax({
-		url: "getDepartmentList",
+		url: "api/teammember/getDepartmentList",
 		type: "GET",
 		contentType: "application/json",
 		success: function(data) {
