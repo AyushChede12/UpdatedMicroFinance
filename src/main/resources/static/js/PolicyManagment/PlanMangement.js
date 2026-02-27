@@ -21,6 +21,7 @@ $(document).ready(function() {
 	}
 	
 	function validateDailyDeposit() {
+
 	    let isValid = true;
 
 	    const fields = [
@@ -30,30 +31,67 @@ $(document).ready(function() {
 	        "rateOfInterest",
 	        "installmentType",
 	        "ddterm",
+			"penaltyRate",
+			"graceDays",
+			"flexiblePlan",
 	        "interestInterval"
 	    ];
 
 	    fields.forEach(function(field) {
-	        const value = $("#" + field).val();
+
+	        const element = $("#" + field);
+
+	        // Check if element exists in HTML
+	        if (element.length === 0) {
+	            console.error("Field not found:", field);
+	            isValid = false;
+	            return;
+	        }
+
+	        const value = element.val();
+
+	        // Clear previous error
 	        clearError(field);
 
-	        if (isEmpty(value)) {
+	        // Check null, undefined, empty, spaces
+	        if (value === undefined || value === null || value.trim() === "") {
+
 	            showError(field, "This field is required");
+
+	            element.focus();
+
 	            isValid = false;
 	        }
 	    });
 
-	    // Number validation
-	    const minDeposit = parseFloat($("#minimumDeposit").val());
-	    if (minDeposit <= 0 || isNaN(minDeposit)) {
-	        showError("minimumDeposit", "Enter valid amount");
-	        isValid = false;
+	    // Minimum Deposit validation
+	    const minDepositValue = $("#minimumDeposit").val();
+
+	    if (minDepositValue && minDepositValue.trim() !== "") {
+
+	        const minDeposit = parseFloat(minDepositValue);
+
+	        if (isNaN(minDeposit) || minDeposit <= 0) {
+
+	            showError("minimumDeposit", "Enter valid amount");
+
+	            isValid = false;
+	        }
 	    }
 
-	    const roi = parseFloat($("#rateOfInterest").val());
-	    if (roi <= 0 || roi > 100 || isNaN(roi)) {
-	        showError("rateOfInterest", "Enter valid interest (1-100)");
-	        isValid = false;
+	    // Rate of Interest validation
+	    const roiValue = $("#rateOfInterest").val();
+
+	    if (roiValue && roiValue.trim() !== "") {
+
+	        const roi = parseFloat(roiValue);
+
+	        if (isNaN(roi) || roi <= 0 || roi > 100) {
+
+	            showError("rateOfInterest", "Enter valid interest (1–100)");
+
+	            isValid = false;
+	        }
 	    }
 
 	    return isValid;
@@ -491,8 +529,13 @@ $(document).ready(function() {
 	        "planNameRD",
 	        "minimumAmountRD",
 	        "rateOfInterestRD",
+			"rdterm",
 	        "installmentTypeRD",
-	        "rdterm"
+			"componentIntervalRD",
+			"flexiblePlanRD",
+			"graceDaysRD",
+			"penaltyfineRD"
+	        
 	    ];
 
 	    fields.forEach(function(field) {
