@@ -152,5 +152,28 @@ $(document).ready(function () {
         renderTable(filtered);
     });
 
-});
+    // ================= PRINT BUTTON FIX =================
+    $(document).off("click", "#printBankReportBtn").on("click", "#printBankReportBtn", function () {
 
+        var printContents = document.getElementById("bankReportContent").innerHTML;
+
+        var newWindow = window.open('', '', 'width=900,height=700');
+
+        newWindow.document.write(`
+            <html>
+            <head>
+                <title>Financial Consultant Report</title>
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+            </head>
+            <body>
+                ${printContents}
+            </body>
+            </html>
+        `);
+
+        newWindow.document.close();
+        newWindow.focus();
+        newWindow.print();
+    });
+
+});

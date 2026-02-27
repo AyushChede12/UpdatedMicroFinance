@@ -292,16 +292,25 @@ body {
 
 			<!-- Footer -->
 			<div class="modal-footer bg-light">
-				<button id="printBankReportBtn" class="btn btn-success">
-					<i class="bi bi-printer"></i> Print Report
-				</button>
+				<button id="printBankReportBtn"
+        type="button"
+        class="btn btn-success">
+    <i class="bi bi-printer"></i> Print Report
+</button>
 				<button type="button" class="btn btn-secondary"
 					data-bs-dismiss="modal">Close</button>
 			</div>
 		</div>
 	</div>
 </div>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Your JS -->
+<script src="${pageContext.request.contextPath}/js/ReportsAndAnalytics/FinancialAdvisorReport.js"></script>
 <script
 	src="${pageContext.request.contextPath}/js/ReportsAndAnalytics/FinancialAdvisorReport.js"></script>
 

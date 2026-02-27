@@ -1,10 +1,10 @@
 /* =====================================================
-   CHEQUE TRANSACTION REPORT – FINAL WORKING JS
+   CHEQUE TRANSACTION REPORT – FINAL JS
    ===================================================== */
 
 $(document).ready(function () {
 
-    console.log("JS FILE LOADED");
+    console.log("Cheque Transaction Report Loaded");
     console.log("Context Path =", contextPath);
 
     loadChequeData();
@@ -12,6 +12,7 @@ $(document).ready(function () {
     $("#findBtn").on("click", function () {
         applyFilters();
     });
+
 });
 
 
@@ -33,190 +34,205 @@ function loadChequeData() {
 }
 
 
-/* ================= API 1 : LOAN PAYMENT ================= */
+/* ================= API 1 ================= */
 
 function loadLoanPayment() {
 
     $.ajax({
         url: contextPath + "/api/reports/getCheckDataFromLoanPayment",
         type: "GET",
-        success: function (res) {
 
-            console.log("Loan Payment API:", res);
+        success: function (res) {
 
             let data = extractData(res);
 
             data.forEach(item => {
+
                 allChequeData.push({
                     id: item.id,
                     name: item.memberName || "-",
                     date: item.paymentDate,
-                    chequeNo: item.chequeNo,
+                    chequeNo: item.chequeNo || "-",
                     type: "RECEIVED",
                     branch: item.branchName || "",
                     source: "Loan Payment"
                 });
+
             });
 
             loadSavingActivity();
         },
+
         error: function () {
             loadSavingActivity();
         }
+
     });
 }
 
 
-/* ================= API 2 : SAVING ACTIVITY ================= */
+/* ================= API 2 ================= */
 
 function loadSavingActivity() {
 
     $.ajax({
         url: contextPath + "/api/reports/getPayByFromSavingAccountActivity",
         type: "GET",
-        success: function (res) {
 
-            console.log("Saving Activity API:", res);
+        success: function (res) {
 
             let data = extractData(res);
 
             data.forEach(item => {
+
                 allChequeData.push({
                     id: item.id,
                     name: item.customerName || "-",
                     date: item.transactionDate,
-                    chequeNo: item.chequeNo,
+                    chequeNo: item.chequeNo || "-",
                     type: "ISSUED",
                     branch: item.branchName || "",
                     source: "Saving Activity"
                 });
+
             });
 
             loadCreateSaving();
         },
+
         error: function () {
             loadCreateSaving();
         }
+
     });
 }
 
 
-/* ================= API 3 : CREATE SAVINGS ================= */
+/* ================= API 3 ================= */
 
 function loadCreateSaving() {
 
     $.ajax({
         url: contextPath + "/api/reports/getCheckDataFromCreateSavings",
         type: "GET",
-        success: function (res) {
 
-            console.log("Create Savings API:", res);
+        success: function (res) {
 
             let data = extractData(res);
 
             data.forEach(item => {
+
                 allChequeData.push({
                     id: item.id,
                     name: item.enterCustomerName || "-",
                     date: item.openingDate,
-                    chequeNo: item.chequeNo,
+                    chequeNo: item.chequeNo || "-",
                     type: "ISSUED",
                     branch: item.branchName || "",
                     source: "Create Savings"
                 });
+
             });
 
             loadFinancialConsultant();
         },
+
         error: function () {
             loadFinancialConsultant();
         }
+
     });
 }
 
 
-/* ================= API 4 : FINANCIAL CONSULTANT ================= */
+/* ================= API 4 ================= */
 
 function loadFinancialConsultant() {
 
     $.ajax({
         url: contextPath + "/api/reports/getCheckDataFromFinancialConsultant",
         type: "GET",
-        success: function (res) {
 
-            console.log("Financial Consultant API:", res);
+        success: function (res) {
 
             let data = extractData(res);
 
             data.forEach(item => {
+
                 allChequeData.push({
                     id: item.id,
                     name: item.financialName || "-",
                     date: item.joiningDate,
-                    chequeNo: item.chequeNo,
+                    chequeNo: item.chequeNo || "-",
                     type: "ISSUED",
                     branch: item.branchName || "",
                     source: "Financial Consultant"
                 });
+
             });
 
             loadTeamMember();
         },
+
         error: function () {
             loadTeamMember();
         }
+
     });
 }
 
 
-/* ================= API 5 : TEAM MEMBER ================= */
+/* ================= API 5 ================= */
 
 function loadTeamMember() {
 
     $.ajax({
         url: contextPath + "/api/reports/getCheckDataFromTeamMember",
         type: "GET",
-        success: function (res) {
 
-            console.log("Team Member API:", res);
+        success: function (res) {
 
             let data = extractData(res);
 
             data.forEach(item => {
+
                 allChequeData.push({
                     id: item.id,
                     name: item.teamMemberName || "-",
                     date: item.signUpDate,
-                    chequeNo: item.chequeNo,
+                    chequeNo: item.chequeNo || "-",
                     type: "ISSUED",
                     branch: item.branchName || "",
                     source: "Team Member"
                 });
+
             });
 
-            loadApprovedCustomers();   // 🔥 FINAL STEP BEFORE RENDER
+            loadApprovedCustomers();
         },
+
         error: function () {
             loadApprovedCustomers();
         }
+
     });
 }
 
 
-/* ================= API 6 : APPROVED CUSTOMERS ================= */
+/* ================= API 6 ================= */
 
 function loadApprovedCustomers() {
 
     $.ajax({
         url: contextPath + "/api/customermanagement/approved",
         type: "GET",
-        success: function (res) {
 
-            console.log("Approved Customers API:", res);
+        success: function (res) {
 
             let data = extractData(res);
 
             data.forEach(item => {
+
                 allChequeData.push({
                     id: item.id,
                     name: item.customerName || "-",
@@ -226,14 +242,16 @@ function loadApprovedCustomers() {
                     branch: item.branchName || "",
                     source: "Customer"
                 });
+
             });
 
-            console.log("FINAL DATA SIZE =", allChequeData.length);
             renderTable(allChequeData);
         },
+
         error: function () {
             renderTable(allChequeData);
         }
+
     });
 }
 
@@ -258,7 +276,9 @@ function applyFilters() {
         if (fromDate && itemDate && itemDate < fromDate) return false;
         if (toDate && itemDate && itemDate > toDate) return false;
 
-        if (chequeNo && !String(item.chequeNo || "").includes(chequeNo)) return false;
+        if (chequeNo && !String(item.chequeNo).includes(chequeNo)) return false;
+
+        if (type && item.type !== type) return false;
 
         if (branch && item.branch &&
             item.branch.toLowerCase() !== branch.toLowerCase()) return false;
@@ -279,17 +299,18 @@ function renderTable(data) {
     rowIndex = 0;
 
     if (!data || data.length === 0) {
+
         tbody.append(`
             <tr>
-                <td colspan="6" class="text-center text-muted">
-                    No records found
-                </td>
+                <td colspan="6">No Data Found</td>
             </tr>
         `);
+
         return;
     }
 
     data.forEach(item => {
+
         rowIndex++;
 
         tbody.append(`
@@ -297,44 +318,100 @@ function renderTable(data) {
                 <td>${rowIndex}</td>
                 <td>${item.name}</td>
                 <td>${formatDate(item.date)}</td>
-                <td>${item.chequeNo || "-"}</td>
+                <td>${item.chequeNo}</td>
                 <td>${item.type}</td>
                 <td>
-                    <button onclick="viewData(${item.id})">
-                        <i class="bi bi-printer" style="color:green;"></i>
+                    <button class="btn btn-sm btn-success" onclick="viewData(${item.id})">
+                        <i class="bi bi-printer"></i>
                     </button>
                 </td>
             </tr>
         `);
+
     });
+}
+
+
+/* ================= PRINT ================= */
+
+function viewData(id) {
+
+    let item = allChequeData.find(x => x.id == id);
+
+    if (!item) {
+        alert("Data not found");
+        return;
+    }
+
+    let win = window.open('', '', 'width=900,height=700');
+
+    win.document.write(`
+        <html>
+        <head>
+            <title>Cheque Print</title>
+        </head>
+        <body style="font-family:Arial;padding:30px">
+
+            <h2>Cheque Transaction</h2>
+            <hr>
+
+            <p><b>Name :</b> ${item.name}</p>
+            <p><b>Date :</b> ${formatDate(item.date)}</p>
+            <p><b>Cheque No :</b> ${item.chequeNo}</p>
+            <p><b>Status :</b> ${item.type}</p>
+            <p><b>Source :</b> ${item.source}</p>
+
+            <br>
+
+            <button onclick="window.print()">Print</button>
+
+        </body>
+        </html>
+    `);
+
+    win.document.close();
 }
 
 
 /* ================= HELPERS ================= */
 
 function extractData(res) {
+
     if (!res) return [];
+
     if (Array.isArray(res.data)) return res.data;
+
     if (Array.isArray(res.response)) return res.response;
+
     if (Array.isArray(res.result)) return res.result;
+
+    if (Array.isArray(res)) return res;
+
     return [];
 }
 
+
 function parseDate(d) {
+
     if (!d) return null;
+
     return new Date(d.split(" ")[0]);
 }
 
+
 function parseInputDate(d) {
+
     if (!d) return null;
-    let parts = d.split("-");
-    if (parts.length === 3) {
-        return new Date(parts[2] + "-" + parts[1] + "-" + parts[0]);
-    }
+
     return new Date(d);
 }
 
+
 function formatDate(d) {
+
     if (!d) return "-";
-    return new Date(d.split(" ")[0]).toLocaleDateString("en-GB");
+
+    let date = new Date(d.split(" ")[0]);
+
+    return date.toLocaleDateString("en-GB");
 }
