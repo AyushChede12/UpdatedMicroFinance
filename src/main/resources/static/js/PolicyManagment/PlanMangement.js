@@ -898,6 +898,12 @@ $(document).ready(function() {
 	        "planCodeFD",
 	        "planNameFD",
 	        "minimumAmountFD",
+			"installmentTypeFD",
+			"componentIntervalFD",
+			"interestEarnedFD",
+			"flexiblePlanFD",
+			"graceDaysFD",
+			"penltyfineFD",
 	        "rateOfInterestFD",
 	        "fdterm"
 	    ];
