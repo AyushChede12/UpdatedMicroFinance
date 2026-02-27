@@ -122,7 +122,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">BRANCH ADDRESS</label> <input type="text"
+						<label for="">BRANCH NAME</label> <input type="text"
 							name="branchName" id="branchName" required="required"
 							placeholder="ENTER BRANCH ADDRESS"
 							style="text-transform: uppercase;" />

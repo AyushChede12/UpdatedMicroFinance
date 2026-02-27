@@ -46,8 +46,9 @@ $(document).ready(function() {
 		   FILE / IMAGE VALIDATION
 		================================ */
 		function validateFile(fieldId, chkId, message, allowedTypes = [], maxSizeMB = 2) {
+			
 			const input = $('#' + fieldId)[0];
-
+			
 			if (!input || input.files.length === 0) {
 				$('#' + chkId).text(message);
 				isValid = false;
@@ -1060,7 +1061,7 @@ $(document).ready(function() {
 
 				console.log("Fetched Category:", response.data);
 
-				$('#category').empty().append('<option value="">Select Category</option>');
+				$('#category').empty().append('<option value="">--SELECT CATEGORY--</option>');
 
 				// Set to store unique category names
 				const uniqueCategories = new Set();
@@ -1093,7 +1094,7 @@ $(document).ready(function() {
 
 	$('#category').on('change', function() {
 		const selectedCategory = $("#category").val();
-		$('#caste').empty().append('<option value="">SELECT CASTE</option>');
+		$('#caste').empty().append('<option value="">--SELECT CASTE--</option>');
 
 		if (selectedCategory) {
 			$.ajax({

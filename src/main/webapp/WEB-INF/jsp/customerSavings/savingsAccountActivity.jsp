@@ -158,6 +158,7 @@
 						<label for="">TRANSACTION AMOUNT</label> <input type="text"
 							name="transactionAmount" id="transactionAmount"
 							required="required" placeholder="ENTER TRANSACTION AMOUNT" />
+							<span id="balanceError" style="color:red; font-size:13px;"></span>
 					</div>
 					<table id="memberFeesTable" class="table table-bordered"
 						style="font-size: 10px; position: absolute; bottom: 40px; left: 0; width: 90%; display: none; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); z-index: 1000; table-layout: fixed;">

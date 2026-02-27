@@ -1,4 +1,3 @@
-
 package com.microfinance.service;
 
 import java.math.BigDecimal;
@@ -22,9 +21,11 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.bind.annotation.PostMapping;
 import com.microfinance.dto.BankCashTransferDto;
+import com.microfinance.dto.IncentiveRequest;
 import com.microfinance.dto.IncomingReceiptDto;
 import com.microfinance.dto.JournalEntryReportDto;
 import com.microfinance.dto.LedgerAccountDto;
@@ -35,19 +36,38 @@ import com.microfinance.dto.TrialBalanceReportDto;
 import com.microfinance.exception.BadRequestException;
 import com.microfinance.exception.BusinessLogicException;
 import com.microfinance.exception.ResourceNotFoundException;
+import com.microfinance.model.AccountIncentivePayment;
+import com.microfinance.model.AccountTransaction;
+import com.microfinance.model.AddnewinvestmentPM;
+import com.microfinance.model.ApplyForGold;
 import com.microfinance.model.BankCashTransferEntry;
+import com.microfinance.model.CreateSavingsAccount;
 import com.microfinance.model.IncomingReceiptEntry;
 import com.microfinance.model.LedgerAccountMaster;
+import com.microfinance.model.LoanApplication;
+import com.microfinance.model.LoanPayment;
 import com.microfinance.model.ManualJournalEntry;
 import com.microfinance.model.OutgoingPaymentEntry;
+import com.microfinance.model.TeamMember;
+import com.microfinance.model.addFinancialConsultant;
+import com.microfinance.repository.AccountIcentivePaymentRepo;
+import com.microfinance.repository.AccountTransactionRepo;
+import com.microfinance.repository.AddInvestmentRepo;
+import com.microfinance.repository.ApplyForGoldRepo;
 import com.microfinance.repository.BankCashTransferRepo;
 import com.microfinance.repository.BranchModuleRepo;
+import com.microfinance.repository.CreateSavingAccountRepo;
+import com.microfinance.repository.FinancialConsultantRepo;
 import com.microfinance.repository.IncomingReceiptRepo;
 import com.microfinance.repository.JournalEntryReportRepo;
 import com.microfinance.repository.LedgerAccountRepository;
 import com.microfinance.repository.LedgerSummaryRepo;
+import com.microfinance.repository.LoanApplicationRepo;
+import com.microfinance.repository.LoanPaymentRepo;
 import com.microfinance.repository.ManualJournalRepo;
+import com.microfinance.repository.NewLoanAppicationRepo;
 import com.microfinance.repository.OutgoingPaymentRepo;
+import com.microfinance.repository.TeamMemberRepo;
 import com.microfinance.repository.TrialBalanceReportRepo;
 
 @Service
@@ -76,10 +96,36 @@ public class AccountManagementService {
 
 	@Autowired
 	private JournalEntryReportRepo journalEntryReportRepo;
-	
+
 	@Autowired
 	private TrialBalanceReportRepo trialBalanceReportRepo;
 
+	@Autowired
+	private FinancialConsultantRepo financialConsultantRepo;
+
+	@Autowired
+	private CreateSavingAccountRepo createSavingAccountRepo;
+
+	@Autowired
+	private LoanApplicationRepo loanAppicationRepo;
+
+	@Autowired
+	private AddInvestmentRepo addInvestmentRepo;
+
+	@Autowired
+	private ApplyForGoldRepo applyForGoldRepo;
+
+	@Autowired
+	private TeamMemberRepo teamMemberRepo;
+
+	@Autowired
+	private AccountIcentivePaymentRepo accountIcentivePaymentRepo;
+
+	@Autowired
+	private AccountTransactionRepo transactionRepository;
+
+	@Autowired
+	private LoanPaymentRepo loanPaymentRepo;
 
 	/**
 	 * Create a new Ledger Account. Business Logic: - Title must be unique per
@@ -1431,7 +1477,6 @@ public class AccountManagementService {
 		return response;
 	}
 
-	
 	private JournalEntryReportDto mapEntryToDto(String date, String voucherID, String remarks, String branch,
 			String debitLedger, String creditLedger, BigDecimal transactionAmount) {
 
@@ -1459,47 +1504,365 @@ public class AccountManagementService {
 
 		return dto;
 	}
-	
-	
+
 	public List<TrialBalanceReportDto> getTrialBalance(String branch, LocalDate startDate, LocalDate endDate) {
 
-	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	    String start = startDate.format(formatter);
-	    String end = endDate.format(formatter);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String start = startDate.format(formatter);
+		String end = endDate.format(formatter);
 
-	    List<Object[]> rows = trialBalanceReportRepo.fetchTrialBalanceEntries(branch, start, end);
+		List<Object[]> rows = trialBalanceReportRepo.fetchTrialBalanceEntries(branch, start, end);
 
-	    List<TrialBalanceReportDto> result = new ArrayList<>();
+		List<TrialBalanceReportDto> result = new ArrayList<>();
 
-	    for (Object[] r : rows) {
+		for (Object[] r : rows) {
 
-	        String ledgerName = (String) r[0];
-	        String debit = r[1] != null ? r[1].toString() : "0";
-	        String credit = r[2] != null ? r[2].toString() : "0";
+			String ledgerName = (String) r[0];
+			String debit = r[1] != null ? r[1].toString() : "0";
+			String credit = r[2] != null ? r[2].toString() : "0";
 
-	        // Fetch opening & closing from Ledger Master
-	        LedgerAccountMaster master = ledgerAccountRepository
-	                .findByAccountTitleAndBranchName(ledgerName, branch)
-	                .orElse(null);
+			// Fetch opening & closing from Ledger Master
+			LedgerAccountMaster master = ledgerAccountRepository.findByAccountTitleAndBranchName(ledgerName, branch)
+					.orElse(null);
 
-	        String opening = master != null ? master.getOpeningBalance().toPlainString() : "0";
-	        String closing = master != null ? master.getCurrentBalance().toPlainString() : "0";
-	        String accountCode = master != null ? master.getAccountCode() : "";
+			String opening = master != null ? master.getOpeningBalance().toPlainString() : "0";
+			String closing = master != null ? master.getCurrentBalance().toPlainString() : "0";
+			String accountCode = master != null ? master.getAccountCode() : "";
 
-	        TrialBalanceReportDto dto = new TrialBalanceReportDto();
-	       
-	        dto.setLedgerName(ledgerName);
-	        dto.setAccountCode(accountCode);
-	        dto.setOpening(opening);
-	        dto.setDebit(debit);
-	        dto.setCredit(credit);
-	        dto.setClosing(closing);
+			TrialBalanceReportDto dto = new TrialBalanceReportDto();
 
-	        result.add(dto);
-	    }
+			dto.setLedgerName(ledgerName);
+			dto.setAccountCode(accountCode);
+			dto.setOpening(opening);
+			dto.setDebit(debit);
+			dto.setCredit(credit);
+			dto.setClosing(closing);
 
-	    return result;
+			result.add(dto);
+		}
+
+		return result;
 	}
 
+	public boolean deleteLedger(Long id) {
+		// TODO Auto-generated method stub
+		if (ledgerAccountRepository.existsById(id)) {
+			ledgerAccountRepository.deleteById(id);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean deleteOutgoingPayment(Long id) {
+		// TODO Auto-generated method stub
+		if (outgoingPaymentRepo.existsById(id)) {
+			outgoingPaymentRepo.deleteById(id);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean deleteIncomingPayment(Long id) {
+		// TODO Auto-generated method stub
+		if (incomingReceiptRepo.existsById(id)) {
+			incomingReceiptRepo.deleteById(id);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean deleteBankCashTransfer(Long id) {
+		// TODO Auto-generated method stub
+		if (bankCashTransferRepo.existsById(id)) {
+			bankCashTransferRepo.deleteById(id);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean deleteManualJournalEntry(Long id) {
+		// TODO Auto-generated method stub
+		if (manualJournalRepo.existsById(id)) {
+			manualJournalRepo.deleteById(id);
+			return true;
+		}
+		return false;
+	}
+
+	public long calculatePersonalSales(String teamMemberCode, int month, int year) {
+
+		List<addFinancialConsultant> consultants = financialConsultantRepo.findByTeamMemberCode(teamMemberCode);
+
+		if (consultants == null || consultants.isEmpty()) {
+			return 0;
+		}
+
+		// 2️⃣ Extract financial codes (Java 1.8 way)
+		List<String> financialConsultantCode = consultants.stream().map(addFinancialConsultant::getFinancialCode)
+				.collect(Collectors.toList());
+
+		// 3️⃣ Prepare year-month (YYYY-MM)
+		String monthStr = (month < 10) ? "0" + month : String.valueOf(month);
+		String yearMonth = year + "-" + monthStr;
+
+		// 4️⃣ Count sales
+		long saving = createSavingAccountRepo
+				.countByFinancialConsultantCodeInAndOpeningDateContaining(financialConsultantCode, yearMonth);
+
+		long loan = loanAppicationRepo.countByFinancialConsultantIdInAndLoanDateContaining(financialConsultantCode,
+				yearMonth);
+
+		long policy = addInvestmentRepo.countByAgentInAndPolicyStartDateContaining(financialConsultantCode, yearMonth);
+
+		long gold = applyForGoldRepo.countByFinancialConsultantIdInAndLoanDateContaining(financialConsultantCode,
+				yearMonth);
+
+		return saving + loan + policy + gold;
+	}
+
+	public Map<String, Object> getFullIncentiveDetails(IncentiveRequest request) {
+
+		Map<String, Object> response = new HashMap<>();
+
+		String teamMemberCode = request.getTeamMemberCode();
+		int month = request.getMonth();
+		int year = request.getYear();
+
+		// 🔹 1️⃣ Fetch Team Member
+		TeamMember tm = teamMemberRepo.findByTeamMemberCode(teamMemberCode);
+
+		if (tm == null) {
+			return response;
+		}
+
+		response.put("fullName", tm.getTeamMemberName());
+		response.put("designation", tm.getDesignation());
+
+		// 🔹 2️⃣ Personal Sales
+		double personalSales = calculatePersonalSalesAmount(teamMemberCode, month, year);
+
+		// 🔹 3️⃣ Group Sales
+		double groupSales = calculateGroupSalesAmount(teamMemberCode, month, year);
+
+		double overallSales = personalSales + groupSales;
+
+		// 🔹 4️⃣ Incentive Calculation
+		double totalEarnings = overallSales * 0.10;
+		double taxDeducted = totalEarnings * 0.05;
+		double serviceDeduction = totalEarnings * 0.02;
+		double extraAllowance = 1000;
+
+		double finalPayout = totalEarnings - taxDeducted - serviceDeduction + extraAllowance;
+
+		// 🔹 5️⃣ Put Values
+		response.put("teamMemberCode", teamMemberCode);
+		response.put("month", month);
+		response.put("year", year);
+
+		response.put("personalSales", personalSales);
+		response.put("groupSales", groupSales);
+		response.put("overallSales", overallSales);
+
+		response.put("totalEarnings", totalEarnings);
+		response.put("taxDeducted", taxDeducted);
+		response.put("serviceDeduction", serviceDeduction);
+		response.put("extraAllowance", extraAllowance);
+		response.put("finalPayout", finalPayout);
+
+		return response;
+	}
+
+	public double calculateGroupSalesAmount(String teamMemberCode, int month, int year) {
+
+		TeamMember tm = teamMemberRepo.findByTeamMemberCode(teamMemberCode);
+		if (tm == null)
+			return 0;
+
+		// 1️⃣ Branch based group
+		String branch = tm.getBranchName();
+
+		// 2️⃣ All team members in branch
+		List<String> teamCodes = teamMemberRepo.findByBranchName(branch).stream().map(TeamMember::getTeamMemberCode)
+				.collect(Collectors.toList());
+
+		if (teamCodes.isEmpty())
+			return 0;
+
+		// 3️⃣ All financial consultants under group
+		List<String> financialCodes = financialConsultantRepo.findByTeamMemberCodeIn(teamCodes).stream()
+				.map(addFinancialConsultant::getFinancialCode).collect(Collectors.toList());
+
+		if (financialCodes.isEmpty())
+			return 0;
+
+		// 4️⃣ Calculate business
+		double savingAmount = createSavingAccountRepo.findByFinancialConsultantCodeIn(financialCodes).stream()
+				.filter(s -> isSameMonth(s.getOpeningDate(), month, year))
+				.mapToDouble(s -> parseAmount(s.getOpeningFees())).sum();
+
+		double policyAmount = addInvestmentRepo.findByAgentIn(financialCodes).stream()
+				.filter(p -> isSameMonth(p.getPolicyStartDate(), month, year))
+				.mapToDouble(p -> parseAmount(p.getDepositAmount())).sum();
+
+		double loanAmount = loanAppicationRepo.findByFinancialConsultantIdIn(financialCodes).stream()
+				.filter(l -> isSameMonth(l.getLoanDate(), month, year)).mapToDouble(l -> parseAmount(l.getLoanAmount()))
+				.sum();
+
+		double goldAmount = applyForGoldRepo.findByFinancialConsultantIdIn(financialCodes).stream()
+				.filter(g -> isSameMonth(g.getLoanDate(), month, year)).mapToDouble(g -> parseAmount(g.getLoanAmount()))
+				.sum();
+
+		return savingAmount + policyAmount + loanAmount + goldAmount;
+	}
+
+	// ================= HELPERS =================
+
+	private boolean isSameMonth(String dateStr, int month, int year) {
+		if (dateStr == null || dateStr.isEmpty())
+			return false;
+
+		LocalDate date = LocalDate.parse(dateStr); // yyyy-MM-dd
+		return date.getMonthValue() == month && date.getYear() == year;
+	}
+
+	private double parseAmount(String amount) {
+		if (amount == null || amount.trim().isEmpty())
+			return 0.0;
+		try {
+			return Double.parseDouble(amount.trim());
+		} catch (Exception e) {
+			return 0.0;
+		}
+	}
+
+	public double calculatePersonalSalesAmount(String teamMemberCode, int month, int year) {
+
+		List<String> financialCodes = financialConsultantRepo.findByTeamMemberCode(teamMemberCode).stream()
+				.map(addFinancialConsultant::getFinancialCode).collect(Collectors.toList());
+
+		if (financialCodes.isEmpty())
+			return 0.0;
+
+		double savingAmount = createSavingAccountRepo.findByFinancialConsultantCodeIn(financialCodes).stream()
+				.filter(s -> isSameMonth(s.getOpeningDate(), month, year))
+				.mapToDouble(s -> parseAmount(s.getOpeningFees())).sum();
+
+		double policyAmount = addInvestmentRepo.findByAgentIn(financialCodes).stream()
+				.filter(p -> isSameMonth(p.getPolicyStartDate(), month, year))
+				.mapToDouble(p -> parseAmount(p.getDepositAmount())).sum();
+
+		double loanAmount = loanAppicationRepo.findByFinancialConsultantIdIn(financialCodes).stream()
+				.filter(l -> isSameMonth(l.getLoanDate(), month, year)).mapToDouble(l -> parseAmount(l.getLoanAmount()))
+				.sum();
+
+		double goldAmount = applyForGoldRepo.findByFinancialConsultantIdIn(financialCodes).stream()
+				.filter(g -> isSameMonth(g.getLoanDate(), month, year)).mapToDouble(g -> parseAmount(g.getLoanAmount()))
+				.sum();
+
+		return savingAmount + policyAmount + loanAmount + goldAmount;
+	}
+
+	public String saveIncentivePayment(AccountIncentivePayment request) {
+
+		// 🔴 Duplicate Check
+		boolean alreadyPaid = accountIcentivePaymentRepo
+				.existsByTeamMemberCodeAndIncentiveMonth(request.getTeamMemberCode(), request.getIncentiveMonth());
+
+		if (alreadyPaid) {
+			return "ALREADY_PAID";
+		}
+
+		AccountIncentivePayment payment = new AccountIncentivePayment();
+
+		payment.setIncentiveMonth(request.getIncentiveMonth());
+		payment.setTeamMemberCode(request.getTeamMemberCode());
+		payment.setFullName(request.getFullName());
+		payment.setDesignation(request.getDesignation());
+
+		payment.setPersonalSales(String.valueOf(request.getPersonalSales()));
+		payment.setGroupSales(String.valueOf(request.getGroupSales()));
+		payment.setOverallSales(String.valueOf(request.getOverallSales()));
+
+		payment.setTotalEarnings(String.valueOf(request.getTotalEarnings()));
+		payment.setTaxDeducted(String.valueOf(request.getTaxDeducted()));
+		payment.setServiceDeduction(String.valueOf(request.getServiceDeduction()));
+		payment.setExtraAllowance(String.valueOf(request.getExtraAllowance()));
+		payment.setFinalPayout(String.valueOf(request.getFinalPayout()));
+
+		payment.setBranchName(request.getBranchName());
+		payment.setPaymentDate(request.getPaymentDate());
+		payment.setModeOfPayment(request.getModeOfPayment());
+
+		accountIcentivePaymentRepo.save(payment);
+
+		return "SUCCESS";
+	}
+
+	@Transactional
+	public void depositAmount(String accountNumber, Double amount) {
+
+		// 1️⃣ Account fetch karo
+		CreateSavingsAccount account = createSavingAccountRepo.findByAccountNumber(accountNumber)
+				.orElseThrow(() -> new RuntimeException("Account not found with number: " + accountNumber));
+
+		// 2️⃣ Current balance nikalo (null safe)
+		Double currentBalance = 0.0;
+
+		if (account.getBalance() != null && !account.getBalance().isEmpty()) {
+			currentBalance = Double.parseDouble(account.getBalance());
+		}
+
+		// 3️⃣ New balance calculate karo
+		Double newBalance = currentBalance + amount;
+
+		// 4️⃣ Transaction object banao
+		AccountTransaction txn = new AccountTransaction();
+		txn.setAccountNumber(accountNumber);
+		txn.setTransactionDate(LocalDate.now().toString());
+		txn.setNarration("Cash Deposit");
+		txn.setCredit(amount);
+		txn.setDebit(0.0);
+		txn.setBalance(newBalance);
+		txn.setTransactionType("DEPOSIT");
+		txn.setStatus("SUCCESS");
+
+		// 5️⃣ Transaction save karo
+		transactionRepository.save(txn);
+
+		// 6️⃣ Master table balance update karo
+		account.setBalance(String.valueOf(newBalance));
+		createSavingAccountRepo.save(account);
+	}
+
+	public List<LoanPayment> searchCheque(String typeOfLoan, String branchName, String startDate, String endDate,
+			String chequeNo) {
+		// TODO Auto-generated method stub
+		return loanPaymentRepo.searchCheque(typeOfLoan, branchName, startDate, endDate, chequeNo);
+	}
+
+	public LoanPayment clearCheque(Long id) {
+		LoanPayment payment = loanPaymentRepo.findById(id)
+				.orElseThrow(() -> new RuntimeException("LoanPayment not found"));
+
+		if (!"CHEQUE".equalsIgnoreCase(payment.getPaymentMode())) {
+			throw new RuntimeException("This payment is not a cheque.");
+		}
+
+		payment.setPaymentStatus("PAID"); // ✅ clear hone ke baad PAID
+		return loanPaymentRepo.save(payment);
+	}
+
+	public List<LoanPayment> findAllPendingCheques() {
+		// TODO Auto-generated method stub
+		return loanPaymentRepo.findAllPendingCheques();
+	}
+
+	public LoanPayment bounceCheque(Long id) {
+		LoanPayment payment = loanPaymentRepo.findById(id)
+				.orElseThrow(() -> new RuntimeException("LoanPayment not found"));
+
+		payment.setPaymentStatus("BOUNCED"); // ❌ cheque bounce
+		return loanPaymentRepo.save(payment);
+	}
 
 }

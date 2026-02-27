@@ -1,12 +1,12 @@
 
 <div class="pagetitle">
-	<h1>Account Management</h1>
+	<h1>ACCOUNT MANAGEMENT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="home"> <i
 					class="bi bi-wallet2"></i>
 			</a></li>
-			<li class="breadcrumb-item action">Cheque Clearing Processing</li>
+			<li class="breadcrumb-item action">CHEQUE CLEARING PROCESSING</li>
 		</ol>
 	</nav>
 </div>
@@ -16,53 +16,50 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">Search Box</li>
+					<li class="breadcrumb-item action">SEARCH BOX</li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-4">
 					<div class="d-flex flex-column formFields">
-						<label for="">Type of Loan</label> <select id="typeOflone"
-							name="typeOflone" required="required"
+						<label for="">TYPE OF LOAN</label> <select id="typeOfLoan"
+							name="typeOfLoan" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select</option>
-							<option value="Blue">Blue</option>
+							<option value="">--SELECT LOAN TYPE--</option>
 						</select>
 					</div>
 				</div>
 
 				<div class="col-lg-4">
 					<div class="d-flex flex-column formFields">
-						<label for="">Branch Name</label> <select id="branchName"
+						<label for="">BRANCH NAME</label> <select id="branchName"
 							name="branchName" required="required"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">Select Branch</option>
-							<option value="Blue">Blue</option>
+							<option value="">--SELECT BRANCH NAME--</option>
 						</select>
 					</div>
 				</div>
 
 				<div class="col-lg-4">
-					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">Start Date</label> <input type="date"
-							name="startDate" id="startDate" required="required"
-							style="text-transform: uppercase;" />
+					<div class="d-flex flex-column formFields"
+						style="margin-bottom: 30px;">
+						<label for="vehicalNo">START DATE</label> <input type="date"
+							name="startDate" id="startDate" required="required" />
 					</div>
 				</div>
 
 				<div class="col-lg-4">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">End Date</label> <input type="date"
-							name="endDate" id="endDate" required="required"
-							style="text-transform: uppercase;" />
+						<label for="vehicalNo">END DATE</label> <input type="date"
+							name="endDate" id="endDate" required="required" />
 					</div>
 				</div>
 
 				<div class="col-lg-4">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">Cheque No.</label> <input type="text"
+						<label for="">CHEQUE NO.</label> <input type="text"
 							name="chequeNo" id="chequeNo" required="required"
-							placeholder="Enter Cheque No." disabled />
+							placeholder="ENTER CHEQUE NO." />
 					</div>
 				</div>
 			</div>
@@ -71,8 +68,8 @@
 
 	<div class="row">
 		<div class="col-12 text-center mt-3">
-			<button id="searchBtn" class="btnStyle"
-				style="background-color: #FFA500;">Search</button>
+			<button type="button" id="searchBtn" class="btnStyle"
+				style="background-color: #FFA500;">SEARCH</button>
 		</div>
 	</div>
 </form>
@@ -82,16 +79,21 @@
 		<div class="card recent-sales">
 
 			<div class="card-body table-responsive">
-				<h5 class="card-title">Detail Search List</h5>
+				<h5 class="card-title">CHEQUE LIST</h5>
 
 				<table class="table table-borderless datatable overflow-scroll">
 					<thead class="table-light">
 						<tr style="font-family: 'Poppins', sans-serif;">
-							<th scope="col">ID</th>
-							<th scope="col">Payment Type</th>
-							<th scope="col">Branch Type</th>
-							<th scope="col">Date</th>
-							<th scope="col">Cheque No.</th>
+							<th style="white-space: nowrap;">ID</th>
+							<th style="white-space: nowrap;">CUSTOMER NAME</th>
+							<th style="white-space: nowrap;">LOAN ACCOUNT TYPE</th>
+							<th style="white-space: nowrap;">CHEQUE NO</th>
+							<th style="white-space: nowrap;">CHEQUE DATE</th>
+							<th style="white-space: nowrap;">CHEQUE AMOUNT</th>
+							<th style="white-space: nowrap;">BRANCH</th>
+							<th style="white-space: nowrap;">LOAN TYPE</th>
+							<th style="white-space: nowrap;">STATUS</th>
+							<th style="white-space: nowrap;">ACTION</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -102,3 +104,5 @@
 	</div>
 </div>
 
+<script
+	src="${pageContext.request.contextPath}/js/account-management/chequeClearingProcessing.js"></script>

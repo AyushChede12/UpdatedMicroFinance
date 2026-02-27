@@ -286,7 +286,7 @@ $(document).ready(function() {
 	function createNewField() {
 		const fieldHtml = `
             <div class="textUploadSet mb-4">
-                <input type="text" class="form-control nameField" placeholder="ENTER IMAGE NAME...">
+                <input style="text-transform: uppercase;" type="text" class="form-control nameField" placeholder="ENTER IMAGE NAME...">
                 <div class="uploadContainer"></div>
             </div>`;
 		$("#fieldContainer").append(fieldHtml);
@@ -370,7 +370,7 @@ $(document).ready(function() {
 			type: "GET",
 			success: function(data) {
 
-				let html = "<h4>Stored Images</h4><div class='row'>";
+				let html = "<h4>STORED IMAGES</h4><div class='row'>";
 
 				data.forEach(img => {
 					html += `

@@ -114,31 +114,39 @@ $(document).ready(function () {
     $('#saveBtn').click(function (event) {
         event.preventDefault();
 
+        // Clear previous error message
+        $('#balanceError').text("");
+
         const transactionDate = $('#transactionDate').val();
         const accountNumber = $('#accountNumber').val();
         const transactionType = $('#transactionType').val();
         const transactionAmount = parseFloat($('#transactionAmount').val());
         let avgBalance = parseFloat($('#averageBalance').val()) || 0;
 
+        // Required field validation
         if (!transactionDate || !accountNumber || !transactionType || isNaN(transactionAmount)) {
             alert("Please fill all required fields");
             return;
         }
 
-        // Update average balance
+        // ===== Update average balance =====
         if (transactionType === 'Deposit') {
             avgBalance += transactionAmount;
-        } else if (transactionType === 'Withdraw') {
+        } 
+        else if (transactionType === 'Withdraw') {
             avgBalance -= transactionAmount;
         }
 
+        // ===== Balance negative check =====
         if (avgBalance < 0) {
-            alert("Balance cannot be negative");
+            $('#balanceError').text("Balance is low");
             return;
         }
 
+        // Update balance field
         $('#averageBalance').val(avgBalance.toFixed(2));
 
+        // ===== Prepare data =====
         const accountData = {
             selectSavingTransactionId: $('#selectSavingTransactionId').val(),
             transactionDate: transactionDate,
@@ -164,11 +172,13 @@ $(document).ready(function () {
             refNumber2: $('#refNumber2').val()
         };
 
+        // ===== Save API =====
         $.ajax({
             url: "api/customersavings/savesavingaccountactivity",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(accountData),
+
             success: function (response) {
                 alert("Transaction saved successfully");
 
@@ -177,14 +187,21 @@ $(document).ready(function () {
 
                 // Reload transaction table
                 reloadTransactionTable(accountNumber);
+
+                // Clear error after successful save
+                $('#balanceError').text("");
             },
+
             error: function (xhr, status, error) {
                 console.error("Error saving transaction:", xhr.responseText);
                 alert("Failed to save transaction");
             }
         });
+
     });
+
 });
+
 
 // =========================================
 // LOAD TRANSACTION TABLE
@@ -265,18 +282,18 @@ document.getElementById("transactionType").addEventListener("change", function (
     var commentsDropdown = document.getElementById("comments");
 
     // clear old options
-    commentsDropdown.innerHTML = '<option value="">-SELECT-</option>';
+    commentsDropdown.innerHTML = '<option value="">--SELECT--</option>';
 
     if (transactionType === "Deposit") {
-        addOption(commentsDropdown, "By Cash");
-        addOption(commentsDropdown, "By Transfer");
-        addOption(commentsDropdown, "By Online");
-        addOption(commentsDropdown, "By Cheque");
+        addOption(commentsDropdown, "BY CASH");
+        addOption(commentsDropdown, "BY TRANSFER");
+        addOption(commentsDropdown, "BY ONLINE");
+        addOption(commentsDropdown, "BY CHEQUE");
     }
     else if (transactionType === "Withdraw") {
-        addOption(commentsDropdown, "To Cash");
-        addOption(commentsDropdown, "To Transfer");
-        addOption(commentsDropdown, "To Cheque");
+        addOption(commentsDropdown, "TO CASH");
+        addOption(commentsDropdown, "TO TRANSFER");
+        addOption(commentsDropdown, "TO CHEQUE");
     }
 });
 

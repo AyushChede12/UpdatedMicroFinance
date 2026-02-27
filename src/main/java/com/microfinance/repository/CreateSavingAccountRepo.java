@@ -1,6 +1,7 @@
 package com.microfinance.repository;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,5 +54,13 @@ public interface CreateSavingAccountRepo extends JpaRepository<CreateSavingsAcco
 
 	List<CreateSavingsAccount> findByIsApprovedTrueAndMessageSendAndOpeningDateBetween(String messageSend,
 			LocalDate startDate, LocalDate endDate);
+
+	long countByFinancialConsultantCodeInAndOpeningDateContaining(List<String> financialConsultantCode,
+			String yearMonth);
+
+	List<CreateSavingsAccount> findByFinancialConsultantCodeIn(List<String> financialCodes);
+
+	@Query("SELECT COALESCE(SUM(s.openingFees),0) FROM CreateSavingsAccount s WHERE s.branchName = :branchName AND s.openingDate BETWEEN :startDate AND :endDate")
+	Double getTotalSavingOpeningIncome(String branchName, LocalDate startDate, LocalDate endDate);
 
 }

@@ -113,7 +113,7 @@ $('#displaycheqdate').hide();
 $('#displaydeposit').hide();
 $('#displayRef').hide();
 
-$('#modeofPayment').change(function() {
+$('#paymentMode').change(function() {
 	const paymentMode = $(this).val();
 	if (paymentMode === 'Cash') {
 		$('#displayCheque').hide();

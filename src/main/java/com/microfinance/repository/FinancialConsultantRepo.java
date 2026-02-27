@@ -1,5 +1,6 @@
 package com.microfinance.repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,17 +30,17 @@ public interface FinancialConsultantRepo extends JpaRepository<addFinancialConsu
 
 	List<addFinancialConsultant> findByModeofPayment(String string);
 
-	
+	List<addFinancialConsultant> findByTeamMemberCode(String teamMemberCode);
 
-	
+	List<addFinancialConsultant> findByTeamMemberCodeIn(List<String> teamCodes);
 
 	/*
 	 * @Transactional List<addFinancialConsultant> fetchAllFinancialCode(String
 	 * financialCode);
 	 */
 
-	//Optional<addCustomer> findByMemberCode(String memberCode);
+	// Optional<addCustomer> findByMemberCode(String memberCode);
 
-	//List<addFinancialConsultant> findByFinancialCode(String financialCode);
+	// List<addFinancialConsultant> findByFinancialCode(String financialCode);
 
 }

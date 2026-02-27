@@ -6,7 +6,7 @@
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-file-earmark-text"></i>
 			</a></li>
-			<li class="breadcrumb-item action">CHEQUE TRANSACTION REPORT </li>
+			<li class="breadcrumb-item action">CHEQUE TRANSACTION REPORT</li>
 		</ol>
 	</nav>
 </div>
@@ -24,25 +24,25 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px;">
-						<label for="">TYPE </label> <select id="type" name="type"
-							required="required" class="form-control selectField"
-							style="height: 30px;">
-							<option value="">All TYPE</option>
-							<option value="RD">CHEQUE ISSUED</option>
-							<option value="RD">CHEQUE RECEIVED </option>
-							<option value="RD">CLEARED CHEQUE</option>
-							<option value="RD">BOUNCED Bounced CHEQUE</option>
-							<option value="RD">PENDING CHEQUE</option>
-							<option value="RD">CANCELLED CHEQUE</option>
-							<option value="RD">Transferred CHEQUE</option>
+						<label for="">TYPE </label><select id="type" name="type"
+							class="form-control selectField" style="height: 30px;">
+							<option value="">ALL TYPE</option>
+							<option value="ISSUED">CHEQUE ISSUED</option>
+							<option value="RECEIVED">CHEQUE RECEIVED</option>
+							<option value="CLEARED">CLEARED CHEQUE</option>
+							<option value="BOUNCED">BOUNCED CHEQUE</option>
+							<option value="PENDING">PENDING CHEQUE</option>
+							<option value="CANCELLED">CANCELLED CHEQUE</option>
+							<option value="TRANSFERRED">TRANSFERRED CHEQUE</option>
 						</select>
+
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px;">
-						<label for="branchName">BRANCH </label> <select id="branchName"
+						<label for="branchName">ALL BRANCH</label> <select id="branchName"
 							name="branchName" required="required"
 							class="form-control selectField" style="height: 30px;">
 						</select>
@@ -121,3 +121,12 @@
 	</div>
 
 </div>
+
+<script>
+	var contextPath = "${pageContext.request.contextPath}";
+	console.log("JSP contextPath =", contextPath);
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/js/ReportsAndAnalytics/ChequeTransactionReport.js"></script>
+

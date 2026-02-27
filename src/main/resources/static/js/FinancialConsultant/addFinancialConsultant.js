@@ -38,6 +38,24 @@ $(document).ready(function() {
 		}
 	});
 
+	$.ajax({
+		url: "api/teammember/getAllteamMember",
+		type: "GET",
+		success: function(response) {
+			if (response.status === "FOUND") {
+				$("#teamMemberCode").empty().append("<option value=''>-- Select Team Member Code --</option>");
+				response.data.forEach(function(item) {
+					$("#teamMemberCode").append(`<option value='${item.teamMemberCode}'>${item.teamMemberCode}</option>`);
+				});
+			} else {
+				alert("No Team Member found.");
+			}
+		},
+		error: function() {
+			alert("Failed to load Team Member names.");
+		}
+	});
+
 	// ✅ Load Relation to Applicant
 	$.ajax({
 		url: "api/financialconsultant/getAllRelationToApplicant",
@@ -166,6 +184,7 @@ $(document).ready(function() {
 		$('#chkreferralCode').text('');
 		$('#chkrefferalName').text('');
 		$('#chkmodeofPayment').text('');
+		$('#chkteammembercode').text('');
 
 
 
@@ -186,6 +205,7 @@ $(document).ready(function() {
 		var referralCode = $('#referralCode').val().trim();
 		var referralName = $('#referralName').val().trim();
 		var modeofPayment = $('#modeofPayment').val().trim();
+		var teamMemberCode = $('#teamMemberCode').val().trim();
 
 		const photo = $('#photo')[0].files[0];
 		const signature = $('#signature')[0].files[0];
@@ -298,6 +318,12 @@ $(document).ready(function() {
 			isValid = false;
 		}
 
+		if (teamMemberCode === '') {
+			$('#chkteammembercode').text('* This field is required');
+			$('#teamMemberCode').focus();
+			isValid = false;
+		}
+
 
 
 		if (!isValid) {
@@ -331,6 +357,7 @@ $(document).ready(function() {
 		formData.append("referralName", $('#referralName').val());
 		formData.append("fees", $('#fees').val());
 		formData.append("modeofPayment", $('#modeofPayment').val());
+		formData.append("teamMemberCode", $('#teamMemberCode').val());
 		formData.append("chequeNo", $('#chequeNo').val());
 		formData.append("chequeDate", $('#chequeDate').val());
 		formData.append("depositAccount", $('#depositAccount').val());

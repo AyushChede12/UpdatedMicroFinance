@@ -1,5 +1,6 @@
 package com.microfinance.repository;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -27,5 +28,9 @@ public interface ApplyForGoldRepo extends JpaRepository<ApplyForGold, Long> {
 	List<ApplyForGold> findByGoldLoanStatus(String string);
 
 	List<ApplyForGold> findByApprovalStatusFalse();
+
+	long countByFinancialConsultantIdInAndLoanDateContaining(List<String> financialConsultantCode, String yearMonth);
+
+	List<ApplyForGold> findByFinancialConsultantIdIn(List<String> financialCodes);
 
 }
