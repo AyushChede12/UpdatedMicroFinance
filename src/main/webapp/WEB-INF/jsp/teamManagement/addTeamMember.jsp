@@ -417,15 +417,6 @@
 		</div>
 
 	<script>
-	$(document).ready(function() {
-		DesignationDropdown();
-		DepartmentDropdown();
-		BranchNameDropdown();
-		RelationDropdown();
-	});
-	</script>
-
-	<script>
 document.addEventListener('DOMContentLoaded', function () {
 	
 	const toggles = document.querySelectorAll('.toggle__input');	

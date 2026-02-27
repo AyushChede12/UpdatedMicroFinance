@@ -408,6 +408,7 @@ function saveLoanApplication() {
 		emiPayment: $('#emiPayment').val(),
 		purposeOfLoan: $('#purposeOfLoan').val(),
 		loanStatus: "ACTIVE",
+		messageStatus: $('#messageStatus').is(':checked') ? 1 : 0,
 
 		/* ================= GUARANTOR ================= */
 		guarantorMemberId: $('#guarantorMemberId').val(),
@@ -437,8 +438,10 @@ function saveLoanApplication() {
 
 		/* ================= Photo/Singnature ================= */
 		/* ================= Photo/Singnature ================= */
-		photo: $('#photo').val(),
-		signature: $('#signature').val(),
+		/* ================= Photo/Singnature ================= */
+
+		photo: $('#photoHidden').val(),
+		signature: $('#signatureHidden').val(),
 
 
 	};
@@ -457,6 +460,7 @@ function saveLoanApplication() {
 		data: JSON.stringify(loanApplication),
 		success: res => {
 			alert('Loan Application saved successfully!');
+			location.reload();
 			console.log('Save response:', res);
 		},
 		error: () => {
