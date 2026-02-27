@@ -547,7 +547,7 @@ td {
 										<th style="white-space: nowrap;">Plan Code</th>
 										<th style="white-space: nowrap;">Plan Name</th>
 										<th style="white-space: nowrap;">Minimum Deposit</th>
-										<th style="white-space: nowrap;">Rate of interest</th>
+										<th style="white-space: nowrap;">Rate of Interest</th>
 										<th style="white-space: nowrap;">Installment Type</th>
 										<th style="white-space: nowrap;">Term (Duration)</th>
 									<!-- 	<th style="white-space: nowrap;">Maturity Amount</th> -->
