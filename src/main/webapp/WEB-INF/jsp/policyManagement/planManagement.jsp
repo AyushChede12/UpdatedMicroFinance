@@ -121,7 +121,7 @@ td {
 
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">PLAN CODE <span class="star">*</span></label> <input
-							type="text" name="planCodeDD" id="planCodeDD" required="required"
+							type="text" name="planCodeDD" id="planCodeDD" 
 							placeholder="ENTER PLAN CODE" value="${memberCodeDD}"
 							readonly="readonly" style="text-transform: uppercase;" />
 					</div>
@@ -130,7 +130,7 @@ td {
 					<div class="d-flex flex-column formFields  mb-4 ">
 						<label for="vehicalNo">PLAN NAME <span class="star">*</span></label>
 						<input type="text" name="planNameDD" id="planNameDD"
-							required="required" placeholder="ENTER PLAN NAME" />
+							placeholder="ENTER PLAN NAME" />
 					</div>
 				</div>
 
@@ -138,7 +138,7 @@ td {
 					<div class="d-flex flex-column formFields  mb-4">
 						<label for="vehicalNo">MINIMUM DEPOSIT  <span class="star">*</span></label>
 						<input type="text" name="minimumDeposit" id="minimumDeposit"
-							required="required" placeholder="ENTER MINIMUM AMOUNT"
+							 placeholder="ENTER MINIMUM AMOUNT"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -147,7 +147,7 @@ td {
 					<div class="d-flex flex-column formFields  mb-4">
 						<label for="vehicalNo">RATE OF INTEREST (%) <span
 							class="star">*</span></label> <input type="text" name="rateOfInterest"
-							id="rateOfInterest" required="required"
+							id="rateOfInterest"
 							placeholder="ENTER RATE OF INTEREST"
 							style="text-transform: uppercase;" />
 					</div>
@@ -156,7 +156,7 @@ td {
 					<div class="d-flex flex-column formFields">
 						<label for="">INSTALLMENT TYPE <span class="star">*</span></label>
 						<select id="installmentType" name="installmentType"
-							required="required" class="form-control selectField"
+							class="form-control selectField"
 							style="height: 30px;">
 							<option value="">SELECT INSTALLMENT TYPE</option>
 							<option value="Cash">CASH</option>
@@ -173,7 +173,7 @@ td {
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">TERM <span class="star">*</span></label> <input
-							type="text" name="ddterm" id="ddterm" required="required"
+							type="text" name="ddterm" id="ddterm" 
 							placeholder="ENTER TERM" />
 					</div>
 				</div>
@@ -198,7 +198,7 @@ td {
 					<div class="d-flex flex-column formFields">
 						<label for="">INTEREST INTERVAL <span class="star">*</span></label>
 						<select id="interestInterval" name="interestInterval"
-							required="required" class="form-control selectField"
+						 class="form-control selectField"
 							style="height: 30px;">
 							<option value="">SELECT INTEREST INTERVAL</option>
 							<option value="Daily">DAILY</option>
@@ -234,7 +234,7 @@ td {
 				<div class="col-lg-3 mb-4 ">
 					<div class="d-flex flex-column formFields">
 						<label for="">IS FLEXIBLE PLAN? <span class="star">*</span></label>
-						<select id="flexiblePlan" name="flexiblePlan" required="required"
+						<select id="flexiblePlan" name="flexiblePlan" 
 							class="form-control selectField" style="height: 30px;">
 							<option value="">SELECT FLEXIBLE PLAN </option>
 							<option value="Yes">YES</option>
@@ -251,7 +251,7 @@ td {
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">GRACE DAYS  <span class="star">*</span></label> <input
-							type="text" name="graceDays" id="graceDays" required="required"
+							type="text" name="graceDays" id="graceDays" 
 							placeholder="ENTER GRACE DAY" />
 					</div>
 				</div>
@@ -260,7 +260,7 @@ td {
 					<div class="d-flex flex-column formFields">
 						<label for="">PENALTY RATE (%) <span class="star">*</span></label>
 						<input type="text" name="penaltyRate" id="penaltyRate"
-							required="required" placeholder="ENTER PENALITY RATE" />
+							placeholder="ENTER PENALITY RATE" />
 					</div>
 				</div>
 
@@ -287,7 +287,7 @@ td {
 
 			<div class="row" style="margin-left: 80%;">
 				<div class="col-12 text-center">
-					<button id="saveBtn" class="btnStyle bg-warning ">SAVE</button>
+					<button  type="button" id="saveBtn" class="btnStyle bg-warning ">SAVE</button>
 					<button id="updateBtn" class="btnStyle bg-warning style="display:none;">UPDATE</button>
 
 				</div>
@@ -298,7 +298,7 @@ td {
 					<div class="card recent-sales">
 						<div class="card-body table-responsive">
 							<h5 class="card-title">
-								DAILY DEPOSITE <span>| TABLE VIEW</span>
+								DAILY DEPOSIT <span>| TABLE VIEW</span>
 							</h5>
 
 							<table class="table table-bordered">
@@ -345,7 +345,7 @@ td {
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">RECURRING DEPOSITE</li>
+					<li class="breadcrumb-item action">RECURRING DEPOSIT</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -780,7 +780,7 @@ td {
 
 		<div class="row" style="margin-left: 80%;">
 			<div class="col-12 text-center">
-				<button id="FixedsaveBtn" class="btnStyle bg-warning ">SAVE</button>
+				<button type= "button" id="FixedsaveBtn" class="btnStyle bg-warning ">SAVE</button>
 				<button id="FixedupdateBtn" class="btnStyle bg-warning style="display:none;">UPDATE</button>
 			</div>
 		</div>

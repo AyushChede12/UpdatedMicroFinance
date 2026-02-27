@@ -121,11 +121,12 @@
 	</div>
 
 </div>
+
 <script>
 	var contextPath = "${pageContext.request.contextPath}";
 	console.log("JSP contextPath =", contextPath);
 </script>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script
 	src="${pageContext.request.contextPath}/js/ReportsAndAnalytics/ChequeTransactionReport.js"></script>
 
