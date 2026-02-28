@@ -1,6 +1,4 @@
-$(document).ready(function() {
-	approvedLoanIdDropdown();
-});
+
 function approvedLoanIdDropdown() {
 
 	$.ajax({
@@ -31,6 +29,10 @@ function approvedLoanIdDropdown() {
 }
 
 $(document).ready(function() {
+	
+	//Load loan IDs
+	approvedLoanIdDropdown();
+	
 	$("#loanID").on("change", function() {
 		const selectedLoanId = $(this).val();
 

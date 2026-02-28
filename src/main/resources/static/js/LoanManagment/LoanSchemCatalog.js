@@ -343,9 +343,9 @@ function submitLoanForm(type) {
 			if (response.status === "OK") {
 
 				if (type === "save") {
-					alert("Data Saved Successfully ✅");
+					alert("Data Saved Successfully ");
 				} else {
-					alert("Data Updated Successfully ✅");
+					alert("Data Updated Successfully ");
 				}
 
 				// ✅ Reset buttons
