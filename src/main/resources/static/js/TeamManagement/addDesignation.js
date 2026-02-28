@@ -14,7 +14,7 @@ $(document).ready(function () {
 function loadDesignationList() {
 
     $.ajax({
-        url: "getDesignationList",
+        url: "api/teammember/getDesignationList",
         type: "GET",
         contentType: "application/json",
         success: function (data) {
@@ -50,12 +50,12 @@ function saveDesignation() {
     }
 
     const formData = {
-        designationName: $("#designationName").val().trim()
+        designationName: $("#designationName").val()
     };
 
     $.ajax({
         type: "POST",
-        url: "saveDesignation",
+        url: "api/teammember/saveDesignation",
         contentType: "application/json",
         data: JSON.stringify(formData),
         success: function (response) {
@@ -83,7 +83,7 @@ function validateDesignationForm() {
     // clear error
     $("#chkdesignationname").text("");
 
-    let designationName = $("#designationName").val().trim();
+    let designationName = $("#designationName").val();
 
     // ==========================
     // ✅ Required Validation
