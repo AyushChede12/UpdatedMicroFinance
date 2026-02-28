@@ -637,7 +637,7 @@ $(document).ready(function() {
 		}
 	});
 });
-
+/*
 $(document).ready(function() {
 	// Fetch all branches and populate the dropdown
 	$.ajax({
@@ -678,7 +678,7 @@ $(document).ready(function() {
 			console.error("Error fetching branches:", err);
 		}
 	});
-});
+});*/
 
 
 document.addEventListener("DOMContentLoaded", function() {
