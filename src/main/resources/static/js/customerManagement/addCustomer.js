@@ -23,16 +23,16 @@ $(document).ready(function() {
 
 	$('#saveBtn').click(function(event) {
 
-		event.preventDefault();
-		var authenticate = $("#authenticateFor").val();
+		//event.preventDefault();
+		/*var authenticate = $("#authenticateFor").val();
 		var minor = $("#minor").val();
 		// 1️⃣ Clear all validation messages
 		$("[id^='chk']").text('');
 		let isValid = true;
 
-		 /*===============================
+		 ===============================
 		   TEXT FIELD VALIDATION
-		================================ */
+		================================ 
 		function validateText(fieldId, chkId, message) {
 			const value = $('#' + fieldId).val().trim();
 			if (value === '') {
@@ -42,9 +42,9 @@ $(document).ready(function() {
 			return value;
 		}
 
-		/* ===============================
+		 ===============================
 		   FILE / IMAGE VALIDATION
-		================================ */
+		================================ 
 		function validateFile(fieldId, chkId, message, allowedTypes = [], maxSizeMB = 2) {
 			
 			const input = $('#' + fieldId)[0];
@@ -72,9 +72,9 @@ $(document).ready(function() {
 			return file;
 		}
 
-		 /*===============================
+		 ===============================
 		   TEXT VALIDATIONS
-		================================ */
+		================================ 
 		validateText('authenticateFor', 'chkauthenticatefor', 'Please select authenticate for');
 		if (authenticate == 'aadhar') {
 			validateText('aadharNo', 'chkaadharno', 'Please enter Aadhar number');
@@ -86,8 +86,8 @@ $(document).ready(function() {
 		validateText('dob', 'chkdob', 'Please select date of birth');
 		validateText('minor', 'chkminor', 'Please select minor');
 		
-		/*validateText('guardianName', 'chkguardianname', 'Please enter guardian name');
-		validateText('guardianAccNo', 'chkguardianaccno', 'Please enter guardian account no');*/
+		validateText('guardianName', 'chkguardianname', 'Please enter guardian name');
+		validateText('guardianAccNo', 'chkguardianaccno', 'Please enter guardian account no');
 		
 		const isMinor = $('#minor').val();
 
@@ -121,9 +121,9 @@ $(document).ready(function() {
 		validateText('voterNo', 'chkvoterno', 'Please enter voter ID');
 		validateText('drivingLicenceNo', 'chkdrivinglicenseno', 'Please enter license number');
 
-		/* ===============================
+		 ===============================
 		   FILE VALIDATIONS
-		================================ */
+		================================ 
 		const customerPhoto1 = validateFile(
 			'customerPhoto',
 			'chkaadharimage',
@@ -182,10 +182,10 @@ $(document).ready(function() {
 		validateText('nomineeKycNo', 'chknomineekycno', 'Please enter nominee Kyc No(if not type NA)');
 		validateText('nomineeKycType', 'chknoimneekyctype', 'Please select nominee kyc type');
 
-		 /*===============================
+		 ===============================
 		   STOP IF INVALID
-		================================ */
-		if (!isValid) return false;
+		================================ 
+		if (!isValid) return false;*/
 
 		var formData = new FormData();
 
@@ -281,7 +281,7 @@ $(document).ready(function() {
 		// AJAX call
 		$.ajax({
 			type: 'POST',
-			url: 'api/customermanagement/saveOrUpdateCustomer',
+			url: '/api/customermanagement/saveOrUpdateCustomer',
 			data: formData,
 			processData: false,
 			contentType: false,

@@ -432,8 +432,8 @@ function viewData(id) {
 				$("#relationName").val(branch.relationName);
 				$("#relationToApplicant").val(branch.relationToApplicant);
 				$("#address").val(branch.address);
-				$("#district").val(branch.district);
 				$("#state").val(branch.state);
+				$("#district").val(branch.district);
 				$("#pinCode").val(branch.pinCode);
 				$("#aadharNo").val(branch.aadharNo);
 				$("#panNo").val(branch.panNo);
@@ -814,7 +814,7 @@ $('#updateBtn').click(function(event) {
 		contentType: false,
 		success: function(response) {
 			if (response.status == "OK") {
-				alert("Executive Founder Updated Successfully");
+				alert("Executive Founder Saved Successfully");
 				location.reload();
 			} else {
 				alert(response.message);
