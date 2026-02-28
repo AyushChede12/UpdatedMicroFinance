@@ -260,7 +260,7 @@ td {
 					<div class="d-flex flex-column formFields">
 						<label for="">PENALTY RATE (%) <span class="star">*</span></label>
 						<input type="text" name="penaltyRate" id="penaltyRate"
-							placeholder="ENTER PENALITY RATE" />
+							placeholder="ENTER PENALTY RATE" />
 					</div>
 				</div>
 
@@ -432,13 +432,13 @@ td {
 
 				<div class="col-lg-3 mb-4 ">
 					<div class="d-flex flex-column formFields">
-						<label for="">INTEREST INTERNAL <span class="star">*</span></label>
+						<label for="">INTEREST INTERVAL <span class="star">*</span></label>
 						<select id="componentIntervalRD" name="componentIntervalRD"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
 							<option value="">SELECT INTEREST INTERVAL</option>
 							<option value="Monthly">MONTHLY</option>
-							<option value="Quarterly">QUATERLYQ</option>
+							<option value="Quarterly">QUATERLY</option>
 							<option value="Half-Yearly">HALF-YEARLY</option>
 							<option value="Yearly">YEARLY</option>
 							<option value="On Maturity">ON MATURITY</option>

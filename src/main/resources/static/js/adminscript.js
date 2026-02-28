@@ -22,7 +22,7 @@ $(document).ready(function() {
 			url: "api/preference/getAllBranchModule",
 			type: "GET",
 			success: function(response) {
-				if (response.status === "FOUND") {
+				if (response.status === "OK") {
 					const branchList = response.data;
 
 					$("#branchName").empty().append("<option value=''>--SELECT BRANCH--</option>");
