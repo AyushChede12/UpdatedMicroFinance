@@ -11,8 +11,8 @@ $(document).ready(function() {
             password: $("#password").val(),
             fullName: $("#fullName").val(),
             emailId: $("#emailId").val(),
-            contactNumber: $("#contactNumber").val(),
-            singInBranch: $("#branchName1").val(),
+            contactNumber: $("#contactNo").val(),
+            singInBranch: $("#branchName").val(),
             pastDate: $("#pastDate").val(),
             rePrint: $("#rePrint").val(),
             deleteAccess: $("#deleteAccess").val(),
@@ -47,8 +47,8 @@ $(document).ready(function() {
             password: $("#password").val(),
             fullName: $("#fullName").val(),
             emailId: $("#emailId").val(),
-            contactNumber: $("#contactNumber").val(),
-            singInBranch: $("#branchName1").val(),
+            contactNumber: $("#contactNo").val(),
+            singInBranch: $("#branchName").val(),
             pastDate: $("#pastDate").val(),
             rePrint: $("#rePrint").val(),
             deleteAccess: $("#deleteAccess").val(),
@@ -119,7 +119,7 @@ $(document).ready(function() {
         });
     }
 
-    // ================= Load Branch Dropdown =================
+    /*// ================= Load Branch Dropdown =================
     $.ajax({
         url: "api/preference/getAllBranchModule",
         type: "GET",
@@ -138,7 +138,7 @@ $(document).ready(function() {
             console.error(xhr.responseText);
             alert("Failed to load dropdown data.");
         }
-    });
+    });*/
 
 });
 
@@ -148,13 +148,12 @@ function editUser(id){
         url: `api/userCreation/editUserManageById/${id}`,
         type: "GET",
         success: function(user){
-            alert("Data loaded for editing");
             $("#UserId").val(user.userId);
             $("#password").val(user.password);
             $("#fullName").val(user.fullName);
             $("#emailId").val(user.emailId);
-            $("#contactNumber").val(user.contactNumber);
-            $("#branchName1").val(user.singInBranch);
+            $("#contactNo").val(user.contactNumber);
+            $("#branchName").val(user.singInBranch);
             $("#pastDate").val(user.pastDate);
             $("#rePrint").val(user.rePrint);
             $("#deleteAccess").val(user.deleteAccess);
