@@ -23,32 +23,32 @@ $(document).ready(function() {
 
 	$('#saveBtn').click(function(event) {
 
-		//event.preventDefault();
-		/*var authenticate = $("#authenticateFor").val();
+		/*event.preventDefault();
+		var authenticate = $("#authenticateFor").val();
 		var minor = $("#minor").val();
 		// 1️⃣ Clear all validation messages
 		$("[id^='chk']").text('');
 		let isValid = true;
 
-		 ===============================
-		   TEXT FIELD VALIDATION
-		================================ 
-		function validateText(fieldId, chkId, message) {
+		/*===============================
+		  TEXT FIELD VALIDATION
+	   ================================ */
+		/*function validateText(fieldId, chkId, message) {
 			const value = $('#' + fieldId).val().trim();
 			if (value === '') {
 				$('#' + chkId).text(message);
 				isValid = false;
 			}
 			return value;
-		}
+		}*/
 
-		 ===============================
+		/* ===============================
 		   FILE / IMAGE VALIDATION
-		================================ 
-		function validateFile(fieldId, chkId, message, allowedTypes = [], maxSizeMB = 2) {
-			
+		================================ */
+		/*function validateFile(fieldId, chkId, message, allowedTypes = [], maxSizeMB = 2) {
+
 			const input = $('#' + fieldId)[0];
-			
+
 			if (!input || input.files.length === 0) {
 				$('#' + chkId).text(message);
 				isValid = false;
@@ -70,12 +70,12 @@ $(document).ready(function() {
 			}
 
 			return file;
-		}
+		}*/
 
-		 ===============================
-		   TEXT VALIDATIONS
-		================================ 
-		validateText('authenticateFor', 'chkauthenticatefor', 'Please select authenticate for');
+		/*===============================
+		  TEXT VALIDATIONS
+	   ================================ */
+		/*validateText('authenticateFor', 'chkauthenticatefor', 'Please select authenticate for');
 		if (authenticate == 'aadhar') {
 			validateText('aadharNo', 'chkaadharno', 'Please enter Aadhar number');
 		}
@@ -85,20 +85,20 @@ $(document).ready(function() {
 		validateText('lastName', 'chklastname', 'Please enter last name');
 		validateText('dob', 'chkdob', 'Please select date of birth');
 		validateText('minor', 'chkminor', 'Please select minor');
-		
+
 		validateText('guardianName', 'chkguardianname', 'Please enter guardian name');
 		validateText('guardianAccNo', 'chkguardianaccno', 'Please enter guardian account no');
-		
+
 		const isMinor = $('#minor').val();
 
 		if (isMinor === 'Yes') {
-		    validateText('guardianName', 'chkguardianname', 'Please enter guardian name');
-		    validateText('guardianAccNo', 'chkguardianaccno', 'Please enter guardian account no');
+			validateText('guardianName', 'chkguardianname', 'Please enter guardian name');
+			validateText('guardianAccNo', 'chkguardianaccno', 'Please enter guardian account no');
 		} else {
-		    $('#chkguardianname').text('');
-		    $('#chkguardianaccno').text('');
+			$('#chkguardianname').text('');
+			$('#chkguardianaccno').text('');
 		}
-		
+
 
 		if (minor == 'Yes') {
 			validateText('guardianName', 'chkguardianname', 'Please enter guardian name');
@@ -119,20 +119,20 @@ $(document).ready(function() {
 		validateText('emailId', 'chkemailid', 'Please enter email ID');
 		validateText('panNo', 'chkpanno', 'Please enter PAN number');
 		validateText('voterNo', 'chkvoterno', 'Please enter voter ID');
-		validateText('drivingLicenceNo', 'chkdrivinglicenseno', 'Please enter license number');
+		validateText('drivingLicenceNo', 'chkdrivinglicenseno', 'Please enter license number');*/
 
-		 ===============================
-		   FILE VALIDATIONS
-		================================ 
-		const customerPhoto1 = validateFile(
+		/*===============================
+		  FILE VALIDATIONS
+	   ================================ */
+		/*const customerPhoto1 = validateFile(
 			'customerPhoto',
 			'chkaadharimage',
 			'Please select aadhar card image',
 			['image/jpeg', 'image/png'],
 			2
-		);
+		);*/
 
-		const customerSignature1 = validateFile(
+		/*const customerSignature1 = validateFile(
 			'customerSignature',
 			'chkpanimage',
 			'Please select pan card image',
@@ -180,12 +180,12 @@ $(document).ready(function() {
 		validateText('nomineeAddress', 'chknomineeaddress', 'Please enter nominee address');
 		validateText('nomineePanNo', 'chknomineepan', 'Please enter nominee pan');
 		validateText('nomineeKycNo', 'chknomineekycno', 'Please enter nominee Kyc No(if not type NA)');
-		validateText('nomineeKycType', 'chknoimneekyctype', 'Please select nominee kyc type');
+		validateText('nomineeKycType', 'chknoimneekyctype', 'Please select nominee kyc type');*/
 
-		 ===============================
-		   STOP IF INVALID
-		================================ 
-		if (!isValid) return false;*/
+		// ===============================
+		/*   STOP IF INVALID
+		================================*/
+		/*if (!isValid) return false;*/
 
 		var formData = new FormData();
 
@@ -856,17 +856,17 @@ function fetchBySelectedCustomer() {
 
 function ifMinor() {
 
-    var minor = $("#minor").val();
-    if (minor === 'Yes') {
-        $("#guardianDetails").show();
-        $("#guardianAccount").show();
-        $("#guardianAccNo").prop("required", true);
-    } else {
-        $("#guardianDetails").hide();
-        $("#guardianAccount").hide();
-        $("#guardianAccNo").prop("required", false).val('');
-        $("#guardianName").val('');
-    }
+	var minor = $("#minor").val();
+	if (minor === 'Yes') {
+		$("#guardianDetails").show();
+		$("#guardianAccount").show();
+		$("#guardianAccNo").prop("required", true);
+	} else {
+		$("#guardianDetails").hide();
+		$("#guardianAccount").hide();
+		$("#guardianAccNo").prop("required", false).val('');
+		$("#guardianName").val('');
+	}
 
 	var minor = $("#minor").val();
 	if (minor === 'Yes') {
