@@ -415,3 +415,125 @@ function formatDate(d) {
 
     return date.toLocaleDateString("en-GB");
 }
+function viewData(id) {
+
+    let item = allChequeData.find(x => x.id == id);
+
+    if (!item) {
+        alert("Data not found");
+        return;
+    }
+
+    let win = window.open('', '', 'width=900,height=700');
+
+    win.document.write(`
+    <html>
+    <head>
+        <title>Cheque Transaction Report</title>
+
+        <style>
+
+            body{
+                font-family: Arial;
+                padding:40px;
+            }
+
+            .header{
+                text-align:center;
+                margin-bottom:25px;
+            }
+
+            .company{
+                font-size:22px;
+                font-weight:bold;
+            }
+
+            .report{
+                font-size:18px;
+                margin-top:5px;
+            }
+
+            table{
+                width:100%;
+                border-collapse:collapse;
+                margin-top:20px;
+            }
+
+            table, th, td{
+                border:1px solid #000;
+            }
+
+            th, td{
+                padding:8px;
+                text-align:left;
+            }
+
+            th{
+                background:#f2f2f2;
+            }
+
+            .footer{
+                margin-top:30px;
+                font-size:13px;
+            }
+
+            @media print{
+                button{
+                    display:none;
+                }
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+
+        <div class="header">
+            <div class="company">CO OPERATIVE SOCIETY LTD NAGPUR</div>
+            <div>Nagpur, Maharashtra</div>
+            <div class="report">Cheque Transaction Report</div>
+        </div>
+
+        <table>
+
+            <tr>
+                <th>Account Holder</th>
+                <td>${item.name}</td>
+            </tr>
+
+            <tr>
+                <th>Transaction Date</th>
+                <td>${formatDate(item.date)}</td>
+            </tr>
+
+            <tr>
+                <th>Cheque Number</th>
+                <td>${item.chequeNo}</td>
+            </tr>
+
+            <tr>
+                <th>Status</th>
+                <td>${item.type}</td>
+            </tr>
+
+            <tr>
+                <th>Source</th>
+                <td>${item.source}</td>
+            </tr>
+
+        </table>
+
+        <div class="footer">
+            Printed On : ${new Date().toLocaleDateString()}
+        </div>
+
+        <br>
+        <button onclick="window.print()">Print</button>
+
+    </body>
+    </html>
+    `);
+
+    win.document.close();
+}
