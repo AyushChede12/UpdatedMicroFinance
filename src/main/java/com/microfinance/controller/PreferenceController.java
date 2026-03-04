@@ -75,13 +75,23 @@ public class PreferenceController {
 		}
 	}
 
-	@GetMapping("/getAllBranchModule") // Ayush (without DTO)
+	@GetMapping("/getAllBranchModule")
 	public ResponseEntity<ApiResponse<List<BranchModule>>> fetchAllBranchModule() {
-		List<BranchModule> list = preferenceService.fetchAllBranchModule();
-		ApiResponse<List<BranchModule>> response = new ApiResponse<>(HttpStatus.FOUND,
-				"Branch modules fetched successfully", list);
-		return ResponseEntity.ok(response);
 
+		Optional<List<BranchModule>> optionalList = preferenceService.fetchAllBranchModule();
+
+		if (optionalList.isPresent()) {
+
+			ApiResponse<List<BranchModule>> response = new ApiResponse<>(HttpStatus.OK,
+					"Branch modules fetched successfully", optionalList.get());
+
+			return ResponseEntity.ok(response);
+		} else {
+			ApiResponse<List<BranchModule>> response = new ApiResponse<>(HttpStatus.NOT_FOUND,
+					"No branch modules found", null);
+
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+		}
 	}
 
 	@GetMapping("/getBranchModuleById") // Ayush

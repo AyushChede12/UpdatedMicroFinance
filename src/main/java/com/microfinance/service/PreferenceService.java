@@ -118,8 +118,15 @@ public class PreferenceService {
 		}
 	}
 
-	public List<BranchModule> fetchAllBranchModule() {
-		return branchModuleRepo.findAll();
+	public Optional<List<BranchModule>> fetchAllBranchModule() {
+
+		List<BranchModule> list = branchModuleRepo.findAll();
+
+		if (list.isEmpty()) {
+			return Optional.empty();
+		}
+
+		return Optional.of(list);
 	}
 
 	public Optional<BranchModule> findBranchDataById(Long id) {
@@ -581,7 +588,6 @@ public class PreferenceService {
 //		return userCreationRepo.findAll();
 //	}
 
-	
 	public List<UserMenuAccess> getUserMenuAccess(String userId) {
 		return userMenuAccessRepo.findByUserCreations_UserId(userId);
 	}

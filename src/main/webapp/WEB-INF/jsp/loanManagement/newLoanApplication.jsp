@@ -110,7 +110,7 @@
 						style="margin-bottom: 30px">
 						<label>LOAN PLAN NAME</label> <select id="loanPlanName"
 							name="loanPlanName" required="required"
-							onchange="calculateCharges()" class="form-control selectField"
+							class="form-control selectField"
 							style="height: 30px;">
 							<option value="">SELECT LOAN PLAN</option>
 
@@ -165,7 +165,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">INTEREST TYPE</label> <input type="text"
 							name="interestType" id="interestType" required="required"
-							placeholder="ENTER INTEREST TYPE"
+							placeholder="ENTER INTEREST TYPE" readonly="readonly"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>

@@ -26,8 +26,8 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px;">
-						<label for="">BRANCH </label> <select id="branchName1"
-							name="branchname" required="required"
+						<label for="">BRANCH </label> <select id="branchName"
+							name="branchName" required="required"
 							class="form-control selectField" style="height: 30px;">
 							<option value="">SELECT BRANCH</option>
 						</select>
@@ -77,19 +77,18 @@
 					<div style="overflow-x: auto; white-space: nowrap;">
 						<table class="table table-borderless datatable">
 							<thead class="table-light">
-								<tr style="font-family: 'Poppins', sans-serif;">
-									<th scope="col">SR NO.</th>
-									<th scope="col">POLICY CODE</th>
-									<th scope="col">POLICY DATE</th>
-									<th scope="col">CUSTOMER NAME</th>
-									<th scope="col">CONTACT NO.</th>
-									<th scope="col">POLICY AMOUNT</th>
-									<th scope="col">POLICY TYPE</th>
-									<th scope="col">POLICY TERM</th>
-									<th scope="col">APPROVAL STATUS</th>
-									<th scope="col">PRINT</th>
-								</tr>
-							</thead>
+	<tr>
+		<th>SR NO.</th>
+		<th>POLICY CODE</th>
+		<th>CUSTOMER NAME</th>
+		<th>POLICY AMOUNT</th>
+		<th>LAST PAYMENT DATE</th>
+		<th>DUE DATE</th>
+		<th>DAYS</th>
+		<th>DUE STATUS</th>
+		<th>PRINT</th>
+	</tr>
+</thead>
 							<tbody>
 
 							</tbody>
@@ -127,3 +126,6 @@
 	</div>
 </div>
 
+<script
+	src="${pageContext.request.contextPath}/js/ReportsAndAnalytics/recurringInstallmentDueReport.js"></script>
+	

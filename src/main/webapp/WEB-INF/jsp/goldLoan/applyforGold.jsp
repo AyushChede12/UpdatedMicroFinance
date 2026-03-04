@@ -12,7 +12,7 @@
 </div>
 
 <div>
-	<form id="formid">
+	<form>
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
@@ -39,8 +39,7 @@
 							name="memberCode" required="required"
 							class="form-control selectField" style="height: 30px;">
 							<option value="">SELECT CUSTOMER CODE</option>
-
-						</select>
+						</select> <small id="vmemberCode" style="color: red;"></small>
 					</div>
 				</div>
 
@@ -179,7 +178,8 @@
 						<label for="">PURPOSE OF LOAN </label> <input type="text"
 							name="purposeOfLoan" id="purposeOfLoan" required="required"
 							placeholder="ENTER PURPOSE OF LOAN"
-							style="text-transform: uppercase;" />
+							style="text-transform: uppercase;" /> <small id="vpurposeOfLoan"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -245,7 +245,7 @@
 		<div class="mt-5">
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">GOLD/SILVER DETAILS</li>
+					<li class="breadcrumb-item action">GOLD DETAILS</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -268,9 +268,10 @@
 							name="itemType" required="required"
 							class="form-control selectField" style="height: 30px;"
 							readonly="readonly">
-
 					</div>
 				</div>
+
+				<input type="hidden" id="marketValue">
 
 
 				<div class="col-lg-3">
@@ -316,7 +317,8 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">ITEM QUANTITY</label> <input type="text"
 							name="itemQty" id="itemQty" required="required"
-							placeholder="ENTER QUANTITY" />
+							placeholder="ENTER QUANTITY" /> <small id="vitemQty"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -324,6 +326,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">ITEM WEIGHT</label> <input type="text" name="itemWt"
 							id="itemWt" required="required" placeholder="ENTER ITEM WEIGHT" />
+						<small id="vitemWt" style="color: red;"></small>
 					</div>
 				</div>
 
@@ -331,7 +334,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">GROSS WEIGHT</label> <input type="text"
 							name="grosswt" id="grossWt" required="required"
-							placeholder="ENTER GROSS WEIGHT" />
+							placeholder="ENTER GROSS WEIGHT" readonly="readonly" />
 					</div>
 				</div>
 
@@ -339,14 +342,16 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">STONE WEIGHT</label> <input type="text"
 							name="stoneWt" id="stoneWt" required="required"
-							placeholder="ENTER STONE WEIGHT" />
+							placeholder="ENTER STONE WEIGHT" /> <small id="vstoneWt"
+							style="color: red;"></small>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">NET WEIGHT</label> <input type="text" name="netWt"
-							id="netWt" required="required" placeholder="ENTER NET WEIGHT" />
+							id="netWt" required="required" placeholder="ENTER NET WEIGHT"
+							readonly="readonly" />
 					</div>
 				</div>
 
@@ -354,7 +359,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">MARKET VALUATION</label> <input type="text"
 							name="marketValuatiion" id="marketValuation" required="required"
-							placeholder="ENTER MARKET VALUATION" />
+							placeholder="ENTER MARKET VALUATION" readonly="readonly" />
 					</div>
 				</div>
 
@@ -362,7 +367,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">ELIGIBLE LOAN</label> <input type="text"
 							name="eligibleLoan" id="eligibleLoan" required="required"
-							placeholder="ENTER ELIGIBLE LOAN" />
+							placeholder="ENTER ELIGIBLE LOAN" readonly="readonly" />
 					</div>
 				</div>
 
@@ -405,7 +410,7 @@
 							<option value="">SELECT</option>
 							<option value="Aadhar">AADHAR</option>
 							<option value="PAN">PAN</option>
-						</select>
+						</select> <small id="vgurantorIdentity" style="color: red;"></small>
 
 					</div>
 				</div>
@@ -445,12 +450,10 @@
 							id="guarantorSecurityType" name="guarantorSecurityType"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
-							<option value="">SELECT SECURITY</option>
 							<option value="Gold">GOLD</option>
 						</select>
 					</div>
 				</div>
-
 			</div>
 
 
@@ -487,7 +490,7 @@
 							<option value=" ">Select</option>
 							<option value="Aadhar">AADHAR</option>
 							<option value="PAN">PAN</option>
-						</Select>
+						</Select> <small id="vcoApplicantIdentity" style="color: red;"></small>
 
 					</div>
 				</div>
@@ -523,8 +526,8 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">SECURITY DETAILS</label> <select
-							id="securityDetails" name="securityDetails" required="required"
+						<label for="">SECURITY TYPE</label> <select id="securityDetails"
+							name="securityDetails" required="required"
 							class="form-control selectField" style="height: 30px;">
 							<option value="Gold">GOLD</option>
 
@@ -534,7 +537,7 @@
 
 			</div>
 		</div>
-
+		<br> <br>
 
 		<div>
 			<nav>
@@ -549,7 +552,8 @@
 						<label for="loanName">PROCESSING FEE </label> <input type="text"
 							name="processingFee" id="processingFee" required="required"
 							style="text-transform: uppercase;"
-							placeholder="ENTER PROCESSING FEE" />
+							placeholder="ENTER PROCESSING FEE" /> <small id="vprocessingFee"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -558,7 +562,8 @@
 						<label for="loanName">LEGAL CHARGES </label> <input type="text"
 							name="legalCharges" id="legalCharges" required="required"
 							style="text-transform: uppercase;"
-							placeholder="ENTER LEGAL CHARGES" />
+							placeholder="ENTER LEGAL CHARGES" /> <small id="vlegalCharges"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -569,7 +574,8 @@
 						<label for="stampDuty">STAMP DUTY</label> <input type="text"
 							name="stampDuty" id="stampDuty" required="required"
 							placeholder="ENTER STAMP DUTY FEE"
-							style="text-transform: uppercase;" />
+							style="text-transform: uppercase;" /> <small id="vstampDuty"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -579,7 +585,8 @@
 						<label for="loanName">SMS CHARGES</label> <input type="text"
 							name="smsCharges" id="smsCharges" required="required"
 							placeholder="ENTER SMS CHARGES FEE"
-							style="text-transform: uppercase;" />
+							style="text-transform: uppercase;" /> <small id="vsmsCharges"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -588,7 +595,8 @@
 						<label for="MainCharges">MAINTAINANCE CHARGES</label> <input
 							type="text" name="mainCharges" id="mainCharges"
 							required="required" placeholder="ENTER MAINTAINANCE CHARGES"
-							style="text-transform: uppercase;" />
+							style="text-transform: uppercase;" /> <small id="vmainCharges"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -598,7 +606,8 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">STATIONARY CHARGES FEE</label> <input type="text"
 							name="stationaryFee" id="stationaryFee" required="required"
-							placeholder="ENTER STATIONARY CHARGES FEE" />
+							placeholder="ENTER STATIONARY CHARGES FEE" /> <small
+							id="vstationaryFee" style="color: red;"></small>
 					</div>
 				</div>
 
@@ -609,7 +618,8 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">GST</label> <input type="text" name="gst" id="gst"
 							required="required" placeholder="ENTER GST"
-							style="text-transform: uppercase;" />
+							style="text-transform: uppercase;" /> <small id="vgst"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -618,7 +628,8 @@
 						<label for="">INSURANCE FEES</label> <input type="text"
 							name="insuFee" id="insuFee" required="required"
 							placeholder="ENTER INSURANCE FEES"
-							style="text-transform: uppercase;" />
+							style="text-transform: uppercase;" /> <small id="vinsuFee"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -627,7 +638,8 @@
 						<label for="">PENALTY CHARGE</label> <input type="text"
 							name="penaltyCharge" id="penaltyCharge" required="required"
 							placeholder="ENTER PENALTY CHARGE"
-							style="text-transform: uppercase;" />
+							style="text-transform: uppercase;" /> <small id="vpenaltyCharge"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -636,7 +648,8 @@
 						<label for="">VALUATION FEES</label> <input type="text"
 							name="valuationFees" id="valuationFees" required="required"
 							placeholder="ENTER VALUATION FEES"
-							style="text-transform: uppercase;" />
+							style="text-transform: uppercase;" /> <small id="vvaluationFees"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -645,7 +658,8 @@
 						<label for="">OVERDUE INTEREST CHARGE</label> <input type="text"
 							name="overCharge" id="overCharge" required="required"
 							placeholder="ENTER OVERDUE INTEREST CHARGE"
-							style="text-transform: uppercase;" />
+							style="text-transform: uppercase;" /> <small id="voverCharge"
+							style="color: red;"></small>
 					</div>
 				</div>
 
@@ -655,7 +669,8 @@
 						<label for="">COLLECTION CHARGE</label> <input type="text"
 							name="collectionCharge" id="collectionCharge" required="required"
 							placeholder="ENTER COLLECTION CHARGE"
-							style="text-transform: uppercase;" />
+							style="text-transform: uppercase;" /> <small
+							id="vcollectionCharge" style="color: red;"></small>
 					</div>
 				</div>
 
@@ -668,8 +683,7 @@
 								required="required" class="form-control selectField"
 								style="height: 30px;">
 								<option value=""></option>
-
-							</select>
+							</select> <small id="vfinancialConsultantId" style="color: red;"></small>
 						</div>
 					</div>
 				</div>
@@ -690,7 +704,8 @@
 
 		<div class="row">
 			<div class="col-12 text-center">
-				<button id="saveBtn" class="btnStyle bg-success">SAVE</button>
+				<button type="button" id="saveBtn" class="btnStyle bg-success"
+					onclick="saveGoldapplication()">SAVE</button>
 				<!-- <button id="saveBtn" class="btnStyle" style="background-color: #FFA500;">Update</button>
                         <button id="saveBtn" class="btnStyle bg-primary">Print</button> -->
 			</div>
@@ -758,5 +773,5 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
   </script>
-  <script
+<script
 	src="${pageContext.request.contextPath}/js/SecuredGoldLoan/ApplyForGold.js"></script>

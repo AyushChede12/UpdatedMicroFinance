@@ -87,6 +87,23 @@ $(document).ready(function() {
 	//for save the data 
 
 	$("#saveButtonforGoldDirectory").click(function(e) {
+
+		let isValid = true;
+
+		$('#vemipayment').text('');
+
+		var emiPayment = $('#emiPayment').val().trim();
+
+		if (emiPayment === "") {
+			$('#vemipayment').text('*This Fild Is Requird');
+			$('#emiPayment').focus();
+			isValid = false;
+		}
+
+		if (!isValid) {
+			return;
+		}
+
 		e.preventDefault(); // form submit ko stop kare
 
 		// Form data collect
@@ -101,7 +118,7 @@ $(document).ready(function() {
 			itemName: $("#ItemName").val(),
 			itemWeight: $("#itemWeight").val(),
 			lockerBranch: $("#lockerBranch").val(),
-			lockerNo: $("#lockerNo").val(),
+			lockerNumber: $("#lockerNo").val(),
 			purityName: $("#purityName").val(),
 			purity: $("#purity").val(),
 			itemPurityType: $("#itemPurityType").val(),
@@ -124,7 +141,7 @@ $(document).ready(function() {
 			success: function(response) {
 				alert(
 					`All the data are saved successfully!\n\n` +
-					`Locker Number      : ${formData.lockerNo}\n` +
+					`Locker Number      : ${formData.lockerNumber}\n` +
 					`Total Loan Amount  : \u20B9${formatNumber(formData.loanAmount)}\n` +
 					`EMI per Month      : \u20B9${formatNumber(formData.emiPayment)}`
 				);
