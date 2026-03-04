@@ -1,6 +1,5 @@
 $(document).ready(function () {
 
-    // 🔒 PREVENT MULTIPLE EXECUTION
     if (window.financialConsultantInitialized) {
         console.warn("Financial Consultant JS already initialized");
         return;
@@ -9,7 +8,21 @@ $(document).ready(function () {
 
     var allFinancialConsultants = [];
 
-    // ================= FETCH APPROVED CONSULTANTS =================
+    /* ================= COMPANY DETAILS ================= */
+
+    const companyDetails = {
+        name: "CO OPERATIVE SOCIETY LTD NAGPUR",
+        address: "PLOT NO 497 NEW NANDANWAN",
+        state: "MAHARASHTRA",
+        pin: "440024",
+        cin: "ASJ#567",
+        email: "example@gmail.com",
+        helpline: "9566200223",
+        branchManager: "9558712001"
+    };
+
+    /* ================= FETCH DATA ================= */
+
     $.ajax({
         url: "api/reports/getApprovedFinancialConsultant",
         method: "GET",
@@ -30,16 +43,12 @@ $(document).ready(function () {
         }
     });
 
-    // ================= NORMALIZE =================
     function normalize(text) {
-        return text
-            ?.toString()
-            .replace(/\s+/g, " ")
-            .trim()
-            .toUpperCase();
+        return text?.toString().replace(/\s+/g, " ").trim().toUpperCase();
     }
 
-    // ================= BRANCH DROPDOWN =================
+    /* ================= BRANCH DROPDOWN ================= */
+
     function populateBranchDropdown(data) {
 
         var select = $("#branchName2");
@@ -59,7 +68,8 @@ $(document).ready(function () {
         });
     }
 
-    // ================= TABLE RENDER =================
+    /* ================= TABLE ================= */
+
     function renderTable(data) {
 
         var tbody = $("#fetchFinancialConsultants");
@@ -73,10 +83,11 @@ $(document).ready(function () {
         $.each(data, function (i, f) {
 
             let approvedStatus = '-';
+
             if (f.approved === true) {
-                approvedStatus = '<span style="color: green; font-weight: 600;">APPROVED</span>';
+                approvedStatus = '<span style="color: green; font-weight:600;">APPROVED</span>';
             } else if (f.approved === false) {
-                approvedStatus = '<span style="color: red; font-weight: 600;">NOT APPROVED</span>';
+                approvedStatus = '<span style="color:red; font-weight:600;">NOT APPROVED</span>';
             }
 
             tbody.append(`
@@ -105,7 +116,8 @@ $(document).ready(function () {
         bindModalEvents();
     }
 
-    // ================= MODAL BIND =================
+    /* ================= MODAL DATA SET ================= */
+
     function bindModalEvents() {
 
         $(".viewReportBtn").off("click").on("click", function () {
@@ -121,12 +133,37 @@ $(document).ready(function () {
             $("#age").text(f.age || "N/A");
             $("#contactNo").text(f.contactNo || "N/A");
             $("#branchName").text(f.branchName || "N/A");
+
+            $("#selectPosition").text(f.selectPosition || "N/A");
+
             $("#address").text(f.address || "N/A");
+            $("#district").text(f.district || "N/A");
+            $("#state").text(f.state || "N/A");
+            $("#pinCode").text(f.pinCode || "N/A");
+            $("#profession").text(f.profession || "N/A");
+            $("#academicBackground").text(f.academicBackground || "N/A");
+
+            $("#fees").text(f.fees || "0");
+            $("#modeofPayment").text(f.modeofPayment || "N/A");
+            $("#chequeNo").text(f.chequeNo || "N/A");
+            $("#chequeDate").text(f.chequeDate || "N/A");
+            $("#depositAccount").text(f.depositAccount || "N/A");
+            $("#refNo").text(f.refNo || "N/A");
+
+            $("#referralCode").text(f.referralCode || "N/A");
+            $("#referralName").text(f.referralName || "N/A");
+
+            $("#comments").text(f.comments || "N/A");
+            $("#financialStatus").text(f.financialStatus || "N/A");
+            $("#smsSend").text(f.smsSend || "N/A");
+            $("#isApproved").text(f.approved ? "APPROVED" : "NOT APPROVED");
         });
     }
 
-    // ================= FILTER =================
+    /* ================= FILTER ================= */
+
     $("#findFinancialAdvisorBtn").on("click", function (e) {
+
         e.preventDefault();
 
         var branch = $("#branchName2").val();
@@ -151,29 +188,110 @@ $(document).ready(function () {
 
         renderTable(filtered);
     });
+	/* ================= PRINT ================= */
 
-    // ================= PRINT BUTTON FIX =================
-    $(document).off("click", "#printBankReportBtn").on("click", "#printBankReportBtn", function () {
+	$(document).off("click", "#printBankReportBtn").on("click", "#printBankReportBtn", function () {
 
-        var printContents = document.getElementById("bankReportContent").innerHTML;
+	    var content = document.getElementById("bankReportContent").innerHTML;
 
-        var newWindow = window.open('', '', 'width=900,height=700');
+	    var newWindow = window.open('', '', 'width=900,height=700');
 
-        newWindow.document.write(`
-            <html>
-            <head>
-                <title>Financial Consultant Report</title>
-                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-            </head>
-            <body>
-                ${printContents}
-            </body>
-            </html>
-        `);
+	    newWindow.document.write(`
+	    <html>
+	    <head>
+	    <title>Consultant Report</title>
 
-        newWindow.document.close();
-        newWindow.focus();
-        newWindow.print();
-    });
+	    <style>
 
-});
+	    body{
+	        font-family: Arial;
+	        padding:30px;
+	        background:#fff;
+	    }
+
+	    .center{
+	        text-align:center;
+	        margin-bottom:15px;
+	    }
+
+	    .company{
+	        font-size:24px;
+	        font-weight:bold;
+	    }
+
+	    .line{
+	        margin-top:4px;
+	        font-size:15px;
+	    }
+
+	    .info{
+	        margin-top:6px;
+	        font-size:14px;
+	    }
+
+	    hr{
+	        margin:20px 0;
+	    }
+
+	    .box{
+	        border:1px solid #ddd;
+	        border-radius:8px;
+	        padding:15px;
+	        margin-bottom:15px;
+	    }
+
+	    .title{
+	        font-weight:bold;
+	        color:#0d6efd;
+	        margin-bottom:10px;
+	        font-size:16px;
+	    }
+
+	    .row{
+	        display:flex;
+	        gap:20px;
+	        margin-bottom:10px;
+	    }
+
+	    .col{
+	        flex:1;
+	    }
+
+	    p{
+	        margin:4px 0;
+	        font-size:14px;
+	    }
+
+	    </style>
+
+	    </head>
+
+	    <body>
+
+	    <div class="center">
+
+	        <div class="company">${companyDetails.name}</div>
+	        <div class="line">${companyDetails.address}</div>
+	        <div class="line">${companyDetails.state} - ${companyDetails.pin}</div>
+
+	        <div class="info">
+	        CIN : ${companyDetails.cin} |
+	        Email : ${companyDetails.email} |
+	        Helpline : ${companyDetails.helpline}, ${companyDetails.branchManager}
+	        </div>
+
+	    </div>
+
+	    <hr>
+
+	    ${content}
+
+	    </body>
+	    </html>
+	    `);
+
+	    newWindow.document.close();
+	    newWindow.focus();
+	    newWindow.print();
+	});
+	});
