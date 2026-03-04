@@ -23,13 +23,19 @@ $(document).ready(function() {
 
 	$('#saveBtn').click(function(event) {
 
+		event.preventDefault();
 		/*event.preventDefault();
+
 		var authenticate = $("#authenticateFor").val();
 		var minor = $("#minor").val();
 		// 1️⃣ Clear all validation messages
 		$("[id^='chk']").text('');
 		let isValid = true;
 
+		 /*===============================
+		   TEXT FIELD VALIDATION
+		================================ */
+		function validateText(fieldId, chkId, message) {
 		/*===============================
 		  TEXT FIELD VALIDATION
 	   ================================ */
@@ -45,6 +51,8 @@ $(document).ready(function() {
 		/* ===============================
 		   FILE / IMAGE VALIDATION
 		================================ */
+		function validateFile(fieldId, chkId, message, allowedTypes = [], maxSizeMB = 2) {
+			
 		/*function validateFile(fieldId, chkId, message, allowedTypes = [], maxSizeMB = 2) {
 
 			const input = $('#' + fieldId)[0];
@@ -72,6 +80,10 @@ $(document).ready(function() {
 			return file;
 		}*/
 
+		 /*===============================
+		   TEXT VALIDATIONS
+		================================ */
+		validateText('authenticateFor', 'chkauthenticatefor', 'Please select authenticate for');
 		/*===============================
 		  TEXT VALIDATIONS
 	   ================================ */
@@ -121,6 +133,10 @@ $(document).ready(function() {
 		validateText('voterNo', 'chkvoterno', 'Please enter voter ID');
 		validateText('drivingLicenceNo', 'chkdrivinglicenseno', 'Please enter license number');*/
 
+		 /*===============================
+		   FILE VALIDATIONS
+		================================ */
+		const customerPhoto1 = validateFile(
 		/*===============================
 		  FILE VALIDATIONS
 	   ================================ */
@@ -185,6 +201,7 @@ $(document).ready(function() {
 		// ===============================
 		/*   STOP IF INVALID
 		================================*/
+		if (!isValid) return false;
 		/*if (!isValid) return false;*/
 
 		var formData = new FormData();
@@ -727,28 +744,36 @@ document.addEventListener("DOMContentLoaded", function() {
 document.addEventListener("DOMContentLoaded", function() {
 	// Function to fetch and bind bank accounts
 	function loadBankAccounts() {
-		fetch("api/preference/getAllBankModule")
-			.then(response => {
-				if (!response.ok) {
-					throw new Error("Network response was not ok");
-				}
-				return response.json();
-			})
-			.then(data => {
-				const depositAccount = document.getElementById("depositAccount");
-				// Clear existing options except first
-				depositAccount.innerHTML = '<option value="">Select</option>';
+	    fetch("api/preference/getAllBankModule")
+	        .then(response => {
+	            if (!response.ok) {
+	                throw new Error("Network response was not ok");
+	            }
+	            return response.json();
+	        })
+	        .then(response => {
+	            console.log("Bank API response:", response);
 
-				data.forEach(bank => {
-					const option = document.createElement("option");
-					option.value = bank.accountNo; // Value sent on form submit
-					option.textContent = `${bank.accountNo} (${bank.bankName})`; // User-friendly label
-					depositAccount.appendChild(option);
-				});
-			})
-			.catch(error => {
-				console.error("Error fetching bank accounts:", error);
-			});
+	            const depositAccount = document.getElementById("depositAccount");
+	            depositAccount.innerHTML = '<option value="">Select</option>';
+
+	            // ✅ Adjust based on actual API structure
+	            const banks = response.data || response;  
+
+	            if (Array.isArray(banks)) {
+	                banks.forEach(bank => {
+	                    const option = document.createElement("option");
+	                    option.value = bank.accountNo;
+	                    option.textContent = `${bank.accountNo} (${bank.bankName})`;
+	                    depositAccount.appendChild(option);
+	                });
+	            } else {
+	                console.error("Expected array but got:", banks);
+	            }
+	        })
+	        .catch(error => {
+	            console.error("Error fetching bank accounts:", error);
+	        });
 	}
 
 	// Load on page load
