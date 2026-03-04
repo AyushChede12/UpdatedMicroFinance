@@ -60,7 +60,7 @@ $(document).ready(function() {
 						$("#address").val(data.address);
 						$("#pinCode").val(data.pinCode);
 						$("#branchName").val(data.branchName);
-						$("#approvalStatus").val(data.approvalStatus);
+
 						$("#loanPlanName").val(data.loanPlanName);
 						$("#typeOfLoan").val(data.typeOfLoan);
 						$("#loanMode").val(data.loanMode);
@@ -138,7 +138,7 @@ $('#paymentBtn').click(function(e) {
 
 	const paymentData = {
 		loanId: $('#findByLoanId').val(),
-		loanDate: $('#loanDate').val(),
+		loanDate: $('#loanPaymentDate').val(),
 		memberId: $('#memberId').val(),
 		memberName: $('#memberName').val(),
 		loanPlanName: $('#loanPlanName').val(),
@@ -151,10 +151,7 @@ $('#paymentBtn').click(function(e) {
 		emiPayment: $('#emiPayment').val(),
 		processingFee: $('#processingFee').val(),
 		legalCharges: $('#legalCharges').val(),
-		gst: $('#gst').val(),
 		insuranceFee: $('#insuranceFee').val(),
-		valuationFees: $('#valuationFees').val(),
-		stationaryFee: $('#stationaryFee').val(),
 		financialConsultantId: $('#financialConsultantId').val(),
 		financialConsultantName: $('#financialConsultantName').val(),
 		paymentDate: $('#paymentDate').val(),
