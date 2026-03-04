@@ -23,29 +23,23 @@ $(document).ready(function() {
 
 	$('#saveBtn').click(function(event) {
 
-		/*event.preventDefault();
+		event.preventDefault();
 		var authenticate = $("#authenticateFor").val();
 		var minor = $("#minor").val();
 		// 1️⃣ Clear all validation messages
 		$("[id^='chk']").text('');
 		let isValid = true;
 
-		/*===============================
-		  TEXT FIELD VALIDATION
-	   ================================ */
-		/*function validateText(fieldId, chkId, message) {
+		function validateText(fieldId, chkId, message) {
 			const value = $('#' + fieldId).val().trim();
 			if (value === '') {
 				$('#' + chkId).text(message);
 				isValid = false;
 			}
 			return value;
-		}*/
+		}
 
-		/* ===============================
-		   FILE / IMAGE VALIDATION
-		================================ */
-		/*function validateFile(fieldId, chkId, message, allowedTypes = [], maxSizeMB = 2) {
+		function validateFile(fieldId, chkId, message, allowedTypes = [], maxSizeMB = 2) {
 
 			const input = $('#' + fieldId)[0];
 
@@ -70,12 +64,8 @@ $(document).ready(function() {
 			}
 
 			return file;
-		}*/
-
-		/*===============================
-		  TEXT VALIDATIONS
-	   ================================ */
-		/*validateText('authenticateFor', 'chkauthenticatefor', 'Please select authenticate for');
+		}
+		validateText('authenticateFor', 'chkauthenticatefor', 'Please select authenticate for');
 		if (authenticate == 'aadhar') {
 			validateText('aadharNo', 'chkaadharno', 'Please enter Aadhar number');
 		}
@@ -119,20 +109,17 @@ $(document).ready(function() {
 		validateText('emailId', 'chkemailid', 'Please enter email ID');
 		validateText('panNo', 'chkpanno', 'Please enter PAN number');
 		validateText('voterNo', 'chkvoterno', 'Please enter voter ID');
-		validateText('drivingLicenceNo', 'chkdrivinglicenseno', 'Please enter license number');*/
+		validateText('drivingLicenceNo', 'chkdrivinglicenseno', 'Please enter license number');
 
-		/*===============================
-		  FILE VALIDATIONS
-	   ================================ */
-		/*const customerPhoto1 = validateFile(
+		const customerPhoto1 = validateFile(
 			'customerPhoto',
 			'chkaadharimage',
 			'Please select aadhar card image',
 			['image/jpeg', 'image/png'],
 			2
-		);*/
+		);
 
-		/*const customerSignature1 = validateFile(
+		const customerSignature1 = validateFile(
 			'customerSignature',
 			'chkpanimage',
 			'Please select pan card image',
@@ -180,12 +167,9 @@ $(document).ready(function() {
 		validateText('nomineeAddress', 'chknomineeaddress', 'Please enter nominee address');
 		validateText('nomineePanNo', 'chknomineepan', 'Please enter nominee pan');
 		validateText('nomineeKycNo', 'chknomineekycno', 'Please enter nominee Kyc No(if not type NA)');
-		validateText('nomineeKycType', 'chknoimneekyctype', 'Please select nominee kyc type');*/
+		validateText('nomineeKycType', 'chknoimneekyctype', 'Please select nominee kyc type');
 
-		// ===============================
-		/*   STOP IF INVALID
-		================================*/
-		/*if (!isValid) return false;*/
+		if (!isValid) return false;
 
 		var formData = new FormData();
 
@@ -281,7 +265,7 @@ $(document).ready(function() {
 		// AJAX call
 		$.ajax({
 			type: 'POST',
-			url: '/api/customermanagement/saveOrUpdateCustomer',
+			url: 'api/customermanagement/saveOrUpdateCustomer',
 			data: formData,
 			processData: false,
 			contentType: false,
