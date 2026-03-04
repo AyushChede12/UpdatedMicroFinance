@@ -98,8 +98,15 @@ $(document).ready(function() {
 		var cust = customers.find(c => c.memberCode === selectedCode);
 
 		if (gold && cust) {
+			
+			const fullName = [
+				cust.firstName || "",
+				cust.middleName || "",
+				cust.lastName || ""
+			].filter(Boolean).join(" ");
+			
 			// Populate fields from addCustomer
-			$("#customerName").val(cust.customerName.toUpperCase() || "");
+			$("#customerName").val(fullName.toUpperCase() || "");
 			$("#dateOfBirth").val(cust.dob.toUpperCase() || "");
 			$("#age").val(cust.customerAge.toUpperCase() || "");
 			$("#contactNo").val(cust.contactNo || "");
@@ -124,14 +131,10 @@ $(document).ready(function() {
 			$("#guarantorAddress").val(cust.customerAddress.toUpperCase() || "");
 			$("#guarantorPinCode").val(cust.pinCode.toUpperCase() || "");
 			$("#guarantorContactNo").val(cust.contactNo.toUpperCase() || "");
-			$("#coApplicantMemberId").val(cust.memberCode.toUpperCase() || "");
-			$("#coApplicantAddress").val(cust.nomineeAddress.toUpperCase() || "");
-			$("#coAge").val(cust.nomineeAge.toUpperCase() || "");
-			$("#coApplicantContactNo").val(cust.nomineeMobileNo.toUpperCase() || "");
-
-
-
-
+			$("#coApplicantMemberId").val(cust.memberCode || "");
+			$("#coApplicantAddress").val(cust.nomineeAddress || "");
+			$("#coAge").val(cust.nomineeAge || "");
+			$("#coApplicantContactNo").val(cust.nomineeMobileNo || "");
 			if (parseInt(cust.smsSend) === 1) {
 				$('#toggle-sms-send').prop('checked', true);
 			} else {
