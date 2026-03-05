@@ -16,25 +16,24 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">ADD DESIGNATION </li>
+					<li class="breadcrumb-item action">ADD DESIGNATION</li>
 				</ol>
 			</nav>
 			<div class="row">
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">DESIGNATION NAME <span class="star">*</span></label> <input type="text"
-							name="designationName" id="designationName
-							" required="required"
-							placeholder="ENTER DESIGNATION " /> <small id="chkdesignationname"
-							style="color: red;"></small>
+						<label for="">DESIGNATION NAME <span class="star">*</span></label>
+						<input type="text" name="designationName"id="designationName" required="required"
+							placeholder="ENTER DESIGNATION " /> <small
+							id="chkdesignationname" style="color: red;"></small>
 					</div>
 				</div>
 
 				<div class="row" style="margin-top: 15px; margin-left: 10px;">
 					<div class="col-12 text-center">
-						<button id="saveDesignationBtn" class="btnStyle bg-warning"
-							onclick="saveDesignation()">SAVE</button>
+						<button type="button" id="saveDesignationBtn"
+							class="btnStyle bg-warning" onclick="saveDesignation()">SAVE</button>
 						<!-- <button id="clearBtn" class="btnStyle bg-secondary">Clear</button> -->
 					</div>
 				</div>

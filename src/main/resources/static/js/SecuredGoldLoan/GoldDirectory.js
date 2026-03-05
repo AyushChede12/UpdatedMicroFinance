@@ -8,10 +8,14 @@ $(document).ready(function() {
 			var select = $("#customerCode");
 			select.empty();
 			select.append('<option value="">SELECT CUSTOMER CODE</option>');
-
 			if (response && response.data && response.data.length > 0) {
 				response.data.forEach(function(customer) {
-					var name = (customer.customerName || "").toUpperCase();
+					const fullName = [
+						customer.firstName || "",
+						customer.middleName || "",
+						customer.lastName || ""
+					].filter(Boolean).join(" ");
+					var name = (fullName || "").toUpperCase();
 					var optionText = customer.memberCode + "-" + name;
 					var optionValue = customer.memberCode;
 					select.append(
@@ -36,9 +40,14 @@ $(document).ready(function() {
 				success: function(response) {
 					if (response && response.data && response.data.length > 0) {
 						var customer = response.data[0]; // assuming first record
+						const fullName = [
+							customer.firstName || "",
+							customer.middleName || "",
+							customer.lastName || ""
+						].filter(Boolean).join(" ");
 
 						// Populate form fields
-						$("#customerName").val(customer.customerName || "");
+						$("#customerName").val(fullName || "");
 
 					} else {
 						alert("No details found for this member");

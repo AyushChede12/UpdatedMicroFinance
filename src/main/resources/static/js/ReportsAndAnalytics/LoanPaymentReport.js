@@ -216,3 +216,109 @@ $(document).ready(function () {
 		});
 	});
 });
+$("#printBtn").click(function () {
+
+	const content = document.getElementById("modalDataContainer").innerHTML;
+	const printWindow = window.open('', '', 'width=1000,height=800');
+
+	printWindow.document.write(`
+
+	<html>
+	<head>
+	<title>Loan Payment Report</title>
+
+	<style>
+
+	body{
+		font-family: Arial;
+		background:#ffffff;
+		padding:30px;
+	}
+
+	.company{
+		text-align:center;
+		margin-bottom:25px;
+	}
+
+	.company h2{
+		margin:0;
+		font-size:28px;
+	}
+
+	.company p{
+		margin:3px;
+		font-size:14px;
+	}
+
+	.title{
+		text-align:center;
+		font-size:20px;
+		font-weight:bold;
+		margin-bottom:20px;
+		border-bottom:2px solid black;
+		padding-bottom:6px;
+	}
+
+	.grid{
+		display:grid;
+		grid-template-columns:1fr 1fr;
+		gap:15px;
+	}
+
+	.field{
+		padding:6px 0;
+		border-bottom:1px dashed #bbb;
+	}
+
+	.label{
+		font-weight:bold;
+	}
+
+	.signArea{
+		margin-top:40px;
+		display:flex;
+		justify-content:space-between;
+	}
+
+	.sign{
+		width:200px;
+		text-align:center;
+		border-top:1px solid black;
+		padding-top:6px;
+	}
+
+	</style>
+	</head>
+
+	<body>
+
+	<div class="company">
+		<h2>CO OPERATIVE SOCIETY LTD NAGPUR</h2>
+		<p>PLOT NO 497 NEW NANDANWAN</p>
+		<p>MAHARASHTRA - 440024</p>
+		<p>CIN : ASJ#567 | Email : example@gmail.com | Helpline : 9566200223, 9558712001</p>
+	</div>
+
+	<div class="title">
+		Loan Payment Details
+	</div>
+
+	<div class="grid">
+		${content}
+	</div>
+
+	<div class="signArea">
+		<div class="sign">Customer Signature</div>
+		<div class="sign">Manager Signature</div>
+	</div>
+
+	</body>
+	</html>
+
+	`);
+
+	printWindow.document.close();
+	printWindow.focus();
+	printWindow.print();
+
+});

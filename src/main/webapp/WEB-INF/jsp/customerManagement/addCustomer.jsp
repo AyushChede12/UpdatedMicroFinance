@@ -137,7 +137,8 @@
 					</div>
 				</div>
 
-				<div class="col-lg-3 mb-4" style="display: none;" id="guardianAccountNo">
+				<div class="col-lg-3 mb-4" style="display: none;"
+					id="guardianAccountNo">
 					<div class="d-flex flex-column formFields">
 						<label for="guardianAccNo">GUARDIAN ACCOUNT NO <span
 							class="star">*</span></label> <input type="text" name="guardianAccNo"
@@ -1013,4 +1014,3 @@
 	</script>
 <script
 	src="${pageContext.request.contextPath}/js/customerManagement/addCustomer.js"></script>
-
