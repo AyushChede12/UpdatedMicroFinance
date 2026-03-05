@@ -69,6 +69,13 @@ public class PolicyManagementController {
 
 		}
 	}
+	
+	@GetMapping("/check-plan-name")
+	public boolean checkPlanName(@RequestParam String planName) {
+
+	    return policyManagementService.planNameExists(planName);
+
+	}
 
 	// View All daily Deposits
 	@GetMapping("/daily-deposit/view")
