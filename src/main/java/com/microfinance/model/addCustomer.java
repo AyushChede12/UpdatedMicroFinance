@@ -6,219 +6,88 @@ import javax.persistence.*;
 @Table(name = "add_customer")
 public class addCustomer {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    // Customer Details
-    @Column(name = "member_code")
-    private String memberCode;
-
-    @Column(name = "authenticate_for")
-    private String authenticateFor;
-
-    @Column(name = "signup_date")
-    private String signupDate;
-
-    @Column(name = "major")
-    private String major;
-
-    @Column(name = "customer_name")
-    private String customerName;
-
-    @Column(name = "minor")
-    private String minor;
-
-    @Column(name = "customer_gender")
-    private String customerGender;
-
-    @Column(name = "guardian_name")
-    private String guardianName;
-
-    @Column(name = "relation_to_applicant")
-    private String relationToApplicant;
-
-    @Column(name = "dob")
-    private String dob;
-
-    @Column(name = "customer_age")
-    private String customerAge;
-
-    @Column(name = "relationship_status")
-    private String relationshipStatus;
-
-    @Column(name = "customer_address")
-    private String customerAddress;
-
-    @Column(name = "state")
-    private String state;
-
-    @Column(name = "district")
-    private String district;
-
-    @Column(name = "aadhar_no")
-    private String aadharNo;
-
-    @Column(name = "pin_code")
-    private String pinCode;
-
-    @Column(name = "branch_name")
-    private String branchName;
-
-    @Column(name = "pan_no")
-    private String panNo;
-
-    @Column(name = "voter_no")
-    private String voterNo;
-
-    @Column(name = "driving_licence_no")
-    private String drivingLicenceNo;
-
-    @Column(name = "referral_code")
-    private String referralCode;
-
-    @Column(name = "referral_name")
-    private String referralName;
-
-    @Column(name = "contact_no")
-    private String contactNo;
-
-    @Column(name = "email_id")
-    private String emailId;
-
-    @Column(name = "profession")
-    private String profession;
-
-    @Column(name = "light_bill")
-    private String lightBill;
-
-    @Column(name = "share_amount")
-    private String shareAmount;
-
-    @Column(name = "no_of_share")
-    private String noOfShare;
-
-    @Column(name = "tax_bill")
-    private String taxBill;
-
-    @Column(name = "academic_background")
-    private String academicBackground;
-
-    @Column(name = "customer_photo")
-    private String customerPhoto;
-
-    @Column(name = "customer_signature")
-    private String customerSignature;
-
-    @Column(name = "customer_voter")
-    private String customerVoter;
-
-    @Column(name = "customer_driving")
-    private String customerDriving;
-
-    @Column(name = "first_name")
-    private String firstName;
-
-    @Column(name = "middle_name")
-    private String middleName;
-
-    @Column(name = "last_name")
-    private String lastName;
-
-    // Nominee Details
-    @Column(name = "nominee_name")
-    private String nomineeName;
-
-    @Column(name = "nominee_relation_to_applicant")
-    private String nomineeRelationToApplicant;
-
-    @Column(name = "nominee_age")
-    private String nomineeAge;
-
-    @Column(name = "nominee_address")
-    private String nomineeAddress;
-
-    @Column(name = "nominee_pan_no")
-    private String nomineePanNo;
-
-    @Column(name = "nominee_kyc_no")
-    private String nomineeKycNo;
-
-    @Column(name = "nominee_kyc_type")
-    private String nomineeKycType;
-
-    @Column(name = "nominee_mobile_no")
-    private String nomineeMobileNo;
-
-    @Column(name = "nominee_dob")
-    private String nomineeDOB;
-
-    @Column(name = "nominee_signature")
-    private String nomineSignature;
-
-    @Column(name = "nominee_aadhar")
-    private String nomineAadhar;
-
-    // Fees Details
-    @Column(name = "member_fees")
-    private String memberFees;
-
-    @Column(name = "building_fund")
-    private String buildingFund;
-
-    @Column(name = "admin_charge")
-    private String adminCharge;
-
-    @Column(name = "document_charge")
-    private String documentCharge;
-
-    @Column(name = "other_charge")
-    private String otherCharge;
-
-    @Column(name = "entry_fee")
-    private String entryFee;
-
-    @Column(name = "cheque_no")
-    private String chequeNo;
-
-    @Column(name = "cheque_date")
-    private String chequeDate;
-
-    @Column(name = "deposit_ac_no")
-    private String depositAcNo;
-
-    @Column(name = "reference_no")
-    private String referenceNo;
-
-    @Column(name = "remarks")
-    private String remarks;
-
-    @Column(name = "payment_by")
-    private String paymentBy;
-
-    @Column(name = "member_status")
-    private int memberStatus;
-
-    @Column(name = "member_banking")
-    private int memberBanking;
-
-    @Column(name = "net_banking")
-    private int netBanking;
-
-    @Column(name = "sms_send")
-    private int smsSend;
-
-    @Column(name = "f_date")
-    private String fDate;
-
-    @Column(name = "t_date")
-    private String tDate;
-
-    @Column(name = "is_verified")
-    private boolean isVerified;
-
-    @Column(name = "is_approved")
-    private boolean isApproved;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	private String memberCode;
+	private String authenticateFor;
+	private String signupDate;
+	private String major;
+	private String customerName;
+	private String minor;
+	private String customerGender;
+	private String guardianName;
+	private String guardianAccountNo;
+	private String relationToApplicant;
+	private String dob;
+	private String customerAge;
+	private String relationshipStatus;
+	private String customerAddress;
+	private String category;
+	private String caste;
+	private String state;
+	private String district;
+	private String aadharNo;
+	private String pinCode;
+	private String branchName;
+	private String panNo;
+	private String voterNo;
+	private String drivingLicenceNo;
+	private String referralCode;
+	private String referralName;
+	private String contactNo;
+	private String emailId;
+	private String profession;
+	private String lightBill;
+	private String shareAmount;
+	private String shareValue;
+	private String noOfShare;
+	private String taxBill;
+	private String academicBackground;
+	private String customerPhoto;
+	private String customerSignature;
+	private String customerVoter;
+	private String customerDriving;
+	private String firstName;
+	private String middleName;
+	private String lastName;
+
+	// Nominee
+	private String nomineeName;
+	private String nomineeRelationToApplicant;
+	private String nomineeAge;
+	private String nomineeAddress;
+	private String nomineePanNo;
+	private String nomineeKycNo;
+	private String nomineeKycType;
+	private String nomineeMobileNo;
+	private String nomineeDOB;
+	private String nomineSignature;
+	private String nomineAadhar;
+
+	// Fees Details
+	private String memberFees;
+	private String buildingFund;
+	private String adminCharge;
+	private String documentCharge;
+	private String otherCharge;
+	private String entryFee;
+	private String chequeNo;
+	private String chequeDate;
+	private String depositAcNo;
+	private String referenceNo;
+	private String remarks;
+	private String paymentBy;
+
+	// Toggles
+	private int memberStatus;
+	private int memberBanking;
+	private int netBanking;
+	private int smsSend;
+	private String fDate;
+	private String tDate;
+	private boolean isVerified;
+	private boolean isApproved;
 
 	public Long getId() {
 		return id;
@@ -292,6 +161,14 @@ public class addCustomer {
 		this.guardianName = guardianName;
 	}
 
+	public String getGuardianAccountNo() {
+		return guardianAccountNo;
+	}
+
+	public void setGuardianAccountNo(String guardianAccountNo) {
+		this.guardianAccountNo = guardianAccountNo;
+	}
+
 	public String getRelationToApplicant() {
 		return relationToApplicant;
 	}
@@ -330,6 +207,22 @@ public class addCustomer {
 
 	public void setCustomerAddress(String customerAddress) {
 		this.customerAddress = customerAddress;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getCaste() {
+		return caste;
+	}
+
+	public void setCaste(String caste) {
+		this.caste = caste;
 	}
 
 	public String getState() {
@@ -450,6 +343,14 @@ public class addCustomer {
 
 	public void setShareAmount(String shareAmount) {
 		this.shareAmount = shareAmount;
+	}
+
+	public String getShareValue() {
+		return shareValue;
+	}
+
+	public void setShareValue(String shareValue) {
+		this.shareValue = shareValue;
 	}
 
 	public String getNoOfShare() {
@@ -780,5 +681,4 @@ public class addCustomer {
 		this.isApproved = isApproved;
 	}
 
-    // Getters and Setters (Omitted for brevity, add all your previous ones here)
 }
