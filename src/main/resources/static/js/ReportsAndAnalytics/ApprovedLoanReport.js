@@ -219,3 +219,150 @@ $(document).ready(function () {
 		});
 	});
 });
+$("#printBtn").click(function () {
+
+	const selectedPolicyHTML = document.getElementById("modalDataContainer").innerHTML;
+
+	const printWindow = window.open('', '', 'width=1000,height=800');
+
+	printWindow.document.write(`
+
+<html>
+<head>
+<title>Loan Application Report</title>
+
+<style>
+
+body{
+font-family: Arial;
+padding:40px;
+color:#000;
+}
+
+.header{
+text-align:center;
+line-height:1.6;
+}
+
+.company{
+font-size:24px;
+font-weight:bold;
+}
+
+.address{
+font-size:14px;
+}
+
+.title{
+text-align:center;
+margin-top:20px;
+font-size:18px;
+font-weight:bold;
+}
+
+hr{
+margin:20px 0;
+border:1px solid #000;
+}
+
+.section{
+font-size:16px;
+font-weight:bold;
+margin:20px 0 10px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-bottom:15px;
+}
+
+td,th{
+border:1px solid #000;
+padding:8px;
+font-size:14px;
+}
+
+.label{
+font-weight:bold;
+background:#f2f2f2;
+width:250px;
+}
+
+.footer{
+margin-top:60px;
+display:flex;
+justify-content:space-between;
+}
+
+.sign{
+text-align:center;
+width:200px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<div class="header">
+
+<div class="company">
+CO OPERATIVE SOCIETY LTD NAGPUR
+</div>
+
+<div class="address">
+PLOT NO 497 NEW NANDANWAN
+</div>
+
+<div class="address">
+MAHARASHTRA - 440024
+</div>
+
+<div class="address">
+Helpline : 9566200223
+</div>
+
+</div>
+
+<hr>
+
+<div class="title">
+LOAN APPLICATION REPORT
+</div>
+
+
+<div class="section">Application Details</div>
+
+${selectedPolicyHTML}
+
+
+<div class="footer">
+
+<div class="sign">
+____________________  
+Branch Manager
+</div>
+
+<div class="sign">
+____________________  
+Authorized Signatory
+</div>
+
+</div>
+
+<script>
+window.print();
+</script>
+
+</body>
+</html>
+
+`);
+
+	printWindow.document.close();
+	printWindow.focus();
+
+});
