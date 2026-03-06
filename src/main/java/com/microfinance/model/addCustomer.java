@@ -681,4 +681,4 @@ public class addCustomer {
 		this.isApproved = isApproved;
 	}
 
-}
+} 
