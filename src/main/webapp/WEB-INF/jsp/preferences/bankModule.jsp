@@ -178,8 +178,7 @@
 						style="margin-bottom: 30px">
 						<label>ADDRESS <span class="star">*</span></label>
 						<textarea name="address" id="address"
-							style="border: 1px solid rgb(224, 224, 224); border-radius: 5px; outline: none; padding: 5px; font-size: 12px;"
-							style="text-transform: uppercase;"></textarea>
+							style="border: 1px solid rgb(224, 224, 224); border-radius: 5px; outline: none; padding: 5px; font-size: 12px; text-transform: uppercase;"></textarea>
 						<small id="chkaddress" style="color: red;"></small>
 					</div>
 				</div>

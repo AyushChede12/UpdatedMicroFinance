@@ -83,6 +83,10 @@ public class CustomerManagementService {
 		addcustomer.setFirstName(clientMasterDto.getFirstName());
 		addcustomer.setMiddleName(clientMasterDto.getMiddleName());
 		addcustomer.setLastName(clientMasterDto.getLastName());
+		addcustomer.setGuardianAccountNo(clientMasterDto.getGuardianAccountNo());
+		addcustomer.setCategory(clientMasterDto.getCategory());
+		addcustomer.setCaste(clientMasterDto.getCaste());
+		addcustomer.setShareValue(clientMasterDto.getShareValue());
 
 // Nominee Details
 		addcustomer.setNomineeName(clientMasterDto.getNomineeName());

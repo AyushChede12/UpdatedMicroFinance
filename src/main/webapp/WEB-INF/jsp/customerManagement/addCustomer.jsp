@@ -141,8 +141,8 @@
 					id="guardianAccountNo">
 					<div class="d-flex flex-column formFields">
 						<label for="guardianAccNo">GUARDIAN ACCOUNT NO <span
-							class="star">*</span></label> <input type="text" name="guardianAccNo"
-							id="guardianAccNo" readonly="readonly" required="required"
+							class="star">*</span></label> <input type="text" name="guardianAccountNo"
+							id="guardianAccountNo" readonly="readonly" required="required"
 							placeholder="ENTER ACCOUNT NO" /> <small id="chkguardianaccno"
 							style="color: red;"></small>
 					</div>

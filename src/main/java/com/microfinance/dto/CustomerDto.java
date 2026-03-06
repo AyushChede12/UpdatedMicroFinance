@@ -21,11 +21,14 @@ public class CustomerDto {
 	private String minor;
 	private String customerGender;
 	private String guardianName;
+	private String guardianAccountNo;
 	private String relationToApplicant;
 	private String dob;
 	private String customerAge;
 	private String relationshipStatus;
 	private String customerAddress;
+	private String category;
+	private String caste;
 	private String state;
 	private String district;
 	private String aadharNo;
@@ -40,6 +43,7 @@ public class CustomerDto {
 	private String emailId;
 	private String profession;
 	private String academicBackground;
+	private String shareValue;
 	private String shareAmount;
 	private String noOfShare;
 	private String lightBill;
@@ -170,6 +174,7 @@ public class CustomerDto {
 	public void setRelationToApplicant(String relationToApplicant) {
 		this.relationToApplicant = relationToApplicant;
 	}
+
 	private Integer accountFreeze;
 
 	public String getDob() {
@@ -366,6 +371,46 @@ public class CustomerDto {
 
 	public void setShareAmount(String shareAmount) {
 		this.shareAmount = shareAmount;
+	}
+
+	public String getGuardianAccountNo() {
+		return guardianAccountNo;
+	}
+
+	public void setGuardianAccountNo(String guardianAccountNo) {
+		this.guardianAccountNo = guardianAccountNo;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getCaste() {
+		return caste;
+	}
+
+	public void setCaste(String caste) {
+		this.caste = caste;
+	}
+
+	public String getShareValue() {
+		return shareValue;
+	}
+
+	public void setShareValue(String shareValue) {
+		this.shareValue = shareValue;
+	}
+
+	public Integer getAccountFreeze() {
+		return accountFreeze;
+	}
+
+	public void setAccountFreeze(Integer accountFreeze) {
+		this.accountFreeze = accountFreeze;
 	}
 
 	public String getNoOfShare() {
