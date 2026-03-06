@@ -134,12 +134,15 @@ $(document).ready(function() {
 		formData.append("dob", $('#dob').val());
 		formData.append("minor", $('#minor').val());
 		formData.append("guardianName", $('#guardianName').val());
+		formData.append("guardianAccountNo", $('#guardianAccountNo').val());
 		//GuardianAccountNo
 		formData.append("relationToApplicant", $('#relationToApplicant').val());
 		formData.append("customerGender", $('#customerGender').val());
 		formData.append("customerAge", $('#customerAge').val());
 		formData.append("relationshipStatus", $('#relationshipStatus').val());
 		formData.append("customerAddress", $('#customerAddress').val());
+		formData.append("category", $('#category').val());
+		formData.append("caste", $('#caste').val());
 		//Category
 		//Caste
 		formData.append("state", $('#state').val());
@@ -156,6 +159,7 @@ $(document).ready(function() {
 		formData.append("profession", $('#profession').val());
 		formData.append("academicBackground", $('#academicBackground').val());
 		//Share Value
+		formData.append("shareValue", $('#shareValue').val());
 		formData.append("noOfShare", $('#noOfShare').val());
 		formData.append("shareAmount", $('#shareAmount').val());
 		formData.append("lightBill", $('#lightBill').val());
