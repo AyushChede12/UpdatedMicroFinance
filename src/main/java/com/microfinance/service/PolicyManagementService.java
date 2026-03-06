@@ -596,5 +596,8 @@ public class PolicyManagementService {
 		// TODO Auto-generated method stub
 		return fullMaturityRepo.findByApproveStatusTrue();
 	}
-
+	
+	public boolean planNameExists(String planName) {
+	    return dailyDepositPMRepo.existsByPlanNameDD(planName);
+	}
 }

@@ -16,6 +16,9 @@ public interface DailyDepositPMRepo extends JpaRepository<DailyDepositPM, Long> 
 	List<DailyDepositPM> findBydrd(String drd);
 
 	DailyDepositPM findByplanNameDD(String planNameDD);
+	
+	 boolean existsByPlanNameDD(String planNameDD);
+
 
 }
 

@@ -52,6 +52,7 @@ public class CustomerManagementService {
 		addcustomer.setMemberCode(clientMasterDto.getMemberCode());
 		addcustomer.setAuthenticateFor(clientMasterDto.getAuthenticateFor());
 		addcustomer.setSignupDate(clientMasterDto.getSignupDate());
+		addcustomer.setMajor(clientMasterDto.getMajor());
 		addcustomer.setCustomerName(clientMasterDto.getCustomerName());
 		addcustomer.setGuardianName(clientMasterDto.getGuardianName());
 		addcustomer.setRelationToApplicant(clientMasterDto.getRelationToApplicant());
