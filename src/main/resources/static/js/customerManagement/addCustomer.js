@@ -125,37 +125,73 @@ $(document).ready(function() {
 		// TEXT FIELDS SAME AS BEFORE
 		formData.append("memberCode", $('#memberCode').val());
 		formData.append("authenticateFor", $('#authenticateFor').val());
+		formData.append("aadharNo", $('#aadharNo').val());
 		formData.append("signupDate", $('#signupDate').val());
 		formData.append("major", $('#major').val());
-		formData.append("minor", $('#minor').val());
-		formData.append("customerGender", $('#customerGender').val());
-		formData.append("guardianName", $('#guardianName').val());
-		formData.append("relationToApplicant", $('#relationToApplicant').val());
-		formData.append("dob", $('#dob').val());
-		formData.append("customerAge", $('#customerAge').val());
-		formData.append("relationshipStatus", $('#relationshipStatus').val());
-		formData.append("customerAddress", $('#customerAddress').val());
-		formData.append("state", $('#state').val());
-		formData.append("district", $('#district').val());
-		formData.append("aadharNo", $('#aadharNo').val());
-		formData.append("pinCode", $('#pinCode').val());
-		formData.append("branchName", $('#branchName').val());
-		formData.append("panNo", $('#panNo').val());
-		formData.append("voterNo", $('#voterNo').val());
-		formData.append("drivingLicenceNo", $('#drivingLicenceNo').val());
-		formData.append("contactNo", $('#contactNo').val());
-		formData.append("emailId", $('#emailId').val());
 		formData.append("firstName", $('#firstName').val());
 		formData.append("middleName", $('#middleName').val());
 		formData.append("lastName", $('#lastName').val());
+		formData.append("dob", $('#dob').val());
+		formData.append("minor", $('#minor').val());
+		formData.append("guardianName", $('#guardianName').val());
+		//GuardianAccountNo
+		formData.append("relationToApplicant", $('#relationToApplicant').val());
+		formData.append("customerGender", $('#customerGender').val());
+		formData.append("customerAge", $('#customerAge').val());
+		formData.append("relationshipStatus", $('#relationshipStatus').val());
+		formData.append("customerAddress", $('#customerAddress').val());
+		//Category
+		//Caste
+		formData.append("state", $('#state').val());
+		formData.append("district", $('#district').val());
+		formData.append("pinCode", $('#pinCode').val());
+		formData.append("branchName", $('#branchName').val());
+		formData.append("contactNo", $('#contactNo').val());
+		formData.append("emailId", $('#emailId').val());
+		formData.append("panNo", $('#panNo').val());
+		formData.append("voterNo", $('#voterNo').val());
+		formData.append("drivingLicenceNo", $('#drivingLicenceNo').val());
+		formData.append("referralCode", $('#referralCode').val());
+		formData.append("referralName", $('#referralName').val());
+		formData.append("profession", $('#profession').val());
+		formData.append("academicBackground", $('#academicBackground').val());
+		//Share Value
+		formData.append("noOfShare", $('#noOfShare').val());
+		formData.append("shareAmount", $('#shareAmount').val());
+		formData.append("lightBill", $('#lightBill').val());
+		formData.append("taxBill", $('#taxBill').val());
+		
+		
+		//NomineeDetails
+		formData.append("nomineeName", $('#nomineeName').val());
+		formData.append("nomineeRelationToApplicant", $('#nomineeRelationToApplicant').val());
+		formData.append("nomineeDOB", $('#nomineeDOB').val());
+		formData.append("nomineeAge", $('#nomineeAge').val());
+		formData.append("nomineeMobileNo", $('#nomineeMobileNo').val());
+		formData.append("nomineeAddress", $('#nomineeAddress').val());
+		formData.append("nomineePanNo", $('#nomineePanNo').val());
+		formData.append("nomineeKycNo", $('#nomineeKycNo').val());
+		formData.append("nomineeKycType", $('#nomineeKycType').val());
+		
+		//Fees Details
+		formData.append("memberFees", $('#memberFees').val());
+		formData.append("buildingFund", $('#buildingFund').val());
+		formData.append("adminCharge", $('#adminCharge').val());
+		formData.append("documentCharge", $('#documentCharge').val());
+		formData.append("entryFee", $('#entryFee').val());
+		formData.append("otherCharge", $('#otherCharge').val());
+		formData.append("paymentBy", $('#paymentBy').val());
+		formData.append("remarks", $('#remarks').val());
+		
+
 
 		// 🔹 Append toggle switches (boolean flags)
 		formData.append("memberStatus", $('#toggle-member-status').is(":checked") ? "1" : "0");
 		formData.append("memberBanking", $('#toggle-banking-status').is(":checked") ? "1" : "0");
 		formData.append("netBanking", $('#toggle-netbanking-status').is(":checked") ? "1" : "0");
 		formData.append("smsSend", $('#toggle-sms-status').is(":checked") ? "1" : "0");
-		
-		
+
+
 		// FILES (Only Once)
 		if (customerPhoto) formData.append("customerPhoto", customerPhoto);
 		if (customerSignature) formData.append("customerSignature", customerSignature);
