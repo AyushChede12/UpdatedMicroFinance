@@ -425,7 +425,7 @@
 						id="customerPhoto" hidden="hidden" onchange="photopreview();"
 						style="background-size: cover; background-repeat: no-repeat" />
 						<div id="img-view">
-							<img src="../images/upload/upload.png" alt="upload_icon"
+							<img src="Uploads/upload.png" alt="upload_icon"
 								id="bike1imagePreview" />
 
 						</div>
@@ -441,7 +441,7 @@
 						id="customerSignature" hidden="hidden" onchange="signpreview();"
 						style="background-size: cover; background-repeat: no-repeat" />
 						<div id="img-view">
-							<img src="../images/upload/upload.png" alt="upload_icon"
+							<img src="Uploads/upload.png" alt="upload_icon"
 								id="bike2imagePreview" />
 
 						</div>
@@ -457,7 +457,7 @@
 						id="customerVoter" hidden="hidden" onchange="voterpreview();"
 						style="background-size: cover; background-repeat: no-repeat" />
 						<div id="img-view">
-							<img src="../images/upload/upload.png" alt="upload_icon"
+							<img src="Uploads/upload.png" alt="upload_icon"
 								id="bike3imagePreview" />
 
 						</div>
@@ -473,7 +473,7 @@
 						id="customerDriving" hidden="hidden" onchange="drivingpreview();"
 						style="background-size: cover; background-repeat: no-repeat" />
 						<div id="img-view">
-							<img src="../images/upload/upload.png" alt="upload_icon"
+							<img src="Uploads/upload.png" alt="upload_icon"
 								id="bike4imagePreview" />
 
 						</div>
@@ -609,7 +609,7 @@
 						hidden="hidden" onchange="nomineeAadharPreview();" />
 
 						<div id="img-view">
-							<img src="../images/upload/upload.png" alt="upload_icon"
+							<img src="Uploads/upload.png" alt="upload_icon"
 								id="nomineeAadharImg" />
 						</div>
 					</label> <small id="chknomineeaadhar" style="color: red;"></small>
@@ -624,7 +624,7 @@
 						onchange="nomineeSignaturePreview();" />
 
 						<div id="img-view">
-							<img src="../images/upload/upload.png" alt="upload_icon"
+							<img src="Uploads/upload.png" alt="upload_icon"
 								id="nomineeSignatureImg" />
 						</div>
 					</label> <small id="chknomineesignature" style="color: red;"></small>
