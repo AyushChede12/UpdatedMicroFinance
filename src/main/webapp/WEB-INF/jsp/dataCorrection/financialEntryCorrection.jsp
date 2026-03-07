@@ -212,7 +212,7 @@
 						id="financialPhoto" hidden="hidden" onchange="photoUpload();"
 						style="background-size: cover; background-repeat: no-repeat" />
 						<div id="img-view">
-							<img src="../images/upload/upload.png" alt="upload_icon"
+							<img src="Uploads/upload.png" alt="upload_icon"
 								id="financialPhotoPreview" /> <input type="hidden"
 								id="financialphotoHidden" name="financialphotoHidden">
 							<!-- <p id="upload-text"
@@ -235,7 +235,7 @@
 						onchange="signatureUpload();"
 						style="background-size: cover; background-repeat: no-repeat" />
 						<div id="img-view">
-							<img src="../images/upload/upload.png" alt="upload_icon"
+							<img src="Uploads/upload.png" alt="upload_icon"
 								id="financialSignaturePreview" /> <input type="hidden"
 								id="financialsignatureHidden" name="financialsignatureHidden">
 							<!-- <p
