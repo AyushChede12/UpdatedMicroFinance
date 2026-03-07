@@ -83,7 +83,7 @@ $(document).ready(function() {
 
 		if (minor == 'Yes') {
 			validateText('guardianName', 'chkguardianname', 'Enter guardian name');
-			validateText('guardianAccNo', 'chkguardianaccno', 'Enter guardian account no');
+			validateText('guardianAccountNo', 'chkguardianaccno', 'Enter guardian account no');
 		}
 
 		validateText('relationToApplicant', 'chkrelationtoapplicant', 'Select relation');
@@ -120,11 +120,15 @@ $(document).ready(function() {
 		formData.append("firstName", $('#firstName').val());
 		formData.append("middleName", $('#middleName').val());
 		formData.append("lastName", $('#lastName').val());
-
+		formData.append("customerName",
+			$('#firstName').val() + " " +
+			$('#middleName').val() + " " +
+			$('#lastName').val()
+		);
 		formData.append("dob", $('#dob').val());
 		formData.append("minor", $('#minor').val());
 		formData.append("guardianName", $('#guardianName').val());
-		formData.append("guardianAccountNo", $('#guardianAccNo').val());
+		formData.append("guardianAccountNo", $('#guardianAccountNo').val());
 
 		formData.append("relationToApplicant", $('#relationToApplicant').val());
 		formData.append("customerGender", $('#customerGender').val());
@@ -154,16 +158,16 @@ $(document).ready(function() {
 		formData.append("academicBackground", $('#academicBackground').val());
 
 		// Referral
-		formData.append("referralCode", $('#referralCode').val());
-		formData.append("referralName", $('#referralName').val());
+//		formData.append("referralCode", $('#referralCode').val());
+//		formData.append("referralName", $('#referralName').val());
 
 		// Share
-		formData.append("shareAmount", $('#shareAmount').val());
-		formData.append("noOfShare", $('#noOfShare').val());
-		formData.append("shareValue", $('#shareValue').val());
+//		formData.append("shareAmount", $('#shareAmount').val());
+//		formData.append("noOfShare", $('#noOfShare').val());
+//		formData.append("shareValue", $('#shareValue').val());
 
-		formData.append("lightBill", $('#lightBill').val());
-		formData.append("taxBill", $('#taxBill').val());
+//		formData.append("lightBill", $('#lightBill').val());
+//		formData.append("taxBill", $('#taxBill').val());
 
 		// Nominee
 		formData.append("nomineeName", $('#nomineeName').val());
@@ -177,23 +181,23 @@ $(document).ready(function() {
 		formData.append("nomineeDOB", $('#nomineeDOB').val());
 
 		// Fees
-		formData.append("memberFees", $('#memberFees').val());
-		formData.append("buildingFund", $('#buildingFund').val());
-		formData.append("adminCharge", $('#adminCharge').val());
-		formData.append("documentCharge", $('#documentCharge').val());
-		formData.append("otherCharge", $('#otherCharge').val());
-		formData.append("entryFee", $('#entryFee').val());
+//		formData.append("memberFees", $('#memberFees').val());
+//		formData.append("buildingFund", $('#buildingFund').val());
+//		formData.append("adminCharge", $('#adminCharge').val());
+//		formData.append("documentCharge", $('#documentCharge').val());
+//		formData.append("otherCharge", $('#otherCharge').val());
+//		formData.append("entryFee", $('#entryFee').val());
 
-		formData.append("chequeNo", $('#chequeNo').val());
-		formData.append("chequeDate", $('#chequeDate').val());
-		formData.append("depositAcNo", $('#depositAcNo').val());
-		formData.append("referenceNo", $('#referenceNo').val());
+//		formData.append("chequeNo", $('#chequeNo').val());
+//		formData.append("chequeDate", $('#chequeDate').val());
+//		formData.append("depositAcNo", $('#depositAccount').val());
+//		formData.append("referenceNo", $('#referenceNo').val());
 
-		formData.append("remarks", $('#remarks').val());
-		formData.append("paymentBy", $('#paymentBy').val());
+//		formData.append("remarks", $('#remarks').val());
+//		formData.append("paymentBy", $('#paymentBy').val());
 
-		formData.append("fDate", $('#fDate').val());
-		formData.append("tDate", $('#tDate').val());
+//		formData.append("fDate", $('#fDate').val());
+//		formData.append("tDate", $('#tDate').val());
 
 		// Toggles
 		formData.append("memberStatus", $('#toggle-member-status').is(":checked") ? "1" : "0");
