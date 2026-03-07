@@ -3,7 +3,6 @@ package com.microfinance.dto;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
 import org.springframework.web.multipart.MultipartFile;
 
 public class CustomerDto {
@@ -43,18 +42,22 @@ public class CustomerDto {
 	private String emailId;
 	private String profession;
 	private String academicBackground;
-	private String shareValue;
 	private String shareAmount;
 	private String noOfShare;
+	private String shareValue;
 	private String lightBill;
 	private String taxBill;
+
 	private MultipartFile customerPhoto;
 	private MultipartFile customerSignature;
 	private MultipartFile customerDriving;
 	private MultipartFile customerVoter;
+
 	private String firstName;
 	private String middleName;
 	private String lastName;
+
+	private Integer accountFreeze;
 
 	// Nominee Details
 	private String nomineeName;
@@ -66,6 +69,7 @@ public class CustomerDto {
 	private String nomineeKycType;
 	private String nomineeMobileNo;
 	private String nomineeDOB;
+
 	private MultipartFile nomineSignature;
 	private MultipartFile nomineAadhar;
 
@@ -82,18 +86,19 @@ public class CustomerDto {
 	private String referenceNo;
 
 	private int memberStatus;
-	private int memberBanking;
+	private int mobileBanking;
 	private int netBanking;
 	private int smsSend;
+
 	private String remarks;
 	private String paymentBy;
 	private String fDate;
 	private String tDate;
 
-	// New Property
 	private boolean isVerified;
-
 	private boolean isApproved;
+
+	// ---------------- GETTERS AND SETTERS ----------------
 
 	public Long getId() {
 		return id;
@@ -101,6 +106,14 @@ public class CustomerDto {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getMemberCode() {
+		return memberCode;
+	}
+
+	public void setMemberCode(String memberCode) {
+		this.memberCode = memberCode;
 	}
 
 	public String getAuthenticateFor() {
@@ -151,20 +164,20 @@ public class CustomerDto {
 		this.customerGender = customerGender;
 	}
 
-	public String getMemberCode() {
-		return memberCode;
-	}
-
-	public void setMemberCode(String memberCode) {
-		this.memberCode = memberCode;
-	}
-
 	public String getGuardianName() {
 		return guardianName;
 	}
 
 	public void setGuardianName(String guardianName) {
 		this.guardianName = guardianName;
+	}
+
+	public String getGuardianAccountNo() {
+		return guardianAccountNo;
+	}
+
+	public void setGuardianAccountNo(String guardianAccountNo) {
+		this.guardianAccountNo = guardianAccountNo;
 	}
 
 	public String getRelationToApplicant() {
@@ -175,7 +188,21 @@ public class CustomerDto {
 		this.relationToApplicant = relationToApplicant;
 	}
 
-	private Integer accountFreeze;
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getCaste() {
+		return caste;
+	}
+
+	public void setCaste(String caste) {
+		this.caste = caste;
+	}
 
 	public String getDob() {
 		return dob;
@@ -321,6 +348,46 @@ public class CustomerDto {
 		this.academicBackground = academicBackground;
 	}
 
+	public String getShareAmount() {
+		return shareAmount;
+	}
+
+	public void setShareAmount(String shareAmount) {
+		this.shareAmount = shareAmount;
+	}
+
+	public String getNoOfShare() {
+		return noOfShare;
+	}
+
+	public void setNoOfShare(String noOfShare) {
+		this.noOfShare = noOfShare;
+	}
+
+	public String getShareValue() {
+		return shareValue;
+	}
+
+	public void setShareValue(String shareValue) {
+		this.shareValue = shareValue;
+	}
+
+	public String getLightBill() {
+		return lightBill;
+	}
+
+	public void setLightBill(String lightBill) {
+		this.lightBill = lightBill;
+	}
+
+	public String getTaxBill() {
+		return taxBill;
+	}
+
+	public void setTaxBill(String taxBill) {
+		this.taxBill = taxBill;
+	}
+
 	public MultipartFile getCustomerPhoto() {
 		return customerPhoto;
 	}
@@ -335,6 +402,54 @@ public class CustomerDto {
 
 	public void setCustomerSignature(MultipartFile customerSignature) {
 		this.customerSignature = customerSignature;
+	}
+
+	public MultipartFile getCustomerDriving() {
+		return customerDriving;
+	}
+
+	public void setCustomerDriving(MultipartFile customerDriving) {
+		this.customerDriving = customerDriving;
+	}
+
+	public MultipartFile getCustomerVoter() {
+		return customerVoter;
+	}
+
+	public void setCustomerVoter(MultipartFile customerVoter) {
+		this.customerVoter = customerVoter;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getMiddleName() {
+		return middleName;
+	}
+
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public Integer getAccountFreeze() {
+		return accountFreeze;
+	}
+
+	public void setAccountFreeze(Integer accountFreeze) {
+		this.accountFreeze = accountFreeze;
 	}
 
 	public String getNomineeName() {
@@ -363,62 +478,6 @@ public class CustomerDto {
 
 	public String getNomineeAddress() {
 		return nomineeAddress;
-	}
-
-	public String getShareAmount() {
-		return shareAmount;
-	}
-
-	public void setShareAmount(String shareAmount) {
-		this.shareAmount = shareAmount;
-	}
-
-	public String getGuardianAccountNo() {
-		return guardianAccountNo;
-	}
-
-	public void setGuardianAccountNo(String guardianAccountNo) {
-		this.guardianAccountNo = guardianAccountNo;
-	}
-
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
-	}
-
-	public String getCaste() {
-		return caste;
-	}
-
-	public void setCaste(String caste) {
-		this.caste = caste;
-	}
-
-	public String getShareValue() {
-		return shareValue;
-	}
-
-	public void setShareValue(String shareValue) {
-		this.shareValue = shareValue;
-	}
-
-	public Integer getAccountFreeze() {
-		return accountFreeze;
-	}
-
-	public void setAccountFreeze(Integer accountFreeze) {
-		this.accountFreeze = accountFreeze;
-	}
-
-	public String getNoOfShare() {
-		return noOfShare;
-	}
-
-	public void setNoOfShare(String noOfShare) {
-		this.noOfShare = noOfShare;
 	}
 
 	public void setNomineeAddress(String nomineeAddress) {
@@ -457,164 +516,36 @@ public class CustomerDto {
 		this.nomineeMobileNo = nomineeMobileNo;
 	}
 
-	public String getMemberFees() {
-		return memberFees;
-	}
-
-	public void setMemberFees(String memberFees) {
-		this.memberFees = memberFees;
-	}
-
-	public String getChequeNo() {
-		return chequeNo;
-	}
-
-	public void setChequeNo(String chequeNo) {
-		this.chequeNo = chequeNo;
-	}
-
-	public String getChequeDate() {
-		return chequeDate;
-	}
-
-	public void setChequeDate(String chequeDate) {
-		this.chequeDate = chequeDate;
-	}
-
-	public String getDepositAcNo() {
-		return depositAcNo;
-	}
-
-	public void setDepositAcNo(String depositAcNo) {
-		this.depositAcNo = depositAcNo;
-	}
-
-	public String getReferenceNo() {
-		return referenceNo;
-	}
-
-	public void setReferenceNo(String referenceNo) {
-		this.referenceNo = referenceNo;
-	}
-
-	public int getMemberStatus() {
-		return memberStatus;
-	}
-
-	public void setMemberStatus(int memberStatus) {
-		this.memberStatus = memberStatus;
-	}
-
-	public int getMemberBanking() {
-		return memberBanking;
-	}
-
-	public void setMemberBanking(int memberBanking) {
-		this.memberBanking = memberBanking;
-	}
-
-	public int getNetBanking() {
-		return netBanking;
-	}
-
-	public void setNetBanking(int netBanking) {
-		this.netBanking = netBanking;
-	}
-
-	public int getSmsSend() {
-		return smsSend;
-	}
-
-	public void setSmsSend(int smsSend) {
-		this.smsSend = smsSend;
-	}
-
-	public String getfDate() {
-		return fDate;
-	}
-
-	public void setfDate(String fDate) {
-		this.fDate = fDate;
-	}
-
-	public String gettDate() {
-		return tDate;
-	}
-
-	public void settDate(String tDate) {
-		this.tDate = tDate;
-	}
-
-	public boolean isVerified() {
-		return isVerified;
-	}
-
-	public void setVerified(boolean isVerified) {
-		this.isVerified = isVerified;
-	}
-
-	public boolean isApproved() {
-		return isApproved;
-	}
-
-	public void setApproved(boolean isApproved) {
-		this.isApproved = isApproved;
-	}
-
-	public String getRemarks() {
-		return remarks;
-	}
-
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
-	}
-
-	public String getPaymentBy() {
-		return paymentBy;
-	}
-
-	public void setPaymentBy(String paymentBy) {
-		this.paymentBy = paymentBy;
-	}
-
-	public String getLightBill() {
-		return lightBill;
-	}
-
-	public void setLightBill(String lightBill) {
-		this.lightBill = lightBill;
-	}
-
-	public String getTaxBill() {
-		return taxBill;
-	}
-
-	public void setTaxBill(String taxBill) {
-		this.taxBill = taxBill;
-	}
-
-	public MultipartFile getCustomerDriving() {
-		return customerDriving;
-	}
-
-	public void setCustomerDriving(MultipartFile customerDriving) {
-		this.customerDriving = customerDriving;
-	}
-
-	public MultipartFile getCustomerVoter() {
-		return customerVoter;
-	}
-
-	public void setCustomerVoter(MultipartFile customerVoter) {
-		this.customerVoter = customerVoter;
-	}
-
 	public String getNomineeDOB() {
 		return nomineeDOB;
 	}
 
 	public void setNomineeDOB(String nomineeDOB) {
 		this.nomineeDOB = nomineeDOB;
+	}
+
+	public MultipartFile getNomineSignature() {
+		return nomineSignature;
+	}
+
+	public void setNomineSignature(MultipartFile nomineSignature) {
+		this.nomineSignature = nomineSignature;
+	}
+
+	public MultipartFile getNomineAadhar() {
+		return nomineAadhar;
+	}
+
+	public void setNomineAadhar(MultipartFile nomineAadhar) {
+		this.nomineAadhar = nomineAadhar;
+	}
+
+	public String getMemberFees() {
+		return memberFees;
+	}
+
+	public void setMemberFees(String memberFees) {
+		this.memberFees = memberFees;
 	}
 
 	public String getBuildingFund() {
@@ -657,44 +588,116 @@ public class CustomerDto {
 		this.entryFee = entryFee;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getChequeNo() {
+		return chequeNo;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setChequeNo(String chequeNo) {
+		this.chequeNo = chequeNo;
 	}
 
-	public String getMiddleName() {
-		return middleName;
+	public String getChequeDate() {
+		return chequeDate;
 	}
 
-	public void setMiddleName(String middleName) {
-		this.middleName = middleName;
+	public void setChequeDate(String chequeDate) {
+		this.chequeDate = chequeDate;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public String getDepositAcNo() {
+		return depositAcNo;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setDepositAcNo(String depositAcNo) {
+		this.depositAcNo = depositAcNo;
 	}
 
-	public MultipartFile getNomineSignature() {
-		return nomineSignature;
+	public String getReferenceNo() {
+		return referenceNo;
 	}
 
-	public void setNomineSignature(MultipartFile nomineSignature) {
-		this.nomineSignature = nomineSignature;
+	public void setReferenceNo(String referenceNo) {
+		this.referenceNo = referenceNo;
 	}
 
-	public MultipartFile getNomineAadhar() {
-		return nomineAadhar;
+	public int getMemberStatus() {
+		return memberStatus;
 	}
 
-	public void setNomineAadhar(MultipartFile nomineAadhar) {
-		this.nomineAadhar = nomineAadhar;
+	public void setMemberStatus(int memberStatus) {
+		this.memberStatus = memberStatus;
+	}
+
+	public int getMobileBanking() {
+		return mobileBanking;
+	}
+
+	public void setMobileBanking(int mobileBanking) {
+		this.mobileBanking = mobileBanking;
+	}
+
+	public int getNetBanking() {
+		return netBanking;
+	}
+
+	public void setNetBanking(int netBanking) {
+		this.netBanking = netBanking;
+	}
+
+	public int getSmsSend() {
+		return smsSend;
+	}
+
+	public void setSmsSend(int smsSend) {
+		this.smsSend = smsSend;
+	}
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+
+	public String getPaymentBy() {
+		return paymentBy;
+	}
+
+	public void setPaymentBy(String paymentBy) {
+		this.paymentBy = paymentBy;
+	}
+
+	public String getfDate() {
+		return fDate;
+	}
+
+	public void setfDate(String fDate) {
+		this.fDate = fDate;
+	}
+
+	public String gettDate() {
+		return tDate;
+	}
+
+	public void settDate(String tDate) {
+		this.tDate = tDate;
+	}
+
+	public boolean isVerified() {
+		return isVerified;
+	}
+
+	public void setVerified(boolean verified) {
+		isVerified = verified;
+	}
+
+	public boolean isApproved() {
+		return isApproved;
+	}
+
+	public void setApproved(boolean approved) {
+		isApproved = approved;
 	}
 
 }

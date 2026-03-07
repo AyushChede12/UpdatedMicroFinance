@@ -114,7 +114,7 @@ public class CustomerManagementService {
 		addcustomer.setPaymentBy(clientMasterDto.getPaymentBy());
 
 // Additional
-		addcustomer.setMemberBanking(clientMasterDto.getMemberBanking());
+		addcustomer.setMobileBanking(clientMasterDto.getMobileBanking());
 		addcustomer.setSmsSend(clientMasterDto.getSmsSend());
 		addcustomer.setMemberStatus(clientMasterDto.getMemberStatus());
 		addcustomer.setNetBanking(clientMasterDto.getNetBanking());

@@ -9,84 +9,227 @@ public class addCustomer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	// Customer Details
+	@Column(name = "member_code", length = 50)
 	private String memberCode;
+
+	@Column(name = "authenticate_for", length = 50)
 	private String authenticateFor;
+
+	@Column(name = "signup_date", length = 20)
 	private String signupDate;
+
+	@Column(name = "major", length = 10)
 	private String major;
+
+	@Column(name = "customer_name", length = 100)
 	private String customerName;
+
+	@Column(name = "minor", length = 10)
 	private String minor;
+
+	@Column(name = "customer_gender", length = 10)
 	private String customerGender;
+
+	@Column(name = "guardian_name", length = 100)
 	private String guardianName;
+
+	@Column(name = "guardian_account_no", length = 30)
 	private String guardianAccountNo;
+
+	@Column(name = "relation_to_applicant", length = 50)
 	private String relationToApplicant;
+
+	@Column(name = "dob", length = 20)
 	private String dob;
+
+	@Column(name = "customer_age", length = 5)
 	private String customerAge;
+
+	@Column(name = "relationship_status", length = 20)
 	private String relationshipStatus;
+
+	@Column(name = "customer_address", columnDefinition = "TEXT")
 	private String customerAddress;
+
+	@Column(name = "category", length = 30)
 	private String category;
+
+	@Column(name = "caste", length = 50)
 	private String caste;
+
+	@Column(name = "state", length = 50)
 	private String state;
+
+	@Column(name = "district", length = 50)
 	private String district;
+
+	@Column(name = "aadhar_no", length = 20)
 	private String aadharNo;
+
+	@Column(name = "pin_code", length = 10)
 	private String pinCode;
+
+	@Column(name = "branch_name", length = 100)
 	private String branchName;
+
+	@Column(name = "pan_no", length = 20)
 	private String panNo;
+
+	@Column(name = "voter_no", length = 20)
 	private String voterNo;
+
+	@Column(name = "driving_licence_no", length = 30)
 	private String drivingLicenceNo;
+
+	@Column(name = "referral_code", length = 50)
 	private String referralCode;
+
+	@Column(name = "referral_name", length = 100)
 	private String referralName;
+
+	@Column(name = "contact_no", length = 15)
 	private String contactNo;
+
+	@Column(name = "email_id", length = 100)
 	private String emailId;
+
+	@Column(name = "profession", length = 100)
 	private String profession;
+
+	@Column(name = "light_bill", length = 100)
 	private String lightBill;
+
+	@Column(name = "share_amount", length = 20)
 	private String shareAmount;
-	private String shareValue;
+
+	@Column(name = "no_of_share", length = 10)
 	private String noOfShare;
+
+	@Column(name = "share_value", length = 20)
+	private String shareValue;
+
+	@Column(name = "tax_bill", length = 100)
 	private String taxBill;
+
+	@Column(name = "academic_background", length = 100)
 	private String academicBackground;
+
+	@Column(name = "customer_photo")
 	private String customerPhoto;
+
+	@Column(name = "customer_signature")
 	private String customerSignature;
+
+	@Column(name = "customer_voter")
 	private String customerVoter;
+
+	@Column(name = "customer_driving")
 	private String customerDriving;
+
+	@Column(name = "first_name", length = 50)
 	private String firstName;
+
+	@Column(name = "middle_name", length = 50)
 	private String middleName;
+
+	@Column(name = "last_name", length = 50)
 	private String lastName;
 
-	// Nominee
+	// Nominee Details
+	@Column(name = "nominee_name", length = 100)
 	private String nomineeName;
+
+	@Column(name = "nominee_relation_to_applicant", length = 50)
 	private String nomineeRelationToApplicant;
+
+	@Column(name = "nominee_age", length = 5)
 	private String nomineeAge;
+
+	@Column(name = "nominee_address", columnDefinition = "TEXT")
 	private String nomineeAddress;
+
+	@Column(name = "nominee_pan_no", length = 20)
 	private String nomineePanNo;
+
+	@Column(name = "nominee_kyc_no", length = 50)
 	private String nomineeKycNo;
+
+	@Column(name = "nominee_kyc_type", length = 50)
 	private String nomineeKycType;
+
+	@Column(name = "nominee_mobile_no", length = 15)
 	private String nomineeMobileNo;
+
+	@Column(name = "nominee_dob", length = 20)
 	private String nomineeDOB;
+
+	@Column(name = "nominee_signature")
 	private String nomineSignature;
+
+	@Column(name = "nominee_aadhar")
 	private String nomineAadhar;
 
 	// Fees Details
+	@Column(name = "member_fees", length = 20)
 	private String memberFees;
+
+	@Column(name = "building_fund", length = 20)
 	private String buildingFund;
+
+	@Column(name = "admin_charge", length = 20)
 	private String adminCharge;
+
+	@Column(name = "document_charge", length = 20)
 	private String documentCharge;
+
+	@Column(name = "other_charge", length = 20)
 	private String otherCharge;
+
+	@Column(name = "entry_fee", length = 20)
 	private String entryFee;
+
+	@Column(name = "cheque_no", length = 30)
 	private String chequeNo;
+
+	@Column(name = "cheque_date", length = 20)
 	private String chequeDate;
+
+	@Column(name = "deposit_ac_no", length = 30)
 	private String depositAcNo;
+
+	@Column(name = "reference_no", length = 50)
 	private String referenceNo;
+
+	@Column(name = "remarks", columnDefinition = "TEXT")
 	private String remarks;
+
+	@Column(name = "payment_by", length = 20)
 	private String paymentBy;
 
-	// Toggles
+	@Column(name = "member_status")
 	private int memberStatus;
-	private int memberBanking;
+
+	@Column(name = "mobile_banking")
+	private int mobileBanking;
+
+	@Column(name = "net_banking")
 	private int netBanking;
+
+	@Column(name = "sms_send")
 	private int smsSend;
+
+	@Column(name = "f_date", length = 20)
 	private String fDate;
+
+	@Column(name = "t_date", length = 20)
 	private String tDate;
+
+	@Column(name = "is_verified")
 	private boolean isVerified;
+
+	@Column(name = "is_approved")
 	private boolean isApproved;
 
 	public Long getId() {
@@ -161,14 +304,6 @@ public class addCustomer {
 		this.guardianName = guardianName;
 	}
 
-	public String getGuardianAccountNo() {
-		return guardianAccountNo;
-	}
-
-	public void setGuardianAccountNo(String guardianAccountNo) {
-		this.guardianAccountNo = guardianAccountNo;
-	}
-
 	public String getRelationToApplicant() {
 		return relationToApplicant;
 	}
@@ -183,6 +318,38 @@ public class addCustomer {
 
 	public void setDob(String dob) {
 		this.dob = dob;
+	}
+
+	public String getGuardianAccountNo() {
+		return guardianAccountNo;
+	}
+
+	public void setGuardianAccountNo(String guardianAccountNo) {
+		this.guardianAccountNo = guardianAccountNo;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getCaste() {
+		return caste;
+	}
+
+	public void setCaste(String caste) {
+		this.caste = caste;
+	}
+
+	public String getShareValue() {
+		return shareValue;
+	}
+
+	public void setShareValue(String shareValue) {
+		this.shareValue = shareValue;
 	}
 
 	public String getCustomerAge() {
@@ -207,22 +374,6 @@ public class addCustomer {
 
 	public void setCustomerAddress(String customerAddress) {
 		this.customerAddress = customerAddress;
-	}
-
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
-	}
-
-	public String getCaste() {
-		return caste;
-	}
-
-	public void setCaste(String caste) {
-		this.caste = caste;
 	}
 
 	public String getState() {
@@ -343,14 +494,6 @@ public class addCustomer {
 
 	public void setShareAmount(String shareAmount) {
 		this.shareAmount = shareAmount;
-	}
-
-	public String getShareValue() {
-		return shareValue;
-	}
-
-	public void setShareValue(String shareValue) {
-		this.shareValue = shareValue;
 	}
 
 	public String getNoOfShare() {
@@ -625,12 +768,12 @@ public class addCustomer {
 		this.memberStatus = memberStatus;
 	}
 
-	public int getMemberBanking() {
-		return memberBanking;
+	public int getMobileBanking() {
+		return mobileBanking;
 	}
 
-	public void setMemberBanking(int memberBanking) {
-		this.memberBanking = memberBanking;
+	public void setMobileBanking(int mobileBanking) {
+		this.mobileBanking = mobileBanking;
 	}
 
 	public int getNetBanking() {
@@ -681,4 +824,5 @@ public class addCustomer {
 		this.isApproved = isApproved;
 	}
 
+	// Getters and Setters (Omitted for brevity, add all your previous ones here)
 }
