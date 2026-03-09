@@ -371,7 +371,7 @@
 					<div class="d-flex flex-column formFields">
 						<label for="shareValue">SHARE VALUE</label> <input type="text"
 							style="text-transform: uppercase;" name="shareValue"
-							id="shareValue" value="10" required="required"
+							id="shareValue" required="required"
 							placeholder="ENTER SHARE VALUE" />
 					</div>
 				</div>
