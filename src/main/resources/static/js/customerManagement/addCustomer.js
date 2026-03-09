@@ -23,32 +23,27 @@ $(document).ready(function() {
 
 	$('#saveBtn').click(function(event) {
 
-		//event.preventDefault();
-		/*var authenticate = $("#authenticateFor").val();
+		event.preventDefault();
+
+		var authenticate = $("#authenticateFor").val();
 		var minor = $("#minor").val();
-		// 1️⃣ Clear all validation messages
+
 		$("[id^='chk']").text('');
 		let isValid = true;
 
-		 ===============================
-		   TEXT FIELD VALIDATION
-		================================ 
 		function validateText(fieldId, chkId, message) {
-			const value = $('#' + fieldId).val().trim();
-			if (value === '') {
+			const value = $('#' + fieldId).val()?.trim();
+			if (!value) {
 				$('#' + chkId).text(message);
 				isValid = false;
 			}
 			return value;
 		}
 
-		 ===============================
-		   FILE / IMAGE VALIDATION
-		================================ 
 		function validateFile(fieldId, chkId, message, allowedTypes = [], maxSizeMB = 2) {
-			
+
 			const input = $('#' + fieldId)[0];
-			
+
 			if (!input || input.files.length === 0) {
 				$('#' + chkId).text(message);
 				isValid = false;
@@ -72,154 +67,107 @@ $(document).ready(function() {
 			return file;
 		}
 
-		 ===============================
-		   TEXT VALIDATIONS
-		================================ 
+		// ----------- VALIDATION ------------
+
 		validateText('authenticateFor', 'chkauthenticatefor', 'Please select authenticate for');
+
 		if (authenticate == 'aadhar') {
 			validateText('aadharNo', 'chkaadharno', 'Please enter Aadhar number');
 		}
+
 		validateText('signupDate', 'chksignupdate', 'Please select signup date');
 		validateText('firstName', 'chkfirstname', 'Please enter first name');
 		validateText('middleName', 'chkmiddlename', 'Please enter middle name');
 		validateText('lastName', 'chklastname', 'Please enter last name');
-		validateText('dob', 'chkdob', 'Please select date of birth');
-		validateText('minor', 'chkminor', 'Please select minor');
-		
-		validateText('guardianName', 'chkguardianname', 'Please enter guardian name');
-		validateText('guardianAccNo', 'chkguardianaccno', 'Please enter guardian account no');
-		
-		const isMinor = $('#minor').val();
-
-		if (isMinor === 'Yes') {
-		    validateText('guardianName', 'chkguardianname', 'Please enter guardian name');
-		    validateText('guardianAccNo', 'chkguardianaccno', 'Please enter guardian account no');
-		} else {
-		    $('#chkguardianname').text('');
-		    $('#chkguardianaccno').text('');
-		}
-		
+		validateText('dob', 'chkdob', 'Please select DOB');
 
 		if (minor == 'Yes') {
-			validateText('guardianName', 'chkguardianname', 'Please enter guardian name');
-			validateText('guardianAccNo', 'chkguardianaccno', 'Please enter guardian account no');
+			validateText('guardianName', 'chkguardianname', 'Enter guardian name');
+			validateText('guardianAccountNo', 'chkguardianaccno', 'Enter guardian account no');
 		}
 
-		validateText('relationToApplicant', 'chkrelationtoapplicant', 'Please select relation');
-		validateText('customerGender', 'chkgender', 'Please select gender');
-		validateText('customerAge', 'chkage', 'Please enter age');
-		validateText('customerAddress', 'chkaddress', 'Please enter address');
-		validateText('category', 'chkcategory', 'Please select category');
-		validateText('caste', 'chkcaste', 'Please select caste');
-		validateText('state', 'chkstate', 'Please select state');
-		validateText('district', 'chkdistrict', 'Please select district');
-		validateText('pinCode', 'chkpincode', 'Please enter pincode');
-		validateText('branchName', 'chkbranch', 'Please select branch');
-		validateText('contactNo', 'chkcontactno', 'Please enter contact number');
-		validateText('emailId', 'chkemailid', 'Please enter email ID');
-		validateText('panNo', 'chkpanno', 'Please enter PAN number');
-		validateText('voterNo', 'chkvoterno', 'Please enter voter ID');
-		validateText('drivingLicenceNo', 'chkdrivinglicenseno', 'Please enter license number');
+		validateText('relationToApplicant', 'chkrelationtoapplicant', 'Select relation');
+		validateText('customerGender', 'chkgender', 'Select gender');
+		validateText('customerAge', 'chkage', 'Enter age');
+		validateText('customerAddress', 'chkaddress', 'Enter address');
+		validateText('state', 'chkstate', 'Select state');
+		validateText('district', 'chkdistrict', 'Select district');
+		validateText('pinCode', 'chkpincode', 'Enter pincode');
+		validateText('branchName', 'chkbranch', 'Select branch');
+		validateText('contactNo', 'chkcontactno', 'Enter contact no');
 
-		 ===============================
-		   FILE VALIDATIONS
-		================================ 
-		const customerPhoto1 = validateFile(
-			'customerPhoto',
-			'chkaadharimage',
-			'Please select aadhar card image',
-			['image/jpeg', 'image/png'],
-			2
-		);
+		// ---------- FILE VALIDATION ----------
 
-		const customerSignature1 = validateFile(
-			'customerSignature',
-			'chkpanimage',
-			'Please select pan card image',
-			['image/jpeg', 'image/png'],
-			1
-		);
+		const customerPhoto = validateFile('customerPhoto', 'chkaadharimage', 'Select aadhar image', ['image/jpeg', 'image/png'], 2);
+		const customerSignature = validateFile('customerSignature', 'chkpanimage', 'Select signature', ['image/jpeg', 'image/png'], 1);
+		const customerVoter = validateFile('customerVoter', 'chkvoterimage', 'Select voter image', ['image/jpeg', 'image/png'], 2);
+		const customerDriving = validateFile('customerDriving', 'chklicenseimage', 'Select license image', ['image/jpeg', 'image/png'], 2);
+		const nomineAadhar = validateFile('nomineAadhar', 'chknomineeaadhar', 'Select nominee aadhar', ['image/jpeg', 'image/png'], 2);
+		const nomineSignature = validateFile('nomineSignature', 'chknomineesignature', 'Select nominee signature', ['image/jpeg', 'image/png'], 2);
 
-		const customerVoter1 = validateFile(
-			'customerVoter',
-			'chkvoterimage',
-			'Please select voter ID image',
-			['image/jpeg', 'image/png'],
-			2
-		);
+		if (!isValid) return false;
 
-		const customerDriving1 = validateFile(
-			'customerDriving',
-			'chklicenseimage',
-			'Please select driving license image',
-			['image/jpeg', 'image/png'],
-			2
-		);
-
-		const nomineAadhar1 = validateFile(
-			'nomineAadhar',
-			'chknomineeaadhar',
-			'Please select nomoniee aadhar',
-			['image/jpeg', 'image/png'],
-			2
-		);
-
-		const nomineSignature1 = validateFile(
-			'nomineSignature',
-			'chknomineesignature',
-			'Please select nominee signature',
-			['image/jpeg', 'image/png'],
-			2
-		);
-
-		validateText('nomineeName', 'chknomineename', 'Please enter nominee name');
-		validateText('nomineeRelationToApplicant', 'chknomineerelationtoapplicant', 'Please select nominee relation');
-		validateText('nomineeDOB', 'chknomineedob', 'Please select nominee DOB');
-		validateText('nomineeAge', 'chknomineeage', 'Please enter nominee age');
-		validateText('nomineeMobileNo', 'chknomineemobileno', 'Please enter nominee mobile no');
-		validateText('nomineeAddress', 'chknomineeaddress', 'Please enter nominee address');
-		validateText('nomineePanNo', 'chknomineepan', 'Please enter nominee pan');
-		validateText('nomineeKycNo', 'chknomineekycno', 'Please enter nominee Kyc No(if not type NA)');
-		validateText('nomineeKycType', 'chknoimneekyctype', 'Please select nominee kyc type');
-
-		 ===============================
-		   STOP IF INVALID
-		================================ 
-		if (!isValid) return false;*/
+		// ----------- FORM DATA -----------
 
 		var formData = new FormData();
 
-		// Text fields
+		// Customer Basic
 		formData.append("memberCode", $('#memberCode').val());
 		formData.append("authenticateFor", $('#authenticateFor').val());
 		formData.append("signupDate", $('#signupDate').val());
 		formData.append("major", $('#major').val());
-		formData.append("minor", $('#minor').val());
-		formData.append("customerGender", $('#customerGender').val());
-		formData.append("guardianName", $('#guardianName').val());
-		formData.append("relationToApplicant", $('#relationToApplicant').val());
-		formData.append("dob", $('#dob').val());
-		formData.append("customerAge", $('#customerAge').val());
-		formData.append("relationshipStatus", $('#relationshipStatus').val());
-		formData.append("customerAddress", $('#customerAddress').val());
-		formData.append("state", $('#state').val());
-		formData.append("district", $('#district').val());
-		formData.append("aadharNo", $('#aadharNo').val());
-		formData.append("pinCode", $('#pinCode').val());
-		formData.append("branchName", $('#branchName').val());
-		formData.append("panNo", $('#panNo').val());
-		formData.append("voterNo", $('#voterNo').val());
-		formData.append("drivingLicenceNo", $('#drivingLicenceNo').val());
-		formData.append("referralCode", $('#referralCode').val());
-		formData.append("referralName", $('#referralName').val());
-		formData.append("contactNo", $('#contactNo').val());
-		formData.append("emailId", $('#emailId').val());
-		formData.append("profession", $('#profession').val());
-		formData.append("academicBackground", $('#academicBackground').val());
+
 		formData.append("firstName", $('#firstName').val());
 		formData.append("middleName", $('#middleName').val());
 		formData.append("lastName", $('#lastName').val());
+		formData.append("customerName",
+			$('#firstName').val() + " " +
+			$('#middleName').val() + " " +
+			$('#lastName').val()
+		);
+		formData.append("dob", $('#dob').val());
+		formData.append("minor", $('#minor').val());
+		formData.append("guardianName", $('#guardianName').val());
+		formData.append("guardianAccountNo", $('#guardianAccountNo').val());
 
+		formData.append("relationToApplicant", $('#relationToApplicant').val());
+		formData.append("customerGender", $('#customerGender').val());
+		formData.append("customerAge", $('#customerAge').val());
+		formData.append("relationshipStatus", $('#relationshipStatus').val());
+
+		formData.append("customerAddress", $('#customerAddress').val());
+
+		formData.append("category", $('#category').val());
+		formData.append("caste", $('#caste').val());
+
+		formData.append("state", $('#state').val());
+		formData.append("district", $('#district').val());
+		formData.append("pinCode", $('#pinCode').val());
+
+		formData.append("branchName", $('#branchName').val());
+
+		formData.append("aadharNo", $('#aadharNo').val());
+		formData.append("panNo", $('#panNo').val());
+		formData.append("voterNo", $('#voterNo').val());
+		formData.append("drivingLicenceNo", $('#drivingLicenceNo').val());
+
+		formData.append("contactNo", $('#contactNo').val());
+		formData.append("emailId", $('#emailId').val());
+
+		formData.append("profession", $('#profession').val());
+		formData.append("academicBackground", $('#academicBackground').val());
+
+		// Referral
+//		formData.append("referralCode", $('#referralCode').val());
+//		formData.append("referralName", $('#referralName').val());
+
+		// Share
+//		formData.append("shareAmount", $('#shareAmount').val());
+//		formData.append("noOfShare", $('#noOfShare').val());
+//		formData.append("shareValue", $('#shareValue').val());
+
+//		formData.append("lightBill", $('#lightBill').val());
+//		formData.append("taxBill", $('#taxBill').val());
 
 		// Nominee
 		formData.append("nomineeName", $('#nomineeName').val());
@@ -230,83 +178,61 @@ $(document).ready(function() {
 		formData.append("nomineeKycNo", $('#nomineeKycNo').val());
 		formData.append("nomineeKycType", $('#nomineeKycType').val());
 		formData.append("nomineeMobileNo", $('#nomineeMobileNo').val());
-
-		// Payment
-		formData.append("memberFees", $('#memberFees').val());
-		formData.append("chequeNo", $('#chequeNo').val());
-		formData.append("chequeDate", $('#chequeDate').val());
-		formData.append("depositAcNo", $('#depositAcNo').val());
-		formData.append("referenceNo", $('#referenceNo').val());
-		formData.append("remarks", $('#remarks').val());
-		formData.append("paymentBy", $('#paymentBy').val());
-		formData.append("lightBill", $('#lightBill').val());
-		formData.append("taxBill", $('#taxBill').val());
 		formData.append("nomineeDOB", $('#nomineeDOB').val());
-		formData.append("buildingFund", $('#buildingFund').val());
-		formData.append("adminCharge", $('#adminCharge').val());
-		formData.append("documentCharge", $('#documentCharge').val());
-		formData.append("otherCharge", $('#otherCharge').val());
-		formData.append("entryFee", $('#entryFee').val());
-		formData.append("noOfShare", $('#noOfShare').val());
-		formData.append("shareAmount", $('#shareAmount').val());
 
+		// Fees
+//		formData.append("memberFees", $('#memberFees').val());
+//		formData.append("buildingFund", $('#buildingFund').val());
+//		formData.append("adminCharge", $('#adminCharge').val());
+//		formData.append("documentCharge", $('#documentCharge').val());
+//		formData.append("otherCharge", $('#otherCharge').val());
+//		formData.append("entryFee", $('#entryFee').val());
 
-		// File uploads
-		const customerPhoto = $('#customerPhoto')[0].files[0];
-		const customerSignature = $('#customerSignature')[0].files[0];
-		const customerVoter = $('#customerVoter')[0].files[0];
-		const customerDriving = $('#customerDriving')[0].files[0];
-		const nomineSignature = $('#nomineSignature')[0].files[0];
-		const nomineAadhar = $('#nomineAadhar')[0].files[0];
+//		formData.append("chequeNo", $('#chequeNo').val());
+//		formData.append("chequeDate", $('#chequeDate').val());
+//		formData.append("depositAcNo", $('#depositAccount').val());
+//		formData.append("referenceNo", $('#referenceNo').val());
 
+//		formData.append("remarks", $('#remarks').val());
+//		formData.append("paymentBy", $('#paymentBy').val());
+
+//		formData.append("fDate", $('#fDate').val());
+//		formData.append("tDate", $('#tDate').val());
+
+		// Toggles
+		formData.append("memberStatus", $('#toggle-member-status').is(":checked") ? "1" : "0");
+		formData.append("mobileBanking", $('#toggle-banking-status').is(":checked") ? "1" : "0");
+		formData.append("netBanking", $('#toggle-netbanking-status').is(":checked") ? "1" : "0");
+		formData.append("smsSend", $('#toggle-sms-status').is(":checked") ? "1" : "0");
+
+		// Files
 		if (customerPhoto) formData.append("customerPhoto", customerPhoto);
 		if (customerSignature) formData.append("customerSignature", customerSignature);
 		if (customerVoter) formData.append("customerVoter", customerVoter);
 		if (customerDriving) formData.append("customerDriving", customerDriving);
-		if (nomineSignature) formData.append("nomineSignature", nomineSignature);
 		if (nomineAadhar) formData.append("nomineAadhar", nomineAadhar);
+		if (nomineSignature) formData.append("nomineSignature", nomineSignature);
 
+		// -------- AJAX --------
 
-		// Toggles
-		formData.append("memberStatus", $('#toggle-member-status').is(":checked") ? "1" : "0");
-		formData.append("memberBanking", $('#toggle-banking-status').is(":checked") ? "1" : "0");
-		formData.append("netBanking", $('#toggle-netbanking-status').is(":checked") ? "1" : "0");
-		formData.append("smsSend", $('#toggle-sms-status').is(":checked") ? "1" : "0");
-
-		// ✅ Auto domain + context path
-		//const fullUrl = window.location.origin + "/api/customermanagement/saveOrUpdateCustomer";
-
-		//console.log("POST to URL: ", fullUrl);
-
-		// AJAX call
 		$.ajax({
 			type: 'POST',
 			url: '/api/customermanagement/saveOrUpdateCustomer',
 			data: formData,
 			processData: false,
 			contentType: false,
-			success: function(response, textStatus, xhr) {
-				console.log("✅ Response:", response);
 
-				if (xhr.status === 200 || xhr.status === 201) {
-					alert(response.message || "Customer saved successfully!");
-					location.reload();
-				} else {
-					alert("Unexpected response: " + (response.message || "Unknown error"));
-				}
+			success: function(response) {
+				alert(response.message || "Customer saved successfully!");
+				location.reload();
 			},
+
 			error: function(xhr) {
-				alert("error");
-				console.error("❌ Error response: ", xhr);
-				let msg = "Something went wrong while saving.";
-				if (xhr.responseJSON && xhr.responseJSON.message) {
-					msg = xhr.responseJSON.message;
-				} else if (xhr.responseText) {
-					msg = xhr.responseText;
-				}
-				alert(msg);
+				console.error(xhr);
+				alert(xhr.responseJSON?.message || "Something went wrong");
 			}
 		});
+
 	});
 
 	/*$('#saveBtn').click(function(e) {
@@ -734,17 +660,25 @@ document.addEventListener("DOMContentLoaded", function() {
 				}
 				return response.json();
 			})
-			.then(data => {
+			.then(response => {
+				console.log("Bank API response:", response);
+
 				const depositAccount = document.getElementById("depositAccount");
-				// Clear existing options except first
 				depositAccount.innerHTML = '<option value="">Select</option>';
 
-				data.forEach(bank => {
-					const option = document.createElement("option");
-					option.value = bank.accountNo; // Value sent on form submit
-					option.textContent = `${bank.accountNo} (${bank.bankName})`; // User-friendly label
-					depositAccount.appendChild(option);
-				});
+				// ✅ Adjust based on actual API structure
+				const banks = response.data || response;
+
+				if (Array.isArray(banks)) {
+					banks.forEach(bank => {
+						const option = document.createElement("option");
+						option.value = bank.accountNo;
+						option.textContent = `${bank.accountNo} (${bank.bankName})`;
+						depositAccount.appendChild(option);
+					});
+				} else {
+					console.error("Expected array but got:", banks);
+				}
 			})
 			.catch(error => {
 				console.error("Error fetching bank accounts:", error);
@@ -856,17 +790,17 @@ function fetchBySelectedCustomer() {
 
 function ifMinor() {
 
-    var minor = $("#minor").val();
-    if (minor === 'Yes') {
-        $("#guardianDetails").show();
-        $("#guardianAccount").show();
-        $("#guardianAccNo").prop("required", true);
-    } else {
-        $("#guardianDetails").hide();
-        $("#guardianAccount").hide();
-        $("#guardianAccNo").prop("required", false).val('');
-        $("#guardianName").val('');
-    }
+	var minor = $("#minor").val();
+	if (minor === 'Yes') {
+		$("#guardianDetails").show();
+		$("#guardianAccount").show();
+		$("#guardianAccNo").prop("required", true);
+	} else {
+		$("#guardianDetails").hide();
+		$("#guardianAccount").hide();
+		$("#guardianAccNo").prop("required", false).val('');
+		$("#guardianName").val('');
+	}
 
 	var minor = $("#minor").val();
 	if (minor === 'Yes') {

@@ -52,6 +52,7 @@ public class CustomerManagementService {
 		addcustomer.setMemberCode(clientMasterDto.getMemberCode());
 		addcustomer.setAuthenticateFor(clientMasterDto.getAuthenticateFor());
 		addcustomer.setSignupDate(clientMasterDto.getSignupDate());
+		addcustomer.setMajor(clientMasterDto.getMajor());
 		addcustomer.setCustomerName(clientMasterDto.getCustomerName());
 		addcustomer.setGuardianName(clientMasterDto.getGuardianName());
 		addcustomer.setRelationToApplicant(clientMasterDto.getRelationToApplicant());
@@ -82,6 +83,10 @@ public class CustomerManagementService {
 		addcustomer.setFirstName(clientMasterDto.getFirstName());
 		addcustomer.setMiddleName(clientMasterDto.getMiddleName());
 		addcustomer.setLastName(clientMasterDto.getLastName());
+		addcustomer.setGuardianAccountNo(clientMasterDto.getGuardianAccountNo());
+		addcustomer.setCategory(clientMasterDto.getCategory());
+		addcustomer.setCaste(clientMasterDto.getCaste());
+		addcustomer.setShareValue(clientMasterDto.getShareValue());
 
 // Nominee Details
 		addcustomer.setNomineeName(clientMasterDto.getNomineeName());
@@ -109,7 +114,7 @@ public class CustomerManagementService {
 		addcustomer.setPaymentBy(clientMasterDto.getPaymentBy());
 
 // Additional
-		addcustomer.setMemberBanking(clientMasterDto.getMemberBanking());
+		addcustomer.setMobileBanking(clientMasterDto.getMobileBanking());
 		addcustomer.setSmsSend(clientMasterDto.getSmsSend());
 		addcustomer.setMemberStatus(clientMasterDto.getMemberStatus());
 		addcustomer.setNetBanking(clientMasterDto.getNetBanking());
