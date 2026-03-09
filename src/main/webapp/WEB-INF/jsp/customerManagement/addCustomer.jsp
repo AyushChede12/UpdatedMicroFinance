@@ -141,8 +141,8 @@
 					id="guardianAccountNo">
 					<div class="d-flex flex-column formFields">
 						<label for="guardianAccNo">GUARDIAN ACCOUNT NO <span
-							class="star">*</span></label> <input type="text" name="guardianAccNo"
-							id="guardianAccNo" readonly="readonly" required="required"
+							class="star">*</span></label> <input type="text" name="guardianAccountNo"
+							id="guardianAccountNo" readonly="readonly" required="required"
 							placeholder="ENTER ACCOUNT NO" /> <small id="chkguardianaccno"
 							style="color: red;"></small>
 					</div>
@@ -371,7 +371,7 @@
 					<div class="d-flex flex-column formFields">
 						<label for="shareValue">SHARE VALUE</label> <input type="text"
 							style="text-transform: uppercase;" name="shareValue"
-							id="shareValue" value="10" required="required"
+							id="shareValue" required="required"
 							placeholder="ENTER SHARE VALUE" />
 					</div>
 				</div>
@@ -425,7 +425,7 @@
 						id="customerPhoto" hidden="hidden" onchange="photopreview();"
 						style="background-size: cover; background-repeat: no-repeat" />
 						<div id="img-view">
-							<img src="../images/upload/upload.png" alt="upload_icon"
+							<img src="Uploads/upload.png" alt="upload_icon"
 								id="bike1imagePreview" />
 
 						</div>
@@ -441,7 +441,7 @@
 						id="customerSignature" hidden="hidden" onchange="signpreview();"
 						style="background-size: cover; background-repeat: no-repeat" />
 						<div id="img-view">
-							<img src="../images/upload/upload.png" alt="upload_icon"
+							<img src="Uploads/upload.png" alt="upload_icon"
 								id="bike2imagePreview" />
 
 						</div>
@@ -457,7 +457,7 @@
 						id="customerVoter" hidden="hidden" onchange="voterpreview();"
 						style="background-size: cover; background-repeat: no-repeat" />
 						<div id="img-view">
-							<img src="../images/upload/upload.png" alt="upload_icon"
+							<img src="Uploads/upload.png" alt="upload_icon"
 								id="bike3imagePreview" />
 
 						</div>
@@ -473,7 +473,7 @@
 						id="customerDriving" hidden="hidden" onchange="drivingpreview();"
 						style="background-size: cover; background-repeat: no-repeat" />
 						<div id="img-view">
-							<img src="../images/upload/upload.png" alt="upload_icon"
+							<img src="Uploads/upload.png" alt="upload_icon"
 								id="bike4imagePreview" />
 
 						</div>
@@ -609,7 +609,7 @@
 						hidden="hidden" onchange="nomineeAadharPreview();" />
 
 						<div id="img-view">
-							<img src="../images/upload/upload.png" alt="upload_icon"
+							<img src="Uploads/upload.png" alt="upload_icon"
 								id="nomineeAadharImg" />
 						</div>
 					</label> <small id="chknomineeaadhar" style="color: red;"></small>
@@ -624,7 +624,7 @@
 						onchange="nomineeSignaturePreview();" />
 
 						<div id="img-view">
-							<img src="../images/upload/upload.png" alt="upload_icon"
+							<img src="Uploads/upload.png" alt="upload_icon"
 								id="nomineeSignatureImg" />
 						</div>
 					</label> <small id="chknomineesignature" style="color: red;"></small>
@@ -843,7 +843,7 @@
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px;">
 						<label>DEPOSIT A/C</label> <select id="depositAccount"
-							name="depositAccount" class="form-control selectField"
+							name="depositAcNo" class="form-control selectField"
 							style="height: 30px;">
 							<option value="">SELECT</option>
 							<!-- options will be filled dynamically -->

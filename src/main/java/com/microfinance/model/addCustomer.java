@@ -6,219 +6,231 @@ import javax.persistence.*;
 @Table(name = "add_customer")
 public class addCustomer {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    // Customer Details
-    @Column(name = "member_code")
-    private String memberCode;
+	// Customer Details
+	@Column(name = "member_code", length = 50)
+	private String memberCode;
 
-    @Column(name = "authenticate_for")
-    private String authenticateFor;
+	@Column(name = "authenticate_for", length = 50)
+	private String authenticateFor;
 
-    @Column(name = "signup_date")
-    private String signupDate;
+	@Column(name = "signup_date", length = 20)
+	private String signupDate;
 
-    @Column(name = "major")
-    private String major;
+	@Column(name = "major", length = 10)
+	private String major;
 
-    @Column(name = "customer_name")
-    private String customerName;
+	@Column(name = "customer_name", length = 100)
+	private String customerName;
 
-    @Column(name = "minor")
-    private String minor;
+	@Column(name = "minor", length = 10)
+	private String minor;
 
-    @Column(name = "customer_gender")
-    private String customerGender;
+	@Column(name = "customer_gender", length = 10)
+	private String customerGender;
 
-    @Column(name = "guardian_name")
-    private String guardianName;
+	@Column(name = "guardian_name", length = 100)
+	private String guardianName;
 
-    @Column(name = "relation_to_applicant")
-    private String relationToApplicant;
+	@Column(name = "guardian_account_no", length = 30)
+	private String guardianAccountNo;
 
-    @Column(name = "dob")
-    private String dob;
+	@Column(name = "relation_to_applicant", length = 50)
+	private String relationToApplicant;
 
-    @Column(name = "customer_age")
-    private String customerAge;
+	@Column(name = "dob", length = 20)
+	private String dob;
 
-    @Column(name = "relationship_status")
-    private String relationshipStatus;
+	@Column(name = "customer_age", length = 5)
+	private String customerAge;
 
-    @Column(name = "customer_address")
-    private String customerAddress;
+	@Column(name = "relationship_status", length = 20)
+	private String relationshipStatus;
 
-    @Column(name = "state")
-    private String state;
+	@Column(name = "customer_address", columnDefinition = "TEXT")
+	private String customerAddress;
 
-    @Column(name = "district")
-    private String district;
+	@Column(name = "category", length = 30)
+	private String category;
 
-    @Column(name = "aadhar_no")
-    private String aadharNo;
+	@Column(name = "caste", length = 50)
+	private String caste;
 
-    @Column(name = "pin_code")
-    private String pinCode;
+	@Column(name = "state", length = 50)
+	private String state;
 
-    @Column(name = "branch_name")
-    private String branchName;
+	@Column(name = "district", length = 50)
+	private String district;
 
-    @Column(name = "pan_no")
-    private String panNo;
+	@Column(name = "aadhar_no", length = 20)
+	private String aadharNo;
 
-    @Column(name = "voter_no")
-    private String voterNo;
+	@Column(name = "pin_code", length = 10)
+	private String pinCode;
 
-    @Column(name = "driving_licence_no")
-    private String drivingLicenceNo;
+	@Column(name = "branch_name", length = 100)
+	private String branchName;
 
-    @Column(name = "referral_code")
-    private String referralCode;
+	@Column(name = "pan_no", length = 20)
+	private String panNo;
 
-    @Column(name = "referral_name")
-    private String referralName;
+	@Column(name = "voter_no", length = 20)
+	private String voterNo;
 
-    @Column(name = "contact_no")
-    private String contactNo;
+	@Column(name = "driving_licence_no", length = 30)
+	private String drivingLicenceNo;
 
-    @Column(name = "email_id")
-    private String emailId;
+	@Column(name = "referral_code", length = 50)
+	private String referralCode;
 
-    @Column(name = "profession")
-    private String profession;
+	@Column(name = "referral_name", length = 100)
+	private String referralName;
 
-    @Column(name = "light_bill")
-    private String lightBill;
+	@Column(name = "contact_no", length = 15)
+	private String contactNo;
 
-    @Column(name = "share_amount")
-    private String shareAmount;
+	@Column(name = "email_id", length = 100)
+	private String emailId;
 
-    @Column(name = "no_of_share")
-    private String noOfShare;
+	@Column(name = "profession", length = 100)
+	private String profession;
 
-    @Column(name = "tax_bill")
-    private String taxBill;
+	@Column(name = "light_bill", length = 100)
+	private String lightBill;
 
-    @Column(name = "academic_background")
-    private String academicBackground;
+	@Column(name = "share_amount", length = 20)
+	private String shareAmount;
 
-    @Column(name = "customer_photo")
-    private String customerPhoto;
+	@Column(name = "no_of_share", length = 10)
+	private String noOfShare;
 
-    @Column(name = "customer_signature")
-    private String customerSignature;
+	@Column(name = "share_value", length = 20)
+	private String shareValue;
 
-    @Column(name = "customer_voter")
-    private String customerVoter;
+	@Column(name = "tax_bill", length = 100)
+	private String taxBill;
 
-    @Column(name = "customer_driving")
-    private String customerDriving;
+	@Column(name = "academic_background", length = 100)
+	private String academicBackground;
 
-    @Column(name = "first_name")
-    private String firstName;
+	@Column(name = "customer_photo")
+	private String customerPhoto;
 
-    @Column(name = "middle_name")
-    private String middleName;
+	@Column(name = "customer_signature")
+	private String customerSignature;
 
-    @Column(name = "last_name")
-    private String lastName;
+	@Column(name = "customer_voter")
+	private String customerVoter;
 
-    // Nominee Details
-    @Column(name = "nominee_name")
-    private String nomineeName;
+	@Column(name = "customer_driving")
+	private String customerDriving;
 
-    @Column(name = "nominee_relation_to_applicant")
-    private String nomineeRelationToApplicant;
+	@Column(name = "first_name", length = 50)
+	private String firstName;
 
-    @Column(name = "nominee_age")
-    private String nomineeAge;
+	@Column(name = "middle_name", length = 50)
+	private String middleName;
 
-    @Column(name = "nominee_address")
-    private String nomineeAddress;
+	@Column(name = "last_name", length = 50)
+	private String lastName;
 
-    @Column(name = "nominee_pan_no")
-    private String nomineePanNo;
+	// Nominee Details
+	@Column(name = "nominee_name", length = 100)
+	private String nomineeName;
 
-    @Column(name = "nominee_kyc_no")
-    private String nomineeKycNo;
+	@Column(name = "nominee_relation_to_applicant", length = 50)
+	private String nomineeRelationToApplicant;
 
-    @Column(name = "nominee_kyc_type")
-    private String nomineeKycType;
+	@Column(name = "nominee_age", length = 5)
+	private String nomineeAge;
 
-    @Column(name = "nominee_mobile_no")
-    private String nomineeMobileNo;
+	@Column(name = "nominee_address", columnDefinition = "TEXT")
+	private String nomineeAddress;
 
-    @Column(name = "nominee_dob")
-    private String nomineeDOB;
+	@Column(name = "nominee_pan_no", length = 20)
+	private String nomineePanNo;
 
-    @Column(name = "nominee_signature")
-    private String nomineSignature;
+	@Column(name = "nominee_kyc_no", length = 50)
+	private String nomineeKycNo;
 
-    @Column(name = "nominee_aadhar")
-    private String nomineAadhar;
+	@Column(name = "nominee_kyc_type", length = 50)
+	private String nomineeKycType;
 
-    // Fees Details
-    @Column(name = "member_fees")
-    private String memberFees;
+	@Column(name = "nominee_mobile_no", length = 15)
+	private String nomineeMobileNo;
 
-    @Column(name = "building_fund")
-    private String buildingFund;
+	@Column(name = "nominee_dob", length = 20)
+	private String nomineeDOB;
 
-    @Column(name = "admin_charge")
-    private String adminCharge;
+	@Column(name = "nominee_signature")
+	private String nomineSignature;
 
-    @Column(name = "document_charge")
-    private String documentCharge;
+	@Column(name = "nominee_aadhar")
+	private String nomineAadhar;
 
-    @Column(name = "other_charge")
-    private String otherCharge;
+	// Fees Details
+	@Column(name = "member_fees", length = 20)
+	private String memberFees;
 
-    @Column(name = "entry_fee")
-    private String entryFee;
+	@Column(name = "building_fund", length = 20)
+	private String buildingFund;
 
-    @Column(name = "cheque_no")
-    private String chequeNo;
+	@Column(name = "admin_charge", length = 20)
+	private String adminCharge;
 
-    @Column(name = "cheque_date")
-    private String chequeDate;
+	@Column(name = "document_charge", length = 20)
+	private String documentCharge;
 
-    @Column(name = "deposit_ac_no")
-    private String depositAcNo;
+	@Column(name = "other_charge", length = 20)
+	private String otherCharge;
 
-    @Column(name = "reference_no")
-    private String referenceNo;
+	@Column(name = "entry_fee", length = 20)
+	private String entryFee;
 
-    @Column(name = "remarks")
-    private String remarks;
+	@Column(name = "cheque_no", length = 30)
+	private String chequeNo;
 
-    @Column(name = "payment_by")
-    private String paymentBy;
+	@Column(name = "cheque_date", length = 20)
+	private String chequeDate;
 
-    @Column(name = "member_status")
-    private int memberStatus;
+	@Column(name = "deposit_ac_no", length = 30)
+	private String depositAcNo;
 
-    @Column(name = "member_banking")
-    private int memberBanking;
+	@Column(name = "reference_no", length = 50)
+	private String referenceNo;
 
-    @Column(name = "net_banking")
-    private int netBanking;
+	@Column(name = "remarks", columnDefinition = "TEXT")
+	private String remarks;
 
-    @Column(name = "sms_send")
-    private int smsSend;
+	@Column(name = "payment_by", length = 20)
+	private String paymentBy;
 
-    @Column(name = "f_date")
-    private String fDate;
+	@Column(name = "member_status")
+	private int memberStatus;
 
-    @Column(name = "t_date")
-    private String tDate;
+	@Column(name = "mobile_banking")
+	private int mobileBanking;
 
-    @Column(name = "is_verified")
-    private boolean isVerified;
+	@Column(name = "net_banking")
+	private int netBanking;
 
-    @Column(name = "is_approved")
-    private boolean isApproved;
+	@Column(name = "sms_send")
+	private int smsSend;
+
+	@Column(name = "f_date", length = 20)
+	private String fDate;
+
+	@Column(name = "t_date", length = 20)
+	private String tDate;
+
+	@Column(name = "is_verified")
+	private boolean isVerified;
+
+	@Column(name = "is_approved")
+	private boolean isApproved;
 
 	public Long getId() {
 		return id;
@@ -306,6 +318,38 @@ public class addCustomer {
 
 	public void setDob(String dob) {
 		this.dob = dob;
+	}
+
+	public String getGuardianAccountNo() {
+		return guardianAccountNo;
+	}
+
+	public void setGuardianAccountNo(String guardianAccountNo) {
+		this.guardianAccountNo = guardianAccountNo;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getCaste() {
+		return caste;
+	}
+
+	public void setCaste(String caste) {
+		this.caste = caste;
+	}
+
+	public String getShareValue() {
+		return shareValue;
+	}
+
+	public void setShareValue(String shareValue) {
+		this.shareValue = shareValue;
 	}
 
 	public String getCustomerAge() {
@@ -724,12 +768,12 @@ public class addCustomer {
 		this.memberStatus = memberStatus;
 	}
 
-	public int getMemberBanking() {
-		return memberBanking;
+	public int getMobileBanking() {
+		return mobileBanking;
 	}
 
-	public void setMemberBanking(int memberBanking) {
-		this.memberBanking = memberBanking;
+	public void setMobileBanking(int mobileBanking) {
+		this.mobileBanking = mobileBanking;
 	}
 
 	public int getNetBanking() {
@@ -780,5 +824,5 @@ public class addCustomer {
 		this.isApproved = isApproved;
 	}
 
-    // Getters and Setters (Omitted for brevity, add all your previous ones here)
+	// Getters and Setters (Omitted for brevity, add all your previous ones here)
 }

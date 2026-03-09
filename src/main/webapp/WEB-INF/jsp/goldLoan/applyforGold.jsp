@@ -211,7 +211,7 @@
 						onchange="photoUpload();"
 						style="background-size: cover; background-repeat: no-repeat" />
 						<div id="img-view">
-							<img src="../images/upload/upload.png" alt="upload_icon"
+							<img src="Uploads/upload.png" alt="upload_icon"
 								id="photoPreview" /> <input type="hidden" id="photoHidden"
 								name="photoHidden">
 
@@ -228,7 +228,7 @@
 						onchange="signatureUpload();"
 						style="background-size: cover; background-repeat: no-repeat" />
 						<div id="img-view">
-							<img src="../images/upload/upload.png" alt="upload_icon"
+							<img src="Uploads/upload.png" alt="upload_icon"
 								id="signaturePreview" /> <input type="hidden"
 								id="signatureHidden" name="signatureHidden">
 
@@ -387,7 +387,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label> CUSTOMER CODE </label>
+						<label>GUARANTOR CUSTOMER CODE </label>
 						<div class="position-relative">
 							<select id="guarantorcustomerCode" name="guarantorcustomerCode"
 								required="required" class="form-control selectField"
@@ -418,7 +418,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">ADDRESS</label>
+						<label for="">GUARANTOR ADDRESS</label>
 						<textarea name="guarantorAddress" id="guarantorAddress"
 							placeholder="ENTER ADDRESS"
 							style="border: 1px solid rgb(224, 224, 224); border-radius: 5px; outline: none; padding: 5px; font-size: 12px;"
@@ -428,7 +428,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">PIN CODE</label> <input type="text"
+						<label for="">GUARANTOR PIN CODE</label> <input type="text"
 							name="guarantorPinCode" id="guarantorPinCode" required="required"
 							placeholder="ENTER PIN CODE" readonly="readonly" />
 					</div>
@@ -446,7 +446,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">SECURITY TYPE</label> <select
+						<label for="">GUARANTOR SECURITY TYPE</label> <select
 							id="guarantorSecurityType" name="guarantorSecurityType"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
@@ -469,7 +469,7 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label> CUSTOMER CODE </label>
+						<label>CO-APPLICANT CUSTOMER CODE </label>
 						<div class="position-relative">
 							<select id="coApplicantMemberId" name="coApplicantMemberId"
 								required="required" class="form-control selectField"
@@ -498,7 +498,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">Address</label>
+						<label for="">CO-APPLICANT Address</label>
 						<textarea name="coApplicantAddress" id="coApplicantAddress"
 							placeholder="ENTER ADDRESS"
 							style="border: 1px solid rgb(224, 224, 224); border-radius: 5px; outline: none; padding: 5px; font-size: 12px;"
@@ -508,7 +508,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">AGE</label> <input type="text" name="coAge"
+						<label for="">CO-APPLICANT AGE</label> <input type="text" name="coAge"
 							id="coAge" required="required" placeholder="ENTER AGE"
 							readonly="readonly" />
 					</div>
@@ -526,7 +526,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">SECURITY TYPE</label> <select id="securityDetails"
+						<label for="">CO-APPLICANT SECURITY TYPE</label> <select id="securityDetails"
 							name="securityDetails" required="required"
 							class="form-control selectField" style="height: 30px;">
 							<option value="Gold">GOLD</option>
