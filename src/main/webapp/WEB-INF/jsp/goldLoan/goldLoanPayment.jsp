@@ -39,7 +39,7 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">LOAN DETAILS </li>
+					<li class="breadcrumb-item action">LOAN DETAILS</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -81,7 +81,8 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">AGE </label> <input type="text" name="age"
-							readonly="readonly" id="age" required="required" placeholder="ENTER AGE" />
+							readonly="readonly" id="age" required="required"
+							placeholder="ENTER AGE" />
 					</div>
 				</div>
 
@@ -152,7 +153,8 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">LOAN MODE</label> <input type="text" name="loanMode"
 							id="loanMode" required="required" readonly="readonly"
-							placeholder="LOAN CATEGORY Category" style="text-transform: uppercase;" />
+							placeholder="LOAN CATEGORY Category"
+							style="text-transform: uppercase;" />
 					</div>
 				</div>
 				<div class="col-lg-3">
@@ -216,12 +218,9 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">ITEM TYPE</label> <select id="itemType"
-							name="itemType" required="required"
-							class="form-control selectField" style="height: 30px;">
-							<option value="">-SELECT-</option>
-							<option value="Gold">GOLD</option>
-						</select>
+						<label for="">ITEM TYPE</label> <input type="text"
+							readonly="readonly" name="itemType" id="itemType"
+							required="required" placeholder="ENTER ITEM TYPE" />
 					</div>
 				</div>
 
@@ -466,7 +465,7 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">DEDUCTION DETAILS </li>
+					<li class="breadcrumb-item action">DEDUCTION DETAILS</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -612,7 +611,7 @@
 		</div>
 		<nav>
 			<ol class="breadcrumb breadcrumb-title">
-				<li class="breadcrumb-item action">PAYMENT DETAILS </li>
+				<li class="breadcrumb-item action">PAYMENT DETAILS</li>
 			</ol>
 		</nav>
 		<div class="row">
