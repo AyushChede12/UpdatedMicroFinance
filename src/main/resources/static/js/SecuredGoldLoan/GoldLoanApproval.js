@@ -46,7 +46,7 @@ $(document).ready(function() {
 		},
 		error: function(xhr, status, error) {
 			console.error("Error fetching Gold Data:", error);
-			alert("Failed to load Gold ID.");
+			//alert("Failed to load Gold ID.");
 		}
 	});
 

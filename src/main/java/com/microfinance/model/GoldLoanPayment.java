@@ -1,9 +1,7 @@
 package com.microfinance.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import java.time.LocalDate;
+import javax.persistence.*;
 
 @Entity
 public class GoldLoanPayment {
@@ -12,61 +10,131 @@ public class GoldLoanPayment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	// -------------------- Customer Details --------------------
+	// ---------------- Customer Details ----------------
+	@Column(length = 50)
 	private String goldID;
+
+	@Column(length = 50)
 	private String customerCode;
+
+	@Column(length = 100)
 	private String customerName;
+
 	private String dateOfBirth;
+
+	@Column(length = 5)
 	private String age;
+
+	@Column(length = 15)
 	private String contactNo;
+
+	@Column(columnDefinition = "TEXT")
 	private String address;
+
+	@Column(length = 10)
 	private String pinCode;
+
+	@Column(length = 100)
 	private String branchName;
 
-	// -------------------- Loan Details --------------------
+	// ---------------- Loan Details ----------------
 	private String goldLoanDate;
+
+	@Column(length = 100)
 	private String loanPlanName;
+
+	@Column(length = 50)
 	private String typeOfLoan;
+
+	@Column(length = 20)
 	private String loanTerm;
+
+	@Column(length = 20)
 	private String loanMode;
+
 	private String rateOfInterest;
+
 	private String loanAmount;
+
+	@Column(length = 30)
 	private String interestType;
+
 	private String emiPayment;
+
+	@Column(columnDefinition = "TEXT")
 	private String purposeOfLoan;
 
-	// -------------------- Gold/Silver Details --------------------
+	// ---------------- Gold Details ----------------
+	@Column(length = 10)
 	private String karat;
+
+	@Column(length = 50)
 	private String itemType;
+
 	private String custgoldRate;
+
+	@Column(length = 100)
 	private String itemName;
+
+	@Column(length = 100)
 	private String lockerBranch;
+
+	@Column(length = 20)
 	private String purity;
+
 	private String itemQty;
+
 	private String itemWt;
+
 	private String grossWt;
+
 	private String stoneWt;
+
 	private String netWt;
+
 	private String marketValuation;
+
 	private String eligibleLoan;
 
-	// -------------------- Guarantor Details --------------------
+	// ---------------- Guarantor ----------------
+	@Column(length = 50)
 	private String guarantorcustomerCode;
+
+	@Column(length = 50)
 	private String guarantorIdentity;
+
+	@Column(columnDefinition = "TEXT")
 	private String guarantorAddress;
+
+	@Column(length = 10)
 	private String guarantorPinCode;
+
+	@Column(length = 15)
 	private String guarantorContactNo;
+
+	@Column(length = 50)
 	private String guarantorSecurityType;
 
-	// -------------------- Co-Applicant Details --------------------
+	// ---------------- Co Applicant ----------------
+	@Column(length = 50)
 	private String coApplicantMemberId;
+
+	@Column(length = 50)
 	private String coApplicantIdentity;
+
+	@Column(columnDefinition = "TEXT")
 	private String coApplicantAddress;
+
+	@Column(length = 5)
 	private String coAge;
+
+	@Column(length = 15)
 	private String coApplicantContactNo;
+
+	@Column(columnDefinition = "TEXT")
 	private String securityDetails;
 
-	// -------------------- Deduction Details --------------------
+	// ---------------- Charges ----------------
 	private String processingFee;
 	private String legalCharges;
 	private String stampDuty;
@@ -79,19 +147,39 @@ public class GoldLoanPayment {
 	private String valuationFees;
 	private String overdueInterestCharge;
 	private String collectionCharge;
+
+	@Column(length = 50)
 	private String financialCode;
+
+	@Column(length = 100)
 	private String financialName;
 
-	// Payment Details
+	// ---------------- Payment ----------------
+	@Column(length = 50)
 	private String paymentDate;
+
+	@Column(length = 20)
 	private String paymentStatus;
+
+	@Column(length = 20)
 	private String modeOfPayment;
+
 	private String chargeDeductCash;
+
+	@Column(columnDefinition = "TEXT")
 	private String remarks;
+
 	private String amountDue;
+
+	@Column(length = 50)
 	private String chequeNo;
+
 	private String chequeDate;
+
+	@Column(length = 50)
 	private String depositAccount;
+
+	@Column(length = 100)
 	private String upiID;
 
 	public Long getId() {
@@ -590,6 +678,30 @@ public class GoldLoanPayment {
 		this.modeOfPayment = modeOfPayment;
 	}
 
+	public String getChargeDeductCash() {
+		return chargeDeductCash;
+	}
+
+	public void setChargeDeductCash(String chargeDeductCash) {
+		this.chargeDeductCash = chargeDeductCash;
+	}
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+
+	public String getAmountDue() {
+		return amountDue;
+	}
+
+	public void setAmountDue(String amountDue) {
+		this.amountDue = amountDue;
+	}
+
 	public String getChequeNo() {
 		return chequeNo;
 	}
@@ -620,30 +732,6 @@ public class GoldLoanPayment {
 
 	public void setUpiID(String upiID) {
 		this.upiID = upiID;
-	}
-
-	public String getChargeDeductCash() {
-		return chargeDeductCash;
-	}
-
-	public void setChargeDeductCash(String chargeDeductCash) {
-		this.chargeDeductCash = chargeDeductCash;
-	}
-
-	public String getRemarks() {
-		return remarks;
-	}
-
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
-	}
-
-	public String getAmountDue() {
-		return amountDue;
-	}
-
-	public void setAmountDue(String amountDue) {
-		this.amountDue = amountDue;
 	}
 
 }
