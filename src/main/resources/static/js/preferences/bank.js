@@ -379,10 +379,14 @@ function updateBank() {
 	formData.append("id", $("#id").val());
 	formData.append("bankName", $("#bankName").val());
 	formData.append("accountNo", $("#accountNo").val());
+	formData.append("ifscCode", $("#ifscCode").val());
+	formData.append("micrCode", $("#micrCode").val());
 	formData.append("contactNo", $("#contactNo").val());
-	formData.append("address", $("#address").val());
 	formData.append("openingDate", $("#openingDate").val());
 	formData.append("openingBalance", $("#openingBalance").val());
+	formData.append("closingDate", $("#closingDate").val());
+	formData.append("address", $("#address").val());
+	
 
 	// 👇 add file if selected
 	let chequeFile = $("#cancelledCheque")[0].files[0];

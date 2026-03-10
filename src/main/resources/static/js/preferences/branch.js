@@ -150,14 +150,28 @@ function loadBranchData() {
 		url: "api/preference/getAllBranchModule",
 		contentType: "application/json",
 		success: function(response) {
-			if (response.status === "FOUND") {
+			console.log("Response:", response);
+
+			// If response has data property and it's array
+			if (response.data && Array.isArray(response.data)) {
 				totalDataBranch = response.data;
-				currentPageBranch = 1; // Reset to first page
-				renderBranchTable(currentPageBranch);
-				togglePageNavigationBranch();
-			} else {
-				alert("Failed to fetch data: " + response.message);
 			}
+			// If response itself is array
+			else if (Array.isArray(response)) {
+				totalDataBranch = response;
+			}
+			// If status is boolean true
+			else if (response.status === true && response.data) {
+				totalDataBranch = response.data;
+			}
+			else {
+				alert("No Data Found from API");
+				return;
+			}
+
+			currentPageBranch = 1;
+			renderBranchTable(currentPageBranch);
+			togglePageNavigationBranch();
 		},
 		error: function() {
 			alert("Error while calling the API.");

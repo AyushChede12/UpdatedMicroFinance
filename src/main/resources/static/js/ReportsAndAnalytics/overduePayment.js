@@ -71,12 +71,11 @@ $(document).ready(function () {
         let branch = $('#branchName1').val();
         let policy = $('#loanPlanName').val();
         let financialCode = $('#financialCode').val().trim().toUpperCase();
-        let toDate = $('#toDate').val(); // FIXED
+        let toDate = $('#toDate').val();
 
         loadApprovedLoanApplications(branch, policy, financialCode, toDate);
 
     });
-
 
 });
 
@@ -230,14 +229,21 @@ $(document).on("click", ".printBtn", function () {
             <title>Loan Report</title>
             <style>
                 body{font-family:Arial;padding:20px}
-                h2{text-align:center}
+                h2{text-align:center;margin-bottom:5px}
+                h4{text-align:center;margin-top:0}
+                p{text-align:center;margin:2px}
                 table{width:100%;border-collapse:collapse;margin-top:20px}
                 td,th{border:1px solid #000;padding:8px;text-align:left}
             </style>
         </head>
         <body>
 
-            <h2>Loan Overdue Report</h2>
+            <h2>CO OPERATIVE SOCIETY LTD NAGPUR</h2>
+            <p>PLOT NO 497 NEW NANDANWAN</p>
+            <p>MAHARASHTRA - 440024</p>
+            <p>CIN : ASJ#567 | Email : example@gmail.com | Helpline : 9566200223</p>
+
+            <h4>Loan Overdue Report</h4>
 
             <table>
                 <tr><th>Loan ID</th><td>${loanId}</td></tr>

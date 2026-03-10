@@ -225,3 +225,246 @@ function openPrintModal(id) {
     });
 }
 
+function openPrintModal(id) {
+
+    if (!id) {
+        alert("Invalid policy ID");
+        return;
+    }
+
+    $.ajax({
+        url: "api/reports/getPolicyForPrint/" + id,
+        type: "GET",
+        success: function (data) {
+
+            let printWindow = window.open('', '', 'width=900,height=700');
+
+            printWindow.document.write(`
+
+<html>
+<head>
+<title>Policy Report</title>
+
+<style>
+
+body{
+font-family: Arial;
+padding:40px;
+color:#000;
+}
+
+.header{
+text-align:center;
+line-height:1.6;
+}
+
+.company{
+font-size:24px;
+font-weight:bold;
+}
+
+.address{
+font-size:14px;
+}
+
+.hr{
+border-top:2px solid black;
+margin:15px 0 25px;
+}
+
+.title{
+text-align:center;
+font-size:18px;
+font-weight:bold;
+margin-bottom:25px;
+}
+
+.section{
+font-size:16px;
+font-weight:bold;
+margin:20px 0 10px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-bottom:20px;
+}
+
+td,th{
+border:1px solid #000;
+padding:8px;
+font-size:14px;
+}
+
+.label{
+font-weight:bold;
+background:#f3f3f3;
+width:220px;
+}
+
+.footer{
+margin-top:60px;
+display:flex;
+justify-content:space-between;
+}
+
+.sign{
+text-align:center;
+width:200px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+<div class="company">
+CO OPERATIVE SOCIETY LTD NAGPUR
+</div>
+
+<div class="address">
+PLOT NO 497 NEW NANDANWAN
+</div>
+
+<div class="address">
+MAHARASHTRA - 440024
+</div>
+
+<div class="address">
+CIN : ASJ#567 | Email : example@gmail.com | Helpline : 9566200223
+</div>
+
+</div>
+
+<div class="hr"></div>
+
+<div class="title">
+POLICY INVESTMENT REPORT
+</div>
+
+
+<div class="section">Customer Details</div>
+
+<table>
+
+<tr>
+<td class="label">Customer Name</td>
+<td>${data.customerName || "-"}</td>
+</tr>
+
+<tr>
+<td class="label">Contact Number</td>
+<td>${data.contactNo || "-"}</td>
+</tr>
+
+<tr>
+<td class="label">Address</td>
+<td>${data.address || "-"}</td>
+</tr>
+
+<tr>
+<td class="label">City</td>
+<td>${data.city || "-"}</td>
+</tr>
+
+</table>
+
+
+
+<div class="section">Policy Details</div>
+
+<table>
+
+<tr>
+<td class="label">Policy Code</td>
+<td>${data.policyCode || "-"}</td>
+</tr>
+
+<tr>
+<td class="label">Policy Date</td>
+<td>${data.policyStartDate || "-"}</td>
+</tr>
+
+<tr>
+<td class="label">Scheme Type</td>
+<td>${data.schemeType || "-"}</td>
+</tr>
+
+<tr>
+<td class="label">Policy Amount</td>
+<td>₹ ${data.policyAmount || "0"}</td>
+</tr>
+
+<tr>
+<td class="label">Payment Mode</td>
+<td>${data.paymentMode || "-"}</td>
+</tr>
+
+</table>
+
+
+
+<div class="section">Transaction Summary</div>
+
+<table>
+
+<thead>
+<tr>
+<th>Policy Code</th>
+<th>Date</th>
+<th>Amount</th>
+<th>Scheme</th>
+<th>Payment Mode</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td>${data.policyCode || "-"}</td>
+<td>${data.policyStartDate || "-"}</td>
+<td>${data.policyAmount || "-"}</td>
+<td>${data.schemeType || "-"}</td>
+<td>${data.paymentMode || "-"}</td>
+</tr>
+
+</tbody>
+
+</table>
+
+
+
+<div class="footer">
+
+<div class="sign">
+____________________  
+Branch Manager
+</div>
+
+<div class="sign">
+____________________  
+Authorized Signatory
+</div>
+
+</div>
+
+<script>
+window.print();
+</script>
+
+</body>
+</html>
+
+            `);
+
+            printWindow.document.close();
+        },
+        error: function () {
+            alert("Failed to load print data");
+        }
+    });
+}

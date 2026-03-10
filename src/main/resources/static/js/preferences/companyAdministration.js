@@ -309,7 +309,7 @@ $(document).ready(function() {
                 <label for="${uniqueId}">
                     <input type="file" id="${uniqueId}" hidden accept="image/*" onchange="previewImage('${uniqueId}')">
                     <div>
-                        <img src="../images/upload/upload.png" id="preview-${uniqueId}" style="width:120px;">
+                        <img src="Uploads/upload.png" id="preview-${uniqueId}" style="width:120px;">
                     </div>
                 </label>
             </div>
