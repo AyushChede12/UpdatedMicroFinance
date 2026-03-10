@@ -640,12 +640,8 @@
 					<select id="modeofPayment" name="modeofPayment" required="required"
 						class="form-control selectField" style="height: 30px;">
 						<option value="">ENTER MODE OF PAYMENT</option>
-						<option value="Cash">CASH</option>
 						<option value="Online">ONLINE</option>
-						<option value="Cheque">CHEQUE</option>
 						<option value="NEFT">NEFT</option>
-
-
 					</select>
 				</div>
 			</div>
@@ -690,7 +686,7 @@
 				</div>
 			</div>
 
-			<div class="col-lg-3">
+			<!-- <div class="col-lg-3">
 				<div class="d-flex flex-column formFields mb-4">
 					<label for="">CHEG. DEDUCT CASH</label> <select
 						id="chargDeductCash" name="chargDeductCash" required="required"
@@ -701,7 +697,7 @@
 
 					</select>
 				</div>
-			</div>
+			</div> -->
 
 			<div class="col-lg-3">
 				<div class="d-flex flex-column formFields mb-4">
