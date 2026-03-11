@@ -227,7 +227,11 @@ $(document).ready(function() {
 			modeOfPayment: $("#modeOfPayment").val(),
 			chargeDeductCash: $("#chargeDeductCash").val(),
 			remarks: $("#remarks").val(),
-			amountDue: $("#amountDue").val()
+			amountDue: $("#amountDue").val(),
+			chequeNo: $("#chequeNo").val(),
+			chequeDate: $("#chequeDate").val(),
+			depositAccount: $("#depositAccount").val(),
+			upiID: $("#refNo").val()
 		};
 
 		// ---- VALIDATION ----
