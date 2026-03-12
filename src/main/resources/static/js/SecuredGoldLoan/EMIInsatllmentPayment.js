@@ -80,16 +80,16 @@ $(document).ready(function() {
 
 						let installmentDropdown = $("#installment");
 
-						   installmentDropdown.empty(); // Clear previous options
-						   installmentDropdown.append(`<option value="">-SELECT INSTALLMENT-</option>`);
+						installmentDropdown.empty(); // Clear previous options
+						installmentDropdown.append(`<option value="">-SELECT INSTALLMENT-</option>`);
 
-						   if (!isNaN(term) && term > 0) {
-						       for (let i = 1; i <= term; i++) {
-						           installmentDropdown.append(
-						               `<option value="${i}">INSTALLMENT ${i}</option>`
-						           );
-						       }
-						   }
+						if (!isNaN(term) && term > 0) {
+							for (let i = 1; i <= term; i++) {
+								installmentDropdown.append(
+									`<option value="${i}">INSTALLMENT ${i}</option>`
+								);
+							}
+						}
 
 					} else {
 						alert("No customer found for this member code.");
@@ -101,71 +101,138 @@ $(document).ready(function() {
 			});
 		}
 	});
-	
-	// ---------------- ON INSTALLMENT CHANGE CALCULATION ----------------
-	$("#installment").change(function () {
 
-	    let installmentNo = Number($(this).val());
-	    if (!installmentNo) return;
+	// ---------------- INSTALLMENT CHANGE ----------------
+	$("#installment").change(function() {
 
-	    // Loan details already filled in inputs from backend
-	    let loanAmount = Number($("#loanAmount").val());
-	    let rateOfInterest = Number($("#rateOfInterest").val()); // yearly %
-	    let loanTerm = Number($("#loanTerm").val());
-	    let loanDate = $("#loanDate").val();
+		let installmentNo = Number($(this).val());
+		if (!installmentNo) return;
+		
+		let paidInstallments = Number($("#paidInstallments").val());
 
-	    // ---------------- BASIC VALUES ----------------
-	    let monthlyInterestRate = (rateOfInterest / 100) / 12;
-	    let emi = Math.round(loanAmount / loanTerm);   // Simple EMI
+		if (installmentNo <= paidInstallments) {
 
-	    // ---------------- CALCULATE FOR SELECTED INSTALLMENT ----------------
-	    let remainingPrincipal = loanAmount;
-	    let totalInterestPaid = 0;
-	    let totalPrincipalPaid = 0;
+		    $("#dueAmount").val("PAID");
+		    $("#pendingInterest").val("PAID");
+		    $("#pendingPrincipal").val("PAID");
 
-	    for (let i = 1; i <= installmentNo; i++) {
+		    return;
+		}
 
-	        let interestForMonth = Math.round(remainingPrincipal * monthlyInterestRate);
-	        let principalForMonth = emi - interestForMonth;
+		let loanAmount = Number($("#loanAmount").val());
+		let rateOfInterest = Number($("#rateOfInterest").val());
+		let loanTerm = Number($("#loanTerm").val());
+		let loanDate = $("#loanDate").val();
+		let interestType = $("#interestType").val();
 
-	        if (principalForMonth < 0) principalForMonth = 0;
+		if (installmentNo > loanTerm) return;
 
-	        totalInterestPaid += interestForMonth;
-	        totalPrincipalPaid += principalForMonth;
+		let pendingPrincipal = loanAmount;
+		let pendingInterest = 0;
+		let emi = 0;
 
-	        remainingPrincipal -= principalForMonth;
-	        if (remainingPrincipal < 0) remainingPrincipal = 0;
-	    }
+		// ---------------- FLAT INTEREST ----------------
+		if (interestType === "FLAT INTEREST") {
 
-	    // --------- Final Values to Display ----------
-	    let pendingInterest = Math.round((loanAmount * monthlyInterestRate * loanTerm) - totalInterestPaid);
-	    if (pendingInterest < 0) pendingInterest = 0;
+			let totalInterest = (loanAmount * rateOfInterest * loanTerm) / (100 * 12);
+			let monthlyInterest = totalInterest / loanTerm;
 
-	    let pendingPrincipal = Math.round(remainingPrincipal);
-	    let dueAmount = emi;
+			emi = (loanAmount + totalInterest) / loanTerm;
+			emi = Number(emi.toFixed(2));
 
-	    // ---------- REGISTRATION DATE (loanDate + installmentNo months) ----------
-	    let d = new Date(loanDate);
-	    d.setMonth(d.getMonth() + installmentNo);
-	    let formattedDate = d.toISOString().split("T")[0];
+			let principalPart = emi - monthlyInterest;
 
-	    // ----------- SET VALUES TO INPUT FIELDS ----------
-	    $("#registrationDate").val(formattedDate);
-	    $("#dueAmount").val(dueAmount);
-	    $("#pendingInterest").val(pendingInterest);
-	    $("#pendingPrincipal").val(pendingPrincipal);
+			let totalInterestPaid = monthlyInterest * installmentNo;
+			let totalPrincipalPaid = principalPart * installmentNo;
+
+			pendingInterest = totalInterest - totalInterestPaid;
+			pendingPrincipal = loanAmount - totalPrincipalPaid;
+		}
+
+		// ---------------- REDUCING INTEREST ----------------
+		else if (interestType === "REDUCING INTEREST") {
+
+			let monthlyInterestRate = (rateOfInterest / 100) / 12;
+
+			emi = loanAmount * monthlyInterestRate *
+				Math.pow(1 + monthlyInterestRate, loanTerm) /
+				(Math.pow(1 + monthlyInterestRate, loanTerm) - 1);
+
+			emi = Number(emi.toFixed(2));
+
+			let remainingPrincipal = loanAmount;
+			let totalInterestPaid = 0;
+
+			for (let i = 1; i <= installmentNo; i++) {
+
+				let interestForMonth = remainingPrincipal * monthlyInterestRate;
+				let principalForMonth = emi - interestForMonth;
+
+				totalInterestPaid += interestForMonth;
+				remainingPrincipal -= principalForMonth;
+
+				if (remainingPrincipal < 0) remainingPrincipal = 0;
+			}
+
+			pendingPrincipal = remainingPrincipal;
+
+			let totalInterest = (emi * loanTerm) - loanAmount;
+			pendingInterest = totalInterest - totalInterestPaid;
+		}
+
+		// ---------------- RULE OF 78 ----------------
+		else if (interestType === "RULE 78") {
+
+			let totalInterest = (loanAmount * rateOfInterest * loanTerm) / (100 * 12);
+
+			emi = (loanAmount + totalInterest) / loanTerm;
+			emi = Number(emi.toFixed(2));
+
+			let sumOfDigits = (loanTerm * (loanTerm + 1)) / 2;
+
+			let interestPaid = 0;
+
+			for (let i = 1; i <= installmentNo; i++) {
+
+				let weight = loanTerm - i + 1;
+				let interestForMonth = (totalInterest * weight) / sumOfDigits;
+
+				interestPaid += interestForMonth;
+			}
+
+			pendingInterest = totalInterest - interestPaid;
+
+			let principalPaid = (emi * installmentNo) - interestPaid;
+			pendingPrincipal = loanAmount - principalPaid;
+		}
+
+		// ---------------- NEGATIVE PROTECTION ----------------
+		if (pendingInterest < 0) pendingInterest = 0;
+		if (pendingPrincipal < 0) pendingPrincipal = 0;
+
+		// ---------------- REGISTRATION DATE ----------------
+		let d = new Date(loanDate);
+		d.setMonth(d.getMonth() + installmentNo);
+
+		let formattedDate = d.toISOString().split("T")[0];
+
+		// ---------------- SET VALUES ----------------
+		$("#registrationDate").val(formattedDate);
+		$("#dueAmount").val(emi.toFixed(2));
+		$("#pendingInterest").val(pendingInterest.toFixed(2));
+		$("#pendingPrincipal").val(pendingPrincipal.toFixed(2));
 
 	});
-	
-	$("#saveBtn").click(function () {
 
-	    // Collect data from your form fields
-	    let emiData = {
-	        goldID: $("#findByGoldLoanId").val(),
-	        loanDate: $("#loanDate").val(),
-	        customerCode: $("#customerCode").val(),
-	        customerName: $("#customerName").val(),
-	        loanPlanName: $("#loanPlanName").val(),
+	$("#saveBtn").click(function() {
+
+		// Collect data from your form fields
+		let emiData = {
+			goldID: $("#findByGoldLoanId").val(),
+			loanDate: $("#loanDate").val(),
+			customerCode: $("#customerCode").val(),
+			customerName: $("#customerName").val(),
+			loanPlanName: $("#loanPlanName").val(),
 			interestType: $("#interestType").val(),
 			loanMode: $("#loanMode").val(),
 			loanTerm: $("#loanTerm").val(),
@@ -175,7 +242,7 @@ $(document).ready(function() {
 			contactNo: $("#contactNo").val(),
 			loanAmount: $("#loanAmount").val(),
 			branchName: $("#branchName").val(),
-			
+
 			//Payment Details
 			installment: $("#installment").val(),
 			registrationDate: $("#registrationDate").val(),
@@ -184,35 +251,35 @@ $(document).ready(function() {
 			pendingPrincipal: $("#pendingPrincipal").val(),
 			totalDue: $("#totalDue").val(),
 			paymentAmount: $("#paymentAmount").val(),
-			paymentDate: $("#paymentDate").val(),
+			paymentDate: $("#PaymentDate").val(),
 			netAmount: $("#netAmount").val(),
-			paymentMode: $("#paymentMode").val(),
-			financialCode: $("#financialCode").val(),
-			financialName: $("#financialName").val(),
+			paymentMode: $("#modeofPayment").val(),
+			financialCode: $("#financialConsultantId").val(),
+			financialName: $("#financialConsultantName").val(),
 			remarks: $("#remarks").val(),
-	    };
+		};
 
-	    console.log("Sending EMI Data: ", emiData);
+		console.log("Sending EMI Data: ", emiData);
 
-	    $.ajax({
-	        url: "api/securedGoldLoan/saveEMIInstallmentData",
-	        type: "POST",
-	        contentType: "application/json",
-	        data: JSON.stringify(emiData),
-	        success: function (res) {
-	            if (res.status === "OK") {
-	                alert(res.data);
+		$.ajax({
+			url: "api/securedGoldLoan/saveEMIInstallmentData",
+			type: "POST",
+			contentType: "application/json",
+			data: JSON.stringify(emiData),
+			success: function(res) {
+				if (res.status === "OK") {
+					alert(res.data);
 					location.reload();
-	            } else {
-	                alert(res.data);
-	            }
-	        },
+				} else {
+					alert(res.data);
+				}
+			},
 
-	        error: function (xhr) {
-	            alert(xhr);
-	            console.error(xhr);
-	        }
-	    });
+			error: function(xhr) {
+				alert(xhr);
+				console.error(xhr);
+			}
+		});
 
 	});
 
