@@ -147,6 +147,10 @@ $(document).ready(function() {
 
 			pendingInterest = totalInterest - totalInterestPaid;
 			pendingPrincipal = loanAmount - totalPrincipalPaid;
+			sessionStorage.setItem("pendingPrincipal", pendingPrincipal);
+			sessionStorage.setItem("monthlyInterest", monthlyInterest);
+			sessionStorage.setItem("installmentNo", installmentNo);
+			sessionStorage.setItem("loanAmount", loanAmount);
 		}
 
 		// ---------------- REDUCING INTEREST ----------------

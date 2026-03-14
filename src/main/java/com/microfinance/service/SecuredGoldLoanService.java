@@ -506,4 +506,8 @@ public class SecuredGoldLoanService {
 		return new ApiResponse(HttpStatus.OK, "SUCCESS", "Installment Saved & Balance Updated");
 	}
 
+	public List<EmiInstallmentPaymentGold> getEMIInstallmentGoldByID(String goldID) {
+		return emiRepo.findByGoldID(goldID);
+	}
+
 }
