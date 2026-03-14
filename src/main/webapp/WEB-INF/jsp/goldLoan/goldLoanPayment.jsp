@@ -630,10 +630,25 @@
 						name="paymentStatus" id="paymentStatus" readonly
 						style="color: red; font-weight: bold; font-size: 12px; text-transform: uppercase;"
 						required="required" />
-
-
 				</div>
 			</div>
+
+			<div class="col-lg-3">
+				<div class="d-flex flex-column formFields mb-4">
+					<label for="">PAYMENT AMOUNT</label> <input type="text"
+						name="paymentAmount" id="paymentAmount" required="required"
+						placeholder="ENTER PAYMENT AMOUNT" />
+				</div>
+			</div>
+
+			<div class="col-lg-3">
+				<div class="d-flex flex-column formFields mb-4">
+					<label for="loanName">AMOUNT DUE</label> <input type="text"
+						name="noOfInst" id="noOfInst" required="required"
+						style="text-transform: uppercase;" />
+				</div>
+			</div>
+
 			<div class="col-lg-3">
 				<div class="d-flex flex-column formFields">
 					<label for="referenceCode">MODE OF PAYMENT <span id="star">*</span></label>
@@ -706,16 +721,6 @@
 						style="text-transform: uppercase;" />
 				</div>
 			</div>
-
-			<div class="col-lg-3">
-				<div class="d-flex flex-column formFields mb-4">
-					<label for="loanName">AMOUNT DUE</label> <input type="text"
-						name="noOfInst" id="noOfInst" required="required"
-						style="text-transform: uppercase;" />
-				</div>
-			</div>
-
-
 
 
 			<div class="col-12 text-center">
