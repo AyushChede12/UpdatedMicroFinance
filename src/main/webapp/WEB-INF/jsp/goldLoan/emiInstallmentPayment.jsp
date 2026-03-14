@@ -6,7 +6,7 @@
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-cash-coin"></i>
 			</a></li>
-			<li class="breadcrumb-item action">EMI INSTALLMENT PAYMENT </li>
+			<li class="breadcrumb-item action">EMI INSTALLMENT PAYMENT</li>
 		</ol>
 	</nav>
 </div>
@@ -260,15 +260,14 @@
 							required="required" class="form-control selectField"
 							style="height: 30px;">
 							<option value="">ENTER MODE OF PAYMENT</option>
-							<option value="Cash">CASH</option>
 							<option value="Online">ONLINE</option>
-							<option value="Cheque">CHEQUE</option>
 							<option value="NEFT">NEFT</option>
 
 
 						</select>
 					</div>
 				</div>
+
 
 
 				<!-- <div class="col-lg-3">

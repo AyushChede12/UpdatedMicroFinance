@@ -13,6 +13,7 @@ public class EmiInstallmentPaymentGold {
 	private Long id;
 
 	private String goldID;
+	private String paidInstallments;
 	private String loanDate;
 	private String customerCode;
 	private String customerName;
@@ -56,6 +57,14 @@ public class EmiInstallmentPaymentGold {
 
 	public void setGoldID(String goldID) {
 		this.goldID = goldID;
+	}
+
+	public String getPaidInstallments() {
+		return paidInstallments;
+	}
+
+	public void setPaidInstallments(String paidInstallments) {
+		this.paidInstallments = paidInstallments;
 	}
 
 	public String getLoanDate() {
