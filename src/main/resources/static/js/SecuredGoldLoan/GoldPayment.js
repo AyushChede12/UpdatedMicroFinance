@@ -270,10 +270,10 @@ function fetchEMIValues() {
 
 	var loanAmount = Number($("#loanAmount").val()) || 0;
 	var rateOfInterest = Number($("#rateOfInterest").val()) || 0;
-	var loanTerm = Number($("#loanTerm").val()) || 0;
+	//var loanTerm = Number($("#loanTerm").val()) || 0;
 
-	let totalInterest = (loanAmount * rateOfInterest * loanTerm) / (100 * 12);
-	let monthlyInterest = totalInterest / loanTerm;
+	let monthlyInterest = (loanAmount * rateOfInterest) / (100 * 12);
+	//let monthlyInterest = totalInterest / loanTerm;
 
 	$.ajax({
 		url: "api/securedGoldLoan/getEMIInstallmentDataByGoldID",
