@@ -257,7 +257,7 @@ $(document).ready(function() {
 			},
 
 			error: function() {
-				alert("Error: Something went wrong!");  // ✔ Error message
+				alert("Warning: " + response.message);  // ✔ Error message
 			}
 		});
 	});
