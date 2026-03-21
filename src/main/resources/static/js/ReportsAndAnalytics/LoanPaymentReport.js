@@ -1,11 +1,11 @@
-$(document).ready(function () {
+$(document).ready(function() {
 	let allPaymentData = [];
 
 	// ✅ 1. Fetch all approved loan applications on page load
 	$.ajax({
 		url: "api/reports/getLoanPaymentReport",
 		method: "GET",
-		success: function (response) {
+		success: function(response) {
 			console.log("API Response:", response);
 
 			if (response && response.data && Array.isArray(response.data)) {
@@ -26,13 +26,13 @@ $(document).ready(function () {
 				$(".datatable tbody").html("<tr><td colspan='10'>No LoanPayment found.</td></tr>");
 			}
 		},
-		error: function () {
+		error: function() {
 			alert("Error while fetching loan payment.");
 		}
 	});
 
 	// ✅ 2. Filter on Find button click
-	$('#findBtn').click(function (e) {
+	$('#findBtn').click(function(e) {
 		e.preventDefault();
 
 		const loanId = $('#loanId').val();
@@ -87,67 +87,68 @@ $(document).ready(function () {
 		});
 
 		// ✅ Handle print popup
-		$(".printPopupBtn").click(function () {
+		$(".printPopupBtn").click(function() {
 			const id = $(this).data("id");
 			const selectedPolicy = allPaymentData.find(p => p.id === id);
 
 			if (selectedPolicy) {
 				let html = `
 					<h4 class="text-center mb-4">Loan Payment Full Details</h4>
-					<div class="row">
-						${createField("Loan ID", selectedPolicy.loanId)}
-						${createField("Loan Date", selectedPolicy.loanDate)}
-						${createField("Member ID", selectedPolicy.memberId)}
-						${createField("Relative Details", selectedPolicy.relativeDetails)}
-						${createField("Date of Birth", selectedPolicy.dateOfBirth)}
-						${createField("Age", selectedPolicy.age)}
-						${createField("Contact No", selectedPolicy.contactNo)}
-						${createField("Message Status", selectedPolicy.messageStatus)}
-						${createField("Address", selectedPolicy.address)}
-						${createField("Pin Code", selectedPolicy.pinCode)}
-						${createField("Branch Name", selectedPolicy.branchName)}
-						${createField("Loan Plan Name", selectedPolicy.loanPlanName)}
-						${createField("Type Of Loan", selectedPolicy.typeOfLoan)}
-						${createField("Loan Mode", selectedPolicy.loanMode)}
-						${createField("Loan Term", selectedPolicy.loanTerm)}
-						${createField("Rate Of Interest", selectedPolicy.rateOfInterest)}
-						${createField("Loan Amount", selectedPolicy.loanAmount)}
-						${createField("Interest Type", selectedPolicy.interestType)}
-						${createField("EMI Payment", selectedPolicy.emiPayment)}
-						${createField("Purpose Of Loan", selectedPolicy.purposeOfLoan)}
-						${createField("Guarantor Member ID", selectedPolicy.guarantorMemberId)}
-						${createField("Guarantor Identity", selectedPolicy.guarantorIdentity)}
-						${createField("Guarantor Address", selectedPolicy.guarantorAddress)}
-						${createField("Guarantor Pin Code", selectedPolicy.guarantorPinCode)}
-						${createField("Guarantor Contact No", selectedPolicy.guarantorContactNo)}
-						${createField("Guarantor Security Type", selectedPolicy.guarantorSecurityType)}
-						${createField("Co-Applicant Member ID", selectedPolicy.coApplicantMemberId)}
-						${createField("Co-Applicant Identity", selectedPolicy.coApplicantIdentity)}
-						${createField("Co-Applicant Address", selectedPolicy.coApplicantAddress)}
-						${createField("Co-Applicant Pin Code", selectedPolicy.coApplicantPinCode)}
-						${createField("Co-Applicant Contact No", selectedPolicy.coApplicantContactNo)}
-						${createField("Co-Applicant Security Type", selectedPolicy.coApplicantSecurityType)}
-						${createField("Processing Fee", selectedPolicy.processingFee)}
-						${createField("Legal Charges", selectedPolicy.legalCharges)}
-						${createField("GST", selectedPolicy.gst)}
-						${createField("Insurance Fee", selectedPolicy.insuranceFee)}
-						${createField("Valuation Fees", selectedPolicy.valuationFees)}
-						${createField("Stationary Fee", selectedPolicy.stationaryFee)}
-						${createField("Financial Consultant ID", selectedPolicy.financialConsultantId)}
-						${createField("Financial Consultant Name", selectedPolicy.financialConsultantName)}
-						${createField("Approval Date", selectedPolicy.approvalDate)}
-						${createField("Photo", selectedPolicy.photo)}
-						${createField("Signature", selectedPolicy.signature)}
-						${createField("Payment Date", selectedPolicy.paymentDate)}
-						${createField("Payment Status", selectedPolicy.paymentStatus)}
-						${createField("Payment Mode", selectedPolicy.paymentMode)}
-						${createField("Account No", selectedPolicy.accountNo)}
-						${createField("Ref/UPI ID", selectedPolicy.ref_UpiId)}
-						${createField("Charges", selectedPolicy.charges)}
-						${createField("Remarks", selectedPolicy.remarks)}
-						${createField("Cheque Date", selectedPolicy.chequeDate)}
-						${createField("Cheque No", selectedPolicy.chequeNo)}
-					</div>
+
+					<table class="table table-bordered table-striped">
+						<tr>
+							<th>Field</th>
+							<th>Details</th>
+						</tr>
+
+						<tr><td>Loan ID</td><td>${selectedPolicy.loanId || ''}</td></tr>
+						<tr><td>Loan Date</td><td>${selectedPolicy.loanDate || ''}</td></tr>
+						<tr><td>Member ID</td><td>${selectedPolicy.memberId || ''}</td></tr>
+						<tr><td>Relative Details</td><td>${selectedPolicy.relativeDetails || ''}</td></tr>
+						<tr><td>Date of Birth</td><td>${selectedPolicy.dateOfBirth || ''}</td></tr>
+						<tr><td>Age</td><td>${selectedPolicy.age || ''}</td></tr>
+						<tr><td>Contact No</td><td>${selectedPolicy.contactNo || ''}</td></tr>
+						<tr><td>Message Status</td><td>${selectedPolicy.messageStatus || ''}</td></tr>
+						<tr><td>Address</td><td>${selectedPolicy.address || ''}</td></tr>
+						<tr><td>Pin Code</td><td>${selectedPolicy.pinCode || ''}</td></tr>
+						<tr><td>Branch Name</td><td>${selectedPolicy.branchName || ''}</td></tr>
+
+						<tr><td>Loan Plan Name</td><td>${selectedPolicy.loanPlanName || ''}</td></tr>
+						<tr><td>Type Of Loan</td><td>${selectedPolicy.typeOfLoan || ''}</td></tr>
+						<tr><td>Loan Mode</td><td>${selectedPolicy.loanMode || ''}</td></tr>
+						<tr><td>Loan Term</td><td>${selectedPolicy.loanTerm || ''}</td></tr>
+						<tr><td>Rate Of Interest</td><td>${selectedPolicy.rateOfInterest || ''}</td></tr>
+						<tr><td>Loan Amount</td><td>${selectedPolicy.loanAmount || ''}</td></tr>
+						<tr><td>Interest Type</td><td>${selectedPolicy.interestType || ''}</td></tr>
+						<tr><td>EMI Payment</td><td>${selectedPolicy.emiPayment || ''}</td></tr>
+
+						<tr><td>Guarantor Member ID</td><td>${selectedPolicy.guarantorMemberId || ''}</td></tr>
+						<tr><td>Guarantor Identity</td><td>${selectedPolicy.guarantorIdentity || ''}</td></tr>
+						<tr><td>Guarantor Address</td><td>${selectedPolicy.guarantorAddress || ''}</td></tr>
+						<tr><td>Guarantor Contact</td><td>${selectedPolicy.guarantorContactNo || ''}</td></tr>
+
+						<tr><td>Co-Applicant Member ID</td><td>${selectedPolicy.coApplicantMemberId || ''}</td></tr>
+						<tr><td>Co-Applicant Identity</td><td>${selectedPolicy.coApplicantIdentity || ''}</td></tr>
+						<tr><td>Co-Applicant Address</td><td>${selectedPolicy.coApplicantAddress || ''}</td></tr>
+
+						<tr><td>Processing Fee</td><td>${selectedPolicy.processingFee || ''}</td></tr>
+						<tr><td>Legal Charges</td><td>${selectedPolicy.legalCharges || ''}</td></tr>
+						<tr><td>GST</td><td>${selectedPolicy.gst || ''}</td></tr>
+
+						<tr><td>Financial Consultant</td><td>${selectedPolicy.financialConsultantName || ''}</td></tr>
+
+						<tr><td>Payment Date</td><td>${selectedPolicy.paymentDate || ''}</td></tr>
+						<tr><td>Payment Status</td><td>${selectedPolicy.paymentStatus || ''}</td></tr>
+						<tr><td>Payment Mode</td><td>${selectedPolicy.paymentMode || ''}</td></tr>
+
+						<tr><td>Account No</td><td>${selectedPolicy.accountNo || ''}</td></tr>
+						<tr><td>UPI Ref</td><td>${selectedPolicy.ref_UpiId || ''}</td></tr>
+
+						<tr><td>Remarks</td><td>${selectedPolicy.remarks || ''}</td></tr>
+						<tr><td>Cheque Date</td><td>${selectedPolicy.chequeDate || ''}</td></tr>
+						<tr><td>Cheque No</td><td>${selectedPolicy.chequeNo || ''}</td></tr>
+
+					</table>
 				`;
 				$("#modalDataContainer").html(html);
 			}
@@ -164,161 +165,108 @@ $(document).ready(function () {
 	}
 
 	// ✅ 4. Print modal data
-	$("#printBtn").click(function () {
+	$(document).off("click", "#printBtn").on("click", "#printBtn", function () {
+
 		const content = document.getElementById("modalDataContainer").innerHTML;
-		const printWindow = window.open('', '', 'width=900,height=700');
+
+		const printWindow = window.open('', '', 'width=1000,height=800');
 
 		printWindow.document.write(`
-			<html>
-			<head>
-				<title>Print</title>
-				<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-				<style>
-					body { font-family: Arial; padding: 30px; background: #fff; color: #000; }
-					.print-container { width: 100%; margin: auto; }
-					.heading { text-align: center; margin-bottom: 30px; font-size: 24px; font-weight: bold; border-bottom: 2px solid #000; padding-bottom: 10px; }
-					.row { display: flex; flex-wrap: wrap; }
-					.col-md-6 { width: 50%; padding: 10px 15px; box-sizing: border-box; }
-				</style>
-			</head>
-			<body>
-				<div class="print-container">
-					<div class="heading">Loan Application Full Details</div>
-					${content}
-				</div>
-			</body>
-			</html>
+		<html>
+		<head>
+		<title>Loan Payment Report</title>
+
+		<style>
+
+		body{
+			font-family: Arial;
+			padding:30px;
+			background:#fff;
+		}
+
+		.company{
+			text-align:center;
+			margin-bottom:20px;
+		}
+
+		.company h2{
+			margin:0;
+			font-size:24px;
+		}
+
+		.company p{
+			margin:2px;
+			font-size:14px;
+		}
+
+		.title{
+			text-align:center;
+			font-size:18px;
+			font-weight:bold;
+			margin:20px 0;
+			border-bottom:2px solid black;
+			padding-bottom:5px;
+		}
+
+		/* 🔥 IMPORTANT TABLE FIX */
+		table{
+			width:100%;
+			border-collapse:collapse;
+			margin-top:10px;
+		}
+
+		th, td{
+			border:1px solid black !important;
+			padding:8px;
+			text-align:left;
+			font-size:14px;
+		}
+
+		th{
+			background:#f2f2f2;
+		}
+
+		.signArea{
+			margin-top:40px;
+			display:flex;
+			justify-content:space-between;
+		}
+
+		.sign{
+			width:200px;
+			text-align:center;
+			border-top:1px solid black;
+			padding-top:5px;
+		}
+
+		</style>
+		</head>
+
+		<body>
+
+		<div class="company">
+			<h2>CO OPERATIVE SOCIETY LTD NAGPUR</h2>
+			<p>PLOT NO 497 NEW NANDANWAN</p>
+			<p>MAHARASHTRA - 440024</p>
+			<p>Helpline : 9566200223</p>
+		</div>
+
+		<div class="title">Loan Payment Details</div>
+
+		${content}
+
+		<div class="signArea">
+			<div class="sign">Customer Signature</div>
+			<div class="sign">Manager Signature</div>
+		</div>
+
+		</body>
+		</html>
 		`);
+
 		printWindow.document.close();
 		printWindow.focus();
 		printWindow.print();
-		printWindow.close();
+
 	});
-
-	// ✅ 5. Download as PDF
-	$("#downloadBtn").click(function () {
-		const { jsPDF } = window.jspdf;
-		const doc = new jsPDF({
-			orientation: "portrait",
-			unit: "pt",
-			format: "a4"
-		});
-		const content = document.getElementById("modalDataContainer");
-
-		doc.html(content, {
-			callback: function (doc) {
-				doc.save("LoanApplicationDetails.pdf");
-			},
-			x: 10,
-			y: 10,
-			autoPaging: 'text',
-			html2canvas: { scale: 0.5 }
-		});
 	});
-});
-$("#printBtn").click(function () {
-
-	const content = document.getElementById("modalDataContainer").innerHTML;
-	const printWindow = window.open('', '', 'width=1000,height=800');
-
-	printWindow.document.write(`
-
-	<html>
-	<head>
-	<title>Loan Payment Report</title>
-
-	<style>
-
-	body{
-		font-family: Arial;
-		background:#ffffff;
-		padding:30px;
-	}
-
-	.company{
-		text-align:center;
-		margin-bottom:25px;
-	}
-
-	.company h2{
-		margin:0;
-		font-size:28px;
-	}
-
-	.company p{
-		margin:3px;
-		font-size:14px;
-	}
-
-	.title{
-		text-align:center;
-		font-size:20px;
-		font-weight:bold;
-		margin-bottom:20px;
-		border-bottom:2px solid black;
-		padding-bottom:6px;
-	}
-
-	.grid{
-		display:grid;
-		grid-template-columns:1fr 1fr;
-		gap:15px;
-	}
-
-	.field{
-		padding:6px 0;
-		border-bottom:1px dashed #bbb;
-	}
-
-	.label{
-		font-weight:bold;
-	}
-
-	.signArea{
-		margin-top:40px;
-		display:flex;
-		justify-content:space-between;
-	}
-
-	.sign{
-		width:200px;
-		text-align:center;
-		border-top:1px solid black;
-		padding-top:6px;
-	}
-
-	</style>
-	</head>
-
-	<body>
-
-	<div class="company">
-		<h2>CO OPERATIVE SOCIETY LTD NAGPUR</h2>
-		<p>PLOT NO 497 NEW NANDANWAN</p>
-		<p>MAHARASHTRA - 440024</p>
-		<p>CIN : ASJ#567 | Email : example@gmail.com | Helpline : 9566200223, 9558712001</p>
-	</div>
-
-	<div class="title">
-		Loan Payment Details
-	</div>
-
-	<div class="grid">
-		${content}
-	</div>
-
-	<div class="signArea">
-		<div class="sign">Customer Signature</div>
-		<div class="sign">Manager Signature</div>
-	</div>
-
-	</body>
-	</html>
-
-	`);
-
-	printWindow.document.close();
-	printWindow.focus();
-	printWindow.print();
-
-});
