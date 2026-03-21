@@ -5,7 +5,7 @@ $(document).ready(function () {
     // ================= TODAY DATE =================
     function getToday() {
         let today = new Date();
-        today.setHours(0,0,0,0);
+        today.setHours(0, 0, 0, 0);
         return today;
     }
 
@@ -18,31 +18,17 @@ $(document).ready(function () {
 
         let today = getToday();
         let dueDate = new Date(dateStr);
-        dueDate.setHours(0,0,0,0);
+        dueDate.setHours(0, 0, 0, 0);
 
         let diffTime = dueDate - today;
-        let diffDays = Math.ceil(diffTime / (1000*60*60*24));
+        let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
         if (diffDays < 0) {
-            return {
-                text: "Overdue",
-                color: "red",
-                days: Math.abs(diffDays)
-            };
-        }
-        else if (diffDays === 0) {
-            return {
-                text: "Due Today",
-                color: "orange",
-                days: "0"
-            };
-        }
-        else {
-            return {
-                text: "Upcoming",
-                color: "green",
-                days: diffDays
-            };
+            return { text: "Overdue", color: "red", days: Math.abs(diffDays) };
+        } else if (diffDays === 0) {
+            return { text: "Due Today", color: "orange", days: "0" };
+        } else {
+            return { text: "Upcoming", color: "green", days: diffDays };
         }
     }
 
@@ -65,9 +51,7 @@ $(document).ready(function () {
                 });
 
                 branches.forEach(branch => {
-                    $("#branchName").append(
-                        `<option value="${branch}">${branch}</option>`
-                    );
+                    $("#branchName").append(`<option value="${branch}">${branch}</option>`);
                 });
 
                 renderTable(allRecurringData);
@@ -142,13 +126,11 @@ $(document).ready(function () {
             tbody.append(row);
         });
 
-        // ================= PRINT POPUP DATA =================
+        // ================= PRINT POPUP DATA (TABLE FORMAT) =================
         $(".printPopupBtn").click(function () {
 
             let id = $(this).data("id");
-
             let policy = allRecurringData.find(p => p.id === id);
-
             if (!policy) return;
 
             let status = getDueStatus(policy.renewalDate);
@@ -157,6 +139,7 @@ $(document).ready(function () {
 
             <div style="font-family:Arial;padding:20px;">
 
+                <!-- Header -->
                 <div style="text-align:center;">
                     <h3 style="margin:0;">CO OPERATIVE SOCIETY LTD NAGPUR</h3>
                     <p style="margin:2px;">PLOT NO 497 NEW NANDANWAN</p>
@@ -172,17 +155,56 @@ $(document).ready(function () {
                     Recurring Installment Due Report
                 </h4>
 
-                <p><b>Policy Code :</b> ${policy.policyCode}</p>
-                <p><b>Customer Name :</b> ${policy.clientName}</p>
-                <p><b>Branch :</b> ${policy.branchname}</p>
-                <p><b>Policy Amount :</b> ${policy.policyAmount}</p>
-                <p><b>Last Payment Date :</b> ${policy.lastPaymentDate}</p>
-                <p><b>Due Date :</b> ${policy.renewalDate}</p>
-                <p><b>Status :</b> ${status.text}</p>
-                <p><b>Days :</b> ${status.days}</p>
+                <!-- TABLE -->
+                <table style="width:100%;border-collapse:collapse;">
 
-                <br><hr>
+                    <tr style="background:#0d6efd;color:#fff;">
+                        <th colspan="4" style="padding:8px;border:1px solid #000;">
+                            POLICY DETAILS
+                        </th>
+                    </tr>
 
+                    <tr>
+                        <th style="border:1px solid #000;padding:8px;">Policy Code</th>
+                        <td style="border:1px solid #000;padding:8px;">${policy.policyCode}</td>
+
+                        <th style="border:1px solid #000;padding:8px;">Customer Name</th>
+                        <td style="border:1px solid #000;padding:8px;">${policy.clientName}</td>
+                    </tr>
+
+                    <tr>
+                        <th style="border:1px solid #000;padding:8px;">Branch</th>
+                        <td style="border:1px solid #000;padding:8px;">${policy.branchname}</td>
+
+                        <th style="border:1px solid #000;padding:8px;">Policy Amount</th>
+                        <td style="border:1px solid #000;padding:8px;">₹${policy.policyAmount}</td>
+                    </tr>
+
+                    <tr>
+                        <th style="border:1px solid #000;padding:8px;">Last Payment Date</th>
+                        <td style="border:1px solid #000;padding:8px;">${policy.lastPaymentDate}</td>
+
+                        <th style="border:1px solid #000;padding:8px;">Due Date</th>
+                        <td style="border:1px solid #000;padding:8px;">${policy.renewalDate}</td>
+                    </tr>
+
+                    <tr>
+                        <th style="border:1px solid #000;padding:8px;">Status</th>
+                        <td style="border:1px solid #000;padding:8px;color:${status.color};font-weight:bold;">
+                            ${status.text}
+                        </td>
+
+                        <th style="border:1px solid #000;padding:8px;">Days</th>
+                        <td style="border:1px solid #000;padding:8px;">
+                            ${status.days}
+                        </td>
+                    </tr>
+
+                </table>
+
+                <br><br>
+
+                <!-- Footer -->
                 <div style="display:flex;justify-content:space-between;">
                     <span>Generated On : ${new Date().toLocaleDateString()}</span>
                     <span>Authorized Signature</span>
@@ -202,9 +224,16 @@ $(document).ready(function () {
 
         let newWindow = window.open('', '', 'width=900,height=700');
 
-        newWindow.document.write('<html><head><title>Print</title></head><body>');
-        newWindow.document.write(printContent);
-        newWindow.document.write('</body></html>');
+        newWindow.document.write(`
+            <html>
+            <head>
+                <title>Print</title>
+            </head>
+            <body>
+                ${printContent}
+            </body>
+            </html>
+        `);
 
         newWindow.document.close();
         newWindow.print();
@@ -217,9 +246,16 @@ $(document).ready(function () {
 
         let newWindow = window.open('', '', 'width=900,height=700');
 
-        newWindow.document.write('<html><head><title>PDF</title></head><body>');
-        newWindow.document.write(printContent);
-        newWindow.document.write('</body></html>');
+        newWindow.document.write(`
+            <html>
+            <head>
+                <title>PDF</title>
+            </head>
+            <body>
+                ${printContent}
+            </body>
+            </html>
+        `);
 
         newWindow.document.close();
         newWindow.print();
