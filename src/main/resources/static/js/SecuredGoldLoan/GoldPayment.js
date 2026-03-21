@@ -51,6 +51,7 @@ $(document).ready(function() {
 	});
 
 	$("#findByGoldLoanId").change(function() {
+
 		let findByGoldLoanId = $("#findByGoldLoanId").val();
 		if (findByGoldLoanId !== "") {
 			$.ajax({
@@ -134,6 +135,8 @@ $(document).ready(function() {
 						} else {
 							$('#approvalStatus').val("Not Approved").css('color', 'red');
 						}
+
+						fetchEMIValues();
 
 					} else {
 						alert("No customer found for this member code.");
@@ -260,3 +263,73 @@ $(document).ready(function() {
 	});
 
 });
+
+function fetchEMIValues() {
+
+	var goldID = $("#findByGoldLoanId").val();
+
+	var loanAmount = Number($("#loanAmount").val()) || 0;
+	var rateOfInterest = Number($("#rateOfInterest").val()) || 0;
+	//var loanTerm = Number($("#loanTerm").val()) || 0;
+
+	let monthlyInterest = (loanAmount * rateOfInterest) / (100 * 12);
+	//let monthlyInterest = totalInterest / loanTerm;
+
+	$.ajax({
+		url: "api/securedGoldLoan/getEMIInstallmentDataByGoldID",
+		type: "GET",
+		data: { goldID: goldID },
+
+		success: function(response) {
+
+			console.log(response);
+
+			// EMIInstallment table मध्ये data असेल
+			if (response && response.data && response.data.length > 0) {
+
+				var lastEmi = response.data[response.data.length - 1];
+				var pendingPrincipal = lastEmi.pendingPrincipal || 0;
+
+				$("#pendingPrincipal").val(pendingPrincipal);
+
+				// installment आहे
+				$("#paymentAmount").val(pendingPrincipal);
+
+			} else {
+				alert("1");
+
+				// EMIInstallment table मध्ये data नाही
+				var paymentAmount = loanAmount + monthlyInterest;
+
+				$("#paymentAmount").val(paymentAmount);
+
+			}
+
+		},
+
+		error: function() {
+			alert("Error");
+
+			/*// API error आला तरी run होईल
+			var paymentAmount = loanAmount + monthlyInterest;
+
+			$("#paymentAmount").val(paymentAmount);*/
+
+		},
+
+		/*complete: function() {
+			alert("3")
+			// काहीच response नसेल तरी run
+			if (!$("#paymentAmount").val()) {
+
+				var paymentAmount = loanAmount + monthlyInterest;
+
+				$("#paymentAmount").val(paymentAmount);
+
+			}
+
+		}*/
+
+	});
+
+}

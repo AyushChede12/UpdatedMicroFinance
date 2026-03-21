@@ -163,6 +163,9 @@ public class GoldLoanPayment {
 
 	@Column(length = 20)
 	private String modeOfPayment;
+	
+	@Column(length = 20)
+	private String paymentAmount;
 
 	private String chargeDeductCash;
 
@@ -668,6 +671,14 @@ public class GoldLoanPayment {
 
 	public void setPaymentStatus(String paymentStatus) {
 		this.paymentStatus = paymentStatus;
+	}
+
+	public String getPaymentAmount() {
+		return paymentAmount;
+	}
+
+	public void setPaymentAmount(String paymentAmount) {
+		this.paymentAmount = paymentAmount;
 	}
 
 	public String getModeOfPayment() {
