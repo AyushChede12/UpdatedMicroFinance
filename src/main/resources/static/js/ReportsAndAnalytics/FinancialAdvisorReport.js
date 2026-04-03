@@ -192,99 +192,127 @@ $(document).ready(function () {
 
 	$(document).off("click", "#printBankReportBtn").on("click", "#printBankReportBtn", function () {
 
-	    var content = document.getElementById("bankReportContent").innerHTML;
-
 	    var newWindow = window.open('', '', 'width=900,height=700');
+
+	    // Fetch values from modal
+	    let getText = (id) => document.getElementById(id).innerText || '-';
 
 	    newWindow.document.write(`
 	    <html>
 	    <head>
-	    <title>Consultant Report</title>
+	        <title>Consultant Report</title>
 
-	    <style>
+	        <style>
+	            body{
+	                font-family: Arial;
+	                padding:20px;
+	            }
 
-	    body{
-	        font-family: Arial;
-	        padding:30px;
-	        background:#fff;
-	    }
+	            h2, h4{
+	                text-align:center;
+	                margin:5px;
+	            }
 
-	    .center{
-	        text-align:center;
-	        margin-bottom:15px;
-	    }
+	            .company{
+	                font-size:20px;
+	                font-weight:bold;
+	            }
 
-	    .company{
-	        font-size:24px;
-	        font-weight:bold;
-	    }
+	            table{
+	                width:100%;
+	                border-collapse: collapse;
+	                margin-top:20px;
+	            }
 
-	    .line{
-	        margin-top:4px;
-	        font-size:15px;
-	    }
+	            th, td{
+	                border:1px solid #000;
+	                padding:8px;
+	                font-size:14px;
+	                text-align:left;
+	            }
 
-	    .info{
-	        margin-top:6px;
-	        font-size:14px;
-	    }
+	            th{
+	                background:#f2f2f2;
+	            }
 
-	    hr{
-	        margin:20px 0;
-	    }
-
-	    .box{
-	        border:1px solid #ddd;
-	        border-radius:8px;
-	        padding:15px;
-	        margin-bottom:15px;
-	    }
-
-	    .title{
-	        font-weight:bold;
-	        color:#0d6efd;
-	        margin-bottom:10px;
-	        font-size:16px;
-	    }
-
-	    .row{
-	        display:flex;
-	        gap:20px;
-	        margin-bottom:10px;
-	    }
-
-	    .col{
-	        flex:1;
-	    }
-
-	    p{
-	        margin:4px 0;
-	        font-size:14px;
-	    }
-
-	    </style>
-
+	            .section-title{
+	                background:#0d6efd;
+	                color:#fff;
+	                font-weight:bold;
+	                text-align:center;
+	            }
+	        </style>
 	    </head>
 
 	    <body>
 
-	    <div class="center">
-
+	        <!-- Company Header -->
 	        <div class="company">${companyDetails.name}</div>
-	        <div class="line">${companyDetails.address}</div>
-	        <div class="line">${companyDetails.state} - ${companyDetails.pin}</div>
+	        <div>${companyDetails.address}, ${companyDetails.state} - ${companyDetails.pin}</div>
+	        <div>Email: ${companyDetails.email} | Helpline: ${companyDetails.helpline}</div>
 
-	        <div class="info">
-	        CIN : ${companyDetails.cin} |
-	        Email : ${companyDetails.email} |
-	        Helpline : ${companyDetails.helpline}, ${companyDetails.branchManager}
-	        </div>
+	        <h4>Financial Consultant Report</h4>
 
-	    </div>
+	        <!-- Table -->
+	        <table>
 
-	    <hr>
+	            <tr class="section-title"><td colspan="4">CONSULTANT DETAILS</td></tr>
+	            <tr>
+	                <th>Code</th><td>${getText("financialCode")}</td>
+	                <th>Name</th><td>${getText("financialName")}</td>
+	            </tr>
+	            <tr>
+	                <th>Joining Date</th><td>${getText("joiningDate")}</td>
+	                <th>DOB</th><td>${getText("dob")}</td>
+	            </tr>
+	            <tr>
+	                <th>Age</th><td>${getText("age")}</td>
+	                <th>Contact</th><td>${getText("contactNo")}</td>
+	            </tr>
+	            <tr>
+	                <th>Branch</th><td>${getText("branchName")}</td>
+	                <th>Position</th><td>${getText("selectPosition")}</td>
+	            </tr>
 
-	    ${content}
+	            <tr class="section-title"><td colspan="4">ADDRESS DETAILS</td></tr>
+	            <tr>
+	                <th>Address</th><td colspan="3">${getText("address")}</td>
+	            </tr>
+	            <tr>
+	                <th>District</th><td>${getText("district")}</td>
+	                <th>State</th><td>${getText("state")} - ${getText("pinCode")}</td>
+	            </tr>
+
+	            <tr class="section-title"><td colspan="4">PAYMENT DETAILS</td></tr>
+	            <tr>
+	                <th>Fees</th><td>₹${getText("fees")}</td>
+	                <th>Mode</th><td>${getText("modeofPayment")}</td>
+	            </tr>
+	            <tr>
+	                <th>Cheque No</th><td>${getText("chequeNo")}</td>
+	                <th>Cheque Date</th><td>${getText("chequeDate")}</td>
+	            </tr>
+	            <tr>
+	                <th>Deposit Account</th><td>${getText("depositAccount")}</td>
+	                <th>Ref No</th><td>${getText("refNo")}</td>
+	            </tr>
+
+	            <tr class="section-title"><td colspan="4">REFERRAL</td></tr>
+	            <tr>
+	                <th>Referral Code</th><td>${getText("referralCode")}</td>
+	                <th>Referral Name</th><td>${getText("referralName")}</td>
+	            </tr>
+
+	            <tr class="section-title"><td colspan="4">STATUS</td></tr>
+	            <tr>
+	                <th>Comments</th><td colspan="3">${getText("comments")}</td>
+	            </tr>
+	            <tr>
+	                <th>Status</th><td>${getText("financialStatus")}</td>
+	                <th>Approved</th><td>${getText("isApproved")}</td>
+	            </tr>
+
+	        </table>
 
 	    </body>
 	    </html>
