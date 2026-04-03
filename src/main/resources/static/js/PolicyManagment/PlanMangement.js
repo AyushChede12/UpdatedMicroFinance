@@ -97,6 +97,38 @@ $(document).ready(function() {
 	    return isValid;
 	}
 	
+	$('#planNameDD').on('blur', function () {
+
+	    let planName = $(this).val();
+
+	    if(planName.trim() === ''){
+	        return;
+	    }
+
+	    $.ajax({
+	        url: 'api/Policymangment/check-plan-name',
+	        type: 'GET',
+	        data: { planName: planName },
+
+	        success: function(response) {
+
+	            console.log("Response:", response);
+
+	            if(response == true){
+	                alert("Plan Name Already Exists");
+	                $('#planNameDD').val('');
+	                $('#planNameDD').focus();
+	            }
+
+	        },
+
+	        error: function(err){
+	            console.log("Error:", err);
+	        }
+
+	    });
+
+	});
 	$("#saveBtn").show();
 	$("#genrateBtn").show();
 	$("#updateBtn").hide();

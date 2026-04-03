@@ -271,22 +271,18 @@ public class SecuredGoldLoanService {
 	}
 
 	public List<GoldLoanClose> getAllGoldClosure() {
-		// TODO Auto-generated method stub
 		return goldCloseRepo.findAll();
 	}
 
 	public List<GoldLoanClose> getGoldClosuresByGoldId(String goldID) {
-		// TODO Auto-generated method stub
 		return goldCloseRepo.findByGoldID(goldID);
 	}
 
 	public GoldLoanPayment savePaymentForGold(GoldLoanPayment request) {
-		// TODO Auto-generated method stub
 		return goldPaymentRepo.save(request);
 	}
 
 	public boolean processEmiPayment(GoldLoanPayment request, String string) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -508,6 +504,10 @@ public class SecuredGoldLoanService {
 		createSavingRepo.save(acc);
 
 		return new ApiResponse(HttpStatus.OK, "SUCCESS", "Installment Saved & Balance Updated");
+	}
+
+	public List<EmiInstallmentPaymentGold> getEMIInstallmentGoldByID(String goldID) {
+		return emiRepo.findByGoldID(goldID);
 	}
 
 }

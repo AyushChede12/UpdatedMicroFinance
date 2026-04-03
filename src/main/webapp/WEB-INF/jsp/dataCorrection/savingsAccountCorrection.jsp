@@ -276,12 +276,6 @@
 					</div>
 				</div>
 
-
-
-
-
-
-
 			</div>
 
 			<div class="row mt-4">
@@ -293,7 +287,7 @@
 						name="photo" id="photo" hidden="hidden"
 						style="background-size: cover; background-repeat: no-repeat" />
 						<div id="img-view">
-							<img src="../images/upload/upload.png" alt="upload_icon"
+							<img src="Uploads/upload.png" alt="upload_icon"
 								id="photoPreview" /><input type="hidden" name="photoHidden"
 								id="photoHidden">
 
@@ -315,7 +309,7 @@
 						accept="image/*" name="signature" id="signature" hidden="hidden"
 						style="background-size: cover; background-repeat: no-repeat" />
 						<div id="img-view">
-							<img src="../images/upload/upload.png" alt="upload_icon"
+							<img src="Uploads/upload.png" alt="upload_icon"
 								id="signaturePreview" /><input type="hidden"
 								name="signatureHidden" id="signatureHidden">
 							<!-- <p
@@ -336,7 +330,7 @@
 						accept="image/*" name="jointPhoto" id="jointPhoto" hidden="hidden"
 						style="background-size: cover; background-repeat: no-repeat" />
 						<div id="img-view">
-							<img src="../images/upload/upload.png" alt="upload_icon"
+							<img src="Uploads/upload.png" alt="upload_icon"
 								id="jointPhotoPreview" /><input type="hidden"
 								name="jointPhotoHidden" id="jointPhotoHidden">
 							<!-- <p

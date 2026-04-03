@@ -569,7 +569,7 @@
 						hidden="hidden"
 						style="background-size: cover; background-repeat: no-repeat" />
 						<div id="img-view">
-							<img src="../images/upload/upload.png" alt="upload_icon"
+							<img src="Uploads/upload.png" alt="upload_icon"
 								id="photoPreview" /><input type="hidden" name="photoHidden"
 								id="photoHidden">
 						</div>
@@ -585,7 +585,7 @@
 						hidden="hidden"
 						style="background-size: cover; background-repeat: no-repeat" />
 						<div id="img-view">
-							<img src="../images/upload/upload.png" alt="upload_icon"
+							<img src="Uploads/upload.png" alt="upload_icon"
 								id="signaturePreview" /><input type="hidden"
 								name="signatureHidden" id="signatureHidden">
 
@@ -602,7 +602,7 @@
 						hidden="hidden" onchange="newPhotoUpload()"
 						style="background-size: cover; background-repeat: no-repeat" />
 						<div id="img-view">
-							<img src="../images/upload/upload.png" alt="upload_icon"
+							<img src="Uploads/upload.png" alt="upload_icon"
 								id="newPhotoPreview" /><input type="hidden"
 								name="newPhotoHidden" id="newPhotoHidden">
 						</div>
@@ -618,7 +618,7 @@
 						hidden="hidden" onchange="newSignatureUpload()"
 						style="background-size: cover; background-repeat: no-repeat" />
 						<div id="img-view">
-							<img src="../images/upload/upload.png" alt="upload_icon"
+							<img src="Uploads/upload.png" alt="upload_icon"
 								id="newSignaturePreview" /><input type="hidden"
 								name="newSignatureHidden" id="newSignatureHidden">
 						</div>
@@ -634,7 +634,7 @@
 						hidden="hidden" onchange="jointPhotoUpload()"
 						style="background-size: cover; background-repeat: no-repeat" />
 						<div id="img-view">
-							<img src="../images/upload/upload.png" alt="upload_icon"
+							<img src="Uploads/upload.png" alt="upload_icon"
 								id="jointPhotoPreview" /><input type="hidden"
 								name="jointPhotoHidden" id="jointPhotoHidden">
 						</div>

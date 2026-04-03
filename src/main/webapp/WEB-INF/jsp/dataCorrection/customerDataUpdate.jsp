@@ -314,7 +314,7 @@
 						id="customerPhoto" hidden="hidden" onchange="photoUpload();"
 						style="background-size: cover; background-repeat: no-repeat" />
 						<div id="img-view">
-							<img src="../images/upload/upload.png" alt="upload_icon"
+							<img src="Uploads/upload.png" alt="upload_icon"
 								id="photoPreview" /><input type="hidden" name="photoHidden"
 								id="photoHidden">
 
@@ -338,7 +338,7 @@
 						onchange="signatureUpload();"
 						style="background-size: cover; background-repeat: no-repeat" />
 						<div id="img-view">
-							<img src="../images/upload/upload.png" alt="upload_icon"
+							<img src="Uploads/upload.png" alt="upload_icon"
 								id="signaturePreview" /><input type="hidden"
 								name="signatureHidden" id="signatureHidden">
 							<!-- <p

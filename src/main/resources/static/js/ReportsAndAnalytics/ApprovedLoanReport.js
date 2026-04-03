@@ -96,61 +96,42 @@ $(document).ready(function () {
 			if (selectedPolicy) {
 				let html = `
 					<h4 class="text-center mb-4">Loan Application Full Details</h4>
-					<div class="row">
-						${createField("Loan ID", selectedPolicy.loanId)}
-						${createField("Loan Date", selectedPolicy.loanDate)}
-						${createField("Member ID", selectedPolicy.memberId)}
-						${createField("Relative Details", selectedPolicy.relativeDetails)}
-						${createField("Date of Birth", selectedPolicy.dateOfBirth)}
-						${createField("Age", selectedPolicy.age)}
-						${createField("Contact No", selectedPolicy.contactNo)}
-						${createField("Message Status", selectedPolicy.messageStatus)}
-						${createField("Address", selectedPolicy.address)}
-						${createField("Pin Code", selectedPolicy.pinCode)}
-						${createField("Branch Name", selectedPolicy.branchName)}
-						${createField("Loan Plan Name", selectedPolicy.loanPlanName)}
-						${createField("Type Of Loan", selectedPolicy.typeOfLoan)}
-						${createField("Loan Mode", selectedPolicy.loanMode)}
-						${createField("Loan Term", selectedPolicy.loanTerm)}
-						${createField("Rate Of Interest", selectedPolicy.rateOfInterest)}
-						${createField("Loan Amount", selectedPolicy.loanAmount)}
-						${createField("Interest Type", selectedPolicy.interestType)}
-						${createField("EMI Payment", selectedPolicy.emiPayment)}
-						${createField("Purpose Of Loan", selectedPolicy.purposeOfLoan)}
-						${createField("Guarantor Member ID", selectedPolicy.guarantorMemberId)}
-						${createField("Guarantor Identity", selectedPolicy.guarantorIdentity)}
-						${createField("Guarantor Address", selectedPolicy.guarantorAddress)}
-						${createField("Guarantor Pin Code", selectedPolicy.guarantorPinCode)}
-						${createField("Guarantor Contact No", selectedPolicy.guarantorContactNo)}
-						${createField("Guarantor Security Type", selectedPolicy.guarantorSecurityType)}
-						${createField("Co-Applicant Member ID", selectedPolicy.coApplicantMemberId)}
-						${createField("Co-Applicant Identity", selectedPolicy.coApplicantIdentity)}
-						${createField("Co-Applicant Address", selectedPolicy.coApplicantAddress)}
-						${createField("Co-Applicant Pin Code", selectedPolicy.coApplicantPinCode)}
-						${createField("Co-Applicant Contact No", selectedPolicy.coApplicantContactNo)}
-						${createField("Co-Applicant Security Type", selectedPolicy.coApplicantSecurityType)}
-						${createField("Processing Fee", selectedPolicy.processingFee)}
-						${createField("Legal Charges", selectedPolicy.legalCharges)}
-						${createField("GST", selectedPolicy.gst)}
-						${createField("Insurance Fee", selectedPolicy.insuranceFee)}
-						${createField("Valuation Fees", selectedPolicy.valuationFees)}
-						${createField("Stationary Fee", selectedPolicy.stationaryFee)}
-						${createField("Financial Consultant ID", selectedPolicy.financialConsultantId)}
-						${createField("Financial Consultant Name", selectedPolicy.financialConsultantName)}
-						${createField("Approval Date", selectedPolicy.approvalDate)}
-						${createField("Approval Status", selectedPolicy.approvalStatus ? "Yes" : "No")}
-						${createField("Photo", selectedPolicy.photo)}
-						${createField("Signature", selectedPolicy.signature)}
-						${createField("Payment Date", selectedPolicy.paymentDate)}
-						${createField("Payment Status", selectedPolicy.paymentStatus)}
-						${createField("Payment Mode", selectedPolicy.paymentMode)}
-						${createField("Account No", selectedPolicy.accountNo)}
-						${createField("Ref/UPI ID", selectedPolicy.ref_UpiId)}
-						${createField("Charges", selectedPolicy.charges)}
-						${createField("Remarks", selectedPolicy.remarks)}
-						${createField("Cheque Date", selectedPolicy.chequeDate)}
-						${createField("Cheque No", selectedPolicy.chequeNo)}
-					</div>
+
+					<table class="table table-bordered">
+						<tr><th>Field</th><th>Details</th></tr>
+
+						<tr><td>Loan ID</td><td>${selectedPolicy.loanId || ''}</td></tr>
+						<tr><td>Loan Date</td><td>${selectedPolicy.loanDate || ''}</td></tr>
+						<tr><td>Member ID</td><td>${selectedPolicy.memberId || ''}</td></tr>
+						<tr><td>Relative Details</td><td>${selectedPolicy.relativeDetails || ''}</td></tr>
+						<tr><td>Date of Birth</td><td>${selectedPolicy.dateOfBirth || ''}</td></tr>
+						<tr><td>Age</td><td>${selectedPolicy.age || ''}</td></tr>
+						<tr><td>Contact No</td><td>${selectedPolicy.contactNo || ''}</td></tr>
+						<tr><td>Address</td><td>${selectedPolicy.address || ''}</td></tr>
+						<tr><td>Pin Code</td><td>${selectedPolicy.pinCode || ''}</td></tr>
+						<tr><td>Branch Name</td><td>${selectedPolicy.branchName || ''}</td></tr>
+
+						<tr><td>Loan Plan Name</td><td>${selectedPolicy.loanPlanName || ''}</td></tr>
+						<tr><td>Type Of Loan</td><td>${selectedPolicy.typeOfLoan || ''}</td></tr>
+						<tr><td>Loan Mode</td><td>${selectedPolicy.loanMode || ''}</td></tr>
+						<tr><td>Loan Term</td><td>${selectedPolicy.loanTerm || ''}</td></tr>
+						<tr><td>Rate Of Interest</td><td>${selectedPolicy.rateOfInterest || ''}</td></tr>
+						<tr><td>Loan Amount</td><td>${selectedPolicy.loanAmount || ''}</td></tr>
+						<tr><td>Interest Type</td><td>${selectedPolicy.interestType || ''}</td></tr>
+						<tr><td>EMI Payment</td><td>${selectedPolicy.emiPayment || ''}</td></tr>
+
+						<tr><td>Approval Date</td><td>${selectedPolicy.approvalDate || ''}</td></tr>
+						<tr><td>Approval Status</td><td>${selectedPolicy.approvalStatus ? "Yes" : "No"}</td></tr>
+
+						<tr><td>Payment Mode</td><td>${selectedPolicy.paymentMode || ''}</td></tr>
+						<tr><td>Account No</td><td>${selectedPolicy.accountNo || ''}</td></tr>
+						<tr><td>Ref/UPI ID</td><td>${selectedPolicy.ref_UpiId || ''}</td></tr>
+						<tr><td>Remarks</td><td>${selectedPolicy.remarks || ''}</td></tr>
+
+						<tr><td>Cheque Date</td><td>${selectedPolicy.chequeDate || ''}</td></tr>
+						<tr><td>Cheque No</td><td>${selectedPolicy.chequeNo || ''}</td></tr>
+
+					</table>
 				`;
 				$("#modalDataContainer").html(html);
 			}
@@ -218,4 +199,151 @@ $(document).ready(function () {
 			html2canvas: { scale: 0.5 }
 		});
 	});
+});
+$("#printBtn").click(function () {
+
+	const selectedPolicyHTML = document.getElementById("modalDataContainer").innerHTML;
+
+	const printWindow = window.open('', '', 'width=1000,height=800');
+
+	printWindow.document.write(`
+
+<html>
+<head>
+<title>Loan Application Report</title>
+
+<style>
+
+body{
+font-family: Arial;
+padding:40px;
+color:#000;
+}
+
+.header{
+text-align:center;
+line-height:1.6;
+}
+
+.company{
+font-size:24px;
+font-weight:bold;
+}
+
+.address{
+font-size:14px;
+}
+
+.title{
+text-align:center;
+margin-top:20px;
+font-size:18px;
+font-weight:bold;
+}
+
+hr{
+margin:20px 0;
+border:1px solid #000;
+}
+
+.section{
+font-size:16px;
+font-weight:bold;
+margin:20px 0 10px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-bottom:15px;
+}
+
+td,th{
+border:1px solid #000;
+padding:8px;
+font-size:14px;
+}
+
+.label{
+font-weight:bold;
+background:#f2f2f2;
+width:250px;
+}
+
+.footer{
+margin-top:60px;
+display:flex;
+justify-content:space-between;
+}
+
+.sign{
+text-align:center;
+width:200px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<div class="header">
+
+<div class="company">
+CO OPERATIVE SOCIETY LTD NAGPUR
+</div>
+
+<div class="address">
+PLOT NO 497 NEW NANDANWAN
+</div>
+
+<div class="address">
+MAHARASHTRA - 440024
+</div>
+
+<div class="address">
+Helpline : 9566200223
+</div>
+
+</div>
+
+<hr>
+
+<div class="title">
+LOAN APPLICATION REPORT
+</div>
+
+
+<div class="section">Application Details</div>
+
+${selectedPolicyHTML}
+
+
+<div class="footer">
+
+<div class="sign">
+____________________  
+Branch Manager
+</div>
+
+<div class="sign">
+____________________  
+Authorized Signatory
+</div>
+
+</div>
+
+<script>
+window.print();
+</script>
+
+</body>
+</html>
+
+`);
+
+	printWindow.document.close();
+	printWindow.focus();
+
 });

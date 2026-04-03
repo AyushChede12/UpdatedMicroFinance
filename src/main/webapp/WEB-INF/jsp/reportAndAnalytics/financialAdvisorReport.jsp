@@ -165,8 +165,7 @@ body {
 					<div
 						class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
 						<div class="d-flex align-items-center">
-							<img id="bankLogo" src="" alt="Logo"
-								style="height: 50px; margin-right: 10px;">
+							
 							<div>
 								<h4 id="bankName" class="mb-0 fw-bold text-primary"></h4>
 								<small id="reportTitle" class="text-secondary"></small>
@@ -303,6 +302,7 @@ body {
 		</div>
 	</div>
 </div>
+
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 

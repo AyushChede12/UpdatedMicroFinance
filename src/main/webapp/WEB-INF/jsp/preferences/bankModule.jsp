@@ -178,8 +178,7 @@
 						style="margin-bottom: 30px">
 						<label>ADDRESS <span class="star">*</span></label>
 						<textarea name="address" id="address"
-							style="border: 1px solid rgb(224, 224, 224); border-radius: 5px; outline: none; padding: 5px; font-size: 12px;"
-							style="text-transform: uppercase;"></textarea>
+							style="border: 1px solid rgb(224, 224, 224); border-radius: 5px; outline: none; padding: 5px; font-size: 12px; text-transform: uppercase;"></textarea>
 						<small id="chkaddress" style="color: red;"></small>
 					</div>
 				</div>
@@ -197,7 +196,7 @@
 						id="cancelledCheque" hidden="hidden" onchange="photoUpload();"
 						style="background-size: cover; background-repeat: no-repeat" />
 						<div id="img-view">
-							<img src="../images/upload/upload.png" alt="upload_icon"
+							<img src="Uploads/upload.png" alt="upload_icon"
 								id="photoPreview" /><input type="hidden" name="photoHidden"
 								id="photoHidden">
 

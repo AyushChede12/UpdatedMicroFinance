@@ -373,5 +373,17 @@ public class SecuredGoldLoanController {
 		ApiResponse response = secureGoldLoanService.saveInstallmentAndUpdateSavings(emiPay);
 		return ResponseEntity.ok(response);
 	}
-
+	
+	@GetMapping("/getEMIInstallmentDataByGoldID")
+	public ResponseEntity<ApiResponse<List<EmiInstallmentPaymentGold>>> getEMIInstallmentDataByGoldId(@RequestParam String goldID){
+		List<EmiInstallmentPaymentGold> installment = secureGoldLoanService.getEMIInstallmentGoldByID(goldID);
+		
+		if (installment != null && !installment.isEmpty()) {
+			return ResponseEntity
+					.ok(new ApiResponse<>(HttpStatus.OK, "EMI Installment records fetched successfully", installment));
+		} else {
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(
+					new ApiResponse<>(HttpStatus.NO_CONTENT, "No EMI Installment records found for this Gold ID", null));
+		}
+	}
 }

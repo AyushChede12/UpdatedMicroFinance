@@ -339,7 +339,7 @@
 							name="typeOfLoan" required="required"
 							class="form-control selectField" style="height: 30px;">
 							<option value="">SELECT TYPE OF LOAN</option>
-							<option value="Gold">GOLD LOAN</option>
+							<option value="Gold Loan">GOLD LOAN</option>
 						</select>
 					</div>
 				</div>
