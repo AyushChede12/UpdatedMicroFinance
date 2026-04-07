@@ -183,7 +183,7 @@
 		<div class="mt-5">
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">GOLD/SILVER DETAILS</li>
+					<li class="breadcrumb-item action">GOLD LOAN DETAILS</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -197,12 +197,9 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">ITEM TYPE</label> <select id="itemType"
-							name="itemType" required="required"
-							class="form-control selectField" style="height: 30px;">
-							<option value="">-SELECT-</option>
-							<option value="Gold">GOLD</option>
-						</select>
+						<label for="">ITEM TYPE</label> <input type="text"
+							readonly="readonly" name="itemType" id="itemType"
+							required="required" placeholder="ENTER ITEM TYPE"/>
 					</div>
 				</div>
 

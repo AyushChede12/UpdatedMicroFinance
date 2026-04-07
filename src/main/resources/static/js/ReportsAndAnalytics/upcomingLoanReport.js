@@ -52,8 +52,8 @@ $(document).ready(function () {
 				const uniquePlans = new Set();
 
 				loanList.forEach(item => {
-					if (item.loanPlanName) {
-						uniquePlans.add(item.loanPlanName.trim());
+					if (item.typeOfLoan) {
+						uniquePlans.add(item.typeOfLoan.trim());
 					}
 				});
 
@@ -77,7 +77,6 @@ $(document).ready(function () {
 		}
 	});
 
-
 	loadEmiReport();
 
 });
@@ -85,7 +84,7 @@ $(document).ready(function () {
 
 /* ---------------- FIND BUTTON ---------------- */
 
-$('#findBtn').click(function (e) {
+$(document).on('click', '#findBtn', function (e) {
 	e.preventDefault();
 	loadEmiReport();
 });
@@ -100,7 +99,15 @@ function loadEmiReport() {
 	const financialCode = $('#financialCode').val()?.trim().toLowerCase() || "";
 	const toDateStr = $('#toDate').val()?.trim() || "";
 
-	const toDate = parseDateSafe(toDateStr);
+	// ✅ FIX: dd-mm-yyyy → yyyy-mm-dd
+	let toDate = null;
+	if (toDateStr) {
+		const parts = toDateStr.split('-');
+		if (parts.length === 3) {
+			const [dd, mm, yyyy] = parts;
+			toDate = new Date(`${yyyy}-${mm}-${dd}`);
+		}
+	}
 
 	$.ajax({
 		url: 'api/datacorrection/fetchAllApprovedLoanApplications',
@@ -181,7 +188,7 @@ function parseDateSafe(str) {
 		const parts = str.split('-');
 
 		if (parts.length === 3) {
-			const [yyyy, mm, dd] = parts;
+			const [dd, mm, yyyy] = parts; // ✅ FIX
 			d = new Date(`${yyyy}-${mm}-${dd}`);
 		}
 
@@ -230,7 +237,6 @@ function bindTable(data) {
 			const dd = String(d.getDate()).padStart(2, '0');
 
 			dueDate = `${yyyy}-${mm}-${dd}`;
-
 		}
 
 		const row = `
@@ -267,5 +273,4 @@ function calculateOutstanding(item) {
 	const outstanding = total - paid;
 
 	return isNaN(outstanding) ? '-' : outstanding.toFixed(2);
-
 }

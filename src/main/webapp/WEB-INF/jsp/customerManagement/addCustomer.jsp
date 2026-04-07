@@ -371,7 +371,7 @@
 					<div class="d-flex flex-column formFields">
 						<label for="shareValue">SHARE VALUE</label> <input type="text"
 							style="text-transform: uppercase;" name="shareValue"
-							id="shareValue" value="10" required="required"
+							id="shareValue" required="required"
 							placeholder="ENTER SHARE VALUE" />
 					</div>
 				</div>
@@ -843,7 +843,7 @@
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px;">
 						<label>DEPOSIT A/C</label> <select id="depositAccount"
-							name="depositAccount" class="form-control selectField"
+							name="depositAcNo" class="form-control selectField"
 							style="height: 30px;">
 							<option value="">SELECT</option>
 							<!-- options will be filled dynamically -->
