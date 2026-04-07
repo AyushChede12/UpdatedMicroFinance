@@ -11,7 +11,15 @@ public class LoanAprroval {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	 // Data Search Panel
 	private Long id;
-    private String groupcode;
+	
+	private String loanId;
+    public String getLoanId() {
+		return loanId;
+	}
+	public void setLoanId(String loanId) {
+		this.loanId = loanId;
+	}
+	private String groupcode;
 
     // Loan Details
     private String openingDate;
@@ -24,8 +32,8 @@ public class LoanAprroval {
     private String purposeOfLoan;
 
     // Loan Approval Info
-    private String dateOfApproval;
-    private String approvalStatus;
+    private String approvalDate;
+    private boolean approvalStatus;
     
 	public Long getId() {
 		return id;
@@ -89,18 +97,19 @@ public class LoanAprroval {
 	public void setPurposeOfLoan(String purposeOfLoan) {
 		this.purposeOfLoan = purposeOfLoan;
 	}
-	public String getDateOfApproval() {
-		return dateOfApproval;
+	public String getApprovalDate() {
+		return approvalDate;
 	}
-	public void setDateOfApproval(String dateOfApproval) {
-		this.dateOfApproval = dateOfApproval;
+	public void setApprovalDate(String approvalDate) {
+		this.approvalDate = approvalDate;
 	}
-	public String getApprovalStatus() {
+	public boolean isApprovalStatus() {
 		return approvalStatus;
 	}
-	public void setApprovalStatus(String approvalStatus) {
+	public void setApprovalStatus(boolean approvalStatus) {
 		this.approvalStatus = approvalStatus;
-	} 
+	}
+	
     
 
 }
