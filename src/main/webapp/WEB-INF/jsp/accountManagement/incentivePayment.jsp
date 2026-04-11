@@ -63,7 +63,7 @@
 	<div class="col-lg-12">
 		<nav>
 			<ol class="breadcrumb breadcrumb-title">
-				<li class="breadcrumb-item action mt-3">INCENTIVE DETAILS</li>
+				<li class="breadcrumb-item action mt-3">TEAM MEMBER DETAILS</li>
 			</ol>
 		</nav>
 	</div>
@@ -83,6 +83,19 @@
 				required="required" placeholder="ENTER DESIGNATION" />
 		</div>
 	</div>
+
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<nav>
+			<ol class="breadcrumb breadcrumb-title">
+				<li class="breadcrumb-item action mt-3">INCENTIVE DETAILS</li>
+			</ol>
+		</nav>
+	</div>
+
+	
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
@@ -160,7 +173,7 @@
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields">
-			<label for=""> BRANCH OF PAYMENT</label> <select id="branchName"
+			<label for="">PAYMENT BRANCH</label> <select id="branchName"
 				name="branchName" required="required"
 				class="form-control selectField" style="height: 30px;">
 				<option value="">--SELECT BRANCH--</option>
@@ -182,6 +195,16 @@
 				class="form-control selectField" style="height: 30px;">
 				<option value="">--SELECT PAYMENT MODE--</option>
 				<option value="Cash">CASH</option>
+			</select>
+		</div>
+	</div>
+	
+	<div class="col-lg-3">
+		<div class="d-flex flex-column formFields">
+			<label for="">PAYMENT FROM</label> <select id="modeOfPayment"
+				name="modeOfPayment" required="required"
+				class="form-control selectField" style="height: 30px;">
+				<option value="">--SELECT LEDGER--</option>
 			</select>
 		</div>
 	</div>
