@@ -42,6 +42,7 @@ import com.microfinance.model.AddnewinvestmentPM;
 import com.microfinance.model.ApplyForGold;
 import com.microfinance.model.BankCashTransferEntry;
 import com.microfinance.model.CreateSavingsAccount;
+import com.microfinance.model.IncentivePayment;
 import com.microfinance.model.IncomingReceiptEntry;
 import com.microfinance.model.LedgerAccountMaster;
 import com.microfinance.model.LoanApplication;
@@ -58,6 +59,7 @@ import com.microfinance.repository.BankCashTransferRepo;
 import com.microfinance.repository.BranchModuleRepo;
 import com.microfinance.repository.CreateSavingAccountRepo;
 import com.microfinance.repository.FinancialConsultantRepo;
+import com.microfinance.repository.IncentiveRepo;
 import com.microfinance.repository.IncomingReceiptRepo;
 import com.microfinance.repository.JournalEntryReportRepo;
 import com.microfinance.repository.LedgerAccountRepository;
@@ -126,6 +128,9 @@ public class AccountManagementService {
 
 	@Autowired
 	private LoanPaymentRepo loanPaymentRepo;
+
+	@Autowired
+	private IncentiveRepo incentiveRepo;
 
 	/**
 	 * Create a new Ledger Account. Business Logic: - Title must be unique per
@@ -1863,6 +1868,59 @@ public class AccountManagementService {
 
 		payment.setPaymentStatus("BOUNCED"); // ❌ cheque bounce
 		return loanPaymentRepo.save(payment);
+	}
+
+	public List<LedgerAccountMaster> getAssetsLedgers() {
+		return ledgerAccountRepository.findByGroupNameIgnoreCase("ASSETS");
+	}
+
+	@Transactional
+	public IncentivePayment saveAndPay(IncentivePayment request) {
+
+		// ✅ 1. Basic Validation
+		if (request.getFinalPayout() == null || request.getFinalPayout().compareTo(BigDecimal.ZERO) <= 0) {
+			throw new RuntimeException("Invalid payout amount");
+		}
+
+		if (request.getPaymentFromLedgerId() == null) {
+			throw new RuntimeException("Payment From (Cash Ledger) is required");
+		}
+
+		// ✅ 2. Set Payment Status
+		request.setPaymentStatus("PAID");
+
+		// ✅ 3. Save Incentive Data
+		IncentivePayment saved = incentiveRepo.save(request);
+
+		BigDecimal amount = request.getFinalPayout();
+
+		// ✅ 4. Fetch Cash Ledger
+		LedgerAccountMaster cashLedger = ledgerAccountRepository.findById(request.getPaymentFromLedgerId())
+				.orElseThrow(() -> new RuntimeException("Cash Ledger not found"));
+
+		// ✅ 5. Fetch Incentive Expense Ledger
+		LedgerAccountMaster expenseLedger = ledgerAccountRepository.findAll().stream()
+				.filter(l -> l.getAccountTitle().equalsIgnoreCase("Incentive Expense")).findFirst()
+				.orElseThrow(() -> new RuntimeException("Incentive Expense Ledger not found"));
+
+		// ✅ 6. Balance Check (Important 🔥)
+		if (cashLedger.getCurrentBalance().compareTo(amount) < 0) {
+			throw new RuntimeException("Insufficient Cash Balance");
+		}
+
+		// ✅ 7. Update Balances
+
+		// Cash ↓
+		cashLedger.setCurrentBalance(cashLedger.getCurrentBalance().subtract(amount));
+
+		// Expense ↑
+		expenseLedger.setCurrentBalance(expenseLedger.getCurrentBalance().add(amount));
+
+		ledgerAccountRepository.save(cashLedger);
+		ledgerAccountRepository.save(expenseLedger);
+
+		// ✅ 8. Return Response
+		return saved;
 	}
 
 }
