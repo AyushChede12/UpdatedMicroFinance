@@ -1,5 +1,26 @@
 $(document).ready(function() {
 
+	$.ajax({
+		url: "accountManagement/assets",
+		type: "GET",
+		success: function(response) {
+			if (response.status === "OK") {
+				const assetsList = response.data;
+
+				$("#paymentFrom").empty().append("<option value=''>--SELECT PAYMENT FROM--</option>");
+
+				assetsList.forEach(assets => {
+					const option =
+						`<option value="${assets.accountId}">
+									${assets.accountTitle.toUpperCase()}
+								</option>`;
+
+					$("#paymentFrom").append(option);
+				});
+			}
+		}
+	});
+
 	const monthMap = {
 		january: 1,
 		february: 2,
@@ -18,19 +39,19 @@ $(document).ready(function() {
 	$("#searchBtn").on("click", function() {
 
 		const agentCode = $("#agentCode").val().trim().toUpperCase();
-		const incentiveMonthName = $("#incentiveMonth").val();
+		const monthName = $("#month").val();
 
 		if (!agentCode) {
 			alert("Please Enter Agent Code");
 			return;
 		}
 
-		if (!incentiveMonthName) {
+		if (!monthName) {
 			alert("Please Select Incentive Month");
 			return;
 		}
 
-		const month = monthMap[incentiveMonthName];
+		const month = monthMap[monthName];
 		const year = new Date().getFullYear();
 
 		if (!month) {
@@ -45,88 +66,87 @@ $(document).ready(function() {
 		}
 
 	});
-	
-	$("#payBtn").click(function () {
-		alert("Pay btn");
 
-	    // ✅ Validation
-	    if (!$("#incentiveMonth").val()) {
-	        alert("Please Select Incentive Month");
-	        return;
-	    }
+	$("#payBtn").click(function() {
 
-	    if (!$("#agentCode").val()) {
-	        alert("Agent Code Missing");
-	        return;
-	    }
+		// ✅ 1. Basic Validation
+		let month = $("#month").val();
+		let agentCode = $("#agentCode").val();
+		let fullName = $("#fullName").val();
+		let designation = $("#designation").val();
+		let finalPayout = $("#finalPayout").val();
+		let paymentDate = $("#paymentDate").val();
+		let paymentBranch = $("#paymentBranch").val();
+		let paymentMode = $("#paymentMode").val();
+		let paymentFrom = $("#paymentFrom").val();
 
-	    if (!$("#branchName").val()) {
-	        alert("Please Select Branch");
-	        return;
-	    }
+		if (!month || !agentCode || !finalPayout || !paymentDate || !paymentBranch || !paymentMode || !paymentFrom) {
+			alert("Please fill all required fields!");
+			return;
+		}
 
-	    if (!$("#paymentDate").val()) {
-	        alert("Please Select Payment Date");
-	        return;
-	    }
+		// ✅ 2. Prepare Request Object
+		let requestData = {
+			month: month,
+			agentCode: agentCode,
+			fullName: fullName,
+			designation: designation,
 
-	    if (!$("#modeOfPayment").val()) {
-	        alert("Please Select Payment Mode");
-	        return;
-	    }
+			personalSales: $("#personalSales").val() || 0,
+			groupSales: $("#groupSales").val() || 0,
+			overallSales: $("#overallSales").val() || 0,
 
-	    // ✅ Prepare Data According to Entity Fields
-	    let data = {
+			totalEarnings: $("#totalEarnings").val() || 0,
+			taxDeducted: $("#taxDeducted").val() || 0,
+			serviceDeduction: $("#serviceDeduction").val() || 0,
+			extraAllowance: $("#extraAllowance").val() || 0,
+			finalPayout: finalPayout,
 
-	        incentiveMonth: $("#incentiveMonth").val(),
-	        teamMemberCode: $("#agentCode").val(),
+			paymentDate: paymentDate,
+			paymentBranch: paymentBranch,
+			paymentMode: paymentMode,
 
-	        fullName: $("#fullName").val(),
-	        designation: $("#designation").val(),
+			paymentFromLedgerId: paymentFrom
+		};
 
-	        personalSales: $("#personalSales").val(),
-	        groupSales: $("#groupSales").val(),
-	        overallSales: $("#overallSales").val(),
+		// ✅ 3. Disable Button (avoid double click)
+		$("#payBtn").prop("disabled", true).text("Processing...");
 
-	        totalEarnings: $("#totalEarnings").val(),
-	        taxDeducted: $("#taxDeducted").val(),
-	        serviceDeduction: $("#serviceDeduction").val(),
-	        extraAllowance: $("#extraAllowance").val(),
-	        finalPayout: $("#finalPayout").val(),
+		// ✅ 4. AJAX Call
+		$.ajax({
+			url: "/accountManagement/pay",
+			type: "POST",
+			contentType: "application/json",
+			data: JSON.stringify(requestData),
 
-	        branchName: $("#branchName").val(),
-	        paymentDate: $("#paymentDate").val(),
-	        modeOfPayment: $("#modeOfPayment").val()
-	    };
+			success: function(response) {
+				alert("success")
 
-	    console.log("Sending Data:", data); // 🔍 Debug
+				if (response.status === "OK") {
+					alert("✅ Incentive Paid Successfully!");
 
-	    $.ajax({
-	        type: "POST",
-	        url: "accountManagement/save-incentive-payment",
-	        contentType: "application/json",
-	        data: JSON.stringify(data),
+					location.reload();
 
-	        success: function (response) {
+				} else {
+					alert("hh");
+					alert("❌ " + response.message);
+				}
 
-	            console.log("Response:", response);
+				$("#payBtn").prop("disabled", false).text("PAY");
+			},
 
-	            if (response.message === "Incentive Already Paid For This Month") {
-	                alert("⚠ Incentive Already Paid For This Month");
-	                return;
-	            }
+			error: function(xhr) {
+				alert("error");
+				let msg = "Something went wrong!";
+				if (xhr.responseJSON && xhr.responseJSON.message) {
+					msg = xhr.responseJSON.message;
+				}
 
-	            alert("✅ Incentive Payment Saved Successfully");
+				alert("❌ " + msg);
 
-	            // Optional: clear form after success
-	            // $("form")[0].reset();
-	        },
-
-	        error: function (xhr) {
-	            console.log(xhr);
-	            alert("❌ Error While Saving Payment");
-	        }
-	    });
+				$("#payBtn").prop("disabled", false).text("PAY");
+			}
+		});
 
 	});
 

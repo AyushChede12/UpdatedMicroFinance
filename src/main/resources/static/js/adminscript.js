@@ -17,7 +17,7 @@ $(document).ready(function() {
 	});
 
 	// ================= BRANCH =================
-	if ($("#branchName").length || $("#closingbranchName").length) {
+	if ($("#branchName").length || $("#closingbranchName").length || $("#paymentBranch").length) {
 		$.ajax({
 			url: "api/preference/getAllBranchModule",
 			type: "GET",
@@ -28,6 +28,7 @@ $(document).ready(function() {
 					$("#branchName").empty().append("<option value=''>--SELECT BRANCH--</option>");
 					$("#closingbranchName").empty().append("<option value=''>--SELECT BRANCH--</option>");
 					$("#branch").empty().append("<option value=''>--SELECT BRANCH--</option>");
+					$("#paymentBranch").empty().append("<option value=''>--SELECT BRANCH--</option>");
 
 					branchList.forEach(branch => {
 						const option =
@@ -38,6 +39,7 @@ $(document).ready(function() {
 						$("#branchName").append(option);
 						$("#closingbranchName").append(option);
 						$("#branch").append(option);
+						$("#paymentBranch").append(option);
 					});
 				}
 			}

@@ -29,6 +29,7 @@ import com.microfinance.dto.ManualJournalDto;
 import com.microfinance.dto.OutgoingPaymentDto;
 import com.microfinance.dto.TrialBalanceReportDto;
 import com.microfinance.model.AccountIncentivePayment;
+import com.microfinance.model.IncentivePayment;
 import com.microfinance.model.LedgerAccountMaster;
 import com.microfinance.model.LoanPayment;
 import com.microfinance.model.TeamMember;
@@ -399,13 +400,12 @@ public class AccountManagementController {
 
 		return ResponseEntity.ok("Deposit Successful");
 	}
-	
+
 	@GetMapping("/allPendingCheques")
 	public ApiResponse<List<LoanPayment>> getAllPendingCheques() {
-	    List<LoanPayment> list = accountManagementService.findAllPendingCheques();
-	    return new ApiResponse<>(HttpStatus.OK, "All pending cheques", list);
+		List<LoanPayment> list = accountManagementService.findAllPendingCheques();
+		return new ApiResponse<>(HttpStatus.OK, "All pending cheques", list);
 	}
-
 
 	@PostMapping("/search")
 	public ApiResponse<List<LoanPayment>> searchCheque(@RequestParam String typeOfLoan, @RequestParam String branchName,
@@ -436,16 +436,38 @@ public class AccountManagementController {
 			return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to clear cheque.", null);
 		}
 	}
-	
+
 	@PostMapping("/bounce")
 	public ApiResponse<LoanPayment> bounceCheque(@RequestParam Long id) {
-	    try {
-	        LoanPayment updated = accountManagementService.bounceCheque(id);
-	        return new ApiResponse<>(HttpStatus.OK, "Cheque bounced Successfully.", updated);
-	    } catch (Exception e) {
-	        return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to bounce cheque.", null);
-	    }
+		try {
+			LoanPayment updated = accountManagementService.bounceCheque(id);
+			return new ApiResponse<>(HttpStatus.OK, "Cheque bounced Successfully.", updated);
+		} catch (Exception e) {
+			return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to bounce cheque.", null);
+		}
 	}
 
+	// Incentive Payment
+	@GetMapping("/assets")
+	public ApiResponse<List<LedgerAccountMaster>> getAssetsLedgers() {
+
+		List<LedgerAccountMaster> list = accountManagementService.getAssetsLedgers();
+
+		if (list.isEmpty()) {
+			return new ApiResponse<>(HttpStatus.NOT_FOUND, "No Assets Ledgers Found", list);
+		}
+
+		return new ApiResponse<>(HttpStatus.OK, "Assets Ledgers Fetched Successfully", list);
+	}
+
+	@PostMapping("/pay")
+	public ApiResponse<IncentivePayment> payIncentive(@RequestBody IncentivePayment request) {
+		try {
+			IncentivePayment response = accountManagementService.saveAndPay(request);
+			return new ApiResponse<>(HttpStatus.OK, "Incentive Paid Successfully", response);
+		} catch (Exception e) {
+			return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, "Error: " + e.getMessage(), null);
+		}
+	}
 
 }
