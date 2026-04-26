@@ -62,14 +62,6 @@
 
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
-				<label for="">MONTHLY INCOME SCHEME DEPOSIT</label> <input
-					type="text" name="monthlyIncomeSchemeDeposit"
-					id="monthlyIncomeSchemeDeposit" required="required" placeholder="MONTHLY INCOME SCHEME DEPOSIT" />
-			</div>
-		</div>
-
-		<div class="col-lg-3">
-			<div class="d-flex flex-column formFields mb-4">
 				<label for="">RECURRING DEPOSIT / DD DEPOSIT</label> <input
 					type="text" name="recurringDeposit" id="recurringDeposit"
 					required="required" placeholder="ENTER RECURRING DEPOSIT / DD DEPOSIT" />

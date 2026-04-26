@@ -21,14 +21,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.microfinance.dto.ApiResponse;
 import com.microfinance.dto.BankCashTransferDto;
+import com.microfinance.dto.BankStatementDto;
 import com.microfinance.dto.IncentiveRequest;
 import com.microfinance.dto.IncomingReceiptDto;
 import com.microfinance.dto.LedgerAccountDto;
 import com.microfinance.dto.LedgerSummaryDto;
+import com.microfinance.dto.MandateDepositDto;
 import com.microfinance.dto.ManualJournalDto;
 import com.microfinance.dto.OutgoingPaymentDto;
 import com.microfinance.dto.TrialBalanceReportDto;
 import com.microfinance.model.AccountIncentivePayment;
+import com.microfinance.model.BankTransaction;
 import com.microfinance.model.IncentivePayment;
 import com.microfinance.model.LedgerAccountMaster;
 import com.microfinance.model.LoanPayment;
@@ -468,6 +471,57 @@ public class AccountManagementController {
 		} catch (Exception e) {
 			return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, "Error: " + e.getMessage(), null);
 		}
+	}
+
+	// Mandate Deposit to Bank
+	@PostMapping("/saveMandateDeposit")
+	public ResponseEntity<ApiResponse<MandateDepositDto>> save(@RequestBody MandateDepositDto dto) {
+
+		ApiResponse<MandateDepositDto> response = accountManagementService.saveMandateDeposit(dto);
+
+		return ResponseEntity.status(response.getStatus()) // HttpStatus directly use
+				.body(response);
+	}
+
+//	// ================= SEARCH =================
+//	@GetMapping("/listOfMandateDeposit")
+//	public ResponseEntity<ApiResponse<List<MandateDepositDto>>> getByDateRange(@RequestParam String startDate,
+//			@RequestParam String endDate) {
+//
+//		ApiResponse<List<MandateDepositDto>> response = accountManagementService.getByDateRange(startDate, endDate);
+//
+//		if (response.isStatus()) {
+//			return new ResponseEntity<>(response, HttpStatus.OK); // 200
+//		} else {
+//			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST); // 400
+//		}
+//	}
+//
+//	// ================= GET BY ID =================
+//	@GetMapping("/{id}")
+//	public ResponseEntity<ApiResponse<MandateDepositDto>> getById(@PathVariable Long id) {
+//
+//		ApiResponse<MandateDepositDto> response = accountManagementService.getById(id);
+//
+//		if (response.isStatus()) {
+//			return new ResponseEntity<>(response, HttpStatus.OK); // 200
+//		} else {
+//			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND); // 404
+//		}
+//	}
+
+	// Bank Statement
+	@GetMapping("/bank-statement")
+	public ApiResponse<List<BankStatementDto>> getStatement(@RequestParam String accountNumber,
+			@RequestParam String startDate, @RequestParam String endDate) {
+
+		List<BankStatementDto> data = accountManagementService.getBankStatement(accountNumber, startDate, endDate);
+
+		if (data.isEmpty()) {
+			return new ApiResponse<>(HttpStatus.NOT_FOUND, "No Transactions Found", null);
+		}
+
+		return new ApiResponse<>(HttpStatus.OK, "Statement fetched successfully", data);
 	}
 
 }

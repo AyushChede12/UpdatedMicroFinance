@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class BranchModule {
@@ -19,6 +21,10 @@ public class BranchModule {
 	private String state;
 	private String branchManagerContactNo;
 	private String accountDepartmentContactNo;
+
+	@ManyToOne
+	@JoinColumn(name = "bank_id")
+	private BankModule bank;
 
 	public Long getId() {
 		return id;
@@ -90,6 +96,14 @@ public class BranchModule {
 
 	public void setAccountDepartmentContactNo(String accountDepartmentContactNo) {
 		this.accountDepartmentContactNo = accountDepartmentContactNo;
+	}
+
+	public BankModule getBank() {
+		return bank;
+	}
+
+	public void setBank(BankModule bank) {
+		this.bank = bank;
 	}
 
 }

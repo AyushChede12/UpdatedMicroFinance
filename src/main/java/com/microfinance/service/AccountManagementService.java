@@ -21,15 +21,20 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import com.microfinance.dto.ApiResponse;
 import com.microfinance.dto.BankCashTransferDto;
+import com.microfinance.dto.BankStatementDto;
 import com.microfinance.dto.IncentiveRequest;
 import com.microfinance.dto.IncomingReceiptDto;
 import com.microfinance.dto.JournalEntryReportDto;
 import com.microfinance.dto.LedgerAccountDto;
 import com.microfinance.dto.LedgerSummaryDto;
+import com.microfinance.dto.MandateDepositDto;
 import com.microfinance.dto.ManualJournalDto;
 import com.microfinance.dto.OutgoingPaymentDto;
 import com.microfinance.dto.TrialBalanceReportDto;
@@ -41,12 +46,14 @@ import com.microfinance.model.AccountTransaction;
 import com.microfinance.model.AddnewinvestmentPM;
 import com.microfinance.model.ApplyForGold;
 import com.microfinance.model.BankCashTransferEntry;
+import com.microfinance.model.BankTransaction;
 import com.microfinance.model.CreateSavingsAccount;
 import com.microfinance.model.IncentivePayment;
 import com.microfinance.model.IncomingReceiptEntry;
 import com.microfinance.model.LedgerAccountMaster;
 import com.microfinance.model.LoanApplication;
 import com.microfinance.model.LoanPayment;
+import com.microfinance.model.MandateDeposit;
 import com.microfinance.model.ManualJournalEntry;
 import com.microfinance.model.OutgoingPaymentEntry;
 import com.microfinance.model.TeamMember;
@@ -56,6 +63,7 @@ import com.microfinance.repository.AccountTransactionRepo;
 import com.microfinance.repository.AddInvestmentRepo;
 import com.microfinance.repository.ApplyForGoldRepo;
 import com.microfinance.repository.BankCashTransferRepo;
+import com.microfinance.repository.BankTransactionRepo;
 import com.microfinance.repository.BranchModuleRepo;
 import com.microfinance.repository.CreateSavingAccountRepo;
 import com.microfinance.repository.FinancialConsultantRepo;
@@ -66,6 +74,7 @@ import com.microfinance.repository.LedgerAccountRepository;
 import com.microfinance.repository.LedgerSummaryRepo;
 import com.microfinance.repository.LoanApplicationRepo;
 import com.microfinance.repository.LoanPaymentRepo;
+import com.microfinance.repository.MandateDepositRepository;
 import com.microfinance.repository.ManualJournalRepo;
 import com.microfinance.repository.NewLoanAppicationRepo;
 import com.microfinance.repository.OutgoingPaymentRepo;
@@ -131,6 +140,15 @@ public class AccountManagementService {
 
 	@Autowired
 	private IncentiveRepo incentiveRepo;
+
+	@Autowired
+	private MandateDepositRepository mandateDepositRepo;
+
+	@Autowired
+	private BankTransactionRepo bankTransactionRepo;
+
+	@Autowired
+	private CreateSavingAccountRepo createSavingsAccountRepo;
 
 	/**
 	 * Create a new Ledger Account. Business Logic: - Title must be unique per
@@ -982,7 +1000,7 @@ public class AccountManagementService {
 		entity.setCreditLedger(dto.getCreditLedger());
 		entity.setDebitLedger(dto.getDebitLedger());
 		entity.setTransferMode(dto.getTransferMode());
-		entity.setChequeDate(dto.getChequeDate());
+		// entity.setChequeDate(dto.getChequeDate());
 		entity.setChequeNo(dto.getChequeNo());
 		entity.setBankName(dto.getBankName());
 		entity.setTransactionRef(dto.getTransactionRef());
@@ -1923,4 +1941,160 @@ public class AccountManagementService {
 		return saved;
 	}
 
+	public ApiResponse<MandateDepositDto> saveMandateDeposit(MandateDepositDto dto) {
+		// TODO Auto-generated method stub
+		try {
+			MandateDeposit entity = new MandateDeposit();
+
+			entity.setId(dto.getId());
+
+			entity.setFixedDeposit(dto.getFixedDeposit());
+			entity.setRecurringDeposit(dto.getRecurringDeposit());
+			entity.setSavingDeposit(dto.getSavingDeposit());
+
+			entity.setSavingPayout(dto.getSavingPayout());
+			entity.setFlexibleDeposit(dto.getFlexibleDeposit());
+			entity.setFlexibleWithdrawal(dto.getFlexibleWithdrawal());
+			entity.setMaturityCapital(dto.getMaturityCapital());
+
+			entity.setLastFdAmount(dto.getLastFdAmount());
+
+			entity.setBankName(dto.getBankName());
+			entity.setBranchName(dto.getBranchName());
+
+			entity.setFdNumber(dto.getFdNumber());
+			entity.setFixedDepositAmount(dto.getFixedDepositAmount());
+			entity.setAmountOnMaturity(dto.getAmountOnMaturity());
+			entity.setFdInstallationDate(dto.getFdInstallationDate());
+
+			entity.setMaturityDueDate(dto.getMaturityDueDate());
+			entity.setModeOfPayment(dto.getModeOfPayment());
+			entity.setRemarks(dto.getRemarks());
+
+			entity.setStartDate(dto.getStartDate());
+			entity.setEndDate(dto.getEndDate());
+
+			// ===== Calculation =====
+			double fd = parse(dto.getFixedDeposit());
+			double rd = parse(dto.getRecurringDeposit());
+			double sd = parse(dto.getSavingDeposit());
+			double flexDep = parse(dto.getFlexibleDeposit());
+
+			double payout = parse(dto.getSavingPayout());
+			double flexWith = parse(dto.getFlexibleWithdrawal());
+
+			double totalDeposit = fd + rd + sd + flexDep;
+			double totalWithdraw = payout + flexWith;
+			double net = totalDeposit - totalWithdraw;
+
+			double available = net * 0.10;
+
+			entity.setAggregateDeposit(String.valueOf(totalDeposit));
+			entity.setAggregateWithdrawal(String.valueOf(totalWithdraw));
+			entity.setNetBalance(String.valueOf(net));
+			entity.setAvailableFunds(String.valueOf(available));
+			entity.setUnpledgedFunds(String.valueOf(available));
+
+			MandateDeposit saved = mandateDepositRepo.save(entity);
+
+			return new ApiResponse<>(HttpStatus.OK, "Saved Successfully", mapToDto(saved));
+
+		} catch (Exception e) {
+			return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, "Error: " + e.getMessage(), null);
+		}
+	}
+
+	private double parse(String val) {
+		try {
+			return (val == null || val.trim().isEmpty()) ? 0 : Double.parseDouble(val);
+		} catch (Exception e) {
+			return 0;
+		}
+	}
+
+	private MandateDepositDto mapToDto(MandateDeposit e) {
+		if (e == null)
+			return null;
+
+		MandateDepositDto dto = new MandateDepositDto();
+
+		dto.setId(e.getId());
+		dto.setFixedDeposit(e.getFixedDeposit());
+		dto.setRecurringDeposit(e.getRecurringDeposit());
+		dto.setSavingDeposit(e.getSavingDeposit());
+
+		dto.setSavingPayout(e.getSavingPayout());
+		dto.setFlexibleDeposit(e.getFlexibleDeposit());
+		dto.setFlexibleWithdrawal(e.getFlexibleWithdrawal());
+		dto.setMaturityCapital(e.getMaturityCapital());
+
+		dto.setAggregateDeposit(e.getAggregateDeposit());
+		dto.setAggregateWithdrawal(e.getAggregateWithdrawal());
+		dto.setNetBalance(e.getNetBalance());
+		dto.setAvailableFunds(e.getAvailableFunds());
+		dto.setUnpledgedFunds(e.getUnpledgedFunds());
+
+		dto.setLastFdAmount(e.getLastFdAmount());
+
+		dto.setBankName(e.getBankName());
+		dto.setBranchName(e.getBranchName());
+
+		dto.setFdNumber(e.getFdNumber());
+		dto.setFixedDepositAmount(e.getFixedDepositAmount());
+		dto.setAmountOnMaturity(e.getAmountOnMaturity());
+		dto.setFdInstallationDate(e.getFdInstallationDate());
+
+		dto.setMaturityDueDate(e.getMaturityDueDate());
+		dto.setModeOfPayment(e.getModeOfPayment());
+		dto.setRemarks(e.getRemarks());
+
+		dto.setStartDate(e.getStartDate());
+		dto.setEndDate(e.getEndDate());
+
+		return dto;
+	}
+
+	public List<BankStatementDto> getBankStatement(String accountNumber, String startDate, String endDate) {
+
+		// 🔹 Step 1: Transactions लो
+		List<BankTransaction> txnList = bankTransactionRepo.findByAccountNumberAndDateBetween(accountNumber, startDate,
+				endDate);
+
+		if (txnList.isEmpty()) {
+			return new ArrayList<>();
+		}
+
+		// 🔥 Step 2: Account लो (Optional handle)
+		CreateSavingsAccount acc = createSavingsAccountRepo.findByAccountNumber(accountNumber)
+				.orElseThrow(() -> new RuntimeException("Account not found"));
+
+		// 🔴 safety check (Branch + Bank)
+		if (acc.getBranchName() == null || acc.getBranchName().getBank() == null) {
+			throw new RuntimeException("Branch or Bank mapping missing");
+		}
+
+		String branchName = acc.getBranchName().getBranchName();
+		String bankName = acc.getBranchName().getBank().getBankName();
+
+		// 🔹 Step 3: Mapping
+		List<BankStatementDto> result = new ArrayList<>();
+
+		for (BankTransaction txn : txnList) {
+
+			BankStatementDto dto = new BankStatementDto();
+
+			dto.setBankName(bankName);
+			dto.setBranchName(branchName);
+			dto.setAccountNumber(txn.getAccountNumber());
+			dto.setDate(txn.getDate());
+			dto.setNarration(txn.getNarration());
+			dto.setCredit(txn.getCredit());
+			dto.setDebit(txn.getDebit());
+			dto.setBalance(txn.getBalance());
+
+			result.add(dto);
+		}
+
+		return result;
+	}
 }
