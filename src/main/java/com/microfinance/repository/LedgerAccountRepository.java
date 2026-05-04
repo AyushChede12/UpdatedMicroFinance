@@ -14,27 +14,28 @@ import com.microfinance.model.LedgerAccountMaster;
 public interface LedgerAccountRepository extends JpaRepository<LedgerAccountMaster, Long> {
 
 	// Check unique account title per branch (ignoring spaces and case)
-    @Query("SELECT COUNT(l) > 0 FROM LedgerAccountMaster l " +
-           "WHERE LOWER(REPLACE(l.accountTitle, ' ', '')) = LOWER(REPLACE(:title, ' ', '')) " +
-           "AND LOWER(l.branchName) = LOWER(:branch)")
-    boolean existsByAccountTitleIgnoreCaseAndBranchNameTrimmed(@Param("title") String accountTitle,
-                                                               @Param("branch") String branchName);
+	@Query("SELECT COUNT(l) > 0 FROM LedgerAccountMaster l "
+			+ "WHERE LOWER(REPLACE(l.accountTitle, ' ', '')) = LOWER(REPLACE(:title, ' ', '')) "
+			+ "AND LOWER(l.branchName) = LOWER(:branch)")
+	boolean existsByAccountTitleIgnoreCaseAndBranchNameTrimmed(@Param("title") String accountTitle,
+			@Param("branch") String branchName);
 
-    // Check unique account code per branch
-    @Query("SELECT COUNT(l) > 0 FROM LedgerAccountMaster l " +
-           "WHERE LOWER(l.accountCode) = LOWER(:code) AND LOWER(l.branchName) = LOWER(:branch)")
-    boolean existsByAccountCodeIgnoreCaseAndBranchName(@Param("code") String accountCode,
-                                                       @Param("branch") String branchName);
+	// Check unique account code per branch
+	@Query("SELECT COUNT(l) > 0 FROM LedgerAccountMaster l "
+			+ "WHERE LOWER(l.accountCode) = LOWER(:code) AND LOWER(l.branchName) = LOWER(:branch)")
+	boolean existsByAccountCodeIgnoreCaseAndBranchName(@Param("code") String accountCode,
+			@Param("branch") String branchName);
 
-    List<LedgerAccountMaster> findByBranchName(String branchName);
+	List<LedgerAccountMaster> findByBranchName(String branchName);
 
-    Optional<LedgerAccountMaster> findByAccountTitleAndBranchName(String accountTitle, String branchName);
+	Optional<LedgerAccountMaster> findByAccountTitleAndBranchName(String accountTitle, String branchName);
 
-    List<LedgerAccountMaster> findByBranchNameIgnoreCaseAndGroupNameIn(String branchName, List<String> groupName);
+	List<LedgerAccountMaster> findByBranchNameIgnoreCaseAndGroupNameIn(String branchName, List<String> groupName);
 
 	Optional<LedgerAccountMaster> findByBranchNameAndAccountTitleIgnoreCase(String branchName, String creditLedger);
 
 	boolean existsByAccountTitle(String ledgerAccount);
 
+	List<LedgerAccountMaster> findByGroupNameIgnoreCase(String groupName);
 
 }

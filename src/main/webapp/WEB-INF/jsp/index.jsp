@@ -13,7 +13,7 @@
 body {
 	font-family: 'Poppins', sans-serif;
 	background: linear-gradient(rgba(0, 0, 50, 0.8), rgba(0, 0, 50, 0.8)),
-		url('Uploads/1749265826873_steptodown.com563779.jpg') no-repeat center
+		url('Uploads/bgimageLogin.png') no-repeat center
 		center;
 	background-size: cover;
 	height: 100vh;

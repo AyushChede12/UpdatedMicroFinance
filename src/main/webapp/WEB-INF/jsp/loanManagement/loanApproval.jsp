@@ -24,7 +24,8 @@
 						<label for="">FIND LOAN BY ID</label> <select id="findByLoanId"
 							name="findByLoanId" class="form-control selectField"
 							style="height: 30px;">
-							<option value="">SELECT LOAN ID</option><span id="star">*</span>
+							<option value="">SELECT LOAN ID</option>
+							<span id="star">*</span>
 						</select> <small id="chkloanid" style="color: red;"></small>
 					</div>
 				</div>
@@ -413,9 +414,8 @@
 					onchange=""
 					style="background-size: cover; background-repeat: no-repeat" />
 					<div id="img-view">
-						<img src="Uploads/upload.png" alt="photo"
-							id="photoPreview" /> <input type="hidden" id="photoHidden"
-							name="photoHidden">
+						<img src="Uploads/upload.png" alt="photo" id="photoPreview" /> <input
+							type="hidden" id="photoHidden" name="photoHidden">
 
 					</div>
 				</label>

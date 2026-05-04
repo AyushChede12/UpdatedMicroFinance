@@ -22,8 +22,8 @@
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">INCENTIVE MONTH</label> <select id="incentiveMonth"
-							name="incentiveMonth" required="required"
+						<label for="">INCENTIVE MONTH</label> <select id="month"
+							name="month" required="required"
 							class="form-control selectField" style="height: 30px;">
 							<option value="">--SELECT MONTH--</option>
 							<option value="january">JANUARY</option>
@@ -63,7 +63,7 @@
 	<div class="col-lg-12">
 		<nav>
 			<ol class="breadcrumb breadcrumb-title">
-				<li class="breadcrumb-item action mt-3">INCENTIVE DETAILS</li>
+				<li class="breadcrumb-item action mt-3">TEAM MEMBER DETAILS</li>
 			</ol>
 		</nav>
 	</div>
@@ -83,6 +83,19 @@
 				required="required" placeholder="ENTER DESIGNATION" />
 		</div>
 	</div>
+
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<nav>
+			<ol class="breadcrumb breadcrumb-title">
+				<li class="breadcrumb-item action mt-3">INCENTIVE DETAILS</li>
+			</ol>
+		</nav>
+	</div>
+
+
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
@@ -160,8 +173,8 @@
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields">
-			<label for=""> BRANCH OF PAYMENT</label> <select id="branchName"
-				name="branchName" required="required"
+			<label for="">PAYMENT BRANCH</label> <select id="paymentBranch"
+				name="paymentBranch" required="required"
 				class="form-control selectField" style="height: 30px;">
 				<option value="">--SELECT BRANCH--</option>
 			</select>
@@ -177,11 +190,21 @@
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields">
-			<label for="">MODE OF PAYMENT</label> <select id="modeOfPayment"
-				name="modeOfPayment" required="required"
+			<label for="">MODE OF PAYMENT</label> <select id="paymentMode"
+				name="paymentMode" required="required"
 				class="form-control selectField" style="height: 30px;">
 				<option value="">--SELECT PAYMENT MODE--</option>
 				<option value="Cash">CASH</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="col-lg-3">
+		<div class="d-flex flex-column formFields">
+			<label for="">PAYMENT FROM</label> <select id="paymentFrom"
+				name="paymentFrom" required="required"
+				class="form-control selectField" style="height: 30px;">
+				<option value="">--SELECT PAYMENT FROM--</option>
 			</select>
 		</div>
 	</div>

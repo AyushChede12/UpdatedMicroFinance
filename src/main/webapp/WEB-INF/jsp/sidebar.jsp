@@ -192,11 +192,11 @@
 							PAYMENT</span>
 				</a></li>
 
-				<li><a href="${baseUrl}/misInterestPaymentAccountSection"> <i
+				<%-- <li><a href="${baseUrl}/misInterestPaymentAccountSection"> <i
 						class="bi bi-circle"></i> <span
 						style="font-family: 'Poppins', sans-serif">MIS INTEREST
 							PAYMENT</span>
-				</a></li>
+				</a></li> --%>
 
 				<li><a href="${baseUrl}/chequeClearingProcessing"> <i
 						class="bi bi-circle"></i> <span

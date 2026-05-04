@@ -195,13 +195,11 @@ public class LoanManagementService {
 
 				// Step 2: Approve the loan
 
-				loan.setApprovalStatus(approval.isApprovalStatus());
-				loan.setApprovalDate(approval.getApprovalDate());
 				loan.setSanctionedAmount(String.valueOf(sanctionedAmount));
-				loanApplicationRepo.save(loan);
-
 			}
-
+			loan.setApprovalStatus(approval.isApprovalStatus());
+			loan.setApprovalDate(approval.getApprovalDate());
+			loanApplicationRepo.save(loan);
 			return "success";
 		} else {
 			return "not_found";

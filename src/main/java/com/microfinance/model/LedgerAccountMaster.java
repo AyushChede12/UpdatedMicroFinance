@@ -42,13 +42,6 @@ public class LedgerAccountMaster {
 	@Column(length = 15, nullable = false)
 	private String status = "Active"; // "Active" or "Inactive"
 
-	
-	
-	
-	
-	
-	
-	
 	@Column(length = 100, nullable = false)
 	private String branchName; // Branch Name, required
 
