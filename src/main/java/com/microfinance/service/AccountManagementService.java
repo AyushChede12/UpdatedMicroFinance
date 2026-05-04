@@ -2168,6 +2168,8 @@ public class AccountManagementService {
 
 			Double income = row[2] != null ? ((Number) row[2]).doubleValue() : 0.0;
 			Double expense = row[3] != null ? ((Number) row[3]).doubleValue() : 0.0;
+			System.out.println(income);
+			System.out.println(expense);
 
 			PLStatementDto pl = new PLStatementDto();
 

@@ -53,9 +53,9 @@ public interface AccountTransactionRepo extends JpaRepository<AccountTransaction
 	@Query(value = "SELECT " + "t.transaction_date, " + "t.branch_name, " + "SUM(t.credit) as totalIncome, "
 			+ "SUM(t.debit) as totalExpense " + "FROM account_transaction t "
 			+ "WHERE (:branchName IS NULL OR t.branch_name = :branchName) "
-			+ "AND STR_TO_DATE(t.transaction_date, '%d-%m-%Y') " + "BETWEEN STR_TO_DATE(:startDate, '%d-%m-%Y') "
-			+ "AND STR_TO_DATE(:endDate, '%d-%m-%Y') " + "GROUP BY t.transaction_date, t.branch_name "
-			+ "ORDER BY STR_TO_DATE(t.transaction_date, '%d-%m-%Y')", nativeQuery = true)
+			+ "AND STR_TO_DATE(t.transaction_date, '%Y-%m-%d') " + "BETWEEN STR_TO_DATE(:startDate, '%Y-%m-%d') "
+			+ "AND STR_TO_DATE(:endDate, '%Y-%m-%d') " + "GROUP BY t.transaction_date, t.branch_name "
+			+ "ORDER BY STR_TO_DATE(t.transaction_date, '%Y-%m-%d')", nativeQuery = true)
 	List<Object[]> getPLData(@Param("branchName") String branchName, @Param("startDate") String startDate,
 			@Param("endDate") String endDate);
 }
