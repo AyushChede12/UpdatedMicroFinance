@@ -59,29 +59,49 @@
 
 	<div class="row">
 		<div class="col-12 text-center mt-3">
-			<button id="serachBtn" class="btnStyle"
+			<button type="button" id="serachBtn" class="btnStyle"
 				style="background-color: #FFA500;">SEARCH</button>
 		</div>
 	</div>
 </form>
 
-<div class="row mt-5">
+<div class="row mt-4">
 	<div class="col-12">
-		<div class="card recent-sales">
+
+		<div class="card">
+
+			<div
+				class="card-header d-flex justify-content-between align-items-center">
+				<h5 class="mb-0">SEARCH RESULT</h5>
+
+				<div>
+					<button class="btn btn-success btn-sm" onclick="exportToExcel()">Export</button>
+
+					<button class="btn btn-primary btn-sm" onclick="printReport()">Print</button>
+				</div>
+			</div>
 
 			<div class="card-body table-responsive">
-				<h5 class="card-title">SEARCH RESULT</h5>
 
-				<table class="table table-borderless datatable overflow-scroll">
+				<table class="table table-bordered datatable table-striped table-hover">
 					<thead class="table-light">
-						<tr style="font-family: 'Poppins', sans-serif;">
-							<th scope="col">ID</th>
-							<th scope="col">BRANCH TYPE</th>
-							<th scope="col">LEDGER</th>
-							<th scope="col">DATE</th>
+						<tr>
+							<th>SR No</th>
+							<th>Date</th>
+							<th>Transaction ID</th>
+							<th>Ledger</th>
+							<th>Description</th>
+							<th class="text-end">Debit</th>
+							<th class="text-end">Credit</th>
+							<th class="text-end">Balance</th>
 						</tr>
 					</thead>
+
 					<tbody>
+						<tr>
+							<td colspan="8" class="text-center text-muted">No Data
+								Available</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>
@@ -89,3 +109,23 @@
 	</div>
 </div>
 
+<style>
+.selectField {
+	height: 38px;
+}
+
+table th, table td {
+	vertical-align: middle !important;
+}
+
+.table-hover tbody tr:hover {
+	background-color: #f5f5f5;
+}
+
+.text-end {
+	text-align: right;
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/js/account-management/dailyTransactionBook.js"></script>

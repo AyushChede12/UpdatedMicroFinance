@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class BranchModule {
 
@@ -24,6 +26,7 @@ public class BranchModule {
 
 	@ManyToOne
 	@JoinColumn(name = "bank_id")
+	@JsonIgnore
 	private BankModule bank;
 
 	public Long getId() {

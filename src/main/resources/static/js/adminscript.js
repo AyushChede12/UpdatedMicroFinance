@@ -42,6 +42,9 @@ $(document).ready(function() {
 						$("#paymentBranch").append(option);
 					});
 				}
+			},
+			error:function(err){
+				alert("err");
 			}
 		});
 	}

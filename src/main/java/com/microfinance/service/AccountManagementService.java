@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.microfinance.dto.ApiResponse;
@@ -37,6 +38,8 @@ import com.microfinance.dto.LedgerSummaryDto;
 import com.microfinance.dto.MandateDepositDto;
 import com.microfinance.dto.ManualJournalDto;
 import com.microfinance.dto.OutgoingPaymentDto;
+import com.microfinance.dto.PLStatementDto;
+import com.microfinance.dto.TrialBalanceDTO;
 import com.microfinance.dto.TrialBalanceReportDto;
 import com.microfinance.exception.BadRequestException;
 import com.microfinance.exception.BusinessLogicException;
@@ -149,6 +152,9 @@ public class AccountManagementService {
 
 	@Autowired
 	private CreateSavingAccountRepo createSavingsAccountRepo;
+
+	@Autowired
+	private AccountTransactionRepo accountTransactionRepo;
 
 	/**
 	 * Create a new Ledger Account. Business Logic: - Title must be unique per
@@ -2096,5 +2102,86 @@ public class AccountManagementService {
 		}
 
 		return result;
+	}
+
+	// CashBook
+	public List<AccountTransaction> getCashBookTransaction(String branchName, String startDate, String endDate) {
+		// TODO Auto-generated method stub
+		if (branchName == null || branchName.isEmpty()) {
+			throw new RuntimeException("Branch is required");
+		}
+
+		if (startDate == null || endDate == null) {
+			throw new RuntimeException("Date range is required");
+		}
+
+		return accountTransactionRepo.getCashBook(branchName, startDate, endDate);
+	}
+
+	// Fund Transfer Register
+	public List<AccountTransaction> getFundTransfers(String branchName, String startDate, String endDate) {
+		// TODO Auto-generated method stub
+		return accountTransactionRepo.getFundTransfers(branchName, startDate, endDate);
+	}
+
+	// Daily Transactions Book
+	public List<AccountTransaction> getDailyTransactions(String branchName, String accountNumber, String startDate,
+			String endDate) {
+		// TODO Auto-generated method stub
+		if (branchName == null || accountNumber == null) {
+			throw new RuntimeException("Branch and Ledger required");
+		}
+
+		return accountTransactionRepo.getDailyTransactions(branchName, accountNumber, startDate, endDate);
+	}
+
+	public List<TrialBalanceDTO> getTrialBalance(String branchName, String startDate, String endDate) {
+
+		List<Object[]> results = accountTransactionRepo.getTrialBalance(branchName, startDate, endDate);
+
+		List<TrialBalanceDTO> list = new ArrayList<>();
+
+		for (Object[] row : results) {
+
+			String ledgerName = row[0] != null ? row[0].toString() : "-";
+
+			Double opening = row[1] != null ? ((Number) row[1]).doubleValue() : 0.0;
+			Double debit = row[2] != null ? ((Number) row[2]).doubleValue() : 0.0;
+			Double credit = row[3] != null ? ((Number) row[3]).doubleValue() : 0.0;
+
+			// 🔥 DTO already calculating closing
+			TrialBalanceDTO dto = new TrialBalanceDTO(ledgerName, opening, debit, credit);
+
+			list.add(dto);
+		}
+
+		return list;
+	}
+
+	public List<PLStatementDto> getPLStatement(String branchName, String startDate, String endDate) {
+
+		List<Object[]> results = accountTransactionRepo.getPLData(branchName, startDate, endDate);
+
+		List<PLStatementDto> list = new ArrayList<>();
+
+		for (Object[] row : results) {
+
+			Double income = row[2] != null ? ((Number) row[2]).doubleValue() : 0.0;
+			Double expense = row[3] != null ? ((Number) row[3]).doubleValue() : 0.0;
+
+			PLStatementDto pl = new PLStatementDto();
+
+			pl.setDate(row[0].toString());
+			pl.setBranchName(row[1].toString());
+			pl.setTotalIncome(BigDecimal.valueOf(income));
+			pl.setTotalExpense(BigDecimal.valueOf(expense));
+
+			// 🔥 Profit / Loss
+			pl.setProfitOrLoss(BigDecimal.valueOf(income - expense));
+
+			list.add(pl);
+		}
+
+		return list;
 	}
 }

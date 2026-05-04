@@ -29,8 +29,11 @@ import com.microfinance.dto.LedgerSummaryDto;
 import com.microfinance.dto.MandateDepositDto;
 import com.microfinance.dto.ManualJournalDto;
 import com.microfinance.dto.OutgoingPaymentDto;
+import com.microfinance.dto.PLStatementDto;
+import com.microfinance.dto.TrialBalanceDTO;
 import com.microfinance.dto.TrialBalanceReportDto;
 import com.microfinance.model.AccountIncentivePayment;
+import com.microfinance.model.AccountTransaction;
 import com.microfinance.model.BankTransaction;
 import com.microfinance.model.IncentivePayment;
 import com.microfinance.model.LedgerAccountMaster;
@@ -522,6 +525,86 @@ public class AccountManagementController {
 		}
 
 		return new ApiResponse<>(HttpStatus.OK, "Statement fetched successfully", data);
+	}
+
+	// Cash Book
+	@GetMapping("/getCashBookTransaction")
+	public ApiResponse<List<AccountTransaction>> getCashBook(@RequestParam String branchName,
+			@RequestParam String startDate, @RequestParam String endDate) {
+
+		try {
+			List<AccountTransaction> data = accountManagementService.getCashBookTransaction(branchName, startDate,
+					endDate);
+
+			if (data.isEmpty()) {
+				return new ApiResponse<>(HttpStatus.NOT_FOUND, "No Records Found", null);
+			}
+
+			return new ApiResponse<>(HttpStatus.OK, "Cashbook Data fetched successfully", data);
+
+		} catch (Exception e) {
+			return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Error", null);
+		}
+	}
+
+	// Funds Transfer Register
+	@GetMapping("/fund-transfer")
+	public ApiResponse<List<AccountTransaction>> getFundTransfer(@RequestParam String branchName,
+			@RequestParam String startDate, @RequestParam String endDate) {
+
+		try {
+			List<AccountTransaction> data = accountManagementService.getFundTransfers(branchName, startDate, endDate);
+			return new ApiResponse<>(HttpStatus.OK, "Fund Transfer fetched successfully", data);
+
+		} catch (Exception e) {
+			return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Error", null);
+
+		}
+	}
+
+	// Daily Transaction Book
+	@GetMapping("/daily-transaction")
+	public ApiResponse<List<AccountTransaction>> getDailyTransaction(@RequestParam String branchName,
+			@RequestParam String accountNumber, @RequestParam String startDate, @RequestParam String endDate) {
+
+		try {
+			List<AccountTransaction> data = accountManagementService.getDailyTransactions(branchName, accountNumber,
+					startDate, endDate);
+
+			return new ApiResponse<>(HttpStatus.OK, "Daily Transaction fetched successfully", data);
+
+		} catch (Exception e) {
+			return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Error", null);
+		}
+	}
+
+	// Trial Balance Report
+	@GetMapping("/trial-balance-report")
+	public ResponseEntity<ApiResponse<List<TrialBalanceDTO>>> getTrialBalance(@RequestParam String branchName,
+			@RequestParam String startDate, @RequestParam String endDate) {
+
+		// ✅ Validation
+		if (branchName == null || branchName.trim().isEmpty()) {
+			return ResponseEntity.badRequest().body(new ApiResponse<>("ERROR", "Branch is required", null));
+		}
+
+		if (startDate == null || endDate == null) {
+			return ResponseEntity.badRequest().body(new ApiResponse<>("ERROR", "Date range is required", null));
+		}
+
+		List<TrialBalanceDTO> data = accountManagementService.getTrialBalance(branchName, startDate, endDate);
+
+		return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK, "Trial Balance fetched successfully", data));
+	}
+
+	@GetMapping("/pl-statementData")
+	public ResponseEntity<ApiResponse<List<PLStatementDto>>> getPLStatement(
+			@RequestParam(required = false) String branchName, @RequestParam String startDate,
+			@RequestParam String endDate) {
+
+		List<PLStatementDto> data = accountManagementService.getPLStatement(branchName, startDate, endDate);
+
+		return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "P&L data fetched successfully", data));
 	}
 
 }
