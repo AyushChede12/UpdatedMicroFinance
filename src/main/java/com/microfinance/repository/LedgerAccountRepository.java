@@ -38,4 +38,6 @@ public interface LedgerAccountRepository extends JpaRepository<LedgerAccountMast
 
 	List<LedgerAccountMaster> findByGroupNameIgnoreCase(String groupName);
 
+	Optional<LedgerAccountMaster> findByAccountCodeAndBranchName(String accountCode, String branchName);
+
 }

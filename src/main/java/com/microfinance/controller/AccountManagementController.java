@@ -20,10 +20,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.microfinance.dto.ApiResponse;
+import com.microfinance.dto.BalanceSheetDTO;
 import com.microfinance.dto.BankCashTransferDto;
 import com.microfinance.dto.BankStatementDto;
 import com.microfinance.dto.IncentiveRequest;
 import com.microfinance.dto.IncomingReceiptDto;
+import com.microfinance.dto.InterBranchTransferDTO;
 import com.microfinance.dto.LedgerAccountDto;
 import com.microfinance.dto.LedgerSummaryDto;
 import com.microfinance.dto.MandateDepositDto;
@@ -597,6 +599,7 @@ public class AccountManagementController {
 		return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK, "Trial Balance fetched successfully", data));
 	}
 
+	// PL Statement
 	@GetMapping("/pl-statementData")
 	public ResponseEntity<ApiResponse<List<PLStatementDto>>> getPLStatement(
 			@RequestParam(required = false) String branchName, @RequestParam String startDate,
@@ -607,4 +610,36 @@ public class AccountManagementController {
 		return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "P&L data fetched successfully", data));
 	}
 
+	// Balance Sheet
+	@GetMapping("/balance-sheet")
+	public ResponseEntity<ApiResponse<BalanceSheetDTO>> getBalanceSheet(@RequestParam String branchName,
+			@RequestParam String startDate, @RequestParam String endDate) {
+
+		try {
+			BalanceSheetDTO data = accountManagementService.getBalanceSheet(branchName, startDate, endDate);
+
+			return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "Balance sheet fetched successfully", data));
+
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "Error: " + e.getMessage()));
+		}
+	}
+
+	// Inter-Branch Cash Transfer
+	@PostMapping("/inter-branch-transfer")
+	public ResponseEntity<ApiResponse<String>> transferCash(@RequestBody InterBranchTransferDTO dto) {
+
+		try {
+
+			String response = accountManagementService.transferCash(dto);
+
+			return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, response, null));
+
+		} catch (Exception e) {
+
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
+		}
+	}
 }

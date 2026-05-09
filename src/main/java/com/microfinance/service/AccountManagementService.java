@@ -28,10 +28,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.microfinance.dto.ApiResponse;
+import com.microfinance.dto.BalanceSheetDTO;
+import com.microfinance.dto.BalanceSheetItemDTO;
 import com.microfinance.dto.BankCashTransferDto;
 import com.microfinance.dto.BankStatementDto;
 import com.microfinance.dto.IncentiveRequest;
 import com.microfinance.dto.IncomingReceiptDto;
+import com.microfinance.dto.InterBranchTransferDTO;
 import com.microfinance.dto.JournalEntryReportDto;
 import com.microfinance.dto.LedgerAccountDto;
 import com.microfinance.dto.LedgerSummaryDto;
@@ -2185,5 +2188,339 @@ public class AccountManagementService {
 		}
 
 		return list;
+	}
+
+	public BalanceSheetDTO getBalanceSheet(String branchName, String startDate, String endDate) {
+
+		// ✅ Directly use parameter (NO hardcoding)
+		List<AccountTransaction> transactions = accountTransactionRepo
+				.findByBranchNameAndTransactionDateBetween(branchName, startDate, endDate);
+
+		Map<String, List<AccountTransaction>> grouped = transactions.stream()
+				.collect(Collectors.groupingBy(AccountTransaction::getAccountCode));
+
+		List<BalanceSheetItemDTO> assets = new ArrayList<>();
+		List<BalanceSheetItemDTO> liabilities = new ArrayList<>();
+
+		double totalAssets = 0;
+		double totalLiabilities = 0;
+
+		for (Map.Entry<String, List<AccountTransaction>> entry : grouped.entrySet()) {
+
+			String accountCode = entry.getKey();
+			List<AccountTransaction> txList = entry.getValue();
+
+			// 🔥 IMPORTANT: branchName add करो यहाँ भी
+			Optional<LedgerAccountMaster> optionalLedger = ledgerAccountRepository
+					.findByAccountCodeAndBranchName(accountCode, branchName);
+
+			if (!optionalLedger.isPresent())
+				continue;
+
+			LedgerAccountMaster ledger = optionalLedger.get();
+
+			double debit = txList.stream().mapToDouble(tx -> tx.getDebit() != null ? tx.getDebit() : 0).sum();
+
+			double credit = txList.stream().mapToDouble(tx -> tx.getCredit() != null ? tx.getCredit() : 0).sum();
+
+			double balance;
+
+			if ("ASSETS".equalsIgnoreCase(ledger.getGroupName())) {
+				balance = debit - credit;
+			} else {
+				balance = credit - debit;
+			}
+
+			// 🔥 Opening Balance
+			BigDecimal opening = ledger.getOpeningBalance() != null ? ledger.getOpeningBalance() : BigDecimal.ZERO;
+
+			if ("DR".equalsIgnoreCase(ledger.getOpeningBalanceType())) {
+				balance += opening.doubleValue();
+			} else {
+				balance -= opening.doubleValue();
+			}
+
+			String amount = String.format("%.2f", Math.abs(balance));
+
+			if ("ASSETS".equalsIgnoreCase(ledger.getGroupName())) {
+
+				assets.add(new BalanceSheetItemDTO(ledger.getAccountTitle(), amount));
+				totalAssets += Math.abs(balance);
+
+			} else if ("LIABILITIES".equalsIgnoreCase(ledger.getGroupName())) {
+
+				liabilities.add(new BalanceSheetItemDTO(ledger.getAccountTitle(), amount));
+				totalLiabilities += Math.abs(balance);
+			}
+		}
+
+		return new BalanceSheetDTO(branchName, startDate, endDate, assets, liabilities,
+				String.format("%.2f", totalAssets), String.format("%.2f", totalLiabilities));
+	}
+
+	public String transferCash(InterBranchTransferDTO dto) {
+
+		// =========================
+		// SOURCE BRANCH CHECK
+		// =========================
+
+		boolean sourceExists = branchModuleRepo.existsByBranchName(dto.getSourceBranch());
+
+		if (!sourceExists) {
+
+			throw new RuntimeException("Source Branch does not exist");
+		}
+
+		// =========================
+		// RECEIVING BRANCH CHECK
+		// =========================
+
+		boolean receivingExists = branchModuleRepo.existsByBranchName(dto.getReceivingBranch());
+
+		if (!receivingExists) {
+
+			throw new RuntimeException("Receiving Branch does not exist");
+		}
+
+		// =========================
+		// SAME BRANCH CHECK
+		// =========================
+
+		if (dto.getSourceBranch().equalsIgnoreCase(dto.getReceivingBranch())) {
+
+			throw new RuntimeException(
+
+					"Source and Receiving Branch cannot be same");
+		}
+
+		// =========================
+		// AMOUNT VALIDATION
+		// =========================
+
+		if (dto.getAmount() == null || dto.getAmount() <= 0) {
+
+			throw new RuntimeException(
+
+					"Amount must be greater than zero");
+		}
+
+		// =========================
+		// SOURCE LEDGER CHECK
+		// =========================
+		System.out.println(dto.getAccountCode());
+		System.out.println(dto.getSourceBranch());
+		Optional<LedgerAccountMaster> sourceLedgerOptional =
+
+				ledgerAccountRepository.findByAccountCodeAndBranchName(dto.getAccountCode(), dto.getSourceBranch());
+System.out.println(sourceLedgerOptional.isPresent());
+		if (!sourceLedgerOptional.isPresent()) {
+
+			throw new RuntimeException(
+
+					"Cash Ledger not found in Source Branch");
+		}
+
+		LedgerAccountMaster sourceLedger = sourceLedgerOptional.get();
+
+		// =========================
+		// GROUP VALIDATION
+		// =========================
+
+		if (!"ASSETS".equalsIgnoreCase(sourceLedger.getGroupName())) {
+
+			throw new RuntimeException(
+
+					"Selected Ledger is not an ASSET Ledger");
+		}
+
+		// =========================
+		// ACCOUNT TYPE VALIDATION
+		// =========================
+
+		if (!"Cash".equalsIgnoreCase(sourceLedger.getAccountType())) {
+
+			throw new RuntimeException(
+
+					"Selected Ledger is not a CASH Ledger");
+		}
+
+		// =========================
+		// RECEIVING LEDGER CHECK
+		// =========================
+
+		Optional<LedgerAccountMaster> receivingLedgerOptional =
+
+				ledgerAccountRepository.findByAccountCodeAndBranchName(dto.getAccountCode(), dto.getReceivingBranch());
+
+		if (receivingLedgerOptional.isPresent()) {
+
+			throw new RuntimeException(
+
+					"Cash Ledger not found in Receiving Branch");
+		}
+
+		LedgerAccountMaster receivingLedger = receivingLedgerOptional.get();
+
+		// =========================
+		// CASH BALANCE CHECK
+		// =========================
+
+		Double availableBalance =
+
+				accountTransactionRepo.getCashBalance(
+
+						dto.getSourceBranch(),
+
+						dto.getAccountCode());
+
+		if (availableBalance == null) {
+
+			availableBalance = 0.0;
+		}
+
+		// =========================
+		// OPENING BALANCE ADD
+		// =========================
+
+		BigDecimal openingBalance = sourceLedger.getOpeningBalance();
+
+		if (openingBalance != null) {
+
+			availableBalance = availableBalance + openingBalance.doubleValue();
+		}
+
+		// =========================
+		// INSUFFICIENT BALANCE CHECK
+		// =========================
+
+		if (availableBalance < dto.getAmount()) {
+
+			throw new RuntimeException(
+
+					"Insufficient Cash Balance. Available Balance : "
+
+							+ availableBalance);
+		}
+
+		// =========================
+		// REFERENCE NUMBER
+		// =========================
+
+		String referenceNo =
+
+				"IBT-" +
+
+						UUID.randomUUID().toString().substring(0, 8);
+
+		// =========================
+		// SOURCE ENTRY
+		// =========================
+
+		AccountTransaction sourceEntry = new AccountTransaction();
+
+		sourceEntry.setBranchName(dto.getSourceBranch());
+
+		sourceEntry.setTransactionDate(dto.getTransactionDate());
+
+		sourceEntry.setAccountCode(dto.getAccountCode());
+
+		sourceEntry.setAccountNumber("NA");
+
+		sourceEntry.setNarration(
+
+				"Cash Transfer To "
+
+						+ dto.getReceivingBranch());
+
+		sourceEntry.setDebit(0.0);
+
+		sourceEntry.setCredit(dto.getAmount());
+
+		sourceEntry.setTransactionType("INTER_BRANCH_TRANSFER");
+
+		sourceEntry.setReferenceNo(referenceNo);
+
+		sourceEntry.setStatus("SUCCESS");
+
+		sourceEntry.setCreatedBy("ADMIN");
+
+		// =========================
+		// RECEIVING ENTRY
+		// =========================
+
+		AccountTransaction receivingEntry = new AccountTransaction();
+
+		receivingEntry.setBranchName(dto.getReceivingBranch());
+
+		receivingEntry.setTransactionDate(dto.getTransactionDate());
+
+		receivingEntry.setAccountCode(dto.getAccountCode());
+
+		receivingEntry.setAccountNumber("NA");
+
+		receivingEntry.setNarration(
+
+				"Cash Received From "
+
+						+ dto.getSourceBranch());
+
+		receivingEntry.setDebit(dto.getAmount());
+
+		receivingEntry.setCredit(0.0);
+
+		receivingEntry.setTransactionType("INTER_BRANCH_RECEIVE");
+
+		receivingEntry.setReferenceNo(referenceNo);
+
+		receivingEntry.setStatus("SUCCESS");
+
+		receivingEntry.setCreatedBy("ADMIN");
+
+		// =========================
+		// SAVE TRANSACTIONS
+		// =========================
+
+		accountTransactionRepo.save(sourceEntry);
+
+		accountTransactionRepo.save(receivingEntry);
+
+		// =========================
+		// UPDATE SOURCE BALANCE
+		// =========================
+
+		sourceLedger.setCurrentBalance(
+
+				BigDecimal.valueOf(
+
+						availableBalance - dto.getAmount()));
+
+		ledgerAccountRepository.save(sourceLedger);
+
+		// =========================
+		// UPDATE RECEIVING BALANCE
+		// =========================
+
+		BigDecimal receivingCurrentBalance =
+
+				receivingLedger.getCurrentBalance();
+
+		if (receivingCurrentBalance == null) {
+
+			receivingCurrentBalance = BigDecimal.ZERO;
+		}
+
+		receivingLedger.setCurrentBalance(
+
+				receivingCurrentBalance.add(
+
+						BigDecimal.valueOf(dto.getAmount())));
+
+		ledgerAccountRepository.save(receivingLedger);
+
+		// =========================
+		// SUCCESS
+		// =========================
+
+		return "Inter Branch Cash Transfer Successful";
 	}
 }
