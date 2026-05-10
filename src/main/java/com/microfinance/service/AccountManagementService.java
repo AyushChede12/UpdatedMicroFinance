@@ -168,60 +168,156 @@ public class AccountManagementService {
 	@Transactional
 	public LedgerAccountDto createLedger(LedgerAccountDto dto) {
 
+		// =========================
+		// BASIC VALIDATION
+		// =========================
+
 		validateLedgerData(dto);
-		if (!ACCOUNT_CODE_PATTERN.matcher(dto.getAccountCode()).matches()) {
+
+		// =========================
+		// ACCOUNT CODE VALIDATION
+		// =========================
+
+		if (!ACCOUNT_CODE_PATTERN.matcher(dto.getAccountCode().trim()).matches()) {
+
 			throw new BusinessLogicException(
-					"Account code must be a 3-digit code starting with 1..5 (e.g. 101, 201, 501).");
+					"Account code must be a 3-digit code starting with 1..5 (Example: 101, 201, 501)");
 		}
 
-		// 4) validate group and account code first digit consistency
-		validateGroupMatchesAccountCode(dto.getGroupName(), dto.getAccountCode());
+		// =========================
+		// GROUP + ACCOUNT CODE VALIDATION
+		// =========================
 
-		// Check by accountCode + branch
-		boolean codeExists = ledgerAccountRepository
-				.existsByAccountCodeIgnoreCaseAndBranchName(dto.getAccountCode().trim(), dto.getBranchName().trim());
+		validateGroupMatchesAccountCode(
+
+				dto.getGroupName(),
+
+				dto.getAccountCode());
+
+		// =========================
+		// BRANCH EXISTENCE CHECK
+		// =========================
+
+		boolean branchExists = branchModuleRepo.existsByBranchName(
+
+				dto.getBranchName().trim());
+
+		if (!branchExists) {
+
+			throw new BusinessLogicException(
+
+					"Selected branch does not exist");
+		}
+
+		// =========================
+		// ACCOUNT CODE + BRANCH CHECK
+		// =========================
+
+		boolean codeExists = ledgerAccountRepository.existsByAccountCodeIgnoreCaseAndBranchName(
+
+				dto.getAccountCode().trim(),
+
+				dto.getBranchName().trim());
+
 		if (codeExists) {
-			throw new BusinessLogicException("Ledger with this account code already exists in this branch");
+
+			throw new BusinessLogicException(
+
+					"Ledger with this account code already exists in this branch");
 		}
 
-		// Check by accountTitle + branch
-		boolean titleExists = ledgerAccountRepository
-				.existsByAccountTitleIgnoreCaseAndBranchNameTrimmed(dto.getAccountTitle(), dto.getBranchName());
+		// =========================
+		// ACCOUNT TITLE + BRANCH CHECK
+		// =========================
+
+		boolean titleExists = ledgerAccountRepository.existsByAccountTitleIgnoreCaseAndBranchNameTrimmed(
+
+				dto.getAccountTitle().trim(),
+
+				dto.getBranchName().trim());
+
 		if (titleExists) {
-			throw new BusinessLogicException("Ledger with this title already exists in this branch");
+
+			throw new BusinessLogicException(
+
+					"Ledger with this title already exists in this branch");
 		}
 
-		// ✅ Auto-assign Dr/Cr based on Group
-		String group = dto.getGroupName().toUpperCase();
-		if (group.equals("ASSETS") || group.equals("EXPENSES")) {
-			dto.setOpeningBalanceType("DR");
-		} else if (group.equals("LIABILITIES") || group.equals("EQUITY") || group.equals("INCOME")) {
-			dto.setOpeningBalanceType("CR");
-		} else {
-			throw new BusinessLogicException("Invalid account group: " + dto.getGroupName());
+		// =========================
+		// GROUP + ACCOUNT TYPE VALIDATION
+		// =========================
+
+		if (!isValidCombination(
+
+				dto.getGroupName(),
+
+				dto.getAccountType())) {
+
+			throw new BusinessLogicException(
+
+					"Invalid Account Type for selected Group");
 		}
 
-		// If opening balance is null, set to 0
+		// =========================
+		// OPENING BALANCE DEFAULT
+		// =========================
+
 		if (dto.getOpeningBalance() == null) {
+
 			dto.setOpeningBalance(BigDecimal.ZERO);
 		}
-		if (dto.getOpeningBalance().compareTo(BigDecimal.ZERO) == 0 && dto.getOpeningBalanceType() == null) {
-			// Default based on group (already set above)
-			// Or you can force DR for Assets/Expenses, CR for others
-		}
-		// Validate group/type combination
-		if (!isValidCombination(dto.getGroupName(), dto.getAccountType())) {
-			throw new IllegalArgumentException(
-					"Invalid combination: " + dto.getAccountType() + " cannot belong to " + dto.getGroupName());
+
+		// =========================
+		// AUTO DR / CR SETTING
+		// =========================
+
+		String group = dto.getGroupName().trim().toUpperCase();
+
+		if (group.equals("ASSETS") || group.equals("EXPENSES")) {
+
+			dto.setOpeningBalanceType("DR");
+
+		} else if (group.equals("LIABILITIES") || group.equals("EQUITY") || group.equals("INCOME")) {
+
+			dto.setOpeningBalanceType("CR");
+
+		} else {
+
+			throw new BusinessLogicException(
+
+					"Invalid Account Group");
 		}
 
-		// Initialize current balance = opening balance
+		// =========================
+		// CURRENT BALANCE SET
+		// =========================
+
 		dto.setCurrentBalance(dto.getOpeningBalance());
 
-		// Save
+		// =========================
+		// STATUS DEFAULT
+		// =========================
+
+		if (dto.getStatus() == null || dto.getStatus().trim().isEmpty()) {
+
+			dto.setStatus("Active");
+		}
+
+		// =========================
+		// SAVE ENTITY
+		// =========================
+
 		LedgerAccountMaster entity = mapToEntity(dto);
-		LedgerAccountMaster saved = ledgerAccountRepository.save(entity);
-		return mapToDto(saved);
+
+		LedgerAccountMaster savedEntity =
+
+				ledgerAccountRepository.save(entity);
+
+		// =========================
+		// RETURN DTO
+		// =========================
+
+		return mapToDto(savedEntity);
 	}
 
 	// Minimal guardrail mapping (Java 8 version)
@@ -2065,7 +2161,6 @@ public class AccountManagementService {
 
 	public List<BankStatementDto> getBankStatement(String accountNumber, String startDate, String endDate) {
 
-		// 🔹 Step 1: Transactions लो
 		List<BankTransaction> txnList = bankTransactionRepo.findByAccountNumberAndDateBetween(accountNumber, startDate,
 				endDate);
 
@@ -2073,19 +2168,23 @@ public class AccountManagementService {
 			return new ArrayList<>();
 		}
 
-		// 🔥 Step 2: Account लो (Optional handle)
 		CreateSavingsAccount acc = createSavingsAccountRepo.findByAccountNumber(accountNumber)
 				.orElseThrow(() -> new RuntimeException("Account not found"));
 
-		// 🔴 safety check (Branch + Bank)
-		if (acc.getBranchName() == null || acc.getBranchName().getBank() == null) {
-			throw new RuntimeException("Branch or Bank mapping missing");
+		String branchName = "";
+		String bankName = "";
+
+		// ✅ Null Safety
+		if (acc.getBranchName() != null) {
+
+			branchName = acc.getBranchName().getBranchName();
+
+			if (acc.getBranchName().getBank() != null) {
+
+				bankName = acc.getBranchName().getBank().getBankName();
+			}
 		}
 
-		String branchName = acc.getBranchName().getBranchName();
-		String bankName = acc.getBranchName().getBank().getBankName();
-
-		// 🔹 Step 3: Mapping
 		List<BankStatementDto> result = new ArrayList<>();
 
 		for (BankTransaction txn : txnList) {
@@ -2312,7 +2411,7 @@ public class AccountManagementService {
 		Optional<LedgerAccountMaster> sourceLedgerOptional =
 
 				ledgerAccountRepository.findByAccountCodeAndBranchName(dto.getAccountCode(), dto.getSourceBranch());
-System.out.println(sourceLedgerOptional.isPresent());
+		System.out.println(sourceLedgerOptional.isPresent());
 		if (!sourceLedgerOptional.isPresent()) {
 
 			throw new RuntimeException(
@@ -2352,7 +2451,7 @@ System.out.println(sourceLedgerOptional.isPresent());
 
 				ledgerAccountRepository.findByAccountCodeAndBranchName(dto.getAccountCode(), dto.getReceivingBranch());
 
-		if (receivingLedgerOptional.isPresent()) {
+		if (!receivingLedgerOptional.isPresent()) {
 
 			throw new RuntimeException(
 
@@ -2362,36 +2461,10 @@ System.out.println(sourceLedgerOptional.isPresent());
 		LedgerAccountMaster receivingLedger = receivingLedgerOptional.get();
 
 		// =========================
-		// CASH BALANCE CHECK
-		// =========================
-
-		Double availableBalance =
-
-				accountTransactionRepo.getCashBalance(
-
-						dto.getSourceBranch(),
-
-						dto.getAccountCode());
-
-		if (availableBalance == null) {
-
-			availableBalance = 0.0;
-		}
-
-		// =========================
-		// OPENING BALANCE ADD
-		// =========================
-
-		BigDecimal openingBalance = sourceLedger.getOpeningBalance();
-
-		if (openingBalance != null) {
-
-			availableBalance = availableBalance + openingBalance.doubleValue();
-		}
-
-		// =========================
 		// INSUFFICIENT BALANCE CHECK
 		// =========================
+
+		Double availableBalance = sourceLedger.getCurrentBalance().doubleValue();
 
 		if (availableBalance < dto.getAmount()) {
 
@@ -2522,5 +2595,19 @@ System.out.println(sourceLedgerOptional.isPresent());
 		// =========================
 
 		return "Inter Branch Cash Transfer Successful";
+	}
+
+	public List<AccountTransaction> getInterBranchTransfers() {
+		return accountTransactionRepo.findByTransactionTypeOrderByIdDesc("INTER_BRANCH_TRANSFER");
+	}
+
+	public List<Map<String, Object>> getUniqueLedgerDropdown() {
+		List<Object[]> list = ledgerAccountRepository.getUniqueLedgerDropdown();
+		return list.stream().map(data -> {
+			Map<String, Object> map = new HashMap<>();
+			map.put("accountCode", data[0]);
+			map.put("accountTitle", data[1]);
+			return map;
+		}).collect(Collectors.toList());
 	}
 }

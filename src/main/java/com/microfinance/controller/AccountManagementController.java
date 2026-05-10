@@ -519,8 +519,11 @@ public class AccountManagementController {
 	@GetMapping("/bank-statement")
 	public ApiResponse<List<BankStatementDto>> getStatement(@RequestParam String accountNumber,
 			@RequestParam String startDate, @RequestParam String endDate) {
+		System.out.println(startDate);
+		System.out.println(endDate);
 
 		List<BankStatementDto> data = accountManagementService.getBankStatement(accountNumber, startDate, endDate);
+		System.out.println(data);
 
 		if (data.isEmpty()) {
 			return new ApiResponse<>(HttpStatus.NOT_FOUND, "No Transactions Found", null);
@@ -578,6 +581,12 @@ public class AccountManagementController {
 		} catch (Exception e) {
 			return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Error", null);
 		}
+	}
+
+	@GetMapping("/getUniqueLedgerDropdown")
+	public ResponseEntity<ApiResponse<List<Map<String, Object>>>> getLedgerDropdown() {
+		List<Map<String, Object>> ledgers = accountManagementService.getUniqueLedgerDropdown();
+		return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "Ledger dropdown retrieved successfully", ledgers));
 	}
 
 	// Trial Balance Report
@@ -638,6 +647,17 @@ public class AccountManagementController {
 
 		} catch (Exception e) {
 
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
+		}
+	}
+
+	@GetMapping("/get-inter-branch-transfers")
+	public ResponseEntity<ApiResponse<List<AccountTransaction>>> getInterBranchTransfers() {
+		try {
+			List<AccountTransaction> list = accountManagementService.getInterBranchTransfers();
+			return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "Transfer List Fetched Successfully", list));
+		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body(ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
 		}

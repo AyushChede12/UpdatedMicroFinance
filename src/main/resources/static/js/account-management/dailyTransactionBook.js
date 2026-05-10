@@ -1,87 +1,91 @@
-$(document).ready(function () {
+$(document).ready(function() {
 
-    loadLedger();
+	loadLedger();
 
-    // 🔍 Search button click
-    $("#serachBtn").click(function (e) {
-        e.preventDefault();
-        loadTransactions();
-    });
+	// 🔍 Search button click
+	$("#serachBtn").click(function(e) {
+		e.preventDefault();
+		loadTransactions();
+	});
 
 });
 
 // ================= LOAD LEDGER =================
 function loadLedger() {
 
-    $.ajax({
-        url: "accountManagement/all",
-        type: "GET",
-        success: function (response) {
+	$.ajax({
+		url: "accountManagement/getUniqueLedgerDropdown",
+		type: "GET",
+		success: function(response) {
 
-            let options = '<option value="">--SELECT LEDGER--</option>';
+			let options = '<option value="">--SELECT LEDGER--</option>';
 
-            if (response && response.data) {
-                response.data.forEach(function (item) {
-                    options += `<option value="${item.accountCode}">
-                                    ${item.accountCode} - ${item.accountTitle}
-                                </option>`;
-                });
-            }
+			if (response && response.data) {
 
-            $("#chooseLedger").html(options);
-        },
-        error: function () {
-            alert("❌ Error loading ledger data");
-        }
-    });
+				response.data.forEach(function(item) {
+
+					options += `
+	                    <option value="${item.accountCode}">
+	                        ${item.accountCode} - ${item.accountTitle}
+	                    </option>
+	                `;
+				});
+			}
+
+			$("#chooseLedger").html(options);
+		},
+		error: function() {
+			alert("❌ Error loading ledger dropdown");
+		}
+	});
 }
 
 
 // ================= LOAD TRANSACTIONS =================
 function loadTransactions() {
 
-    let branchName = $("#branchName").val();
-    let accountNumber = $("#chooseLedger").val();
-    let startDate = $("#startDate").val();
-    let endDate = $("#endDate").val();
+	let branchName = $("#branchName").val();
+	let accountNumber = $("#chooseLedger").val();
+	let startDate = $("#startDate").val();
+	let endDate = $("#endDate").val();
 
-    // ✅ Validation
-    if (!branchName || !accountNumber || !startDate || !endDate) {
-        alert("⚠ Please fill all fields");
-        return;
-    }
+	// ✅ Validation
+	if (!branchName || !accountNumber || !startDate || !endDate) {
+		alert("⚠ Please fill all fields");
+		return;
+	}
 
-    // 🔄 Loader (optional)
-    $(".datatable tbody").html(`<tr><td colspan="8" class="text-center">Loading...</td></tr>`);
+	// 🔄 Loader (optional)
+	$(".datatable tbody").html(`<tr><td colspan="8" class="text-center">Loading...</td></tr>`);
 
-    $.ajax({
-        url: "accountManagement/daily-transaction",
-        type: "GET",
-        data: {
-            branchName: branchName,
-            accountNumber: accountNumber,
-            startDate: startDate,
-            endDate: endDate
-        },
+	$.ajax({
+		url: "accountManagement/daily-transaction",
+		type: "GET",
+		data: {
+			branchName: branchName,
+			accountNumber: accountNumber,
+			startDate: startDate,
+			endDate: endDate
+		},
 
-        success: function (response) {
+		success: function(response) {
 
-            let tableBody = "";
-            let count = 1;
+			let tableBody = "";
+			let count = 1;
 
-            if (response && response.status === "OK" && response.data.length > 0) {
+			if (response && response.status === "OK" && response.data.length > 0) {
 
-                let runningBalance = 0;
+				let runningBalance = 0;
 
-                response.data.forEach(function (txn) {
+				response.data.forEach(function(txn) {
 
-                    let debit = txn.debit ? parseFloat(txn.debit) : 0;
-                    let credit = txn.credit ? parseFloat(txn.credit) : 0;
+					let debit = txn.debit ? parseFloat(txn.debit) : 0;
+					let credit = txn.credit ? parseFloat(txn.credit) : 0;
 
-                    // ✅ Running Balance Calculate
-                    runningBalance += (credit - debit);
+					// ✅ Running Balance Calculate
+					runningBalance += (credit - debit);
 
-                    tableBody += `
+					tableBody += `
                         <tr>
                             <td>${count++}</td>
                             <td>${txn.transactionDate || '-'}</td>
@@ -93,70 +97,70 @@ function loadTransactions() {
                             <td>${runningBalance.toFixed(2)}</td>
                         </tr>
                     `;
-                });
+				});
 
-            } else {
-                tableBody = `
+			} else {
+				tableBody = `
                     <tr>
                         <td colspan="8" class="text-center text-danger">
                             No Data Found
                         </td>
                     </tr>
                 `;
-            }
+			}
 
-            $(".datatable tbody").html(tableBody);
-        },
+			$(".datatable tbody").html(tableBody);
+		},
 
-        error: function (xhr) {
-            console.error(xhr);
-            $(".datatable tbody").html(`
+		error: function(xhr) {
+			console.error(xhr);
+			$(".datatable tbody").html(`
                 <tr>
                     <td colspan="8" class="text-center text-danger">
                         Error fetching data
                     </td>
                 </tr>
             `);
-        }
-    });
+		}
+	});
 }
 
 function exportToExcel() {
 
-    let table = document.querySelector(".datatable");
+	let table = document.querySelector(".datatable");
 
-    // ❌ Check if no data
-    let rows = table.querySelectorAll("tbody tr");
-    if (rows.length === 1 && rows[0].innerText.includes("No Data")) {
-        alert("⚠ No data to export");
-        return;
-    }
+	// ❌ Check if no data
+	let rows = table.querySelectorAll("tbody tr");
+	if (rows.length === 1 && rows[0].innerText.includes("No Data")) {
+		alert("⚠ No data to export");
+		return;
+	}
 
-    // ✅ Convert table to worksheet
-    let wb = XLSX.utils.book_new();
-    let ws = XLSX.utils.table_to_sheet(table);
+	// ✅ Convert table to worksheet
+	let wb = XLSX.utils.book_new();
+	let ws = XLSX.utils.table_to_sheet(table);
 
-    // ✅ Add sheet
-    XLSX.utils.book_append_sheet(wb, ws, "Transactions");
+	// ✅ Add sheet
+	XLSX.utils.book_append_sheet(wb, ws, "Transactions");
 
-    // ✅ File name with date
-    let today = new Date().toISOString().slice(0,10);
+	// ✅ File name with date
+	let today = new Date().toISOString().slice(0, 10);
 
-    XLSX.writeFile(wb, "Daily_Transaction_" + today + ".xlsx");
+	XLSX.writeFile(wb, "Daily_Transaction_" + today + ".xlsx");
 }
 
 function printReport() {
 
-    let table = document.querySelector(".datatable").outerHTML;
+	let table = document.querySelector(".datatable").outerHTML;
 
-    let branch = $("#branchName option:selected").text();
-    let ledger = $("#chooseLedger option:selected").text();
-    let startDate = $("#startDate").val();
-    let endDate = $("#endDate").val();
+	let branch = $("#branchName option:selected").text();
+	let ledger = $("#chooseLedger option:selected").text();
+	let startDate = $("#startDate").val();
+	let endDate = $("#endDate").val();
 
-    let printWindow = window.open('', '', 'width=900,height=700');
+	let printWindow = window.open('', '', 'width=900,height=700');
 
-    printWindow.document.write(`
+	printWindow.document.write(`
         <html>
         <head>
             <title>Print Report</title>
@@ -205,12 +209,12 @@ function printReport() {
         </html>
     `);
 
-    printWindow.document.close();
-    printWindow.focus();
+	printWindow.document.close();
+	printWindow.focus();
 
-    // ⏱ Thoda delay for rendering
-    setTimeout(function () {
-        printWindow.print();
-        printWindow.close();
-    }, 500);
+	// ⏱ Thoda delay for rendering
+	setTimeout(function() {
+		printWindow.print();
+		printWindow.close();
+	}, 500);
 }

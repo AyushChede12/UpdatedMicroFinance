@@ -65,4 +65,7 @@ public interface AccountTransactionRepo extends JpaRepository<AccountTransaction
 	@Query("SELECT " + "COALESCE(SUM(a.debit),0) - " + "COALESCE(SUM(a.credit),0) " + "FROM AccountTransaction a "
 			+ "WHERE a.branchName = :branchName " + "AND a.accountCode = :accountCode")
 	Double getCashBalance(@Param("branchName") String branchName, @Param("accountCode") String accountCode);
+
+	List<AccountTransaction> findByTransactionTypeOrderByIdDesc(String transactionType);
+
 }
