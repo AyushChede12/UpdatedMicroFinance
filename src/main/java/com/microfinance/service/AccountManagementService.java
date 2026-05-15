@@ -2161,8 +2161,12 @@ public class AccountManagementService {
 
 	public List<BankStatementDto> getBankStatement(String accountNumber, String startDate, String endDate) {
 
-		List<BankTransaction> txnList = bankTransactionRepo.findByAccountNumberAndDateBetween(accountNumber, startDate,
-				endDate);
+		List<BankTransaction> txnList = bankTransactionRepo.findBankStatement(accountNumber, startDate, endDate);
+
+		System.out.println("Account Number = " + accountNumber);
+		System.out.println("Start Date = " + startDate);
+		System.out.println("End Date = " + endDate);
+		System.out.println("Transaction Size = " + txnList.size());
 
 		if (txnList.isEmpty()) {
 			return new ArrayList<>();
@@ -2174,13 +2178,11 @@ public class AccountManagementService {
 		String branchName = "";
 		String bankName = "";
 
-		// ✅ Null Safety
 		if (acc.getBranchName() != null) {
 
 			branchName = acc.getBranchName().getBranchName();
 
 			if (acc.getBranchName().getBank() != null) {
-
 				bankName = acc.getBranchName().getBank().getBankName();
 			}
 		}

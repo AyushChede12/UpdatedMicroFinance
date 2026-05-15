@@ -519,8 +519,6 @@ public class AccountManagementController {
 	@GetMapping("/bank-statement")
 	public ApiResponse<List<BankStatementDto>> getStatement(@RequestParam String accountNumber,
 			@RequestParam String startDate, @RequestParam String endDate) {
-		System.out.println(startDate);
-		System.out.println(endDate);
 
 		List<BankStatementDto> data = accountManagementService.getBankStatement(accountNumber, startDate, endDate);
 		System.out.println(data);
