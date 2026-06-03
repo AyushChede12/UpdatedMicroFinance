@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.microfinance.dto.ApiResponse;
 import com.microfinance.dto.SavingAccountDto;
+import com.microfinance.model.BranchModule;
 import com.microfinance.model.CreateSavingsAccount;
 import com.microfinance.model.ManageDepartment;
 import com.microfinance.model.SavingAccountActivity;
@@ -33,6 +34,7 @@ import com.microfinance.model.addFinancialConsultant;
 import com.microfinance.model.savingAccountFundTransfer;
 import com.microfinance.model.savingsAccountCloser;
 import com.microfinance.repository.AddCustomerRepo;
+import com.microfinance.repository.BranchModuleRepo;
 import com.microfinance.repository.CreateSavingAccountRepo;
 import com.microfinance.repository.FinancialConsultantRepo;
 import com.microfinance.repository.SavingAccountActivityRepo;
@@ -67,6 +69,9 @@ public class CustomerSavingsService {
 
 	@Autowired
 	SavingsInterestTransferRepo savingsInterestTransferRepo;
+
+	@Autowired
+	BranchModuleRepo branchModuleRepo;
 
 	@Value("${upload.directory}")
 	private String uploadDirectory;
@@ -149,7 +154,8 @@ public class CustomerSavingsService {
 		createSavingsAccount.setSuggestedNomineeRelation(savingAccountDto.getSuggestedNomineeRelation());
 		createSavingsAccount.setAddress(savingAccountDto.getAddress());
 		createSavingsAccount.setDistrict(savingAccountDto.getDistrict());
-		createSavingsAccount.setBranchName(savingAccountDto.getBranchName());
+		BranchModule branch = branchModuleRepo.findByBranchName(savingAccountDto.getBranchName());
+		createSavingsAccount.setBranchName(branch);
 		createSavingsAccount.setState(savingAccountDto.getState());
 		createSavingsAccount.setPinCode(savingAccountDto.getPinCode());
 		createSavingsAccount.setOperationType(savingAccountDto.getOperationType());

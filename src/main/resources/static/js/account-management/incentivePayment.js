@@ -120,7 +120,6 @@ $(document).ready(function() {
 			data: JSON.stringify(requestData),
 
 			success: function(response) {
-				alert("success")
 
 				if (response.status === "OK") {
 					alert("✅ Incentive Paid Successfully!");
@@ -128,7 +127,6 @@ $(document).ready(function() {
 					location.reload();
 
 				} else {
-					alert("hh");
 					alert("❌ " + response.message);
 				}
 

@@ -10,6 +10,10 @@ public class AccountTransaction {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	private String branchName;
+
+	private String accountCode;
+
 	// Savings Account Link
 	@Column(nullable = false)
 	private String accountNumber;
@@ -47,10 +51,28 @@ public class AccountTransaction {
 
 	private String createdBy;
 
-	// ---------------- GETTERS & SETTERS ---------------- //
-
 	public Long getId() {
 		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getBranchName() {
+		return branchName;
+	}
+
+	public void setBranchName(String branchName) {
+		this.branchName = branchName;
+	}
+
+	public String getAccountCode() {
+		return accountCode;
+	}
+
+	public void setAccountCode(String accountCode) {
+		this.accountCode = accountCode;
 	}
 
 	public String getAccountNumber() {
@@ -59,10 +81,6 @@ public class AccountTransaction {
 
 	public void setAccountNumber(String accountNumber) {
 		this.accountNumber = accountNumber;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getTransactionDate() {
@@ -149,15 +167,16 @@ public class AccountTransaction {
 		return createdAt;
 	}
 
-	public String getCreatedBy() {
-		return createdBy;
-	}
-
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
 	}
 
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
+
 }

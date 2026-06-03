@@ -20,15 +20,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.microfinance.dto.ApiResponse;
+import com.microfinance.dto.BalanceSheetDTO;
 import com.microfinance.dto.BankCashTransferDto;
+import com.microfinance.dto.BankStatementDto;
 import com.microfinance.dto.IncentiveRequest;
 import com.microfinance.dto.IncomingReceiptDto;
+import com.microfinance.dto.InterBranchTransferDTO;
 import com.microfinance.dto.LedgerAccountDto;
 import com.microfinance.dto.LedgerSummaryDto;
+import com.microfinance.dto.MandateDepositDto;
 import com.microfinance.dto.ManualJournalDto;
 import com.microfinance.dto.OutgoingPaymentDto;
+import com.microfinance.dto.PLStatementDto;
+import com.microfinance.dto.TrialBalanceDTO;
 import com.microfinance.dto.TrialBalanceReportDto;
 import com.microfinance.model.AccountIncentivePayment;
+import com.microfinance.model.AccountTransaction;
+import com.microfinance.model.BankTransaction;
 import com.microfinance.model.IncentivePayment;
 import com.microfinance.model.LedgerAccountMaster;
 import com.microfinance.model.LoanPayment;
@@ -470,4 +478,186 @@ public class AccountManagementController {
 		}
 	}
 
+	// Mandate Deposit to Bank
+	@PostMapping("/saveMandateDeposit")
+	public ResponseEntity<ApiResponse<MandateDepositDto>> save(@RequestBody MandateDepositDto dto) {
+
+		ApiResponse<MandateDepositDto> response = accountManagementService.saveMandateDeposit(dto);
+
+		return ResponseEntity.status(response.getStatus()) // HttpStatus directly use
+				.body(response);
+	}
+
+//	// ================= SEARCH =================
+//	@GetMapping("/listOfMandateDeposit")
+//	public ResponseEntity<ApiResponse<List<MandateDepositDto>>> getByDateRange(@RequestParam String startDate,
+//			@RequestParam String endDate) {
+//
+//		ApiResponse<List<MandateDepositDto>> response = accountManagementService.getByDateRange(startDate, endDate);
+//
+//		if (response.isStatus()) {
+//			return new ResponseEntity<>(response, HttpStatus.OK); // 200
+//		} else {
+//			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST); // 400
+//		}
+//	}
+//
+//	// ================= GET BY ID =================
+//	@GetMapping("/{id}")
+//	public ResponseEntity<ApiResponse<MandateDepositDto>> getById(@PathVariable Long id) {
+//
+//		ApiResponse<MandateDepositDto> response = accountManagementService.getById(id);
+//
+//		if (response.isStatus()) {
+//			return new ResponseEntity<>(response, HttpStatus.OK); // 200
+//		} else {
+//			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND); // 404
+//		}
+//	}
+
+	// Bank Statement
+	@GetMapping("/bank-statement")
+	public ApiResponse<List<BankStatementDto>> getStatement(@RequestParam String accountNumber,
+			@RequestParam String startDate, @RequestParam String endDate) {
+
+		List<BankStatementDto> data = accountManagementService.getBankStatement(accountNumber, startDate, endDate);
+		System.out.println(data);
+
+		if (data.isEmpty()) {
+			return new ApiResponse<>(HttpStatus.NOT_FOUND, "No Transactions Found", null);
+		}
+
+		return new ApiResponse<>(HttpStatus.OK, "Statement fetched successfully", data);
+	}
+
+	// Cash Book
+	@GetMapping("/getCashBookTransaction")
+	public ApiResponse<List<AccountTransaction>> getCashBook(@RequestParam String branchName,
+			@RequestParam String startDate, @RequestParam String endDate) {
+
+		try {
+			List<AccountTransaction> data = accountManagementService.getCashBookTransaction(branchName, startDate,
+					endDate);
+
+			if (data.isEmpty()) {
+				return new ApiResponse<>(HttpStatus.NOT_FOUND, "No Records Found", null);
+			}
+
+			return new ApiResponse<>(HttpStatus.OK, "Cashbook Data fetched successfully", data);
+
+		} catch (Exception e) {
+			return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Error", null);
+		}
+	}
+
+	// Funds Transfer Register
+	@GetMapping("/fund-transfer")
+	public ApiResponse<List<AccountTransaction>> getFundTransfer(@RequestParam String branchName,
+			@RequestParam String startDate, @RequestParam String endDate) {
+
+		try {
+			List<AccountTransaction> data = accountManagementService.getFundTransfers(branchName, startDate, endDate);
+			return new ApiResponse<>(HttpStatus.OK, "Fund Transfer fetched successfully", data);
+
+		} catch (Exception e) {
+			return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Error", null);
+
+		}
+	}
+
+	// Daily Transaction Book
+	@GetMapping("/daily-transaction")
+	public ApiResponse<List<AccountTransaction>> getDailyTransaction(@RequestParam String branchName,
+			@RequestParam String accountNumber, @RequestParam String startDate, @RequestParam String endDate) {
+
+		try {
+			List<AccountTransaction> data = accountManagementService.getDailyTransactions(branchName, accountNumber,
+					startDate, endDate);
+
+			return new ApiResponse<>(HttpStatus.OK, "Daily Transaction fetched successfully", data);
+
+		} catch (Exception e) {
+			return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Error", null);
+		}
+	}
+
+	@GetMapping("/getUniqueLedgerDropdown")
+	public ResponseEntity<ApiResponse<List<Map<String, Object>>>> getLedgerDropdown() {
+		List<Map<String, Object>> ledgers = accountManagementService.getUniqueLedgerDropdown();
+		return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "Ledger dropdown retrieved successfully", ledgers));
+	}
+
+	// Trial Balance Report
+	@GetMapping("/trial-balance-report")
+	public ResponseEntity<ApiResponse<List<TrialBalanceDTO>>> getTrialBalance(@RequestParam String branchName,
+			@RequestParam String startDate, @RequestParam String endDate) {
+
+		// ✅ Validation
+		if (branchName == null || branchName.trim().isEmpty()) {
+			return ResponseEntity.badRequest().body(new ApiResponse<>("ERROR", "Branch is required", null));
+		}
+
+		if (startDate == null || endDate == null) {
+			return ResponseEntity.badRequest().body(new ApiResponse<>("ERROR", "Date range is required", null));
+		}
+
+		List<TrialBalanceDTO> data = accountManagementService.getTrialBalance(branchName, startDate, endDate);
+
+		return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK, "Trial Balance fetched successfully", data));
+	}
+
+	// PL Statement
+	@GetMapping("/pl-statementData")
+	public ResponseEntity<ApiResponse<List<PLStatementDto>>> getPLStatement(
+			@RequestParam(required = false) String branchName, @RequestParam String startDate,
+			@RequestParam String endDate) {
+
+		List<PLStatementDto> data = accountManagementService.getPLStatement(branchName, startDate, endDate);
+
+		return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "P&L data fetched successfully", data));
+	}
+
+	// Balance Sheet
+	@GetMapping("/balance-sheet")
+	public ResponseEntity<ApiResponse<BalanceSheetDTO>> getBalanceSheet(@RequestParam String branchName,
+			@RequestParam String startDate, @RequestParam String endDate) {
+
+		try {
+			BalanceSheetDTO data = accountManagementService.getBalanceSheet(branchName, startDate, endDate);
+
+			return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "Balance sheet fetched successfully", data));
+
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "Error: " + e.getMessage()));
+		}
+	}
+
+	// Inter-Branch Cash Transfer
+	@PostMapping("/inter-branch-transfer")
+	public ResponseEntity<ApiResponse<String>> transferCash(@RequestBody InterBranchTransferDTO dto) {
+
+		try {
+
+			String response = accountManagementService.transferCash(dto);
+
+			return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, response, null));
+
+		} catch (Exception e) {
+
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
+		}
+	}
+
+	@GetMapping("/get-inter-branch-transfers")
+	public ResponseEntity<ApiResponse<List<AccountTransaction>>> getInterBranchTransfers() {
+		try {
+			List<AccountTransaction> list = accountManagementService.getInterBranchTransfers();
+			return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "Transfer List Fetched Successfully", list));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
+		}
+	}
 }

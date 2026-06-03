@@ -29,8 +29,8 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">SOURCE BRANCH</label> <select id="branchName"
-							name="branchName" required="required"
+						<label for="">SOURCE BRANCH</label> <select id="sourceBranch"
+							name="sourceBranch" required="required"
 							class="form-control selectField" style="height: 30px;">
 							<option value="">--SELECT BRANCH--</option>
 						</select>
@@ -39,8 +39,8 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">RECEIVING BRANCH</label> <select id="branchName"
-							name="branchName" required="required"
+						<label for="">RECEIVING BRANCH</label> <select
+							id="receivingBranch" name="receivingBranch" required="required"
 							class="form-control selectField" style="height: 30px;">
 							<option value="">--SELECT BRANCH--</option>
 						</select>
@@ -60,7 +60,7 @@
 
 	<div class="row">
 		<div class="col-12 text-center mt-3">
-			<button id="saveBtn" class="btnStyle"
+			<button id="transferBtn" class="btnStyle"
 				style="background-color: #FFA500;">TRANSFER</button>
 		</div>
 	</div>
@@ -77,7 +77,8 @@
 					<thead class="table-light">
 						<tr style="font-family: 'Poppins', sans-serif;">
 							<th style="white-space: nowrap;">DATE</th>
-							<th style="white-space: nowrap;">NAME</th>
+							<th style="white-space: nowrap;">TRANSFER FROM</th>
+							<th style="white-space: nowrap;">TRANSFER TO</th>
 							<th style="white-space: nowrap;">AMOUNT</th>
 						</tr>
 					</thead>
@@ -88,3 +89,5 @@
 		</div>
 	</div>
 </div>
+<script
+	src="${pageContext.request.contextPath}/js/account-management/interBranchCashTransfer.js"></script>

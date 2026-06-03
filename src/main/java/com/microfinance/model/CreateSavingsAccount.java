@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class CreateSavingsAccount {
@@ -23,7 +25,7 @@ public class CreateSavingsAccount {
 	private String suggestedNomineeRelation;
 	private String address;
 	private String district;
-	private String branchName;
+
 	private String state;
 	private String pinCode;
 	private String operationType;
@@ -67,8 +69,11 @@ public class CreateSavingsAccount {
 	private String accountType;
 	private String chargeType;
 	private String amount;
-	
-	
+
+	@ManyToOne
+	@JoinColumn(name = "branch_id")
+	private BranchModule branchName;
+
 	public Long getId() {
 		return id;
 	}
@@ -171,14 +176,6 @@ public class CreateSavingsAccount {
 
 	public void setDistrict(String district) {
 		this.district = district;
-	}
-
-	public String getBranchName() {
-		return branchName;
-	}
-
-	public void setBranchName(String branchName) {
-		this.branchName = branchName;
 	}
 
 	public String getState() {
@@ -493,6 +490,12 @@ public class CreateSavingsAccount {
 		this.amount = amount;
 	}
 
-	
-	
+	public BranchModule getBranchName() {
+		return branchName;
+	}
+
+	public void setBranchName(BranchModule branchName) {
+		this.branchName = branchName;
+	}
+
 }
