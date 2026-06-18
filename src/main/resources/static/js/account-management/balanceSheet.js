@@ -4,7 +4,6 @@ $(document).ready(function() {
 	// SEARCH BUTTON CLICK
 	// =========================
 	$("#search").click(function(e) {
-		alert("search");
 		e.preventDefault();
 
 		let branchName = $("#branchName").val();
@@ -46,7 +45,6 @@ $(document).ready(function() {
 				);
 			},
 			success: function(response) {
-				alert("success");
 
 				console.log(response);
 				if (response.status == "OK") {

@@ -110,12 +110,17 @@ function displayTransactionDataList() {
 			success: function(response) {
 				if (response.status === "OK" && response.data) {
 					const data = response.data;
+					let branch = "";
+
+					if (data.branchName != null) {
+						branch = data.branchName.branchName || "";
+					}
 
 					// Inject table row dynamically
 					$("#customerDetails").html(`
                             <tr>
                                 <td>${data.id || ''}</td>
-                                <td>${(data.branchName || '').toUpperCase()}</td>
+                                <td>${branch || ''}</td>
                                 <td>${data.accountNumber || ''}</td>
                                 <td>${(data.enterCustomerName || '').toUpperCase()}</td>
                                 <td>${data.selectByCustomer || ''}</td>
@@ -162,6 +167,11 @@ function displaySavingfrontPage() {
 		success: function(response) {
 			if (response.status === "OK" && response.data) {
 				const data = response.data;
+				let branch = "";
+
+				if (data.branchName != null) {
+					branch = data.branchName.branchName || "";
+				}
 				let fullAddress = `${data.address}, ${data.state}, ${data.pinCode}`;
 
 				$("#customerNo").text(data.selectByCustomer);
@@ -176,7 +186,7 @@ function displaySavingfrontPage() {
 				$("#address").text(fullAddress.toUpperCase());
 				$("#dateOfIssue").text(data.openingDate);
 				$("#typeofaccount").text(data.typeofaccount.toUpperCase());
-				$("#branchName").text(data.branchName.toUpperCase());
+				$("#branchName").text(branch.toUpperCase());
 
 				// If you have these fields in your data, else remove
 				$("#IFSCCode").text(data.ifscCode || '');

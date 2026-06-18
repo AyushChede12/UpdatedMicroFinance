@@ -92,9 +92,14 @@ function applyAllFilters() {
 	const planName = $("#schemename").val();
 
 	const filteredData = allSavingAccData.filter(item => {
+		let branch = "";
+
+		if (item.branchName != null) {
+			branch = item.branchName.branchName || "";
+		}
 
 		// Branch
-		if (branch && item.branchName?.toLowerCase() !== branch.toLowerCase()) return false;
+		if (branch && branch?.toLowerCase() !== branch.toLowerCase()) return false;
 
 		// Opening Date (STRING compare)
 		if (fromDate || toDate) {
@@ -159,6 +164,11 @@ function renderTable(data) {
 
 	let i = 1;
 	const rows = data.map(item => {
+		let branch = "";
+
+		if (item.branchName != null) {
+			branch = item.branchName.branchName || "";
+		}
 
 		const approvalStatus = item.approved
 			? '<span class="badge bg-success">Approved</span>'
@@ -172,7 +182,7 @@ function renderTable(data) {
 				<td>${item.selectByCustomer.toUpperCase()}</td>
 				<td>${item.enterCustomerName.toUpperCase()}</td>
 				<td>${item.contactNumber}</td>
-				<td>${item.branchName.toUpperCase()}</td>
+				<td>${branch.toUpperCase()}</td>
 				<td>${item.address.toUpperCase()}</td>
 				<td>${item.district.toUpperCase()}</td>
 				<td>${item.state.toUpperCase()}</td>
