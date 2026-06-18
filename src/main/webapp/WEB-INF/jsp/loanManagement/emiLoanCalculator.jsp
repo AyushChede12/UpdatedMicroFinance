@@ -48,7 +48,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="loanName">YEARLY INTEREST <span class="star">*</span></label>
+						<label for="loanName">YEARLY INTEREST (%)<span class="star">*</span></label>
 						<input type="text" name="yearlyIntrest" id="yearlyIntrest"
 							required="required" placeholder="YEARLY INTEREST"
 							style="text-transform: uppercase;" /><small
@@ -76,7 +76,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="loanName">MONTHLY TERM <span class="star">*</span></label>
+						<label for="loanName">LOAN TENURE (MONTHS) <span class="star">*</span></label>
 						<input type="text" name="monthlyTerm" id="monthlyTerm"
 							required="required" placeholder="ENTER TERM IN MONTH"
 							style="text-transform: uppercase;" /><small
