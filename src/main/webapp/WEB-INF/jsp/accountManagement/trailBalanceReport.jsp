@@ -56,29 +56,49 @@
 </form>
 
 <div class="row mt-5">
-	<div class="col-12">
-		<label for="vehicalNo"><b><u>TRAIL BALANCE</u></b></label><br> <label
-			for="vehicalNo"><b>BRANCH :</b></label><br> <label
-			for="vehicalNo"><b>DATE :</b></label> BETWEEN
-		<div class="card recent-sales">
+	<div class="col-12 text-center">
 
+		<!-- 🔥 Center Heading -->
+		<h4>
+			<b><u>TRIAL BALANCE</u></b>
+		</h4>
+
+		<!-- 🔥 Center Branch -->
+		<p>
+			<b>BRANCH :</b> <span id="branchLabel"></span>
+		</p>
+
+		<!-- 🔥 Center Date -->
+		<p>
+			<b>DATE :</b> <span id="dateLabel"></span>
+		</p>
+
+		<div class="card recent-sales mt-3">
 			<div class="card-body table-responsive">
-				<h5 class="card-title"></h5>
 
-				<table class="table table-borderless datatable overflow-scroll">
-					<thead class="table-light">
+				<table class="table table-borderless datatable text-center">
+					<thead class="table-light text-center">
 						<tr style="font-family: 'Poppins', sans-serif;">
-							<th style="white-space: nowrap;">LEDGER NAME</th>
-							<th style="white-space: nowrap;">OPENING</th>
-							<th style="white-space: nowrap;">DEBIT</th>
-							<th style="white-space: nowrap;">CREDIT</th>
-							<th style="white-space: nowrap;">CLOSING</th>
+							<th>LEDGER NAME</th>
+							<th>OPENING DR</th>
+							<th>OPENING CR</th>
+							<th>DEBIT</th>
+							<th>CREDIT</th>
+							<th>CLOSING DR</th>
+							<th>CLOSING CR</th>
 						</tr>
 					</thead>
+
 					<tbody>
 					</tbody>
+
 				</table>
+
 			</div>
 		</div>
 	</div>
 </div>
+
+<script
+	src="${pageContext.request.contextPath}/js/account-management/trialBalanceReport.js"></script>
+

@@ -8,9 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "ledger_account_master")
+@Table(name = "ledger_account_master", uniqueConstraints = {
+		@UniqueConstraint(columnNames = { "accountCode", "branchName" }) })
 public class LedgerAccountMaster {
 
 	@Id
@@ -18,7 +20,7 @@ public class LedgerAccountMaster {
 	@Column(name = "id")
 	private Long accountId; // Auto PK, hidden in form
 
-	@Column(length = 20, nullable = false, unique = true)
+	@Column(length = 20, nullable = false)
 	private String accountCode; // Required, Unique
 
 	@Column(length = 100, nullable = false)

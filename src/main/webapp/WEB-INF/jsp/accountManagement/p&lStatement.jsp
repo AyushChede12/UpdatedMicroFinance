@@ -49,7 +49,7 @@
 
 	<div class="row">
 		<div class="col-12 text-center mt-3">
-			<button id="searchBtn" class="btnStyle"
+			<button type=""button id="searchBtn" class="btnStyle"
 				style="background-color: #FFA500;">SEARCH</button>
 		</div>
 	</div>
@@ -62,7 +62,7 @@
 			<div class="card-body table-responsive">
 				<h5 class="card-title">SEARCH RESULT</h5>
 
-				<table class="table table-borderless datatable overflow-scroll">
+				<table class="table table-borderless datatable overflow-scroll" style="text-align: center;">
 					<thead class="table-light">
 						<tr style="font-family: 'Poppins', sans-serif;">
 							<th style="white-space: nowrap;">DATE</th>
@@ -79,3 +79,5 @@
 		</div>
 	</div>
 </div>
+<script
+	src="${pageContext.request.contextPath}/js/account-management/plStatement.js"></script>

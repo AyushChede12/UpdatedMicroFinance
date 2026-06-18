@@ -81,3 +81,5 @@
 		</div>
 	</div>
 </div>
+<script
+	src="${pageContext.request.contextPath}/js/account-management/balanceSheet.js"></script>

@@ -84,16 +84,16 @@
 				<table class="table table-borderless datatable overflow-scroll">
 					<thead class="table-light">
 						<tr style="font-family: 'Poppins', sans-serif;">
-							<th style="white-space: nowrap;">ID</th>
-							<th style="white-space: nowrap;">CUSTOMER NAME</th>
-							<th style="white-space: nowrap;">LOAN ACCOUNT TYPE</th>
-							<th style="white-space: nowrap;">CHEQUE NO</th>
-							<th style="white-space: nowrap;">CHEQUE DATE</th>
-							<th style="white-space: nowrap;">CHEQUE AMOUNT</th>
-							<th style="white-space: nowrap;">BRANCH</th>
-							<th style="white-space: nowrap;">LOAN TYPE</th>
-							<th style="white-space: nowrap;">STATUS</th>
-							<th style="white-space: nowrap;">ACTION</th>
+							<th style="white-space: nowrap; text-align: center;">ID</th>
+							<th style="white-space: nowrap; text-align: center;"">CUSTOMER NAME</th>
+							<th style="white-space: nowrap; text-align: center;"">LOAN ACCOUNT TYPE</th>
+							<th style="white-space: nowrap; text-align: center;"">CHEQUE NO</th>
+							<th style="white-space: nowrap; text-align: center;"">CHEQUE DATE</th>
+							<th style="white-space: nowrap; text-align: center;"">CHEQUE AMOUNT</th>
+							<th style="white-space: nowrap; text-align: center;"">BRANCH</th>
+							<th style="white-space: nowrap; text-align: center;"">LOAN TYPE</th>
+							<th style="white-space: nowrap; text-align: center;"">STATUS</th>
+							<th style="white-space: nowrap; text-align: center;"">ACTION</th>
 						</tr>
 					</thead>
 					<tbody>

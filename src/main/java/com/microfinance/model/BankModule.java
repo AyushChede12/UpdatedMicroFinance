@@ -1,9 +1,12 @@
 package com.microfinance.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class BankModule {
@@ -21,6 +24,9 @@ public class BankModule {
 	private String openingBalance;
 	private String closingDate;
 	private String cancelledCheque;
+
+	@OneToMany(mappedBy = "bank")
+	private List<BranchModule> branches;
 
 	public Long getId() {
 		return id;
@@ -108,6 +114,14 @@ public class BankModule {
 
 	public void setCancelledCheque(String cancelledCheque) {
 		this.cancelledCheque = cancelledCheque;
+	}
+
+	public List<BranchModule> getBranches() {
+		return branches;
+	}
+
+	public void setBranches(List<BranchModule> branches) {
+		this.branches = branches;
 	}
 
 }

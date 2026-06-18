@@ -48,7 +48,7 @@
 
 	<div class="row">
 		<div class="col-12 text-center mt-3">
-			<button id="searchbtn" class="btnStyle"
+			<button type="button" id="searchbtn" class="btnStyle"
 				style="background-color: #FFA500;">SEARCH</button>
 		</div>
 	</div>

@@ -49,10 +49,9 @@
 
 	<div class="row">
 		<div class="col-12 text-center mt-3">
-			<button id="viewBtn" class="btnStyle"
-				style="background-color: #FFA500;">VIEW</button>
-			<button id="showDetilsBtn" class="btnStyle"
-				style="background-color: #ff8400;">SHOW DETAILS</button>
+			<button type="button" onclick="getCashBook()" id="showDetilsBtn"
+				class="btnStyle" style="background-color: #ff8400;">SHOW
+				DETAILS</button>
 		</div>
 	</div>
 </form>
@@ -62,7 +61,16 @@
 		<div class="card recent-sales">
 
 			<div class="card-body table-responsive">
-				<h5 class="card-title">SEARCH RESULT</h5>
+				<div
+					class="card-header d-flex justify-content-between align-items-center">
+					<h5 class="mb-0">SEARCH RESULT</h5>
+
+					<div>
+						<button class="btn btn-success btn-sm" onclick="exportToExcel()">Export</button>
+
+						<button class="btn btn-primary btn-sm" onclick="printReport()">Print</button>
+					</div>
+				</div>
 
 
 				<table class="table table-borderless datatable overflow-scroll">
@@ -81,8 +89,17 @@
 					<tbody>
 					</tbody>
 				</table>
+
+				<div class="text-end mt-3">
+					<strong>Total Debit:</strong> <span id="totalDebit">0.00</span> | <strong>Total
+						Credit:</strong> <span id="totalCredit">0.00</span> | <strong>Closing
+						Balance:</strong> <span id="closingBalance">0.00</span>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
-
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/js/account-management/cashBook.js"></script>
