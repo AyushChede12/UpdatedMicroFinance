@@ -1,4 +1,5 @@
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="baseUrl" value="${pageContext.request.contextPath}" />
 <aside id="sidebar" class="sidebar">
 
 	<ul class="sidebar-nav" id="sidebar-nav">
@@ -204,10 +205,10 @@
 							PROCESSING</span>
 				</a></li>
 
-				<li><a href="${baseUrl}/mandateDepositToBank"> <i class="bi bi-circle"></i>
+				<%-- <li><a href="${baseUrl}/mandateDepositToBank"> <i class="bi bi-circle"></i>
 						<span style="font-family: 'Poppins', sans-serif">MANDATE
 							DEPOSIT TO BANK</span>
-				</a></li>
+				</a></li> --%>
 
 				<li><a href="${baseUrl}/bankStatement"> <i class="bi bi-circle"></i> <span
 						style="font-family: 'Poppins', sans-serif">BANK STATEMENT</span>

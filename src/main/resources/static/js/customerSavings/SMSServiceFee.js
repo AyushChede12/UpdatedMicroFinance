@@ -150,7 +150,8 @@ $(document).ready(function () {
 	        success: function (res) {
 				alert("!!!Charges Deducted Successfully!!!");
 	            // ✅ Update balance in UI instantly
-	            row.find("td:eq(4)").text(res.newBalance);
+	            //row.find("td:eq(4)").text(res.newBalance);
+				location.reload();
 
 	        },
 	        error: function () {

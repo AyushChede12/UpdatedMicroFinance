@@ -91,7 +91,7 @@
 				<table class="table table-bordered">
 					<thead class="table-light">
 						<tr>
-							<th style="white-space: nowrap;">ID</th>
+							<th style="white-space: nowrap;">SR NO</th>
 							<th style="white-space: nowrap;">BRANCH NAME</th>
 							<th style="white-space: nowrap;">ACCOUNT NO</th>
 							<th style="white-space: nowrap;">CUSTOMER NAME</th>

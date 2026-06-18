@@ -492,36 +492,64 @@ $(document).ready(function() {
 	$.ajax({
 		type: "GET",
 		url: "api/customersavings/getAllSavingAccountData",
-		contentType: "application/json",
+		dataType: "json",
+
 		success: function(response) {
-			console.log("Full Response from API:", response);
-			if (response.status == "FOUND") {
-				let data = response.data;
-				let tableBody = $(".datatable tbody");
-				tableBody.empty();
-				data.forEach((item, index) => {
-					let row = `<tr>
-				                        <td>${index + 1}</td>
-				                        <td>${item.accountNumber}</td>
-										<td>${item.typeofaccount}</td>
-				                        <td>${item.selectByCustomer}</td>
-				                        <td>${(item.enterCustomerName).toUpperCase()}</td>
-										<td>${item.contactNumber}</td>
-										<td>${(item.branchName).toUpperCase()}</td>
-										<td>${(item.address).toUpperCase()}</td>
-										<td>${(item.district).toUpperCase()}</td>
-										<td>${(item.state).toUpperCase()}</td>
-										<td><button class="iconbutton" onclick="viewData(${item.id})" title="View"><i class="fa-solid fa-pen-to-square text-primary"></i></button></td>
-										<td><button class="iconbutton" onclick="deleteData(${item.id})" title="Delete"><i class="fa-solid fa-trash text-danger"></i></button></td>
-				                    </tr>`;
-					tableBody.append(row);
+			console.log("Full Response:", response);
+
+			let tableBody = $(".datatable tbody");
+			tableBody.empty();
+
+			if (response.status === "FOUND" && response.data && response.data.length > 0) {
+
+				let rows = "";
+
+				response.data.forEach(function(item, index) {
+
+					let branch = "";
+					if (item.branchName != null) {
+						branch = item.branchName.branchName || "";
+					}
+
+					rows += `
+	                    <tr>
+	                        <td>${index + 1}</td>
+	                        <td>${item.accountNumber || ""}</td>
+	                        <td>${item.typeofaccount || ""}</td>
+	                        <td>${item.selectByCustomer || ""}</td>
+	                        <td>${item.enterCustomerName ? item.enterCustomerName.toUpperCase() : ""}</td>
+	                        <td>${item.contactNumber || ""}</td>
+	                        <td>${branch.toUpperCase()}</td>
+	                        <td>${item.address ? item.address.toUpperCase() : ""}</td>
+	                        <td>${item.district ? item.district.toUpperCase() : ""}</td>
+	                        <td>${item.state ? item.state.toUpperCase() : ""}</td>
+	                        <td>
+	                            <button class="iconbutton" onclick="viewData(${item.id})">
+	                                <i class="fa-solid fa-pen-to-square text-primary"></i>
+	                            </button>
+	                        </td>
+	                        <td>
+	                            <button class="iconbutton" onclick="deleteData(${item.id})">
+	                                <i class="fa-solid fa-trash text-danger"></i>
+	                            </button>
+	                        </td>
+	                    </tr>`;
 				});
+
+				tableBody.html(rows);
+
 			} else {
-				alert("Failed to fetch saving account data: " + response.message);
+				tableBody.html(`
+	                <tr>
+	                    <td colspan="12" class="text-center">No Data Found</td>
+	                </tr>
+	            `);
 			}
 		},
-		error: function() {
-			alert("Error while calling the API.");
+
+		error: function(xhr) {
+			console.log("API Error:", xhr.responseText);
+			alert("Error while calling API");
 		}
 	});
 	// Ensure the hidden input is updated with the image file name
@@ -994,7 +1022,7 @@ function operationTypeFunc() {
 	}
 }
 
-$('#jointOperationCode').on('change', function () {
+$('#jointOperationCode').on('change', function() {
 
 	let selectedCode = $(this).val();
 
@@ -1006,7 +1034,7 @@ $('#jointOperationCode').on('change', function () {
 			contentType: 'application/json',
 			data: JSON.stringify({ memberCode: selectedCode }),
 
-			success: function (response) {
+			success: function(response) {
 
 				if (response.status === "FOUND") {
 
@@ -1037,7 +1065,7 @@ $('#jointOperationCode').on('change', function () {
 				}
 			},
 
-			error: function () {
+			error: function() {
 				alert("Error fetching member");
 				$("#memberCode").val("");
 				$("#memberName").val("");
