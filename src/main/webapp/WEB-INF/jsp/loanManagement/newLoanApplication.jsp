@@ -174,7 +174,7 @@
 						<label for="">EMI PAYMENT</label> <input type="number"
 							name="emiPayment" id="emiPayment" required="required"
 							class="form-control" placeholder="ENTER EMI PAYMENT"
-							style="text-transform: uppercase;" />
+							style="text-transform: uppercase;" 	readonly/>
 
 					</div>
 				</div>
