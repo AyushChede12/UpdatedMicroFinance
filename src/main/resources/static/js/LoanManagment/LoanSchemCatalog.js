@@ -118,8 +118,8 @@ function validateLoanSchemeForm() {
 		$("#chkage").text("* Age must be a number");
 		$("#age").focus();
 		return false;
-	} else if (parseInt(age) < 18 || parseInt(age) > 100) {
-		$("#chkage").text("* Age must be between 18 to 100");
+	} else if (parseInt(age) < 18 || parseInt(age) > 70) {
+		$("#chkage").text("* Age must be between 18 to 70");
 		$("#age").focus();
 		return false;
 	}
