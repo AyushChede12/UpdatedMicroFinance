@@ -288,9 +288,9 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">GURANTOR IDENTITY</label> <input type="text"
-							name="coApplicantIdentity" id="coApplicantIdentity"
-							required="required" readonly="readonly"
+						<label for="">CO-APPLICANT IDENTITY</label>
+						<input type="text" name="coApplicantIdentity"
+							id="coApplicantIdentity" required="required" readonly="readonly"
 							placeholder="ENTER GURANTOR IDENTITY" />
 					</div>
 				</div>
@@ -428,7 +428,7 @@
 					SIGNATURE <span id="star">*</span>
 				</label> <label for="signature" id="drop-area"> <input type="file"
 					accept="image/*" name="signature" id="signature" hidden="hidden"
-					onchange="signatureUpload();"
+					onchange=""
 					style="background-size: cover; background-repeat: no-repeat" />
 					<div id="img-view">
 						<img src="Uploads/upload.png" alt="signature"
@@ -452,7 +452,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="loanName">Date Of Approval </label> <input type="date"
 							name="approvalDate" id="approvalDate" required="required"
-							readonly="readonly" style="text-transform: uppercase;" />
+							style="text-transform: uppercase;" />
 					</div>
 				</div>
 

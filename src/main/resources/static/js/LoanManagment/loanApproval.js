@@ -4,41 +4,41 @@ $(document).ready(function() {
 });
 
 function populateLoanIdDropdown() {
-    $.ajax({
-        url: "api/loanmanegment/getAllNotApprovedLoanCustomer",
-        type: "GET",
-        dataType: "json",
-        success: function(response) {
-            console.log("Loan response:", response);
+	$.ajax({
+		url: "api/loanmanegment/getAllNotApprovedLoanCustomer",
+		type: "GET",
+		dataType: "json",
+		success: function(response) {
+			console.log("Loan response:", response);
 
-            // ✅ status may come as "OK"
-            if (response.status === "OK" && Array.isArray(response.data)) {
+			// ✅ status may come as "OK"
+			if (response.status === "OK" && Array.isArray(response.data)) {
 
-                const $dropdown = $("#findByLoanId");
-                $dropdown.empty();
+				const $dropdown = $("#findByLoanId");
+				$dropdown.empty();
 
-                $dropdown.append(
-                    '<option value="" disabled selected>SELECT LOAN ID</option>'
-                );
+				$dropdown.append(
+					'<option value="" disabled selected>SELECT LOAN ID</option>'
+				);
 
-                response.data.forEach(function(loan) {
-                    if (loan.loanId) {
-                        $dropdown.append(
-                            `<option value="${loan.loanId}">
+				response.data.forEach(function(loan) {
+					if (loan.loanId) {
+						$dropdown.append(
+							`<option value="${loan.loanId}">
                                 ${loan.loanId}
                              </option>`
-                        );
-                    }
-                });
+						);
+					}
+				});
 
-            } else {
-                console.warn("No unapproved loan data found");
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error("Error fetching Loan IDs:", xhr.responseText);
-        }
-    });
+			} else {
+				console.warn("No unapproved loan data found");
+			}
+		},
+		error: function(xhr, status, error) {
+			console.error("Error fetching Loan IDs:", xhr.responseText);
+		}
+	});
 }
 
 
@@ -54,6 +54,8 @@ $(document).ready(function() {
 				data: { loanId: selectedLoanId }, // sending as query param
 				dataType: "json",
 				success: function(response) {
+					console.log("Full Response:", response);
+					console.log("Loan Data:", response.data);
 					if (response.status === "OK" && response.data) {
 						const data = response.data;
 
@@ -102,39 +104,38 @@ $(document).ready(function() {
 						$("#financialConsultantName").val(data.financialConsultantName);
 
 						if (data.approvalStatus === true || data.approvalStatus === 1 || data.approvalStatus === "1") {
-							$('#approvalStatus').val("Approved").css('color', 'red');
+							$('#approvalStatus').val("Approved").css('color', 'green');
 						} else {
-							$('#approvalStatus').val("Not Approved").css('color', 'green');
+							$('#approvalStatus').val("Not Approved").css('color', 'red');
 						}
 
-						// ✅ PHOTO block
+						// PHOTO
 						if (data.photo) {
 
-							const fileName = data.photo;
-							const photoPath = `/Uploads/${encodeURIComponent(fileName)}`;
+						    const photoPath = "/" + data.photo;
 
-							$("#photoPreview").attr("src", photoPath);  // ✅ Shows preview
-							$("#photoHidden").val(fileName);            // ✅ Save only the filename, not full path
-							photoSizeEdit({ target: { result: photoPath } }); // ✅ Resizes preview
+						    console.log("Photo Path =>", photoPath);
+
+						    $("#photoPreview").attr("src", photoPath);
+						    $("#photoHidden").val(data.photo);
+
 						} else {
-							$("#photoPreview").attr("src", "/Uploads/default-placeholder.jpg");
-							$("#photoHidden").val("");
-							photoSizeEdit({ target: { result: "/Uploads/default-placeholder.jpg" } });
+						    $("#photoPreview").attr("src", "/Uploads/default-placeholder.jpg");
 						}
 
-						// ✅ SIGNATURE block
+
+						// SIGNATURE
 						if (data.signature) {
 
-							const fileName = data.signature;
-							const signPath = `/Uploads/${encodeURIComponent(fileName)}`;
+						    const signPath = "/" + data.signature;
 
-							$('#signaturePreview').attr('src', signPath);
-							$('#signatureHidden').val(fileName);
-							signatureSizeEdit({ target: { result: signPath } }); // ✅ Resize preview
+						    console.log("Signature Path =>", signPath);
+
+						    $("#signaturePreview").attr("src", signPath);
+						    $("#signatureHidden").val(data.signature);
+
 						} else {
-							$('#signaturePreview').attr('src', '/Uploads/default-placeholder.jpg');
-							$('#signatureHidden').val("");
-							signatureSizeEdit({ target: { result: "/Uploads/default-placeholder.jpg" } });
+						    $("#signaturePreview").attr("src", "/Uploads/default-placeholder.jpg");
 						}
 
 
@@ -171,36 +172,40 @@ function signatureSizeEdit(e) {
 }
 
 $('#approveBtn').click(function(event) {
-    event.preventDefault(); // Prevent the form from submitting
+	event.preventDefault(); // Prevent the form from submitting
 
-    const loanId = $('#findByLoanId').val();
-    const approvalDate = $('#approvalDate').val();
+	const loanId = $('#findByLoanId').val();
+	const approvalDate = $('#approvalDate').val();
 	/*alert(loanId);
 	alert(approvalDate);*/
 	if (!loanId) {
-	    alert("Please select Loan ID");
-	    $("#findByLoanId").focus();
-	    return;
+		alert("Please select Loan ID");
+		$("#findByLoanId").focus();
+		return;
+	}
+	if (!approvalDate) {
+		alert("Please Select Approval Date");
+		return;
 	}
 
 
-    const requestData = {
-        loanId: loanId,
-        approvalStatus: true,
-        approvalDate: approvalDate
-    };
+	const requestData = {
+		loanId: loanId,
+		approvalStatus: true,
+		approvalDate: approvalDate
+	};
 
-    $.ajax({
-        type: "POST",
-        url: "api/loanmanegment/approve",
-        contentType: "application/json",
-        data: JSON.stringify(requestData),
-        success: function(response) {
-            alert(response.message);
-            location.reload();
-        },
-        error: function(xhr) {
-            alert("Error: " + xhr.responseText);
-        }
-    });
+	$.ajax({
+		type: "POST",
+		url: "api/loanmanegment/approve",
+		contentType: "application/json",
+		data: JSON.stringify(requestData),
+		success: function(response) {
+			alert(response.message);
+			location.reload();
+		},
+		error: function(xhr) {
+			alert("Error: " + xhr.responseText);
+		}
+	});
 });
