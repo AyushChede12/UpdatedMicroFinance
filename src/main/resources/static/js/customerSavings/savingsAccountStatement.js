@@ -46,6 +46,11 @@ $(document).ready(function() {
 
 				if (response.data && response.data.length > 0) {
 					let customer = response.data[0];
+					let branch = "";
+
+					if (customer.branchName != null) {
+						branch = customer.branchName.branchName || "";
+					}
 
 					$('#accountNoDisplay').text(customer.accountNumber || '');
 					$('#memberName').text((customer.enterCustomerName || '').toUpperCase());
@@ -54,7 +59,7 @@ $(document).ready(function() {
 					$('#opDate').text(customer.openingDate || '');
 					$('#selectMember').text(customer.selectByCustomer || '');
 					$('#modeOfOp').text((customer.operationType || '').toUpperCase());
-					$('#BranchName').text(customer.branchName || '');
+					$('#BranchName').text(branch.toUpperCase() || '');
 				} else {
 					alert('No customer data found.');
 				}

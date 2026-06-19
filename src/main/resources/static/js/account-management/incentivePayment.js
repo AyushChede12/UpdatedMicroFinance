@@ -114,11 +114,10 @@ $(document).ready(function() {
 
 		// ✅ 4. AJAX Call
 		$.ajax({
-			url: "/accountManagement/pay",
+			url: "accountManagement/pay",
 			type: "POST",
 			contentType: "application/json",
 			data: JSON.stringify(requestData),
-
 			success: function(response) {
 
 				if (response.status === "OK") {
@@ -134,7 +133,6 @@ $(document).ready(function() {
 			},
 
 			error: function(xhr) {
-				alert("error");
 				let msg = "Something went wrong!";
 				if (xhr.responseJSON && xhr.responseJSON.message) {
 					msg = xhr.responseJSON.message;
