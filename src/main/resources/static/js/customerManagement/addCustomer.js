@@ -217,11 +217,10 @@ $(document).ready(function() {
 
 		$.ajax({
 			type: 'POST',
-			url: '/api/customermanagement/saveOrUpdateCustomer',
+			url: 'api/customermanagement/saveOrUpdateCustomer',
 			data: formData,
 			processData: false,
 			contentType: false,
-
 			success: function(response) {
 				alert(response.message || "Customer saved successfully!");
 				location.reload();

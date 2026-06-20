@@ -267,6 +267,7 @@ $(document).ready(function() {
 			data: JSON.stringify(formData),
 			success: function() {
 				alert("Company details updated successfully!");
+				location.reload();
 			},
 			error: function() {
 				alert("Error updating company details");
