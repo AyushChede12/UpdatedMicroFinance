@@ -111,7 +111,7 @@ td {
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">DAILY DEPOSIT </li>
+					<li class="breadcrumb-item action">DAILY DEPOSIT</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -121,7 +121,7 @@ td {
 
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="">PLAN CODE <span class="star">*</span></label> <input
-							type="text" name="planCodeDD" id="planCodeDD" 
+							type="text" name="planCodeDD" id="planCodeDD"
 							placeholder="ENTER PLAN CODE" value="${memberCodeDD}"
 							readonly="readonly" style="text-transform: uppercase;" />
 					</div>
@@ -136,9 +136,9 @@ td {
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields  mb-4">
-						<label for="vehicalNo">MINIMUM DEPOSIT  <span class="star">*</span></label>
+						<label for="vehicalNo">MINIMUM DEPOSIT <span class="star">*</span></label>
 						<input type="text" name="minimumDeposit" id="minimumDeposit"
-							 placeholder="ENTER MINIMUM AMOUNT"
+							placeholder="ENTER MINIMUM AMOUNT"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -147,8 +147,7 @@ td {
 					<div class="d-flex flex-column formFields  mb-4">
 						<label for="vehicalNo">RATE OF INTEREST (%) <span
 							class="star">*</span></label> <input type="text" name="rateOfInterest"
-							id="rateOfInterest"
-							placeholder="ENTER RATE OF INTEREST"
+							id="rateOfInterest" placeholder="ENTER RATE OF INTEREST"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -156,8 +155,7 @@ td {
 					<div class="d-flex flex-column formFields">
 						<label for="">INSTALLMENT TYPE <span class="star">*</span></label>
 						<select id="installmentType" name="installmentType"
-							class="form-control selectField"
-							style="height: 30px;">
+							class="form-control selectField" style="height: 30px;">
 							<option value="">SELECT INSTALLMENT TYPE</option>
 							<option value="Cash">CASH</option>
 							<option value="Cheque">CHEQUE</option>
@@ -173,8 +171,7 @@ td {
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">TERM <span class="star">*</span></label> <input
-							type="text" name="ddterm" id="ddterm" 
-							placeholder="ENTER TERM" />
+							type="text" name="ddterm" id="ddterm" placeholder="ENTER TERM" />
 					</div>
 				</div>
 
@@ -198,15 +195,14 @@ td {
 					<div class="d-flex flex-column formFields">
 						<label for="">INTEREST INTERVAL <span class="star">*</span></label>
 						<select id="interestInterval" name="interestInterval"
-						 class="form-control selectField"
-							style="height: 30px;">
+							class="form-control selectField" style="height: 30px;">
 							<option value="">SELECT INTEREST INTERVAL</option>
 							<option value="Daily">DAILY</option>
 							<option value="Monthly">MONTHLY</option>
-							<option value="Quarterly">QUARTERLY </option>
+							<option value="Quarterly">QUARTERLY</option>
 							<option value="Half-Yearly">HALF-YEARLY</option>
 							<option value="Yearly">YEARLY</option>
-							<option value="On Maturity">ON MATURITY </option>
+							<option value="On Maturity">ON MATURITY</option>
 
 						</select>
 					</div>
@@ -234,9 +230,9 @@ td {
 				<div class="col-lg-3 mb-4 ">
 					<div class="d-flex flex-column formFields">
 						<label for="">IS FLEXIBLE PLAN? <span class="star">*</span></label>
-						<select id="flexiblePlan" name="flexiblePlan" 
+						<select id="flexiblePlan" name="flexiblePlan"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">SELECT FLEXIBLE PLAN </option>
+							<option value="">SELECT FLEXIBLE PLAN</option>
 							<option value="Yes">YES</option>
 							<option value="No">NO</option>
 
@@ -250,8 +246,8 @@ td {
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">GRACE DAYS  <span class="star">*</span></label> <input
-							type="text" name="graceDays" id="graceDays" 
+						<label for="">GRACE DAYS <span class="star">*</span></label> <input
+							type="text" name="graceDays" id="graceDays"
 							placeholder="ENTER GRACE DAY" />
 					</div>
 				</div>
@@ -287,7 +283,7 @@ td {
 
 			<div class="row" style="margin-left: 80%;">
 				<div class="col-12 text-center">
-					<button  type="button" id="saveBtn" class="btnStyle bg-warning ">SAVE</button>
+					<button type="button" id="saveBtn" class="btnStyle bg-warning ">SAVE</button>
 					<button id="updateBtn" class="btnStyle bg-warning style="display:none;">UPDATE</button>
 
 				</div>
@@ -311,7 +307,7 @@ td {
 										<th style="white-space: nowrap;">Rate of Interest</th>
 										<th style="white-space: nowrap;">Installment Type</th>
 										<th style="white-space: nowrap;">Term (Duration)</th>
-<!-- 										<th style="white-space: nowrap;">Maturity Amount</th> -->
+										<!-- 										<th style="white-space: nowrap;">Maturity Amount</th> -->
 										<th style="white-space: nowrap;">Status (Active/Inactive)</th>
 										<th style="white-space: nowrap;">Action</th>
 									</tr>
@@ -324,11 +320,13 @@ td {
 						</div>
 					</div>
 					<div class="mt-2 text-center">
-						<button  type="button" id="prevBtnDD" class="btn btn-sm btn-primary">
+						<button type="button" id="prevBtnDD"
+							class="btn btn-sm btn-primary">
 							<i class="bi bi-chevron-double-left"></i>
 						</button>
 						<span id="pageInfoDD" class="mx-2"></span>
-						<button   type="button" id="nextBtnDD" class="btn btn-sm btn-primary">
+						<button type="button" id="nextBtnDD"
+							class="btn btn-sm btn-primary">
 							<i class="bi bi-chevron-double-right"></i>
 						</button>
 					</div>
@@ -379,9 +377,10 @@ td {
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">INTEREST RATE (%) <span class="star">*</span></label>
-						<input type="text" name="rateOfInterestRD" id="rateOfInterestRD"
-							required="required" placeholder="ENTER INTEREST RATE"
+						<label for="vehicalNo">INTEREST RATE (%) <span
+							class="star">*</span></label> <input type="text" name="rateOfInterestRD"
+							id="rateOfInterestRD" required="required"
+							placeholder="ENTER INTEREST RATE"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -413,7 +412,7 @@ td {
 				</div>
 
 
-			<!-- 	<div class="col-lg-3">
+				<!-- 	<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">NEW COMMISSION(%) <span class="star">*</span></label>
 						<input type="text" name="commissionOnNewRD" id="commissionOnNewRD"
@@ -550,7 +549,7 @@ td {
 										<th style="white-space: nowrap;">Rate of Interest</th>
 										<th style="white-space: nowrap;">Installment Type</th>
 										<th style="white-space: nowrap;">Term (Duration)</th>
-									<!-- 	<th style="white-space: nowrap;">Maturity Amount</th> -->
+										<!-- 	<th style="white-space: nowrap;">Maturity Amount</th> -->
 										<th style="white-space: nowrap;">Status (Active/Inactive)</th>
 										<th style="white-space: nowrap;">Action</th>
 									</tr>
@@ -563,11 +562,13 @@ td {
 						</div>
 					</div>
 					<div class="mt-2 text-center">
-						<button type="button" id="prevBtnRD" class="btn btn-sm btn-primary">
+						<button type="button" id="prevBtnRD"
+							class="btn btn-sm btn-primary">
 							<i class="bi bi-chevron-double-left"></i>
 						</button>
 						<span id="pageInfoRD" class="mx-2"></span>
-						<button  type="button" id="nextBtnRD" class="btn btn-sm btn-primary">
+						<button type="button" id="nextBtnRD"
+							class="btn btn-sm btn-primary">
 							<i class="bi bi-chevron-double-right"></i>
 						</button>
 					</div>
@@ -584,7 +585,7 @@ td {
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">FIXED DEPOSIT </li>
+					<li class="breadcrumb-item action">FIXED DEPOSIT</li>
 				</ol>
 			</nav>
 			<div class="row">
@@ -663,9 +664,9 @@ td {
 						<select id="componentIntervalFD" name="componentIntervalFD"
 							required="required" class="form-control selectField"
 							style="height: 30px;">
-							<option value="">SELECT  INTEREST INTERVAL</option>
+							<option value="">SELECT INTEREST INTERVAL</option>
 							<option value="Monthly">MONTHLY</option>
-							<option value="Quarterly">QUARTERLY </option>
+							<option value="Quarterly">QUARTERLY</option>
 							<option value="Half-Yearly">HALF-YEARLY</option>
 							<option value="Yearly">YEARLY</option>
 							<option value="On Maturity">ON MATURITY</option>
@@ -697,7 +698,6 @@ td {
 						style="margin-bottom: 30px;">
 						<label for="">INTEREST EARNED <span class="star">*</span></label>
 						<input type="text" name="interestEarnedFD" id="interestEarnedFD"
-							readonly="readonly" required="required"
 							placeholder=" ENTER INTREST EARNED" />
 					</div>
 				</div>
@@ -719,7 +719,7 @@ td {
 							required="required" placeholder="ENTER COMM.NEW(%)" />
 					</div>
 				</div> -->
-				
+
 				<div class="col-lg-3 mb-4 ">
 					<div class="d-flex flex-column formFields">
 						<label for="">IS FLEXIBLE PLAN? <span class="star">*</span></label>
@@ -780,7 +780,7 @@ td {
 
 		<div class="row" style="margin-left: 80%;">
 			<div class="col-12 text-center">
-				<button type= "button" id="FixedsaveBtn" class="btnStyle bg-warning ">SAVE</button>
+				<button type="button" id="FixedsaveBtn" class="btnStyle bg-warning ">SAVE</button>
 				<button id="FixedupdateBtn" class="btnStyle bg-warning style="display:none;">UPDATE</button>
 			</div>
 		</div>
@@ -820,7 +820,7 @@ td {
 						<i class="bi bi-chevron-double-left"></i>
 					</button>
 					<span id="pageInfoFD" class="mx-2"></span>
-					<button type="button"  id="nextBtnFD" class="btn btn-sm btn-primary">
+					<button type="button" id="nextBtnFD" class="btn btn-sm btn-primary">
 						<i class="bi bi-chevron-double-right"></i>
 					</button>
 				</div>
@@ -856,13 +856,13 @@ td {
 					<div class="d-flex flex-column formFields  mb-4 ">
 						<label for="vehicalNo">PLAN NAME <span class="star">*</span></label>
 						<input type="text" name="planNameMD" id="planNameMD"
-							required="required" placeholder="ENTER PLAN NAME"/>
+							required="required" placeholder="ENTER PLAN NAME" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="vehicalNo">MINIMUM AMOUNT  <span class="star">*</span></label>
+						<label for="vehicalNo">MINIMUM AMOUNT <span class="star">*</span></label>
 						<input type="text" name="minimumAmountMD" id="minimumAmountMD"
 							required="required" placeholder=" ENTER MINIMUM AMOUNT"
 							style="text-transform: uppercase;" />
@@ -944,11 +944,11 @@ td {
 							placeholder="ENTER COMM.RENW(%)" />
 					</div>
 				</div> -->
-				
+
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>GRACE PERIOD  <span class="star">*</span></label> <input
+						<label>GRACE PERIOD <span class="star">*</span></label> <input
 							type="text" name="graceDaysMD" id="graceDaysMD"
 							required="required" placeholder="ENTER GRACE PERIOD " />
 					</div>
@@ -1036,11 +1036,13 @@ td {
 					</div>
 				</div>
 				<div class="mt-2 text-center">
-					<button  type="button" id="prevBtnMIS" class="btn btn-sm btn-primary">
+					<button type="button" id="prevBtnMIS"
+						class="btn btn-sm btn-primary">
 						<i class="bi bi-chevron-double-left"></i>
 					</button>
 					<span id="pageInfoMIS" class="mx-2"></span>
-					<button type="button" id="nextBtnMIS" class="btn btn-sm btn-primary">
+					<button type="button" id="nextBtnMIS"
+						class="btn btn-sm btn-primary">
 						<i class="bi bi-chevron-double-right"></i>
 					</button>
 				</div>

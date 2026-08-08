@@ -53,7 +53,7 @@ public class PolicyManagementController {
 	DailyPremiumRenewalRepo dailyPremiumRenewalRepo;
 
 	// save daily Deposite
-	@PostMapping("/daily-depositsave")
+	@PostMapping("daily-depositsave")
 	public ResponseEntity<ApiResponse<DailyDepositPM>> savedailyDeposite(@RequestBody DailyDepositPM dailyDepositPM) {
 		boolean isSaved = policyManagementService.savedailydeposite(dailyDepositPM);
 
@@ -70,7 +70,7 @@ public class PolicyManagementController {
 		}
 	}
 	
-	@GetMapping("/check-plan-name")
+	@GetMapping("check-plan-name")
 	public boolean checkPlanName(@RequestParam String planName) {
 
 	    return policyManagementService.planNameExists(planName);
@@ -78,7 +78,7 @@ public class PolicyManagementController {
 	}
 
 	// View All daily Deposits
-	@GetMapping("/daily-deposit/view")
+	@GetMapping("daily-deposit/view")
 	public ResponseEntity<ApiResponse<List<DailyDepositPM>>> getAlldailyDeposits() {
 		List<DailyDepositPM> deposits = policyManagementService.getAlldailydepositedata();
 
@@ -94,7 +94,7 @@ public class PolicyManagementController {
 	}
 
 // feacth by id daily deposite
-	@GetMapping("/dailyedit/{id}")
+	@GetMapping("dailyedit/{id}")
 	public ResponseEntity<ApiResponse<DailyDepositPM>> getDailyDepositById(@PathVariable Long id) {
 		DailyDepositPM deposit = policyManagementService.getDailyDepositById(id);
 
