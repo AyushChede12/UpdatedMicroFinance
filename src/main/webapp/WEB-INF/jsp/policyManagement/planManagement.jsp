@@ -697,7 +697,7 @@ td {
 						style="margin-bottom: 30px;">
 						<label for="">INTEREST EARNED <span class="star">*</span></label>
 						<input type="text" name="interestEarnedFD" id="interestEarnedFD"
-							readonly="readonly" required="required"
+							 required="required"
 							placeholder=" ENTER INTREST EARNED" />
 					</div>
 				</div>
@@ -923,7 +923,7 @@ td {
 						style="margin-bottom: 30px;">
 						<label for="">INTEREST EARNED <span class="star">*</span></label>
 						<input type="text" name="interestEarnedMD" id="interestEarnedMD"
-							readonly="readonly" required="required"
+							 required="required"
 							placeholder=" ENTER INTEREST EARNED" />
 					</div>
 				</div>
