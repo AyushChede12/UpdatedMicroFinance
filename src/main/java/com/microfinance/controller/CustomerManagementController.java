@@ -29,6 +29,8 @@ import com.microfinance.repository.CustomerRepo;
 import com.microfinance.service.CustomerManagementService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.http.MediaType;
 
 @RestController
 @RequestMapping("/api/customermanagement")
@@ -46,14 +48,15 @@ public class CustomerManagementController {
 			@RequestParam(value = "customerDriving", required = false) MultipartFile customerDriving,
 			@RequestParam(value = "customerVoter", required = false) MultipartFile customerVoter,
 			@RequestParam(value = "nomineAadhar", required = false) MultipartFile nomineAadhar,
-			@RequestParam(value = "nomineSignature", required = false) MultipartFile nomineSignature)
+			@RequestParam(value = "nomineSignature", required = false) MultipartFile nomineSignature,
+			@RequestParam(value = "newlyAddedImage", required = false) MultipartFile newlyAddedImage)
 
 	{
 
 		try {
 
 			ApiResponse<addCustomer> response = customerService.saveOrUpdateCustomer(clientMasterDto, customerPhoto,
-					customerSignature, customerDriving, customerVoter, nomineAadhar, nomineSignature);
+					customerSignature, customerDriving, customerVoter, nomineAadhar, nomineSignature, newlyAddedImage);
 			return new ResponseEntity<>(response, response.getStatus());
 
 		} catch (Exception e) {
@@ -166,6 +169,33 @@ public class CustomerManagementController {
 				"Approved customers fetched successfully.", customers);
 
 		return ResponseEntity.ok(response);
+	}
+
+	// DYNAMIC MULTIPLE IMAGES UPLOAD
+	@PostMapping(value = "/upload/{customerId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<?> uploadCustomerImage(@PathVariable Long customerId, @RequestParam String fieldName,
+			@RequestParam MultipartFile file) {
+		try {
+			return ResponseEntity.ok(customerService.saveOrUpdateCustomerImage(customerId, fieldName, file));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Upload failed: " + e.getMessage());
+		}
+	}
+
+	// GET ALL CUSTOMER IMAGES
+	@GetMapping("/images/{customerId}")
+	public ResponseEntity<?> getCustomerImages(@PathVariable Long customerId) {
+		return ResponseEntity.ok(customerService.getCustomerImages(customerId));
+	}
+
+	// DELETE CUSTOMER IMAGE
+	@PostMapping("/delete/{id}")
+	public ResponseEntity<?> deleteCustomerImage(@PathVariable String id) {
+		boolean deleted = customerService.deleteCustomerImage(id);
+		if (!deleted) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Image not found");
+		}
+		return ResponseEntity.ok("Image deleted successfully");
 	}
 
 }

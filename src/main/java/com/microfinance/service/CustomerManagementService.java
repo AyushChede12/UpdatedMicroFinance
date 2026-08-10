@@ -19,8 +19,16 @@ import com.microfinance.dto.CustomerDto;
 import com.microfinance.model.CreateSavingsAccount;
 import com.microfinance.model.addCustomer;
 import com.microfinance.model.addCustomerKYC;
+import com.microfinance.model.BranchModule;
 import com.microfinance.repository.AddCustomerKycRepo;
 import com.microfinance.repository.CustomerRepo;
+import com.microfinance.repository.CreateSavingAccountRepo;
+import com.microfinance.repository.BranchModuleRepo;
+import org.springframework.util.StringUtils;
+import java.util.Optional;
+import java.util.ArrayList;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 @Service
 public class CustomerManagementService {
@@ -31,13 +39,19 @@ public class CustomerManagementService {
 	@Autowired
 	AddCustomerKycRepo addCustomerKycRepo;
 
+	@Autowired
+	CreateSavingAccountRepo createSavingAccountRepo;
+
+	@Autowired
+	BranchModuleRepo branchModuleRepo;
+
 	@Value("${upload.directory}")
 
 	private String uploadDirectory;
 
 	public ApiResponse<addCustomer> saveOrUpdateCustomer(CustomerDto clientMasterDto, MultipartFile customerPhoto,
 			MultipartFile customerSignature, MultipartFile customerDriving, MultipartFile customerVoter,
-			MultipartFile nomineAadhar, MultipartFile nomineSignature) {
+			MultipartFile nomineAadhar, MultipartFile nomineSignature, MultipartFile newlyAddedImage) {
 		addCustomer addcustomer = new addCustomer();
 		boolean isNew = true;
 
@@ -151,6 +165,11 @@ public class CustomerManagementService {
 				addcustomer.setNomineSignature(nomineSignatureFileName);
 				;
 			}
+
+			if (newlyAddedImage != null && !newlyAddedImage.isEmpty()) {
+				String newlyAddedImageFileName = saveFile(newlyAddedImage);
+				addcustomer.setNewlyAddedImage(newlyAddedImageFileName);
+			}
 		} catch (IOException e) {
 			return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "File upload failed: " + e.getMessage());
 		}
@@ -159,11 +178,83 @@ public class CustomerManagementService {
 		addCustomer saved = customerRepo.save(addcustomer);
 
 		if (isNew) {
+			autoCreateSavingsAccount(saved);
 			return ApiResponse.success(HttpStatus.CREATED,
 					"Customer saved successfully. Member Code: " + saved.getMemberCode(), saved);
 		} else {
 			return ApiResponse.success(HttpStatus.OK,
 					"Customer updated successfully. Member Code: " + saved.getMemberCode(), saved);
+		}
+	}
+
+	private void autoCreateSavingsAccount(addCustomer savedCustomer) {
+		try {
+			// Guard: skip if member code is missing
+			if (savedCustomer.getMemberCode() == null || savedCustomer.getMemberCode().trim().isEmpty()) {
+				System.err.println("Skipping auto savings account creation: memberCode is null for customer ID " + savedCustomer.getId());
+				return;
+			}
+			// Guard: skip if savings account already exists for this member
+			if (createSavingAccountRepo.existsBySelectByCustomer(savedCustomer.getMemberCode())) {
+				System.out.println("Savings account already exists for memberCode: " + savedCustomer.getMemberCode());
+				return;
+			}
+			CreateSavingsAccount account = new CreateSavingsAccount();
+			account.setTypeofaccount("savingaccount");
+			account.setOpeningDate(savedCustomer.getSignupDate());
+			account.setSelectByCustomer(savedCustomer.getMemberCode());
+			account.setEnterCustomerName(savedCustomer.getCustomerName());
+			account.setDateOfBirth(savedCustomer.getDob());
+			account.setFamilyDetails(savedCustomer.getGuardianName());
+			account.setContactNumber(savedCustomer.getContactNo());
+			account.setSuggestedNomineeName(savedCustomer.getNomineeName());
+			account.setSuggestedNomineeAge(savedCustomer.getNomineeAge());
+			account.setSuggestedNomineeRelation(savedCustomer.getNomineeRelationToApplicant());
+			account.setAddress(savedCustomer.getCustomerAddress());
+			account.setDistrict(savedCustomer.getDistrict());
+			account.setState(savedCustomer.getState());
+			account.setPinCode(savedCustomer.getPinCode());
+			account.setEmailId(savedCustomer.getEmailId());
+			account.setAadharNo(savedCustomer.getAadharNo());
+			account.setAuthenticateWith(savedCustomer.getAuthenticateFor());
+			
+			if (savedCustomer.getBranchName() != null) {
+				try {
+					Optional<BranchModule> branchOpt = branchModuleRepo.findByBranchNameIgnoreCase(savedCustomer.getBranchName());
+					if (branchOpt.isPresent()) {
+						account.setBranchName(branchOpt.get());
+					} else {
+						// Try a list-based fallback if Optional is empty
+						List<BranchModule> allBranches = branchModuleRepo.findAll();
+						allBranches.stream()
+							.filter(b -> savedCustomer.getBranchName().equalsIgnoreCase(b.getBranchName()))
+							.findFirst()
+							.ifPresent(account::setBranchName);
+					}
+				} catch (Exception branchEx) {
+					System.err.println("Branch lookup failed (non-unique or not found): " + branchEx.getMessage());
+				}
+			}
+			
+			account.setOperationType("Single");
+			account.setBalance("0");
+			account.setOpeningFees("0");
+			account.setAccountStatus("1");
+			account.setAccountFreeze("0");
+			account.setModeOfPayment("Cash");
+			account.setApproved(false);
+			
+			account.setPhoto(savedCustomer.getCustomerPhoto());
+			account.setSignature(savedCustomer.getCustomerSignature());
+			
+			long maxId = createSavingAccountRepo.getMaxId();
+			String accountNumber = String.format("2025%08d", maxId + 1);
+			account.setAccountNumber(accountNumber);
+			
+			createSavingAccountRepo.save(account);
+		} catch (Exception e) {
+			System.err.println("Failed to auto-create savings account for customer: " + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
@@ -270,4 +361,164 @@ public class CustomerManagementService {
 		return customerRepo.findByIsApprovedTrue();
 	}
 
+	public static class ExtraImageDto {
+		private Long id;
+		private String name;
+		private String fileName;
+		private String originalFileName;
+		private String uploadDate;
+
+		public ExtraImageDto() {}
+
+		public ExtraImageDto(Long id, String name, String fileName, String originalFileName, String uploadDate) {
+			this.id = id;
+			this.name = name;
+			this.fileName = fileName;
+			this.originalFileName = originalFileName;
+			this.uploadDate = uploadDate;
+		}
+
+		public Long getId() { return id; }
+		public void setId(Long id) { this.id = id; }
+		public String getName() { return name; }
+		public void setName(String name) { this.name = name; }
+		public String getFileName() { return fileName; }
+		public void setFileName(String fileName) { this.fileName = fileName; }
+		public String getOriginalFileName() { return originalFileName; }
+		public void setOriginalFileName(String originalFileName) { this.originalFileName = originalFileName; }
+		public String getUploadDate() { return uploadDate; }
+		public void setUploadDate(String uploadDate) { this.uploadDate = uploadDate; }
+	}
+
+	private List<ExtraImageDto> parseExtraImages(String json) {
+		if (json == null || json.trim().isEmpty()) {
+			return new ArrayList<>();
+		}
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			return mapper.readValue(json, new TypeReference<List<ExtraImageDto>>() {});
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ArrayList<>();
+		}
+	}
+
+	private String serializeExtraImages(List<ExtraImageDto> list) {
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			return mapper.writeValueAsString(list);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "[]";
+		}
+	}
+
+	public ExtraImageDto saveOrUpdateCustomerImage(Long customerId, String fieldName, MultipartFile file)
+			throws Exception {
+
+		addCustomer customer = customerRepo.findById(customerId)
+				.orElseThrow(() -> new IllegalArgumentException("Invalid Customer ID: " + customerId));
+
+		Path customerDir = Paths.get(uploadDirectory, "customer", customerId.toString());
+		Files.createDirectories(customerDir);
+
+		String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
+		String storedFileName = System.currentTimeMillis() + "_" + originalFilename;
+
+		Path target = customerDir.resolve(storedFileName);
+		Files.copy(file.getInputStream(), target, StandardCopyOption.REPLACE_EXISTING);
+
+		List<ExtraImageDto> images = parseExtraImages(customer.getCustomerExtraImage());
+		
+		ExtraImageDto targetImg = null;
+		for (ExtraImageDto img : images) {
+			if (img.getName().equalsIgnoreCase(fieldName)) {
+				targetImg = img;
+				break;
+			}
+		}
+
+		String currentDateTime = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+		if (targetImg != null) {
+			if (targetImg.getFileName() != null) {
+				Files.deleteIfExists(customerDir.resolve(targetImg.getFileName()));
+			}
+			targetImg.setFileName(storedFileName);
+			targetImg.setOriginalFileName(originalFilename);
+			targetImg.setUploadDate(currentDateTime);
+		} else {
+			long newId = System.currentTimeMillis();
+			targetImg = new ExtraImageDto(newId, fieldName, storedFileName, originalFilename, currentDateTime);
+			images.add(targetImg);
+		}
+
+		customer.setCustomerExtraImage(serializeExtraImages(images));
+		customerRepo.save(customer);
+
+		return targetImg;
+	}
+
+	public List<ExtraImageDto> getCustomerImages(Long customerId) {
+		addCustomer customer = customerRepo.findById(customerId).orElse(null);
+		if (customer == null) {
+			return new ArrayList<>();
+		}
+		return parseExtraImages(customer.getCustomerExtraImage());
+	}
+
+	public boolean deleteCustomerImage(String compositeId) {
+		if (compositeId == null || !compositeId.contains("-")) {
+			return false;
+		}
+		String[] parts = compositeId.split("-");
+		if (parts.length < 2) {
+			return false;
+		}
+		Long customerId;
+		Long imageId;
+		try {
+			customerId = Long.parseLong(parts[0]);
+			imageId = Long.parseLong(parts[1]);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+
+		Optional<addCustomer> opt = customerRepo.findById(customerId);
+		if (!opt.isPresent()) {
+			return false;
+		}
+
+		addCustomer customer = opt.get();
+		List<ExtraImageDto> images = parseExtraImages(customer.getCustomerExtraImage());
+		
+		ExtraImageDto targetImg = null;
+		int targetIndex = -1;
+		for (int i = 0; i < images.size(); i++) {
+			if (images.get(i).getId().equals(imageId)) {
+				targetImg = images.get(i);
+				targetIndex = i;
+				break;
+			}
+		}
+
+		if (targetIndex == -1) {
+			return false;
+		}
+
+		Path customerDir = Paths.get(uploadDirectory, "customer", customerId.toString());
+		try {
+			if (targetImg.getFileName() != null) {
+				Files.deleteIfExists(customerDir.resolve(targetImg.getFileName()));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		images.remove(targetIndex);
+		customer.setCustomerExtraImage(serializeExtraImages(images));
+		customerRepo.save(customer);
+
+		return true;
+	}
 }

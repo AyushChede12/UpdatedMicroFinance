@@ -52,6 +52,7 @@ public class CustomerDto {
 	private MultipartFile customerSignature;
 	private MultipartFile customerDriving;
 	private MultipartFile customerVoter;
+	private MultipartFile newlyAddedImage;
 
 	private String firstName;
 	private String middleName;
@@ -418,6 +419,14 @@ public class CustomerDto {
 
 	public void setCustomerVoter(MultipartFile customerVoter) {
 		this.customerVoter = customerVoter;
+	}
+
+	public MultipartFile getNewlyAddedImage() {
+		return newlyAddedImage;
+	}
+
+	public void setNewlyAddedImage(MultipartFile newlyAddedImage) {
+		this.newlyAddedImage = newlyAddedImage;
 	}
 
 	public String getFirstName() {

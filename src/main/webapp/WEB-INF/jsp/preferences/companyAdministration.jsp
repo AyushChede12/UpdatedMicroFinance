@@ -56,7 +56,7 @@
 <div class="row">
 	<div class="col-12 d-flex justify-content-end">
 		<button type="button" id="editBtn" class="btn btn-outline-secondary"
-			data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+			data-bs-toggle="tooltip" data-bs-placement="top" title="Edit" style="display: none;">
 			<i class="bi bi-pen-fill"></i>
 		</button>
 	</div>
@@ -342,9 +342,9 @@
 							</div>
 						</div>
 
-						<button id="addFieldBtn" class="btn btn-primary mt-2">ADD
+						<button id="addFieldBtn" class="btn btn-primary mt-2" style="display: none;">ADD
 							+</button>
-						<button id="uploadAllBtn" class="btn btn-success mt-2">UPLOAD
+						<button id="uploadAllBtn" class="btn btn-success mt-2" style="display: none;">UPLOAD
 							ALL</button>
 						<button id="reloadDataBtn" class="btn btn-info mt-2">RELOAD</button>
 
@@ -417,7 +417,7 @@
 
 		</div>
 
-		<div class="row" style="margin-top: 30px;">
+		<div class="row" style="margin-top: 30px; display: none;">
 			<div class="col-12 text-center">
 				<button type="button" id="updateBtn" class="btn btn-success"
 					disabled>UPDATE</button>

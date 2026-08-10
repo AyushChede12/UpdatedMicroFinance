@@ -324,8 +324,7 @@ public class RequestApprovalsController {
 		  	    if (!list.isEmpty()) {
 		  	        return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "Unapproved investments fetched", list));
 		  	    } else {
-		  	        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-		  	                .body(ApiResponse.error(HttpStatus.NOT_FOUND, "No unapproved investments found"));
+		  	        return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "No unapproved investments found", java.util.Collections.emptyList()));
 		  	    }
 		 }
 		 

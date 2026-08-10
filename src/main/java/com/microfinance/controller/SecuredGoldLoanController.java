@@ -268,9 +268,9 @@ public class SecuredGoldLoanController {
 					"Approved Gold Data fetched successfully.", gold);
 			return ResponseEntity.ok(response);
 		} else {
-			ApiResponse<List<ApplyForGold>> response = new ApiResponse<>(HttpStatus.NOT_FOUND,
-					"No approved Policy Renewal found.", null);
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+			ApiResponse<List<ApplyForGold>> response = new ApiResponse<>(HttpStatus.OK,
+					"No approved Policy Renewal found.", java.util.Collections.emptyList());
+			return ResponseEntity.ok(response);
 		}
 	}
 
@@ -283,9 +283,9 @@ public class SecuredGoldLoanController {
 					"Approved Gold Data fetched successfully.", gold);
 			return ResponseEntity.ok(response);
 		} else {
-			ApiResponse<List<ApplyForGold>> response = new ApiResponse<>(HttpStatus.NOT_FOUND,
-					"No approved Gold Customer found.", null);
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+			ApiResponse<List<ApplyForGold>> response = new ApiResponse<>(HttpStatus.OK,
+					"No unapproved Gold Customer found.", java.util.Collections.emptyList());
+			return ResponseEntity.ok(response);
 		}
 	}
 
