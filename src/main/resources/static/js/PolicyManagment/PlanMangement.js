@@ -228,7 +228,6 @@ $(document).ready(function() {
 	                <td>${person.rateOfInterest}</td>
 	                <td>${person.installmentType}</td>
 	                <td>${person.ddterm}</td>
-					<td>${person.maturityAmount}</td>
 					<td>${statusText}</td>
 					<td class="d-flex" style="gap: .7rem;">
 						<button type="button" class="iconbutton edit-btnDD" data-id="${person.id}">
@@ -680,7 +679,6 @@ $(document).ready(function() {
 		                <td>${person.rateOfInterestRD}</td>
 		                <td>${person.installmentTypeRD}</td>
 		                <td>${person.rdterm}</td>
-						<td>${person.maturityAmountRD}</td>
 						<td>${statusText}</td>
 						<td class="d-flex" style="gap: .7rem;">
 							<button type="button" class="iconbutton reccuringedit-btnRD" data-id="${person.id}">
@@ -1044,7 +1042,6 @@ $(document).ready(function() {
 			                <td>${person.rateOfInterestFD}</td>
 			                <td>${person.installmentTypeFD}</td>
 			                <td>${person.fdterm}</td>
-							<td>${person.maturityAmountFD}</td>
 							<td>${statusText}</td>
 							<td class="d-flex" style="gap: .7rem;">
 								<button type="button" class="iconbutton fixededit-btnFD" data-id="${person.id}">
@@ -1391,7 +1388,6 @@ $(document).ready(function() {
 				                <td>${person.rateOfInterestMD}</td>
 				                <td>${person.installmentTypeMD}</td>
 				                <td>${person.misTerm}</td>
-								<td>${person.maturityAmountMD}</td>
 								<td>${statusText}</td>
 								<td class="d-flex" style="gap: .7rem;">
 									<button type="button" class="iconbutton misedit-btn" data-id="${person.id}">

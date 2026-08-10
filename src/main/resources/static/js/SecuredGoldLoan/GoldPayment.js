@@ -296,12 +296,12 @@ function fetchEMIValues() {
 				$("#paymentAmount").val(pendingPrincipal);
 
 			} else {
-				alert("1");
 
 				// EMIInstallment table मध्ये data नाही
 				var paymentAmount = loanAmount + monthlyInterest;
 
 				$("#paymentAmount").val(paymentAmount);
+				
 
 			}
 
