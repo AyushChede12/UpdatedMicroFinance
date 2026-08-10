@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
 	$("#guardianDetails").hide();
 	$("#guardianAccountNo").hide();
 	loadCustomerTable();
@@ -7,7 +7,7 @@ $(document).ready(function() {
 	// Hide Aadhar field initially
 	$("#aadharNo").closest(".col-lg-3").hide();
 
-	$("#authenticateFor").on("change", function() {
+	$("#authenticateFor").on("change", function () {
 		const val = $(this).val();
 
 		if (val === "aadhar") {
@@ -21,7 +21,7 @@ $(document).ready(function() {
 
 
 
-	$('#saveBtn').click(function(event) {
+	$('#saveBtn').click(function (event) {
 
 		event.preventDefault();
 
@@ -44,9 +44,8 @@ $(document).ready(function() {
 
 			const input = $('#' + fieldId)[0];
 
+			// File is optional — only validate if a file was actually selected
 			if (!input || input.files.length === 0) {
-				$('#' + chkId).text(message);
-				isValid = false;
 				return null;
 			}
 
@@ -83,12 +82,13 @@ $(document).ready(function() {
 
 		if (minor == 'Yes') {
 			validateText('guardianName', 'chkguardianname', 'Enter guardian name');
-			validateText('guardianAccountNo', 'chkguardianaccno', 'Enter guardian account no');
+			validateText('guardianAccNo', 'chkguardianaccno', 'Enter guardian account no');
 		}
 
 		validateText('relationToApplicant', 'chkrelationtoapplicant', 'Select relation');
 		validateText('customerGender', 'chkgender', 'Select gender');
-		validateText('customerAge', 'chkage', 'Enter age');
+		// customerAge is auto-calculated from DOB (readonly field) - skip strict validation
+		// validateText('customerAge', 'chkage', 'Enter age');
 		validateText('customerAddress', 'chkaddress', 'Enter address');
 		validateText('state', 'chkstate', 'Select state');
 		validateText('district', 'chkdistrict', 'Select district');
@@ -104,6 +104,7 @@ $(document).ready(function() {
 		const customerDriving = validateFile('customerDriving', 'chklicenseimage', 'Select license image', ['image/jpeg', 'image/png'], 2);
 		const nomineAadhar = validateFile('nomineAadhar', 'chknomineeaadhar', 'Select nominee aadhar', ['image/jpeg', 'image/png'], 2);
 		const nomineSignature = validateFile('nomineSignature', 'chknomineesignature', 'Select nominee signature', ['image/jpeg', 'image/png'], 2);
+		const newlyAddedImage = validateFile('newlyAddedImage', 'chknewlyaddedimage', 'Select newly added image', ['image/jpeg', 'image/png'], 2);
 
 		if (!isValid) return false;
 
@@ -128,7 +129,7 @@ $(document).ready(function() {
 		formData.append("dob", $('#dob').val());
 		formData.append("minor", $('#minor').val());
 		formData.append("guardianName", $('#guardianName').val());
-		formData.append("guardianAccountNo", $('#guardianAccountNo').val());
+		formData.append("guardianAccountNo", $('#guardianAccNo').val());
 
 		formData.append("relationToApplicant", $('#relationToApplicant').val());
 		formData.append("customerGender", $('#customerGender').val());
@@ -158,16 +159,16 @@ $(document).ready(function() {
 		formData.append("academicBackground", $('#academicBackground').val());
 
 		// Referral
-//		formData.append("referralCode", $('#referralCode').val());
-//		formData.append("referralName", $('#referralName').val());
+		//		formData.append("referralCode", $('#referralCode').val());
+		//		formData.append("referralName", $('#referralName').val());
 
 		// Share
-//		formData.append("shareAmount", $('#shareAmount').val());
-//		formData.append("noOfShare", $('#noOfShare').val());
-//		formData.append("shareValue", $('#shareValue').val());
+		//		formData.append("shareAmount", $('#shareAmount').val());
+		//		formData.append("noOfShare", $('#noOfShare').val());
+		//		formData.append("shareValue", $('#shareValue').val());
 
-//		formData.append("lightBill", $('#lightBill').val());
-//		formData.append("taxBill", $('#taxBill').val());
+		//		formData.append("lightBill", $('#lightBill').val());
+		//		formData.append("taxBill", $('#taxBill').val());
 
 		// Nominee
 		formData.append("nomineeName", $('#nomineeName').val());
@@ -181,23 +182,23 @@ $(document).ready(function() {
 		formData.append("nomineeDOB", $('#nomineeDOB').val());
 
 		// Fees
-//		formData.append("memberFees", $('#memberFees').val());
-//		formData.append("buildingFund", $('#buildingFund').val());
-//		formData.append("adminCharge", $('#adminCharge').val());
-//		formData.append("documentCharge", $('#documentCharge').val());
-//		formData.append("otherCharge", $('#otherCharge').val());
-//		formData.append("entryFee", $('#entryFee').val());
+		//		formData.append("memberFees", $('#memberFees').val());
+		//		formData.append("buildingFund", $('#buildingFund').val());
+		//		formData.append("adminCharge", $('#adminCharge').val());
+		//		formData.append("documentCharge", $('#documentCharge').val());
+		//		formData.append("otherCharge", $('#otherCharge').val());
+		//		formData.append("entryFee", $('#entryFee').val());
 
-//		formData.append("chequeNo", $('#chequeNo').val());
-//		formData.append("chequeDate", $('#chequeDate').val());
-//		formData.append("depositAcNo", $('#depositAccount').val());
-//		formData.append("referenceNo", $('#referenceNo').val());
+		//		formData.append("chequeNo", $('#chequeNo').val());
+		//		formData.append("chequeDate", $('#chequeDate').val());
+		//		formData.append("depositAcNo", $('#depositAccount').val());
+		//		formData.append("referenceNo", $('#referenceNo').val());
 
-//		formData.append("remarks", $('#remarks').val());
-//		formData.append("paymentBy", $('#paymentBy').val());
+		//		formData.append("remarks", $('#remarks').val());
+		//		formData.append("paymentBy", $('#paymentBy').val());
 
-//		formData.append("fDate", $('#fDate').val());
-//		formData.append("tDate", $('#tDate').val());
+		//		formData.append("fDate", $('#fDate').val());
+		//		formData.append("tDate", $('#tDate').val());
 
 		// Toggles
 		formData.append("memberStatus", $('#toggle-member-status').is(":checked") ? "1" : "0");
@@ -212,6 +213,7 @@ $(document).ready(function() {
 		if (customerDriving) formData.append("customerDriving", customerDriving);
 		if (nomineAadhar) formData.append("nomineAadhar", nomineAadhar);
 		if (nomineSignature) formData.append("nomineSignature", nomineSignature);
+		if (newlyAddedImage) formData.append("newlyAddedImage", newlyAddedImage);
 
 		// -------- AJAX --------
 
@@ -221,14 +223,20 @@ $(document).ready(function() {
 			data: formData,
 			processData: false,
 			contentType: false,
-			success: function(response) {
-				alert(response.message || "Customer saved successfully!");
-				location.reload();
+			success: function (response) {
+				if (response.data) {
+					const customerId = response.data.id;
+					const saveMsg = response.message || "Customer saved successfully!";
+					uploadExtraImages(customerId, saveMsg);
+				} else {
+					alert(response.message || "Customer saved successfully!");
+					location.reload();
+				}
 			},
 
-			error: function(xhr) {
+			error: function (xhr) {
 				console.error(xhr);
-				alert(xhr.responseJSON?.message || "Something went wrong");
+				alert(xhr.responseJSON?.message || "Something  went  wrong");
 			}
 		});
 
@@ -313,13 +321,115 @@ $(document).ready(function() {
 		});
 	});*/
 
+	// =================================================
+	// CUSTOMER IMAGE UPLOAD EVENT LISTENERS & FUNCTIONS
+	// =================================================
+	$("#addFieldBtn").click(function (e) {
+		e.preventDefault();
+		createNewField();
+	});
+
+	function createNewField() {
+		const fieldHtml = `
+            <div class="textUploadSet mb-4">
+                <input style="text-transform: uppercase;" type="text" class="form-control nameField" placeholder="ENTER IMAGE NAME...">
+                <div class="uploadContainer"></div>
+            </div>`;
+		$("#fieldContainer").append(fieldHtml);
+	}
+
+	$(document).on("input", ".nameField", function () {
+		const val = $(this).val().trim();
+		const box = $(this).closest(".textUploadSet").find(".uploadContainer");
+
+		if (val.length === 0) { box.html(""); return; }
+
+		const uniqueId = "file-" + Date.now();
+
+		const html = `
+            <div class="uploadField mt-2">
+                <label>${val.toUpperCase()} *</label>
+                <div>
+                    <input type="file" id="${uniqueId}" class="form-control mb-2" accept="image/*" onchange="previewImage('${uniqueId}')">
+                    <label for="${uniqueId}">
+                        <div>
+                            <img src="Uploads/upload.png" id="preview-${uniqueId}" style="width:120px; cursor:pointer;">
+                        </div>
+                    </label>
+                </div>
+            </div>
+        `;
+
+		box.html(html);
+	});
+
+	$("#uploadAllBtn").click(function (e) {
+		e.preventDefault();
+		alert("Please click the SAVE button at the bottom of the page to save the customer details and automatically upload all added images.");
+	});
+
+	function uploadExtraImages(customerId, saveMsg) {
+		let uploadFields = $(".uploadField");
+		let uploadCount = uploadFields.length;
+		if (uploadCount === 0) {
+			alert(saveMsg || "Customer saved successfully!");
+			location.reload();
+			return;
+		}
+
+		let completed = 0;
+		let hasFailed = false;
+
+		uploadFields.each(function () {
+			const fieldName = $(this).find("label:first").text().replace("*", "").trim();
+			const input = $(this).find("input[type=file]")[0];
+			const file = input.files[0];
+
+			if (!file) {
+				completed++;
+				if (completed === uploadCount) {
+					alert(hasFailed ? "Some extra images failed to upload." : (saveMsg || "Customer and all images saved successfully!"));
+					location.reload();
+				}
+				return;
+			}
+
+			let fd = new FormData();
+			fd.append("fieldName", fieldName);
+			fd.append("file", file);
+
+			$.ajax({
+				url: "api/customermanagement/upload/" + customerId,
+				type: "POST",
+				data: fd,
+				processData: false,
+				contentType: false,
+				success: function () {
+					completed++;
+					if (completed === uploadCount) {
+						alert(hasFailed ? "Some extra images failed to upload." : (saveMsg || "Customer and all images saved successfully!"));
+						location.reload();
+					}
+				},
+				error: function () {
+					hasFailed = true;
+					completed++;
+					if (completed === uploadCount) {
+						alert("Some extra images failed to upload.");
+						location.reload();
+					}
+				}
+			});
+		});
+	}
+
 });
 
 function photopreview() {
 	const file = document.getElementById("customerPhoto").files[0];
 	if (file && file.type.startsWith("image/")) {
 		const reader = new FileReader();
-		reader.onload = function(e) {
+		reader.onload = function (e) {
 			const previewimg = document.getElementById("bike1imagePreview");
 			document.getElementById("bike1imagePreview").src = e.target.result;
 			previewimg.style.width = "100%";
@@ -340,7 +450,7 @@ function signpreview() {
 	const file = document.getElementById("customerSignature").files[0];
 	if (file && file.type.startsWith("image/")) {
 		const reader = new FileReader();
-		reader.onload = function(e) {
+		reader.onload = function (e) {
 			const previevimg = document.getElementById("bike2imagePreview");
 			document.getElementById("bike2imagePreview").src = e.target.result;
 			previevimg.style.width = "100%";
@@ -359,7 +469,7 @@ function voterpreview() {
 	const file = document.getElementById("customerVoter").files[0];
 	if (file && file.type.startsWith("image/")) {
 		const reader = new FileReader();
-		reader.onload = function(e) {
+		reader.onload = function (e) {
 			const previevimg = document.getElementById("bike3imagePreview");
 			document.getElementById("bike3imagePreview").src = e.target.result;
 			previevimg.style.width = "100%";
@@ -378,7 +488,7 @@ function drivingpreview() {
 	const file = document.getElementById("customerDriving").files[0];
 	if (file && file.type.startsWith("image/")) {
 		const reader = new FileReader();
-		reader.onload = function(e) {
+		reader.onload = function (e) {
 			const previevimg = document.getElementById("bike4imagePreview");
 			document.getElementById("bike4imagePreview").src = e.target.result;
 			previevimg.style.width = "100%";
@@ -397,7 +507,7 @@ function loadCustomerTable() {
 	$.ajax({
 		url: "api/customermanagement/getAllCustomer",
 		type: "GET",
-		success: function(data) {
+		success: function (data) {
 			let tbody = $("#customerTableBody");
 			tbody.empty();
 
@@ -423,7 +533,7 @@ function loadCustomerTable() {
                 `);
 			});
 		},
-		error: function(err) {
+		error: function (err) {
 			console.log("Error loading table:", err);
 		}
 	});
@@ -435,7 +545,7 @@ function nomineeSignaturePreview() {
 	const file = document.getElementById("nomineSignature").files[0];
 	if (file && file.type.startsWith("image/")) {
 		const reader = new FileReader();
-		reader.onload = function(e) {
+		reader.onload = function (e) {
 			const previewImg = document.getElementById("nomineeSignatureImg");
 			document.getElementById("nomineeSignatureImg").src = e.target.result;
 			previewImg.style.width = "100%";
@@ -454,7 +564,7 @@ function nomineeAadharPreview() {
 	const file = document.getElementById("nomineAadhar").files[0];
 	if (file && file.type.startsWith("image/")) {
 		const reader = new FileReader();
-		reader.onload = function(e) {
+		reader.onload = function (e) {
 			const previewImg = document.getElementById("nomineeAadharImg");
 			document.getElementById("nomineeAadharImg").src = e.target.result;
 			previewImg.style.width = "100%";
@@ -469,15 +579,34 @@ function nomineeAadharPreview() {
 	}
 }
 
-$(document).ready(function() {
+function newlyaddedpreview() {
+	const file = document.getElementById("newlyAddedImage").files[0];
+	if (file && file.type.startsWith("image/")) {
+		const reader = new FileReader();
+		reader.onload = function (e) {
+			const previewImg = document.getElementById("newlyAddedImagePreview");
+			previewImg.src = e.target.result;
+			previewImg.style.width = "100%";
+			previewImg.style.height = "100%";
+			previewImg.style.objectFit = "cover";
+			previewImg.style.overflow = "hidden";
+			previewImg.style.borderRadius = "20px";
+		};
+		reader.readAsDataURL(file);
+	} else {
+		alert("Please upload a valid image.");
+	}
+}
+
+$(document).ready(function () {
 	// Load States
 	$.ajax({
 		url: 'api/preference/getAllStates',
 		method: "GET",
-		success: function(response) {
+		success: function (response) {
 			if (response && response.data && Array.isArray(response.data)) {
 				console.log("Fetched states:", response.data);
-				response.data.forEach(function(state) {
+				response.data.forEach(function (state) {
 					$('#state').append(
 						$('<option>', {
 							value: state.stateName,  // What will be saved to DB
@@ -490,7 +619,7 @@ $(document).ready(function() {
 				console.warn("No state data available.");
 			}
 		},
-		error: function(err) {
+		error: function (err) {
 			console.error("Error fetching states:", err);
 		}
 	});
@@ -498,7 +627,7 @@ $(document).ready(function() {
 
 
 // Load Districts when state is selected
-$('#state').on('change', function() {
+$('#state').on('change', function () {
 	const selectedStateId = $(this).find(':selected').data('id'); // ✅ Get ID from selected option
 	$('#district').empty().append('<option value="">Select District</option>');
 
@@ -507,10 +636,10 @@ $('#state').on('change', function() {
 			url: 'api/preference/getAllDistrictsByStateId',
 			method: 'GET',
 			data: { stateId: selectedStateId },  // ✅ Now correct ID passed
-			success: function(response) {
+			success: function (response) {
 				console.log("Fetched districts:", response);
 				const districts = response.allDistricts;
-				districts.forEach(function(district) {
+				districts.forEach(function (district) {
 					$('#district').append(
 						$('<option>', {
 							value: district.districtName,
@@ -519,7 +648,7 @@ $('#state').on('change', function() {
 					);
 				});
 			},
-			error: function(err) {
+			error: function (err) {
 				console.error("Error fetching districts:", err);
 			}
 		});
@@ -527,16 +656,16 @@ $('#state').on('change', function() {
 });
 
 
-$(document).ready(function() {
+$(document).ready(function () {
 	const dropdownIds = ["relationToApplicant", "nomineeRelationToApplicant"];
 
 	$.ajax({
 		url: "api/preference/getAllRelativeModule", // Ensure correct server path
 		method: "GET",
-		success: function(data) {
+		success: function (data) {
 			console.log("Received relation data:", data);
 
-			dropdownIds.forEach(function(id) {
+			dropdownIds.forEach(function (id) {
 				const $select = $("#" + id);
 				if ($select.length === 0) {
 					console.warn(`Dropdown with ID '${id}' not found.`);
@@ -547,7 +676,7 @@ $(document).ready(function() {
 				$select.find("option:not(:first)").remove();
 
 				// Loop through data.data array
-				data.data.forEach(function(item) {
+				data.data.forEach(function (item) {
 					$select.append(
 						$("<option>", {
 							value: item.relation,
@@ -557,18 +686,18 @@ $(document).ready(function() {
 				});
 			});
 		},
-		error: function(err) {
+		error: function (err) {
 			console.error("Error loading relations:", err);
 		}
 	});
 });
-/*
-$(document).ready(function() {
+
+$(document).ready(function () {
 	// Fetch all branches and populate the dropdown
 	$.ajax({
 		url: "api/preference/getAllBranchModule", // Ensure correct API path
 		method: "GET",
-		success: function(data) {
+		success: function (data) {
 			console.log("Fetched Branches:", data);
 
 			const $branchDropdown = $('#branchName');
@@ -582,7 +711,7 @@ $(document).ready(function() {
 
 			// Loop through and add only unique branch names
 			if (Array.isArray(data.data)) {
-				data.data.forEach(function(branch) {
+				data.data.forEach(function (branch) {
 					const branchName = branch.branchName;
 
 					if (branchName && !addedBranches.has(branchName)) {
@@ -599,14 +728,14 @@ $(document).ready(function() {
 				console.warn("Unexpected data format:", data);
 			}
 		},
-		error: function(err) {
+		error: function (err) {
 			console.error("Error fetching branches:", err);
 		}
 	});
-});*/
+});
 
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
 	const paymentBy = document.getElementById("paymentBy");
 
 	const chequeNoDiv = document.getElementById("chequeNoDiv");
@@ -649,7 +778,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
 	// Function to fetch and bind bank accounts
 	function loadBankAccounts() {
 		fetch("api/preference/getAllBankModule")
@@ -689,14 +818,14 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-$(document).ready(function() {
+$(document).ready(function () {
 	// Fetch all customers and populate the "select by code" dropdown
 	$.ajax({
 		url: "api/customermanagement/getAllCustomer",
 		method: "GET",
-		success: function(data) {
+		success: function (data) {
 			console.log("Fetched Members:", data);
-			data.forEach(function(customer) {
+			data.forEach(function (customer) {
 				const optionText = `${customer.memberCode} - ${customer.customerName}`;
 				$('#selectMember').append(
 					$('<option>', {
@@ -706,7 +835,7 @@ $(document).ready(function() {
 				);
 			});
 		},
-		error: function(err) {
+		error: function (err) {
 			console.error("Error fetching customers:", err);
 		}
 	});
@@ -714,14 +843,14 @@ $(document).ready(function() {
 
 
 
-$(document).ready(function() {
+$(document).ready(function () {
 	// If already selected on load
 	if ($("#selectMember").val()) {
 		fetchBySelectedCustomer();
 	}
 
 	// On dropdown change
-	$("#selectMember").on("change", function() {
+	$("#selectMember").on("change", function () {
 		if ($(this).val()) {
 			fetchBySelectedCustomer();
 		} else {
@@ -742,7 +871,7 @@ function fetchBySelectedCustomer() {
 		data: JSON.stringify(input),
 		url: 'fetchBySelectedCustomer',
 		async: false,
-		success: function(data) {
+		success: function (data) {
 			if (data && data.length > 0) {
 				const c = data[0];
 
@@ -781,7 +910,7 @@ function fetchBySelectedCustomer() {
 				clearCustomerFields();
 			}
 		},
-		error: function(jqXHR, textStatus, errorThrown) {
+		error: function (jqXHR, textStatus, errorThrown) {
 			alert("Failed to fetch data: " + textStatus + ", " + errorThrown);
 		}
 	});
@@ -809,16 +938,16 @@ function ifMinor() {
 	else {
 		$("#guardianDetails").hide();
 		$("#guardianAccountNo").hide();
-		$("#guardianAccountNo").val(null);
-		$("#guardianDetails").val(null);
+		$("#guardianAccNo").val('');
+		$("#guardianDetails").val('');
 	}
 
 }
 
 
 // Auto-calculate Age and Minor detection
-$(document).ready(function() {
-	$('#dob').on('change', function() {
+$(document).ready(function () {
+	$('#dob').on('change', function () {
 		const dobVal = $(this).val();
 		if (!dobVal) return;
 
@@ -844,7 +973,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#nomineeDOB').on('change', function() {
+	$('#nomineeDOB').on('change', function () {
 		const dobVal = $(this).val();
 		if (!dobVal) return;
 
@@ -873,12 +1002,12 @@ $(document).ready(function() {
 
 
 
-$(document).ready(function() {
+$(document).ready(function () {
 	// 1️⃣ Fetch all customers for dropdown
 	$.ajax({
 		url: "api/customersavings/getAllSavingAccountData",
 		method: "GET",
-		success: function(response) {
+		success: function (response) {
 			console.log("Fetched Members:", response);
 
 			const customers = response.data || response;
@@ -896,7 +1025,7 @@ $(document).ready(function() {
 
 			// Populate dropdown
 			if (Array.isArray(customers) && customers.length > 0) {
-				customers.forEach(function(customer) {
+				customers.forEach(function (customer) {
 
 					const guardianValue = customer.selectByCustomer
 						? customer.selectByCustomer.trim()
@@ -913,13 +1042,13 @@ $(document).ready(function() {
 				});
 			}
 		},
-		error: function(err) {
+		error: function (err) {
 			console.error("❌ Error fetching customers:", err);
 		}
 	});
 
 
-	$('#guardianName').on('change', function() {
+	$('#guardianName').on('change', function () {
 		const selectedCode = $(this).val().trim();
 
 		if (selectedCode === "") {
@@ -933,7 +1062,7 @@ $(document).ready(function() {
 			$.ajax({
 				url: `api/customersavings/getAccountNumbersByCode?selectByCustomer=${encodeURIComponent(selectedCode)}`,
 				method: "GET",
-				success: function(res) {
+				success: function (res) {
 					console.log("Account number response:", res);
 
 					// Access account number using the selected code as key
@@ -951,7 +1080,7 @@ $(document).ready(function() {
 						}
 					}
 				},
-				error: function(err) {
+				error: function (err) {
 					console.error("❌ Error fetching account number:", err);
 					$('#guardianAccNo').val('');
 				}
@@ -988,7 +1117,7 @@ $(document).ready(function() {
 	$.ajax({
 		url: 'api/preference/getAllCategoryModule',
 		method: "GET",
-		success: function(response) {
+		success: function (response) {
 
 			if (response.status === 'FOUND') {
 
@@ -999,14 +1128,14 @@ $(document).ready(function() {
 				// Set to store unique category names
 				const uniqueCategories = new Set();
 
-				response.data.forEach(function(category) {
+				response.data.forEach(function (category) {
 					if (category.category) {
 						uniqueCategories.add(category.category.trim());
 					}
 				});
 
 				// Append unique categories
-				uniqueCategories.forEach(function(categoryName) {
+				uniqueCategories.forEach(function (categoryName) {
 					$('#category').append(
 						$('<option>', {
 							value: categoryName,
@@ -1019,13 +1148,13 @@ $(document).ready(function() {
 				console.warn("No Category data available.");
 			}
 		},
-		error: function(err) {
+		error: function (err) {
 			console.error("Error fetching Categories:", err);
 		}
 	});
 
 
-	$('#category').on('change', function() {
+	$('#category').on('change', function () {
 		const selectedCategory = $("#category").val();
 		$('#caste').empty().append('<option value="">--SELECT CASTE--</option>');
 
@@ -1034,10 +1163,10 @@ $(document).ready(function() {
 				url: 'api/preference/getAllCasteByCategory',
 				method: 'GET',
 				data: { category: selectedCategory },  // ✅ Now correct ID passed
-				success: function(response) {
+				success: function (response) {
 					console.log("Fetched caste:", response);
 					const casteList = response.data;
-					casteList.forEach(function(caste) {
+					casteList.forEach(function (caste) {
 						$('#caste').append(
 							$('<option>', {
 								value: caste.caste,
@@ -1046,7 +1175,7 @@ $(document).ready(function() {
 						);
 					});
 				},
-				error: function(err) {
+				error: function (err) {
 					console.error("Error fetching caste:", err);
 				}
 			});
@@ -1054,13 +1183,13 @@ $(document).ready(function() {
 	});
 });
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
 	document.getElementById("memberFeesTable").style.display = "none";
 
 
 });
 
-document.getElementById("memberFees").addEventListener("click", function(event) {
+document.getElementById("memberFees").addEventListener("click", function (event) {
 	event.stopPropagation();
 
 	let table = document.getElementById("memberFeesTable");
@@ -1069,12 +1198,12 @@ document.getElementById("memberFees").addEventListener("click", function(event) 
 });
 
 
-document.getElementById("memberFeesTable").addEventListener("click", function(event) {
+document.getElementById("memberFeesTable").addEventListener("click", function (event) {
 	event.stopPropagation();
 });
 
 
-document.addEventListener("click", function() {
+document.addEventListener("click", function () {
 	document.getElementById("memberFeesTable").style.display = "none";
 });
 
@@ -1104,4 +1233,15 @@ function calcOpeningFees() {
 
 	document.getElementById("totalFee").innerText = total;
 	document.getElementById("memberFees").value = total;
+}
+
+function previewImage(id) {
+	const file = document.getElementById(id).files[0];
+	const preview = document.getElementById("preview-" + id);
+
+	if (file) {
+		const reader = new FileReader();
+		reader.onload = e => preview.src = e.target.result;
+		reader.readAsDataURL(file);
+	}
 }

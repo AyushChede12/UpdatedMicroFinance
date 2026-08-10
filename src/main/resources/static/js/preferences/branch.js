@@ -212,11 +212,6 @@ function renderBranchTable(page) {
 					<i class="fa-solid fa-pen-to-square text-primary"></i>
 				</button>
 			</td>
-			<td>
-				<button class="iconbutton" onclick="deleteData(${branch.id})" title="Delete">
-					<i class="fa-solid fa-trash text-danger"></i>
-				</button>
-			</td>
 		</tr>`;
 		tableBody.append(row);
 	}

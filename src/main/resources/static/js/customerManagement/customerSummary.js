@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	let currentCustomerId = null;
 	/*$.ajax({
 		url: 'api/customermanagement/approved',
 		type: 'GET',
@@ -112,12 +113,181 @@ $(document).ready(function() {
 							$("#photoHidden").val("");
 						}
 
+						if (data.newlyAddedImage) {
+							const newImgPath = `Uploads/${data.newlyAddedImage}`;
+							$("#newlyAddedImagePreview").attr("src", newImgPath);
+							$("#newlyAddedImageHidden").val(newImgPath);
+							const fakeNewImgEvent = { target: { result: newImgPath } };
+							newlyAddedImageSizeEdit(fakeNewImgEvent);
+						} else {
+							$("#newlyAddedImagePreview").attr("src", "Uploads/default-placeholder.jpg");
+							$("#newlyAddedImageHidden").val("");
+						}
+
+						currentCustomerId = data.id;
+						$("#customerImageUploadSection").show();
+						loadCustomerImages(currentCustomerId);
+
 					} else {
 						alert("No customer found for this member code.");
 					}
 				},
 				error: function() {
 					alert("Member not found or server error.");
+				}
+			});
+		} else {
+			currentCustomerId = null;
+			$("#customerImageUploadSection").hide();
+		}
+	});
+
+	// =================================================
+	// CUSTOMER IMAGE UPLOAD EVENT LISTENERS
+	// =================================================
+	$("#addFieldBtn").click(function(e) {
+		e.preventDefault();
+		createNewField();
+	});
+
+	function createNewField() {
+		const fieldHtml = `
+            <div class="textUploadSet mb-4">
+                <input style="text-transform: uppercase;" type="text" class="form-control nameField" placeholder="ENTER IMAGE NAME...">
+                <div class="uploadContainer"></div>
+            </div>`;
+		$("#fieldContainer").append(fieldHtml);
+	}
+
+	$(document).on("input", ".nameField", function() {
+		const val = $(this).val().trim();
+		const box = $(this).closest(".textUploadSet").find(".uploadContainer");
+
+		if (val.length === 0) { box.html(""); return; }
+
+		const uniqueId = "file-" + Date.now();
+
+		const html = `
+            <div class="uploadField mt-2">
+                <label>${val.toUpperCase()} *</label>
+                <label for="${uniqueId}">
+                    <input type="file" id="${uniqueId}" hidden accept="image/*" onchange="previewImage('${uniqueId}')">
+                    <div>
+                        <img src="Uploads/upload.png" id="preview-${uniqueId}" style="width:120px;">
+                    </div>
+                </label>
+            </div>
+        `;
+
+		box.html(html);
+	});
+
+	$("#uploadAllBtn").click(function() {
+		if (!currentCustomerId) {
+			alert("Please select a customer first.");
+			return;
+		}
+
+		let uploadFields = $(".uploadField");
+		let uploadCount = uploadFields.length;
+		if (uploadCount === 0) {
+			alert("No fields added to upload.");
+			return;
+		}
+
+		let completed = 0;
+		uploadFields.each(function() {
+			const fieldName = $(this).find("label:first").text().replace("*", "").trim();
+			const input = $(this).find("input[type=file]")[0];
+			const file = input.files[0];
+
+			if (!file) {
+				alert("Select file for " + fieldName);
+				return;
+			}
+
+			let fd = new FormData();
+			fd.append("fieldName", fieldName);
+			fd.append("file", file);
+
+			$.ajax({
+				url: "api/customermanagement/upload/" + currentCustomerId,
+				type: "POST",
+				data: fd,
+				processData: false,
+				contentType: false,
+				success: function() {
+					$(input).closest(".uploadField").css("border", "2px solid green");
+					completed++;
+					if (completed === uploadCount) {
+						alert("All images uploaded successfully!");
+						loadCustomerImages(currentCustomerId);
+					}
+				},
+				error: function() {
+					$(input).closest(".uploadField").css("border", "2px solid red");
+					alert("Failed to upload " + fieldName);
+				}
+			});
+		});
+	});
+
+	$("#reloadDataBtn").click(function() {
+		if (currentCustomerId) {
+			loadCustomerImages(currentCustomerId);
+		}
+	});
+
+	function loadCustomerImages(customerId) {
+		$("#storedImages").html(`<h5>Loading...</h5>`);
+
+		$.ajax({
+			url: "api/customermanagement/images/" + customerId,
+			type: "GET",
+			success: function(data) {
+				let html = "<h4>STORED IMAGES</h4><div class='row'>";
+				if (data.length === 0) {
+					html += "<p class='col-12 text-muted'>No stored images for this customer.</p>";
+				} else {
+					data.forEach(img => {
+						html += `
+							<div class="col-lg-3 text-center mb-4">
+								<div class="img-box" style="position:relative; display:inline-block;">
+									<img src="Uploads/customer/${customerId}/${img.fileName}" 
+										 width="150" height="150" 
+										 style="object-fit:contain;border:1px solid #ccc;border-radius:8px;padding:4px;">
+									<button type="button" class="deleteImg btn btn-danger btn-sm" data-id="${customerId}-${img.id}" 
+										style="position:absolute; top:5px; right:5px; border-radius:50%; width:24px; height:24px; padding:0; line-height:20px;">&times;</button>
+								</div>
+								<p class="mt-1 font-weight-bold">${(img.name).toUpperCase()}</p>
+								<p class="text-muted small" style="font-size: 11px;">Uploaded: ${img.uploadDate || 'N/A'}</p>
+							</div>
+						`;
+					});
+				}
+				html += "</div>";
+				$("#storedImages").html(html);
+			},
+			error: function() {
+				$("#storedImages").html("<p class='text-danger'>Failed to load stored images.</p>");
+			}
+		});
+	}
+
+	$(document).on("click", ".deleteImg", function() {
+		const id = $(this).data("id");
+		if (confirm("Are you sure you want to delete this image?")) {
+			$.ajax({
+				url: "api/customermanagement/delete/" + id,
+				type: "POST",
+				success: function() {
+					alert("Image deleted!");
+					if (currentCustomerId) {
+						loadCustomerImages(currentCustomerId);
+					}
+				},
+				error: function() {
+					alert("Error deleting image.");
 				}
 			});
 		}
@@ -133,4 +303,25 @@ function photoSizeEdit(e) {
 	previewimg.style.objectFit = "cover";
 	previewimg.style.overflow = "hidden";
 	previewimg.style.borderRadius = "20px";
+}
+
+function newlyAddedImageSizeEdit(e) {
+	const previewimg = document.getElementById("newlyAddedImagePreview");
+	previewimg.src = e.target.result;
+	previewimg.style.width = "100%";
+	previewimg.style.height = "100%";
+	previewimg.style.objectFit = "cover";
+	previewimg.style.overflow = "hidden";
+	previewimg.style.borderRadius = "20px";
+}
+
+function previewImage(id) {
+	const file = document.getElementById(id).files[0];
+	const preview = document.getElementById("preview-" + id);
+
+	if (file) {
+		const reader = new FileReader();
+		reader.onload = e => preview.src = e.target.result;
+		reader.readAsDataURL(file);
+	}
 }

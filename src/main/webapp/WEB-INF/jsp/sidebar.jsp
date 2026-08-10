@@ -272,10 +272,6 @@
 		</a>
 
 			<ul id="saving-account" class="nav-content collapse">
-				<li><a href="${baseUrl}/savingsSchemaCatalog"> <i class="bi bi-circle"></i>
-						<span style="font-family: 'Poppins', sans-serif">SAVINGS
-							SCHEME CATALOG</span>
-				</a></li>
 
 				<li><a href="${baseUrl}/createSavingsAccount"> <i class="bi bi-circle"></i>
 						<span style="font-family: 'Poppins', sans-serif">CREATE

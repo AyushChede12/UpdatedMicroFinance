@@ -128,6 +128,12 @@ public class addCustomer {
 	@Column(name = "customer_driving")
 	private String customerDriving;
 
+	@Column(name = "newly_added_image")
+	private String newlyAddedImage;
+
+	@Column(name = "customer_extra_image", length = 3000)
+	private String customerExtraImage;
+
 	@Column(name = "first_name", length = 50)
 	private String firstName;
 
@@ -209,16 +215,19 @@ public class addCustomer {
 	private String paymentBy;
 
 	@Column(name = "member_status")
-	private int memberStatus;
+	private Integer memberStatus;
 
 	@Column(name = "mobile_banking")
-	private int mobileBanking;
+	private Integer mobileBanking;
 
 	@Column(name = "net_banking")
-	private int netBanking;
+	private Integer netBanking;
+
+	@Column(name = "member_banking")
+	private Integer memberBanking = 0;
 
 	@Column(name = "sms_send")
-	private int smsSend;
+	private Integer smsSend;
 
 	@Column(name = "f_date", length = 20)
 	private String fDate;
@@ -227,10 +236,10 @@ public class addCustomer {
 	private String tDate;
 
 	@Column(name = "is_verified")
-	private boolean isVerified;
+	private Boolean isVerified = false;
 
 	@Column(name = "is_approved")
-	private boolean isApproved;
+	private Boolean isApproved = false;
 
 	public Long getId() {
 		return id;
@@ -552,6 +561,22 @@ public class addCustomer {
 		this.customerDriving = customerDriving;
 	}
 
+	public String getNewlyAddedImage() {
+		return newlyAddedImage;
+	}
+
+	public void setNewlyAddedImage(String newlyAddedImage) {
+		this.newlyAddedImage = newlyAddedImage;
+	}
+
+	public String getCustomerExtraImage() {
+		return customerExtraImage;
+	}
+
+	public void setCustomerExtraImage(String customerExtraImage) {
+		this.customerExtraImage = customerExtraImage;
+	}
+
 	public String getFirstName() {
 		return firstName;
 	}
@@ -760,35 +785,43 @@ public class addCustomer {
 		this.paymentBy = paymentBy;
 	}
 
-	public int getMemberStatus() {
+	public Integer getMemberStatus() {
 		return memberStatus;
 	}
 
-	public void setMemberStatus(int memberStatus) {
+	public void setMemberStatus(Integer memberStatus) {
 		this.memberStatus = memberStatus;
 	}
 
-	public int getMobileBanking() {
+	public Integer getMobileBanking() {
 		return mobileBanking;
 	}
 
-	public void setMobileBanking(int mobileBanking) {
+	public void setMobileBanking(Integer mobileBanking) {
 		this.mobileBanking = mobileBanking;
 	}
 
-	public int getNetBanking() {
+	public Integer getNetBanking() {
 		return netBanking;
 	}
 
-	public void setNetBanking(int netBanking) {
+	public void setNetBanking(Integer netBanking) {
 		this.netBanking = netBanking;
 	}
 
-	public int getSmsSend() {
+	public Integer getMemberBanking() {
+		return memberBanking;
+	}
+
+	public void setMemberBanking(Integer memberBanking) {
+		this.memberBanking = memberBanking;
+	}
+
+	public Integer getSmsSend() {
 		return smsSend;
 	}
 
-	public void setSmsSend(int smsSend) {
+	public void setSmsSend(Integer smsSend) {
 		this.smsSend = smsSend;
 	}
 
@@ -808,19 +841,19 @@ public class addCustomer {
 		this.tDate = tDate;
 	}
 
-	public boolean isVerified() {
+	public Boolean isVerified() {
 		return isVerified;
 	}
 
-	public void setVerified(boolean isVerified) {
+	public void setVerified(Boolean isVerified) {
 		this.isVerified = isVerified;
 	}
 
-	public boolean isApproved() {
+	public Boolean isApproved() {
 		return isApproved;
 	}
 
-	public void setApproved(boolean isApproved) {
+	public void setApproved(Boolean isApproved) {
 		this.isApproved = isApproved;
 	}
 

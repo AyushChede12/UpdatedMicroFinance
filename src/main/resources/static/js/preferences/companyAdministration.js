@@ -3,6 +3,8 @@ $(document).ready(function() {
 	$(document).on("click", "#editBtn", function() {
 		$("#updateBtn").prop("disabled", false);
 		$("#formid").find("input, textarea").prop("readonly", false);
+		$("#declaredValue").prop("readonly", true);
+		$("#nof").prop("readonly", true);
 	});
 
 	const companyId = 1;  // Change if company ID is dynamic
@@ -25,7 +27,7 @@ $(document).ready(function() {
 				$("#pan").val(data.pan);
 				$("#tan").val(data.tan);
 				$("#gstin").val(data.gstin);
-				$("#declaredValue").val(data.declaredValue);
+				$("#declaredValue").val(100);
 				$("#address").val(data.address);
 				$("#state").val(data.state);
 				$("#city").val(data.city);
@@ -39,6 +41,7 @@ $(document).ready(function() {
 				$("#tdsWithoutPan").val(data.tdsWithoutPan);
 				$("#taxDeduction").val(data.taxDeduction);
 				$("#branchManagerContactNo").val(data.branchManagerContactNo);
+				calculateNoOfShares();
 			}
 		});
 	}
@@ -231,9 +234,16 @@ $(document).ready(function() {
 			return false;
 		}
 
-		var declaredValue = $("#declaredValue").val();
-		var paidUpCapital = $("#paidUpCapital").val();
-		var noOfShares = paidUpCapital / declaredValue;
+		var declaredValue = parseFloat($("#declaredValue").val()) || 100;
+		var paidUpCapital = parseFloat($("#paidUpCapital").val()) || 0;
+		var noOfShares = 0;
+		if (declaredValue > 0) {
+			noOfShares = paidUpCapital / declaredValue;
+			if (noOfShares % 1 !== 0) {
+				noOfShares = parseFloat(noOfShares.toFixed(2));
+			}
+		}
+		$("#nof").val(noOfShares);
 
 		let formData = {
 			id: $("#id").val(),
@@ -410,6 +420,25 @@ $(document).ready(function() {
 				loadCompanyImages();
 			}
 		});
+	});
+
+	function calculateNoOfShares() {
+		var paidUpCapital = parseFloat($("#paidUpCapital").val()) || 0;
+		var declaredValue = parseFloat($("#declaredValue").val()) || 0;
+		if (declaredValue > 0) {
+			var noOfShares = paidUpCapital / declaredValue;
+			if (noOfShares % 1 === 0) {
+				$("#nof").val(noOfShares);
+			} else {
+				$("#nof").val(noOfShares.toFixed(2));
+			}
+		} else {
+			$("#nof").val(0);
+		}
+	}
+
+	$(document).on("input", "#paidUpCapital, #declaredValue", function() {
+		calculateNoOfShares();
 	});
 
 });
