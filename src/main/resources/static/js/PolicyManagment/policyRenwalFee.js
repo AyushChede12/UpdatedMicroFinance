@@ -1,7 +1,7 @@
 $(document).ready(function() {
-	
+
 	// Auto recalculate Net Deposit when user changes values
-	$("#policyAmount, #noOfInst").on("keyup change input", function () {
+	$("#policyAmount, #noOfInst").on("keyup change input", function() {
 		calculateNetDeposit();
 	});
 
@@ -97,17 +97,17 @@ $(document).ready(function() {
 						$("#customerName").val(data.customerName);
 						$("#contactNo").val(data.contactNo);
 						$("#policyAmount").val(data.policyAmount);
+						$("#netDeposite").val(data.depositAmount);
 						$("#policyType").val(data.schemeType);
 						$("#branchName").val(data.branchName);
 						$("#policyTerm").val(data.schemeTerm);
 						$("#maturityAmount").val(data.maturityAmount);
 						/*$("#totalDeposit").val(data.depositAmount);*/
 						$("#totalDeposit").val(data.paidAmount);
-						
+
 						let fetchedDeposit = parseFloat(data.depositAmount) || 0;
 						let userTotalDeposit = parseFloat($("#totalDeposit").val()) || 0;
 						let paymentDue = fetchedDeposit - userTotalDeposit;
-
 						$("#paymentDue").val(paymentDue);
 						$("#financialCode").val(data.introMCode);
 						$("#lastInstPaid").val(data.lastInstPaid);
@@ -119,9 +119,10 @@ $(document).ready(function() {
 						$("#comment").val(data.remark);
 						$("#agentName").val(data.agent);
 						$("#noOfInstPaid").val(data.lastInstPaid);
+						$("#modeOfPayment").val(data.modeOfPayment);
 
-						if (data.customerPhoto) {
-							const photoPath = `Uploads/${data.customerPhoto}`;
+						if (data.image1) {
+							const photoPath = `Uploads/${data.image1}`;
 							$("#photoPreview").attr("src", photoPath);
 							$("#photoHidden").val(photoPath);
 							photoSizeEdit({ target: { result: photoPath } });
@@ -131,8 +132,8 @@ $(document).ready(function() {
 						}
 
 						// Signature
-						if (data.customerSignature) {
-							const signPath = `Uploads/${data.customerSignature}`;
+						if (data.image2) {
+							const signPath = `Uploads/${data.image2}`;
 							$("#signaturePreview").attr("src", signPath);
 							$("#signatureHidden").val(signPath);
 							signatureSizeEdit({ target: { result: signPath } });
@@ -161,7 +162,7 @@ $(document).ready(function() {
 			noOfInstallments: $("#noOfInst").val(),
 			totalDeposit: $("#totalDeposit").val(),
 			paymentDue: $("#paymentDue").val(),
-			noOfInstPaid: $("#noOfInstPaid").val() 
+			noOfInstPaid: $("#noOfInstPaid").val()
 		};
 
 		// Basic validation before sending
@@ -329,101 +330,178 @@ function printTransactionSection() {
 }
 
 $("#viewBtn").on("click", function() {
+
 	const selectedPolicyCode = $("#policyCode").val();
 
 	if (!selectedPolicyCode) {
+
 		alert("Please select a policy code first!");
+
+		$("#installmentModal").modal("hide");
+
+		// Force remove Bootstrap modal state
+		$("#installmentModal").removeClass("show");
+		$("#installmentModal").css("display", "none");
+		$("body").removeClass("modal-open");
+		$(".modal-backdrop").remove();
+
 		return;
 	}
 
+
 	$.ajax({
-		url: "/api/Policymangment/getFullMaturityByPolicyCode", // ✅ leading slash
+		url: "api/Policymangment/getFullMaturityByPolicyCode",
 		type: "GET",
 		dataType: "json",
-		data: { policyCode: selectedPolicyCode },
+		data: {
+			policyCode: selectedPolicyCode
+		},
+
 		success: function(response) {
+
 			console.log("✅ Full Response:", response);
 
 			const $tbody = $("#installmentModal tbody");
+
 			let rowsHtml = "";
 			let installments = [];
 
 			if (response && response.status === "OK") {
+
 				if (Array.isArray(response.data)) {
 					installments = response.data;
+
 				} else if (response.data) {
 					installments = [response.data];
 				}
 			}
 
 			if (installments.length > 0) {
-				// ✅ Base date (agar paymentDate available nahi hai to policyStartDate use karo)
+
+				// Base date
 				let baseDate = installments[0].paymentDate
 					? new Date(installments[0].paymentDate)
-					: (installments[0].policyStartDate
-						? new Date(installments[0].policyStartDate)
-						: new Date());
+					: (
+						installments[0].policyStartDate
+							? new Date(installments[0].policyStartDate)
+							: new Date()
+					);
+
+				// Format Date
+				const formatDate = (dateObj) => {
+
+					const day = String(dateObj.getDate()).padStart(2, "0");
+					const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+					const year = dateObj.getFullYear();
+
+					return `${day}-${month}-${year}`;
+				};
 
 				installments.forEach((inst, index) => {
+
 					const srNo = index + 1;
 
-					// ✅ Daily Deposit ke liye: har installment ek din aage
+					// Daily Deposit:
+					// Har installment ek din aage
 					let dueDate = new Date(baseDate);
-					dueDate.setDate(dueDate.getDate() + index);
 
-					// Format function
-					const formatDate = (dateObj) => {
-						const day = String(dateObj.getDate()).padStart(2, "0");
-						const month = String(dateObj.getMonth() + 1).padStart(2, "0");
-						const year = dateObj.getFullYear();
-						return `${day}-${month}-${year}`;
-					};
+					dueDate.setDate(
+						dueDate.getDate() + index
+					);
 
 					const dueDateFormatted = formatDate(dueDate);
+
 					const paymentDateStr = inst.paymentDate
 						? formatDate(new Date(inst.paymentDate))
 						: "-";
 
-					// ✅ Status check
-					const status = inst.paymentDate && inst.paymentDate.trim() !== ""
-						? `<span class="text-success fw-bold">Paid</span>`
-						: `<span class="text-danger fw-bold">Unpaid</span>`;
+					// Status
+					const status =
+						inst.paymentDate &&
+							inst.paymentDate.trim() !== ""
+							? `<span class="text-success fw-bold">Paid</span>`
+							: `<span class="text-danger fw-bold">Unpaid</span>`;
 
-					const amount = inst.amount
-						? `INR ${Number(inst.amount).toLocaleString("en-IN")}`
-						: "INR 0";
+					// Amount
+					const amount =
+						inst.amount
+							? `INR ${Number(inst.amount).toLocaleString("en-IN")}`
+							: "INR 0";
 
 					rowsHtml += `
                         <tr>
-                          <td>${srNo}</td>
-                          <td>${dueDateFormatted}</td>   <!-- ✅ Daily Due Date -->
-                          <td>${amount}</td>
-                          <td>${status}</td>
-                          <td>${paymentDateStr}</td>
+                            <td>${srNo}</td>
+                            <td>${dueDateFormatted}</td>
+                            <td>${amount}</td>
+                            <td>${status}</td>
+                            <td>${paymentDateStr}</td>
                         </tr>
                     `;
 				});
+
 			} else {
+
 				rowsHtml = `
                     <tr>
-                      <td colspan="5" class="text-center text-danger">
-                        No installment data found for this policy.
-                      </td>
+                        <td colspan="5" class="text-center text-danger">
+                            No installment data found for this policy.
+                        </td>
                     </tr>
                 `;
 			}
 
 			$tbody.html(rowsHtml);
+
+			// Data milne ke baad modal open karna ho to
+			const modalElement =
+				document.getElementById("installmentModal");
+
+			const modalInstance =
+				bootstrap.Modal.getOrCreateInstance(modalElement);
+
+			modalInstance.show();
 		},
+
 		error: function(xhr) {
+
 			console.error("❌ Error:", xhr);
+
 			alert("❌ Failed to fetch installment data.");
+
+			// Error ke time modal close
+			const modalElement =
+				document.getElementById("installmentModal");
+
+			const modalInstance =
+				bootstrap.Modal.getInstance(modalElement);
+
+			if (modalInstance) {
+				modalInstance.hide();
+			}
 		}
 	});
 });
 
 
 
+function signatureSizeEdit(e) {
+	const previewimg = document.getElementById("signaturePreview");
+	previewimg.src = e.target.result;
+	previewimg.style.width = "100%";
+	previewimg.style.height = "100%";
+	previewimg.style.objectFit = "cover";
+	previewimg.style.overflow = "hidden";
+	previewimg.style.borderRadius = "20px";
+}
 
+function photoSizeEdit(e) {
+	const previewimg = document.getElementById("photoPreview");
+	previewimg.src = e.target.result;
+	previewimg.style.width = "100%";
+	previewimg.style.height = "100%";
+	previewimg.style.objectFit = "cover";
+	previewimg.style.overflow = "hidden";
+	previewimg.style.borderRadius = "20px";
+}
 
 

@@ -232,8 +232,7 @@ public class LoanManagementController {
 				return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK, "Approved & Active loan IDs fetched successfully",
 						approvedLoanIds));
 			} else {
-				return ResponseEntity.status(HttpStatus.NOT_FOUND)
-						.body(new ApiResponse<>(HttpStatus.NOT_FOUND, "No approved and active loans found", null));
+				return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK, "No approved and active loans found", java.util.Collections.emptyList()));
 			}
 		}
 		

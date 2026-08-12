@@ -29,3 +29,9 @@ bin/
 .mvn/
 mvnw
 mvnw.cmd
+
+# Tools & Uploads
+.tools/
+.factorypath
+src/main/webapp/Uploads/
+

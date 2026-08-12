@@ -91,6 +91,12 @@ public class PageController {
 	public String getDashboard() {
 		return "dashboardPage/dashboard";
 	}
+
+	@GetMapping("/admin/activity")
+	public String adminActivityPage() {
+		return "admin/activity";
+	}
+
 	
 	@GetMapping("/helpmanual")
 	public String getHelpPage(Model model) {
@@ -989,11 +995,6 @@ public class PageController {
 	}
 
 	// Customer Savings
-	@GetMapping("/savingsSchemaCatalog")
-	public String getSavingsSchemaCatalog(Model model) {
-		model.addAttribute("contentPage", "customerSavings/savingsSchemaCatalog.jsp");
-		return "main";
-	}
 
 	@GetMapping("/createSavingsAccount")
 	public String getCreateSavingsAccount(Model model) {

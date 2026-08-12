@@ -174,7 +174,6 @@
 							<th scope="col" class="text-nowrap">BRANCH CONTACT</th>
 							<th scope="col" class="text-nowrap">ACCOUNT CONTACT</th>
 							<th scope="col" class="text-nowrap">EDIT</th>
-							<th scope="col" class="text-nowrap">DELETE</th>
 						</tr>
 					</thead>
 					<tbody id="tableBody">

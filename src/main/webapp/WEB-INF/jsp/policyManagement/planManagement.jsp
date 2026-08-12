@@ -697,12 +697,7 @@ td {
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px;">
 						<label for="">INTEREST EARNED <span class="star">*</span></label>
-						<input type="text" name="interestEarnedFD" id="interestEarnedFD"
-<<<<<<< HEAD
-							 required="required"
-=======
->>>>>>> 43c24ef003a45a7f11795c797b7b25b2eb414b46
-							placeholder=" ENTER INTREST EARNED" />
+						<input type="text" name="interestEarnedFD" id="interestEarnedFD" required="required" placeholder=" ENTER INTREST EARNED" />
 					</div>
 				</div>
 

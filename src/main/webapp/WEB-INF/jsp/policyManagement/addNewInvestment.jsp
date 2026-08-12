@@ -372,7 +372,7 @@
 							style="margin-bottom: 30px;">
 							<div
 								class="d-flex justify-content-start align-items-center  formFields">
-								<label style="margin-left: 20px;" class="mb-2">SMS SEND</label>
+								<label style="margin-left: 20px;" class="mb-2">SMS SEND &nbsp;</label>
 								<div class="cont">
 									<div class="toggle">
 										<input type="checkbox" id="toggle-sms-send" name="smsSend"
@@ -391,7 +391,7 @@
 
 		<div class="row">
 			<div class="col-12 text-center">
-				<button id="saveBtn" class="btn btn-info" style="margin-left: 80%;">SAVE</button>
+				<button id="saveBtn" class="btn btn-info">SAVE</button>
 
 			</div>
 		</div>

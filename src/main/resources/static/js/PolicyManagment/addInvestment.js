@@ -4,7 +4,6 @@ $(document).ready(function () {
 		type: 'GET',
 		success: function (response) {
 			if (response.status === "OK" && Array.isArray(response.data)) {
-				alert("fd");
 				const $select = $('#selectCustomer');
 				$select.empty().append('<option value="">SELECT CUSTOMER</option>');
 

@@ -111,18 +111,17 @@ $(document).ready(function () {
 			});
 //getting team member name
 			$.ajax({
-				    url: "getAllteamMember",
+				    url: "api/teammember/getAllteamMember",
 				    type: "GET",
 				    success: function (response) {
-				        if (response && response.length > 0) {
+				        if (response.status==="FOUND") {
 				           
-				            const teamOptions = response.map(function (team) {
+				            const teamOptions = response.data.map(function (team) {
 				                return {
 				                    id: team.teamMemberCode,
 				                    text: team.teamMemberCode + " - " + team.teamMemberName
 				                };
 				            });
-
 				            
 				            $('#userApprover').empty().select2({
 				                placeholder: '-- Select Team Member --',

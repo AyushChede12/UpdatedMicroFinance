@@ -186,7 +186,7 @@
 							<label> USER APPROVER :</label> <select id="userApprover"
 								name="userApprover" required="required"
 								class="form-control selectField" style="height: 30px;">
-								<option value="">TEAM MEMBER</option>
+								<option value="">--SELECT--</option>
 
 							</select>
 						</div>

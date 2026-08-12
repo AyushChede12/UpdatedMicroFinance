@@ -253,9 +253,9 @@ public class PolicyManagementController {
 					"Fixed deposits fetched successfully.", deposits);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} else {
-			ApiResponse<List<FixedDepositPM>> response = ApiResponse.error(HttpStatus.NOT_FOUND,
-					"No fixed deposits found.");
-			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+			ApiResponse<List<FixedDepositPM>> response = ApiResponse.success(HttpStatus.OK,
+					"No fixed deposits found.", java.util.Collections.emptyList());
+			return new ResponseEntity<>(response, HttpStatus.OK);
 		}
 	}
 

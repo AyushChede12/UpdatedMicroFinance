@@ -262,12 +262,12 @@
 		</div>
 
 		<div class="row" style="margin-left: 80%;">
-			<div class="col-12 text-center">
+			<div class="col-12 text-center" style="display: flex; align-items: center; justify-content: center;">
 				<!-- Trigger button -->
-				<button id="viewBtn" type="button" class="btn btn-primary"
+				<button style="margin-left: -800px;" id="viewBtn" type="button" class="btn btn-primary"
 					data-toggle="modal" data-target="#installmentModal">VIEW
 					INSTALLMENT</button>
-				<button id="saveBtn" type="button" class="btn btn-info">SAVE</button>
+				<button style="margin-left: 5px;" id="saveBtn" type="button" class="btn btn-info">SAVE</button>
 			</div>
 		</div>
 
