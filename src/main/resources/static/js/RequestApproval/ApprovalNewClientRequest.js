@@ -178,7 +178,7 @@ $(document).ready(function() {
 		url: "api/preference/getAllBranchModule", // Add base path if needed like api/preference/getAllBranchModule
 		type: "GET",
 		success: function(response) {
-			if (response.status == "FOUND") {
+			if (response.status === "OK" || response.status === "FOUND") {
 				const branchList = response.data;
 				$("#branchName").empty(); // Clear existing options
 				$("#branchName").append("<option value=''>-- Select Branch --</option>");

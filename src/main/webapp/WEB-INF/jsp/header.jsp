@@ -1,39 +1,52 @@
-
 <style>
 .header-right-buttons {
 	position: absolute;
 	right: 20px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
 }
 
 .header-btn {
-	padding: 8px 18px;
-	border-radius: 25px;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 7px 16px;
+	border-radius: 20px;
 	text-decoration: none;
-	font-size: 14px;
+	font-size: 13px;
 	font-weight: 600;
-	margin-left: 10px;
-	transition: 0.3s;
+	transition: all 0.2s ease;
 }
 
 /* HELP BUTTON */
 .help-btn {
-	background: white;
-	color: #7b2ff7;
+	background: #eff6ff;
+	color: #2563eb;
+	border: 1px solid #bfdbfe;
 }
 
 .help-btn:hover {
-	background: #7b2ff7;
-	color: white;
+	background: #2563eb;
+	color: #ffffff;
+	border-color: #2563eb;
+	box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+	transform: translateY(-1px);
 }
 
 /* LOGOUT BUTTON */
 .logout-btn {
-	background: #ff4b5c;
-	color: white;
+	background: #fef2f2;
+	color: #ef4444;
+	border: 1px solid #fecaca;
 }
 
 .logout-btn:hover {
-	background: #d63031;
+	background: #ef4444;
+	color: #ffffff;
+	border-color: #ef4444;
+	box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+	transform: translateY(-1px);
 }
 </style>
 <header id="header" class="header fixed-top d-flex align-items-center">
@@ -43,34 +56,30 @@
 		<div class="d-flex align-items-center">
 			<a href="/" class="logo d-flex align-items-center">
 				<p id="bindUserName"
-					style="color: white; margin: 0; font-size: 25px; font-weight: 600; margin-left: 10px;">
+					style="color: #0f172a; margin: 0; font-size: 20px; font-weight: 700; margin-left: 10px; letter-spacing: -0.3px;">
 				</p>
 			</a> <i class="bi bi-list toggle-sidebar-btn ms-3"></i>
 		</div>
 
 		<!-- RIGHT -->
 		<div class="header-right-buttons">
-
-			<a href="helpmanual" class="header-btn help-btn"> <i
-				class="fa fa-question-circle"></i> Help
-			</a> <a href="#" class="header-btn logout-btn" onclick="logoutUser()">
+			<a href="helpmanual" class="header-btn help-btn">
+				<i class="fa fa-question-circle"></i> Help
+			</a>
+			<a href="#" class="header-btn logout-btn" onclick="logoutUser()">
 				<i class="fa fa-sign-out"></i> Logout
 			</a>
-
 		</div>
 
 	</div>
 	<script>
 		function logoutUser() {
-
 			var confirmLogout = confirm("Are you sure you want to logout?");
-
 			if (confirmLogout) {
+				sessionStorage.clear();
 				alert("Logout Successful!");
 				window.location.href = "/";
-				-9
 			}
-
 		}
 	</script>
 </header>

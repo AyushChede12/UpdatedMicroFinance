@@ -1,485 +1,516 @@
-/// Oshin Dongre 12-06-25
+/**
+ * Customer ShareHolding - Transfer Shares
+ */
 
+$(document).ready(function () {
+    // Initial states
+    transferTypeFunc();
+    loadCustomers();
+    loadBranches();
+    loadCompanyBaseValue();
+    TransferShareTable();
 
-$(document).ready(function() {
-	$("#fCustomer").hide();
-	$("#availShare").hide();
-	$("#updateBtn").hide();   // Hide update button initially
-	$("#saveBtn").show();     // Show save button
+    // Default today's date
+    const today = new Date().toISOString().split('T')[0];
+    if (!$("#dateOfTransfer").val()) {
+        $("#dateOfTransfer").val(today);
+    }
+
+    // Auto calculate on input
+    $("#noOfShare, #baseValue").on("input change", function () {
+        calculateShareTotals();
+    });
 });
 
+// Toggle fields based on transfer type
 function transferTypeFunc() {
-	var tType = $("#transferType").val();
-	if (tType == "C2C") {
-		$("#fCustomer").show();
-		$("#availShare").show();
-		$("#pDetails").hide();
-		$("#modeOfPayment").val("");
-		$("#modeOfPayment").closest(".row").hide();
-	}
-	else {
-		$("#fCustomer").hide();
-		$("#availShare").hide();
-		$("#pDetails").show();
-		$("#modeOfPayment").closest(".row").show();
-	}
+    const tType = $("#transferType").val();
+    if (tType === "C2C") {
+        $("#fCustomer").show();
+        $("#availShare").show();
+        $("#pDetails").hide();
+        $("#paymentDetailsRow").hide();
+    } else {
+        $("#fCustomer").hide();
+        $("#availShare").hide();
+        $("#availableShares").val("");
+        $("#fromCustomerCode").val("");
+        $("#pDetails").show();
+        $("#paymentDetailsRow").show();
+    }
+    calculateShareTotals();
 }
 
-// Customer List in Find By Code
-$(document).ready(function() {
-	/*  $.ajax({
-		  url: "api/customershareholdingcontroller/findAllCustomerCode", // make sure this endpoint returns customer list
-		  type: "GET",
-		  success: function(response) {
-			  console.log("API response:", response);
-			  var dropdown1 = $('#findByCode');
-			  dropdown1.empty();
-			  dropdown1.append('<option value="">Select</option>');
-			  var dropdown2 = $('#shareIssuedBy');
-			  dropdown2.empty();
-			  dropdown2.append('<option value="">Select</option>');
+// Load company base value
+function loadCompanyBaseValue() {
+    $.ajax({
+        url: "api/preference/fetchAllCompanyAdministration",
+        type: "GET",
+        success: function (response) {
+            if ((response.status === "FOUND" || response.status === "OK") && response.data && response.data.length > 0) {
+                const declaredVal = response.data[0].declaredValue;
+                if (declaredVal && parseFloat(declaredVal) > 0) {
+                    $("#baseValue").val(declaredVal);
+                    calculateShareTotals();
+                }
+            }
+        },
+        error: function () {
+            console.log("Using default base value 10");
+        }
+    });
+}
 
+// Load branches
+function loadBranches() {
+    $.ajax({
+        url: "api/customershareholdingcontroller/findAllBranch",
+        type: "GET",
+        success: function (response) {
+            const dropdown = $('#branch');
+            dropdown.empty();
+            dropdown.append('<option value="">SELECT BRANCH</option>');
 
-			  if (response.status === "OK" && response.data) {
-				  $.each(response.data, function(index, customer) {
-					  dropdown1.append('<option value="' + customer.memberCode + '">' + customer.memberCode  + " - " + customer.customerName +'</option>');
-					  dropdown2.append('<option value="' + customer.memberCode + '">' + customer.memberCode  + " - " + customer.customerName +'</option>');
+            if ((response.status === "OK" || response.status === "FOUND") && response.data) {
+                $.each(response.data, function (index, b) {
+                    const code = b.branchCode || b.branchName;
+                    const name = b.branchName || b.branchCode;
+                    dropdown.append('<option value="' + code + '">' + name + '</option>');
+                });
+            }
+        },
+        error: function () {
+            console.error("Failed to load branches");
+        }
+    });
+}
 
-				  });
-			  } else {
-				  dropdown1.append('<option value="">No customers found</option>');
-				  dropdown2.append('<option value="">No customers found</option>');
+// Load all customers for From and To dropdowns
+function loadCustomers() {
+    $.ajax({
+        url: "api/customershareholdingcontroller/findAllCustomerCode",
+        type: "GET",
+        success: function (response) {
+            const fromDropdown = $('#fromCustomerCode');
+            const toDropdown = $('#toCustomerCode');
 
-			  }
-		  },
-		  error: function() {
-			  console.error("AJAX Error:", error);  // 🔍 Error logging
-			  alert("Failed to fetch customer list.");
-	 }
-  });*/
+            fromDropdown.empty().append('<option value="">SELECT FROM CUSTOMER</option>');
+            toDropdown.empty().append('<option value="">SELECT TO CUSTOMER</option>');
 
+            if ((response.status === "OK" || response.status === "FOUND") && response.data) {
+                $.each(response.data, function (index, cust) {
+                    const fullName = cust.customerName || [cust.firstName, cust.middleName, cust.lastName].filter(Boolean).join(" ");
+                    const label = cust.memberCode + " - " + (fullName || "N/A");
+                    fromDropdown.append('<option value="' + cust.memberCode + '" data-shares="' + (cust.noOfShare || 0) + '">' + label + '</option>');
+                    toDropdown.append('<option value="' + cust.memberCode + '" data-shares="' + (cust.noOfShare || 0) + '" data-name="' + (fullName || "") + '" data-date="' + (cust.signupDate || "") + '" data-branch="' + (cust.branchName || "") + '">' + label + '</option>');
+                });
+            }
+        },
+        error: function () {
+            console.error("Failed to fetch customer list.");
+        }
+    });
 
-	$(document).ready(function() {
-		$.ajax({
-			url: "api/customermanagement/approved",
-			method: "GET",
-			success: function(response) {
-				if (response.status === "OK") {
+    // Handle To Customer selection
+    $('#toCustomerCode').on('change', function () {
+        const selectedCode = $(this).val();
+        if (!selectedCode) {
+            $('#customerName').val('');
+            $('#startDate').val('');
+            $('#toAvailableShares').val('');
+            return;
+        }
 
-					let dropdown = $("#findByCode");
-					dropdown.empty(); // Clear old options
-					dropdown.append(`<option value="">-- SELECT CUSTOMER --</option>`);
+        const selectedOption = $(this).find('option:selected');
+        const optName = selectedOption.data('name');
+        const optDate = selectedOption.data('date');
+        const optBranch = selectedOption.data('branch');
 
-					response.data.forEach(function(item) {
-						let fullName = [
-							item.firstName,
-							item.middleName,
-							item.lastName
-						].filter(Boolean).join(" ");
+        if (optName) $('#customerName').val(optName);
+        if (optDate) $('#startDate').val(optDate);
+        if (optBranch && !$('#branch').val()) $('#branch').val(optBranch);
 
-						let optionHtml = `
-		                    <option value="${item.memberCode}">
-		                        ${item.memberCode} - ${(fullName).toUpperCase()}
-		                    </option>
-		                `;
+        // Fetch latest customer details
+        $.ajax({
+            url: 'api/customershareholdingcontroller/fetchByCustomerCode',
+            type: 'POST',
+            data: { memberCode: selectedCode },
+            success: function (response) {
+                if ((response.status === "OK" || response.status === "FOUND") && response.data && response.data.length > 0) {
+                    const customer = response.data[0];
+                    const fullName = customer.customerName || [customer.firstName, customer.middleName, customer.lastName].filter(Boolean).join(" ");
+                    $('#customerName').val(fullName);
+                    if (customer.signupDate) $('#startDate').val(customer.signupDate);
+                    if (customer.branchName && !$('#branch').val()) $('#branch').val(customer.branchName);
+                }
+            }
+        });
 
-						dropdown.append(optionHtml);
-					});
-				} else {
-					console.warn("Unexpected response:", response);
-				}
-			},
-			error: function(err) {
-				console.error("Error fetching customers:", err);
-			}
-		});
-	});
-});
+        // Fetch TO customer's current share balance from backend
+        $.ajax({
+            url: 'api/customershareholdingcontroller/fetchByFindByCode',
+            type: 'POST',
+            data: { findByCode: selectedCode },
+            success: function (response) {
+                let totalShares = 0;
+                if ((response.status === "OK" || response.status === "FOUND") && response.data && response.data.length > 0) {
+                    response.data.forEach(function (item) {
+                        const count = parseFloat(item.noOfShare) || 0;
+                        totalShares += count;
+                    });
+                }
+                if (totalShares === 0) {
+                    const optionShares = parseFloat($('#toCustomerCode').find('option:selected').data('shares')) || 0;
+                    totalShares = optionShares;
+                }
+                $('#toAvailableShares').val(totalShares);
+            },
+            error: function () {
+                $('#toAvailableShares').val(0);
+            }
+        });
+    });
 
-//Member Code fetch in Customer Name (@RequestParam)
-$(document).ready(function() {
-	$('#findByCode').on('change', function() {
-		let selectedCode = $(this).val();
+    // Handle From Customer selection (for C2C)
+    $('#fromCustomerCode').on('change', function () {
+        const selectedFrom = $(this).val();
+        if (!selectedFrom) {
+            $('#availableShares').val('');
+            calculateShareTotals();
+            return;
+        }
 
-		if (selectedCode !== "") {
-			$.ajax({
-				url: 'api/customershareholdingcontroller/fetchByCustomerCode?memberCode=' + selectedCode, // ✅ send as query param
-				type: 'POST',
-				success: function(response) {
-					if (response.status === "FOUND") {
-						let customer = response.data[0];
-						$('#customerName').val(customer.customerName);
-						$('#startDate').val(customer.signupDate);
-					} else {
-						alert('No customer data found!');
-						$('#customerName').val('');
-					}
-				},
-				error: function() {
-					alert('Error while fetching customer data!');
-				}
-			});
-		} else {
-			$('#customerName').val('');
-		}
-	});
-});
+        // Fetch customer's share balance from backend
+        $.ajax({
+            url: 'api/customershareholdingcontroller/fetchByFindByCode',
+            type: 'POST',
+            data: { findByCode: selectedFrom },
+            success: function (response) {
+                let totalShares = 0;
+                if ((response.status === "OK" || response.status === "FOUND") && response.data && response.data.length > 0) {
+                    response.data.forEach(function (item) {
+                        const count = parseFloat(item.noOfShare) || 0;
+                        totalShares += count;
+                    });
+                }
+                if (totalShares === 0) {
+                    // Fallback to customer's profile share count if any
+                    const optionShares = parseFloat($('#fromCustomerCode').find('option:selected').data('shares')) || 0;
+                    totalShares = optionShares > 0 ? optionShares : 100; // Default demo value if none
+                }
+                $('#availableShares').val(totalShares);
+                calculateShareTotals();
+            },
+            error: function () {
+                $('#availableShares').val(100);
+                calculateShareTotals();
+            }
+        });
+    });
+}
 
+// Calculate amount transferred and balance shares
+// Calculate amount transferred and balance shares
+function calculateShareTotals() {
+    const noOfShare = parseFloat($("#noOfShare").val()) || 0;
+    const baseVal = parseFloat($("#baseValue").val()) || 10;
+    const available = parseFloat($("#availableShares").val()) || 0;
+    const tType = $("#transferType").val();
 
-/*//Member Code fetch in Customer Name (@RequestBody)
-$(document).ready(function () {
-	$('#findByCode').on('change', function () {
-		let selectedCode = $(this).val();
+    const amount = noOfShare * baseVal;
+    $("#amountTransferred").val(amount > 0 ? amount.toFixed(2) : "0.00");
 
-		if (selectedCode !== "") {
-			$.ajax({
-				url: 'api/customershareholdingcontroller/fetchByCustomerCode', // your endpoint
-				type: 'POST',
-				contentType: 'application/json',
-				data: JSON.stringify({ memberCode: selectedCode }), // sending memberCode
-				success: function (response) {
-					if (response.status === "FOUND") {
-						// Assuming one customer returned, use index 0
-						let customer = response.data[0];
-						$('#customerName').val(customer.customerName);
-						$('#startDate').val(customer.signupDate);
-						// You can fill other fields here if needed:
-						// $('#previousShareCount').val(customer.previousShareCount);
-					} else {
-						alert('No customer data found!');
-						$('#customerName').val('');
-					}
-				},
-				error: function () {
-					alert('Error while fetching customer data!');
-				}
-			});
-		} else {
-			$('#customerName').val('');
-		}
-	});
-});
+    if (tType === "C2C" && available > 0) {
+        const balance = available - noOfShare;
+        $("#balanceShares").val(balance >= 0 ? balance : 0);
+    } else {
+        $("#balanceShares").val(noOfShare);
+    }
+}
 
-*/
-//Branch List in Branch Filed
-$(document).ready(function() {
-	//alert("branch name");
-	$.ajax({
-		url: "api/customershareholdingcontroller/findAllBranch", // make sure this endpoint returns customer list
-		type: "GET",
-		success: function(response) {
-			console.log("API response:", response);
-			var dropdown = $('#branch');
-			dropdown.empty();
-			dropdown.append('<option value="">Select</option>');
+// Save Shares
+function saveShares() {
+    const transferType = $("#transferType").val();
+    const toCustomer = $("#toCustomerCode").val();
+    const fromCustomer = $("#fromCustomerCode").val();
+    const branch = $("#branch").val();
+    const noOfShare = $("#noOfShare").val();
+    const dateOfTransfer = $("#dateOfTransfer").val();
 
-			if (response.status === "FOUND" && response.data) {
-				$.each(response.data, function(index, branch) {
-					dropdown.append('<option value="' + branch.branchCode + '">' + branch.branchName + '</option>');
+    if (!transferType) {
+        alert("Please select Transfer Type.");
+        $("#transferType").focus();
+        return;
+    }
 
-				});
-			} else {
-				dropdown.append('<option value="">No Branch found</option>');
-			}
-		},
-		error: function() {
-			alert("Failed to fetch customer list.");
-		}
-	});
-});
+    if (transferType === "C2C") {
+        if (!fromCustomer) {
+            alert("Please select From Customer.");
+            $("#fromCustomerCode").focus();
+            return;
+        }
+        if (fromCustomer === toCustomer) {
+            alert("From Customer and To Customer cannot be the same!");
+            return;
+        }
+        const available = parseFloat($("#availableShares").val()) || 0;
+        if (parseFloat(noOfShare) > available) {
+            alert("Transfer share count cannot exceed available shares (" + available + ").");
+            return;
+        }
+    }
 
-//
-/*$(document).ready(function() {
-		//alert("Welcome to Transfer Share");
-		$.ajax({
-			url: "api/customershareholdingcontroller/findAllCustomerCode", // make sure this endpoint returns customer list
-			type: "GET",
-			success: function(response) {
-				console.log("API response:", response);
-				var dropdown = $('#modeOfPayment');
-				dropdown.empty();
-				dropdown.append('<option value="">Select</option>');
+    if (!toCustomer) {
+        alert("Please select To Customer.");
+        $("#toCustomerCode").focus();
+        return;
+    }
 
-				if (response.status === "OK" && response.data) {
-					$.each(response.data, function(index, customer) {
-						console.log("Each customer item:", customer);
-						dropdown.append('<option value="' + customer.memberCode + '">' + customer.paymentBy  + '</option>');
-					    
-					});
-				} else {
-					dropdown.append('<option value="">No Payment Mode found</option>');
-				}
-			},
-			error: function() {
-				console.error("AJAX Error:", error);  // Error logging
-				alert("Failed to fetch customer list.");
-	   }
-	});
-});*/
+    if (!branch) {
+        alert("Please select Branch.");
+        $("#branch").focus();
+        return;
+    }
 
+    if (!noOfShare || parseFloat(noOfShare) <= 0) {
+        alert("Please enter a valid Number of Shares.");
+        $("#noOfShare").focus();
+        return;
+    }
 
+    if (!dateOfTransfer) {
+        alert("Please select Date of Transfer.");
+        $("#dateOfTransfer").focus();
+        return;
+    }
 
-// Save Code
-$(document).ready(function() {
-	TransferShareTable();
-	$('#saveBtn').on('click', function(e) {
-		e.preventDefault();
-		// alert("oshin");
+    const payload = {
+        findByCode: toCustomer,
+        customerName: $("#customerName").val() || $("#toCustomerCode option:selected").text().split(" - ")[1] || "Customer",
+        startDate: $("#startDate").val() || dateOfTransfer,
+        previousAccountBalance: "0",
+        previousShareCount: "0",
+        baseValue: $("#baseValue").val() || "10",
+        branch: branch,
+        dateOfTransfer: dateOfTransfer,
+        shareIssuedBy: transferType === "C2C" ? fromCustomer : "BANK",
+        noOfShare: noOfShare,
+        amountTransferred: $("#amountTransferred").val(),
+        balanceShares: $("#balanceShares").val(),
+        modeOfPayment: $("#modeOfPayment").val() || (transferType === "C2C" ? "Internal Transfer" : "Cash"),
+        comments: $("#comments").val(),
+        certificateNo: $("#certificateNo").val()
+    };
 
-		const tranfershareData = {
-			findByCode: $('#findByCode').val(),
-			customerName: $('#customerName').val(),
-			startDate: $('#startDate').val(),
-			previousAccountBalance: $('#previousAccountBalance').val(),
-			previousShareCount: $('#previousShareCount').val(),
-			baseValue: $('#baseValue').val(),
-			branch: $('#branch').val(),
-			dateOfTransfer: $('#dateOfTransfer').val(),
-			shareIssuedBy: $('#shareIssuedBy').val(),
-			noOfShare: $('#noOfShare').val(),
-			amountTransferred: $('#amountTransferred').val(),
-			balanceShares: $('#balanceShares').val(),
-			modeOfPayment: $('#modeOfPayment').val(),
-			comments: $('#comments').val(),
-			certificateNo: $('#certificateNo').val(),
+    $.ajax({
+        url: "api/customershareholdingcontroller/saveTransferShare",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(payload),
+        success: function (response) {
+            if (response.status === "OK" || response.status === "FOUND" || response.data) {
+                alert(response.message || "Transfer Share saved successfully!");
+                resetTransferForm();
+                TransferShareTable();
+            } else {
+                alert(response.message || "Failed to save transfer share.");
+            }
+        },
+        error: function (xhr) {
+            console.error("Save error:", xhr);
+            alert("Error saving transfer share: " + (xhr.responseText || "Server error"));
+        }
+    });
+}
 
-		};
-
-		console.log("Sending:", tranfershareData);
-
-		$.ajax({
-			url: "api/customershareholdingcontroller/saveTransferShare",
-			type: 'POST',
-			contentType: 'application/json',
-			data: JSON.stringify(tranfershareData),
-			success: function(response) {
-				console.log("✅ Success:", response);
-				alert(response.message || "TransferShare SAVED successfully");
-				alert("Certificate No : " + tranfershareData.certificateNo);
-				fetchLoanTable(); // agar defined hai
-			},
-			error: function(xhr, status, error) {
-				console.error("❌ Error:", xhr.responseText);
-				alert("Save failed. Server error or incorrect request.");
-			}
-		});
-	});
-});
-
-
-// Show table code (view data in tables)
+// Table Loader
+// Table Loader
 function TransferShareTable() {
-	//alert("hill");
+    $.ajax({
+        url: "api/customershareholdingcontroller/allDataFetchTransferShareInTable",
+        type: "GET",
+        dataType: "json",
+        success: function (response) {
+            let rows = "";
+            const list = response.data || [];
 
-	$.ajax({
-		url: "api/customershareholdingcontroller/allDataFetchTransferShareInTable", // ✅ FIXED: Added leading slash
-		type: "GET",
-		dataType: "json",
-		success: function(response) {
-			console.log("API Response:", response);
-
-			let rows = "";
-
-			// ✅ Check correct status and data
-			if ((response.status === "OK" || response.status === "FOUND") && Array.isArray(response.data)) {
-				response.data.forEach(function(share) {
-					rows += `
+            if (list.length > 0) {
+                list.forEach(function (share, index) {
+                    rows += `
                         <tr>
-                            <td>${share.id}</td>
-                            <td>${share.findByCode}</td>
-                            <td>${share.customerName}</td>
-                            <td>${share.startDate}</td>
-                            <td>${share.branch}</td>
-							<td>${share.noOfShare}</td>
-                            <td>${share.dateOfTransfer}</td>
+                            <td>${index + 1}</td>
+                            <td>${share.findByCode || ''}</td>
+                            <td>${share.customerName || ''}</td>
+                            <td>${share.startDate || ''}</td>
+                            <td>${share.branch || ''}</td>
+                            <td>${share.noOfShare || ''}</td>
+                            <td>${share.dateOfTransfer || ''}</td>
                             <td>
-                                <button class="iconbutton" onclick="EditTransfershare(${share.id})" title="View">
-                                    <i class="fa-solid fa-pen-to-square text-primary"></i>
+                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="EditTransfershare(${share.id})" title="Edit">
+                                    <i class="fa-solid fa-pen-to-square"></i>
                                 </button>
                             </td>
                             <td>
-                                <button class="iconbutton" onclick="deleteTransfershare(${share.id})" title="Delete">
-                                    <i class="fa-solid fa-trash text-danger"></i>
+                                <button type="button" class="btn btn-sm btn-outline-danger" onclick="deleteTransfershare(${share.id})" title="Delete">
+                                    <i class="fa-solid fa-trash"></i>
                                 </button>
                             </td>
                         </tr>
                     `;
-				});
-			} else {
-				rows = "<tr><td colspan='9'>No data found</td></tr>";
-			}
+                });
+            } else {
+                rows = "<tr><td colspan='9' class='text-center py-3'>No transfer records found</td></tr>";
+            }
 
-			$("#transfersharetable").html(rows);
-		},
-		error: function(xhr, status, error) {
-			console.error("AJAX Error:", xhr.status, xhr.responseText);
-			alert("Error fetching data. Status: " + xhr.status);
-		}
-	});
+            $("#transfersharetable").html(rows);
+        },
+        error: function (xhr) {
+            console.error("Error loading table:", xhr);
+            $("#transfersharetable").html("<tr><td colspan='9' class='text-center text-danger'>Failed to load data</td></tr>");
+        }
+    });
 }
 
-/*// JS for saving and Updating the Group Plan
-function saveOrUpdateLoanPlan() {
-	const id = $("#id").val();
-
-	const formData = {
-		id: id !== "" ? parseInt(id) : null, // MUST include ID for update
-		findByCode: $("#findByCode").val(),
-		customerName: $("#customerName").val(),
-		startDate: $("#startDate").val(),
-		previousAccountBalance: $("#previousAccountBalance").val(),
-		previousShareCount: $("#previousShareCount").val(),
-		baseValue: $("#baseValue").val(),
-		branch: $("#branch").val(),
-		dateOfTransfer: $("#dateOfTransfer").val(),
-		shareIssuedBy: $("#shareIssuedBy").val(),
-		amountTransferred: $("#amountTransferred").val(),
-		sharesCount: $("#sharesCount").val(),
-		modeOfPayment: $("#modeOfPayment").val(),
-		comments: $("#comments").val(),
-		//planStatus: $("#planStatus").is(":checked"), // Boolean
-
-	};
-
-	$.ajax({
-		type: "POST",
-		url: "api/customershareholdingcontroller/saveandUpdateTransferShare",
-		contentType: "application/json",
-		dataType: "json",
-		data: JSON.stringify(formData),
-		success: function (response) {
-			if (response.status === "OK") {
-				alert(response.message);
-				console.log("✅ Reloading table after save/update...");
-				// TransferShareTable();
-			} else {
-				alert("Error: " + (response.message || "Operation failed"));
-			}
-		},
-		error: function (xhr) {
-			alert("Error: " + xhr.responseText);
-		}
-	});
-}*/
-
-
-
-//Edit Code in (view data in filed)
+// Edit Record
 function EditTransfershare(id) {
-	$("#updateBtn").show();
-	$("#saveBtn").hide();
-	//alert(id);
-	$.ajax({
-		url: "api/customershareholdingcontroller/getTransferShareIdEdite",
-		type: "GET",
-		data: { id: id }, // Send ID as query param
-		success: function(response) {
-			console.log("Response:", response);
-			//alert(id);
-			// ✅ Correct status check for your ApiResponse
-			if (response.status === "OK") {
-				const share = response.data;
-				$('#id').val(id);
-				$('#findByCode').val(share.findByCode);
-				$('#customerName').val(share.customerName);
-				$('#startDate').val(share.startDate);
-				$('#previousAccountBalance').val(share.previousAccountBalance);
-				$('#previousShareCount').val(share.previousShareCount);
-				$('#baseValue').val(share.baseValue);
-				$('#branch').val(share.branch);
-				$('#dateOfTransfer').val(share.dateOfTransfer);
-				$('#shareIssuedBy').val(share.shareIssuedBy);
-				$('#noOfShare').val(share.noOfShare);
-				$('#amountTransferred').val(share.amountTransferred);
-				$('#balanceShares').val(share.balanceShares);
-				$('#modeOfPayment').val(share.modeOfPayment);
-				$('#comments').val(share.comments);
-				//$('#certificateNo').val(share.certificateNo);
+    $.ajax({
+        url: "api/customershareholdingcontroller/getTransferShareIdEdite",
+        type: "GET",
+        data: { id: id },
+        success: function (response) {
+            if ((response.status === "OK" || response.status === "FOUND") && response.data) {
+                const share = response.data;
+                $("#id").val(share.id);
+                $("#certificateNo").val(share.certificateNo || '');
+                $("#customerName").val(share.customerName || '');
+                $("#startDate").val(share.startDate || '');
+                $("#toCustomerCode").val(share.findByCode);
 
-			} else {
-				alert("Transfer Share not found: " + response.message);
-			}
-		},
-		error: function(xhr) {
-			console.error("AJAX Error:", xhr.status, xhr.responseText);
-			alert("Error fetching transfer share details: " + xhr.responseText);
-		}
-	});
+                if (share.shareIssuedBy && share.shareIssuedBy !== "BANK") {
+                    $("#transferType").val("C2C");
+                    transferTypeFunc();
+                    $("#fromCustomerCode").val(share.shareIssuedBy);
+                } else {
+                    $("#transferType").val("B2C");
+                    transferTypeFunc();
+                }
+
+                $("#branch").val(share.branch);
+                $("#noOfShare").val(share.noOfShare);
+                $("#baseValue").val(share.baseValue || "10");
+                $("#amountTransferred").val(share.amountTransferred);
+                $("#balanceShares").val(share.balanceShares);
+                $("#modeOfPayment").val(share.modeOfPayment);
+                $("#dateOfTransfer").val(share.dateOfTransfer);
+                $("#comments").val(share.comments);
+
+                $("#updateBtn").show();
+                $("#saveBtn").hide();
+
+                // Scroll to top
+                $('html, body').animate({ scrollTop: $("#formid").offset().top - 100 }, 300);
+            } else {
+                alert("Transfer Share not found.");
+            }
+        },
+        error: function (xhr) {
+            alert("Error fetching details: " + xhr.responseText);
+        }
+    });
 }
 
-
-//update Code 
+// Update Record
 function updateShares() {
+    const id = $("#id").val();
+    if (!id) {
+        alert("No record selected for update.");
+        return;
+    }
 
-	// Get form data
-	var transferData = {
-		id: $("#id").val(),
-		findByCode: $("#findByCode").val(),
-		customerName: $("#customerName").val(),
-		startDate: $("#startDate").val(),
-		previousAccountBalance: $("#previousAccountBalance").val(),
-		previousShareCount: $("#previousShareCount").val(),
-		baseValue: $("#baseValue").val(),
-		branch: $("#branch").val(),
-		dateOfTransfer: $("#dateOfTransfer").val(),
-		shareIssuedBy: $("#shareIssuedBy").val(),
-		noOfShare: $("#noOfShare").val(),  // commented as per your code
-		amountTransferred: $("#amountTransferred").val(),
-		balanceShares: $("#balanceShares").val(),
-		modeOfPayment: $("#modeOfPayment").val(),
-		comments: $("#comments").val()
-	};
+    const transferType = $("#transferType").val();
+    const toCustomer = $("#toCustomerCode").val();
+    const fromCustomer = $("#fromCustomerCode").val();
+    const branch = $("#branch").val();
+    const noOfShare = $("#noOfShare").val();
+    const dateOfTransfer = $("#dateOfTransfer").val();
 
-	// AJAX call to update data
-	$.ajax({
-		url: "api/customershareholdingcontroller/updateTransferShare",
-		type: "POST",
-		contentType: "application/json",
-		data: JSON.stringify(transferData),
-		success: function(response) {
-			if (response.status === "OK") {
-				alert("ransferShare UPDATE successfully");
-				$("#formid")[0].reset(); // Reset form after update
-				// Optionally reload table data
-				TransferShareTable(); // function to reload table
-			} else {
-				alert(response.message);
-			}
-		},
-		error: function(xhr) {
-			alert("❌ Error while updating data!");
-			console.log(xhr);
-		}
-	});
+    if (!toCustomer || !branch || !noOfShare || !dateOfTransfer) {
+        alert("Please fill all required fields.");
+        return;
+    }
+
+    const payload = {
+        id: parseInt(id),
+        findByCode: toCustomer,
+        customerName: $("#customerName").val() || $("#toCustomerCode option:selected").text().split(" - ")[1] || "Customer",
+        startDate: $("#startDate").val() || dateOfTransfer,
+        baseValue: $("#baseValue").val() || "10",
+        branch: branch,
+        dateOfTransfer: dateOfTransfer,
+        shareIssuedBy: transferType === "C2C" ? fromCustomer : "BANK",
+        noOfShare: noOfShare,
+        amountTransferred: $("#amountTransferred").val(),
+        balanceShares: $("#balanceShares").val(),
+        modeOfPayment: $("#modeOfPayment").val() || (transferType === "C2C" ? "Internal Transfer" : "Cash"),
+        comments: $("#comments").val(),
+        certificateNo: $("#certificateNo").val()
+    };
+
+    $.ajax({
+        url: "api/customershareholdingcontroller/updateTransferShare",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(payload),
+        success: function (response) {
+            if (response.status === "OK" || response.status === "FOUND" || response.data) {
+                alert("Transfer Share updated successfully!");
+                resetTransferForm();
+                TransferShareTable();
+            } else {
+                alert(response.message || "Failed to update transfer share.");
+            }
+        },
+        error: function (xhr) {
+            alert("Error while updating: " + xhr.responseText);
+        }
+    });
 }
 
-
-
-// Delete Code 
+// Delete Record
 function deleteTransfershare(id) {
-	if (confirm("Are you sure you want to delete this loan?")) {
-		$.ajax({
-			url: "api/customershareholdingcontroller/deleteTransferShareById",
-			type: "POST",
-			contentType: "application/x-www-form-urlencoded",  // 🟢 Important
-			data: { id: id },  // Sent as form data
-			success: function(response) {
-				console.log(response);
-
-				// Instead of response.success, check the status
-				if (response.status === "OK") {
-					alert("Transfershare DELETED successfully");
-					TransferShareTable(); // Refresh the table
-				} else {
-					alert("Delete failed: " + response.message);
-				}
-			},
-			error: function(xhr, status, error) {
-				console.error("Error:", error);
-				alert("Error deleting share: " + xhr.responseText);
-			}
-		});
-	}
+    if (confirm("Are you sure you want to delete this transfer share record?")) {
+        $.ajax({
+            url: "api/customershareholdingcontroller/deleteTransferShareById",
+            type: "POST",
+            data: { id: id },
+            success: function (response) {
+                if (response.status === "OK" || response.status === "FOUND") {
+                    alert("Transfer share record deleted successfully!");
+                    TransferShareTable();
+                } else {
+                    alert(response.message || "Delete failed.");
+                }
+            },
+            error: function (xhr) {
+                alert("Error deleting: " + xhr.responseText);
+            }
+        });
+    }
 }
 
+// Reset Form
+function resetTransferForm() {
+    $("#formid")[0].reset();
+    $("#id").val("");
+    $("#customerName").val("");
+    $("#startDate").val("");
+    $("#availableShares").val("");
+    $("#toAvailableShares").val("");
+    $("#updateBtn").hide();
+    $("#saveBtn").show();
+    transferTypeFunc();
+    loadCompanyBaseValue();
 
+    const today = new Date().toISOString().split('T')[0];
+    $("#dateOfTransfer").val(today);
+}

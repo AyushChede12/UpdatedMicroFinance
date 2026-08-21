@@ -1,10 +1,46 @@
 $(document).ready(function() {
 
+	let pendingImages = {};
+
 	$(document).on("click", "#editBtn", function() {
-		$("#updateBtn").prop("disabled", false);
+		// Unlock fields
 		$("#formid").find("input, textarea").prop("readonly", false);
 		$("#declaredValue").prop("readonly", true);
 		$("#nof").prop("readonly", true);
+
+		// Hide Edit button and show Update/Cancel row
+		$("#editBtn").hide();
+		$("#updateRow").show();
+
+		// Show photo modification buttons
+		$("#addFieldBtn, #uploadAllBtn").show();
+
+		// Enable hover delete buttons for images
+		$("#storedImages").addClass("edit-active");
+	});
+
+	$(document).on("click", "#cancelBtn", function(event) {
+		event.preventDefault();
+
+		// Lock fields
+		$("#formid").find("input, textarea").prop("readonly", true);
+
+		// Show Edit button and hide Update/Cancel row
+		$("#editBtn").show();
+		$("#updateRow").hide();
+
+		// Hide photo modification buttons
+		$("#addFieldBtn, #uploadAllBtn").hide();
+
+		// Disable hover delete buttons for images
+		$("#storedImages").removeClass("edit-active");
+
+		// Reset pending images
+		pendingImages = {};
+
+		// Reload details and images to reset any unsaved edits
+		loadCompanyDetails();
+		loadCompanyImages();
 	});
 
 	const companyId = 1;  // Change if company ID is dynamic
@@ -276,8 +312,58 @@ $(document).ready(function() {
 			contentType: "application/json",
 			data: JSON.stringify(formData),
 			success: function() {
-				alert("Company details updated successfully!");
-				location.reload();
+				let keys = Object.keys(pendingImages);
+				if (keys.length === 0) {
+					alert("Company details updated successfully!");
+					location.reload();
+					return;
+				}
+
+				// Upload images sequentially
+				let uploadCount = 0;
+				let failedUploads = [];
+
+				function uploadNext() {
+					if (uploadCount === keys.length) {
+						if (failedUploads.length > 0) {
+							alert("Company details updated, but failed to upload: " + failedUploads.join(", "));
+						} else {
+							alert("Company details and images updated successfully!");
+						}
+						location.reload();
+						return;
+					}
+
+					let fieldName = keys[uploadCount];
+					let file = pendingImages[fieldName];
+
+					let fd = new FormData();
+					fd.append("fieldName", fieldName);
+					fd.append("file", file);
+
+					// Show uploading state in the overlay
+					const overlay = $(`.changeImgOverlay[data-name="${fieldName}"]`);
+					overlay.html("<i class='bi bi-hourglass-split'></i><span>UPLOADING...</span>");
+
+					$.ajax({
+						url: "api/preference/upload/" + companyId,
+						type: "POST",
+						data: fd,
+						processData: false,
+						contentType: false,
+						success: function() {
+							uploadCount++;
+							uploadNext();
+						},
+						error: function() {
+							failedUploads.push(fieldName);
+							uploadCount++;
+							uploadNext();
+						}
+					});
+				}
+
+				uploadNext();
 			},
 			error: function() {
 				alert("Error updating company details");
@@ -387,11 +473,16 @@ $(document).ready(function() {
 					html += `
 				        <div class="col-lg-3 text-center mb-4">
 				            <div class="img-box">
-				                <img src="/Uploads/company/${companyId}/${img.fileName}" 
+				                <img src="${(typeof contextPath !== 'undefined' ? contextPath : '')}/Uploads/company/${companyId}/${img.fileName}" 
 				                     width="150" height="150" 
 				                     style="object-fit:contain;border:1px solid #ccc">
 
-				                <button class="deleteImg" data-id="${img.id}">&times;</button>
+				                <div class="changeImgOverlay" data-name="${img.name}">
+				                    <i class="bi bi-camera-fill"></i>
+				                    <span>CHANGE PHOTO</span>
+				                </div>
+
+				                <button class="deleteImg" data-id="${img.id}" type="button">&times;</button>
 				            </div>
 
 				            <p>${(img.name).toUpperCase()}</p>
@@ -420,6 +511,35 @@ $(document).ready(function() {
 				loadCompanyImages();
 			}
 		});
+	});
+
+	let currentUpdatingFieldName = "";
+
+	$(document).on("click", ".changeImgOverlay", function() {
+		if (!$("#storedImages").hasClass("edit-active")) return;
+		currentUpdatingFieldName = $(this).data("name");
+		$("#bulkUpdateImgInput").click();
+	});
+
+	$(document).on("change", "#bulkUpdateImgInput", function() {
+		const file = this.files[0];
+		if (!file || !currentUpdatingFieldName) return;
+
+		// 1. Store the file in pendingImages map
+		pendingImages[currentUpdatingFieldName] = file;
+
+		// 2. Read file and display local preview
+		const reader = new FileReader();
+		const imgBox = $(`.changeImgOverlay[data-name="${currentUpdatingFieldName}"]`).closest(".img-box");
+		const imgEl = imgBox.find("img");
+
+		reader.onload = function(e) {
+			imgEl.attr("src", e.target.result);
+		};
+		reader.readAsDataURL(file);
+
+		// 3. Clear file input value
+		$("#bulkUpdateImgInput").val("");
 	});
 
 	function calculateNoOfShares() {

@@ -1,225 +1,187 @@
-$('html, body').animate({
-    scrollTop: $("#certificateSection").offset().top
-}, 500);
+/**
+ * Customer ShareHolding - Generate Share Certificate
+ */
 
-$(document).ready(function() {
-	// 1. Load dropdown data on page load
-	$.ajax({
-		url: "api/customershareholdingcontroller/getAllTransferShare",
-		type: "GET",
-		success: function(response) {
-			var dropdown = $('#referralCodeEntry');
-			dropdown.empty();
-			dropdown.append('<option value="">Select</option>');
+$(document).ready(function () {
+    loadReferralDropdown();
 
-			if (response.status === "OK" && response.data) {
-				$.each(response.data, function(index, customer) {
-					dropdown.append('<option value="' + customer.findByCode + '">' + customer.findByCode + " - " + customer.customerName + '</option>'
-					);
-				});
-			} else {
-				dropdown.append('<option value="">No customers found</option>');
-			}
-		},
-		error: function(error) {
-			console.error("Dropdown Load Error:", error);
-			alert("Error loading referral codes.");
-		}
-	});
+    // Handle dropdown change
+    $('#referralCodeEntry').on('change', function () {
+        const selectedCode = $(this).val();
+        loadShareRecords(selectedCode);
+    });
+
+    // View Certificate button click
+    $('#printCertificateBtn').on('click', function () {
+        const selectedCheckbox = $('#shareholdingTableBody input[type="radio"]:checked, #shareholdingTableBody input[type="checkbox"]:checked');
+
+        if (selectedCheckbox.length === 0) {
+            alert("Please select a customer share row to view the certificate.");
+            $('#certificateSection').hide();
+            return;
+        }
+
+        // Get the selected row model
+        const selectedRow = selectedCheckbox.closest('tr').data('model');
+        if (!selectedRow) {
+            alert("Unable to read share record details.");
+            return;
+        }
+
+        // Fill certificate fields
+        $('#customeridandName').text((selectedRow.findByCode || '') + " - " + (selectedRow.customerName || ''));
+        $('#certificateno').text(selectedRow.certificateNo || 'SCF/MICROFINANCE/' + new Date().getFullYear() + '/00000' + (selectedRow.id || '1'));
+        $('#numberofshare').text(selectedRow.noOfShare || '0');
+        $('#amounttransferred').text(selectedRow.amountTransferred || '0.00');
+        $('#branchname').text(selectedRow.branch || 'N/A');
+        $('#startdate').text(selectedRow.startDate || 'N/A');
+        $('#balanceshare').text(selectedRow.balanceShares || selectedRow.noOfShare || '0');
+        $('#shareissuedby').text(selectedRow.shareIssuedBy || 'BANK');
+        $('#dataoftransfer').text(selectedRow.dateOfTransfer || 'N/A');
+        $('#modeofpayement').text(selectedRow.modeOfPayment || 'CASH');
+
+        $('#certificateSection').slideDown();
+
+        // Smooth scroll to certificate
+        $('html, body').animate({
+            scrollTop: $("#certificateSection").offset().top - 50
+        }, 500);
+    });
+
+    // Print Button
+    $("#printBtn").on("click", function (e) {
+        e.preventDefault();
+        const $formClone = $("#cetificateId").clone();
+
+        const printWindow = window.open("", "_blank");
+        if (printWindow) {
+            printWindow.document.open();
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Share Certificate</title>
+                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+                    <style>
+                        body { font-family: 'Segoe UI', Arial, sans-serif; padding: 40px; }
+                        .card { border: 2px solid #28a745 !important; border-radius: 8px; }
+                    </style>
+                </head>
+                <body onload="window.print();">
+                    ${$formClone[0].outerHTML}
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+        } else {
+            alert("Popup blocked. Please allow popups for this site.");
+        }
+    });
+
+    // Download Button
+    $("#downloadBtn").on("click", function (e) {
+        e.preventDefault();
+        const certHtml = $("#cetificateId")[0].outerHTML;
+        const fullHtml = `
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Share Certificate</title>
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+                <style>
+                    body { font-family: 'Segoe UI', Arial, sans-serif; padding: 40px; }
+                </style>
+            </head>
+            <body>
+                ${certHtml}
+            </body>
+            </html>
+        `;
+
+        const blob = new Blob([fullHtml], { type: "text/html" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "Share_Certificate_" + ($("#certificateno").text().replace(/\//g, "_") || "Document") + ".html";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
 });
 
+// Load dropdown data
+// Load dropdown data
+function loadReferralDropdown() {
+    $.ajax({
+        url: "api/customershareholdingcontroller/getAllTransferShare",
+        type: "GET",
+        success: function (response) {
+            const dropdown = $('#referralCodeEntry');
+            dropdown.empty();
+            dropdown.append('<option value="">-- ALL CUSTOMERS / SELECT --</option>');
 
-// 2. Fetch and display table data on dropdown change
-$('#referralCodeEntry').on('change', function() {
-		var selectedCode = $(this).val();
+            if ((response.status === "OK" || response.status === "FOUND") && response.data) {
+                const seenCodes = new Set();
+                $.each(response.data, function (index, item) {
+                    if (item.findByCode && !seenCodes.has(item.findByCode)) {
+                        seenCodes.add(item.findByCode);
+                        dropdown.append('<option value="' + item.findByCode + '">' + item.findByCode + " - " + (item.customerName || '') + '</option>');
+                    }
+                });
+            }
+            // Load all by default
+            loadShareRecords("");
+        },
+        error: function (error) {
+            console.error("Dropdown Load Error:", error);
+        }
+    });
+}
 
-		if (selectedCode === "") {
-			alert("Please select a referral code.");
-			return;
-		}
+// Load share records
+// Load share records
+function loadShareRecords(selectedCode) {
+    const tbody = $('#shareholdingTableBody');
+    tbody.html('<tr><td colspan="7" class="text-center py-3">Loading share records...</td></tr>');
 
-		$.ajax({
-			type: "POST",
-			url: "api/customershareholdingcontroller/fetchByCertificateNo",
-			data: { findByCode: selectedCode },
-			success: function(response) {
-				if (response.status === "FOUND" && response.data) {
-					var tableBody = "";
-					$.each(response.data, function(index, share) {
-						tableBody += `
-                            <tr data-model='${JSON.stringify(share)}'>
-                                <td><input type="checkbox" value="${index}" /></td>
-                                <td>${index + 1}</td>
-                                <td>${share.findByCode || ''}</td>
-                                <td>${share.customerName || ''}</td>
-                                <td>${share.balanceShares || ''}</td>
-                                <td>${share.noOfShare || ''}</td>
-                                <td>${share.certificateNo || ''}</td>
-                            </tr>`;
-					});
-					$('.datatable tbody').html(tableBody);
-				} else {
-					$('.datatable tbody').html('');
-					alert("No share data found for the selected referral code.");
-				}
-			},
-			error: function(xhr) {
-				console.error("Fetch Error:", xhr);
-				alert("Error fetching share data.");
-			}
-		});
-	});
-	
-	
-//print button 	
-$('#printCertificateBtn').on('click', function () {
-    var selectedCheckbox = $('.datatable tbody input[type="checkbox"]:checked');
+    const url = selectedCode 
+        ? "api/customershareholdingcontroller/fetchByCertificateNo" 
+        : "api/customershareholdingcontroller/getAllTransferShare";
 
-    if (selectedCheckbox.length === 0) {
-        alert("Please select a row to print the certificate.");
-        $('#certificateSection').hide();
-        return;
+    const ajaxOptions = {
+        type: selectedCode ? "POST" : "GET",
+        url: url,
+        success: function (response) {
+            tbody.empty();
+            const list = response.data || [];
+
+            if (list.length > 0) {
+                $.each(list, function (index, share) {
+                    const row = $(`
+                        <tr>
+                            <td><input type="radio" name="selectedShare" value="${share.id}" /></td>
+                            <td>${index + 1}</td>
+                            <td>${share.findByCode || ''}</td>
+                            <td>${share.customerName || ''}</td>
+                            <td>${share.amountTransferred || share.balanceShares || '0.00'}</td>
+                            <td>${share.noOfShare || '0'}</td>
+                            <td>${share.certificateNo || 'N/A'}</td>
+                        </tr>
+                    `);
+                    row.data('model', share);
+                    tbody.append(row);
+                });
+            } else {
+                tbody.html('<tr><td colspan="7" class="text-center py-3">No share records found</td></tr>');
+            }
+        },
+        error: function () {
+            tbody.html('<tr><td colspan="7" class="text-center text-danger">Error fetching share records</td></tr>');
+        }
+    };
+
+    if (selectedCode) {
+        ajaxOptions.data = { findByCode: selectedCode };
     }
 
-    // Get the selected row
-    var selectedRow = selectedCheckbox.closest('tr').data('model'); // <-- get model object from row data
-
-    // Fill certificate fields using model object
-    $('#customeridandName').text(`${selectedRow.findByCode} - ${selectedRow.customerName}`);
-    $('#certificateno').text(selectedRow.certificateNo);
-    $('#numberofshare').text(selectedRow.noOfShare);
-    $('#amounttransferred').text(selectedRow.amountTransferred);
-    $('#branchname').text(selectedRow.branch);
-    $('#startdate').text(selectedRow.startDate);
-    $('#balanceshare').text(selectedRow.balanceShares);
-    $('#shareissuedby').text(selectedRow.shareIssuedBy);
-    $('#dataoftransfer').text(selectedRow.dateOfTransfer);
-    $('#modeofpayement').text(selectedRow.modeOfPayment);
-
-    $('#certificateSection').show();
-});
-
-// print Code
-$("#printBtn").on("click", function (e) {
-		e.preventDefault();
-
-		// Clone the form
-		const $formClone = $("#cetificateId").clone();
-
-		/*// Remove the button row from cloned form
-		$formClone.find("#editmember").remove();
-		$formClone.find("#printBtn").remove();
-		$formClone.find("#updateBtn").remove();
-		$formClone.find("#deleteBtn").remove();*/
-
-		// Optional: remove any row that holds the buttons
-		$formClone.find(".text-center").each(function () {
-			if ($(this).find("button").length > 0) {
-				$(this).remove();
-			}
-		});
-
-		// Open print window
-		const printWindow = window.open("", "_blank");
-
-		if (printWindow) {
-			printWindow.document.open();
-			printWindow.document.write(`
-				<html>
-				<head>
-					<title>Print - Customer Form</title>
-					<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
-					<style>
-						body {
-							font-family: Arial, sans-serif;
-							padding: 20px;
-						}
-						.formFields {
-							margin-bottom: 15px;
-						}
-						label {
-							font-weight: bold;
-						}
-						input, select, textarea {
-							border: 1px solid #ccc;
-							border-radius: 5px;
-							padding: 5px;
-							width: 100%;
-						}
-						.toggle {
-							pointer-events: none;
-						}
-					</style>
-				</head>
-				<body onload="window.print(); window.close();">
-					<h3 class="text-center mb-4">Customer Information</h3>
-					${$formClone[0].outerHTML}
-				</body>
-				</html>
-			`);
-			printWindow.document.close();
-		} else {
-			alert("Popup blocked. Please allow popups for this website.");
-		}
-	});
-
-//	Download Code
-	$("#downloadBtn").on("click", function (e) {
-		e.preventDefault();
-
-		// Clone the certificate content
-		const $formClone = $("#cetificateId").clone();
-
-		// Optional: remove buttons or specific rows containing buttons
-		$formClone.find(".text-center").each(function () {
-			if ($(this).find("button").length > 0) {
-				$(this).remove();
-			}
-		});
-
-		// Create the full HTML document
-		const htmlContent = `
-			<html>
-			<head>
-				<title>Download - Customer Certificate</title>
-				<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
-				<style>
-					body {
-						font-family: Arial, sans-serif;
-						padding: 20px;
-					}
-					.formFields {
-						margin-bottom: 15px;
-					}
-					label {
-						font-weight: bold;
-					}
-					input, select, textarea {
-						border: 1px solid #ccc;
-						border-radius: 5px;
-						padding: 5px;
-						width: 100%;
-					}
-					.toggle {
-						pointer-events: none;
-					}
-				</style>
-			</head>
-			<body>
-				<h3 class="text-center mb-4">Customer Information</h3>
-				${$formClone[0].outerHTML}
-			</body>
-			</html>
-		`;
-
-		// Create a Blob from HTML content
-		const blob = new Blob([htmlContent], { type: "text/html" });
-
-		// Create a temporary download link
-		const link = document.createElement("a");
-		link.href = URL.createObjectURL(blob);
-		link.download = "Customer_Certificate.html"; // Filename for download
-		document.body.appendChild(link);
-		link.click();
-		document.body.removeChild(link);
-	});
+    $.ajax(ajaxOptions);
+}

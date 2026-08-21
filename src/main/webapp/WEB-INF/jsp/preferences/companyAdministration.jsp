@@ -35,8 +35,40 @@
 	display: none;
 }
 
-.img-box:hover .deleteImg {
+.edit-active .img-box:hover .deleteImg {
 	display: block;
+}
+
+.img-box .changeImgOverlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.6);
+	color: white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	cursor: pointer;
+	opacity: 0;
+	transition: opacity 0.2s ease;
+	border-radius: 4px;
+}
+
+.edit-active .img-box:hover .changeImgOverlay {
+	opacity: 1;
+}
+
+.changeImgOverlay i {
+	font-size: 24px;
+	margin-bottom: 5px;
+}
+
+.changeImgOverlay span {
+	font-size: 12px;
+	font-weight: bold;
 }
 </style>
 
@@ -55,9 +87,9 @@
 
 <div class="row">
 	<div class="col-12 d-flex justify-content-end">
-		<button type="button" id="editBtn" class="btn btn-outline-secondary"
-			data-bs-toggle="tooltip" data-bs-placement="top" title="Edit" style="display: none;">
-			<i class="bi bi-pen-fill"></i>
+		<button type="button" id="editBtn" class="btn btn-primary mb-3"
+			data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Details & Photos">
+			<i class="bi bi-pencil-square"></i> Edit Details & Photos
 		</button>
 	</div>
 </div>
@@ -417,10 +449,11 @@
 
 		</div>
 
-		<div class="row" style="margin-top: 30px; display: none;">
+		<input type="file" id="bulkUpdateImgInput" style="display:none;" accept="image/*">
+		<div class="row" id="updateRow" style="margin-top: 30px; display: none;">
 			<div class="col-12 text-center">
-				<button type="button" id="updateBtn" class="btn btn-success"
-					disabled>UPDATE</button>
+				<button type="button" id="updateBtn" class="btn btn-success">UPDATE</button>
+				<button type="button" id="cancelBtn" class="btn btn-secondary ms-2">CANCEL</button>
 			</div>
 		</div>
 	</form>
@@ -428,4 +461,7 @@
 
 
 </div>
+<script>
+	var contextPath = "${pageContext.request.contextPath}";
+</script>
 <script src="${pageContext.request.contextPath}/js/preferences/companyAdministration.js"></script>

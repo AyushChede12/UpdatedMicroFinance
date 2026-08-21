@@ -62,7 +62,7 @@ table {
 }
 
 thead {
-	background: linear-gradient(to right, #7b2ff7, #f107a3);
+	background: linear-gradient(135deg, #1e293b, #0f172a);
 	color: white;
 	text-align: center;
 }

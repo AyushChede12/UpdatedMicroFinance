@@ -4,125 +4,175 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login Page</title>
+<title>Login - MicroFinance</title>
 <script src="https://kit.fontawesome.com/ae73087723.js"
 	crossorigin="anonymous"></script>
 <!-- Only one jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
 body {
 	font-family: 'Poppins', sans-serif;
-	background: linear-gradient(rgba(0, 0, 50, 0.8), rgba(0, 0, 50, 0.8)),
-		url('Uploads/bgimageLogin.png') no-repeat center
-		center;
+	background: linear-gradient(135deg, rgba(15, 23, 42, 0.92) 0%, rgba(30, 41, 59, 0.92) 100%),
+		url('Uploads/bgimageLogin.png') no-repeat center center;
 	background-size: cover;
-	height: 100vh;
+	min-height: 100vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	padding: 20px;
+}
+
+.container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
 }
 
 .form-box {
-	width: 90%;
-	max-width: 450px;
-	background: #fff;
-	padding: 50px 60px 70px;
+	width: 100%;
+	max-width: 440px;
+	background: #ffffff;
+	padding: 48px 40px;
 	text-align: center;
-	border-radius: 10px;
+	border-radius: 16px;
+	box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
 .form-box h1 {
-	font-size: 30px;
-	margin-bottom: 50px;
-	color: #3c00a0;
+	font-size: 28px;
+	font-weight: 700;
+	margin-bottom: 36px;
+	color: #0f172a;
 	position: relative;
+	letter-spacing: -0.5px;
 }
 
 .form-box h1::after {
 	content: "";
-	width: 30px;
+	width: 40px;
 	height: 4px;
-	border-radius: 3px;
-	background: #3c00a0;
+	border-radius: 4px;
+	background: #2563eb;
 	position: absolute;
-	bottom: -12px;
+	bottom: -10px;
 	left: 50%;
 	transform: translate(-50%);
 }
 
+.input-group-wrapper {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 24px;
+	position: relative;
+}
+
 .textfield {
 	position: relative;
-	border-bottom: 2px solid #adabad;
-	margin: 20px 0;
-	width: 270px;
+	border-bottom: 2px solid #e2e8f0;
+	width: 100%;
 }
 
 .inputfield {
-	width: 270px;
-	padding: 0 5px;
-	height: 40px;
-	font-size: 16px;
+	width: 100%;
+	padding: 8px 36px 8px 4px;
+	height: 44px;
+	font-size: 14.5px;
+	font-family: 'Poppins', sans-serif;
 	border: none;
 	background: none;
 	outline: none;
+	color: #0f172a;
 }
 
 .inputlabels {
 	position: absolute;
 	top: 50%;
-	left: 5px;
-	color: #adadad;
+	left: 4px;
+	color: #94a3b8;
 	transform: translateY(-50%);
-	font-size: 16px;
+	font-size: 13px;
+	font-weight: 500;
 	pointer-events: none;
-	transition: .4s;
+	transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	letter-spacing: 0.5px;
 }
 
-.inputfield:focus ~ .inputlabels, .inputfield:valid ~ .inputlabels {
-	top: -5px;
-	color: #3c00a0;
+.inputfield:focus ~ .inputlabels, 
+.inputfield:valid ~ .inputlabels {
+	top: -6px;
+	font-size: 11px;
+	font-weight: 600;
+	color: #2563eb;
 }
 
 .textfield span::before {
 	content: '';
 	position: absolute;
-	top: 40px;
+	bottom: -2px;
 	left: 0;
 	width: 0%;
 	height: 2px;
-	background: #3c00a0;
-	transition: .4s;
+	background: #2563eb;
+	transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.inputfield:focus ~ span::before, .inputfield:valid ~ span::before {
+.inputfield:focus ~ span::before, 
+.inputfield:valid ~ span::before {
 	width: 100%;
-}
-
-.enquirybtn {
-	width: 120px;
-	height: 40px;
-	background-color: #3c00a0;
-	color: white;
-	cursor: pointer;
-	border: none;
-	font-size: 16.5px;
-	font-weight: 500;
-	border-radius: 8px;
-	margin-top: 10px;
-	letter-spacing: 1.2px;
 }
 
 .iconstyles {
 	position: absolute;
-	right: 0;
-	font-size: 20px;
+	right: 8px;
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 16px;
+	color: #94a3b8;
 	cursor: pointer;
-	transition: all .5s;
+	transition: color 0.2s ease;
+}
+
+.iconstyles:hover {
+	color: #2563eb;
+}
+
+.enquirybtn {
+	width: 100%;
+	height: 44px;
+	background-color: #2563eb;
+	color: white;
+	cursor: pointer;
+	border: none;
+	font-size: 14px;
+	font-weight: 600;
+	font-family: 'Poppins', sans-serif;
+	border-radius: 10px;
+	margin-top: 12px;
+	letter-spacing: 0.5px;
+	transition: all 0.2s ease;
+	box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+}
+
+.enquirybtn:hover {
+	background-color: #1d4ed8;
+	box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+	transform: translateY(-1px);
 }
 
 #errorMsg {
-	color: red;
-	margin-bottom: 10px;
+	color: #ef4444;
+	font-size: 13px;
+	margin-bottom: 16px;
+	font-weight: 500;
 }
 </style>
 </head>
@@ -133,31 +183,24 @@ body {
 			<h1>Login</h1>
 			<div id="errorMsg"></div>
 			<form id="form1">
-				<div
-					style="display: flex; justify-content: space-between; align-items: center;">
+				<div class="input-group-wrapper">
 					<div class="textfield">
 						<input class="inputfield" type="text" id="username"
 							name="username" required> <span></span> <label
 							class="inputlabels">USERNAME</label>
 					</div>
-					<div style="position: relative; margin-bottom: 10px;">
-						<i class="fa-solid fa-user iconstyles"></i>
-					</div>
+					<i class="fa-solid fa-user iconstyles"></i>
 				</div>
 
-				<div
-					style="display: flex; justify-content: space-between; align-items: center;">
+				<div class="input-group-wrapper">
 					<div class="textfield">
 						<input class="inputfield" type="password" required id="password"
 							name="password"> <span></span> <label class="inputlabels">PASSWORD</label>
 					</div>
-					<div style="position: relative; margin-bottom: 10px;">
-						<i class="fa-solid fa-eye-slash iconstyles" id="eyeicon"></i>
-					</div>
+					<i class="fa-solid fa-eye-slash iconstyles" id="eyeicon"></i>
 				</div>
 
-				<div
-					style="margin-top: 20px; display: flex; align-items: center; justify-content: center;">
+				<div style="margin-top: 24px;">
 					<button type="submit" class="enquirybtn">SUBMIT</button>
 				</div>
 			</form>
@@ -178,8 +221,6 @@ body {
 					icon.removeClass("fa-eye").addClass("fa-eye-slash");
 				}
 			});
-
-			// AJAX login
 		});
 	</script>
 	<script src="./js/login.js"></script>

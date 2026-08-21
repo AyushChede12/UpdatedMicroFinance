@@ -158,9 +158,9 @@ $(document).ready(function () {
 		formData.append("profession", $('#profession').val());
 		formData.append("academicBackground", $('#academicBackground').val());
 
-		// Referral
-		//		formData.append("referralCode", $('#referralCode').val());
-		//		formData.append("referralName", $('#referralName').val());
+		// Employee Code / Referral
+		formData.append("referralCode", $('#employeeCode').val());
+		formData.append("referralName", $('#employeeName').val());
 
 		// Share
 		//		formData.append("shareAmount", $('#shareAmount').val());
@@ -182,23 +182,23 @@ $(document).ready(function () {
 		formData.append("nomineeDOB", $('#nomineeDOB').val());
 
 		// Fees
-		//		formData.append("memberFees", $('#memberFees').val());
-		//		formData.append("buildingFund", $('#buildingFund').val());
-		//		formData.append("adminCharge", $('#adminCharge').val());
-		//		formData.append("documentCharge", $('#documentCharge').val());
-		//		formData.append("otherCharge", $('#otherCharge').val());
-		//		formData.append("entryFee", $('#entryFee').val());
+		formData.append("memberFees", $('#memberFees').val());
+		formData.append("buildingFund", $('#buildingFund').val());
+		formData.append("adminCharge", $('#adminCharge').val());
+		formData.append("documentCharge", $('#documentCharge').val());
+		formData.append("otherCharge", $('#otherCharge').val());
+		formData.append("entryFee", $('#entryFee').val());
 
-		//		formData.append("chequeNo", $('#chequeNo').val());
-		//		formData.append("chequeDate", $('#chequeDate').val());
-		//		formData.append("depositAcNo", $('#depositAccount').val());
-		//		formData.append("referenceNo", $('#referenceNo').val());
+		formData.append("chequeNo", $('#chequeNo').val());
+		formData.append("chequeDate", $('#chequeDate').val());
+		formData.append("depositAcNo", $('#depositAccount').val());
+		formData.append("referenceNo", $('#referenceNo').val());
 
-		//		formData.append("remarks", $('#remarks').val());
-		//		formData.append("paymentBy", $('#paymentBy').val());
+		formData.append("remarks", $('#remarks').val());
+		formData.append("paymentBy", $('#paymentBy').val());
 
-		//		formData.append("fDate", $('#fDate').val());
-		//		formData.append("tDate", $('#tDate').val());
+		formData.append("fDate", $('#fDate').val());
+		formData.append("tDate", $('#tDate').val());
 
 		// Toggles
 		formData.append("memberStatus", $('#toggle-member-status').is(":checked") ? "1" : "0");
@@ -731,6 +731,40 @@ $(document).ready(function () {
 		error: function (err) {
 			console.error("Error fetching branches:", err);
 		}
+	});
+});
+
+
+// Load Financial Consultants into Employee Code dropdown
+$(document).ready(function () {
+	$.ajax({
+		url: "api/financialconsultant/getAllFinancialConsultantDetails",
+		method: "POST",
+		contentType: "application/json",
+		data: JSON.stringify({}),
+		success: function (response) {
+			const consultants = response.data || [];
+			console.log("Fetched Financial Consultants:", consultants);
+			const $empCode = $('#employeeCode');
+			consultants.forEach(function (fc) {
+				$empCode.append(
+					$('<option>', {
+						value: fc.financialCode,
+						text: fc.financialCode,
+						'data-name': fc.financialName
+					})
+				);
+			});
+		},
+		error: function (err) {
+			console.error("Error fetching financial consultants:", err);
+		}
+	});
+
+	// Auto-fill Employee Name when code is selected
+	$('#employeeCode').on('change', function () {
+		const selectedName = $(this).find(':selected').data('name') || '';
+		$('#employeeName').val(selectedName.toUpperCase());
 	});
 });
 

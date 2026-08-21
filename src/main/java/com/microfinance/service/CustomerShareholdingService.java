@@ -53,9 +53,15 @@ public class CustomerShareholdingService {
 	}
 
 	// Save Transfer Share
-	public TransferShare saveAllTransferShare(TransferShare transfer) {	
-		return  transfershareRepo.save(transfer);
-		
+	public TransferShare saveAllTransferShare(TransferShare transfer) {
+		if (transfer.getCertificateNo() == null || transfer.getCertificateNo().trim().isEmpty()) {
+			String year = String.valueOf(java.time.LocalDate.now().getYear());
+			long count = transfershareRepo.count();
+			String certNo = "SCF/MICROFINANCE/" + year + "/" + String.format("%06d", count + 1);
+			transfer.setCertificateNo(certNo);
+		}
+		transfer.setApproved(true);
+		return transfershareRepo.save(transfer);
 	}
 
 	//All Data Show in Table
