@@ -97,7 +97,6 @@ public class PageController {
 		return "admin/activity";
 	}
 
-	
 	@GetMapping("/helpmanual")
 	public String getHelpPage(Model model) {
 		model.addAttribute("contentPage", "helpPage.jsp");
@@ -432,7 +431,6 @@ public class PageController {
 		model.addAttribute("contentPage", "jointLiabilityLoan/LoanClosure.jsp");
 		return "main";
 	}
-	
 
 	@GetMapping("/completedLoansRecord")
 	public String getClosedLoanDetails(Model model) {
@@ -957,7 +955,7 @@ public class PageController {
 		model.addAttribute("contentPage", "loanManagement/EarlyLoanClosure.jsp");
 		return "main";
 	}
-	
+
 	@GetMapping("/LoanClosureLoan")
 	public String getLoanClosureLoan(Model model) {
 		model.addAttribute("contentPage", "loanManagement/LoanClosure.jsp");
@@ -1000,8 +998,8 @@ public class PageController {
 	public String getCreateSavingsAccount(Model model) {
 		long maxId = createSavingAccountRepo.getMaxId();
 		String savingaccountnumber = String.format("2025%08d", maxId + 1);
-//		//String savingaccountnumber = String.format("%012d", 202500000000L + maxId);
-//		String savingaccountnumber = "2025" + "000000" + (maxId + 1);
+		// //String savingaccountnumber = String.format("%012d", 202500000000L + maxId);
+		// String savingaccountnumber = "2025" + "000000" + (maxId + 1);
 		model.addAttribute("savingaccountnumber", savingaccountnumber);
 		model.addAttribute("contentPage", "customerSavings/createSavingsAccount.jsp");
 		return "main";
@@ -1164,7 +1162,7 @@ public class PageController {
 		return "main";
 	}
 
-	//Secured Gold Loan
+	// Secured Gold Loan
 	@GetMapping("/applyforGold")
 	public String getapplyforGold(Model model) {
 		Long maxId = applyForGoldRepo.getMaxId();

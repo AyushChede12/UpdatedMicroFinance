@@ -22,8 +22,6 @@ bin/
 # Logs
 *.log
 
-# Application config
-**/application.properties
 
 # Maven Wrapper
 .mvn/
