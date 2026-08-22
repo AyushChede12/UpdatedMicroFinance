@@ -52,6 +52,17 @@ public class CustomerManagementService {
 	public ApiResponse<addCustomer> saveOrUpdateCustomer(CustomerDto clientMasterDto, MultipartFile customerPhoto,
 			MultipartFile customerSignature, MultipartFile customerDriving, MultipartFile customerVoter,
 			MultipartFile nomineAadhar, MultipartFile nomineSignature, MultipartFile newlyAddedImage) {
+
+		// ✅ Validation: customerName and contactNo are required fields
+		if (clientMasterDto.getId() == null) { // Only validate on new customer creation
+			if (clientMasterDto.getCustomerName() == null || clientMasterDto.getCustomerName().trim().isEmpty()) {
+				return ApiResponse.error(HttpStatus.BAD_REQUEST, "Customer Name is required and cannot be empty.");
+			}
+			if (clientMasterDto.getContactNo() == null || clientMasterDto.getContactNo().trim().isEmpty()) {
+				return ApiResponse.error(HttpStatus.BAD_REQUEST, "Contact Number is required and cannot be empty.");
+			}
+		}
+
 		addCustomer addcustomer = new addCustomer();
 		boolean isNew = true;
 
@@ -192,6 +203,11 @@ public class CustomerManagementService {
 			// Guard: skip if member code is missing
 			if (savedCustomer.getMemberCode() == null || savedCustomer.getMemberCode().trim().isEmpty()) {
 				System.err.println("Skipping auto savings account creation: memberCode is null for customer ID " + savedCustomer.getId());
+				return;
+			}
+			// Guard: skip if customer name is missing
+			if (savedCustomer.getCustomerName() == null || savedCustomer.getCustomerName().trim().isEmpty()) {
+				System.err.println("Skipping auto savings account creation: customerName is null for memberCode: " + savedCustomer.getMemberCode());
 				return;
 			}
 			// Guard: skip if savings account already exists for this member
