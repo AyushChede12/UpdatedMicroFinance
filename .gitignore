@@ -32,4 +32,5 @@ mvnw.cmd
 .tools/
 .factorypath
 src/main/webapp/Uploads/
+.vscode/
 

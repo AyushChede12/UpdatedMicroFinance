@@ -77,6 +77,7 @@
 								class="form-control selectField" style="height: 30px;">
 								<option value="">--SELECT MEMBER TYPE--</option>
 								<option value="REGULAR">REGULAR MEMBER</option>
+								<option value="SERVICE">SERVICE MEMBER</option>
 								<option value="ORDINARY">ORDINARY MEMBER</option>
 								<option value="ASSOCIATE">ASSOCIATE MEMBER</option>
 							</select> <small id="chkmembertype" style="color: red;"></small>
@@ -359,16 +360,29 @@
 
 					<div class="col-lg-3 mb-4">
 						<div class="d-flex flex-column formFields">
-							<label for="">PROFESSION</label> <input type="text" style="text-transform: uppercase;"
-								name="profession" id="profession" required="required" placeholder="ENTER PROFESSION" />
+							<label for="profession">PROFESSION</label> <input type="text" style="text-transform: uppercase;"
+								name="profession" id="profession" placeholder="ENTER PROFESSION" />
 						</div>
 					</div>
 
 					<div class="col-lg-3 mb-4">
 						<div class="d-flex flex-column formFields">
-							<label for="">ACADEMIC BACKGROUND</label> <input type="text" name="academicBackground"
-								id="academicBackground" style="text-transform: uppercase;" required="required"
-								placeholder="ENTER ACADEMIC BACKGROUND" />
+							<label for="occupation">OCCUPATION</label> <input type="text" style="text-transform: uppercase;"
+								name="occupation" id="occupation" placeholder="ENTER OCCUPATION" />
+						</div>
+					</div>
+
+					<div class="col-lg-3 mb-4">
+						<div class="d-flex flex-column formFields">
+							<label for="education">EDUCATION</label> <input type="text" style="text-transform: uppercase;"
+								name="education" id="education" placeholder="ENTER EDUCATION" />
+						</div>
+					</div>
+
+					<div class="col-lg-3 mb-4">
+						<div class="d-flex flex-column formFields">
+							<label for="monthlyIncome">MONTHLY INCOME</label> <input type="number" style="text-transform: uppercase;"
+								name="monthlyIncome" id="monthlyIncome" placeholder="ENTER MONTHLY INCOME" min="0" />
 						</div>
 					</div>
 
@@ -535,16 +549,7 @@
 						</div>
 					</div>
 
-					<!-- Nominee Relation to Applicant -->
-					<div class="col-lg-3">
-						<div class="d-flex flex-column formFields">
-							<label for="">NOMINEE RELATION TO APPLICANT <span class="star">*</span></label> <select
-								id="nomineeRelationToApplicant" name="nomineeRelationToApplicant" required="required"
-								class="form-control selectField" style="height: 30px;">
-								<option value="">SELECT RELATION TO APPLICANT</option>
-							</select> <small id="chknomineerelationtoapplicant" style="color: red;"></small>
-						</div>
-					</div>
+					<!-- Nominee Relation to Applicant field removed as requested -->
 
 					<div class="col-lg-3 mb-4">
 						<div class="d-flex flex-column formFields">

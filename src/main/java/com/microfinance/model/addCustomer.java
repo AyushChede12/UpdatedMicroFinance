@@ -2,6 +2,9 @@ package com.microfinance.model;
 
 import javax.persistence.*;
 
+/**
+ * addCustomer
+ */
 @Entity
 @Table(name = "add_customer")
 public class addCustomer {
@@ -115,6 +118,15 @@ public class addCustomer {
 
 	@Column(name = "academic_background", length = 100)
 	private String academicBackground;
+
+	@Column(name = "occupation", length = 100)
+	private String occupation;
+
+	@Column(name = "education", length = 100)
+	private String education;
+
+	@Column(name = "monthly_income", length = 20)
+	private String monthlyIncome;
 
 	@Column(name = "customer_photo")
 	private String customerPhoto;
@@ -855,6 +867,30 @@ public class addCustomer {
 
 	public void setApproved(Boolean isApproved) {
 		this.isApproved = isApproved;
+	}
+
+	public String getOccupation() {
+		return occupation;
+	}
+
+	public void setOccupation(String occupation) {
+		this.occupation = occupation;
+	}
+
+	public String getEducation() {
+		return education;
+	}
+
+	public void setEducation(String education) {
+		this.education = education;
+	}
+
+	public String getMonthlyIncome() {
+		return monthlyIncome;
+	}
+
+	public void setMonthlyIncome(String monthlyIncome) {
+		this.monthlyIncome = monthlyIncome;
 	}
 
 	// Getters and Setters (Omitted for brevity, add all your previous ones here)

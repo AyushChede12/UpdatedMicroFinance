@@ -25,7 +25,7 @@ $(document).ready(function () {
 
 		event.preventDefault();
 
-		var authenticate = $("#authenticateFor").val();
+		// var authenticate = $("#authenticateFor").val();
 		var minor = $("#minor").val();
 
 		$("[id^='chk']").text('');
@@ -68,11 +68,13 @@ $(document).ready(function () {
 
 		// ----------- VALIDATION ------------
 
-		validateText('authenticateFor', 'chkauthenticatefor', 'Please select authenticate for');
+		// validateText('authenticateFor', 'chkauthenticatefor', 'Please select authenticate for');
 
-		if (authenticate == 'aadhar') {
-			validateText('aadharNo', 'chkaadharno', 'Please enter Aadhar number');
-		}
+		// if (authenticate == 'aadhar') {
+		// 	validateText('aadharNo', 'chkaadharno', 'Please enter Aadhar number');
+		// }
+		// Aadhar is now validated directly if required
+		// validateText('aadharNo', 'chkaadharno', 'Please enter Aadhar number');
 
 		validateText('signupDate', 'chksignupdate', 'Please select signup date');
 		validateText('firstName', 'chkfirstname', 'Please enter first name');
@@ -85,7 +87,7 @@ $(document).ready(function () {
 			validateText('guardianAccNo', 'chkguardianaccno', 'Enter guardian account no');
 		}
 
-		validateText('relationToApplicant', 'chkrelationtoapplicant', 'Select relation');
+		// validateText('relationToApplicant', 'chkrelationtoapplicant', 'Select relation');
 		validateText('customerGender', 'chkgender', 'Select gender');
 		// customerAge is auto-calculated from DOB (readonly field) - skip strict validation
 		// validateText('customerAge', 'chkage', 'Enter age');
@@ -114,7 +116,7 @@ $(document).ready(function () {
 
 		// Customer Basic
 		formData.append("memberCode", $('#memberCode').val());
-		formData.append("authenticateFor", $('#authenticateFor').val());
+		// formData.append("authenticateFor", $('#authenticateFor').val());
 		formData.append("signupDate", $('#signupDate').val());
 		formData.append("major", $('#major').val());
 
@@ -131,7 +133,7 @@ $(document).ready(function () {
 		formData.append("guardianName", $('#guardianName').val());
 		formData.append("guardianAccountNo", $('#guardianAccNo').val());
 
-		formData.append("relationToApplicant", $('#relationToApplicant').val());
+		// formData.append("relationToApplicant", $('#relationToApplicant').val());
 		formData.append("customerGender", $('#customerGender').val());
 		formData.append("customerAge", $('#customerAge').val());
 		formData.append("relationshipStatus", $('#relationshipStatus').val());
@@ -156,23 +158,29 @@ $(document).ready(function () {
 		formData.append("emailId", $('#emailId').val());
 
 		formData.append("profession", $('#profession').val());
-		formData.append("academicBackground", $('#academicBackground').val());
+		// formData.append("academicBackground", $('#academicBackground').val());
 
-		// Employee Code / Referral
+		// New Customer Fields
+		formData.append("occupation", $('#occupation').val());
+		formData.append("education", $('#education').val());
+		formData.append("monthlyIncome", $('#monthlyIncome').val());
+
+
+		// Employee Code / Employee Name
 		formData.append("referralCode", $('#employeeCode').val());
 		formData.append("referralName", $('#employeeName').val());
 
 		// Share
-		//		formData.append("shareAmount", $('#shareAmount').val());
-		//		formData.append("noOfShare", $('#noOfShare').val());
-		//		formData.append("shareValue", $('#shareValue').val());
+		formData.append("shareAmount", $('#shareAmount').val());
+		formData.append("noOfShare", $('#noOfShare').val());
+		formData.append("shareValue", $('#shareValue').val());
 
 		//		formData.append("lightBill", $('#lightBill').val());
 		//		formData.append("taxBill", $('#taxBill').val());
 
 		// Nominee
 		formData.append("nomineeName", $('#nomineeName').val());
-		formData.append("nomineeRelationToApplicant", $('#nomineeRelationToApplicant').val());
+		// formData.append("nomineeRelationToApplicant", $('#nomineeRelationToApplicant').val());
 		formData.append("nomineeAge", $('#nomineeAge').val());
 		formData.append("nomineeAddress", $('#nomineeAddress').val());
 		formData.append("nomineePanNo", $('#nomineePanNo').val());
@@ -655,9 +663,9 @@ $('#state').on('change', function () {
 	}
 });
 
-
+/*
 $(document).ready(function () {
-	const dropdownIds = ["relationToApplicant", "nomineeRelationToApplicant"];
+	const dropdownIds = ["relationToApplicant"];
 
 	$.ajax({
 		url: "api/preference/getAllRelativeModule", // Ensure correct server path
@@ -691,6 +699,7 @@ $(document).ready(function () {
 		}
 	});
 });
+*/
 
 $(document).ready(function () {
 	// Fetch all branches and populate the dropdown
@@ -762,8 +771,13 @@ $(document).ready(function () {
 	});
 
 	// Auto-fill Employee Name when code is selected
+
 	$('#employeeCode').on('change', function () {
-		const selectedName = $(this).find(':selected').data('name') || '';
+		const selectedName = $(this).find(':selected').attr('data-name') || '';
+
+		console.log("Selected Employee Code:", $(this).val());
+		console.log("Selected Employee Name:", selectedName);
+
 		$('#employeeName').val(selectedName.toUpperCase());
 	});
 });
@@ -1218,27 +1232,35 @@ $(document).ready(function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-	document.getElementById("memberFeesTable").style.display = "none";
+	const table = document.getElementById("memberFeesTable");
+	if (table) {
+		table.style.display = "none";
+	}
 
+	const memberFeesEl = document.getElementById("memberFees");
+	if (memberFeesEl) {
+		memberFeesEl.addEventListener("click", function (event) {
+			event.stopPropagation();
+			const tableEl = document.getElementById("memberFeesTable");
+			if (tableEl) {
+				tableEl.style.display = (tableEl.style.display === "none" || tableEl.style.display === "")
+					? "block" : "none";
+			}
+		});
+	}
 
+	if (table) {
+		table.addEventListener("click", function (event) {
+			event.stopPropagation();
+		});
+	}
 });
-
-document.getElementById("memberFees").addEventListener("click", function (event) {
-	event.stopPropagation();
-
-	let table = document.getElementById("memberFeesTable");
-	table.style.display = (table.style.display === "none" || table.style.display === "")
-		? "block" : "none";
-});
-
-
-document.getElementById("memberFeesTable").addEventListener("click", function (event) {
-	event.stopPropagation();
-});
-
 
 document.addEventListener("click", function () {
-	document.getElementById("memberFeesTable").style.display = "none";
+	const table = document.getElementById("memberFeesTable");
+	if (table) {
+		table.style.display = "none";
+	}
 });
 
 

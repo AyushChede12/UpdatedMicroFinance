@@ -42,6 +42,9 @@ public class CustomerDto {
 	private String emailId;
 	private String profession;
 	private String academicBackground;
+	private String occupation;
+	private String education;
+	private String monthlyIncome;
 	private String shareAmount;
 	private String noOfShare;
 	private String shareValue;
@@ -707,6 +710,29 @@ public class CustomerDto {
 
 	public void setApproved(boolean approved) {
 		isApproved = approved;
+	}
+	public String getOccupation() {
+		return occupation;
+	}
+
+	public void setOccupation(String occupation) {
+		this.occupation = occupation;
+	}
+
+	public String getEducation() {
+		return education;
+	}
+
+	public void setEducation(String education) {
+		this.education = education;
+	}
+
+	public String getMonthlyIncome() {
+		return monthlyIncome;
+	}
+
+	public void setMonthlyIncome(String monthlyIncome) {
+		this.monthlyIncome = monthlyIncome;
 	}
 
 }
