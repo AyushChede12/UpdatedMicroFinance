@@ -185,7 +185,7 @@ function openPrintModal(id) {
         success: function(data) {
 
             // ================= HEADER =================
-            $("#bankName").text("MICROFINANCE BANK");
+            $("#bankName").text("SAMITHA URBAN NIDHI LTD.");
             $("#reportTitle").text("Investment Statement");
             $("#accountNumber").text(data.policyCode || "-");
             $("#periodCovered").text(data.policyStartDate || "-");

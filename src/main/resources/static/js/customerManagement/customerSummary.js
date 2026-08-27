@@ -113,15 +113,15 @@ $(document).ready(function() {
 							$("#photoHidden").val("");
 						}
 
-						if (data.newlyAddedImage) {
-							const newImgPath = `Uploads/${data.newlyAddedImage}`;
-							$("#newlyAddedImagePreview").attr("src", newImgPath);
-							$("#newlyAddedImageHidden").val(newImgPath);
+						if (data.customerSignature) {
+							const newImgPath = `Uploads/${data.customerSignature}`;
+							$("#customerSignaturePreview").attr("src", newImgPath);
+							$("#customerSignatureHidden").val(newImgPath);
 							const fakeNewImgEvent = { target: { result: newImgPath } };
 							newlyAddedImageSizeEdit(fakeNewImgEvent);
 						} else {
-							$("#newlyAddedImagePreview").attr("src", "Uploads/default-placeholder.jpg");
-							$("#newlyAddedImageHidden").val("");
+							$("#customerSignaturePreview").attr("src", "Uploads/default-placeholder.jpg");
+							$("#customerSignatureHidden").val("");
 						}
 
 						currentCustomerId = data.id;
@@ -306,7 +306,7 @@ function photoSizeEdit(e) {
 }
 
 function newlyAddedImageSizeEdit(e) {
-	const previewimg = document.getElementById("newlyAddedImagePreview");
+	const previewimg = document.getElementById("customerSignaturePreview");
 	previewimg.src = e.target.result;
 	previewimg.style.width = "100%";
 	previewimg.style.height = "100%";

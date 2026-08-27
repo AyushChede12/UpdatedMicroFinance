@@ -1,10 +1,15 @@
 package com.microfinance.service;
 
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import java.nio.file.Path;
 import java.nio.file.Files;
 
@@ -49,9 +54,13 @@ public class CustomerManagementService {
 
 	private String uploadDirectory;
 
-	public ApiResponse<addCustomer> saveOrUpdateCustomer(CustomerDto clientMasterDto, MultipartFile customerPhoto,
-			MultipartFile customerSignature, MultipartFile customerDriving, MultipartFile customerVoter,
-			MultipartFile nomineAadhar, MultipartFile nomineSignature, MultipartFile newlyAddedImage) {
+	@Autowired
+	private JavaMailSender mailSender;
+
+
+	public ApiResponse<?> saveOrUpdateCustomer(CustomerDto clientMasterDto, MultipartFile customerAadharImage,
+			MultipartFile customerPanImage, MultipartFile customerPhoto, MultipartFile customerVoter,
+			MultipartFile nomineAadhar, MultipartFile nomineSignature, MultipartFile customerSignature) {
 
 		// ✅ Validation: customerName and contactNo are required fields
 		if (clientMasterDto.getId() == null) { // Only validate on new customer creation
@@ -73,64 +82,61 @@ public class CustomerManagementService {
 		}
 
 		// Mapping fields
-		// You already did this correctly
-		addcustomer.setMemberCode(clientMasterDto.getMemberCode());
-		addcustomer.setAuthenticateFor(clientMasterDto.getAuthenticateFor());
+		// Map text fields to uppercase for uniform database storage
+		addcustomer.setMemberCode(toUpper(clientMasterDto.getMemberCode()));
+		addcustomer.setMemberType(toUpper(clientMasterDto.getMemberType()));
 		addcustomer.setSignupDate(clientMasterDto.getSignupDate());
-		addcustomer.setMajor(clientMasterDto.getMajor());
-		addcustomer.setCustomerName(clientMasterDto.getCustomerName());
-		addcustomer.setGuardianName(clientMasterDto.getGuardianName());
-		addcustomer.setRelationToApplicant(clientMasterDto.getRelationToApplicant());
-		addcustomer.setCustomerGender(clientMasterDto.getCustomerGender());
+		addcustomer.setMajor(toUpper(clientMasterDto.getMajor()));
+		addcustomer.setCustomerName(toUpper(clientMasterDto.getCustomerName()));
+		addcustomer.setGuardianName(toUpper(clientMasterDto.getGuardianName()));
+		addcustomer.setCustomerGender(toUpper(clientMasterDto.getCustomerGender()));
 		addcustomer.setDob(clientMasterDto.getDob());
 		addcustomer.setCustomerAge(clientMasterDto.getCustomerAge());
-		addcustomer.setRelationshipStatus(clientMasterDto.getRelationshipStatus());
-		addcustomer.setCustomerAddress(clientMasterDto.getCustomerAddress());
-		addcustomer.setDistrict(clientMasterDto.getDistrict());
-		addcustomer.setState(clientMasterDto.getState());
-		addcustomer.setBranchName(clientMasterDto.getBranchName());
-		addcustomer.setPinCode(clientMasterDto.getPinCode());
-		addcustomer.setAadharNo(clientMasterDto.getAadharNo());
-		addcustomer.setPanNo(clientMasterDto.getPanNo());
-		addcustomer.setVoterNo(clientMasterDto.getVoterNo());
-		addcustomer.setContactNo(clientMasterDto.getContactNo());
-		addcustomer.setMinor(clientMasterDto.getMinor());
-		addcustomer.setEmailId(clientMasterDto.getEmailId());
-		// addcustomer.setAcademicBackground(clientMasterDto.getAcademicBackground());
-		addcustomer.setProfession(clientMasterDto.getProfession());
-		addcustomer.setOccupation(clientMasterDto.getOccupation());
-		addcustomer.setEducation(clientMasterDto.getEducation());
-		addcustomer.setMonthlyIncome(clientMasterDto.getMonthlyIncome());
-		addcustomer.setReferralCode(clientMasterDto.getReferralCode());
-		addcustomer.setReferralName(clientMasterDto.getReferralName());
-		addcustomer.setDrivingLicenceNo(clientMasterDto.getDrivingLicenceNo());
-		addcustomer.setShareAmount(clientMasterDto.getShareAmount());
-		addcustomer.setNoOfShare(clientMasterDto.getNoOfShare());
-		addcustomer.setLightBill(clientMasterDto.getLightBill());
-		addcustomer.setTaxBill(clientMasterDto.getTaxBill());
-		addcustomer.setFirstName(clientMasterDto.getFirstName());
-		addcustomer.setMiddleName(clientMasterDto.getMiddleName());
-		addcustomer.setLastName(clientMasterDto.getLastName());
-		addcustomer.setGuardianAccountNo(clientMasterDto.getGuardianAccountNo());
-		addcustomer.setCategory(clientMasterDto.getCategory());
-		addcustomer.setCaste(clientMasterDto.getCaste());
-		addcustomer.setShareValue(clientMasterDto.getShareValue());
+		addcustomer.setRelationshipStatus(toUpper(clientMasterDto.getRelationshipStatus()));
+		addcustomer.setCustomerAddress(toUpper(clientMasterDto.getCustomerAddress()));
+		addcustomer.setDistrict(toUpper(clientMasterDto.getDistrict()));
+		addcustomer.setState(toUpper(clientMasterDto.getState()));
+		addcustomer.setBranchName(toUpper(clientMasterDto.getBranchName()));
+		addcustomer.setPinCode(toUpper(clientMasterDto.getPinCode()));
+		addcustomer.setAadharNo(toUpper(clientMasterDto.getAadharNo()));
+		addcustomer.setPanNo(toUpper(clientMasterDto.getPanNo()));
+		addcustomer.setVoterNo(toUpper(clientMasterDto.getVoterNo()));
+		addcustomer.setContactNo(toUpper(clientMasterDto.getContactNo()));
+		addcustomer.setMinor(toUpper(clientMasterDto.getMinor()));
+		addcustomer.setEmailId(toUpper(clientMasterDto.getEmailId()));
+		addcustomer.setProfession(toUpper(clientMasterDto.getProfession()));
+		addcustomer.setOccupation(toUpper(clientMasterDto.getOccupation()));
+		addcustomer.setEducation(toUpper(clientMasterDto.getEducation()));
+		addcustomer.setMonthlyIncome(toUpper(clientMasterDto.getMonthlyIncome()));
+		addcustomer.setReferralCode(toUpper(clientMasterDto.getReferralCode()));
+		addcustomer.setReferralName(toUpper(clientMasterDto.getReferralName()));
+		addcustomer.setDrivingLicenceNo(toUpper(clientMasterDto.getDrivingLicenceNo()));
+		addcustomer.setShareAmount(toUpper(clientMasterDto.getShareAmount()));
+		addcustomer.setNoOfShare(toUpper(clientMasterDto.getNoOfShare()));
+		addcustomer.setLightBill(toUpper(clientMasterDto.getLightBill()));
+		addcustomer.setTaxBill(toUpper(clientMasterDto.getTaxBill()));
+		addcustomer.setFirstName(toUpper(clientMasterDto.getFirstName()));
+		addcustomer.setMiddleName(toUpper(clientMasterDto.getMiddleName()));
+		addcustomer.setLastName(toUpper(clientMasterDto.getLastName()));
+		addcustomer.setGuardianAccountNo(toUpper(clientMasterDto.getGuardianAccountNo()));
+		addcustomer.setCategory(toUpper(clientMasterDto.getCategory()));
+		addcustomer.setCaste(toUpper(clientMasterDto.getCaste()));
+		addcustomer.setShareValue(toUpper(clientMasterDto.getShareValue()));
 
 		// Nominee Details
-		addcustomer.setNomineeName(clientMasterDto.getNomineeName());
-		// addcustomer.setNomineeRelationToApplicant(clientMasterDto.getNomineeRelationToApplicant());
-		addcustomer.setNomineeAddress(clientMasterDto.getNomineeAddress());
-		addcustomer.setNomineeKycNo(clientMasterDto.getNomineeKycNo());
-		addcustomer.setNomineeMobileNo(clientMasterDto.getNomineeMobileNo());
-		addcustomer.setNomineeAge(clientMasterDto.getNomineeAge());
-		addcustomer.setNomineePanNo(clientMasterDto.getNomineePanNo());
-		addcustomer.setNomineeKycType(clientMasterDto.getNomineeKycType());
+		addcustomer.setNomineeName(toUpper(clientMasterDto.getNomineeName()));
+		addcustomer.setNomineeAddress(toUpper(clientMasterDto.getNomineeAddress()));
+		addcustomer.setNomineeKycNo(toUpper(clientMasterDto.getNomineeKycNo()));
+		addcustomer.setNomineeMobileNo(toUpper(clientMasterDto.getNomineeMobileNo()));
+		addcustomer.setNomineeAge(toUpper(clientMasterDto.getNomineeAge()));
+		addcustomer.setNomineePanNo(toUpper(clientMasterDto.getNomineePanNo()));
+		addcustomer.setNomineeKycType(toUpper(clientMasterDto.getNomineeKycType()));
 		addcustomer.setNomineeDOB(clientMasterDto.getNomineeDOB());
 
 		// Payment details
-		addcustomer.setMemberFees(clientMasterDto.getMemberFees());
-		addcustomer.setBuildingFund(clientMasterDto.getBuildingFund());
-		addcustomer.setAdminCharge(clientMasterDto.getAdminCharge());
+		addcustomer.setMemberFees(toUpper(clientMasterDto.getMemberFees()));
+		addcustomer.setBuildingFund(toUpper(clientMasterDto.getBuildingFund()));
+		addcustomer.setAdminCharge(toUpper(clientMasterDto.getAdminCharge()));
 		addcustomer.setDocumentCharge(clientMasterDto.getDocumentCharge());
 		addcustomer.setEntryFee(clientMasterDto.getEntryFee());
 		addcustomer.setOtherCharge(clientMasterDto.getOtherCharge());
@@ -149,14 +155,14 @@ public class CustomerManagementService {
 
 		// Handle File Uploads
 		try {
-			if (customerPhoto != null && !customerPhoto.isEmpty()) {
-				String photoFileName = saveFile(customerPhoto);
-				addcustomer.setCustomerPhoto(photoFileName);
+			if (customerAadharImage != null && !customerAadharImage.isEmpty()) {
+				String aadharImageFileName = saveFile(customerAadharImage);
+				addcustomer.setCustomerAadharImage(aadharImageFileName);
 			}
 
-			if (customerSignature != null && !customerSignature.isEmpty()) {
-				String signFileName = saveFile(customerSignature);
-				addcustomer.setCustomerSignature(signFileName);
+			if (customerPanImage != null && !customerPanImage.isEmpty()) {
+				String panImageFileName = saveFile(customerPanImage);
+				addcustomer.setCustomerPanImage(panImageFileName);
 			}
 
 			if (customerVoter != null && !customerVoter.isEmpty()) {
@@ -164,9 +170,9 @@ public class CustomerManagementService {
 				addcustomer.setCustomerVoter(voterFileName);
 			}
 
-			if (customerDriving != null && !customerDriving.isEmpty()) {
-				String drivingFileName = saveFile(customerDriving);
-				addcustomer.setCustomerDriving(drivingFileName);
+			if (customerPhoto != null && !customerPhoto.isEmpty()) {
+				String photoFileName = saveFile(customerPhoto);
+				addcustomer.setCustomerPhoto(photoFileName);
 			}
 
 			if (nomineAadhar != null && !nomineAadhar.isEmpty()) {
@@ -177,12 +183,11 @@ public class CustomerManagementService {
 			if (nomineSignature != null && !nomineSignature.isEmpty()) {
 				String nomineSignatureFileName = saveFile(nomineSignature);
 				addcustomer.setNomineSignature(nomineSignatureFileName);
-				;
 			}
 
-			if (newlyAddedImage != null && !newlyAddedImage.isEmpty()) {
-				String newlyAddedImageFileName = saveFile(newlyAddedImage);
-				addcustomer.setNewlyAddedImage(newlyAddedImageFileName);
+			if (customerSignature != null && !customerSignature.isEmpty()) {
+				String signatureFileName = saveFile(customerSignature);
+				addcustomer.setCustomerSignature(signatureFileName);
 			}
 		} catch (IOException e) {
 			return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "File upload failed: " + e.getMessage());
@@ -192,38 +197,73 @@ public class CustomerManagementService {
 		addCustomer saved = customerRepo.save(addcustomer);
 
 		if (isNew) {
-			autoCreateSavingsAccount(saved);
+			CreateSavingsAccount createdAccount = autoCreateSavingsAccount(saved);
+
+			// Send email notification with member code and account details
+			String accountNumber = (createdAccount != null) ? createdAccount.getAccountNumber() : null;
+			sendAccountCreationEmail(saved.getEmailId(), saved.getCustomerName(), saved.getMemberCode(), accountNumber);
+
+
+			// Build a unified response with matched fields from both tables
+			Map<String, Object> responseData = new HashMap<>();
+			responseData.put("id", saved.getId());
+			responseData.put("customerId", saved.getId());
+			responseData.put("memberCode", saved.getMemberCode());
+			responseData.put("customerName", saved.getCustomerName());
+			responseData.put("contactNo", saved.getContactNo());
+			responseData.put("branchName", saved.getBranchName());
+			responseData.put("signupDate", saved.getSignupDate());
+			if (createdAccount != null) {
+				responseData.put("savingAccountNumber", createdAccount.getAccountNumber());
+				responseData.put("accountType", createdAccount.getTypeofaccount());
+				responseData.put("accountStatus", createdAccount.getAccountStatus());
+				responseData.put("accountMemberCode", createdAccount.getSelectByCustomer());
+				responseData.put("accountCustomerName", createdAccount.getEnterCustomerName());
+				responseData.put("accountBalance", createdAccount.getBalance());
+				responseData.put("isApproved", createdAccount.isApproved());
+			} else {
+				responseData.put("savingAccountNumber", null);
+				responseData.put("accountCreationNote", "Saving account could not be auto-created. Please check logs.");
+			}
 			return ApiResponse.success(HttpStatus.CREATED,
-					"Customer saved successfully. Member Code: " + saved.getMemberCode(), saved);
+					"Customer saved successfully. Member Code: " + saved.getMemberCode() +
+					(createdAccount != null ? " | Account No: " + createdAccount.getAccountNumber() : ""),
+					responseData);
 		} else {
 			return ApiResponse.success(HttpStatus.OK,
 					"Customer updated successfully. Member Code: " + saved.getMemberCode(), saved);
 		}
 	}
 
-	private void autoCreateSavingsAccount(addCustomer savedCustomer) {
+	private CreateSavingsAccount autoCreateSavingsAccount(addCustomer savedCustomer) {
 		try {
 			// Guard: skip if member code is missing
 			if (savedCustomer.getMemberCode() == null || savedCustomer.getMemberCode().trim().isEmpty()) {
 				System.err.println("Skipping auto savings account creation: memberCode is null for customer ID "
 						+ savedCustomer.getId());
-				return;
+				return null;
 			}
 			// Guard: skip if customer name is missing
 			if (savedCustomer.getCustomerName() == null || savedCustomer.getCustomerName().trim().isEmpty()) {
 				System.err.println("Skipping auto savings account creation: customerName is null for memberCode: " + savedCustomer.getMemberCode());
-				return;
+				return null;
 			}
 			// Guard: skip if savings account already exists for this member
 			if (createSavingAccountRepo.existsBySelectByCustomer(savedCustomer.getMemberCode())) {
 				System.out.println("Savings account already exists for memberCode: " + savedCustomer.getMemberCode());
-				return;
+				// Return existing account so response still includes account number
+				List<CreateSavingsAccount> existingAccounts = createSavingAccountRepo.findBySelectByCustomer(savedCustomer.getMemberCode());
+				return existingAccounts.isEmpty() ? null : existingAccounts.get(0);
 			}
 			CreateSavingsAccount account = new CreateSavingsAccount();
 			account.setTypeofaccount("savingaccount");
 			account.setOpeningDate(savedCustomer.getSignupDate());
+
+			// ✅ Linking: memberCode from add_customer → selectByCustomer in create_savings_account
 			account.setSelectByCustomer(savedCustomer.getMemberCode());
+			// ✅ Linking: customerName from add_customer → enterCustomerName in create_savings_account
 			account.setEnterCustomerName(savedCustomer.getCustomerName());
+
 			account.setDateOfBirth(savedCustomer.getDob());
 			account.setFamilyDetails(savedCustomer.getGuardianName());
 			account.setContactNumber(savedCustomer.getContactNo());
@@ -236,7 +276,7 @@ public class CustomerManagementService {
 			account.setPinCode(savedCustomer.getPinCode());
 			account.setEmailId(savedCustomer.getEmailId());
 			account.setAadharNo(savedCustomer.getAadharNo());
-			account.setAuthenticateWith(savedCustomer.getAuthenticateFor());
+			account.setAuthenticateWith(null);
 
 			if (savedCustomer.getBranchName() != null) {
 				try {
@@ -245,7 +285,6 @@ public class CustomerManagementService {
 					if (branchOpt.isPresent()) {
 						account.setBranchName(branchOpt.get());
 					} else {
-						// Try a list-based fallback if Optional is empty
 						List<BranchModule> allBranches = branchModuleRepo.findAll();
 						allBranches.stream()
 								.filter(b -> savedCustomer.getBranchName().equalsIgnoreCase(b.getBranchName()))
@@ -272,10 +311,17 @@ public class CustomerManagementService {
 			String accountNumber = String.format("2025%08d", maxId + 1);
 			account.setAccountNumber(accountNumber);
 
-			createSavingAccountRepo.save(account);
+			CreateSavingsAccount savedAccount = createSavingAccountRepo.save(account);
+
+			System.out.println("✅ Auto-created savings account | MemberCode: " + savedCustomer.getMemberCode()
+					+ " | CustomerName: " + savedCustomer.getCustomerName()
+					+ " | AccountNumber: " + accountNumber);
+
+			return savedAccount;
 		} catch (Exception e) {
 			System.err.println("Failed to auto-create savings account for customer: " + e.getMessage());
 			e.printStackTrace();
+			return null;
 		}
 	}
 
@@ -573,5 +619,41 @@ public class CustomerManagementService {
 		customerRepo.save(customer);
 
 		return true;
+	}
+
+	private void sendAccountCreationEmail(String emailId, String customerName, String memberCode, String accountNumber) {
+		if (emailId == null || emailId.trim().isEmpty()) {
+			System.out.println("Skipping email notification: No email address provided for " + customerName);
+			return;
+		}
+		try {
+			SimpleMailMessage message = new SimpleMailMessage();
+			message.setFrom("yyeskar@gmail.com");
+			message.setTo(emailId);
+			message.setSubject("Welcome to Samitha Urban Nidhi Limited!");
+			message.setText("Dear " + customerName + ",\n\n" +
+					"We are absolutely thrilled to welcome you to the Samitha Urban family! Thank you for choosing us as your trusted financial partner.\n\n" +
+					"It is our privilege to help you achieve your financial goals. Your customer profile has been successfully set up, and we have opened your new Savings Account.\n\n" +
+					"Below are your account credentials for your reference:\n" +
+					"--------------------------------------------------\n" +
+					"Customer Member Code : " + memberCode + "\n" +
+					"Savings Account No.  : " + (accountNumber != null ? accountNumber : "N/A") + "\n" +
+					"--------------------------------------------------\n\n" +
+					"We are committed to providing you with the highest standard of service, secure banking, and convenient financial solutions. You can manage your account and access our services at your nearest branch.\n\n" +
+					"Should you have any questions or require any assistance, please do not hesitate to contact our customer support team.\n\n" +
+					"Once again, welcome aboard, and we look forward to a long and successful relationship with you!\n\n" +
+					"Warm regards,\n\n" +
+					"Customer Relations Team\n" +
+					"Samitha Urban Nidhi Limited");
+			mailSender.send(message);
+			System.out.println("✅ Email sent successfully to " + emailId);
+		} catch (Exception e) {
+			System.err.println("Failed to send email to " + emailId + ": " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	private String toUpper(String str) {
+		return str == null ? null : str.trim().toUpperCase();
 	}
 }

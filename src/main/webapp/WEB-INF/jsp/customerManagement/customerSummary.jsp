@@ -184,14 +184,14 @@
 				<div class="col-lg-3 mb-5">
 					<label for=""
 						style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">
-						NEWLY ADDED IMAGE
-					</label> <label for="newlyAddedImage" id="drop-area"> <input type="file"
-						accept="image/*" name="newlyAddedImage" id="newlyAddedImage" hidden="hidden"
-						style="background-size: cover; background-repeat: no-repeat" />
-						<div id="img-view">
-							<img src="Uploads/upload.png" alt="upload_icon"
-								id="newlyAddedImagePreview" /><input type="hidden" name="newlyAddedImageHidden"
-								id="newlyAddedImageHidden">
+						SIGNATURE
+					</label> <label for="customerSignature" id="drop-area"> <input type="file"
+					accept="image/*" name="customerSignature" id="customerSignature" hidden="hidden"
+					style="background-size: cover; background-repeat: no-repeat" />
+					<div id="img-view">
+						<img src="Uploads/upload.png" alt="upload_icon"
+							id="customerSignaturePreview" /><input type="hidden" name="customerSignatureHidden"
+							id="customerSignatureHidden">
 
 						</div>
 					</label>

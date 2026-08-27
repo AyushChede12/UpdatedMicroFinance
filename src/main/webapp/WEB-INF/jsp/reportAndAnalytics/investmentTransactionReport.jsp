@@ -130,7 +130,7 @@ body.modal-open {
 
             <!-- ================= HEADER ================= -->
             <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title fw-bold">Microfinance Transaction Report</h5>
+                <h5 class="modal-title fw-bold">Samitha Urban Transaction Report</h5>
                 <button type="button" class="btn-close btn-close-white"
                         data-bs-dismiss="modal"></button>
             </div>

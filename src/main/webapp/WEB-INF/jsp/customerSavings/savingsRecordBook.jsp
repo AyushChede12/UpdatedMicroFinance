@@ -132,7 +132,7 @@
 			<div class="card-body table-responsive" style="width: 100%; margin: auto;">
 
 				<h1 style="margin-top: 35px; text-align: center;">
-					MICROFINANCE SERVICES
+					SAMITHA URBAN NIDHI LTD.
 				</h1>
 				<p style="text-align: center;">
 					ADDRESS : NAGPUR(440024) - MAHARASHTRA

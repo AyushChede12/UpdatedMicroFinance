@@ -35,7 +35,7 @@ $(document).ready(function () {
                     </style>
                 </head>
                 <body onload="window.print();">
-                    <h3>MICROFINANCE PVT. LTD.</h3>
+                    <h3>SAMITHA URBAN NIDHI LTD.</h3>
                     <h5>Customer Share Distinctive Numbers (DNO) Report</h5>
                     <hr/>
                     ${printContent[0].outerHTML}

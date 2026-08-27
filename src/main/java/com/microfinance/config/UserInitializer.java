@@ -35,6 +35,12 @@ public class UserInitializer implements CommandLineRunner {
     @Autowired
     private StateDistrictRepo stateDistrictRepo;
 
+    @Autowired
+    private com.microfinance.repository.CustomerRepo customerRepo;
+
+    @Autowired
+    private com.microfinance.repository.CreateSavingAccountRepo createSavingAccountRepo;
+
     @Override
     public void run(String... args) throws Exception {
         System.out.println("=== DATA INITIALIZER RUNNING ===");

@@ -13,7 +13,7 @@ public class CustomerDto {
 
 	// Customer Details
 	private String memberCode;
-	private String authenticateFor;
+	private String memberType;
 	private String signupDate;
 	private String major;
 	private String customerName;
@@ -21,7 +21,6 @@ public class CustomerDto {
 	private String customerGender;
 	private String guardianName;
 	private String guardianAccountNo;
-	private String relationToApplicant;
 	private String dob;
 	private String customerAge;
 	private String relationshipStatus;
@@ -41,7 +40,6 @@ public class CustomerDto {
 	private String contactNo;
 	private String emailId;
 	private String profession;
-	private String academicBackground;
 	private String occupation;
 	private String education;
 	private String monthlyIncome;
@@ -51,11 +49,11 @@ public class CustomerDto {
 	private String lightBill;
 	private String taxBill;
 
+	private MultipartFile customerAadharImage;
+	private MultipartFile customerPanImage;
 	private MultipartFile customerPhoto;
-	private MultipartFile customerSignature;
-	private MultipartFile customerDriving;
 	private MultipartFile customerVoter;
-	private MultipartFile newlyAddedImage;
+	private MultipartFile customerSignature;
 
 	private String firstName;
 	private String middleName;
@@ -120,12 +118,12 @@ public class CustomerDto {
 		this.memberCode = memberCode;
 	}
 
-	public String getAuthenticateFor() {
-		return authenticateFor;
+	public String getMemberType() {
+		return memberType;
 	}
 
-	public void setAuthenticateFor(String authenticateFor) {
-		this.authenticateFor = authenticateFor;
+	public void setMemberType(String memberType) {
+		this.memberType = memberType;
 	}
 
 	public String getSignupDate() {
@@ -182,14 +180,6 @@ public class CustomerDto {
 
 	public void setGuardianAccountNo(String guardianAccountNo) {
 		this.guardianAccountNo = guardianAccountNo;
-	}
-
-	public String getRelationToApplicant() {
-		return relationToApplicant;
-	}
-
-	public void setRelationToApplicant(String relationToApplicant) {
-		this.relationToApplicant = relationToApplicant;
 	}
 
 	public String getCategory() {
@@ -344,14 +334,6 @@ public class CustomerDto {
 		this.profession = profession;
 	}
 
-	public String getAcademicBackground() {
-		return academicBackground;
-	}
-
-	public void setAcademicBackground(String academicBackground) {
-		this.academicBackground = academicBackground;
-	}
-
 	public String getShareAmount() {
 		return shareAmount;
 	}
@@ -392,28 +374,29 @@ public class CustomerDto {
 		this.taxBill = taxBill;
 	}
 
+
+	public MultipartFile getCustomerAadharImage() {
+		return customerAadharImage;
+	}
+
+	public void setCustomerAadharImage(MultipartFile customerAadharImage) {
+		this.customerAadharImage = customerAadharImage;
+	}
+
+	public MultipartFile getCustomerPanImage() {
+		return customerPanImage;
+	}
+
+	public void setCustomerPanImage(MultipartFile customerPanImage) {
+		this.customerPanImage = customerPanImage;
+	}
+
 	public MultipartFile getCustomerPhoto() {
 		return customerPhoto;
 	}
 
 	public void setCustomerPhoto(MultipartFile customerPhoto) {
 		this.customerPhoto = customerPhoto;
-	}
-
-	public MultipartFile getCustomerSignature() {
-		return customerSignature;
-	}
-
-	public void setCustomerSignature(MultipartFile customerSignature) {
-		this.customerSignature = customerSignature;
-	}
-
-	public MultipartFile getCustomerDriving() {
-		return customerDriving;
-	}
-
-	public void setCustomerDriving(MultipartFile customerDriving) {
-		this.customerDriving = customerDriving;
 	}
 
 	public MultipartFile getCustomerVoter() {
@@ -424,13 +407,14 @@ public class CustomerDto {
 		this.customerVoter = customerVoter;
 	}
 
-	public MultipartFile getNewlyAddedImage() {
-		return newlyAddedImage;
+	public MultipartFile getCustomerSignature() {
+		return customerSignature;
 	}
 
-	public void setNewlyAddedImage(MultipartFile newlyAddedImage) {
-		this.newlyAddedImage = newlyAddedImage;
+	public void setCustomerSignature(MultipartFile customerSignature) {
+		this.customerSignature = customerSignature;
 	}
+
 
 	public String getFirstName() {
 		return firstName;

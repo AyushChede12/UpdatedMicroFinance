@@ -42,21 +42,21 @@ public class CustomerManagementController {
 	CustomerRepo customerRepo;
 
 	@PostMapping("/saveOrUpdateCustomer")
-	public ResponseEntity<ApiResponse<addCustomer>> saveOrUpdateCustomer(@ModelAttribute CustomerDto clientMasterDto,
+	public ResponseEntity<?> saveOrUpdateCustomer(@ModelAttribute CustomerDto clientMasterDto,
+			@RequestParam(value = "customerAadharImage", required = false) MultipartFile customerAadharImage,
+			@RequestParam(value = "customerPanImage", required = false) MultipartFile customerPanImage,
 			@RequestParam(value = "customerPhoto", required = false) MultipartFile customerPhoto,
-			@RequestParam(value = "customerSignature", required = false) MultipartFile customerSignature,
-			@RequestParam(value = "customerDriving", required = false) MultipartFile customerDriving,
 			@RequestParam(value = "customerVoter", required = false) MultipartFile customerVoter,
 			@RequestParam(value = "nomineAadhar", required = false) MultipartFile nomineAadhar,
 			@RequestParam(value = "nomineSignature", required = false) MultipartFile nomineSignature,
-			@RequestParam(value = "newlyAddedImage", required = false) MultipartFile newlyAddedImage)
+			@RequestParam(value = "customerSignature", required = false) MultipartFile customerSignature)
 
 	{
 
 		try {
 
-			ApiResponse<addCustomer> response = customerService.saveOrUpdateCustomer(clientMasterDto, customerPhoto,
-					customerSignature, customerDriving, customerVoter, nomineAadhar, nomineSignature, newlyAddedImage);
+			ApiResponse<?> response = customerService.saveOrUpdateCustomer(clientMasterDto, customerAadharImage,
+					customerPanImage, customerPhoto, customerVoter, nomineAadhar, nomineSignature, customerSignature);
 			return new ResponseEntity<>(response, response.getStatus());
 
 		} catch (Exception e) {

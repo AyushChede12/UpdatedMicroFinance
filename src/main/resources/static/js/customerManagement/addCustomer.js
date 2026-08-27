@@ -4,20 +4,7 @@ $(document).ready(function () {
 	loadCustomerTable();
 
 
-	// Hide Aadhar field initially
-	$("#aadharNo").closest(".col-lg-3").hide();
-
-	$("#authenticateFor").on("change", function () {
-		const val = $(this).val();
-
-		if (val === "aadhar") {
-			$("#aadharNo").closest(".col-lg-3").show();
-			$("#aadharNo").prop("required", true);
-		} else {
-			$("#aadharNo").closest(".col-lg-3").hide();
-			$("#aadharNo").prop("required", false).val("");
-		}
-	});
+	// Aadhar field is always visible and required
 
 
 
@@ -68,13 +55,7 @@ $(document).ready(function () {
 
 		// ----------- VALIDATION ------------
 
-		// validateText('authenticateFor', 'chkauthenticatefor', 'Please select authenticate for');
-
-		// if (authenticate == 'aadhar') {
-		// 	validateText('aadharNo', 'chkaadharno', 'Please enter Aadhar number');
-		// }
-		// Aadhar is now validated directly if required
-		// validateText('aadharNo', 'chkaadharno', 'Please enter Aadhar number');
+		validateText('aadharNo', 'chkaadharno', 'Please enter Aadhar number');
 
 		validateText('signupDate', 'chksignupdate', 'Please select signup date');
 		validateText('firstName', 'chkfirstname', 'Please enter first name');
@@ -100,13 +81,13 @@ $(document).ready(function () {
 
 		// ---------- FILE VALIDATION ----------
 
-		const customerPhoto = validateFile('customerPhoto', 'chkaadharimage', 'Select aadhar image', ['image/jpeg', 'image/png'], 2);
-		const customerSignature = validateFile('customerSignature', 'chkpanimage', 'Select signature', ['image/jpeg', 'image/png'], 1);
+		const customerAadharImage = validateFile('customerAadharImage', 'chkaadharimage', 'Select aadhar image', ['image/jpeg', 'image/png'], 2);
+		const customerPanImage = validateFile('customerPanImage', 'chkpanimage', 'Select pan image', ['image/jpeg', 'image/png'], 1);
 		const customerVoter = validateFile('customerVoter', 'chkvoterimage', 'Select voter image', ['image/jpeg', 'image/png'], 2);
-		const customerDriving = validateFile('customerDriving', 'chklicenseimage', 'Select license image', ['image/jpeg', 'image/png'], 2);
+		const customerPhoto = validateFile('customerPhoto', 'chklicenseimage', 'Select photo', ['image/jpeg', 'image/png'], 2);
 		const nomineAadhar = validateFile('nomineAadhar', 'chknomineeaadhar', 'Select nominee aadhar', ['image/jpeg', 'image/png'], 2);
 		const nomineSignature = validateFile('nomineSignature', 'chknomineesignature', 'Select nominee signature', ['image/jpeg', 'image/png'], 2);
-		const newlyAddedImage = validateFile('newlyAddedImage', 'chknewlyaddedimage', 'Select newly added image', ['image/jpeg', 'image/png'], 2);
+		const customerSignature = validateFile('customerSignature', 'chknewlyaddedimage', 'Select signature', ['image/jpeg', 'image/png'], 2);
 
 		if (!isValid) return false;
 
@@ -148,6 +129,7 @@ $(document).ready(function () {
 		formData.append("pinCode", $('#pinCode').val());
 
 		formData.append("branchName", $('#branchName').val());
+		formData.append("memberType", $('#memberType').val());
 
 		formData.append("aadharNo", $('#aadharNo').val());
 		formData.append("panNo", $('#panNo').val());
@@ -175,8 +157,8 @@ $(document).ready(function () {
 		formData.append("noOfShare", $('#noOfShare').val());
 		formData.append("shareValue", $('#shareValue').val());
 
-		//		formData.append("lightBill", $('#lightBill').val());
-		//		formData.append("taxBill", $('#taxBill').val());
+		formData.append("lightBill", $('#lightBill').val());
+		formData.append("taxBill", $('#taxBill').val());
 
 		// Nominee
 		formData.append("nomineeName", $('#nomineeName').val());
@@ -215,13 +197,13 @@ $(document).ready(function () {
 		formData.append("smsSend", $('#toggle-sms-status').is(":checked") ? "1" : "0");
 
 		// Files
-		if (customerPhoto) formData.append("customerPhoto", customerPhoto);
-		if (customerSignature) formData.append("customerSignature", customerSignature);
+		if (customerAadharImage) formData.append("customerAadharImage", customerAadharImage);
+		if (customerPanImage) formData.append("customerPanImage", customerPanImage);
 		if (customerVoter) formData.append("customerVoter", customerVoter);
-		if (customerDriving) formData.append("customerDriving", customerDriving);
+		if (customerPhoto) formData.append("customerPhoto", customerPhoto);
 		if (nomineAadhar) formData.append("nomineAadhar", nomineAadhar);
 		if (nomineSignature) formData.append("nomineSignature", nomineSignature);
-		if (newlyAddedImage) formData.append("newlyAddedImage", newlyAddedImage);
+		if (customerSignature) formData.append("customerSignature", customerSignature);
 
 		// -------- AJAX --------
 
@@ -234,7 +216,9 @@ $(document).ready(function () {
 			success: function (response) {
 				if (response.data) {
 					const customerId = response.data.id;
-					const saveMsg = response.message || "Customer saved successfully!";
+					const memberCode = response.data.memberCode;
+					const savingAccountNumber = response.data.savingAccountNumber || "N/A";
+					const saveMsg = `Customer Registered Successfully!\n\nMember Code: ${memberCode}\nSavings Account Number: ${savingAccountNumber}`;
 					uploadExtraImages(customerId, saveMsg);
 				} else {
 					alert(response.message || "Customer saved successfully!");
@@ -288,10 +272,10 @@ $(document).ready(function () {
 
 		// 🔹 Append file fields
 		const files = {
-			"customerPhoto": $('#customerPhoto')[0]?.files[0],
-			"customerSignature": $('#customerSignature')[0]?.files[0],
+			"customerAadharImage": $('#customerAadharImage')[0]?.files[0],
+			"customerPanImage": $('#customerPanImage')[0]?.files[0],
 			"customerVoter": $('#customerVoter')[0]?.files[0],
-			"customerDriving": $('#customerDriving')[0]?.files[0]
+			"customerPhoto": $('#customerPhoto')[0]?.files[0]
 		};
 
 		Object.entries(files).forEach(([key, file]) => {
@@ -434,7 +418,7 @@ $(document).ready(function () {
 });
 
 function photopreview() {
-	const file = document.getElementById("customerPhoto").files[0];
+	const file = document.getElementById("customerAadharImage").files[0];
 	if (file && file.type.startsWith("image/")) {
 		const reader = new FileReader();
 		reader.onload = function (e) {
@@ -455,7 +439,7 @@ function photopreview() {
 
 //Ayush
 function signpreview() {
-	const file = document.getElementById("customerSignature").files[0];
+	const file = document.getElementById("customerPanImage").files[0];
 	if (file && file.type.startsWith("image/")) {
 		const reader = new FileReader();
 		reader.onload = function (e) {
@@ -493,7 +477,7 @@ function voterpreview() {
 }
 
 function drivingpreview() {
-	const file = document.getElementById("customerDriving").files[0];
+	const file = document.getElementById("customerPhoto").files[0];
 	if (file && file.type.startsWith("image/")) {
 		const reader = new FileReader();
 		reader.onload = function (e) {
@@ -588,11 +572,11 @@ function nomineeAadharPreview() {
 }
 
 function newlyaddedpreview() {
-	const file = document.getElementById("newlyAddedImage").files[0];
+	const file = document.getElementById("customerSignature").files[0];
 	if (file && file.type.startsWith("image/")) {
 		const reader = new FileReader();
 		reader.onload = function (e) {
-			const previewImg = document.getElementById("newlyAddedImagePreview");
+			const previewImg = document.getElementById("customerSignaturePreview");
 			previewImg.src = e.target.result;
 			previewImg.style.width = "100%";
 			previewImg.style.height = "100%";

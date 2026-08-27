@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login - MicroFinance</title>
+<title>Login - Samitha Urban Nidhi Ltd.</title>
 <script src="https://kit.fontawesome.com/ae73087723.js"
 	crossorigin="anonymous"></script>
 <!-- Only one jQuery -->

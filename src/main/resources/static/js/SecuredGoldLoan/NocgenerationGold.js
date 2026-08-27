@@ -71,7 +71,7 @@ $(document).ready(function() {
 					let content = `
 	        <div style="padding:30px; font-family:'Times New Roman', serif; border:2px solid #000; background:#fff; line-height:1.6;">
 	            
-	            <h2 style="text-align:center; margin:0; color:#FFA500;">Microfinance Cooperative Bank Ltd.</h2>
+	            <h2 style="text-align:center; margin:0; color:#FFA500;">Samitha Urban Nidhi Ltd.</h2>
 	            <h4 style="text-align:center; margin:0;">Branch: ${goldData.branchName || "-"}</h4>
 	            <h3 style="text-align:center; margin:15px 0; text-decoration:underline;">No Objection Certificate (NOC)</h3>
 
@@ -88,7 +88,7 @@ $(document).ready(function() {
 	            <p>Dear <b>${goldData.customerName || "-"}</b>,</p>
 
 	            <p>This is to certify that you availed a Gold Loan from 
-	            <b>Microfinance Cooperative Bank Ltd.</b> under the loan plan 
+	            <b>Samitha Urban Nidhi Ltd.</b> under the loan plan 
 	            <b>${goldData.loanPlanName || "-"}</b>, starting from 
 	            <b>${goldData.dateOfLoan || "-"}</b> for an amount of 
 	            <b>${goldData.loanAmount || "-"}</b>.
@@ -106,13 +106,13 @@ $(document).ready(function() {
 	            </p>
 
 	            <p style="margin-bottom:40px;">
-	            Thank you for banking with <b>Microfinance Cooperative Bank Ltd.</b>.
+	            Thank you for banking with <b>Samitha Urban Nidhi Ltd.</b>.
 	            We look forward to serving you again.
 	            </p>
 
 	            <p style="text-align:right; margin-top:20px;">
 	                Authorized Signatory<br>
-	                <b>Microfinance Cooperative Bank Ltd.</b>
+	                <b>Samitha Urban Nidhi Ltd.</b>
 	            </p>
 	        </div>
 	        `;

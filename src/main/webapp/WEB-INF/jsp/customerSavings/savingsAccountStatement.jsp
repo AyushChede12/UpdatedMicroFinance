@@ -53,8 +53,7 @@
 
 							<!-- HEADER -->
 							<div class="text-center mb-3">
-								<h3 style="color: red; margin-bottom: 0;">MICROFINANCE
-									SOFTWARE</h3>
+								<h3 style="color: red; margin-bottom: 0;">SAMITHA URBAN NIDHI LTD.</h3>
 								<p style="margin-top: -5px;">NAGPUR</p>
 							</div>
 

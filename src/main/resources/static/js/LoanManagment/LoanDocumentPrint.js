@@ -109,7 +109,7 @@ $(document).ready(function() {
 
 						content = `
         <div style="padding:20px; font-family:Arial; border:2px solid #000;">
-            <h2 style="text-align:center; margin:0;">Microfinance Cooperative Bank Ltd.</h2>
+            <h2 style="text-align:center; margin:0;">Samitha Urban Nidhi Ltd.</h2>
             <h4 style="text-align:center; margin:0;">Branch: ${loanData.branchName || "-"}</h4>
             <h3 style="text-align:center; margin:15px 0; text-decoration:underline;">Loan Application Form</h3>
 
@@ -254,7 +254,7 @@ $(document).ready(function() {
 					else if (docType === "sanctionLetter") {
 						content = `
         <div style="padding:20px; font-family:Arial; border:2px solid #000; background:#f9f9f9;">
-            <h2 style="text-align:center; margin:0;">Microfinance Cooperative Bank Ltd.</h2>
+            <h2 style="text-align:center; margin:0;">Samitha Urban Nidhi Ltd.</h2>
             <h4 style="text-align:center; margin:0;">Branch: ${loanData.branchName || "-"}</h4>
             <h3 style="text-align:center; margin:15px 0; text-decoration:underline;">Loan Sanction Letter</h3>
 
@@ -275,7 +275,7 @@ $(document).ready(function() {
            <p style="font-size:15px; text-align:justify;">
    We are pleased to inform you that your loan application has been carefully reviewed and successfully approved. 
    This sanction has been granted after considering your eligibility, repayment capacity, and the rules and policies 
-   of the Microfinance Cooperative Bank Ltd. The sanctioned loan will help you meet your financial requirements, 
+   of the Samitha Urban Nidhi Ltd. The sanctioned loan will help you meet your financial requirements, 
    and it will be governed by the terms and conditions as mentioned below. Please find the key details of your 
    sanctioned loan for your reference:
 </p>
@@ -344,18 +344,18 @@ $(document).ready(function() {
 					} else if (docType === "loanAgreement") {
 						content = `
         <div style="padding:20px; font-family:Arial; border:2px solid #000; background:#fdfdfd;">
-            <h2 style="text-align:center; margin:0;">Microfinance Cooperative Bank Ltd.</h2>
+            <h2 style="text-align:center; margin:0;">Samitha Urban Nidhi Ltd.</h2>
             <h4 style="text-align:center; margin:0;">Branch: ${loanData.branchName || "-"}</h4>
             <h3 style="text-align:center; margin:15px 0; text-decoration:underline;">Loan Agreement</h3>
 
             <p><b>Date:</b> ${new Date().toLocaleDateString('en-GB')}</p>
             <p><b>Loan Reference No:</b> ${loanData.loanId}</p>
 
-            <p><b>This Loan Agreement is executed on the date mentioned above, between the Microfinance Cooperative Bank Ltd. 
+            <p><b>This Loan Agreement is executed on the date mentioned above, between the Samitha Urban Nidhi Ltd. 
              and Mr./Ms. ${loanData.memberName || "________"}.</b></p>
 
             <p>
-                <b>Lender:</b> Microfinance Cooperative Bank Ltd., having its registered office at ${loanData.branchName || "-"}.<br>
+                <b>Lender:</b> Samitha Urban Nidhi Ltd., having its registered office at ${loanData.branchName || "-"}.<br>
                 <b>Borrower:</b> ${loanData.memberName || "-"}, residing at ${loanData.address || "-"}.
             </p>
 

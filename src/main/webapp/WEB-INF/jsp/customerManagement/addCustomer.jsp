@@ -86,15 +86,6 @@
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields">
-							<label for="">AADHAR NO <span class="star">*</span></label> <input type="text"
-								name="aadharNo" id="aadharNo" required="required" style="text-transform: uppercase;"
-								placeholder="ENTER AADHAR NO" />
-							<small id="chkaadharno" style="color: red;"></small>
-						</div>
-					</div>
-
-					<div class="col-lg-3">
-						<div class="d-flex flex-column formFields">
 							<label for="vehicalNo">SIGN-UP DATE <span class="star">*</span></label>
 							<input type="date" style="text-transform: uppercase;" name="signupDate" id="signupDate" />
 							<small id="chksignupdate" style="color: red;"></small>
@@ -314,6 +305,15 @@
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields">
+							<label for="">AADHAR NO <span class="star">*</span></label> <input type="text"
+								name="aadharNo" id="aadharNo" required="required" style="text-transform: uppercase;"
+								placeholder="ENTER AADHAR NO" />
+							<small id="chkaadharno" style="color: red;"></small>
+						</div>
+					</div>
+
+					<div class="col-lg-3">
+						<div class="d-flex flex-column formFields">
 							<label for="">PAN NO <span class="star">*</span></label> <input type="text" name="panNo"
 								id="panNo" required="required" style="text-transform: uppercase;"
 								placeholder="ENTER PAN NO" />
@@ -434,8 +434,8 @@
 						<label for=""
 							style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">AADHAR
 							CARD <span class="star">*</span>
-						</label> <label for="customerPhoto" id="drop-area"> <input type="file" accept="image/*"
-								name="customerPhoto" id="customerPhoto" hidden="hidden" onchange="photopreview();"
+						</label> <label for="customerAadharImage" id="drop-area"> <input type="file" accept="image/*"
+								name="customerAadharImage" id="customerAadharImage" hidden="hidden" onchange="photopreview();"
 								style="background-size: cover; background-repeat: no-repeat" />
 							<div id="img-view">
 								<img src="Uploads/upload.png" alt="upload_icon" id="bike1imagePreview" />
@@ -448,8 +448,8 @@
 						<label for=""
 							style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">PAN
 							CARD <span class="star">*</span>
-						</label> <label for="customerSignature" id="drop-area"> <input type="file" accept="image/*"
-								name="customerSignature" id="customerSignature" hidden="hidden"
+						</label> <label for="customerPanImage" id="drop-area"> <input type="file" accept="image/*"
+								name="customerPanImage" id="customerPanImage" hidden="hidden"
 								onchange="signpreview();"
 								style="background-size: cover; background-repeat: no-repeat" />
 							<div id="img-view">
@@ -475,10 +475,9 @@
 
 					<div class="col-lg-3 mb-5">
 						<label for=""
-							style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">DRIVING
-							LICENSE <span class="star">*</span>
-						</label> <label for="customerDriving" id="drop-area"> <input type="file" accept="image/*"
-								name="customerDriving" id="customerDriving" hidden="hidden" onchange="drivingpreview();"
+							style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">PHOTO <span class="star">*</span>
+						</label> <label for="customerPhoto" id="drop-area"> <input type="file" accept="image/*"
+								name="customerPhoto" id="customerPhoto" hidden="hidden" onchange="drivingpreview();"
 								style="background-size: cover; background-repeat: no-repeat" />
 							<div id="img-view">
 								<img src="Uploads/upload.png" alt="upload_icon" id="bike4imagePreview" />
@@ -489,14 +488,13 @@
 
 					<div class="col-lg-3 mb-5">
 						<label for=""
-							style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">NEWLY
-							ADDED IMAGE <span class="star">*</span>
-						</label> <label for="newlyAddedImage" id="drop-area"> <input type="file" accept="image/*"
-								name="newlyAddedImage" id="newlyAddedImage" hidden="hidden"
+							style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">SIGNATURE <span class="star">*</span>
+						</label> <label for="customerSignature" id="drop-area"> <input type="file" accept="image/*"
+								name="customerSignature" id="customerSignature" hidden="hidden"
 								onchange="newlyaddedpreview();"
 								style="background-size: cover; background-repeat: no-repeat" />
 							<div id="img-view">
-								<img src="Uploads/upload.png" alt="upload_icon" id="newlyAddedImagePreview" />
+								<img src="Uploads/upload.png" alt="upload_icon" id="customerSignaturePreview" />
 
 							</div>
 						</label> <small id="chknewlyaddedimage" style="color: red;"></small>

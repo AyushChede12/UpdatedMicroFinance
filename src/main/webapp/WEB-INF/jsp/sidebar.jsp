@@ -79,40 +79,40 @@
 			</ul></li>
 
 
-		<!-- Customer Management -->
+		<!-- Member Management -->
 
 		<li class="nav-item"><a class="nav-link collapsed"
 			href="#customer-management" data-toggle="collapse">
 				<div class="d-flex">
 					<i class="bi bi-people-fill text-white"></i> <span
-						style="font-family: 'Poppins', sans-serif">CUSTOMER
+						style="font-family: 'Poppins', sans-serif">MEMBER
 						MANAGEMENT</span>
 				</div> <i class="bi bi-chevron-down"></i>
 		</a>
 
 			<ul id="customer-management" class="nav-content collapse">
 				<li><a href="${baseUrl}/addCustomer"> <i class="bi bi-circle"></i> <span
-						style="font-family: 'Poppins', sans-serif">ADD CUSTOMER</span>
+						style="font-family: 'Poppins', sans-serif">ADD MEMBER</span>
 				</a></li>
 
 				<li><a href="${baseUrl}/addCustomerKYC"> <i class="bi bi-circle"></i>
 						<span style="font-family: 'Poppins', sans-serif">ADD
-							CUSTOMER KYC</span>
+							MEMBER KYC</span>
 				</a></li>
 
 				<li><a href="${baseUrl}/customerSummary"> <i class="bi bi-circle"></i>
-						<span style="font-family: 'Poppins', sans-serif">CUSTOMER
+						<span style="font-family: 'Poppins', sans-serif">MEMBER
 							SUMMARY</span>
 				</a></li>
 
 				<li><a href="${baseUrl}/customerReport"> <i class="bi bi-circle"></i>
-						<span style="font-family: 'Poppins', sans-serif">CUSTOMER
+						<span style="font-family: 'Poppins', sans-serif">MEMBER
 							REPORT</span>
 				</a></li>
 
 				<li><a href="${baseUrl}/searchCustomer"> <i class="bi bi-circle"></i>
 						<span style="font-family: 'Poppins', sans-serif">SEARCH
-							CUSTOMER</span>
+							MEMBER</span>
 				</a></li>
 			</ul></li>
 
@@ -122,8 +122,7 @@
 			href="#member-share" data-toggle="collapse">
 				<div class="d-flex">
 					<i class="bi bi-building-fill-down text-white"></i> <span
-						style="font-family: 'Poppins', sans-serif">CUSTOMER
-						SHAREHOLDING</span>
+						style="font-family: 'Poppins', sans-serif">SHARE CAPITAL & HOLDINGS</span>
 				</div> <i class="bi bi-chevron-down"></i>
 		</a>
 
@@ -156,8 +155,7 @@
 			href="#account-section" data-toggle="collapse">
 				<div class="d-flex">
 					<i class="bi bi-wallet2 text-white"></i> <span
-						style="font-family: 'Poppins', sans-serif">ACCOUNT
-						MANAGEMENT</span>
+						style="font-family: 'Poppins', sans-serif">GENERAL LEDGER & ACCOUNTS</span>
 				</div> <i class="bi bi-chevron-down"></i>
 		</a>
 
@@ -266,8 +264,7 @@
 			href="#saving-account" data-toggle="collapse">
 				<div class="d-flex">
 					<i class="bi bi-bank text-white"></i> <span
-						style="font-family: 'Poppins', sans-serif">SAVING / CURRENT
-						ACCOUNT</span>
+						style="font-family: 'Poppins', sans-serif">DEPOSITS & ACCOUNTS</span>
 				</div> <i class="bi bi-chevron-down"></i>
 		</a>
 
@@ -350,8 +347,7 @@
 			href="#investment-section" data-toggle="collapse">
 				<div class="d-flex">
 					<i class="bi bi-piggy-bank text-white"></i> <span
-						style="font-family: 'Poppins', sans-serif">POLICY
-						MANAGEMENT</span>
+						style="font-family: 'Poppins', sans-serif">SCHEME & POLICY MANAGEMENT</span>
 				</div> <i class="bi bi-chevron-down"></i>
 		</a>
 
@@ -433,7 +429,7 @@
 			href="#loan-section" data-toggle="collapse">
 				<div class="d-flex">
 					<i class="bi bi-cash-coin text-white"></i> <span
-						style="font-family: 'Poppins', sans-serif">LOAN MANAGEMENT</span>
+						style="font-family: 'Poppins', sans-serif">CREDIT & ADVANCES</span>
 				</div> <i class="bi bi-chevron-down"></i>
 		</a>
 
@@ -526,8 +522,7 @@
 			href="#Goldloan-section" data-toggle="collapse">
 				<div class="d-flex">
 					<i class="bi bi-coin text-white"></i> <span
-						style="font-family: 'Poppins', sans-serif">SECURED GOLD
-						LOAN</span>
+						style="font-family: 'Poppins', sans-serif">JEWELLERY LOANS</span>
 				</div> <i class="bi bi-chevron-down"></i>
 		</a>
 
@@ -604,8 +599,7 @@
 			href="#group-loan-section" data-toggle="collapse">
 				<div class="d-flex">
 					<i class="bi bi-person-bounding-box text-white"></i> <span
-						style="font-family: 'Poppins', sans-serif">JOINT LIABILITY
-						LOAN</span>
+						style="font-family: 'Poppins', sans-serif">GROUP LIABILITIES</span>
 				</div> <i class="bi bi-chevron-down"></i>
 		</a>
 
@@ -667,15 +661,14 @@
 			href="#approval-section" data-toggle="collapse">
 				<div class="d-flex">
 					<i class="bi bi-check-circle text-white"></i> <span
-						style="font-family: 'Poppins', sans-serif">REQUEST
-						APPROVALS</span>
+						style="font-family: 'Poppins', sans-serif">BOARD APPROVALS</span>
 				</div> <i class="bi bi-chevron-down"></i>
 		</a>
 
 			<ul id="approval-section" class="nav-content collapse">
 				<li><a href="${baseUrl}/approveNewCustomer"> <i class="bi bi-circle"></i>
 						<span style="font-family: 'Poppins', sans-serif">APPROVE
-							CUSTOMER</span>
+							MEMBER</span>
 				</a></li>
 
 				<li><a href="${baseUrl}/approveShare"> <i class="bi bi-circle"></i> <span
@@ -758,13 +751,13 @@
 			href="#rectification-section" data-toggle="collapse">
 				<div class="d-flex">
 					<i class="bi bi-pencil-square text-white"></i> <span
-						style="font-family: 'Poppins', sans-serif">DATA CORRECTION</span>
+						style="font-family: 'Poppins', sans-serif">AUDIT CORRECTIONS</span>
 				</div> <i class="bi bi-chevron-down"></i>
 		</a>
 
 			<ul id="rectification-section" class="nav-content collapse">
 				<li><a href="${baseUrl}/customerDataUpdate"> <i class="bi bi-circle"></i>
-						<span style="font-family: 'Poppins', sans-serif">CUSTOMER
+						<span style="font-family: 'Poppins', sans-serif">MEMBER
 							DATA UPDATE</span>
 				</a></li>
 
@@ -833,8 +826,7 @@
 			href="#maturity-section" data-toggle="collapse">
 				<div class="d-flex">
 					<i class="bi bi-calendar-check text-white"></i> <span
-						style="font-family: 'Poppins', sans-serif">MATURITY
-						MANAGEMENT</span>
+						style="font-family: 'Poppins', sans-serif">DEPOSIT MATURITIES</span>
 				</div> <i class="bi bi-chevron-down"></i>
 		</a>
 
@@ -893,8 +885,7 @@
 			href="#incentive-section" data-toggle="collapse">
 				<div class="d-flex">
 					<i class="bi bi-award text-white"></i> <span
-						style="font-family: 'Poppins', sans-serif">INCENTIVE
-						MANAGEMENT</span>
+						style="font-family: 'Poppins', sans-serif">COMMISSION & INCENTIVES</span>
 				</div> <i class="bi bi-chevron-down"></i>
 		</a>
 
@@ -931,8 +922,7 @@
 			href="#collector-advisor" data-toggle="collapse">
 				<div class="d-flex">
 					<i class="bi bi-briefcase text-white"></i> <span
-						style="font-family: 'Poppins', sans-serif">FINANCIAL
-						CONSULTANT</span>
+						style="font-family: 'Poppins', sans-serif">COLLECTION AGENTS</span>
 				</div> <i class="bi bi-chevron-down"></i>
 		</a>
 
@@ -975,7 +965,7 @@
 			href="#employee-section" data-toggle="collapse">
 				<div class="d-flex">
 					<i class="bi bi-person-workspace text-white"></i> <span
-						style="font-family: 'Poppins', sans-serif">TEAM MANAGEMENT</span>
+						style="font-family: 'Poppins', sans-serif">STAFF REGISTRY</span>
 				</div> <i class="bi bi-chevron-down"></i>
 		</a>
 
@@ -1013,8 +1003,7 @@
 			href="#report-section" data-toggle="collapse">
 				<div class="d-flex">
 					<i class="bi bi-file-earmark-text text-white"></i> <span
-						style="font-family: 'Poppins', sans-serif">REPORTS &
-						ANALYTICS</span>
+						style="font-family: 'Poppins', sans-serif">FINANCIAL AUDITS & REPORTS</span>
 				</div> <i class="bi bi-chevron-down"></i>
 		</a>
 

@@ -17,8 +17,8 @@ public class addCustomer {
 	@Column(name = "member_code", length = 50)
 	private String memberCode;
 
-	@Column(name = "authenticate_for", length = 50)
-	private String authenticateFor;
+	@Column(name = "member_type", length = 50)
+	private String memberType;
 
 	@Column(name = "signup_date", length = 20)
 	private String signupDate;
@@ -40,9 +40,6 @@ public class addCustomer {
 
 	@Column(name = "guardian_account_no", length = 30)
 	private String guardianAccountNo;
-
-	@Column(name = "relation_to_applicant", length = 50)
-	private String relationToApplicant;
 
 	@Column(name = "dob", length = 20)
 	private String dob;
@@ -116,9 +113,6 @@ public class addCustomer {
 	@Column(name = "tax_bill", length = 100)
 	private String taxBill;
 
-	@Column(name = "academic_background", length = 100)
-	private String academicBackground;
-
 	@Column(name = "occupation", length = 100)
 	private String occupation;
 
@@ -128,20 +122,20 @@ public class addCustomer {
 	@Column(name = "monthly_income", length = 20)
 	private String monthlyIncome;
 
+	@Column(name = "customer_aadhar_image")
+	private String customerAadharImage;
+
+	@Column(name = "customer_pan_image")
+	private String customerPanImage;
+
+	@Column(name = "customer_voter")
+	private String customerVoter;
+
 	@Column(name = "customer_photo")
 	private String customerPhoto;
 
 	@Column(name = "customer_signature")
 	private String customerSignature;
-
-	@Column(name = "customer_voter")
-	private String customerVoter;
-
-	@Column(name = "customer_driving")
-	private String customerDriving;
-
-	@Column(name = "newly_added_image")
-	private String newlyAddedImage;
 
 	@Column(name = "customer_extra_image", length = 3000)
 	private String customerExtraImage;
@@ -269,12 +263,12 @@ public class addCustomer {
 		this.memberCode = memberCode;
 	}
 
-	public String getAuthenticateFor() {
-		return authenticateFor;
+	public String getMemberType() {
+		return memberType;
 	}
 
-	public void setAuthenticateFor(String authenticateFor) {
-		this.authenticateFor = authenticateFor;
+	public void setMemberType(String memberType) {
+		this.memberType = memberType;
 	}
 
 	public String getSignupDate() {
@@ -323,14 +317,6 @@ public class addCustomer {
 
 	public void setGuardianName(String guardianName) {
 		this.guardianName = guardianName;
-	}
-
-	public String getRelationToApplicant() {
-		return relationToApplicant;
-	}
-
-	public void setRelationToApplicant(String relationToApplicant) {
-		this.relationToApplicant = relationToApplicant;
 	}
 
 	public String getDob() {
@@ -533,12 +519,28 @@ public class addCustomer {
 		this.taxBill = taxBill;
 	}
 
-	public String getAcademicBackground() {
-		return academicBackground;
+	public String getCustomerAadharImage() {
+		return customerAadharImage;
 	}
 
-	public void setAcademicBackground(String academicBackground) {
-		this.academicBackground = academicBackground;
+	public void setCustomerAadharImage(String customerAadharImage) {
+		this.customerAadharImage = customerAadharImage;
+	}
+
+	public String getCustomerPanImage() {
+		return customerPanImage;
+	}
+
+	public void setCustomerPanImage(String customerPanImage) {
+		this.customerPanImage = customerPanImage;
+	}
+
+	public String getCustomerVoter() {
+		return customerVoter;
+	}
+
+	public void setCustomerVoter(String customerVoter) {
+		this.customerVoter = customerVoter;
 	}
 
 	public String getCustomerPhoto() {
@@ -555,30 +557,6 @@ public class addCustomer {
 
 	public void setCustomerSignature(String customerSignature) {
 		this.customerSignature = customerSignature;
-	}
-
-	public String getCustomerVoter() {
-		return customerVoter;
-	}
-
-	public void setCustomerVoter(String customerVoter) {
-		this.customerVoter = customerVoter;
-	}
-
-	public String getCustomerDriving() {
-		return customerDriving;
-	}
-
-	public void setCustomerDriving(String customerDriving) {
-		this.customerDriving = customerDriving;
-	}
-
-	public String getNewlyAddedImage() {
-		return newlyAddedImage;
-	}
-
-	public void setNewlyAddedImage(String newlyAddedImage) {
-		this.newlyAddedImage = newlyAddedImage;
 	}
 
 	public String getCustomerExtraImage() {

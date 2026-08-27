@@ -30,7 +30,7 @@ $(document).ready(function () {
 
         // Fill certificate fields
         $('#customeridandName').text((selectedRow.findByCode || '') + " - " + (selectedRow.customerName || ''));
-        $('#certificateno').text(selectedRow.certificateNo || 'SCF/MICROFINANCE/' + new Date().getFullYear() + '/00000' + (selectedRow.id || '1'));
+        $('#certificateno').text(selectedRow.certificateNo || 'SCF/SAMITHA_URBAN/' + new Date().getFullYear() + '/00000' + (selectedRow.id || '1'));
         $('#numberofshare').text(selectedRow.noOfShare || '0');
         $('#amounttransferred').text(selectedRow.amountTransferred || '0.00');
         $('#branchname').text(selectedRow.branch || 'N/A');

@@ -78,7 +78,7 @@
 							<!-- Certificate Form Starts Here -->
 							<div class="p-4">
 								<h3 class="text-center mb-2" style="color: #1b5e20; font-weight: bold;">
-									MICROFINANCE PVT. LTD.
+									SAMITHA URBAN NIDHI LTD.
 								</h3>
 								<h5 class="text-center text-muted mb-4">SHARE CERTIFICATE</h5>
 

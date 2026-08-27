@@ -167,7 +167,7 @@ $(document).ready(function() {
 					if (docType === "applicantForm") {
 						content = `
 	                    <div style="padding:20px; font-family:Arial; border:2px solid #000;">
-	                        <h2 style="text-align:center;">Microfinance Cooperative Bank Ltd.</h2>
+	                        <h2 style="text-align:center;">Samitha Urban Nidhi Ltd.</h2>
 	                        <h4 style="text-align:center;">Branch: ${goldData.branchName || "-"}</h4>
 	                        <h3 style="text-align:center; text-decoration:underline;">Gold Loan Application Form</h3>
 
@@ -236,7 +236,7 @@ $(document).ready(function() {
 					else if (docType === "sanctionLetter") {
 						content = `
 	                    <div style="padding:20px; font-family:Arial; border:2px solid #000;">
-	                        <h2 style="text-align:center;">Microfinance Cooperative Bank Ltd.</h2>
+	                        <h2 style="text-align:center;">Samitha Urban Nidhi Ltd.</h2>
 	                        <h4 style="text-align:center;">Branch: ${goldData.branchName || "-"}</h4>
 	                        <h3 style="text-align:center; text-decoration:underline;">Gold Loan Sanction Letter</h3>
 
@@ -275,18 +275,18 @@ $(document).ready(function() {
 					else if (docType === "loanAgreement") {
 						content = `
 					        <div style="padding:20px; font-family:Arial; border:2px solid #000; background:#fdfdfd;">
-					            <h2 style="text-align:center; margin:0;">Microfinance Cooperative Bank Ltd.</h2>
+					            <h2 style="text-align:center; margin:0;">Samitha Urban Nidhi Ltd.</h2>
 					            <h4 style="text-align:center; margin:0;">Branch: ${goldData.branchName || "-"}</h4>
 					            <h3 style="text-align:center; margin:15px 0; text-decoration:underline;">Gold Loan Agreement</h3>
 
 					            <p><b>Date:</b> ${new Date().toLocaleDateString('en-GB')}</p>
 					            <p><b>Gold Loan Reference No:</b> ${goldData.goldID || "-"}</p>
 
-					            <p><b>This Gold Loan Agreement is executed on the date mentioned above, between Microfinance Cooperative Bank Ltd.
+					            <p><b>This Gold Loan Agreement is executed on the date mentioned above, between Samitha Urban Nidhi Ltd.
 					             and Mr./Ms. ${goldData.customerName || "________"}.</b></p>
 
 					            <p>
-					                <b>Lender:</b> Microfinance Cooperative Bank Ltd., ${goldData.branchName || "-"}.<br>
+					                <b>Lender:</b> Samitha Urban Nidhi Ltd., ${goldData.branchName || "-"}.<br>
 					                <b>Borrower:</b> ${goldData.customerName || "-"}, residing at ${goldData.address || "-"}.
 					            </p>
 

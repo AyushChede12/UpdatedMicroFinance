@@ -155,7 +155,7 @@
 
 			<!-- <div id="transactionSection" class="transaction-section">
 						<div style="width: 70%; margin: auto">
-							<h1>Microfinance Services</h1>
+							<h1>SAMITHA URBAN NIDHI LTD.</h1>
 							<p>Address : Nagpur(440024) - Maharashtra</p>
 							<hr />
 
