@@ -694,7 +694,7 @@ public class PreferenceService {
 
 		Optional<CompanyImageUploads> opt = companyImageUploadsRepo.findById(id);
 
-		if (opt.isPresent()) {
+		if (!opt.isPresent()) {
 			return false;
 		}
 
@@ -714,6 +714,11 @@ public class PreferenceService {
 	public List<CategoryModule> findCasteByCategory(String category) {
 		// TODO Auto-generated method stub
 		return categoryModuleRepo.findByCategory(category);
+	}
+
+	public CompanyAdministration getCompanyDetails() {
+		// TODO Auto-generated method stub
+		return companyAdministrationRepo.findTopByOrderByIdAsc();
 	}
 
 }

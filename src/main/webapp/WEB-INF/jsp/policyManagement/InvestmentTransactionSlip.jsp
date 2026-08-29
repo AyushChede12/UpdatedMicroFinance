@@ -61,6 +61,134 @@
 	border-top: 2px solid #000;
 	margin-bottom: 5px;
 }
+
+/* Table Container */
+.policy-table-wrapper {
+	max-height: 400px;
+	overflow: auto;
+	border: 1px solid #dee2e6;
+	border-radius: 10px;
+	background: #fff;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* Table */
+#policyTable {
+	margin-bottom: 0;
+	min-width: 1800px;
+	border-collapse: separate;
+	border-spacing: 0;
+	font-size: 13px;
+	color: #343a40;
+}
+
+/* Header */
+#policyTable thead th {
+	position: sticky;
+	top: 0;
+	z-index: 10;
+	background: linear-gradient(135deg, #343a40, #212529);
+	color: #fff;
+	font-weight: 600;
+	text-transform: uppercase;
+	font-size: 12px;
+	letter-spacing: 0.3px;
+	padding: 13px 12px;
+	border: none;
+	white-space: nowrap;
+	vertical-align: middle;
+}
+
+/* Header rounded corners */
+#policyTable thead th:first-child {
+	border-top-left-radius: 8px;
+}
+
+#policyTable thead th:last-child {
+	border-top-right-radius: 8px;
+}
+
+/* Table Body */
+#policyTable tbody td {
+	padding: 11px 12px;
+	vertical-align: middle;
+	white-space: nowrap;
+	border-bottom: 1px solid #e9ecef;
+	border-left: none;
+	border-right: none;
+}
+
+/* Alternate rows */
+#policyTable tbody tr:nth-child(even) {
+	background-color: #f8f9fa;
+}
+
+/* Hover effect */
+#policyTable tbody tr {
+	transition: all 0.2s ease;
+}
+
+#policyTable tbody tr:hover {
+	background-color: #eef5ff;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Policy Code */
+#policyTable tbody td:first-child {
+	font-weight: 700;
+	color: #007bff;
+}
+
+/* Amount columns */
+#policyTable tbody td:nth-child(3), #policyTable tbody td:nth-child(6),
+	#policyTable tbody td:nth-child(7), #policyTable tbody td:nth-child(13)
+	{
+	font-weight: 600;
+	color: #198754;
+}
+
+/* Approved column */
+#policyTable tbody td:nth-child(16) {
+	text-align: center;
+}
+
+/* Action column */
+#policyTable tbody td:last-child {
+	text-align: center;
+}
+
+/* Buttons inside Action */
+#policyTable .btn {
+	border-radius: 6px;
+	font-size: 12px;
+	padding: 5px 10px;
+	margin: 2px;
+	transition: all 0.2s ease;
+}
+
+#policyTable .btn:hover {
+	transform: translateY(-1px);
+}
+
+/* Scrollbar */
+.policy-table-wrapper::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+.policy-table-wrapper::-webkit-scrollbar-track {
+	background: #f1f1f1;
+	border-radius: 10px;
+}
+
+.policy-table-wrapper::-webkit-scrollbar-thumb {
+	background: #adb5bd;
+	border-radius: 10px;
+}
+
+.policy-table-wrapper::-webkit-scrollbar-thumb:hover {
+	background: #6c757d;
+}
 </style>
 
 <div class="pagetitle">
@@ -70,7 +198,7 @@
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-piggy-bank"></i>
 			</a></li>
-			<li class="breadcrumb-item action">INVESTMENT TRANSCATION SLIP</li>
+			<li class="breadcrumb-item action">INVESTMENT TRANSACTION SLIP</li>
 		</ol>
 	</nav>
 </div>
@@ -114,43 +242,45 @@
 			<div class="mt-5">
 				<div class="row" id="policyDataRow">
 					<div class="col-lg-12">
-						<!-- Scrollable table wrapper -->
-						<div style="overflow-x: auto; max-height: 400px;">
-							<table class="table table-bordered table-striped"
-								id="policyTable">
-								<thead class="thead-dark"
-									style="position: sticky; top: 0; background-color: #343a40; color: white;">
+
+						<div class="policy-table-wrapper">
+
+							<table class="table" id="policyTable">
+
+								<thead>
 									<tr>
-										<th>POLICY CODE</th>
-										<th>CUSTOMER NAME</th>
-										<th>POLICY AMOUNT</th>
-										<th>RENEWAL DATE</th>
-										<th>POLICY TYPE</th>
-										<th>MATURITY AMOUNT</th>
-										<th>DEPOSITE AMOUNT</th>
-										<th>START DATE</th>
-										<th>POLICY TERM</th>
-										<th>MATURITY DATE</th>
-										<th>CUSTOMER CODE</th>
-										<th>CONTACT NO</th>
-										<th>TOTAL DEPOSIT</th>
-										<th>PAYMENT DUE</th>
-										<th>NO. OF INSTALLMENTS PAID</th>
-										<th>APPROVED</th>
-										<th>BRANCH NAME</th>
-										<th>ACTION</th>
+										<th>Policy Code</th>
+										<th>Customer Name</th>
+										<th>Policy Amount</th>
+										<th>Renewal Date</th>
+										<th>Policy Type</th>
+										<th>Maturity Amount</th>
+										<th>Deposit Amount</th>
+										<th>Start Date</th>
+										<th>Policy Term</th>
+										<th>Maturity Date</th>
+										<th>Customer Code</th>
+										<th>Contact No</th>
+										<th>Total Deposit</th>
+										<th>Payment Due</th>
+										<th>No. Of Installments Paid</th>
+										<th>Approved</th>
+										<th>Branch Name</th>
+										<th>Action</th>
 									</tr>
 								</thead>
+
 								<tbody id="policyTableBody">
 									<!-- Data will be inserted here -->
 								</tbody>
+
 							</table>
+
 						</div>
+
 					</div>
 				</div>
 			</div>
-
-			<br> <br> <br> <br> <br> <br> <br>
 
 
 			<!-- <div id="transactionSection" class="transaction-section">
@@ -242,12 +372,11 @@
 							</div>
 						</div>
 					</div> -->
-
-			<br> <br> <br> <br> <br> <br> <br>
-			<div class="mb-4"
+					<br><br><br><br>
+			<!-- <div class="mb-4"
 				style="display: flex; justify-content: center; margin-top: -55px;">
 				<button id="printBtn" class="btn btn-success">Print</button>
-			</div>
+			</div> -->
 
 
 		</div>
@@ -324,5 +453,5 @@
     });
 </script>
 
-	<script
+<script
 	src="${pageContext.request.contextPath}/js/PolicyManagment/policyReport.js"></script>

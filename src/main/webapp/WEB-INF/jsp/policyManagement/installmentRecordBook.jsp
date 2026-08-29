@@ -52,7 +52,7 @@
 <div id="transactionSection" class="transaction-section"
 	style="display: none;">
 	<div style="width: 70%; margin: auto">
-		<h1>MICROFINACE SERVICES</h1>
+		<h1>MICROFINANCE SERVICES</h1>
 		<p>ADDRESS : NAGPUR(440024) - MAHRASHTRA</p>
 		<hr />
 		<div class="d-flex justify-content-between">
@@ -75,20 +75,17 @@
 			</p>
 		</div>
 		<p>
-			APPLICANT NAME: <span id="applicantNameSpan"
+			APPLICANT NAME: <span id="applicantNameSpan"></span>
+		</p>
+		<p>
+			FATHER/HUSBAND NAME: <span id="fatherNameSpan"
 				style="width: 12vw; display: inline-block;"></span>
 		</p>
 		<p>
-			FATHER/HUSBEND NAME: <span id="fatherNameSpan"
-				style="width: 12vw; display: inline-block;"></span>
+			NOMINEE NAME: <span id="nomineeNameSpan"></span>
 		</p>
 		<p>
-			NOMINEE NAME: <span id="nomineeNameSpan"
-				style="width: 12vw; display: inline-block;"></span>
-		</p>
-		<p>
-			ADDRESS: <span id="addressSpan"
-				style="width: 12vw; display: inline-block;"></span>
+			ADDRESS: <span id="addressSpan"></span>
 		</p>
 
 		<div class="d-flex justify-content-between">

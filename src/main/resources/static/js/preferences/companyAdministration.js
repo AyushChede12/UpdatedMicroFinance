@@ -379,29 +379,38 @@ $(document).ready(function() {
 		$.ajax({
 			url: "api/preference/images/" + companyId,
 			type: "GET",
+
 			success: function(data) {
 
 				let html = "<h4>STORED IMAGES</h4><div class='row'>";
 
 				data.forEach(img => {
+
+					let imageUrl = "Uploads/company/" + companyId + "/" + img.fileName;
+
 					html += `
-				        <div class="col-lg-3 text-center mb-4">
-				            <div class="img-box">
-				                <img src="/Uploads/company/${companyId}/${img.fileName}" 
-				                     width="150" height="150" 
-				                     style="object-fit:contain;border:1px solid #ccc">
-
-				                <button class="deleteImg" data-id="${img.id}">&times;</button>
-				            </div>
-
-				            <p>${(img.name).toUpperCase()}</p>
-				        </div>
-				    `;
+	                    <div class="col-lg-3 text-center mb-4">
+	                        <div class="img-box">
+	                            <img src="${imageUrl}"
+	                                 width="150"
+	                                 height="150"
+	                                 style="object-fit:contain;border:1px solid #ccc"
+	                                 onerror="console.log('Image not found:', this.src)">
+	                            <button class="deleteImg" data-id="${img.id}">&times;</button>
+	                        </div>
+	                        <p>${img.name.toUpperCase()}</p>
+	                    </div>
+	                `;
 				});
 
 				html += "</div>";
 
 				$("#storedImages").html(html);
+			},
+
+			error: function(xhr) {
+				console.log("Error:", xhr.status);
+				console.log(xhr.responseText);
 			}
 		});
 	}
@@ -410,14 +419,19 @@ $(document).ready(function() {
 	// 7️⃣ DELETE IMAGE
 	// =================================================
 	$(document).on("click", ".deleteImg", function() {
+		alert("hh");
 		const id = $(this).data("id");
+		alert(id);
 
 		$.ajax({
 			url: "api/preference/delete/" + id,
 			type: "POST",
 			success: function() {
-				alert("Image deleted!");
+				alert("Image Deleted Successfully!");
 				loadCompanyImages();
+			},
+			error: function() {
+				alert("error...");
 			}
 		});
 	});

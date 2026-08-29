@@ -110,7 +110,7 @@
 
 						</div>
 					</div>
-					<div class="mt-2 text-center">
+					<!-- <div class="mt-2 text-center">
 						<button id="prevBtnDD" class="btn btn-sm btn-primary">
 							<i class="bi bi-chevron-double-left"></i>
 						</button>
@@ -118,7 +118,7 @@
 						<button id="nextBtnDD" class="btn btn-sm btn-primary">
 							<i class="bi bi-chevron-double-right"></i>
 						</button>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</div>
