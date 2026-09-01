@@ -1,4 +1,3 @@
-
 <div class="pagetitle">
 	<h1>CUSTOMER MANAGEMENT</h1>
 	<nav>
@@ -13,6 +12,7 @@
 
 <div>
 	<form id="formid">
+		<input type="hidden" name="id" id="id" />
 		<div>
 			<div class="row">
 				<div class="col-lg-4">
@@ -42,6 +42,17 @@
 							placeholder="ENTER CUSTOMER CODE" disabled />
 					</div>
 				</div>
+
+				<div class="col-lg-3">
+                    <div class="d-flex flex-column formFields mb-4">
+                        <label for="">ACCOUNT NUMBER</label>
+                        <input type="text"
+                            name="accountNumber"
+                            id="customerAccountNo"
+                            placeholder="ACCOUNT NUMBER"
+                            disabled />
+                    </div>
+                </div>
 
 
 				<div class="col-lg-3">
@@ -221,6 +232,25 @@
 				</div>
 			</div>
 		</div>
+		<div class="row mt-3 mb-4">
+            <div class="col-12 text-center">
+
+                <button type="button"
+                        id="summaryDownloadPDF"
+                        class="btn btn-danger me-2">
+                    <i class="bi bi-file-earmark-pdf"></i>
+                    PDF
+                </button>
+
+                <button type="button"
+                        id="summaryDownloadWord"
+                        class="btn btn-primary">
+                    <i class="bi bi-file-earmark-word"></i>
+                    Word
+                </button>
+
+            </div>
+        </div>
 	</form>
 
 </div>

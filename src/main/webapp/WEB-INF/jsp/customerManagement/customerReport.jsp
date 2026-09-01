@@ -1,4 +1,3 @@
-
 <style>
 .bank-report table th, .bank-report table td {
 	vertical-align: middle;
@@ -67,7 +66,7 @@
 			style="background-color: #FFA500;">Search</button>
 	</div>
 </div>
-</form>
+
 
 <div class="row mt-5">
 	<div class="col-12">
@@ -84,6 +83,7 @@
 								<th scope="col">SL NO</th>
 								<th scope="col">CUSTOMER CODE</th>
 								<th scope="col">CUSTOMER NAME</th>
+								<th scope="col">ACCOUNT NO</th>
 								<th scope="col">BRANCH NAME</th>
 								<th scope="col">DATE OF BIRTH</th>
 								<th scope="col">FAMILY MEMBER NAME</th>
@@ -137,14 +137,7 @@
 							</div>
 						</div>
 
-						<div class="text-right">
-							<p class="mb-0">
-								<strong>CUSTOMER CODE:</strong> <span id="customerCode"></span>
-							</p>
-							<p class="mb-0">
-								<strong>JOINED ON:</strong> <span id="signupDate"></span>
-							</p>
-						</div>
+
 					</div>
 
 					<!-- Customer Info -->
@@ -152,6 +145,9 @@
 						<h6 class="font-weight-bold text-primary mb-3">CUSTOMER INFORMATION</h6>
 						<table class="table table-bordered">
 							<tr><th>NAME</th><td id="customerName"></td></tr>
+							<tr><th>CUSTOMER CODE</th><td id="customerCode"></td></tr>
+							<tr><th>ACCOUNT NUMBER</th><td id="accountNoDetail"></td></tr>
+							<tr><th>JOINED ON</th><td id="signupDate"></td></tr>
 							<tr><th>GENDER</th><td id="gender"></td></tr>
 							<tr><th>DATE OF BIRTH</th><td id="dob"></td></tr>
 							<tr><th>AGE</th><td id="age"></td></tr>
@@ -203,6 +199,9 @@
 
 			<!-- Footer -->
 			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" id="directPrintBtn">
+					<i class="bi bi-printer"></i> Print Report
+				</button>
 				<div class="dropdown">
 					<button class="btn btn-success dropdown-toggle" type="button"
 						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

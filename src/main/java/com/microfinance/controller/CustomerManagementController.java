@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.microfinance.service.CustomerExportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -196,6 +198,60 @@ public class CustomerManagementController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Image not found");
 		}
 		return ResponseEntity.ok("Image deleted successfully");
+	}
+
+	@Autowired
+	private CustomerExportService customerExportService;
+
+	@GetMapping("/export/{customerId}/{format}")
+	public ResponseEntity<byte[]> exportCustomer(
+			@PathVariable Long customerId,
+			@PathVariable String format) {
+
+		try {
+
+			byte[] file;
+			String contentType;
+			String fileName;
+
+			if ("pdf".equalsIgnoreCase(format)) {
+
+				file = customerExportService.generatePdf(customerId);
+
+				contentType = "application/pdf";
+				fileName = "Customer_Member_Form_" + customerId + ".pdf";
+
+			} else if ("word".equalsIgnoreCase(format)
+					|| "docx".equalsIgnoreCase(format)) {
+
+				file = customerExportService.generateWord(customerId);
+
+				contentType =
+						"application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+
+				fileName = "Customer_Member_Form_" + customerId + ".docx";
+
+			} else {
+
+				return ResponseEntity.badRequest().build();
+			}
+
+			return ResponseEntity.ok()
+					.header(
+							HttpHeaders.CONTENT_DISPOSITION,
+							"attachment; filename=\"" + fileName + "\""
+					)
+					.contentType(MediaType.parseMediaType(contentType))
+					.body(file);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+			return ResponseEntity
+					.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.build();
+		}
 	}
 
 }

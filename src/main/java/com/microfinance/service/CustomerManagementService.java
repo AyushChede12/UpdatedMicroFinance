@@ -349,8 +349,18 @@ public class CustomerManagementService {
 	}
 
 	public List<addCustomer> getAllCustomer() {
-		// TODO Auto-generated method stub
-		return customerRepo.findAll();
+		List<addCustomer> list = customerRepo.findAll();
+		for (addCustomer c : list) {
+			if (c.getDepositAcNo() == null || c.getDepositAcNo().trim().isEmpty()) {
+				if (c.getMemberCode() != null && !c.getMemberCode().trim().isEmpty()) {
+					List<CreateSavingsAccount> accounts = createSavingAccountRepo.findBySelectByCustomer(c.getMemberCode());
+					if (!accounts.isEmpty() && accounts.get(0).getAccountNumber() != null) {
+						c.setDepositAcNo(accounts.get(0).getAccountNumber());
+					}
+				}
+			}
+		}
+		return list;
 	}
 
 	public List<addCustomer> fetchBySelectedMember(String memberCode) {
