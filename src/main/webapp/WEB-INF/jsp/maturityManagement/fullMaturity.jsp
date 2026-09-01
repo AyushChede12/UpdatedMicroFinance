@@ -29,7 +29,7 @@
 							<option value="Select">SELECT</option>
 							<option value="DRD">DRD</option>
 							<option value="RD">RD</option>
-							<option value="MIS">MIS</option>
+							<option value="FD">FD</option>
 						</select>
 					</div>
 				</div>
@@ -186,7 +186,7 @@
 							<label> USER APPROVER :</label> <select id="userApprover"
 								name="userApprover" required="required"
 								class="form-control selectField" style="height: 30px;">
-								<option value="">TEAM MEMBER</option>
+								<option value="">--SELECT--</option>
 
 							</select>
 						</div>
@@ -334,7 +334,7 @@
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLongTitle">TATAL
+				<h5 class="modal-title" id="exampleModalLongTitle">TOTAL
 					PAYMENT</h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">

@@ -571,4 +571,29 @@ public class PreferenceController {
 		return ResponseEntity.ok("Image deleted successfully");
 	}
 
+	@GetMapping("/getCompanyDetails")
+	public ResponseEntity<?> getCompanyDetails() {
+
+		try {
+
+			CompanyAdministration company = preferenceService.getCompanyDetails();
+
+			if (company == null) {
+
+				return ResponseEntity.notFound().build();
+
+			}
+
+			return ResponseEntity.ok(company);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+			return ResponseEntity.internalServerError().body("Error while fetching company details");
+
+		}
+
+	}
+
 }

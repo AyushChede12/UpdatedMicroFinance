@@ -153,7 +153,7 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">NEW SENIOR CODE </label> <input type="text"
 							name="seniorCode" id="newseniorCode" required="required"
-							placeholder="ENTER NEW SENIOR " readonly="readonly" />
+							placeholder="ENTER NEW SENIOR "  />
 					</div>
 				</div>
 

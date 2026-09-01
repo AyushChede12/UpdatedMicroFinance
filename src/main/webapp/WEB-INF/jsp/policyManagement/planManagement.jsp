@@ -129,7 +129,7 @@ td {
 				<div class="col-lg-3 ">
 					<div class="d-flex flex-column formFields  mb-4 ">
 						<label for="vehicalNo">PLAN NAME <span class="star">*</span></label>
-						<input type="text" name="planNameDD" id="planNameDD"
+						<input type="text" name="planNameDD" id="planNameDD" style="text-transform: uppercase;"
 							placeholder="ENTER PLAN NAME" />
 					</div>
 				</div>
@@ -137,7 +137,7 @@ td {
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields  mb-4">
 						<label for="vehicalNo">MINIMUM DEPOSIT <span class="star">*</span></label>
-						<input type="text" name="minimumDeposit" id="minimumDeposit"
+						<input type="number" name="minimumDeposit" id="minimumDeposit"
 							placeholder="ENTER MINIMUM AMOUNT"
 							style="text-transform: uppercase;" />
 					</div>
@@ -146,7 +146,7 @@ td {
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields  mb-4">
 						<label for="vehicalNo">RATE OF INTEREST (%) <span
-							class="star">*</span></label> <input type="text" name="rateOfInterest"
+							class="star">*</span></label> <input type="number" name="rateOfInterest"
 							id="rateOfInterest" placeholder="ENTER RATE OF INTEREST"
 							style="text-transform: uppercase;" />
 					</div>
@@ -171,7 +171,7 @@ td {
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">TERM <span class="star">*</span></label> <input
-							type="text" name="ddterm" id="ddterm" placeholder="ENTER TERM" />
+							type="number" name="ddterm" id="ddterm" placeholder="ENTER TERM" />
 					</div>
 				</div>
 
@@ -247,7 +247,7 @@ td {
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">GRACE DAYS <span class="star">*</span></label> <input
-							type="text" name="graceDays" id="graceDays"
+							type="number" name="graceDays" id="graceDays"
 							placeholder="ENTER GRACE DAY" />
 					</div>
 				</div>
@@ -255,7 +255,7 @@ td {
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">PENALTY RATE (%) <span class="star">*</span></label>
-						<input type="text" name="penaltyRate" id="penaltyRate"
+						<input type="number" name="penaltyRate" id="penaltyRate"
 							placeholder="ENTER PENALTY RATE" />
 					</div>
 				</div>
@@ -361,7 +361,7 @@ td {
 				<div class="col-lg-3 ">
 					<div class="d-flex flex-column formFields  mb-4 ">
 						<label for="vehicalNo">PLAN NAME <span class="star">*</span></label>
-						<input type="text" name="planNameRD" id="planNameRD"
+						<input type="text" name="planNameRD" id="planNameRD" style="text-transform: uppercase;"
 							required="required" placeholder="ENTER PLAN NAME" />
 					</div>
 				</div>
@@ -369,7 +369,7 @@ td {
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="vehicalNo">MINIMUM AMOUNT <span class="star">*</span></label>
-						<input type="text" name="minimumAmountRD" id="minimumAmountRD"
+						<input type="number" name="minimumAmountRD" id="minimumAmountRD"
 							required="required" placeholder="ENTER MINIMUM AMOUNT "
 							style="text-transform: uppercase;" />
 					</div>
@@ -378,7 +378,7 @@ td {
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="vehicalNo">INTEREST RATE (%) <span
-							class="star">*</span></label> <input type="text" name="rateOfInterestRD"
+							class="star">*</span></label> <input type="number" name="rateOfInterestRD"
 							id="rateOfInterestRD" required="required"
 							placeholder="ENTER INTEREST RATE"
 							style="text-transform: uppercase;" />
@@ -391,7 +391,7 @@ td {
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">TERM <span class="star">*</span></label> <input
-							type="text" name="rdterm" id="rdterm" required="required"
+							type="number" name="rdterm" id="rdterm" required="required"
 							placeholder="ENTER TERM" />
 					</div>
 				</div>
@@ -486,7 +486,7 @@ td {
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
 						<label>GRACE PERIOD <span class="star">*</span></label> <input
-							type="text" name="graceDaysRD" id="graceDaysRD"
+							type="number" name="graceDaysRD" id="graceDaysRD"
 							required="required" placeholder="ENTER GRACE PERIOD" />
 					</div>
 				</div>
@@ -496,7 +496,7 @@ td {
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">PENALTY FINE(%) <span class="star">*</span></label>
-						<input type="text" name="penaltyfineRD" id="penaltyfineRD"
+						<input type="number" name="penaltyfineRD" id="penaltyfineRD"
 							required="required" placeholder="ENTER PENALTY FINE" />
 					</div>
 				</div>
@@ -603,7 +603,7 @@ td {
 				<div class="col-lg-3 ">
 					<div class="d-flex flex-column formFields  mb-4 ">
 						<label for="vehicalNo">PLAN NAME <span class="star">*</span></label>
-						<input type="text" name="planNameFD" id="planNameFD"
+						<input type="text" name="planNameFD" id="planNameFD" style="text-transform: uppercase;"
 							required="required" placeholder="ENTER PLAN NAME" />
 					</div>
 				</div>
@@ -611,7 +611,7 @@ td {
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="vehicalNo">MINIMUM AMOUNT <span class="star">*</span></label>
-						<input type="text" name="minimumAmountFD" id="minimumAmountFD"
+						<input type="number" name="minimumAmountFD" id="minimumAmountFD"
 							required="required" placeholder="ENTER MINIMUM AMOUNT"
 							style="text-transform: uppercase;" />
 					</div>
@@ -620,7 +620,7 @@ td {
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="vehicalNo">INTEREST RATE(%) <span class="star">*</span></label>
-						<input type="text" name="rateOfInterestFD" id="rateOfInterestFD"
+						<input type="number" name="rateOfInterestFD" id="rateOfInterestFD"
 							required="required" placeholder="ENTER INTEREST RATE"
 							style="text-transform: uppercase;" />
 					</div>
@@ -644,7 +644,7 @@ td {
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">TERM <span class="star">*</span></label> <input
-							type="text" name="fdterm" id="fdterm" required="required"
+							type="number" name="fdterm" id="fdterm" required="required"
 							placeholder="ENTER TERM" />
 					</div>
 				</div>
@@ -697,8 +697,7 @@ td {
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px;">
 						<label for="">INTEREST EARNED <span class="star">*</span></label>
-						<input type="text" name="interestEarnedFD" id="interestEarnedFD"
-							placeholder=" ENTER INTREST EARNED" />
+						<input type="number" name="interestEarnedFD" id="interestEarnedFD" required="required" placeholder=" ENTER INTREST EARNED" />
 					</div>
 				</div>
 
@@ -737,7 +736,7 @@ td {
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
 						<label>GRACE PERIOD <span class="star">*</span></label> <input
-							type="text" name="graceDaysFD" id="graceDaysFD"
+							type="number" name="graceDaysFD" id="graceDaysFD"
 							required="required" placeholder="ENTER GRACE PERIOD" />
 					</div>
 				</div>
@@ -747,7 +746,7 @@ td {
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">PENALTY FINE(%) <span class="star">*</span></label>
-						<input type="text" name="penltyfineFD" id="penltyfineFD"
+						<input type="number" name="penltyfineFD" id="penltyfineFD"
 							required="required" placeholder="ENTER PENALTY FINE" />
 					</div>
 				</div>
@@ -855,7 +854,7 @@ td {
 				<div class="col-lg-3 ">
 					<div class="d-flex flex-column formFields  mb-4 ">
 						<label for="vehicalNo">PLAN NAME <span class="star">*</span></label>
-						<input type="text" name="planNameMD" id="planNameMD"
+						<input type="text" name="planNameMD" id="planNameMD" style="text-transform: uppercase;"
 							required="required" placeholder="ENTER PLAN NAME" />
 					</div>
 				</div>
@@ -863,7 +862,7 @@ td {
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="vehicalNo">MINIMUM AMOUNT <span class="star">*</span></label>
-						<input type="text" name="minimumAmountMD" id="minimumAmountMD"
+						<input type="number" name="minimumAmountMD" id="minimumAmountMD"
 							required="required" placeholder=" ENTER MINIMUM AMOUNT"
 							style="text-transform: uppercase;" />
 					</div>
@@ -871,7 +870,7 @@ td {
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="vehicalNo">INTEREST RATE(%) <span class="star">*</span></label>
-						<input type="text" name="rateOfInterestMD" id="rateOfInterestMD"
+						<input type="number" name="rateOfInterestMD" id="rateOfInterestMD"
 							required="required" placeholder="ENTER INTEREST RATE"
 							style="text-transform: uppercase;" />
 					</div>
@@ -895,7 +894,7 @@ td {
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">TERM <span class="star">*</span></label> <input
-							type="text" name="misTerm" id="misTerm" required="required"
+							type="number" name="misTerm" id="misTerm" required="required"
 							placeholder="ENTER TERM" />
 					</div>
 				</div>
@@ -922,8 +921,8 @@ td {
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px;">
 						<label for="">INTEREST EARNED <span class="star">*</span></label>
-						<input type="text" name="interestEarnedMD" id="interestEarnedMD"
-							readonly="readonly" required="required"
+						<input type="number" name="interestEarnedMD" id="interestEarnedMD"
+							 required="required"
 							placeholder=" ENTER INTEREST EARNED" />
 					</div>
 				</div>
@@ -949,7 +948,7 @@ td {
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
 						<label>GRACE PERIOD <span class="star">*</span></label> <input
-							type="text" name="graceDaysMD" id="graceDaysMD"
+							type="number" name="graceDaysMD" id="graceDaysMD"
 							required="required" placeholder="ENTER GRACE PERIOD " />
 					</div>
 				</div>
@@ -957,7 +956,7 @@ td {
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">PENALTY FINE(%) <span class="star">*</span></label>
-						<input type="text" name="penltyfineMD" id="penltyfineMD"
+						<input type="number" name="penltyfineMD" id="penltyfineMD"
 							required="required" placeholder="ENTER PENALTY FINE" />
 					</div>
 				</div>

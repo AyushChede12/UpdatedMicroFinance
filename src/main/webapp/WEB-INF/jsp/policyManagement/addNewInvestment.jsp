@@ -28,8 +28,7 @@
 							type="hidden" required /> <label for="">POLICY START
 							DATE <span class="star">*</span>
 						</label> <input type="date" name="policyStartDate" id="policyStartDate"
-							required="required" placeholder="Enter Vehicle No"
-							style="text-transform: uppercase;" />
+							required="required" style="text-transform: uppercase;" />
 					</div>
 				</div>
 				<div class="col-lg-3 mb-4">
@@ -50,7 +49,8 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">CUSTOMER NAME <span class="star">*</span></label> <input
 							type="text" name="customerName" id="customerName"
-							required="required" placeholder="ENTER CUSTOMER NAME"  disabled/>
+							style="text-transform: uppercase;" required="required"
+							placeholder="ENTER CUSTOMER NAME" disabled />
 					</div>
 				</div>
 
@@ -69,7 +69,8 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">RELATION DETAILS <span class="star">*</span></label>
 						<input type="text" name="relationDetails" id="relationDetails"
-							required="required" placeholder="ENTER RELATIVE NAME" disabled/>
+							style="text-transform: uppercase;" required="required"
+							placeholder="ENTER RELATIVE NAME" disabled />
 					</div>
 				</div>
 
@@ -86,7 +87,8 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">SUGGESTED NOMINEE <span class="star">*</span></label>
 						<input type="text" name="suggestedNominee" id="suggestedNominee"
-							required="required" placeholder="ENTER SUGGESTED NOMINEE" disabled />
+							style="text-transform: uppercase;" required="required"
+							placeholder="ENTER SUGGESTED NOMINEE" disabled />
 					</div>
 				</div>
 
@@ -107,8 +109,9 @@
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
 						<label>RELATION <span class="star">*</span></label> <input
-							type="text" name="relation" id="relation" required="relation"
-							placeholder="ENTER RELATION"  disabled/>
+							type="text" name="relation" id="relation" required="required"
+							style="text-transform: uppercase;" placeholder="ENTER RELATION"
+							disabled />
 					</div>
 				</div>
 
@@ -116,7 +119,8 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">ADDRESS <span class="star">*</span></label>
-						<textarea name="address" id="address"  placeholder="ENTER ADDRESS" disabled
+						<textarea name="address" id="address" placeholder="ENTER ADDRESS"
+							style="text-transform: uppercase;" disabled
 							style="border: 1px solid rgb(224, 224, 224); border-radius: 5px; outline: none; padding: 5px; font-size: 12px;"></textarea>
 					</div>
 				</div>
@@ -125,7 +129,8 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">DISTRICT <span class="star">*</span></label> <input
 							type="text" name="district" id="district" required="required"
-							placeholder="ENTER DISTRICT"  disabled/>
+							style="text-transform: uppercase;" placeholder="ENTER DISTRICT"
+							disabled />
 					</div>
 				</div>
 
@@ -133,24 +138,25 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">STATE <span class="star">*</span></label> <input
 							type="text" name="state" id="state" required="required"
-							placeholder="ENTER STATE"  disabled/>
+							style="text-transform: uppercase;" placeholder="ENTER STATE"
+							disabled />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">PIN CODE  <span class="star">*</span></label> <input
+						<label for="">PIN CODE <span class="star">*</span></label> <input
 							type="text" name="pinCode" id="pinCode" required="required"
-							placeholder="ENTER PIN CODE"  disabled/>
+							placeholder="ENTER PIN CODE" disabled />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="branchName">BRANCH NAME <span class="star">*</span></label>
-						<select id="branchName" name="branchName" required="required"
-							class="form-control selectField" style="height: 30px;" disabled>
-						</select> <small id="chkbranchname" style="color: red;"></small>
+						<input type="text" name="branchName" id="branchName"
+							required="required" placeholder="ENTER BRANCH" disabled /> <small
+							id="chkbranchname" style="color: red;"></small>
 					</div>
 				</div>
 
@@ -158,7 +164,7 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">TDS <span class="star">*</span></label> <input
 							type="text" name="tds" id="tds" required="required"
-							placeholder="ENTER TDS" disabled/>
+							placeholder="ENTER TDS" disabled />
 					</div>
 				</div>
 
@@ -179,7 +185,8 @@
 					<div class="d-flex flex-column formFields">
 						<label for="">POLICY JOINT NAME <span class="star">*</span></label>
 						<input type="text" name="jointName" id="jointName"
-							required="required" placeholder="ENTER POLICY JOINT NAME  " />
+							style="text-transform: uppercase;" required="required"
+							placeholder="ENTER POLICY JOINT NAME  " />
 					</div>
 				</div>
 
@@ -193,7 +200,6 @@
 							<option value="DRD">DRD</option>
 							<option value="RD">RD</option>
 							<option value="FD">FD</option>
-							<option value="MIS">MIS</option>
 						</select>
 					</div>
 				</div>
@@ -247,8 +253,6 @@
 					</div>
 				</div>
 
-
-
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">POLICY AMOUNT <span class="star">*</span></label> <input
@@ -259,11 +263,127 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
+						<label for="">TOTAL POLICY AMOUNT <span class="star">*</span></label>
+						<input type="text" name="fdTotalPolicyAmount"
+							id="fdTotalPolicyAmount" required="required" readonly="readonly"
+							placeholder="ENTER TOTAL POLICY AMOUNT" />
+					</div>
+				</div>
+
+				<div class="col-lg-3">
+					<div class="d-flex flex-column formFields">
 						<label for="">DEPOSIT AMOUNT <span class="star">*</span></label> <input
-							type="text" name="depositAmount" id="depositAmount"
+							type="text" name="depositAmount" id="depositAmount" readonly="readonly"
 							required="required" placeholder="ENTER DEPOSIT AMOUNT " />
 					</div>
 				</div>
+
+				<div class="col-lg-12" id="fdSplitSection">
+
+					<div class="card mt-3 mb-3">
+
+						<div class="card-header">
+							<strong>FD SPLIT DETAILS</strong>
+						</div>
+
+						<div class="card-body">
+
+							<!-- FD SPLIT ROWS -->
+							<div id="fdSplitContainer">
+
+								<div class="row fd-split-row mb-2">
+
+									<div class="col-lg-8">
+
+										<label> FD AMOUNT </label> <input type="number"
+											class="form-control fd-amount" placeholder="ENTER FD AMOUNT"
+											min="1" step="0.01" />
+
+									</div>
+
+									<div class="col-lg-4 d-flex align-items-end">
+
+										<button type="button" class="btn btn-danger remove-fd">
+											REMOVE</button>
+
+									</div>
+
+								</div>
+
+							</div>
+
+
+							<!-- ADD FD -->
+							<div class="mt-3">
+
+								<button type="button" id="addFDButton" class="btn btn-primary">
+									+ ADD FD</button>
+
+							</div>
+
+
+							<hr>
+
+
+							<!-- FD TOTAL INFORMATION -->
+							<div class="row mt-3">
+
+								<div class="col-lg-4">
+
+									<div class="d-flex flex-column formFields">
+
+										<label> TOTAL POLICY AMOUNT </label> <input type="text"
+											id="fdSplitTotalAmount" class="form-control" readonly />
+
+									</div>
+
+								</div>
+
+
+								<div class="col-lg-4">
+
+									<div class="d-flex flex-column formFields">
+
+										<label> ALLOCATED AMOUNT </label> <input type="text"
+											id="fdAllocatedAmount" class="form-control" readonly />
+
+									</div>
+
+								</div>
+
+
+								<div class="col-lg-4">
+
+									<div class="d-flex flex-column formFields">
+
+										<label> REMAINING AMOUNT </label> <input type="text"
+											id="fdRemainingAmount" class="form-control" readonly />
+
+									</div>
+
+								</div>
+
+							</div>
+
+
+							<!-- STATUS -->
+							<div class="row mt-3">
+
+								<div class="col-lg-12">
+
+									<div id="fdSplitMessage" class="alert" style="display: none;">
+									</div>
+
+								</div>
+
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+
 
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
@@ -280,23 +400,19 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">MATURITY AMOUNT <span class="star">*</span></label>
-						<input type="text" name="maturityAmount" id="maturityAmount"
+						<input type="text" name="maturityAmount" id="maturityAmount" readonly="readonly"
 							required="required" placeholder="ENTER MATURITY AMOUNT" />
 					</div>
 				</div>
 
-				<div class="col-lg-3">
+				<!-- <div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">MIS INTEREST <span class="star">*</span></label> <input
 							type="text" name="MISInterest" id="MISInterest"
 							required="required" placeholder="ENTER MIS INTEREST" />
 					</div>
 				</div>
-
-
-
-
-
+ -->
 
 			</div>
 			<div class="row mt-4">
@@ -308,9 +424,8 @@
 						onchange="photopreview();"
 						style="background-size: cover; background-repeat: no-repeat" />
 						<div id="img-view">
-							<img src="Uploads/upload.png" alt="upload_icon"
-								id="photoPreview" /><input type="hidden" name="photoHidden"
-								id="photoHidden">
+							<img src="Uploads/upload.png" alt="upload_icon" id="photoPreview" /><input
+								type="hidden" name="photoHidden" id="photoHidden">
 
 						</div>
 					</label>
@@ -337,7 +452,7 @@
 			<div class="mt-5">
 				<nav>
 					<ol class="breadcrumb breadcrumb-title">
-						<li class="breadcrumb-item action">PAYMENT INFORMATION </li>
+						<li class="breadcrumb-item action">PAYMENT INFORMATION</li>
 					</ol>
 				</nav>
 
@@ -361,7 +476,8 @@
 					<div class="col-lg-3 mb-4">
 						<div class="d-flex flex-column formFields">
 							<label for="remark">REMARK <span class="star">*</span></label>
-							<textarea id="remark" name="remark" required placeholder="ENTER REMARK"
+							<textarea id="remark" name="remark" required
+								placeholder="ENTER REMARK" style="text-transform: uppercase;"
 								style="border: 1px solid #e0e0e0; border-radius: 5px; outline: none; padding: 5px; font-size: 12px;"></textarea>
 						</div>
 					</div>
@@ -372,7 +488,8 @@
 							style="margin-bottom: 30px;">
 							<div
 								class="d-flex justify-content-start align-items-center  formFields">
-								<label style="margin-left: 20px;" class="mb-2">SMS SEND</label>
+								<label style="margin-left: 20px;" class="mb-2">SMS SEND
+									&nbsp;</label>
 								<div class="cont">
 									<div class="toggle">
 										<input type="checkbox" id="toggle-sms-send" name="smsSend"
@@ -391,7 +508,7 @@
 
 		<div class="row">
 			<div class="col-12 text-center">
-				<button id="saveBtn" class="btn btn-info" style="margin-left: 80%;">SAVE</button>
+				<button id="saveBtn" class="btn btn-info">SAVE</button>
 
 			</div>
 		</div>

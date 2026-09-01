@@ -34,9 +34,8 @@
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
 						<label>RENEWAL DATE <span class="star">*</span></label> <input
-							type="date" name="renewalDate" id="renewalDate"
-							required="required" placeholder="o"
-							style="text-transform: uppercase;" />
+							type="date" name="fromDate" id="fromDate" required="required"
+							placeholder="o" style="text-transform: uppercase;" />
 					</div>
 				</div>
 
@@ -56,7 +55,7 @@
 							style="margin-bottom: 30px">
 							<label>POLICY DATE <span class="star">*</span></label> <input
 								type="date" name="policyDate" id="policyDate"
-								required="required" placeholder="
+								readonly="readonly" required="required"
 								style="text-transform: uppercase;" />
 						</div>
 					</div>
@@ -65,7 +64,7 @@
 						<div class="d-flex flex-column formFields">
 							<label for="">MATURITY DATE <span class="star">*</span></label> <input
 								type="date" name="maturityDate" id="maturityDate"
-								required="required" placeholder=""
+								readonly="readonly" required="required"
 								style="text-transform: uppercase;" />
 						</div>
 					</div>
@@ -75,24 +74,27 @@
 						<div class="d-flex flex-column formFields">
 							<label for="">CUSTOMER CODE <span class="star">*</span>
 							</label> <input type="text" name="customerCode" id="customerCode"
-								required="required" placeholder="ENTER ADVISOR/COLLECTOR CODE" />
+								style="text-transform: uppercase;" required="required"
+								placeholder="ENTER CUSTOMER CODE" readonly="readonly" />
 						</div>
 					</div>
 
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields">
-							<label for="">CLIENT NAME <span class="star">*</span></label> <input
+							<label for="">CUSTOMER NAME <span class="star">*</span></label> <input
 								type="text" name="clientName" id="clientName"
-								required="required" placeholder="ENTER CLIENT NAME" />
+								readonly="readonly" style="text-transform: uppercase;"
+								required="required" placeholder="ENTER CUSTOMER NAME" />
 						</div>
 					</div>
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields">
 							<label for="">BRANCH NAME <span class="star">*</span></label> <input
-								type="text" name="branchname" id="branchname"
-								required="required" placeholder="ENTER RELATIVE NAME" />
+								type="text" name="branchName" id="branchName"
+								readonly="readonly" style="text-transform: uppercase;"
+								required="required" placeholder="ENTER BRANCH NAME" />
 						</div>
 					</div>
 
@@ -101,27 +103,26 @@
 						<div class="d-flex flex-column formFields">
 							<label for="">CONTACT NO <span class="star">*</span></label> <input
 								type="text" name="contactNo" id="contactNo" required="required"
-								placeholder="ENTER CONTACT NO." />
+								readonly="readonly" placeholder="ENTER CONTACT NO." />
 						</div>
 					</div>
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields">
-							<label for="">POLICY AMOUNT <span class="star">*</span></label> <input
-								type="text" name="policyAmount" id="policyAmount"
-								required="required" placeholder="ENTER NOMINEE AMOUNT" />
+							<label for="">TOTAL POLICY AMOUNT <span class="star">*</span></label>
+							<input type="text" name="policyAmount" id="policyAmount"
+								readonly="readonly" required="required"
+								placeholder="ENTER POLICY AMOUNT" />
 						</div>
 					</div>
-
-
-
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields"
 							style="margin-bottom: 30px">
 							<label>POLICY TYPE <span class="star">*</span></label> <input
 								type="text" name="policyType" id="policyType"
-								required="required" placeholder="ENTER NOMINEE NAME" />
+								readonly="readonly" style="text-transform: uppercase;"
+								required="required" placeholder="ENTER POLICY TYPE" />
 						</div>
 					</div>
 
@@ -131,7 +132,7 @@
 						<div class="d-flex flex-column formFields">
 							<label for="">POLICY TERM <span class="star">*</span></label> <input
 								type="text" name="policyTerm" id="policyTerm"
-								required="required" placeholder="ENTER TERM" />
+								readonly="readonly" required="required" placeholder="ENTER TERM" />
 						</div>
 					</div>
 
@@ -139,16 +140,18 @@
 						<div class="d-flex flex-column formFields">
 							<label for="">MATURITY AMT. <span class="star">*</span></label> <input
 								type="text" name="maturityAmount" id="maturityAmount"
-								required="required" placeholder="ENTER MATURITY AMOUNT" />
+								readonly="readonly" required="required"
+								placeholder="ENTER MATURITY AMT" />
 						</div>
 					</div>
 
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields">
-							<label for="">TOTAL DEPOSIT <span class="star">*</span></label>
-							<input type="text" name="totalDeposit" id="totalDeposit"
-								required="required" placeholder="ENTER TOTAL DEPOSIT" />
+							<label for="">TOTAL DEPOSIT <span class="star">*</span></label> <input
+								type="text" name="totalDeposit" id="totalDeposit"
+								readonly="readonly" required="required"
+								placeholder="ENTER TOTAL DEPOSIT" />
 						</div>
 					</div>
 
@@ -157,42 +160,45 @@
 						<div class="d-flex flex-column formFields">
 							<label for="">PAYMENT DUE <span class="star">*</span></label> <input
 								type="text" name="paymentDue" id="paymentDue"
-								required="required" placeholder="ENTER PAYMENT DUE" />
+								readonly="readonly" required="required"
+								placeholder="ENTER PAYMENT DUE" />
 						</div>
 					</div>
 
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields mt-4">
-							<label for="">LAST PAMENY <span class="star">*</span></label>
-							<input type="text" name="lastPaymentDate" id="lastPaymentDate"
-								required="required" placeholder="ENMTER PAYMENTr Education" />
+							<label for="">LAST PAMENT <span class="star">*</span></label> <input
+								type="text" name="lastPaymentDate" id="lastPaymentDate"
+								readonly="readonly" required="required"
+								placeholder="ENTER LAST PAYMENT" />
 						</div>
 					</div>
 
-					<div class="col-lg-3">
+					<!-- <div class="col-lg-3">
 						<div class="d-flex flex-column formFields mt-4">
-							<label for="">DUE DA5T <span class="star">*</span></label> <input
+							<label for="">DUE DATE <span class="star">*</span></label> <input
 								type="date" name="dueDate" id="dueDate" required="required"
-								placeholder="Enter Vehicle No"
+								readonly="readonly" placeholder="Enter Vehicle No"
 								style="text-transform: uppercase;" />
 						</div>
-					</div>
+					</div> -->
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields mt-4">
-							<label for="">NO OF ISTALLMENT <span class="star">*</span></label>
+							<label for="">NO. OF FD SPLITS <span class="star">*</span></label>
 							<input type="text" name="noOfInst" id="noOfInst"
-								required="required" placeholder="ENTER ADUCATION" />
+								readonly="readonly" required="required"
+								placeholder="ENTER NO OF INSTALLMENT" value="1" />
 						</div>
 					</div>
 
-
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields mt-4">
-							<label for="">INSTALLMETS COMPLETED <span class="star">*</span></label>
+							<label for="">FDs COMPLETED <span class="star">*</span></label>
 							<input type="text" name="noOfInstPaid" id="noOfInstPaid"
-								required="required" placeholder="ENTER INSTALLMENT NAME" />
+								readonly="readonly" required="required"
+								placeholder="ENTER INSTALLMENT COMPLETED" />
 						</div>
 					</div>
 
@@ -200,13 +206,15 @@
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields mt-4">
 							<label for="">MODE OF PAYMENT <span class="star">*</span></label>
-							<input type="text" name="modeOfPayment" id="modeOfPayment"
-								required="required" placeholder="ENTER PAYMENT" />
+							<select id="modeOfPayment" name="modeOfPayment"
+								required="required" class="form-control selectField"
+								style="height: 30px;">
+								<option value="">---SELECT PAYMENT MODE---</option>
+								<option value="CASH">CASH</option>
+								<option value="ONLINE">ONLINE</option>
+							</select>
 						</div>
 					</div>
-
-
-
 
 				</div>
 			</div>
@@ -223,9 +231,8 @@
 						hidden="hidden" onchange="photopreview();"
 						style="background-size: cover; background-repeat: no-repeat" />
 						<div id="img-view">
-							<img src="Uploads/upload.png" alt="upload_icon"
-								id="photoPreview" /><input type="hidden" name="photoHidden"
-								id="photoHidden">
+							<img src="Uploads/upload.png" alt="upload_icon" id="photoPreview" /><input
+								type="hidden" name="photoHidden" id="photoHidden">
 
 						</div>
 					</label>
@@ -253,11 +260,12 @@
 		</div>
 
 		<div class="row" style="margin-left: 80%;">
-			<div class="col-12 text-center">
+			<div class="col-12 text-center" style="display: flex;">
 				<button id="viewBtn" type="button" class="btn btn-primary"
-					data-toggle="modal" data-target="#installmentModal">VIEW
-					INSTALLMENT</button>
-				<button id="btnSave" type="button" class="btn btn-info">SAVE</button>
+					data-toggle="modal" data-target="#installmentModal"
+					style="margin-left: -500px;">VIEW FD DETAILS</button>
+				<button id="btnSave" type="button" class="btn btn-info"
+					style="margin-left: 5px;">SAVE</button>
 			</div>
 		</div>
 
@@ -292,11 +300,13 @@
 						id="installmentModal">
 						<thead class="thead-dark">
 							<tr>
-								<th>INSTALLMENT NO</th>
-								<th>DUE DATE</th>
-								<th>AMOUNT</th>
-								<th>STATUS</th>
-								<th>PAYMENT DATE</th>
+								<th style="white-space: nowrap;">INSTALLMENT NO</th>
+								<th style="white-space: nowrap;">MATURITY / DUE DATE</th>
+								<th style="white-space: nowrap;">PAYMENT AMOUNT</th>
+								<th style="white-space: nowrap;">PENALTY</th>
+								<th style="white-space: nowrap;">STATUS</th>
+								<th style="white-space: nowrap;">PAYMENT DATE</th>
+								<th style="white-space: nowrap;">BALANCE</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -307,7 +317,7 @@
 			</div>
 
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
 			</div>
 		</div>
 	</div>

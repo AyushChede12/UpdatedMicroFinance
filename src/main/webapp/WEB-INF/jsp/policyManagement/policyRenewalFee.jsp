@@ -6,7 +6,7 @@
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-piggy-bank"></i>
 			</a></li>
-			<li class="breadcrumb-item action">RECURRING PREMIUM RENEWAL </li>
+			<li class="breadcrumb-item action">RECURRING PREMIUM RENEWAL</li>
 		</ol>
 	</nav>
 </div>
@@ -56,7 +56,7 @@
 							style="margin-bottom: 30px">
 							<label>POLICY DATE <span class="star">*</span></label> <input
 								type="date" name="policyDate" id="policyDate"
-								required="required" placeholder=""
+								readonly="readonly" required="required" placeholder=""
 								style="text-transform: uppercase;" />
 						</div>
 					</div>
@@ -65,7 +65,8 @@
 						<div class="d-flex flex-column formFields">
 							<label for="">MATURITY DATE <span class="star">*</span></label> <input
 								type="date" name="maturityDate" id="maturityDate"
-								required="required" style="text-transform: uppercase;" />
+								readonly="readonly" required="required"
+								style="text-transform: uppercase;" />
 						</div>
 					</div>
 
@@ -74,7 +75,9 @@
 						<div class="d-flex flex-column formFields">
 							<label for="">CUSTOMER CODE <span class="star">*</span>
 							</label> <input type="text" name="customerCode" id="customerCode"
-								required="required" placeholder="ENTER CUSTOMER CODE" />
+								readonly="readonly" required="required"
+								style="text-transform: uppercase;"
+								placeholder="ENTER CUSTOMER CODE" />
 						</div>
 					</div>
 
@@ -83,16 +86,17 @@
 						<div class="d-flex flex-column formFields">
 							<label for="">CUSTOMER NAME <span class="star">*</span></label> <input
 								type="text" name="customerName" id="customerName"
+								style="text-transform: uppercase;" readonly="readonly"
 								required="required" placeholder="ENTER CUSTOMER NAME" />
 						</div>
 					</div>
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields">
-							<label for="">BRANCH NAME <span class="star">*</span></label> <select
-								id="branchName" name="branchName" required
-								class="form-control selectField" style="height: 30px;">
-							</select>
+							<label for="">BRANCH NAME <span class="star">*</span></label> <input
+								type="text" name="branchName" id="branchName"
+								style="text-transform: uppercase;" readonly="readonly"
+								required="required" placeholder="ENTER BRANCH NAME" />
 						</div>
 					</div>
 
@@ -101,7 +105,7 @@
 						<div class="d-flex flex-column formFields">
 							<label for="">CONTACT NO <span class="star">*</span></label> <input
 								type="text" name="contactNo" id="contactNo" required="required"
-								placeholder="ENTER CONTACT NO." />
+								readonly="readonly" placeholder="ENTER CONTACT NO." />
 						</div>
 					</div>
 
@@ -109,18 +113,20 @@
 						<div class="d-flex flex-column formFields">
 							<label for="">POLICY AMOUNT <span class="star">*</span></label> <input
 								type="text" name="policyAmount" id="policyAmount"
-								required="required" placeholder="ENTER POLICY AMOUNT" />
+								readonly="readonly" required="required"
+								placeholder="ENTER POLICY AMOUNT" />
 						</div>
 					</div>
-					
+
 					<div class="col-lg-3">
-								<div class="d-flex flex-column formFields"
-									style="margin-bottom: 30px">
-									<label>NET DEPOSIT<span class="star">*</span></label> <input
-										type="text" name="netDeposite" id="netDeposite"
-										required="required" placeholder="ENTER NET DEPOSIT" />
-								</div>
-							</div>
+						<div class="d-flex flex-column formFields"
+							style="margin-bottom: 30px">
+							<label>NET DEPOSIT<span class="star">*</span></label> <input
+								type="text" name="netDeposite" id="netDeposite"
+								readonly="readonly" required="required"
+								placeholder="ENTER NET DEPOSIT" />
+						</div>
+					</div>
 
 
 
@@ -129,6 +135,7 @@
 							style="margin-bottom: 30px">
 							<label>POLICY TYPE <span class="star">*</span></label> <input
 								type="text" name="policyType" id="policyType"
+								style="text-transform: uppercase;" readonly="readonly"
 								required="required" placeholder="ENTER POLICY TYPE" />
 						</div>
 					</div>
@@ -139,24 +146,27 @@
 						<div class="d-flex flex-column formFields">
 							<label for="">POLICY TERM <span class="star">*</span></label> <input
 								type="text" name="policyTerm" id="policyTerm"
-								required="required" placeholder="ENTER POLICY TERM" />
+								readonly="readonly" required="required"
+								placeholder="ENTER POLICY TERM" />
 						</div>
 					</div>
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields">
-							<label for="">MATURITY AMOUNT <span class="star">*</span></label> <input
-								type="text" name="maturityAmount" id="maturityAmount"
-								required="required" placeholder="ENTER MATURITY AMOUNT" />
+							<label for="">MATURITY AMOUNT <span class="star">*</span></label>
+							<input type="text" name="maturityAmount" id="maturityAmount"
+								readonly="readonly" required="required"
+								placeholder="ENTER MATURITY AMOUNT" />
 						</div>
 					</div>
 
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields">
-							<label for="">TOTAL DEPOSIT <span class="star">*</span></label>
-							<input type="text" name="totalDeposit" id="totalDeposit"
-								required="required" placeholder="ENTER TOTAL DEPOSITS" />
+							<label for="">TOTAL DEPOSIT <span class="star">*</span></label> <input
+								type="text" name="totalDeposit" id="totalDeposit"
+								readonly="readonly" required="required"
+								placeholder="ENTER TOTAL DEPOSITS" />
 						</div>
 					</div>
 
@@ -165,7 +175,8 @@
 						<div class="d-flex flex-column formFields mt-4">
 							<label for="">PAYMENT DUE <span class="star">*</span></label> <input
 								type="text" name="paymentDue" id="paymentDue"
-								required="required" placeholder="ENETR PAYMENT DUE" />
+								readonly="readonly" required="required"
+								placeholder="ENETR PAYMENT DUE" />
 						</div>
 					</div>
 
@@ -180,9 +191,9 @@
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields mt-4">
-							<label for="">DUE Date <span class="star">*</span></label> <input
+							<label for="">DUE DATE <span class="star">*</span></label> <input
 								type="date" name="dueDate" id="dueDate" required="required"
-								style="text-transform: uppercase;" />
+								readonly="readonly" style="text-transform: uppercase;" />
 						</div>
 					</div>
 
@@ -199,7 +210,8 @@
 						<div class="d-flex flex-column formFields mt-4">
 							<label for="">INSTALLMENT COMPLETED <span class="star">*</span></label>
 							<input type="text" name="noOfInstPaid" id="noOfInstPaid"
-								required="required" placeholder="ENTER INSTALLMENT COMPLETED" />
+								readonly="readonly" required="required"
+								placeholder="ENTER INSTALLMENT COMPLETED" />
 						</div>
 					</div>
 
@@ -207,8 +219,13 @@
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields mt-4">
 							<label for="">MODE OF PAYMENT <span class="star">*</span></label>
-							<input type="text" name="modeOfPayment" id="modeOfPayment"
-								required="required" placeholder="ENTER PAYMENT MODE" />
+							<select id="modeOfPayment" name="modeOfPayment"
+								required="required" class="form-control selectField"
+								style="height: 30px;">
+								<option value="">---SELECT PAYMENT MODE---</option>
+								<option value="CASH">CASH</option>
+								<option value="ONLINE">ONLINE</option>
+							</select>
 						</div>
 					</div>
 
@@ -234,9 +251,8 @@
 					hidden="hidden" onchange="photopreview();"
 					style="background-size: cover; background-repeat: no-repeat" />
 					<div id="img-view">
-						<img src="Uploads/upload.png" alt="upload_icon"
-							id="photoPreview" /><input type="hidden" name="photoHidden"
-							id="photoHidden">
+						<img src="Uploads/upload.png" alt="upload_icon" id="photoPreview" /><input
+							type="hidden" name="photoHidden" id="photoHidden">
 
 					</div>
 				</label>
@@ -262,12 +278,14 @@
 		</div>
 
 		<div class="row" style="margin-left: 80%;">
-			<div class="col-12 text-center">
+			<div class="col-12 text-center"
+				style="display: flex; align-items: center; justify-content: center;">
 				<!-- Trigger button -->
-				<button id="viewBtn" type="button" class="btn btn-primary"
-					data-toggle="modal" data-target="#installmentModal">VIEW
-					INSTALLMENT</button>
-				<button id="saveBtn" type="button" class="btn btn-info">SAVE</button>
+				<button style="margin-left: -800px;" id="viewBtn" type="button"
+					class="btn btn-primary" data-toggle="modal"
+					data-target="#installmentModal">VIEW INSTALLMENT</button>
+				<button style="margin-left: 5px;" id="saveBtn" type="button"
+					class="btn btn-info">SAVE</button>
 			</div>
 		</div>
 
@@ -296,6 +314,7 @@
 										<th>INSTALLMENT NO</th>
 										<th>DUE DATE</th>
 										<th>AMOUNT</th>
+										<th>PENALTY</th>
 										<th>STATUS</th>
 										<th>PAYMENT DATE</th>
 									</tr>
@@ -309,7 +328,7 @@
 
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary"
-							data-dismiss="modal">Close</button>
+							data-dismiss="modal">CLOSE</button>
 					</div>
 				</div>
 			</div>

@@ -1,6 +1,6 @@
 
 <div class="pagetitle">
-	<h1>TTEAM MANAGEMNTE</h1>
+	<h1>TEAM MANAGEMENT</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="openDashboard"> <i

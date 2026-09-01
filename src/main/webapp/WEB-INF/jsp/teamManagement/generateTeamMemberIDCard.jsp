@@ -23,11 +23,11 @@
 
 				<div class="col-lg-3 mb-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">STATE</label> <select id="teamMemberCode"
+						<label for="">TEAM MEMBER</label> <select id="teamMemberCode"
 							name="teamMemberCode" required="required"
 							onchange="fetchTeamMemberDataByCode();"
 							class="form-control selectField" style="height: 30px;">
-							<option value="">SELECT STATE</option>
+							<option value="">SELECT TEAM MEMBER</option>
 						</select>
 					</div>
 				</div>
@@ -100,4 +100,4 @@
 	});
 </script>
 <script
-	src="${pageContext.request.contextPath}/js/teamManagement/addTeamMember.js"></script>
+	src="${pageContext.request.contextPath}/js/teamManagement/generateTeamMemberID.js"></script>

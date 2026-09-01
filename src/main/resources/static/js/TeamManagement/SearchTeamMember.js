@@ -1,95 +1,95 @@
+function searchTeamMember() {
 
-//janvi sonkusare
-// Branch Filter (Column 9)
-const inputBranch = document.getElementById("branchName");
-inputBranch.addEventListener("change", filterBranchAndDate);
+	var filterData = {
+		branchName: $("#branchName").val(),
+		dateFrom: $("#dateFrom").val(),
+		dateTo: $("#dateTo").val(),
+		teamMemberName: $("#teamMemberName").val(),
+		teamMemberCode: $("#teamMamberCode").val(),
+		contactNo: $("#contactNo").val(),
+		designation: $("#designation").val(),
+		department: $("#department").val()
+	};
 
-// From Date Filter (Registration Date)
-const inputFromDate = document.getElementById("dateFrom");
-inputFromDate.addEventListener("input", filterBranchAndDate);
+	$.ajax({
+		type: "POST",
+		url: "api/teammember/searchTeamMember",
+		contentType: "application/json",
+		data: JSON.stringify(filterData),
 
-// To Date Filter (Registration Date)
-const inputToDate = document.getElementById("dateTo");
-inputToDate.addEventListener("input", filterBranchAndDate);
+		success: function(response) {
 
-// Function to filter by both Branch and Date together
-function filterBranchAndDate() {
-    const branchKeyword = document.getElementById("branchName").value;
-    const fromDate = document.getElementById("dateFrom").value;
-    const toDate = document.getElementById("dateTo").value;
+			if (response.status == "OK") {
 
-    const rows = document.querySelectorAll("#searchTeamMember tr");
+				var tbody = "";
 
-    rows.forEach(row => {
-        const branch = row.cells[6] ? row.cells[6].textContent.trim() : ''; // Column 9: Branch
-        const dateCell = row.cells[4] ? row.cells[4].textContent.trim() : ''; // Column 5: Registration Date
-        const rowDate = new Date(dateCell);
+				$.each(response.data, function(index, item) {
 
-        // Filter by Branch and Date Range
-        let showRow = true;
-        
-        if (branchKeyword && branch !== branchKeyword) {
-            showRow = false;
-        }
+					tbody += "<tr>";
 
-        // Filter by Date Range
-        if (fromDate && new Date(fromDate) > rowDate) {
-            showRow = false;
-        }
+					tbody += "<td>" + (index + 1) + "</td>";
+					tbody += "<td>" + item.teamMemberName + "</td>";
+					tbody += "<td>" + item.gender + "</td>";
+					tbody += "<td>" + item.department + "</td>";
+					tbody += "<td>" + item.registrationDate + "</td>";
+					tbody += "<td>" + item.contactNo + "</td>";
+					tbody += "<td>" + item.branchName + "</td>";
+					tbody += "<td>" + item.teamMemberCode + "</td>";
+					tbody += "<td>" + item.designation + "</td>";
+					tbody += "<td>" + item.department + "</td>";
 
-        if (toDate && new Date(toDate) < rowDate) {
-            showRow = false;
-        }
+					tbody += "</tr>";
 
-        row.style.display = showRow ? "" : "none";
-    });
+				});
+
+				$("#searchTeamMember").html(tbody);
+
+			}
+
+		},
+
+		error: function() {
+			alert("Unable to fetch data");
+		}
+
+	});
+
 }
 
-// Applicant name Filter (Column 2)
-const inputaccHolderName = document.getElementById("teamMemberName");
-inputaccHolderName.addEventListener("input", function() {
-    filterTableByColumn(1, inputaccHolderName.value);
-});
-
-// Account no. Filter (Column 1)
-const inputaccountNo = document.getElementById("teamMamberCode");
-inputaccountNo.addEventListener("input", function() {
-    filterTableByColumn(7, inputaccountNo.value); // Column 2: Member Name
-});
-
-// Member code Filter (Column 6)
-const inputmemberCode = document.getElementById("contactNo");
-inputmemberCode.addEventListener("input", function() {
-    filterTableByColumn(5, inputmemberCode.value); // Column 7: Mobile No.
-});
-
-// Advisor/collector code Filter (Column 9)
-const inputadvisorCode = document.getElementById("designation");
-inputadvisorCode.addEventListener("input", function() {
-    filterTableByColumn(8, inputadvisorCode.value); // Column 5: Aadhar No.
-});
-
-// Scheme name Filter (Column 3)
-const inputsBPlan = document.getElementById("department");
-inputsBPlan.addEventListener("change", function() {
-    filterTableByColumn(9, inputsBPlan.value); // Column 6: PAN No.
-}); 
-
-
-function filterTableByColumn(index, keyword) {
-	const rows = document.querySelectorAll("#searchTeamMember tr");
-	keyword = keyword.toLowerCase();
-
-	rows.forEach(row => {
-		const cell = row.cells[index];
-		if (cell) {
-			const text = cell.textContent.toLowerCase();
-			row.style.display = text.includes(keyword) ? "" : "none";
-			//const isMatch = text.includes(keyword);
-			// Don't override if already hidden by another filter
-			/*if (row.style.display !== "none") {
-				row.style.display = isMatch ? "" : "none";
-			}*/
+$(document).ready(function() {
+	$.ajax({
+		type: "GET",
+		contentType: "application/json",
+		url: 'api/teammember/getDesignationList', // Update the URL if necessary
+		async: true, // Correct spelling
+		success: function(data) {
+			console.log(data); // Debug the response
+			var appenddata1 = "<option value=''>Select</option>";
+			for (var i = 0; i < data.length; i++) {
+				appenddata1 += "<option value='" + data[i].designationName + "'>" + data[i].designationName + "</option>";
+			}
+			$("#designation").html(appenddata1); // Clear and populate
+		},
+		error: function() {
+			alert("Failed to load designations");
 		}
 	});
-}
+
+	$.ajax({
+		type: "GET",
+		contentType: "application/json",
+		url: 'api/teammember/getDepartmentList', // Update the URL if necessary
+		async: true, // Correct spelling
+		success: function(data) {
+			console.log(data); // Debug the response
+			var appenddata1 = "<option value=''>Select</option>";
+			for (var i = 0; i < data.length; i++) {
+				appenddata1 += "<option value='" + data[i].departmentName + "'>" + data[i].departmentName + "</option>";
+			}
+			$("#department").html(appenddata1); // Clear and populate
+		},
+		error: function() {
+			alert("Failed to load departments");
+		}
+	});
+})
