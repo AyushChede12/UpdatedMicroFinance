@@ -263,7 +263,8 @@
 										<th>Contact No</th>
 										<th>Total Deposit</th>
 										<th>Payment Due</th>
-										<th>No. Of Installments Paid</th>
+										<th>Total Installments</th>
+										<th>Installments Paid</th>
 										<th>Approved</th>
 										<th>Branch Name</th>
 										<th>Action</th>

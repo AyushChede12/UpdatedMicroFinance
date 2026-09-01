@@ -1620,7 +1620,7 @@ public class PolicyManagementService {
 		try {
 
 			// =====================================================
-			// BASIC VALIDATION
+			// 1. BASIC VALIDATION
 			// =====================================================
 
 			if (dto == null) {
@@ -1636,6 +1636,10 @@ public class PolicyManagementService {
 
 				return new ApiResponse<>(HttpStatus.BAD_REQUEST, "Payment Amount is required", null);
 			}
+
+			// =====================================================
+			// 2. PAYMENT AMOUNT
+			// =====================================================
 
 			double newPayment;
 
@@ -1654,7 +1658,7 @@ public class PolicyManagementService {
 			}
 
 			// =====================================================
-			// PENALTY
+			// 3. PENALTY
 			// =====================================================
 
 			double penaltyAmount = 0.0;
@@ -1677,7 +1681,7 @@ public class PolicyManagementService {
 			}
 
 			// =====================================================
-			// FETCH FD POLICY
+			// 4. FETCH FD POLICY
 			// =====================================================
 
 			List<AddnewinvestmentPM> investments = addinvestmentrepo.findAllByPolicyCode(dto.getPolicyCode());
@@ -1691,7 +1695,7 @@ public class PolicyManagementService {
 			AddnewinvestmentPM policy = investments.get(0);
 
 			// =====================================================
-			// VALIDATE FD POLICY
+			// 5. VALIDATE FD POLICY
 			// =====================================================
 
 			if (policy.getSchemeType() == null || !"FD".equalsIgnoreCase(policy.getSchemeType().trim())) {
@@ -1700,19 +1704,20 @@ public class PolicyManagementService {
 			}
 
 			// =====================================================
-			// FD SPLIT AMOUNTS
-			//
-			// Example:
-			// [300000,300000,300000,100000]
+			// 6. GET FD SPLIT AMOUNTS
 			// =====================================================
 
-			String fdSplitAmounts = policy.getFdSplitAmounts();
+			String fdSplitAmountsJson = policy.getFdSplitAmounts();
 
-			if (fdSplitAmounts == null || fdSplitAmounts.trim().isEmpty()) {
+			if (fdSplitAmountsJson == null || fdSplitAmountsJson.trim().isEmpty()) {
 
 				return new ApiResponse<>(HttpStatus.BAD_REQUEST, "FD split amounts are not available for this policy.",
 						null);
 			}
+
+			// =====================================================
+			// 7. PARSE FD SPLIT JSON
+			// =====================================================
 
 			List<Double> splitAmounts;
 
@@ -1720,7 +1725,7 @@ public class PolicyManagementService {
 
 				ObjectMapper objectMapper = new ObjectMapper();
 
-				splitAmounts = objectMapper.readValue(fdSplitAmounts, new TypeReference<List<Double>>() {
+				splitAmounts = objectMapper.readValue(fdSplitAmountsJson, new TypeReference<List<Double>>() {
 				});
 
 			} catch (Exception e) {
@@ -1734,48 +1739,87 @@ public class PolicyManagementService {
 			}
 
 			// =====================================================
-			// CURRENT VALUES
+			// 8. VALIDATE EACH SPLIT
+			// =====================================================
+
+			for (Double splitAmount : splitAmounts) {
+
+				if (splitAmount == null || splitAmount <= 0) {
+
+					return new ApiResponse<>(HttpStatus.BAD_REQUEST, "FD split amount must be greater than zero.",
+							null);
+				}
+			}
+
+			// =====================================================
+			// 9. GET CURRENT POLICY VALUES
 			// =====================================================
 
 			double depositAmount = parseDoubleSafe(policy.getDepositAmount());
 
 			double oldPaidAmount = parseDoubleSafe(policy.getPaidAmount());
 
-			double currentDue = parseDoubleSafe(policy.getAmountDue());
-
 			double currentBalance = parseDoubleSafe(policy.getBalance());
 
 			// =====================================================
-			// CALCULATE DUE IF NOT AVAILABLE
+			// 10. CALCULATE TOTAL SPLIT AMOUNT
 			// =====================================================
 
-			if (currentDue <= 0 && depositAmount > oldPaidAmount) {
+			double totalSplitAmount = 0.0;
 
-				currentDue = depositAmount - oldPaidAmount;
+			for (Double splitAmount : splitAmounts) {
+
+				totalSplitAmount += splitAmount;
 			}
 
 			// =====================================================
-			// CALCULATE BALANCE IF NOT AVAILABLE
+			// 11. VALIDATE SPLIT TOTAL WITH DEPOSIT AMOUNT
 			// =====================================================
 
-			if (currentBalance <= 0 && depositAmount > oldPaidAmount) {
+			if (Math.abs(totalSplitAmount - depositAmount) > 0.01) {
 
-				currentBalance = depositAmount - oldPaidAmount;
+				return new ApiResponse<>(HttpStatus.BAD_REQUEST,
+						"FD split total amount does not match total deposit amount. " + "Split Total: "
+								+ String.format("%.2f", totalSplitAmount) + ", Deposit Amount: "
+								+ String.format("%.2f", depositAmount),
+						null);
 			}
 
 			// =====================================================
-			// DETERMINE CURRENT FD INSTALLMENT
+			// 12. SAFETY CHECK OLD PAID AMOUNT
+			// =====================================================
+
+			if (oldPaidAmount < 0) {
+				oldPaidAmount = 0;
+			}
+
+			if (oldPaidAmount > depositAmount + 0.01) {
+
+				return new ApiResponse<>(HttpStatus.BAD_REQUEST,
+						"Existing paid amount cannot be greater than FD deposit amount.", null);
+			}
+
+			// =====================================================
+			// 13. DETERMINE COMPLETED FD SPLITS
 			//
 			// Example:
 			//
-			// splitAmounts =
 			// [300000,300000,300000,100000]
 			//
-			// oldPaid = 0
-			// current installment = 1
+			// Paid = 0
+			// Completed = 0
 			//
-			// oldPaid = 300000
-			// current installment = 2
+			// Paid = 300000
+			// Completed = 1
+			//
+			// Paid = 600000
+			// Completed = 2
+			//
+			// Paid = 900000
+			// Completed = 3
+			//
+			// Paid = 1000000
+			// Completed = 4
 			// =====================================================
 
 			int completedInstallments = 0;
@@ -1783,10 +1827,6 @@ public class PolicyManagementService {
 			double accumulatedAmount = 0.0;
 
 			for (Double splitAmount : splitAmounts) {
-
-				if (splitAmount == null) {
-					continue;
-				}
 
 				if (oldPaidAmount + 0.01 >= accumulatedAmount + splitAmount) {
 
@@ -1800,31 +1840,31 @@ public class PolicyManagementService {
 				}
 			}
 
-			int currentInstallmentNo = completedInstallments + 1;
-
 			// =====================================================
-			// CHECK ALL FD INSTALLMENTS COMPLETED
+			// 14. CHECK ALL FD SPLITS COMPLETED
 			// =====================================================
 
-			if (currentInstallmentNo > splitAmounts.size()) {
+			if (completedInstallments >= splitAmounts.size()) {
 
 				return new ApiResponse<>(HttpStatus.BAD_REQUEST, "All FD split payments are already completed.", null);
 			}
 
 			// =====================================================
-			// CURRENT FD SPLIT AMOUNT
+			// 15. CURRENT FD INSTALLMENT NUMBER
+			// =====================================================
+
+			int currentInstallmentNo = completedInstallments + 1;
+
+			// =====================================================
+			// 16. CURRENT FD SPLIT AMOUNT
 			// =====================================================
 
 			double currentSplitAmount = splitAmounts.get(currentInstallmentNo - 1);
 
 			// =====================================================
-			// VALIDATE CURRENT SPLIT AMOUNT
+			// 17. VALIDATE PAYMENT AGAINST CURRENT SPLIT
 			//
-			// Payment should match the current FD split.
-			//
-			// Example:
-			// Installment 1 = 300000
-			// Payment must be 300000
+			// Payment MUST exactly match current FD split.
 			// =====================================================
 
 			if (Math.abs(newPayment - currentSplitAmount) > 0.01) {
@@ -1835,43 +1875,77 @@ public class PolicyManagementService {
 			}
 
 			// =====================================================
-			// PREVENT PAYMENT GREATER THAN DUE
-			// =====================================================
-
-			if (newPayment > currentDue + 0.01) {
-
-				return new ApiResponse<>(HttpStatus.BAD_REQUEST, "Payment amount cannot be greater than FD amount due. "
-						+ "Remaining amount: " + String.format("%.2f", currentDue), null);
-			}
-
-			// =====================================================
-			// CALCULATE NEW VALUES
+			// 18. CALCULATE NEW PAID AMOUNT
 			// =====================================================
 
 			double newPaidAmount = oldPaidAmount + newPayment;
 
-			double newBalance = Math.max(0, depositAmount - newPaidAmount);
-
-			double newAmountDue = newBalance;
-
 			// =====================================================
-			// FLOATING POINT CORRECTION
+			// 19. PREVENT OVER PAYMENT
 			// =====================================================
 
-			if (Math.abs(newBalance) < 0.01) {
+			if (newPaidAmount > depositAmount + 0.01) {
 
-				newBalance = 0;
-				newAmountDue = 0;
+				return new ApiResponse<>(HttpStatus.BAD_REQUEST, "Payment exceeds total FD deposit amount.", null);
 			}
 
 			// =====================================================
-			// UPDATED INSTALLMENTS
+			// 20. CALCULATE NEW BALANCE
+			// =====================================================
+
+			double newBalance = Math.max(0, depositAmount - newPaidAmount);
+
+			// =====================================================
+			// 21. UPDATED COMPLETED INSTALLMENTS
 			// =====================================================
 
 			int updatedInstallmentsPaid = currentInstallmentNo;
 
 			// =====================================================
-			// SAVE POLICY PAYMENT
+			// 22. CALCULATE NEXT PAYMENT DUE
+			//
+			// IMPORTANT:
+			//
+			// amountDue = NEXT FD SPLIT
+			//
+			// NOT total remaining balance.
+			//
+			// Example:
+			//
+			// After 1st:
+			// Balance = 700000
+			// Due = 300000
+			//
+			// After 3rd:
+			// Balance = 100000
+			// Due = 100000
+			//
+			// After 4th:
+			// Balance = 0
+			// Due = 0
+			// =====================================================
+
+			double newAmountDue = 0.0;
+
+			int nextInstallmentIndex = updatedInstallmentsPaid;
+
+			if (nextInstallmentIndex < splitAmounts.size()) {
+
+				newAmountDue = splitAmounts.get(nextInstallmentIndex);
+			}
+
+			// =====================================================
+			// 23. FLOATING POINT CORRECTION
+			// =====================================================
+
+			if (Math.abs(newBalance) < 0.01) {
+
+				newBalance = 0.0;
+				newAmountDue = 0.0;
+			}
+
+			// =====================================================
+			// 24. CREATE POLICY PAYMENT
 			// =====================================================
 
 			PolicyPayment payment = new PolicyPayment();
@@ -1896,26 +1970,61 @@ public class PolicyManagementService {
 
 			payment.setBalance(String.format("%.2f", newBalance));
 
+			// =====================================================
+			// 25. SAVE POLICY PAYMENT
+			// =====================================================
+
 			PolicyPayment savedPayment = policyPaymentRepository.save(payment);
 
 			// =====================================================
-			// UPDATE MAIN ADDNEWINVESTMENTPM
+			// 26. UPDATE MAIN FD POLICY
 			// =====================================================
 
 			policy.setPaidAmount(String.format("%.2f", newPaidAmount));
 
 			policy.setBalance(String.format("%.2f", newBalance));
 
+			// =====================================================
+			// 27. LAST FD SPLIT PAID
+			//
+			// 0 initially
+			// 1 after first
+			// 2 after second
+			// 3 after third
+			// 4 after fourth
+			// =====================================================
+
 			policy.setLastInstPaid(String.valueOf(updatedInstallmentsPaid));
+
+			// =====================================================
+			// 28. TOTAL NUMBER OF FD SPLITS
+			//
+			// IMPORTANT:
+			//
+			// Always total splits.
+			//
+			// Example:
+			// noOfInstallments = 4
+			//
+			// Do NOT store 1,2,3,4 here.
+			// =====================================================
+
+			policy.setNoOfInstallments(String.valueOf(splitAmounts.size()));
+
+			// =====================================================
+			// 29. LAST PAYMENT DATE
+			// =====================================================
 
 			policy.setLastPaymentDate(dto.getPaymentDate());
 
-			policy.setNoOfInstallments(String.valueOf(updatedInstallmentsPaid));
+			// =====================================================
+			// 30. NEXT PAYMENT DUE
+			// =====================================================
 
 			policy.setAmountDue(String.format("%.2f", newAmountDue));
 
 			// =====================================================
-			// PAYMENT MODE
+			// 31. PAYMENT MODE
 			// =====================================================
 
 			if (dto.getModeOfPayment() != null) {
@@ -1923,10 +2032,14 @@ public class PolicyManagementService {
 				policy.setModeOfPayment(dto.getModeOfPayment());
 			}
 
+			// =====================================================
+			// 32. SAVE MAIN POLICY
+			// =====================================================
+
 			addinvestmentrepo.save(policy);
 
 			// =====================================================
-			// SAVE FLEXIBLE RENEWAL
+			// 33. CREATE FLEXIBLE RENEWAL
 			// =====================================================
 
 			FlexibleRenewal fdRenewal = new FlexibleRenewal();
@@ -1954,73 +2067,98 @@ public class PolicyManagementService {
 			fdRenewal.setMaturityAmount(parseDoubleSafe(policy.getMaturityAmount()));
 
 			// =====================================================
-			// TOTAL FD DEPOSIT PAID TILL NOW
+			// 34. TOTAL DEPOSIT PAID TILL NOW
 			// =====================================================
 
 			fdRenewal.setTotalDeposit(newPaidAmount);
 
 			// =====================================================
-			// REMAINING PAYMENT DUE
+			// 35. NEXT FD PAYMENT DUE
 			// =====================================================
 
 			fdRenewal.setPaymentDue(newAmountDue);
 
+			// =====================================================
+			// 36. LAST PAYMENT DATE
+			// =====================================================
+
 			fdRenewal.setLastPaymentDate(policy.getLastPaymentDate());
+
+			// =====================================================
+			// 37. DUE DATE
+			// =====================================================
 
 			fdRenewal.setDueDate(policy.getDueDate());
 
 			// =====================================================
-			// FD INSTALLMENT INFORMATION
+			// 38. TOTAL FD SPLITS
 			// =====================================================
 
 			fdRenewal.setNoOfInst(splitAmounts.size());
 
+			// =====================================================
+			// 39. COMPLETED FD SPLITS
+			// =====================================================
+
 			fdRenewal.setNoOfInstPaid(updatedInstallmentsPaid);
 
+			// =====================================================
+			// 40. MODE OF PAYMENT
+			// =====================================================
+
 			fdRenewal.setModeOfPayment(dto.getModeOfPayment());
+
+			// =====================================================
+			// 41. BRANCH
+			// =====================================================
 
 			fdRenewal.setBranchname(policy.getBranchName());
 
 			// =====================================================
-			// CURRENT FD DEPOSIT
+			// 42. CURRENT FD PAYMENT
 			// =====================================================
 
 			fdRenewal.setNetDeposit(newPayment);
 
 			// =====================================================
-			// FEES / PENALTY
+			// 43. PENALTY / FEES
 			// =====================================================
 
 			fdRenewal.setFees(String.format("%.2f", penaltyAmount));
 
 			// =====================================================
-			// APPROVED
+			// 44. APPROVED
 			// =====================================================
 
 			fdRenewal.setApproved(true);
 
 			// =====================================================
-			// SAVE FLEXIBLE RENEWAL
+			// 45. SAVE FLEXIBLE RENEWAL
 			// =====================================================
 
 			flexibleRenewalRepo.save(fdRenewal);
 
 			// =====================================================
-			// SUCCESS MESSAGE
+			// 46. SUCCESS MESSAGE
 			// =====================================================
 
 			String message;
 
-			if (newAmountDue == 0) {
+			if (newAmountDue == 0 && updatedInstallmentsPaid >= splitAmounts.size()) {
 
-				message = "FD payment saved successfully. " + "All FD split payments are completed "
-						+ "and FD is fully funded.";
+				message = "FD payment saved successfully. " + "All " + splitAmounts.size()
+						+ " FD split payments are completed " + "and FD is fully funded.";
 
 			} else {
 
-				message = "FD payment " + currentInstallmentNo + " saved successfully. " + "Remaining FD balance: "
-						+ String.format("%.2f", newBalance);
+				message = "FD payment " + currentInstallmentNo + " saved successfully. " + "Remaining FD balance: ₹"
+						+ String.format("%.2f", newBalance) + ". Next payment due: ₹"
+						+ String.format("%.2f", newAmountDue);
 			}
+
+			// =====================================================
+			// 47. RETURN SUCCESS
+			// =====================================================
 
 			return new ApiResponse<>(HttpStatus.CREATED, message, savedPayment);
 

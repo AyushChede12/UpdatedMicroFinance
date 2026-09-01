@@ -109,8 +109,8 @@
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields">
-							<label for="">TOTAL POLICY AMOUNT <span class="star">*</span></label> <input
-								type="text" name="policyAmount" id="policyAmount"
+							<label for="">TOTAL POLICY AMOUNT <span class="star">*</span></label>
+							<input type="text" name="policyAmount" id="policyAmount"
 								readonly="readonly" required="required"
 								placeholder="ENTER POLICY AMOUNT" />
 						</div>
@@ -175,18 +175,18 @@
 						</div>
 					</div>
 
-					<div class="col-lg-3">
+					<!-- <div class="col-lg-3">
 						<div class="d-flex flex-column formFields mt-4">
 							<label for="">DUE DATE <span class="star">*</span></label> <input
 								type="date" name="dueDate" id="dueDate" required="required"
 								readonly="readonly" placeholder="Enter Vehicle No"
 								style="text-transform: uppercase;" />
 						</div>
-					</div>
+					</div> -->
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields mt-4">
-							<label for="">NO OF INSTALLMENT <span class="star">*</span></label>
+							<label for="">NO. OF FD SPLITS <span class="star">*</span></label>
 							<input type="text" name="noOfInst" id="noOfInst"
 								readonly="readonly" required="required"
 								placeholder="ENTER NO OF INSTALLMENT" value="1" />
@@ -195,7 +195,7 @@
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields mt-4">
-							<label for="">INSTALLMENTS COMPLETED <span class="star">*</span></label>
+							<label for="">FDs COMPLETED <span class="star">*</span></label>
 							<input type="text" name="noOfInstPaid" id="noOfInstPaid"
 								readonly="readonly" required="required"
 								placeholder="ENTER INSTALLMENT COMPLETED" />
@@ -263,7 +263,7 @@
 			<div class="col-12 text-center" style="display: flex;">
 				<button id="viewBtn" type="button" class="btn btn-primary"
 					data-toggle="modal" data-target="#installmentModal"
-					style="margin-left: -500px;">VIEW INSTALLMENT</button>
+					style="margin-left: -500px;">VIEW FD DETAILS</button>
 				<button id="btnSave" type="button" class="btn btn-info"
 					style="margin-left: 5px;">SAVE</button>
 			</div>
@@ -300,13 +300,13 @@
 						id="installmentModal">
 						<thead class="thead-dark">
 							<tr>
-								<th>INSTALLMENT NO</th>
-								<th>MATURITY / DUE DATE</th>
-								<th>PAYMENT AMOUNT</th>
-								<th>PENALTY</th>
-								<th>STATUS</th>
-								<th>PAYMENT DATE</th>
-								<th>BALANCE</th>
+								<th style="white-space: nowrap;">INSTALLMENT NO</th>
+								<th style="white-space: nowrap;">MATURITY / DUE DATE</th>
+								<th style="white-space: nowrap;">PAYMENT AMOUNT</th>
+								<th style="white-space: nowrap;">PENALTY</th>
+								<th style="white-space: nowrap;">STATUS</th>
+								<th style="white-space: nowrap;">PAYMENT DATE</th>
+								<th style="white-space: nowrap;">BALANCE</th>
 							</tr>
 						</thead>
 						<tbody>

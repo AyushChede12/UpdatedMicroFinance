@@ -33,8 +33,8 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>RENEWAL CODE<span class="star">*</span></label> <input
-							type="date" name="renewalDate" id="renewalDate"
+						<label>RENEWAL DATE<span class="star">*</span></label> <input
+							type="date" name="fromDate" id="fromDate"
 							required="required" placeholder="Enter Vehicle No"
 							style="text-transform: uppercase;" />
 					</div>

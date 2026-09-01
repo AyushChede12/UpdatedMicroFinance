@@ -73,10 +73,7 @@ $(document).ready(function() {
 
 			success: function(response) {
 
-				console.log(
-					"FD Policy Response:",
-					response
-				);
+				console.log("FD Policy Response:", response);
 
 				if (!response || !response.data) {
 
@@ -86,24 +83,12 @@ $(document).ready(function() {
 
 				const data = response.data;
 
-
-				// =================================================
-				// FD RENEWAL DATE
-				// =================================================
-				//
-				// FD is one-time payment.
-				// Therefore renewal/payment date is not
-				// calculated like RD monthly installments.
-				//
-				// Keep renewalDate blank here.
-				// =================================================
-
-				let renewalDate = "";
+				console.log("FD Policy Data:", data);
 
 
-				// =================================================
-				// POLICY BASIC DETAILS
-				// =================================================
+				// =====================================================
+				// 1. POLICY BASIC DETAILS
+				// =====================================================
 
 				$("#policyDate")
 					.val(data.policyStartDate || "");
@@ -112,9 +97,9 @@ $(document).ready(function() {
 					.val(data.maturityDate || "");
 
 
-				// =================================================
-				// CUSTOMER DETAILS
-				// =================================================
+				// =====================================================
+				// 2. CUSTOMER DETAILS
+				// =====================================================
 
 				$("#customerCode")
 					.val(data.memberSelection || "");
@@ -125,22 +110,19 @@ $(document).ready(function() {
 				$("#contactNo")
 					.val(data.contactNo || "");
 
+				$("#branchName")
+					.val(data.branchName || "");
 
-				// =================================================
-				// FD AMOUNT DETAILS
-				// =================================================
+
+				// =====================================================
+				// 3. FD BASIC DETAILS
+				// =====================================================
 
 				$("#policyAmount")
 					.val(data.policyAmount || 0);
 
-				$("#netDeposite")
-					.val(data.depositAmount || 0);
-
 				$("#policyType")
 					.val(data.schemeType || "FD");
-
-				$("#branchName")
-					.val(data.branchName || "");
 
 				$("#policyTerm")
 					.val(data.schemeTerm || "");
@@ -148,106 +130,253 @@ $(document).ready(function() {
 				$("#maturityAmount")
 					.val(data.maturityAmount || 0);
 
+
+				// =====================================================
+				// 4. TOTAL DEPOSIT
+				// =====================================================
+
+				const depositAmount =
+					parseFloat(data.depositAmount) || 0;
+
 				$("#totalDeposit")
-					.val(data.depositAmount || 0);
+					.val(depositAmount.toFixed(2));
 
 
-				// =================================================
-				// FD PAYMENT DUE
-				// =================================================
-				//
-				// For FD:
-				//
-				// First payment:
-				//     balance = depositAmount
-				//
-				// After payment:
-				//     balance = 0
-				//
-				// =================================================
+				// =====================================================
+				// 5. FD SPLIT AMOUNTS
+				// =====================================================
 
-				let paymentDue = parseFloat(data.balance) || 0;
+				let fdSplitAmounts = [];
 
-				// If balance is not available,
-				// calculate it from depositAmount - paidAmount.
-				if (paymentDue <= 0) {
+				if (data.fdSplitAmounts) {
 
-					const depositAmount =
-						parseFloat(data.depositAmount) || 0;
+					try {
 
-					const paidAmount =
-						parseFloat(data.paidAmount) || 0;
+						// If backend sends JSON String
+						if (typeof data.fdSplitAmounts === "string") {
 
-					if (depositAmount > paidAmount) {
+							fdSplitAmounts =
+								JSON.parse(data.fdSplitAmounts);
 
-						paymentDue =
-							depositAmount - paidAmount;
+						}
+						// If backend already sends Array
+						else if (Array.isArray(data.fdSplitAmounts)) {
+
+							fdSplitAmounts =
+								data.fdSplitAmounts;
+						}
+
+					} catch (error) {
+
+						console.error(
+							"FD Split JSON Parse Error:",
+							error
+						);
+
+						fdSplitAmounts = [];
 					}
 				}
+
+
+				console.log(
+					"FD Split Amounts:",
+					fdSplitAmounts
+				);
+
+
+				// =====================================================
+				// 6. VALIDATE FD SPLIT AMOUNTS
+				// =====================================================
+
+				const totalSplitAmount =
+					fdSplitAmounts.reduce(function(sum, amount) {
+
+						return sum +
+							(parseFloat(amount) || 0);
+
+					}, 0);
+
+
+				console.log(
+					"Total Split Amount:",
+					totalSplitAmount
+				);
+
+				console.log(
+					"Policy Amount:",
+					depositAmount
+				);
+
+
+				// Optional validation
+				if (
+					fdSplitAmounts.length > 0 &&
+					Math.abs(totalSplitAmount - depositAmount) > 0.01
+				) {
+
+					console.warn(
+						"WARNING: FD split total does not match total deposit."
+					);
+
+				}
+
+
+				// =====================================================
+				// 7. NO. OF FD SPLITS
+				// =====================================================
+
+				const totalFDSplits =
+					fdSplitAmounts.length;
+
+				$("#noOfInst")
+					.val(totalFDSplits);
+
+
+				// =====================================================
+				// 8. COMPLETED FD SPLITS
+				// =====================================================
+
+				let completedFDSplits =
+					parseInt(data.lastInstPaid) || 0;
+
+
+				// Safety validation
+				if (completedFDSplits < 0) {
+					completedFDSplits = 0;
+				}
+
+				if (completedFDSplits > totalFDSplits) {
+					completedFDSplits = totalFDSplits;
+				}
+
+				$("#noOfInstPaid")
+					.val(completedFDSplits);
+
+
+				// =====================================================
+				// 9. PAID AMOUNT
+				// =====================================================
+
+				const paidAmount =
+					parseFloat(data.paidAmount) || 0;
+
+
+				// =====================================================
+				// 10. BALANCE
+				// =====================================================
+
+				let balance =
+					parseFloat(data.balance);
+
+				// If backend balance is not available
+				// calculate it
+				if (isNaN(balance)) {
+
+					balance =
+						depositAmount - paidAmount;
+				}
+
+				if (balance < 0) {
+					balance = 0;
+				}
+
+
+				// =====================================================
+				// 11. CURRENT FD PAYMENT DUE
+				// =====================================================
+
+				let paymentDue = 0;
+
+
+				/*
+				 * Example:
+				 *
+				 * fdSplitAmounts =
+				 * [300000, 300000, 300000, 100000]
+				 *
+				 * completed = 0
+				 * paymentDue = 300000
+				 *
+				 * completed = 1
+				 * paymentDue = 300000
+				 *
+				 * completed = 2
+				 * paymentDue = 300000
+				 *
+				 * completed = 3
+				 * paymentDue = 100000
+				 *
+				 * completed = 4
+				 * paymentDue = 0
+				 */
+
+				if (
+					totalFDSplits > 0 &&
+					completedFDSplits < totalFDSplits
+				) {
+
+					paymentDue =
+						parseFloat(
+							fdSplitAmounts[completedFDSplits]
+						) || 0;
+
+				} else {
+
+					paymentDue = 0;
+				}
+
 
 				$("#paymentDue")
 					.val(paymentDue.toFixed(2));
 
 
-				// =================================================
-				// OTHER POLICY DETAILS
-				// =================================================
-
-				$("#financialCode")
-					.val(data.introMCode || "");
-
-				$("#lastInstPaid")
-					.val(data.lastInstPaid || "0");
-
-				// FD maturity date is the final/due date
-				$("#dueDate")
-					.val(data.maturityDate || "");
-
-
-				// =================================================
-				// FD INSTALLMENT
-				// =================================================
-				//
-				// FD has only ONE installment.
-				//
-				// Before payment:
-				//     0
-				//
-				// After payment:
-				//     1
-				//
-				// =================================================
-
-				$("#noOfInstPaid")
-					.val(data.noOfInstallments || "0");
-
-
-				// =================================================
-				// PAYMENT DETAILS
-				// =================================================
-
-				$("#paymentMode")
-					.val(data.paymentBy || "");
-
-				$("#nomineeName")
-					.val(data.suggestedNominee || "");
-
-				$("#comment")
-					.val(data.remark || "");
-
-				$("#agentName")
-					.val(data.agent || "");
-
-				$("#modeOfPayment")
-					.val(data.modeOfPayment || "");
+				// =====================================================
+				// 12. OTHER FD DETAILS
+				// =====================================================
 
 				$("#lastPaymentDate")
 					.val(data.lastPaymentDate || "");
 
 
-				// =================================================
-				// PHOTO
-				// =================================================
+				$("#modeOfPayment")
+					.val(data.modeOfPayment || "");
+
+
+				// =====================================================
+				// 13. PAYMENT BY
+				// =====================================================
+
+				$("#paymentMode")
+					.val(data.paymentBy || "");
+
+
+				// =====================================================
+				// 14. NOMINEE
+				// =====================================================
+
+				$("#nomineeName")
+					.val(data.suggestedNominee || "");
+
+
+				// =====================================================
+				// 15. REMARK
+				// =====================================================
+
+				$("#comment")
+					.val(data.remark || "");
+
+
+				// =====================================================
+				// 16. AGENT
+				// =====================================================
+
+				$("#agentName")
+					.val(data.agent || "");
+
+
+				// =====================================================
+				// 17. PHOTO
+				// =====================================================
 
 				if (data.image1) {
 
@@ -279,9 +408,9 @@ $(document).ready(function() {
 				}
 
 
-				// =================================================
-				// SIGNATURE
-				// =================================================
+				// =====================================================
+				// 18. SIGNATURE
+				// =====================================================
 
 				if (data.image2) {
 
@@ -312,6 +441,53 @@ $(document).ready(function() {
 						.val("");
 				}
 
+
+				// =====================================================
+				// 19. DEBUG INFORMATION
+				// =====================================================
+
+				console.log(
+					"========== FD SUMMARY =========="
+				);
+
+				console.log(
+					"Total Policy Amount:",
+					depositAmount
+				);
+
+				console.log(
+					"FD Split Amounts:",
+					fdSplitAmounts
+				);
+
+				console.log(
+					"Total FD Splits:",
+					totalFDSplits
+				);
+
+				console.log(
+					"Completed FD Splits:",
+					completedFDSplits
+				);
+
+				console.log(
+					"Paid Amount:",
+					paidAmount
+				);
+
+				console.log(
+					"Balance:",
+					balance
+				);
+
+				console.log(
+					"Current Payment Due:",
+					paymentDue
+				);
+
+				console.log(
+					"================================"
+				);
 			},
 
 			error: function(xhr) {
@@ -324,6 +500,7 @@ $(document).ready(function() {
 				alert("FD Policy not found!");
 			}
 		});
+
 	});
 
 
@@ -997,54 +1174,7 @@ $(document).ready(function() {
 						) || 0;
 
 
-					rowsHtml =
-						`
-	                    <tr>
-
-	                        <td>
-	                            1
-	                        </td>
-
-	                        <td>
-	                            ${maturityDate}
-	                        </td>
-
-	                        <td>
-	                            INR ${paymentDue.toLocaleString(
-							"en-IN",
-							{
-								minimumFractionDigits: 2,
-								maximumFractionDigits: 2
-							}
-						)}
-	                        </td>
-
-	                        <td>
-	                            INR 0.00
-	                        </td>
-
-	                        <td>
-	                            <span class="text-danger font-weight-bold">
-	                                UNPAID
-	                            </span>
-	                        </td>
-
-	                        <td>
-	                            -
-	                        </td>
-
-	                        <td>
-	                            INR ${paymentDue.toLocaleString(
-							"en-IN",
-							{
-								minimumFractionDigits: 2,
-								maximumFractionDigits: 2
-							}
-						)}
-	                        </td>
-
-	                    </tr>
-	                    `;
+					rowsHtml = `<tr><td>1</td><td style="white-space: nowrap;">${maturityDate}</td><td style="white-space: nowrap;">INR ${paymentDue.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td><td style="white-space: nowrap;">INR 0.00</td><td><span class="text-danger font-weight-bold">UNPAID</span></td><td>-</td><td style="white-space: nowrap;">INR ${paymentDue.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td></tr>`;
 				}
 
 
