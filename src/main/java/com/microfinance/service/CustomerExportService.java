@@ -470,6 +470,9 @@ public class CustomerExportService {
         addPdfRow(otherTable, "TAX BILL",
                 customer.getTaxBill());
 
+        addPdfRow(otherTable, "INTEREST PERCENT",
+                customer.getInterestPercent());
+
         addPdfRow(otherTable, "MEMBER FEES",
                 customer.getMemberFees());
 
@@ -485,8 +488,6 @@ public class CustomerExportService {
         addPdfRow(otherTable, "OTHER CHARGE",
                 customer.getOtherCharge());
 
-        addPdfRow(otherTable, "ENTRY FEE",
-                customer.getEntryFee());
 
         addPdfRow(otherTable, "PAYMENT BY",
                 customer.getPaymentBy());
@@ -1048,6 +1049,9 @@ public class CustomerExportService {
         addWordRow(otherTable, "TAX BILL",
                 customer.getTaxBill());
 
+        addWordRow(otherTable, "INTEREST PERCENT",
+                customer.getInterestPercent());
+
         addWordRow(otherTable, "MEMBER FEES",
                 customer.getMemberFees());
 
@@ -1063,8 +1067,6 @@ public class CustomerExportService {
         addWordRow(otherTable, "OTHER CHARGE",
                 customer.getOtherCharge());
 
-        addWordRow(otherTable, "ENTRY FEE",
-                customer.getEntryFee());
 
         addWordRow(otherTable, "PAYMENT BY",
                 customer.getPaymentBy());

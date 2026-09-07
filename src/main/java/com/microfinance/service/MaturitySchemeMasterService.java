@@ -6,7 +6,7 @@ package com.microfinance.service;
 import java.util.List;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -21,19 +21,13 @@ import com.microfinance.repository.MaturitySchemeMasterRepo;
 import com.microfinance.repository.PartialMaturitypaymentRepo;
 
 @Service
+@RequiredArgsConstructor
 public class MaturitySchemeMasterService {
-	
-	@Autowired
-	MaturitySchemeMasterRepo maturityschemerepo;
-	
-	@Autowired
-	ApplyForMaturityRepo Applymaturityrepo;
-	
-	@Autowired
-	PartialMaturitypaymentRepo partialmaturityrepo;
-	
-	@Autowired
-	FullMaturityRepo fullmaturityrepo;
+
+	private final MaturitySchemeMasterRepo maturityschemerepo;
+	private final ApplyForMaturityRepo Applymaturityrepo;
+	private final PartialMaturitypaymentRepo partialmaturityrepo;
+	private final FullMaturityRepo fullmaturityrepo;
 
 	public MaturitySchemeMaster saveAllDailyDeposit(MaturitySchemeMaster maturityscheme) {
 		// TODO Auto-generated method stub

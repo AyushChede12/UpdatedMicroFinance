@@ -94,8 +94,8 @@ $('#accountNumber').on('change', function() {
 				$('#customerName').val(customer.enterCustomerName ? customer.enterCustomerName.toUpperCase() : '');
 				$('#contactNumber').val(customer.contactNumber || '');
 				$('#jointHolderName').val(customer.jointSurvivorCode ? customer.jointSurvivorCode.toUpperCase() : '');
-				$('#savingPlanName').val(customer.selectPlan ? customer.selectPlan.toUpperCase() : '');
-				$('#averageBalance').val(customer.openingFees || '');
+				$('#savingPlanName').val(customer.selectPlan ? customer.selectPlan.toUpperCase() : (customer.typeofaccount ? customer.typeofaccount.toUpperCase() : ''));
+				$('#averageBalance').val((customer.balance !== undefined && customer.balance !== null && customer.balance !== "") ? customer.balance : (customer.openingFees || '0'));
 				$('#selectBranchName').val(branch ? branch.toUpperCase() : '');
 
 				$('#customerCode, #customerName, #contactNumber, #jointHolderName, #savingPlanName, #averageBalance, #selectBranchName')

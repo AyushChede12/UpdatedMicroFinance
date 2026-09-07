@@ -427,6 +427,14 @@
 								name="taxBill" id="taxBill" required="required" placeholder="ENTER TAX BILL NO" />
 						</div>
 					</div>
+
+					<div class="col-lg-3 mb-4">
+						<div class="d-flex flex-column formFields">
+							<label for="interestPercent">INTEREST PERCENT (%)</label> <input type="text"
+								name="interestPercent" id="interestPercent" placeholder="ENTER INTEREST PERCENT" />
+							<small id="chkinterestpercent" style="color: red;"></small>
+						</div>
+					</div>
 				</div>
 
 				<div class="row mt-4">
@@ -701,12 +709,7 @@
 						</div>
 					</div>
 
-					<div class="col-lg-3">
-						<div class="d-flex flex-column formFields">
-							<label>ENTRY FEE</label> <input type="text" id="entryFee" style="text-transform: uppercase;"
-								name="entryFee" placeholder="ENTER ENTRY FEE" />
-						</div>
-					</div>
+
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields">

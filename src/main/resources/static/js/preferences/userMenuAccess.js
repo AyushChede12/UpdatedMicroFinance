@@ -149,7 +149,7 @@ function loadSidebar(session) {
 	// CUSTOMER SAVINGS (NEW)
 	if (session.includes("Savings Scheme Catalog")) $("#mySavingsSchemeCatalog").show();
 	if (session.includes("Create Savings Account ")) $("#myCreateSavingsAccount").show();
-	if (session.includes("Saving Account Activity")) $("#mySavingAccountActivity").show();
+	if (session.includes("Deposit / Withdrawal") || session.includes("Saving Account Activity")) $("#mySavingAccountActivity").show();
 	if (session.includes("Savings Account Fund Transfer")) $("#mySavingsAccountFundTransfer").show();
 	if (session.includes("Savings Account Interest Transfer")) $("#mySavingsAccountInterestTransfer").show();
 	if (session.includes("Savings Record Book")) $("#mySavingsRecordBook").show();

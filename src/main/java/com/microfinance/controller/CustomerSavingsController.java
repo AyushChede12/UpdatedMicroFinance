@@ -1,6 +1,7 @@
 package com.microfinance.controller;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -29,6 +30,7 @@ import com.microfinance.dto.FinancialConsultantDto;
 import com.microfinance.dto.SavingAccountDto;
 import com.microfinance.model.CategoryModule;
 import com.microfinance.model.CreateSavingsAccount;
+import com.microfinance.model.BranchModule;
 import com.microfinance.model.ExecutiveFounder;
 import com.microfinance.model.FinancialYear;
 import com.microfinance.model.ManageDepartment;
@@ -38,10 +40,14 @@ import com.microfinance.model.SavingsInterestTransfer;
 import com.microfinance.model.states;
 import com.microfinance.repository.CreateSavingAccountRepo;
 import com.microfinance.repository.SavingAccountFundTransferRepo;
+import com.microfinance.repository.SavingsInterestTransferRepo;
 import com.microfinance.model.addCustomer;
 import com.microfinance.model.addFinancialConsultant;
 import com.microfinance.model.savingAccountFundTransfer;
 import com.microfinance.model.savingsAccountCloser;
+import com.microfinance.model.BranchModule;
+import com.microfinance.repository.CustomerRepo;
+import com.microfinance.repository.BranchModuleRepo;
 import com.microfinance.service.CustomerSavingsService;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -69,7 +75,16 @@ public class CustomerSavingsController {
 	CreateSavingAccountRepo creSavingAccountRepo;
 
 	@Autowired
+	CustomerRepo customerRepo;
+
+	@Autowired
+	BranchModuleRepo branchModuleRepo;
+
+	@Autowired
 	SavingAccountFundTransferRepo savingAccountFundTransferRepo;
+
+	@Autowired
+	SavingsInterestTransferRepo savingsInterestTransferRepo;
 
 	@Value("${upload.directory}")
 	private String uploadDirectory;
@@ -213,10 +228,126 @@ public class CustomerSavingsController {
 				response.getData()));
 	}
 
-	// fetch all saving accouunt data
+	// fetch all saving account data (with branch enrichment - batch optimized)
 	@GetMapping("/getAllSavingAccountData")
 	public ResponseEntity<ApiResponse<List<CreateSavingsAccount>>> fetchAllSavingAccountData() {
 		List<CreateSavingsAccount> list = customersaving.fetchAllSavingAccountData();
+
+		// Collect all member codes to enrich interestPercent, joining date, and branch
+		List<String> memberCodes = list.stream()
+				.filter(acc -> acc.getSelectByCustomer() != null
+						&& !acc.getSelectByCustomer().trim().isEmpty())
+				.map(acc -> acc.getSelectByCustomer().trim())
+				.distinct()
+				.collect(java.util.stream.Collectors.toList());
+
+		// Look up latest interest transfer date for each account
+		Map<String, LocalDate> latestTransferMap = new java.util.HashMap<>();
+		try {
+			List<Object[]> latestTransfers = savingsInterestTransferRepo.findLatestToDatePerAccount();
+			for (Object[] row : latestTransfers) {
+				if (row != null && row.length >= 2 && row[0] != null && row[1] != null) {
+					Object rawDate = row[1];
+					LocalDate dateVal = null;
+					if (rawDate instanceof LocalDate) {
+						dateVal = (LocalDate) rawDate;
+					} else if (rawDate instanceof java.sql.Date) {
+						dateVal = ((java.sql.Date) rawDate).toLocalDate();
+					} else {
+						try {
+							dateVal = LocalDate.parse(rawDate.toString().trim());
+						} catch (Exception ignored) {}
+					}
+					if (dateVal != null) {
+						latestTransferMap.put(row[0].toString().trim(), dateVal);
+					}
+				}
+			}
+		} catch (Exception e) {
+			System.err.println("Error fetching latest transfer dates: " + e.getMessage());
+		}
+
+		if (!memberCodes.isEmpty()) {
+			// ONE query for all customers needed
+			List<addCustomer> customers = customerRepo.findByMemberCodeIn(memberCodes);
+			// ONE query for all branches
+			List<BranchModule> allBranches = branchModuleRepo.findAll();
+
+			// Build lookup map: memberCode -> customer
+			Map<String, addCustomer> customerMap = new java.util.HashMap<>();
+			for (addCustomer c : customers) {
+				if (c.getMemberCode() != null) {
+					customerMap.put(c.getMemberCode().trim(), c);
+				}
+			}
+
+			// Build lookup map: branchName(lowercase) -> BranchModule
+			Map<String, BranchModule> branchMap = new java.util.HashMap<>();
+			for (BranchModule b : allBranches) {
+				if (b.getBranchName() != null) {
+					branchMap.put(b.getBranchName().trim().toLowerCase(), b);
+				}
+			}
+
+			// Enrich in-memory - interestPercent, openingDate (joining date), branch, and cycle dates
+			for (CreateSavingsAccount acc : list) {
+				String accNo = acc.getAccountNumber() != null ? acc.getAccountNumber().trim() : "";
+				LocalDate lastDate = latestTransferMap.get(accNo);
+				if (lastDate != null) {
+					acc.setLastInterestTransferDate(lastDate.toString());
+				}
+
+				if (acc.getSelectByCustomer() != null) {
+					addCustomer cust = customerMap.get(acc.getSelectByCustomer().trim());
+					if (cust != null) {
+						String interestPct = cust.getInterestPercent();
+						if (interestPct == null || interestPct.trim().isEmpty()) {
+							interestPct = "0";
+						}
+						acc.setInterestPercent(interestPct.trim());
+
+						if (acc.getOpeningDate() == null || acc.getOpeningDate().trim().isEmpty()) {
+							acc.setOpeningDate(cust.getSignupDate());
+						}
+
+						if (acc.getBranchName() == null && cust.getBranchName() != null && !cust.getBranchName().trim().isEmpty()) {
+							BranchModule matched = branchMap.get(cust.getBranchName().trim().toLowerCase());
+							if (matched != null) {
+								acc.setBranchName(matched);
+							}
+						}
+					} else {
+						acc.setInterestPercent("0");
+					}
+				} else {
+					acc.setInterestPercent("0");
+				}
+
+				// Calculate next quarterly due date based on customer's individual cycle
+				try {
+					LocalDate cycleStart = null;
+					if (lastDate != null) {
+						cycleStart = lastDate;
+					} else if (acc.getOpeningDate() != null && !acc.getOpeningDate().trim().isEmpty()) {
+						String rawDate = acc.getOpeningDate().trim();
+						if (rawDate.matches("^\\d{4}-\\d{2}-\\d{2}$")) {
+							cycleStart = LocalDate.parse(rawDate);
+						} else if (rawDate.matches("^\\d{2}-\\d{2}-\\d{4}$")) {
+							String[] parts = rawDate.split("-");
+							cycleStart = LocalDate.of(Integer.parseInt(parts[2]), Integer.parseInt(parts[1]), Integer.parseInt(parts[0]));
+						} else if (rawDate.matches("^\\d{2}/\\d{2}/\\d{4}$")) {
+							String[] parts = rawDate.split("/");
+							cycleStart = LocalDate.of(Integer.parseInt(parts[2]), Integer.parseInt(parts[1]), Integer.parseInt(parts[0]));
+						}
+					}
+					if (cycleStart != null) {
+						LocalDate nextDue = cycleStart.plusMonths(3);
+						acc.setNextInterestDueDate(nextDue.toString());
+					}
+				} catch (Exception ignored) {}
+			}
+		}
+
 		ApiResponse<List<CreateSavingsAccount>> response = new ApiResponse<>(HttpStatus.FOUND,
 				"Saving Account Data fetched successfully", list);
 		return ResponseEntity.ok(response);
@@ -234,21 +365,58 @@ public class CustomerSavingsController {
 	 * ApiResponse<>(HttpStatus.FOUND, "Fetch account details by account number",
 	 * list); return ResponseEntity.ok(response); }
 	 */
-	// janvi
 	@GetMapping("/getallbyaccountnumber")
 	public ResponseEntity<ApiResponse<List<CreateSavingsAccount>>> findAllByAccountNumber(
 			@RequestParam String accountNumber) {
 
-		List<CreateSavingsAccount> approvedAccounts = customersaving.findAllApprovedByAccountNumber(accountNumber);
+		List<CreateSavingsAccount> accounts = customersaving.findAllApprovedByAccountNumber(accountNumber);
 
-		if (approvedAccounts == null || approvedAccounts.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body(new ApiResponse<>(HttpStatus.BAD_REQUEST, "First approve account", null));
+		// Fallback: if not approved yet or empty, fetch by account number directly
+		if (accounts == null || accounts.isEmpty()) {
+			Optional<CreateSavingsAccount> accOpt = createSavingAccountRepo.findByAccountNumber(accountNumber);
+			if (accOpt.isPresent()) {
+				accounts = new ArrayList<>();
+				accounts.add(accOpt.get());
+			}
+		}
+
+		if (accounts == null || accounts.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND)
+					.body(new ApiResponse<>(HttpStatus.NOT_FOUND, "No saving account found for account number: " + accountNumber, null));
+		}
+
+		// Enrich each account with customer master details if fields are missing
+		for (CreateSavingsAccount acc : accounts) {
+			if (acc.getSelectByCustomer() != null && !acc.getSelectByCustomer().trim().isEmpty()) {
+				List<addCustomer> custs = customerRepo.findBymemberCode(acc.getSelectByCustomer().trim());
+				if (custs != null && !custs.isEmpty()) {
+					addCustomer cust = custs.get(0);
+					if (acc.getEnterCustomerName() == null || acc.getEnterCustomerName().trim().isEmpty()) {
+						acc.setEnterCustomerName(cust.getCustomerName());
+					}
+					if (acc.getContactNumber() == null || acc.getContactNumber().trim().isEmpty()) {
+						acc.setContactNumber(cust.getContactNo());
+					}
+					if (acc.getBranchName() == null && cust.getBranchName() != null && !cust.getBranchName().trim().isEmpty()) {
+						String bName = cust.getBranchName().trim();
+						List<BranchModule> allBranches = branchModuleRepo.findAll();
+						BranchModule matched = allBranches.stream()
+								.filter(b -> bName.equalsIgnoreCase(b.getBranchName()))
+								.findFirst()
+								.orElseGet(() -> allBranches.stream()
+										.filter(b -> b.getBranchName() != null && b.getBranchName().toLowerCase().contains(bName.toLowerCase()))
+										.findFirst()
+										.orElse(null));
+						if (matched != null) {
+							acc.setBranchName(matched);
+						}
+					}
+				}
+			}
 		}
 
 		return ResponseEntity
-				.ok(new ApiResponse<>(HttpStatus.OK, "Fetch account details by account number", approvedAccounts));
-
+				.ok(new ApiResponse<>(HttpStatus.OK, "Fetch account details by account number", accounts));
 	}
 
 	@GetMapping("/getSavingAccountDataById")
@@ -295,16 +463,13 @@ public class CustomerSavingsController {
 			@RequestParam String accountNumber) {
 
 		List<SavingAccountActivity> members = customersaving.findAllByAccountNumberSavingActivity(accountNumber);
-
-		if (members != null && !members.isEmpty()) {
-			ApiResponse<List<SavingAccountActivity>> response = ApiResponse.success(HttpStatus.OK,
-					"Savings found for Customer Code: " + accountNumber, members);
-			return new ResponseEntity<>(response, HttpStatus.OK);
-		} else {
-			ApiResponse<List<SavingAccountActivity>> response = ApiResponse.error(HttpStatus.NOT_FOUND,
-					"No saving customer found with this code");
-			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+		if (members == null) {
+			members = new ArrayList<>();
 		}
+
+		ApiResponse<List<SavingAccountActivity>> response = ApiResponse.success(HttpStatus.OK,
+				"Saving Account Activity fetched successfully", members);
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 	// update average balance of saving account by account number
@@ -630,6 +795,15 @@ public class CustomerSavingsController {
 			@RequestBody SavingsInterestTransfer interest) {
 
 		ApiResponse<SavingsInterestTransfer> response = customersaving.transferInterest(interest);
+
+		return ResponseEntity.status(response.getStatus()).body(response);
+	}
+
+	@PostMapping("/transferInterestBatch")
+	public ResponseEntity<ApiResponse<Map<String, Object>>> transferInterestBatch(
+			@RequestBody List<SavingsInterestTransfer> interestList) {
+
+		ApiResponse<Map<String, Object>> response = customersaving.transferInterestBatch(interestList);
 
 		return ResponseEntity.status(response.getStatus()).body(response);
 	}

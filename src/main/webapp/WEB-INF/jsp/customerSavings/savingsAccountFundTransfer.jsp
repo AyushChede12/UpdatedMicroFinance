@@ -53,10 +53,10 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">AVERAGE BALANCE</label> <input type="text"
+						<label for="">BALANCE</label> <input type="text"
 							name="debitAverageBalance" id="debitAverageBalance"
 							readonly="readonly" required="required"
-							placeholder="ENTER AVERAGE BALANCE" />
+							placeholder="ENTER BALANCE" />
 					</div>
 				</div>
 
@@ -113,10 +113,10 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">AVERAGE BALANCE</label> <input type="text"
+						<label for="">BALANCE</label> <input type="text"
 							name="creditAverageBalance" id="creditAverageBalance"
 							readonly="readonly" required="required"
-							placeholder="ENTER AVERAGE BALANCE" />
+							placeholder="ENTER BALANCE" />
 					</div>
 				</div>
 

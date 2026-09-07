@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -88,76 +88,32 @@ import com.microfinance.repository.TeamMemberRepo;
 import com.microfinance.repository.TrialBalanceReportRepo;
 
 @Service
+@RequiredArgsConstructor
 public class AccountManagementService {
 
-	@Autowired
-	private BranchModuleRepo branchModuleRepo;
-
-	@Autowired
-	private LedgerAccountRepository ledgerAccountRepository;
-
-	@Autowired
-	private OutgoingPaymentRepo outgoingPaymentRepo;
-
-	@Autowired
-	private IncomingReceiptRepo incomingReceiptRepo;
-
-	@Autowired
-	private BankCashTransferRepo bankCashTransferRepo;
-
-	@Autowired
-	private ManualJournalRepo manualJournalRepo;
-
-	@Autowired
-	private LedgerSummaryRepo ledgerSummaryRepo;
-
-	@Autowired
-	private JournalEntryReportRepo journalEntryReportRepo;
-
-	@Autowired
-	private TrialBalanceReportRepo trialBalanceReportRepo;
-
-	@Autowired
-	private FinancialConsultantRepo financialConsultantRepo;
-
-	@Autowired
-	private CreateSavingAccountRepo createSavingAccountRepo;
-
-	@Autowired
-	private LoanApplicationRepo loanAppicationRepo;
-
-	@Autowired
-	private AddInvestmentRepo addInvestmentRepo;
-
-	@Autowired
-	private ApplyForGoldRepo applyForGoldRepo;
-
-	@Autowired
-	private TeamMemberRepo teamMemberRepo;
-
-	@Autowired
-	private AccountIcentivePaymentRepo accountIcentivePaymentRepo;
-
-	@Autowired
-	private AccountTransactionRepo transactionRepository;
-
-	@Autowired
-	private LoanPaymentRepo loanPaymentRepo;
-
-	@Autowired
-	private IncentiveRepo incentiveRepo;
-
-	@Autowired
-	private MandateDepositRepository mandateDepositRepo;
-
-	@Autowired
-	private BankTransactionRepo bankTransactionRepo;
-
-	@Autowired
-	private CreateSavingAccountRepo createSavingsAccountRepo;
-
-	@Autowired
-	private AccountTransactionRepo accountTransactionRepo;
+	private final BranchModuleRepo branchModuleRepo;
+	private final LedgerAccountRepository ledgerAccountRepository;
+	private final OutgoingPaymentRepo outgoingPaymentRepo;
+	private final IncomingReceiptRepo incomingReceiptRepo;
+	private final BankCashTransferRepo bankCashTransferRepo;
+	private final ManualJournalRepo manualJournalRepo;
+	private final LedgerSummaryRepo ledgerSummaryRepo;
+	private final JournalEntryReportRepo journalEntryReportRepo;
+	private final TrialBalanceReportRepo trialBalanceReportRepo;
+	private final FinancialConsultantRepo financialConsultantRepo;
+	private final CreateSavingAccountRepo createSavingAccountRepo;
+	private final LoanApplicationRepo loanAppicationRepo;
+	private final AddInvestmentRepo addInvestmentRepo;
+	private final ApplyForGoldRepo applyForGoldRepo;
+	private final TeamMemberRepo teamMemberRepo;
+	private final AccountIcentivePaymentRepo accountIcentivePaymentRepo;
+	private final AccountTransactionRepo transactionRepository;
+	private final LoanPaymentRepo loanPaymentRepo;
+	private final IncentiveRepo incentiveRepo;
+	private final MandateDepositRepository mandateDepositRepo;
+	private final BankTransactionRepo bankTransactionRepo;
+	private final CreateSavingAccountRepo createSavingsAccountRepo;
+	private final AccountTransactionRepo accountTransactionRepo;
 
 	/**
 	 * Create a new Ledger Account. Business Logic: - Title must be unique per

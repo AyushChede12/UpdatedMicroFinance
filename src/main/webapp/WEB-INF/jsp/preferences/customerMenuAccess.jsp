@@ -518,10 +518,10 @@ select {
 			<div class="member-row">
 				<div class="checkbox-col">
 					<input type="checkbox" id="mySavingAccountActivity" name="service"
-						value="Saving Account Activity">
+						value="Deposit / Withdrawal">
 				</div>
 				<div class="bold-text">Customer Savings =></div>
-				<div class="normal-text">Saving Account Activity</div>
+				<div class="normal-text">Deposit / Withdrawal</div>
 			</div>
 
 			<div class="member-row">

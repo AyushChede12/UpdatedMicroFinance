@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,16 +19,12 @@ import com.microfinance.repository.BranchModuleRepo;
 import com.microfinance.repository.TransferShareRepo;
 
 @Service
+@RequiredArgsConstructor
 public class CustomerShareholdingService {
 
-	@Autowired
-	AddCustomerRepo addcustomerRepo;
-	
-	@Autowired
-	BranchModuleRepo branchmodulRepo;
-	
-	@Autowired
-	TransferShareRepo transfershareRepo;
+	private final AddCustomerRepo addcustomerRepo;
+	private final BranchModuleRepo branchmodulRepo;
+	private final TransferShareRepo transfershareRepo;
 
 //Transfer Share - Oshin Dongre (12-06-2025)----------------------------------------------------------------------------------------	
 	

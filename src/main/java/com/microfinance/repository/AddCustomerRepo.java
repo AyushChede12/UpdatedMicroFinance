@@ -25,10 +25,12 @@ public interface AddCustomerRepo extends JpaRepository<addCustomer, Long> {
 
 	List<addCustomer> findByIsApprovedTrue();
 
+	List<addCustomer> findByInterestPercent(String interestPercent);
+
 	@Query("SELECT COALESCE(SUM(" + "COALESCE(CAST(c.memberFees AS double), 0) + "
 			+ "COALESCE(CAST(c.buildingFund AS double), 0) + " + "COALESCE(CAST(c.adminCharge AS double), 0) + "
-			+ "COALESCE(CAST(c.documentCharge AS double), 0) + " + "COALESCE(CAST(c.otherCharge AS double), 0) + "
-			+ "COALESCE(CAST(c.entryFee AS double), 0)" + "), 0) " + "FROM addCustomer c "
+			+ "COALESCE(CAST(c.documentCharge AS double), 0) + " + "COALESCE(CAST(c.otherCharge AS double), 0)"
+			+ "), 0) " + "FROM addCustomer c "
 			+ "WHERE c.branchName = :branchName " + "AND c.signupDate BETWEEN :startDate AND :endDate")
 	Double getTotalKycIncome(@Param("branchName") String branchName, @Param("startDate") String startDate,
 			@Param("endDate") String endDate);

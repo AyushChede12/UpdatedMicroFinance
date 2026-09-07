@@ -8,6 +8,7 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -44,34 +45,18 @@ import com.microfinance.repository.SavingSchmeCatalogRepo;
 import com.microfinance.repository.SavingsInterestTransferRepo;
 
 @Service
+@RequiredArgsConstructor
 public class CustomerSavingsService {
 
-	@Autowired
-	SavingSchmeCatalogRepo savingSchmeCatalogRepo;
-
-	@Autowired
-	AddCustomerRepo addcustomerRepo;
-
-	@Autowired
-	FinancialConsultantRepo financialConsultantRepo;
-
-	@Autowired
-	CreateSavingAccountRepo createSavingAccountRepo;
-
-	@Autowired
-	SavingAccountActivityRepo savingAccountActivityRepo;
-
-	@Autowired
-	SavingAccountFundTransferRepo savingAccFundTransferRepo;
-
-	@Autowired
-	SavingAccountCloserRepo savingAccCloserRepo;
-
-	@Autowired
-	SavingsInterestTransferRepo savingsInterestTransferRepo;
-
-	@Autowired
-	BranchModuleRepo branchModuleRepo;
+	private final SavingSchmeCatalogRepo savingSchmeCatalogRepo;
+	private final AddCustomerRepo addcustomerRepo;
+	private final FinancialConsultantRepo financialConsultantRepo;
+	private final CreateSavingAccountRepo createSavingAccountRepo;
+	private final SavingAccountActivityRepo savingAccountActivityRepo;
+	private final SavingAccountFundTransferRepo savingAccFundTransferRepo;
+	private final SavingAccountCloserRepo savingAccCloserRepo;
+	private final SavingsInterestTransferRepo savingsInterestTransferRepo;
+	private final BranchModuleRepo branchModuleRepo;
 
 	@Value("${upload.directory}")
 	private String uploadDirectory;
@@ -283,10 +268,12 @@ public class CustomerSavingsService {
 	private void ensureUploadDirectoryExists() {
 		File uploadDir = new File(uploadDirectory);
 		if (!uploadDir.exists()) {
-			boolean created = uploadDir.mkdirs(); // Create directories if they don't exist if (created) {
-			System.out.println("Upload directory created at: " + uploadDirectory);
-		} else {
-			System.err.println("Failed to create upload directory: " + uploadDirectory);
+			boolean created = uploadDir.mkdirs();
+			if (created) {
+				System.out.println("Upload directory created at: " + uploadDirectory);
+			} else {
+				System.err.println("Failed to create upload directory: " + uploadDirectory);
+			}
 		}
 	}
 
@@ -505,31 +492,80 @@ public class CustomerSavingsService {
 	}
 
 	public ApiResponse<SavingsInterestTransfer> transferInterest(SavingsInterestTransfer interest) {
-		// TODO Auto-generated method stub
-		if (interest.getAccountNumber() == null || interest.getInterestRate() == null
-				|| interest.getTotalDays() == null) {
-
-			return ApiResponse.error(HttpStatus.BAD_REQUEST, "Required interest details are missing");
+		if (interest.getAccountNumber() == null || interest.getAccountNumber().trim().isEmpty()) {
+			return ApiResponse.error(HttpStatus.BAD_REQUEST, "Account number is required");
 		}
 
 		// ===== DUPLICATE CHECK =====
-		boolean alreadyTransferred = savingsInterestTransferRepo.existsByAccountNumberAndFromDateAndToDate(
-				interest.getAccountNumber(), interest.getFromDate(), interest.getToDate());
+		if (interest.getFromDate() != null && interest.getToDate() != null) {
+			boolean alreadyTransferred = savingsInterestTransferRepo.existsByAccountNumberAndFromDateAndToDate(
+					interest.getAccountNumber(), interest.getFromDate(), interest.getToDate());
 
-		if (alreadyTransferred) {
-			return ApiResponse.error(HttpStatus.CONFLICT, "Interest already transferred for this date range");
+			if (alreadyTransferred) {
+				return ApiResponse.error(HttpStatus.CONFLICT,
+						"Interest already transferred for account " + interest.getAccountNumber() + " for this date range");
+			}
 		}
 
 		// ===== FETCH MAIN SAVINGS ACCOUNT =====
-		CreateSavingsAccount savingsAccount = createSavingAccountRepo.findByAccountNumber(interest.getAccountNumber())
-				.orElseThrow(() -> new RuntimeException("Savings account not found"));
+		Optional<CreateSavingsAccount> optAcc = createSavingAccountRepo.findByAccountNumber(interest.getAccountNumber());
+		if (!optAcc.isPresent()) {
+			return ApiResponse.error(HttpStatus.NOT_FOUND, "Savings account not found: " + interest.getAccountNumber());
+		}
+		CreateSavingsAccount savingsAccount = optAcc.get();
+
+		// Populate customerName / accountType if null
+		if (interest.getCustomerName() == null || interest.getCustomerName().trim().isEmpty()) {
+			interest.setCustomerName(savingsAccount.getEnterCustomerName());
+		}
+		if (interest.getAccountType() == null || interest.getAccountType().trim().isEmpty()) {
+			interest.setAccountType(savingsAccount.getTypeofaccount() != null ? savingsAccount.getTypeofaccount() : "Saving Account");
+		}
 
 		// ===== CURRENT BALANCE (MAIN ACCOUNT) =====
-		BigDecimal currentBalance = new BigDecimal(savingsAccount.getBalance());
+		BigDecimal currentBalance = BigDecimal.ZERO;
+		try {
+			if (savingsAccount.getBalance() != null && !savingsAccount.getBalance().trim().isEmpty()) {
+				currentBalance = new BigDecimal(savingsAccount.getBalance().trim());
+			}
+		} catch (Exception e) {
+			currentBalance = BigDecimal.ZERO;
+		}
+
+		// ===== INTEREST RATE LOOKUP IF MISSING =====
+		BigDecimal interestRate = interest.getInterestRate();
+		if (interestRate == null || interestRate.compareTo(BigDecimal.ZERO) <= 0) {
+			if (savingsAccount.getSelectByCustomer() != null) {
+				List<addCustomer> custList = addcustomerRepo.findByMemberCode(savingsAccount.getSelectByCustomer().trim());
+				if (!custList.isEmpty() && custList.get(0).getInterestPercent() != null) {
+					try {
+						interestRate = new BigDecimal(custList.get(0).getInterestPercent().trim());
+					} catch (Exception ignored) {
+						interestRate = BigDecimal.ZERO;
+					}
+				}
+			}
+		}
+		if (interestRate == null) {
+			interestRate = BigDecimal.ZERO;
+		}
+		interest.setInterestRate(interestRate);
+
+		// ===== TOTAL DAYS CALCULATION =====
+		Integer totalDays = interest.getTotalDays();
+		if (totalDays == null || totalDays <= 0) {
+			if (interest.getFromDate() != null && interest.getToDate() != null) {
+				totalDays = (int) java.time.temporal.ChronoUnit.DAYS.between(interest.getFromDate(), interest.getToDate());
+			}
+			if (totalDays == null || totalDays <= 0) {
+				totalDays = 90; // Default quarterly
+			}
+		}
+		interest.setTotalDays(totalDays);
 
 		// ===== INTEREST CALCULATION =====
-		BigDecimal interestAmount = currentBalance.multiply(interest.getInterestRate())
-				.multiply(BigDecimal.valueOf(interest.getTotalDays()))
+		BigDecimal interestAmount = currentBalance.multiply(interestRate)
+				.multiply(BigDecimal.valueOf(totalDays))
 				.divide(BigDecimal.valueOf(36500), 2, RoundingMode.HALF_UP);
 		BigDecimal newBalance = currentBalance.add(interestAmount);
 		interest.setCurrentBalance(currentBalance);
@@ -544,6 +580,45 @@ public class CustomerSavingsService {
 
 		return ApiResponse.success(HttpStatus.OK, "Interest transferred & main account balance updated successfully",
 				savedInterest);
+	}
+
+	public ApiResponse<Map<String, Object>> transferInterestBatch(List<SavingsInterestTransfer> interestList) {
+		if (interestList == null || interestList.isEmpty()) {
+			return ApiResponse.error(HttpStatus.BAD_REQUEST, "No accounts selected for interest transfer");
+		}
+
+		int successCount = 0;
+		int failedCount = 0;
+		List<String> messages = new ArrayList<>();
+		BigDecimal totalInterest = BigDecimal.ZERO;
+
+		for (SavingsInterestTransfer item : interestList) {
+			try {
+				ApiResponse<SavingsInterestTransfer> res = transferInterest(item);
+				if (res.getStatus() == HttpStatus.OK) {
+					successCount++;
+					if (res.getData() != null && res.getData().getInterestAmount() != null) {
+						totalInterest = totalInterest.add(res.getData().getInterestAmount());
+					}
+				} else {
+					failedCount++;
+					messages.add(item.getAccountNumber() + ": " + res.getMessage());
+				}
+			} catch (Exception e) {
+				failedCount++;
+				messages.add(item.getAccountNumber() + ": " + e.getMessage());
+			}
+		}
+
+		Map<String, Object> data = new HashMap<>();
+		data.put("successCount", successCount);
+		data.put("failedCount", failedCount);
+		data.put("totalInterestTransferred", totalInterest);
+		data.put("errors", messages);
+
+		return ApiResponse.success(HttpStatus.OK,
+				"Interest transfer completed: " + successCount + " successful, " + failedCount + " skipped/failed",
+				data);
 	}
 
 }

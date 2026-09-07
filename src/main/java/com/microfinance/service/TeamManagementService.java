@@ -17,10 +17,10 @@ import com.microfinance.repository.TeamMemberRepo;
 public class TeamManagementService {
 	@Autowired
 	DesignationRepo designationRepo;
-	
+
 	@Autowired
 	DepartmentRepo departmentRepo;
-	
+
 	@Autowired
 	TeamMemberRepo teamMemberRepo;
 
@@ -63,7 +63,5 @@ public class TeamManagementService {
 		// TODO Auto-generated method stub
 		return teamMemberRepo.getMaxId();
 	}
-
-	
 
 }

@@ -172,6 +172,14 @@
 					</div>
 				</div>
 
+				<div class="col-lg-3">
+					<div class="d-flex flex-column formFields mb-4">
+						<label for="">INTEREST PERCENT (%)</label> <input type="text"
+							name="interestPercent" id="interestPercent" placeholder="INTEREST PERCENT"
+							disabled />
+					</div>
+				</div>
+
 			</div>
 
 			<div class="row mt-4">

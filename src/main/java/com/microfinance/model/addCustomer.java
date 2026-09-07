@@ -113,6 +113,9 @@ public class addCustomer {
 	@Column(name = "tax_bill", length = 100)
 	private String taxBill;
 
+	@Column(name = "interest_percent", length = 20)
+	private String interestPercent;
+
 	@Column(name = "occupation", length = 100)
 	private String occupation;
 
@@ -199,8 +202,6 @@ public class addCustomer {
 	@Column(name = "other_charge", length = 20)
 	private String otherCharge;
 
-	@Column(name = "entry_fee", length = 20)
-	private String entryFee;
 
 	@Column(name = "cheque_no", length = 30)
 	private String chequeNo;
@@ -719,13 +720,7 @@ public class addCustomer {
 		this.otherCharge = otherCharge;
 	}
 
-	public String getEntryFee() {
-		return entryFee;
-	}
 
-	public void setEntryFee(String entryFee) {
-		this.entryFee = entryFee;
-	}
 
 	public String getChequeNo() {
 		return chequeNo;
@@ -869,6 +864,14 @@ public class addCustomer {
 
 	public void setMonthlyIncome(String monthlyIncome) {
 		this.monthlyIncome = monthlyIncome;
+	}
+
+	public String getInterestPercent() {
+		return interestPercent;
+	}
+
+	public void setInterestPercent(String interestPercent) {
+		this.interestPercent = interestPercent;
 	}
 
 	// Getters and Setters (Omitted for brevity, add all your previous ones here)

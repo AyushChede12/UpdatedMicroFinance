@@ -141,20 +141,19 @@ function renderTable(data) {
 			? (typeof acc.branchName === 'object' ? (acc.branchName.branchName || '') : acc.branchName)
 			: '';
 
-		tbody.append(`
-			<tr style="font-family:'Poppins',sans-serif; font-size:12px;">
-				<td>${idx + 1}</td>
-				<td><strong>${(acc.accountNumber || '').toUpperCase()}</strong></td>
-				<td>${accountTypeLabel}</td>
-				<td>${(acc.selectByCustomer || '').toUpperCase()}</td>
-				<td>${(acc.enterCustomerName || '').toUpperCase()}</td>
-				<td>${(acc.contactNumber || '').toUpperCase()}</td>
-				<td>${branchName.toString().toUpperCase()}</td>
-				<td>${(acc.openingDate || '').toUpperCase()}</td>
-				<td>₹ ${(acc.balance || '0')}</td>
-				<td>${statusBadge}</td>
-			</tr>
-		`);
+		var row = '<tr style="font-family:\'Poppins\',sans-serif; font-size:12px;">'
+			+ '<td>' + (idx + 1) + '</td>'
+			+ '<td><strong>' + (acc.accountNumber || '').toUpperCase() + '</strong></td>'
+			+ '<td>' + accountTypeLabel + '</td>'
+			+ '<td>' + (acc.selectByCustomer || '').toUpperCase() + '</td>'
+			+ '<td>' + (acc.enterCustomerName || '').toUpperCase() + '</td>'
+			+ '<td>' + (acc.contactNumber || '') + '</td>'
+			+ '<td>' + branchName.toString().toUpperCase() + '</td>'
+			+ '<td>' + (acc.openingDate || '') + '</td>'
+			+ '<td>&#8377; ' + (acc.balance || '0') + '</td>'
+			+ '<td>' + statusBadge + '</td>'
+			+ '</tr>';
+		tbody.append(row);
 	});
 
 	$('#recordCount').text(data.length + ' record(s) found');

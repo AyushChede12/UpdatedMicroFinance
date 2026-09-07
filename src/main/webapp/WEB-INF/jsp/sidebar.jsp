@@ -284,8 +284,7 @@
 
 				<li><a href="${baseUrl}/savingsAccountActivity"> <i
 						class="bi bi-circle"></i> <span
-						style="font-family: 'Poppins', sans-serif">SAVINGS ACCOUNT
-							ACTIVITY</span>
+						style="font-family: 'Poppins', sans-serif">DEPOSIT / WITHDRAWAL</span>
 				</a></li>
 
 				<li><a href="${baseUrl}/savingsAccountFundTransfer"> <i

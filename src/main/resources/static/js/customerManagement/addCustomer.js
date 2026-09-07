@@ -159,6 +159,7 @@ $(document).ready(function () {
 
 		formData.append("lightBill", $('#lightBill').val());
 		formData.append("taxBill", $('#taxBill').val());
+		formData.append("interestPercent", $('#interestPercent').val());
 
 		// Nominee
 		formData.append("nomineeName", $('#nomineeName').val());
@@ -177,7 +178,7 @@ $(document).ready(function () {
 		formData.append("adminCharge", $('#adminCharge').val());
 		formData.append("documentCharge", $('#documentCharge').val());
 		formData.append("otherCharge", $('#otherCharge').val());
-		formData.append("entryFee", $('#entryFee').val());
+
 
 		formData.append("chequeNo", $('#chequeNo').val());
 		formData.append("chequeDate", $('#chequeDate').val());
@@ -248,7 +249,7 @@ $(document).ready(function () {
 			"customerAge", "relationshipStatus", "customerAddress", "state", "district",
 			"aadharNo", "pinCode", "branchName", "panNo", "voterNo", "drivingLicenceNo",
 			"referralCode", "referralName", "contactNo", "emailId", "profession",
-			"lightBill", "shareAmount", "noOfShare", "taxBill", "academicBackground",
+			"lightBill", "shareAmount", "noOfShare", "taxBill", "academicBackground", "interestPercent",
 
 			// --- Nominee Details ---
 			"nomineeName", "nomineeRelationToApplicant", "nomineeAge", "nomineeAddress",
@@ -256,7 +257,7 @@ $(document).ready(function () {
 
 			// --- Fees & Payment Details ---
 			"memberFees", "buildingFund", "adminCharge", "documentCharge", "otherCharge",
-			"entryFee", "chequeNo", "chequeDate", "depositAcNo", "referenceNo", "remarks", "paymentBy",
+			"chequeNo", "chequeDate", "depositAcNo", "referenceNo", "remarks", "paymentBy",
 
 			// --- Optional Filters / Flags ---
 			"fDate", "tDate", "isVerified", "isApproved"

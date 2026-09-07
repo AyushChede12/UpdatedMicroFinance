@@ -48,6 +48,7 @@ public class CustomerDto {
 	private String shareValue;
 	private String lightBill;
 	private String taxBill;
+	private String interestPercent;
 
 	private MultipartFile customerAadharImage;
 	private MultipartFile customerPanImage;
@@ -81,7 +82,6 @@ public class CustomerDto {
 	private String adminCharge;
 	private String documentCharge;
 	private String otherCharge;
-	private String entryFee;
 	private String chequeNo;
 	private String chequeDate;
 	private String depositAcNo;
@@ -576,13 +576,7 @@ public class CustomerDto {
 		this.otherCharge = otherCharge;
 	}
 
-	public String getEntryFee() {
-		return entryFee;
-	}
 
-	public void setEntryFee(String entryFee) {
-		this.entryFee = entryFee;
-	}
 
 	public String getChequeNo() {
 		return chequeNo;
@@ -717,6 +711,14 @@ public class CustomerDto {
 
 	public void setMonthlyIncome(String monthlyIncome) {
 		this.monthlyIncome = monthlyIncome;
+	}
+
+	public String getInterestPercent() {
+		return interestPercent;
+	}
+
+	public void setInterestPercent(String interestPercent) {
+		this.interestPercent = interestPercent;
 	}
 
 }

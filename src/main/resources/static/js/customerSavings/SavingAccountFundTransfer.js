@@ -1,7 +1,7 @@
 //janvi : Customer Account no. list fetch
 $(document).ready(function() {
 	$.ajax({
-		url: "api/reports/getApprovedSavingAccount",
+		url: "api/customersavings/getAllSavingAccountData",
 		type: "GET",
 		success: function(response) {
 			console.log("API response:", response);
@@ -12,19 +12,21 @@ $(document).ready(function() {
 			dropdown2.empty();
 			dropdown2.append('<option value="">--SELECT ACCOUNT NO--</option>');
 
-
-			if (response.status === "OK" && response.data) {
-				$.each(response.data, function(index, item) {
-					dropdown1.append('<option value="' + item.accountNumber + '">' + item.accountNumber + '</option>');
-					dropdown2.append('<option value="' + item.accountNumber + '">' + item.accountNumber + '</option>');
+			var accounts = response.data || [];
+			if (accounts.length > 0) {
+				$.each(accounts, function(index, item) {
+					if (item.accountNumber) {
+						dropdown1.append('<option value="' + item.accountNumber + '">' + item.accountNumber + '</option>');
+						dropdown2.append('<option value="' + item.accountNumber + '">' + item.accountNumber + '</option>');
+					}
 				});
 			} else {
-				dropdown1.append('<option value="">No Account Number found</option>');
-				dropdown2.append('<option value="">No Account Number found</option>');
+				dropdown1.append('<option value="">No Account Numbers found</option>');
+				dropdown2.append('<option value="">No Account Numbers found</option>');
 			}
 		},
-		error: function() {
-			alert("Failed to fetch Policyname.");
+		error: function(xhr, status, error) {
+			console.error("Failed to fetch account numbers:", error);
 		}
 	});
 });

@@ -26,6 +26,7 @@ $(document).ready(function() {
 		$("#customerAge").val("");
 		$("#branchName").val("");
 		$("#customerGender").val("");
+		$("#interestPercent").val("");
 
 		$("#photoPreview").attr("src", "Uploads/upload.png");
 		$("#photoPreview").removeAttr("style");
@@ -234,6 +235,7 @@ $(document).ready(function() {
 		$("#customerAge").val(safeUpper(data.customerAge));
 		$("#branchName").val(safeUpper(data.branchName));
 		$("#customerGender").val(safeUpper(data.customerGender));
+		$("#interestPercent").val(safeUpper(data.interestPercent));
 
 		// Resolve normalized image paths
 		function getImgUrl(val) {

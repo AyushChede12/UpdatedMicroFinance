@@ -10,6 +10,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.concurrent.CompletableFuture;
 import java.nio.file.Path;
 import java.nio.file.Files;
 
@@ -115,6 +116,7 @@ public class CustomerManagementService {
 		addcustomer.setNoOfShare(toUpper(clientMasterDto.getNoOfShare()));
 		addcustomer.setLightBill(toUpper(clientMasterDto.getLightBill()));
 		addcustomer.setTaxBill(toUpper(clientMasterDto.getTaxBill()));
+		addcustomer.setInterestPercent(toUpper(clientMasterDto.getInterestPercent()));
 		addcustomer.setFirstName(toUpper(clientMasterDto.getFirstName()));
 		addcustomer.setMiddleName(toUpper(clientMasterDto.getMiddleName()));
 		addcustomer.setLastName(toUpper(clientMasterDto.getLastName()));
@@ -138,7 +140,7 @@ public class CustomerManagementService {
 		addcustomer.setBuildingFund(toUpper(clientMasterDto.getBuildingFund()));
 		addcustomer.setAdminCharge(toUpper(clientMasterDto.getAdminCharge()));
 		addcustomer.setDocumentCharge(clientMasterDto.getDocumentCharge());
-		addcustomer.setEntryFee(clientMasterDto.getEntryFee());
+
 		addcustomer.setOtherCharge(clientMasterDto.getOtherCharge());
 		addcustomer.setChequeNo(clientMasterDto.getChequeNo());
 		addcustomer.setChequeDate(clientMasterDto.getChequeDate());
@@ -278,26 +280,38 @@ public class CustomerManagementService {
 			account.setAadharNo(savedCustomer.getAadharNo());
 			account.setAuthenticateWith(null);
 
-			if (savedCustomer.getBranchName() != null) {
+			if (savedCustomer.getBranchName() != null && !savedCustomer.getBranchName().trim().isEmpty()) {
 				try {
-					Optional<BranchModule> branchOpt = branchModuleRepo
-							.findByBranchNameIgnoreCase(savedCustomer.getBranchName());
-					if (branchOpt.isPresent()) {
-						account.setBranchName(branchOpt.get());
+					String customerBranch = savedCustomer.getBranchName().trim();
+					List<BranchModule> allBranches = branchModuleRepo.findAll();
+
+					// 1st: exact case-insensitive match
+					BranchModule matched = allBranches.stream()
+							.filter(b -> customerBranch.equalsIgnoreCase(b.getBranchName()))
+							.findFirst()
+							// 2nd fallback: contains match (e.g. "NAGPUR" matches "Nagpur Branch")
+							.orElseGet(() -> allBranches.stream()
+									.filter(b -> b.getBranchName() != null &&
+											b.getBranchName().toLowerCase().contains(customerBranch.toLowerCase()))
+									.findFirst()
+									.orElse(null));
+
+					if (matched != null) {
+						account.setBranchName(matched);
+						System.out.println("Branch matched: " + matched.getBranchName() + " for customer branch: " + customerBranch);
 					} else {
-						List<BranchModule> allBranches = branchModuleRepo.findAll();
-						allBranches.stream()
-								.filter(b -> savedCustomer.getBranchName().equalsIgnoreCase(b.getBranchName()))
-								.findFirst()
-								.ifPresent(account::setBranchName);
+						System.err.println("No branch found for: " + customerBranch);
 					}
 				} catch (Exception branchEx) {
-					System.err.println("Branch lookup failed (non-unique or not found): " + branchEx.getMessage());
+					System.err.println("Branch lookup failed: " + branchEx.getMessage());
 				}
 			}
 
 			account.setOperationType("Single");
-			account.setBalance("0");
+			String initialBalance = (savedCustomer.getMemberFees() != null && !savedCustomer.getMemberFees().trim().isEmpty())
+					? savedCustomer.getMemberFees().trim()
+					: "0";
+			account.setBalance(initialBalance);
 			account.setOpeningFees("0");
 			account.setAccountStatus("1");
 			account.setAccountFreeze("0");
@@ -636,31 +650,33 @@ public class CustomerManagementService {
 			System.out.println("Skipping email notification: No email address provided for " + customerName);
 			return;
 		}
-		try {
-			SimpleMailMessage message = new SimpleMailMessage();
-			message.setFrom("yyeskar@gmail.com");
-			message.setTo(emailId);
-			message.setSubject("Welcome to Samitha Urban Nidhi Limited!");
-			message.setText("Dear " + customerName + ",\n\n" +
-					"We are absolutely thrilled to welcome you to the Samitha Urban family! Thank you for choosing us as your trusted financial partner.\n\n" +
-					"It is our privilege to help you achieve your financial goals. Your customer profile has been successfully set up, and we have opened your new Savings Account.\n\n" +
-					"Below are your account credentials for your reference:\n" +
-					"--------------------------------------------------\n" +
-					"Customer Member Code : " + memberCode + "\n" +
-					"Savings Account No.  : " + (accountNumber != null ? accountNumber : "N/A") + "\n" +
-					"--------------------------------------------------\n\n" +
-					"We are committed to providing you with the highest standard of service, secure banking, and convenient financial solutions. You can manage your account and access our services at your nearest branch.\n\n" +
-					"Should you have any questions or require any assistance, please do not hesitate to contact our customer support team.\n\n" +
-					"Once again, welcome aboard, and we look forward to a long and successful relationship with you!\n\n" +
-					"Warm regards,\n\n" +
-					"Customer Relations Team\n" +
-					"Samitha Urban Nidhi Limited");
-			mailSender.send(message);
-			System.out.println("✅ Email sent successfully to " + emailId);
-		} catch (Exception e) {
-			System.err.println("Failed to send email to " + emailId + ": " + e.getMessage());
-			e.printStackTrace();
-		}
+		CompletableFuture.runAsync(() -> {
+			try {
+				SimpleMailMessage message = new SimpleMailMessage();
+				message.setFrom("yyeskar@gmail.com");
+				message.setTo(emailId);
+				message.setSubject("Welcome to Samitha Urban Nidhi Limited!");
+				message.setText("Dear " + customerName + ",\n\n" +
+						"We are absolutely thrilled to welcome you to the Samitha Urban family! Thank you for choosing us as your trusted financial partner.\n\n" +
+						"It is our privilege to help you achieve your financial goals. Your customer profile has been successfully set up, and we have opened your new Savings Account.\n\n" +
+						"Below are your account credentials for your reference:\n" +
+						"--------------------------------------------------\n" +
+						"Customer Member Code : " + memberCode + "\n" +
+						"Savings Account No.  : " + (accountNumber != null ? accountNumber : "N/A") + "\n" +
+						"--------------------------------------------------\n\n" +
+						"We are committed to providing you with the highest standard of service, secure banking, and convenient financial solutions. You can manage your account and access our services at your nearest branch.\n\n" +
+						"Should you have any questions or require any assistance, please do not hesitate to contact our customer support team.\n\n" +
+						"Once again, welcome aboard, and we look forward to a long and successful relationship with you!\n\n" +
+						"Warm regards,\n\n" +
+						"Customer Relations Team\n" +
+						"Samitha Urban Nidhi Limited");
+				mailSender.send(message);
+				System.out.println("✅ Email sent successfully to " + emailId);
+			} catch (Exception e) {
+				System.err.println("Failed to send email to " + emailId + ": " + e.getMessage());
+				e.printStackTrace();
+			}
+		});
 	}
 
 	private String toUpper(String str) {
