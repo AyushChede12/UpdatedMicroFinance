@@ -1,23 +1,24 @@
-// JS for fetching the account number on the dropdown according to the account type (vaibhav)
+// JS for fetching the account number on the dropdown according to the account type
 $(document).ready(function() {
-	$("#accountType").on("change", function() {
-		const selectedType = $(this).val();
+	// Auto-fetch account numbers on load (if accountType is chosen or fetch all by default)
+	const initialType = $("#accountType").val() || "savingaccount";
+	if (!$("#accountType").val()) {
+		$("#accountType").val("savingaccount");
+	}
+	fetchAccountNumbers($("#accountType").val() || "");
 
-		if (selectedType) {
-			fetchAccountNumbers(selectedType);
-		} else {
-			// Clear dropdown if no type is selected
-			$("#accountNumber").empty().append('<option value="">-- Select Account Number --</option>');
-		}
+	$("#accountType").on("change", function() {
+		const selectedType = $(this).val() || "";
+		fetchAccountNumbers(selectedType);
 	});
 });
 
-//janvi : fetch account numbers on dropdown
+// fetch account numbers on dropdown
 function fetchAccountNumbers(accountType) {
 	$.ajax({
 		type: "GET",
 		url: "api/customersavings/fetchAccountNumbers",
-		data: { accountType: accountType },
+		data: { accountType: accountType || "" },
 		success: function(response) {
 			const $dropdown = $("#accountNumber");
 			$dropdown.empty().append('<option value="">--SELECT ACCOUNT NO--</option>');
@@ -26,14 +27,16 @@ function fetchAccountNumbers(accountType) {
 				response.data.forEach(function(accNo) {
 					$dropdown.append(`<option value="${accNo}">${accNo}</option>`);
 				});
-			} else {
-				alert("No account numbers found for selected type.");
 			}
 		},
 		error: function(xhr) {
-			alert("Error fetching account numbers: " + xhr.responseText);
+			console.error("Error fetching account numbers: ", xhr.responseText);
 		}
 	});
+}
+
+function displaySavingTransaction() {
+	$('#btnTransactionPageOnSavingPassbook').trigger('click');
 }
 
 

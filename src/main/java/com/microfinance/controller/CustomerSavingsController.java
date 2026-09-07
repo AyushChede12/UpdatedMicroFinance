@@ -645,12 +645,13 @@ public class CustomerSavingsController {
 
 	// Api For fetching account numbers (Vaibhav)
 	@GetMapping("/fetchAccountNumbers")
-	public ResponseEntity<ApiResponse<List<String>>> getAccountNumbersByType(@RequestParam String accountType) {
+	public ResponseEntity<ApiResponse<List<String>>> getAccountNumbersByType(@RequestParam(required = false) String accountType) {
 		List<String> accountNumbers = customersaving.getAccountNumbersByType(accountType);
 
 		if (accountNumbers.isEmpty()) {
-			ApiResponse<List<String>> response = ApiResponse.error(HttpStatus.NOT_FOUND, "No account numbers found.");
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+			ApiResponse<List<String>> response = ApiResponse.success(HttpStatus.OK, "No account numbers found.",
+					new ArrayList<>());
+			return ResponseEntity.ok(response);
 		}
 
 		ApiResponse<List<String>> response = ApiResponse.success(HttpStatus.OK, "Account numbers fetched successfully.",

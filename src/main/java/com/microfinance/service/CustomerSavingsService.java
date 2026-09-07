@@ -339,8 +339,26 @@ public class CustomerSavingsService {
 
 	// Service for fetching the account numbers for passbook (vaibhav)
 	public List<String> getAccountNumbersByType(String accountType) {
-		return createSavingAccountRepo.findByTypeofaccountContainingIgnoreCaseAndIsApproved(accountType.trim(), true)
-				.stream().map(CreateSavingsAccount::getAccountNumber).filter(Objects::nonNull)
+		List<CreateSavingsAccount> accounts;
+		if (accountType != null && !accountType.trim().isEmpty()) {
+			accounts = createSavingAccountRepo.findByTypeofaccountContainingIgnoreCase(accountType.trim());
+			if (accounts.isEmpty()) {
+				String cleanType = accountType.replaceAll("\\s+", "").toLowerCase();
+				accounts = createSavingAccountRepo.findAll().stream()
+						.filter(acc -> acc.getTypeofaccount() != null &&
+								acc.getTypeofaccount().replaceAll("\\s+", "").toLowerCase().contains(cleanType))
+						.collect(Collectors.toList());
+			}
+		} else {
+			accounts = createSavingAccountRepo.findAll();
+		}
+
+		return accounts.stream()
+				.map(CreateSavingsAccount::getAccountNumber)
+				.filter(Objects::nonNull)
+				.map(String::trim)
+				.filter(s -> !s.isEmpty())
+				.distinct()
 				.collect(Collectors.toList());
 	}
 
