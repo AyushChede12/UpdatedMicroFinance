@@ -1,32 +1,52 @@
-$(document).ready(function() {
+function loadStatementAccountNumbers() {
+	var dropdown1 = $('#accountNumber');
+	dropdown1.empty().append('<option value="">--SELECT ACCOUNT NO--</option>');
+
 	$.ajax({
 		url: "api/reports/getApprovedSavingAccount",
 		type: "GET",
 		success: function(response) {
-			console.log("API response:", response);
-			var dropdown1 = $('#accountNumber');
-			dropdown1.empty();
-			dropdown1.append('<option value="">--SELECT ACCOUNT NO--</option>');
+			var list = (response && response.data) ? response.data : [];
 
-			if (response.status === "OK" && response.data) {
-				$.each(response.data, function(index, item) {
-					dropdown1.append('<option value="' + item.accountNumber + '">' + item.accountNumber + '</option>');
+			if (list.length > 0) {
+				$.each(list, function(index, item) {
+					if (item && item.accountNumber) {
+						var label = item.accountNumber + (item.enterCustomerName ? ' - ' + item.enterCustomerName : '');
+						dropdown1.append('<option value="' + item.accountNumber + '">' + label + '</option>');
+					}
 				});
 			} else {
-				dropdown1.append('<option value="">No Account Number found</option>');
+				fetchAccountNumbersFallback();
 			}
 		},
 		error: function() {
-			alert("Failed to fetch accountNumber.");
+			fetchAccountNumbersFallback();
 		}
 	});
-});
+}
 
-//janvi fetch by account number
-//fetch saving account details by account number
+function fetchAccountNumbersFallback() {
+	var dropdown1 = $('#accountNumber');
+	$.ajax({
+		url: "api/customersavings/fetchAccountNumbers",
+		type: "GET",
+		success: function(response) {
+			if (response && response.data && response.data.length > 0) {
+				dropdown1.empty().append('<option value="">--SELECT ACCOUNT NO--</option>');
+				$.each(response.data, function(index, accNo) {
+					dropdown1.append('<option value="' + accNo + '">' + accNo + '</option>');
+				});
+			}
+		}
+	});
+}
+
 $(document).ready(function() {
-	$('#searchByAccNo').click(function() {
-		let accountNumber = $('#accountNumber').val().trim();
+	loadStatementAccountNumbers();
+
+	$('#searchByAccNo').click(function(e) {
+		e.preventDefault();
+		let accountNumber = ($('#accountNumber').val() || "").trim();
 
 		if (accountNumber === "") {
 			alert("Please select an account number first.");

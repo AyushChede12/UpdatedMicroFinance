@@ -44,13 +44,11 @@ public class ReportsAndAnalyticsController {
 	@GetMapping("/getApprovedSavingAccount")
 	public ResponseEntity<ApiResponse<List<CreateSavingsAccount>>> getApprovedSavingAccount() {
 		List<CreateSavingsAccount> list = reportsAndAnalyticsService.getApprovedSavingAccount();
-		if (!list.isEmpty()) {
-			return ResponseEntity
-					.ok(ApiResponse.success(HttpStatus.OK, "approved Saving Account customers fetched", list));
-		} else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND)
-					.body(ApiResponse.error(HttpStatus.NOT_FOUND, "No approved customers found"));
+		if (list == null) {
+			list = new ArrayList<>();
 		}
+		return ResponseEntity
+				.ok(ApiResponse.success(HttpStatus.OK, "Saving Account customers fetched", list));
 	}
 
 	@GetMapping("/getUnapprovedLoanApplication")

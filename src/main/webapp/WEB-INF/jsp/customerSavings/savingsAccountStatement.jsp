@@ -33,7 +33,7 @@
 			</div>
 			<div class="row">
 				<div class="col-lg-6 text-center">
-					<button id="searchByAccNo" class="btn btn-warning"
+					<button type="button" id="searchByAccNo" class="btn btn-warning"
 						style="margin-left: 80%;">SEARCH</button>
 				</div>
 			</div>
