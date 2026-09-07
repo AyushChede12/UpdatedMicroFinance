@@ -35,65 +35,60 @@ function fetchAccountNumbers(accountType) {
 	});
 }
 
+let isFetchingTransactions = false;
+
+// Function for fetching transaction data according to account number (All transactions)
 function displaySavingTransaction() {
-	$('#btnTransactionPageOnSavingPassbook').trigger('click');
-}
+	if (isFetchingTransactions) return;
 
+	let accountNumber = ($("#accountNumber").val() || "").trim();
+	if (!accountNumber) {
+		alert("Please select an Account Number.");
+		return;
+	}
 
+	isFetchingTransactions = true;
+	$.ajax({
+		type: "GET",
+		url: "api/customersavings/getsavingaccountactivity",
+		data: { accountNumber: accountNumber },
+		success: function(response) {
+			isFetchingTransactions = false;
+			console.log("API Response:", response);
 
-// Js for fetching the data on the tabel according to account number (All transactions)
-$(document).ready(function() {
-	$('#btnTransactionPageOnSavingPassbook').click(function() {
-		let accountNumber = $("#accountNumber").val().trim(); // correct fetch
+			if (response && response.status && response.status.toUpperCase() === "OK" && Array.isArray(response.data) && response.data.length > 0) {
+				let data = response.data;
+				let tableBody = $("#tableBody1");
+				tableBody.empty();
 
-		if (accountNumber !== "") {
-			$.ajax({
-				type: "GET",
-				url: "api/customersavings/getsavingaccountactivity",
-				data: { accountNumber: accountNumber },
-				success: function(response) {
-					console.log("API Response:", response);
+				data.forEach((item) => {
+					let row = `<tr>
+						<td>${item.transactionDate || ''}</td>
+						<td>${item.accountNumber || ''}</td>
+						<td>${item.transactionType || ''}</td>
+						<td>${item.transactionAmount || ''}</td>
+						<td>${item.averageBalance || ''}</td>
+					</tr>`;
+					tableBody.append(row);
+				});
 
-					if (response.status && response.status.toUpperCase() === "OK") {
-						let data = response.data;
-						let tableBody = $("#tableBody1"); // correct tbody ID
-						tableBody.empty();
-
-						if (data.length > 0) {
-							$('#TransactionSection').show(); // show the hidden div
-
-							data.forEach((item, index) => {
-								let row = `<tr>
-                                <td>${item.transactionDate || ''}</td>
-                                <td>${item.accountNumber || ''}</td>
-                                <td>${item.transactionType || ''}</td>
-                                <td>${item.transactionAmount || ''}</td>
-                                <td>${item.averageBalance || ''}</td>                                   
-                                </tr>`;
-								tableBody.append(row);
-							});
-							$("#tableSection").hide();
-							$('#printbtnSection').show();
-							$('#passbookSection').hide();
-							$("#headingSection").hide();
-							$("#TransactionSection").show();
-						} else {
-							alert("No transactions found.");
-							$('#TransactionSection').hide();
-						}
-					} else {
-						alert("No transactions found.");
-						$('#TransactionSection').hide();
-					}
-				},
-
-			});
-		} else {
-			alert("Please select an Account Number.");
+				$("#tableSection").hide();
+				$('#printbtnSection').show();
+				$('#passbookSection').hide();
+				$("#headingSection").hide();
+				$("#TransactionSection").show();
+			} else {
+				alert("No transactions found for account " + accountNumber + ".");
+				$('#TransactionSection').hide();
+			}
+		},
+		error: function(xhr) {
+			isFetchingTransactions = false;
+			alert("Error fetching transactions: " + (xhr.responseJSON?.message || xhr.statusText || "Server error"));
 			$('#TransactionSection').hide();
 		}
 	});
-});
+}
 
 
 //janvi: Show saving acc details in table format
