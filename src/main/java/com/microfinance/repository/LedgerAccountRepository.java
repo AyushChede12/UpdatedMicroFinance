@@ -43,4 +43,10 @@ public interface LedgerAccountRepository extends JpaRepository<LedgerAccountMast
 	@Query("SELECT DISTINCT l.accountCode, l.accountTitle FROM LedgerAccountMaster l")
 	List<Object[]> getUniqueLedgerDropdown();
 
+	List<LedgerAccountMaster> findByGroupNameIgnoreCaseAndAccountTypeIgnoreCaseAndStatusIgnoreCase(String groupName,
+			String accountType, String status);
+
+	Optional<LedgerAccountMaster> findFirstByAccountTitleIgnoreCaseAndGroupNameIgnoreCase(String accountTitle,
+			String groupName);
+
 }

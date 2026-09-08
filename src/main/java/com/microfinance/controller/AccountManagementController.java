@@ -468,6 +468,18 @@ public class AccountManagementController {
 		return new ApiResponse<>(HttpStatus.OK, "Assets Ledgers Fetched Successfully", list);
 	}
 
+	@GetMapping("/expenses")
+	public ApiResponse<List<LedgerAccountMaster>> getExpenseLedgers() {
+
+		List<LedgerAccountMaster> list = accountManagementService.getExpenseLedgers();
+
+		if (list.isEmpty()) {
+			return new ApiResponse<>(HttpStatus.NOT_FOUND, "No Expense Ledgers Found", list);
+		}
+
+		return new ApiResponse<>(HttpStatus.OK, "Expense Ledgers Fetched Successfully", list);
+	}
+
 	@PostMapping("/pay")
 	public ApiResponse<IncentivePayment> payIncentive(@RequestBody IncentivePayment request) {
 		try {
@@ -521,6 +533,7 @@ public class AccountManagementController {
 			@RequestParam String startDate, @RequestParam String endDate) {
 
 		List<BankStatementDto> data = accountManagementService.getBankStatement(accountNumber, startDate, endDate);
+
 		System.out.println(data);
 
 		if (data.isEmpty()) {
@@ -659,5 +672,17 @@ public class AccountManagementController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body(ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
 		}
+	}
+
+	@GetMapping("/bank-accounts")
+	public ApiResponse<List<LedgerAccountMaster>> getBankAccountLedgers() {
+
+		List<LedgerAccountMaster> list = accountManagementService.getBankAccountLedgers();
+
+		if (list.isEmpty()) {
+			return new ApiResponse<>(HttpStatus.NOT_FOUND, "No Active Bank Accounts Found", list);
+		}
+
+		return new ApiResponse<>(HttpStatus.OK, "Active Bank Accounts Fetched Successfully", list);
 	}
 }

@@ -1,7 +1,7 @@
 <style>
-	input[type="text"]{
-		text-transform: uppercase;
-	}
+input[type="text"] {
+	text-transform: uppercase;
+}
 </style>
 <div class="pagetitle">
 	<h1>ACCOUNT MANAGEMENT</h1>
@@ -63,6 +63,27 @@
 						<select id="accountType" name="accountType"
 							class="form-control selectField" style="height: 30px;">
 							<option value="">--SELECT TYPE--</option>
+							<option value="SHARE CAPITAL">SHARE CAPITAL</option>
+							<option value="CASH IN HAND">CASH IN HAND</option>
+							<option value="FUNDS AND RESERVE">FUNDS AND RESERVE</option>
+							<option value="DEPOSITS">DEPOSITS</option>
+							<option value="BANKS PAYABLE">BANKS PAYABLE</option>
+							<option value="INTEREST PAYABLE">INTEREST PAYABLE</option>
+							<option value="OTHER PAYABLE">OTHER PAYABLE</option>
+							<option value="PROFIT AND LOSS">PROFIT AND LOSS</option>
+							<option value="BANK ACCOUNT">BANK ACCOUNT</option>
+							<option value="BANK INVESTMENT">BANK INVESTMENT</option>
+							<option value="BANK SHARES">BANK SHARES</option>
+							<option value="LOANS">LOANS</option>
+							<option value="FIXED ASSETS">FIXED ASSETS</option>
+							<option value="DEAD STOCK">DEAD STOCK</option>
+							<option value="INTEREST RECEIVALE">INTEREST RECEIVALE</option>
+							<option value="OTHER RECEIVABLE">OTHER RECEIVABLE</option>
+							<option value="BANK INTEREST">BANK INTEREST</option>
+							<option value="OTHER INCOMES">OTHER INCOMES</option>
+							<option value="INTEREST PAID">INTEREST PAID</option>
+							<option value="OTHER EXPENSES">OTHER EXPENSES</option>
+							<option value="OTHER">OTHER</option>
 							<!-- Sub-types will be injected dynamically based on group selection -->
 						</select> <span id="accountTypeError" style="color: red; font-size: 12px;"></span>
 					</div>
@@ -135,38 +156,85 @@
 	<div class="mt-5">
 		<div class="row mt-5">
 			<div class="col-12">
+
 				<div class="card recent-sales">
 
-					<div class="card-body table-responsive">
-						<h5 class="card-title">
-							LEDGER LIST <span>| TABLE VIEW</span>
-						</h5>
+					<div class="card-body">
 
-						<table class="table table-borderless datatable overflow-scroll">
-							<thead class="table-light">
-								<tr style="font-family: 'Poppins', sans-serif;">
-									<th style="white-space: nowrap;">ID</th>
-									<th style="white-space: nowrap;">ACCOUNT CODE</th>
-									<th style="white-space: nowrap;">ACCOUNT TITLE</th>
-									<th style="white-space: nowrap;">ACCOUNT GROUP</th>
-									<th style="white-space: nowrap;">ACCOUNT TYPE</th>
-									<th style="white-space: nowrap;">OPENING BALANCE</th>
-									<th style="white-space: nowrap;">OPENING BALANCE TYPE</th>
-									<th style="white-space: nowrap;">CURRENT BALANCE</th>
-									<th style="white-space: nowrap;">STATUS</th>
-									<th style="white-space: nowrap;">BRANCH NAME</th>
-									<th style="white-space: nowrap;">VIEW</th>
-									<th style="white-space: nowrap;">DELETE</th>
-								</tr>
-							</thead>
-							<tbody id="tableBody">
+						<!-- HEADER ROW - FIXED -->
+						<div
+							class="d-flex justify-content-between align-items-center mb-3">
+
+							<!-- LEFT SIDE TITLE -->
+							<h5 class="card-title mb-0">
+								LEDGER LIST <span>| TABLE VIEW</span>
+							</h5>
+
+							<!-- RIGHT SIDE SEARCH - FIXED -->
+							<div style="width: 280px; flex-shrink: 0;">
+
+								<div class="input-group">
+
+									<span class="input-group-text bg-white"> <i
+										class="fa-solid fa-magnifying-glass text-primary"></i>
+									</span> <input type="text" id="ledgerSearch" class="form-control"
+										placeholder="Search Ledger..." autocomplete="off">
+
+								</div>
+
+							</div>
+
+						</div>
 
 
-							</tbody>
-						</table>
+						<!-- ONLY TABLE WILL SCROLL -->
+						<div class="table-responsive">
+
+							<table class="table table-borderless datatable">
+
+								<thead class="table-light">
+
+									<tr style="font-family: 'Poppins', sans-serif;">
+
+										<th style="white-space: nowrap;">ID</th>
+
+										<th style="white-space: nowrap;">ACCOUNT CODE</th>
+
+										<th style="white-space: nowrap;">ACCOUNT TITLE</th>
+
+										<th style="white-space: nowrap;">ACCOUNT GROUP</th>
+
+										<th style="white-space: nowrap;">ACCOUNT TYPE</th>
+
+										<th style="white-space: nowrap;">OPENING BALANCE</th>
+
+										<th style="white-space: nowrap;">OPENING BALANCE TYPE</th>
+
+										<th style="white-space: nowrap;">CURRENT BALANCE</th>
+
+										<th style="white-space: nowrap;">STATUS</th>
+
+										<th style="white-space: nowrap;">BRANCH NAME</th>
+
+										<th style="white-space: nowrap;">VIEW</th>
+
+										<th style="white-space: nowrap;">DELETE</th>
+
+									</tr>
+
+								</thead>
+
+								<tbody id="tableBody">
+								</tbody>
+
+							</table>
+
+						</div>
 
 					</div>
+
 				</div>
+
 			</div>
 		</div>
 	</div>
