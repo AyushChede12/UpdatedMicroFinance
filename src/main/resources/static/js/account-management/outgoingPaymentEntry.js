@@ -291,34 +291,38 @@ function LedgerDropdown(branchName, selectedCr = "", selectedDr = "") {
 		url: `accountManagement/ledgerByBranch/${branchName}`,
 		contentType: "application/json",
 		success: function(data) {
-			const ledgers = data.data || [];
+			if (data.status == "OK") {
+				const ledgers = data.data || [];
 
-			// Credit Ledger → Assets (Cash/Bank)
-			let crOptions = "<option value=''>--SELECT CREDIT LEDGER--</option>";
-			// Debit Ledger → Liabilities/Expenses/Equity
-			let drOptions = "<option value=''>--SELECT DEBIT LEDGER--</option>";
-			ledgers.forEach(ledger => {
-				const g = ledger.groupName.toLowerCase();
-				const t = ledger.accountType.toLowerCase();
-				const title = ledger.accountTitle;
+				// Credit Ledger → Assets (Cash/Bank)
+				let crOptions = "<option value=''>--SELECT CREDIT LEDGER--</option>";
+				// Debit Ledger → Liabilities/Expenses/Equity
+				let drOptions = "<option value=''>--SELECT DEBIT LEDGER--</option>";
+				ledgers.forEach(ledger => {
+					const g = ledger.groupName.toLowerCase();
+					const t = ledger.accountType.toLowerCase();
+					const title = ledger.accountTitle;
 
-				// Credit Ledger (Source of Payment → Cash/Bank under Assets)
-				if (g === "assets" && (t === "cash" || t === "bank")) {
-					const selected = title.trim().toLowerCase() === selectedCr.trim().toLowerCase() ? "selected" : "";
-					crOptions += `<option value="${title}" ${selected}>${title.toUpperCase()}</option>`;
-				}
+					// Credit Ledger (Source of Payment → Cash/Bank under Assets)
+					if (g === "assets"  && (t === "cash in hand" || t === "bank account")) {
+						const selected = title.trim().toLowerCase() === selectedCr.trim().toLowerCase() ? "selected" : "";
+						crOptions += `<option value="${title}" ${selected}>${title.toUpperCase()}</option>`;
+					}
 
-				// Debit Ledger (Destination → Liabilities, Expenses, Equity, OR Loan under Assets)
-				if (g === "liabilities" || g === "expenses" || g === "equity" || (g === "assets" && t === "loan_to_members" ||
-					t === "gold_loans" ||
-					t === "joint_loans")) {
-					const selected = title.trim().toLowerCase() === selectedDr.trim().toLowerCase() ? "selected" : "";
-					drOptions += `<option value="${title}" ${selected}>${title.toUpperCase()}</option>`;
-				}
-			});
+					// Debit Ledger (Destination → Liabilities, Expenses, Equity, OR Loan under Assets)
+					if (g === "liabilities" || g === "expenses" || g === "equity" || (g === "assets" && t === "loans")) {
+						const selected = title.trim().toLowerCase() === selectedDr.trim().toLowerCase() ? "selected" : "";
+						drOptions += `<option value="${title}" ${selected}>${title.toUpperCase()}</option>`;
+					}
+				});
 
-			$("#creditLedger").html(crOptions);
-			$("#debitLedger").html(drOptions);
+				$("#creditLedger").html(crOptions);
+				$("#debitLedger").html(drOptions);
+			}
+			else {
+				alert("Branch Not Found");
+			}
+
 		},
 		error: function() {
 			alert("Failed to load ledger accounts for selected branch");

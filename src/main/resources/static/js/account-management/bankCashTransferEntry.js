@@ -309,6 +309,7 @@ function BankCashLedgerDropdown(branchName, selectedCr = "", selectedDr = "") {
 		url: `accountManagement/ledgerByBranch/${branchName}`,
 		contentType: "application/json",
 		success: function(data) {
+			if (data.status == "OK") {
 			const ledgers = data.data || [];
 
 			let crOptions = "<option value=''>--SELECT CREDIT LEDGER--</option>";
@@ -320,7 +321,7 @@ function BankCashLedgerDropdown(branchName, selectedCr = "", selectedDr = "") {
 				const title = ledger.accountTitle;
 
 				// ✅ Only Assets → Cash/Bank
-				if (g === "assets" && (t === "cash" || t === "bank")) {
+				if (g === "assets" && (t === "cash in hand" || t === "bank account")) {
 					const isSelectedDr = title.trim().toLowerCase() === (selectedDr || "").trim().toLowerCase() ? "selected" : "";
 					drOptions += `<option value="${title}" ${isSelectedDr}>${title.toUpperCase()}</option>`;
 					const isSelectedCr = title.trim().toLowerCase() === (selectedCr || "").trim().toLowerCase() ? "selected" : "";
@@ -330,6 +331,9 @@ function BankCashLedgerDropdown(branchName, selectedCr = "", selectedDr = "") {
 
 			$("#debitLedger").html(drOptions);
 			$("#creditLedger").html(crOptions);
+			}else{
+				alert("Data Not Found");
+			}
 		},
 		error: function() {
 			alert("Failed to load Cash/Bank ledgers for selected branch");
