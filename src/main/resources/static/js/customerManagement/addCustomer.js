@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).ready(function() {
 	$("#guardianDetails").hide();
 	$("#guardianAccountNo").hide();
 	loadCustomerTable();
@@ -7,7 +7,7 @@ $(document).ready(function () {
 	// Hide Aadhar field initially
 	$("#aadharNo").closest(".col-lg-3").hide();
 
-	$("#authenticateFor").on("change", function () {
+	$("#authenticateFor").on("change", function() {
 		const val = $(this).val();
 
 		if (val === "aadhar") {
@@ -21,22 +21,29 @@ $(document).ready(function () {
 
 
 
-	$('#saveBtn').click(function (event) {
+	$('#saveBtn').click(function(event) {
 
 		event.preventDefault();
 
 		var authenticate = $("#authenticateFor").val();
+
 		var minor = $("#minor").val();
 
 		$("[id^='chk']").text('');
+
 		let isValid = true;
 
 		function validateText(fieldId, chkId, message) {
+
 			const value = $('#' + fieldId).val()?.trim();
+
 			if (!value) {
+
 				$('#' + chkId).text(message);
+
 				isValid = false;
 			}
+
 			return value;
 		}
 
@@ -46,200 +53,782 @@ $(document).ready(function () {
 
 			// File is optional — only validate if a file was actually selected
 			if (!input || input.files.length === 0) {
+
 				return null;
 			}
 
 			const file = input.files[0];
 
 			if (allowedTypes.length && !allowedTypes.includes(file.type)) {
+
 				$('#' + chkId).text('Only JPG / PNG allowed');
+
 				isValid = false;
+
 				return null;
 			}
 
 			if (file.size > maxSizeMB * 1024 * 1024) {
+
 				$('#' + chkId).text(`File size must be < ${maxSizeMB}MB`);
+
 				isValid = false;
+
 				return null;
 			}
 
 			return file;
 		}
 
+
 		// ----------- VALIDATION ------------
 
-		validateText('authenticateFor', 'chkauthenticatefor', 'Please select authenticate for');
+		validateText(
+			'authenticateFor',
+			'chkauthenticatefor',
+			'Please select authenticate for'
+		);
 
 		if (authenticate == 'aadhar') {
-			validateText('aadharNo', 'chkaadharno', 'Please enter Aadhar number');
+
+			validateText(
+				'aadharNo',
+				'chkaadharno',
+				'Please enter Aadhar number'
+			);
 		}
 
-		validateText('signupDate', 'chksignupdate', 'Please select signup date');
-		validateText('firstName', 'chkfirstname', 'Please enter first name');
-		validateText('middleName', 'chkmiddlename', 'Please enter middle name');
-		validateText('lastName', 'chklastname', 'Please enter last name');
-		validateText('dob', 'chkdob', 'Please select DOB');
+		validateText(
+			'signupDate',
+			'chksignupdate',
+			'Please select signup date'
+		);
+
+		validateText(
+			'firstName',
+			'chkfirstname',
+			'Please enter first name'
+		);
+
+		validateText(
+			'middleName',
+			'chkmiddlename',
+			'Please enter middle name'
+		);
+
+		validateText(
+			'lastName',
+			'chklastname',
+			'Please enter last name'
+		);
+
+		validateText(
+			'dob',
+			'chkdob',
+			'Please select DOB'
+		);
 
 		if (minor == 'Yes') {
-			validateText('guardianName', 'chkguardianname', 'Enter guardian name');
-			validateText('guardianAccNo', 'chkguardianaccno', 'Enter guardian account no');
+
+			validateText(
+				'guardianName',
+				'chkguardianname',
+				'Enter guardian name'
+			);
+
+			validateText(
+				'guardianAccNo',
+				'chkguardianaccno',
+				'Enter guardian account no'
+			);
 		}
 
-		validateText('relationToApplicant', 'chkrelationtoapplicant', 'Select relation');
-		validateText('customerGender', 'chkgender', 'Select gender');
+		validateText(
+			'relationToApplicant',
+			'chkrelationtoapplicant',
+			'Select relation'
+		);
+
+		validateText(
+			'customerGender',
+			'chkgender',
+			'Select gender'
+		);
+
 		// customerAge is auto-calculated from DOB (readonly field) - skip strict validation
 		// validateText('customerAge', 'chkage', 'Enter age');
-		validateText('customerAddress', 'chkaddress', 'Enter address');
-		validateText('state', 'chkstate', 'Select state');
-		validateText('district', 'chkdistrict', 'Select district');
-		validateText('pinCode', 'chkpincode', 'Enter pincode');
-		validateText('branchName', 'chkbranch', 'Select branch');
-		validateText('contactNo', 'chkcontactno', 'Enter contact no');
+
+		validateText(
+			'customerAddress',
+			'chkaddress',
+			'Enter address'
+		);
+
+		validateText(
+			'state',
+			'chkstate',
+			'Select state'
+		);
+
+		validateText(
+			'district',
+			'chkdistrict',
+			'Select district'
+		);
+
+		validateText(
+			'pinCode',
+			'chkpincode',
+			'Enter pincode'
+		);
+
+		validateText(
+			'branchName',
+			'chkbranch',
+			'Select branch'
+		);
+
+		validateText(
+			'contactNo',
+			'chkcontactno',
+			'Enter contact no'
+		);
+
 
 		// ---------- FILE VALIDATION ----------
 
-		const customerPhoto = validateFile('customerPhoto', 'chkaadharimage', 'Select aadhar image', ['image/jpeg', 'image/png'], 2);
-		const customerSignature = validateFile('customerSignature', 'chkpanimage', 'Select signature', ['image/jpeg', 'image/png'], 1);
-		const customerVoter = validateFile('customerVoter', 'chkvoterimage', 'Select voter image', ['image/jpeg', 'image/png'], 2);
-		const customerDriving = validateFile('customerDriving', 'chklicenseimage', 'Select license image', ['image/jpeg', 'image/png'], 2);
-		const nomineAadhar = validateFile('nomineAadhar', 'chknomineeaadhar', 'Select nominee aadhar', ['image/jpeg', 'image/png'], 2);
-		const nomineSignature = validateFile('nomineSignature', 'chknomineesignature', 'Select nominee signature', ['image/jpeg', 'image/png'], 2);
-		const newlyAddedImage = validateFile('newlyAddedImage', 'chknewlyaddedimage', 'Select newly added image', ['image/jpeg', 'image/png'], 2);
+		const customerPhoto = validateFile(
+			'customerPhoto',
+			'chkaadharimage',
+			'Select aadhar image',
+			['image/jpeg', 'image/png'],
+			2
+		);
+
+		const customerSignature = validateFile(
+			'customerSignature',
+			'chkpanimage',
+			'Select signature',
+			['image/jpeg', 'image/png'],
+			1
+		);
+
+		const customerVoter = validateFile(
+			'customerVoter',
+			'chkvoterimage',
+			'Select voter image',
+			['image/jpeg', 'image/png'],
+			2
+		);
+
+		const customerDriving = validateFile(
+			'customerDriving',
+			'chklicenseimage',
+			'Select license image',
+			['image/jpeg', 'image/png'],
+			2
+		);
+
+		const nomineAadhar = validateFile(
+			'nomineAadhar',
+			'chknomineeaadhar',
+			'Select nominee aadhar',
+			['image/jpeg', 'image/png'],
+			2
+		);
+
+		const nomineSignature = validateFile(
+			'nomineSignature',
+			'chknomineesignature',
+			'Select nominee signature',
+			['image/jpeg', 'image/png'],
+			2
+		);
+
+		const newlyAddedImage = validateFile(
+			'newlyAddedImage',
+			'chknewlyaddedimage',
+			'Select newly added image',
+			['image/jpeg', 'image/png'],
+			2
+		);
 
 		if (!isValid) return false;
+
 
 		// ----------- FORM DATA -----------
 
 		var formData = new FormData();
 
-		// Customer Basic
-		formData.append("memberCode", $('#memberCode').val());
-		formData.append("authenticateFor", $('#authenticateFor').val());
-		formData.append("signupDate", $('#signupDate').val());
-		formData.append("major", $('#major').val());
 
-		formData.append("firstName", $('#firstName').val());
-		formData.append("middleName", $('#middleName').val());
-		formData.append("lastName", $('#lastName').val());
-		formData.append("customerName",
+		// Customer Basic
+
+		formData.append(
+			"memberCode",
+			$('#memberCode').val()
+		);
+
+		formData.append(
+			"authenticateFor",
+			$('#authenticateFor').val()
+		);
+
+		formData.append(
+			"signupDate",
+			$('#signupDate').val()
+		);
+
+		formData.append(
+			"major",
+			$('#major').val()
+		);
+
+		formData.append(
+			"firstName",
+			$('#firstName').val()
+		);
+
+		formData.append(
+			"middleName",
+			$('#middleName').val()
+		);
+
+		formData.append(
+			"lastName",
+			$('#lastName').val()
+		);
+
+		formData.append(
+			"customerName",
 			$('#firstName').val() + " " +
 			$('#middleName').val() + " " +
 			$('#lastName').val()
 		);
-		formData.append("dob", $('#dob').val());
-		formData.append("minor", $('#minor').val());
-		formData.append("guardianName", $('#guardianName').val());
-		formData.append("guardianAccountNo", $('#guardianAccNo').val());
 
-		formData.append("relationToApplicant", $('#relationToApplicant').val());
-		formData.append("customerGender", $('#customerGender').val());
-		formData.append("customerAge", $('#customerAge').val());
-		formData.append("relationshipStatus", $('#relationshipStatus').val());
+		formData.append(
+			"dob",
+			$('#dob').val()
+		);
 
-		formData.append("customerAddress", $('#customerAddress').val());
+		formData.append(
+			"minor",
+			$('#minor').val()
+		);
 
-		formData.append("category", $('#category').val());
-		formData.append("caste", $('#caste').val());
+		formData.append(
+			"guardianName",
+			$('#guardianName').val()
+		);
 
-		formData.append("state", $('#state').val());
-		formData.append("district", $('#district').val());
-		formData.append("pinCode", $('#pinCode').val());
+		formData.append(
+			"guardianAccountNo",
+			$('#guardianAccNo').val()
+		);
 
-		formData.append("branchName", $('#branchName').val());
+		formData.append(
+			"relationToApplicant",
+			$('#relationToApplicant').val()
+		);
 
-		formData.append("aadharNo", $('#aadharNo').val());
-		formData.append("panNo", $('#panNo').val());
-		formData.append("voterNo", $('#voterNo').val());
-		formData.append("drivingLicenceNo", $('#drivingLicenceNo').val());
+		formData.append(
+			"customerGender",
+			$('#customerGender').val()
+		);
 
-		formData.append("contactNo", $('#contactNo').val());
-		formData.append("emailId", $('#emailId').val());
+		formData.append(
+			"customerAge",
+			$('#customerAge').val()
+		);
 
-		formData.append("profession", $('#profession').val());
-		formData.append("academicBackground", $('#academicBackground').val());
+		formData.append(
+			"relationshipStatus",
+			$('#relationshipStatus').val()
+		);
+
+		formData.append(
+			"customerAddress",
+			$('#customerAddress').val()
+		);
+
+		formData.append(
+			"category",
+			$('#category').val()
+		);
+
+		formData.append(
+			"caste",
+			$('#caste').val()
+		);
+
+		formData.append(
+			"state",
+			$('#state').val()
+		);
+
+		formData.append(
+			"district",
+			$('#district').val()
+		);
+
+		formData.append(
+			"pinCode",
+			$('#pinCode').val()
+		);
+
+		formData.append(
+			"branchName",
+			$('#branchName').val()
+		);
+
+		formData.append(
+			"aadharNo",
+			$('#aadharNo').val()
+		);
+
+		formData.append(
+			"panNo",
+			$('#panNo').val()
+		);
+
+		formData.append(
+			"voterNo",
+			$('#voterNo').val()
+		);
+
+		formData.append(
+			"drivingLicenceNo",
+			$('#drivingLicenceNo').val()
+		);
+
+		formData.append(
+			"contactNo",
+			$('#contactNo').val()
+		);
+
+		formData.append(
+			"emailId",
+			$('#emailId').val()
+		);
+
+		formData.append(
+			"profession",
+			$('#profession').val()
+		);
+
+		formData.append(
+			"academicBackground",
+			$('#academicBackground').val()
+		);
+
 
 		// Referral
+
 		//		formData.append("referralCode", $('#referralCode').val());
 		//		formData.append("referralName", $('#referralName').val());
 
+
 		// Share
+
 		//		formData.append("shareAmount", $('#shareAmount').val());
 		//		formData.append("noOfShare", $('#noOfShare').val());
 		//		formData.append("shareValue", $('#shareValue').val());
-
 		//		formData.append("lightBill", $('#lightBill').val());
 		//		formData.append("taxBill", $('#taxBill').val());
 
+
 		// Nominee
-		formData.append("nomineeName", $('#nomineeName').val());
-		formData.append("nomineeRelationToApplicant", $('#nomineeRelationToApplicant').val());
-		formData.append("nomineeAge", $('#nomineeAge').val());
-		formData.append("nomineeAddress", $('#nomineeAddress').val());
-		formData.append("nomineePanNo", $('#nomineePanNo').val());
-		formData.append("nomineeKycNo", $('#nomineeKycNo').val());
-		formData.append("nomineeKycType", $('#nomineeKycType').val());
-		formData.append("nomineeMobileNo", $('#nomineeMobileNo').val());
-		formData.append("nomineeDOB", $('#nomineeDOB').val());
+
+		formData.append(
+			"nomineeName",
+			$('#nomineeName').val()
+		);
+
+		formData.append(
+			"nomineeRelationToApplicant",
+			$('#nomineeRelationToApplicant').val()
+		);
+
+		formData.append(
+			"nomineeAge",
+			$('#nomineeAge').val()
+		);
+
+		formData.append(
+			"nomineeAddress",
+			$('#nomineeAddress').val()
+		);
+
+		formData.append(
+			"nomineePanNo",
+			$('#nomineePanNo').val()
+		);
+
+		formData.append(
+			"nomineeKycNo",
+			$('#nomineeKycNo').val()
+		);
+
+		formData.append(
+			"nomineeKycType",
+			$('#nomineeKycType').val()
+		);
+
+		formData.append(
+			"nomineeMobileNo",
+			$('#nomineeMobileNo').val()
+		);
+
+		formData.append(
+			"nomineeDOB",
+			$('#nomineeDOB').val()
+		);
+
+		//Charges
+		formData.append(
+			"memberFees",
+			$('#memberFees').val()
+		);
+
+		formData.append(
+			"buildingFund",
+			$('#buildingFund').val()
+		);
+
+
+		formData.append(
+			"adminCharge",
+			$('#adminCharge').val()
+		);
+
+		formData.append(
+			"documentCharge",
+			$('#documentCharge').val()
+		);
+
+		formData.append(
+			"entryFee",
+			$('#entryFee').val()
+		);
+
+		formData.append(
+			"paymentBy",
+			$('#paymentBy').val()
+		);
+
+		formData.append(
+			"remarks",
+			$('#remarks').val()
+		);
+
+		formData.append(
+			"otherCharge",
+			$('#otherCharge').val()
+		);
 
 		// Fees
+
 		//		formData.append("memberFees", $('#memberFees').val());
 		//		formData.append("buildingFund", $('#buildingFund').val());
 		//		formData.append("adminCharge", $('#adminCharge').val());
 		//		formData.append("documentCharge", $('#documentCharge').val());
 		//		formData.append("otherCharge", $('#otherCharge').val());
 		//		formData.append("entryFee", $('#entryFee').val());
-
 		//		formData.append("chequeNo", $('#chequeNo').val());
 		//		formData.append("chequeDate", $('#chequeDate').val());
 		//		formData.append("depositAcNo", $('#depositAccount').val());
 		//		formData.append("referenceNo", $('#referenceNo').val());
-
 		//		formData.append("remarks", $('#remarks').val());
 		//		formData.append("paymentBy", $('#paymentBy').val());
-
 		//		formData.append("fDate", $('#fDate').val());
 		//		formData.append("tDate", $('#tDate').val());
 
+
 		// Toggles
-		formData.append("memberStatus", $('#toggle-member-status').is(":checked") ? "1" : "0");
-		formData.append("mobileBanking", $('#toggle-banking-status').is(":checked") ? "1" : "0");
-		formData.append("netBanking", $('#toggle-netbanking-status').is(":checked") ? "1" : "0");
-		formData.append("smsSend", $('#toggle-sms-status').is(":checked") ? "1" : "0");
+
+		formData.append(
+			"memberStatus",
+			$('#toggle-member-status').is(":checked") ? "1" : "0"
+		);
+
+		formData.append(
+			"mobileBanking",
+			$('#toggle-banking-status').is(":checked") ? "1" : "0"
+		);
+
+		formData.append(
+			"netBanking",
+			$('#toggle-netbanking-status').is(":checked") ? "1" : "0"
+		);
+
+		formData.append(
+			"smsSend",
+			$('#toggle-sms-status').is(":checked") ? "1" : "0"
+		);
+
 
 		// Files
-		if (customerPhoto) formData.append("customerPhoto", customerPhoto);
-		if (customerSignature) formData.append("customerSignature", customerSignature);
-		if (customerVoter) formData.append("customerVoter", customerVoter);
-		if (customerDriving) formData.append("customerDriving", customerDriving);
-		if (nomineAadhar) formData.append("nomineAadhar", nomineAadhar);
-		if (nomineSignature) formData.append("nomineSignature", nomineSignature);
-		if (newlyAddedImage) formData.append("newlyAddedImage", newlyAddedImage);
+
+		if (customerPhoto)
+			formData.append("customerPhoto", customerPhoto);
+
+		if (customerSignature)
+			formData.append("customerSignature", customerSignature);
+
+		if (customerVoter)
+			formData.append("customerVoter", customerVoter);
+
+		if (customerDriving)
+			formData.append("customerDriving", customerDriving);
+
+		if (nomineAadhar)
+			formData.append("nomineAadhar", nomineAadhar);
+
+		if (nomineSignature)
+			formData.append("nomineSignature", nomineSignature);
+
+		if (newlyAddedImage)
+			formData.append("newlyAddedImage", newlyAddedImage);
+
 
 		// -------- AJAX --------
 
 		$.ajax({
+
 			type: 'POST',
+
 			url: 'api/customermanagement/saveOrUpdateCustomer',
+
 			data: formData,
+
 			processData: false,
+
 			contentType: false,
-			success: function (response) {
+
+			success: function(response) {
+
 				if (response.data) {
+
 					const customerId = response.data.id;
-					const saveMsg = response.message || "Customer saved successfully!";
-					uploadExtraImages(customerId, saveMsg);
+
+					const saveMsg =
+						response.message ||
+						"Customer saved successfully!";
+
+
+					// =====================================================
+					// ACCOUNT TRANSACTION
+					// =====================================================
+
+					/*
+					 * Read Payment Mode
+					 */
+					const paymentBy =
+						($('#paymentBy').val() || '')
+							.toString()
+							.trim()
+							.toUpperCase();
+
+
+					/*
+					 * Read Customer Fees
+					 */
+					const memberFees =
+						parseFloat($('#memberFees').val()) || 0;
+
+					const buildingFund =
+						parseFloat($('#buildingFund').val()) || 0;
+
+					const adminCharge =
+						parseFloat($('#adminCharge').val()) || 0;
+
+					const documentCharge =
+						parseFloat($('#documentCharge').val()) || 0;
+
+					const entryFee =
+						parseFloat($('#entryFee').val()) || 0;
+
+
+					/*
+					 * Calculate Total Customer Registration Fees
+					 */
+					const totalFee =
+						memberFees +
+						buildingFund +
+						adminCharge +
+						documentCharge +
+						entryFee;
+
+
+					/*
+					 * AccountTransaction should be created
+					 * ONLY when actual CASH is received.
+					 */
+					if (
+						paymentBy === "CASH" &&
+						totalFee > 0
+					) {
+
+						const accountTransactionData = {
+
+							branchName:
+								$('#branchName').val(),
+
+							accountCode:
+								"CASH",
+
+							accountNumber:
+								"CASH-001",
+
+							transactionDate:
+								$('#signupDate').val() ||
+								new Date()
+									.toISOString()
+									.split('T')[0],
+
+							narration:
+								"Customer Registration Fees - " +
+								(
+									$('#memberCode').val() ||
+									customerId
+								),
+
+							credit:
+								totalFee,
+
+							debit:
+								0,
+
+							transactionType:
+								"CUSTOMER_FEES",
+
+							referenceNo:
+								$('#memberCode').val() ||
+								String(customerId),
+
+							status:
+								"SUCCESS",
+
+							loanId:
+								null,
+
+							policyId:
+								null,
+
+							createdBy:
+								"ADMIN"
+						};
+
+
+						// -------------------------------------------------
+						// SAVE ACCOUNT TRANSACTION
+						// -------------------------------------------------
+
+						$.ajax({
+
+							type: 'POST',
+
+							url:
+								'accountManagement/saveAccountTransaction',
+
+							contentType:
+								'application/json',
+
+							data:
+								JSON.stringify(
+									accountTransactionData
+								),
+
+							success: function(
+
+								transactionResponse
+							) {
+								alert("success");
+
+								console.log(
+									"AccountTransaction saved successfully:",
+									transactionResponse
+								);
+
+
+								/*
+								 * Existing Customer flow
+								 * remains exactly same.
+								 */
+								uploadExtraImages(
+									customerId,
+									saveMsg
+								);
+							},
+
+							error: function(xhr) {
+
+								console.error(
+									"AccountTransaction Error:",
+									xhr
+								);
+
+
+								/*
+								 * Customer is already saved.
+								 * Do not save customer again.
+								 *
+								 * Continue existing flow.
+								 */
+								alert(
+									"Customer saved successfully, but cash transaction could not be saved."
+								);
+
+								uploadExtraImages(
+									customerId,
+									saveMsg
+								);
+							}
+						});
+
+
+					} else {
+
+						/*
+						 * No AccountTransaction for:
+						 *
+						 * CHEQUE
+						 * NEFT
+						 * ONLINE
+						 * UPI
+						 *
+						 * OR
+						 *
+						 * Total Fee = 0
+						 *
+						 * Continue existing flow.
+						 */
+						uploadExtraImages(
+							customerId,
+							saveMsg
+						);
+					}
+
 				} else {
-					alert(response.message || "Customer saved successfully!");
+
+					alert(
+						response.message ||
+						"Customer saved successfully!"
+					);
+
 					location.reload();
 				}
 			},
 
-			error: function (xhr) {
+			error: function(xhr) {
+
 				console.error(xhr);
-				alert(xhr.responseJSON?.message || "Something  went  wrong");
+
+				alert(
+					xhr.responseJSON?.message ||
+					"Something went wrong"
+				);
 			}
 		});
-
 	});
 
 	/*$('#saveBtn').click(function(e) {
@@ -324,7 +913,7 @@ $(document).ready(function () {
 	// =================================================
 	// CUSTOMER IMAGE UPLOAD EVENT LISTENERS & FUNCTIONS
 	// =================================================
-	$("#addFieldBtn").click(function (e) {
+	$("#addFieldBtn").click(function(e) {
 		e.preventDefault();
 		createNewField();
 	});
@@ -338,7 +927,7 @@ $(document).ready(function () {
 		$("#fieldContainer").append(fieldHtml);
 	}
 
-	$(document).on("input", ".nameField", function () {
+	$(document).on("input", ".nameField", function() {
 		const val = $(this).val().trim();
 		const box = $(this).closest(".textUploadSet").find(".uploadContainer");
 
@@ -363,7 +952,7 @@ $(document).ready(function () {
 		box.html(html);
 	});
 
-	$("#uploadAllBtn").click(function (e) {
+	$("#uploadAllBtn").click(function(e) {
 		e.preventDefault();
 		alert("Please click the SAVE button at the bottom of the page to save the customer details and automatically upload all added images.");
 	});
@@ -380,7 +969,7 @@ $(document).ready(function () {
 		let completed = 0;
 		let hasFailed = false;
 
-		uploadFields.each(function () {
+		uploadFields.each(function() {
 			const fieldName = $(this).find("label:first").text().replace("*", "").trim();
 			const input = $(this).find("input[type=file]")[0];
 			const file = input.files[0];
@@ -404,14 +993,14 @@ $(document).ready(function () {
 				data: fd,
 				processData: false,
 				contentType: false,
-				success: function () {
+				success: function() {
 					completed++;
 					if (completed === uploadCount) {
 						alert(hasFailed ? "Some extra images failed to upload." : (saveMsg || "Customer and all images saved successfully!"));
 						location.reload();
 					}
 				},
-				error: function () {
+				error: function() {
 					hasFailed = true;
 					completed++;
 					if (completed === uploadCount) {
@@ -429,7 +1018,7 @@ function photopreview() {
 	const file = document.getElementById("customerPhoto").files[0];
 	if (file && file.type.startsWith("image/")) {
 		const reader = new FileReader();
-		reader.onload = function (e) {
+		reader.onload = function(e) {
 			const previewimg = document.getElementById("bike1imagePreview");
 			document.getElementById("bike1imagePreview").src = e.target.result;
 			previewimg.style.width = "100%";
@@ -450,7 +1039,7 @@ function signpreview() {
 	const file = document.getElementById("customerSignature").files[0];
 	if (file && file.type.startsWith("image/")) {
 		const reader = new FileReader();
-		reader.onload = function (e) {
+		reader.onload = function(e) {
 			const previevimg = document.getElementById("bike2imagePreview");
 			document.getElementById("bike2imagePreview").src = e.target.result;
 			previevimg.style.width = "100%";
@@ -469,7 +1058,7 @@ function voterpreview() {
 	const file = document.getElementById("customerVoter").files[0];
 	if (file && file.type.startsWith("image/")) {
 		const reader = new FileReader();
-		reader.onload = function (e) {
+		reader.onload = function(e) {
 			const previevimg = document.getElementById("bike3imagePreview");
 			document.getElementById("bike3imagePreview").src = e.target.result;
 			previevimg.style.width = "100%";
@@ -488,7 +1077,7 @@ function drivingpreview() {
 	const file = document.getElementById("customerDriving").files[0];
 	if (file && file.type.startsWith("image/")) {
 		const reader = new FileReader();
-		reader.onload = function (e) {
+		reader.onload = function(e) {
 			const previevimg = document.getElementById("bike4imagePreview");
 			document.getElementById("bike4imagePreview").src = e.target.result;
 			previevimg.style.width = "100%";
@@ -507,7 +1096,7 @@ function loadCustomerTable() {
 	$.ajax({
 		url: "api/customermanagement/getAllCustomer",
 		type: "GET",
-		success: function (data) {
+		success: function(data) {
 			let tbody = $("#customerTableBody");
 			tbody.empty();
 
@@ -533,7 +1122,7 @@ function loadCustomerTable() {
                 `);
 			});
 		},
-		error: function (err) {
+		error: function(err) {
 			console.log("Error loading table:", err);
 		}
 	});
@@ -545,7 +1134,7 @@ function nomineeSignaturePreview() {
 	const file = document.getElementById("nomineSignature").files[0];
 	if (file && file.type.startsWith("image/")) {
 		const reader = new FileReader();
-		reader.onload = function (e) {
+		reader.onload = function(e) {
 			const previewImg = document.getElementById("nomineeSignatureImg");
 			document.getElementById("nomineeSignatureImg").src = e.target.result;
 			previewImg.style.width = "100%";
@@ -564,7 +1153,7 @@ function nomineeAadharPreview() {
 	const file = document.getElementById("nomineAadhar").files[0];
 	if (file && file.type.startsWith("image/")) {
 		const reader = new FileReader();
-		reader.onload = function (e) {
+		reader.onload = function(e) {
 			const previewImg = document.getElementById("nomineeAadharImg");
 			document.getElementById("nomineeAadharImg").src = e.target.result;
 			previewImg.style.width = "100%";
@@ -583,7 +1172,7 @@ function newlyaddedpreview() {
 	const file = document.getElementById("newlyAddedImage").files[0];
 	if (file && file.type.startsWith("image/")) {
 		const reader = new FileReader();
-		reader.onload = function (e) {
+		reader.onload = function(e) {
 			const previewImg = document.getElementById("newlyAddedImagePreview");
 			previewImg.src = e.target.result;
 			previewImg.style.width = "100%";
@@ -598,15 +1187,15 @@ function newlyaddedpreview() {
 	}
 }
 
-$(document).ready(function () {
+$(document).ready(function() {
 	// Load States
 	$.ajax({
 		url: 'api/preference/getAllStates',
 		method: "GET",
-		success: function (response) {
+		success: function(response) {
 			if (response && response.data && Array.isArray(response.data)) {
 				console.log("Fetched states:", response.data);
-				response.data.forEach(function (state) {
+				response.data.forEach(function(state) {
 					$('#state').append(
 						$('<option>', {
 							value: state.stateName,  // What will be saved to DB
@@ -619,7 +1208,7 @@ $(document).ready(function () {
 				console.warn("No state data available.");
 			}
 		},
-		error: function (err) {
+		error: function(err) {
 			console.error("Error fetching states:", err);
 		}
 	});
@@ -627,7 +1216,7 @@ $(document).ready(function () {
 
 
 // Load Districts when state is selected
-$('#state').on('change', function () {
+$('#state').on('change', function() {
 	const selectedStateId = $(this).find(':selected').data('id'); // ✅ Get ID from selected option
 	$('#district').empty().append('<option value="">Select District</option>');
 
@@ -636,10 +1225,10 @@ $('#state').on('change', function () {
 			url: 'api/preference/getAllDistrictsByStateId',
 			method: 'GET',
 			data: { stateId: selectedStateId },  // ✅ Now correct ID passed
-			success: function (response) {
+			success: function(response) {
 				console.log("Fetched districts:", response);
 				const districts = response.allDistricts;
-				districts.forEach(function (district) {
+				districts.forEach(function(district) {
 					$('#district').append(
 						$('<option>', {
 							value: district.districtName,
@@ -648,7 +1237,7 @@ $('#state').on('change', function () {
 					);
 				});
 			},
-			error: function (err) {
+			error: function(err) {
 				console.error("Error fetching districts:", err);
 			}
 		});
@@ -656,16 +1245,16 @@ $('#state').on('change', function () {
 });
 
 
-$(document).ready(function () {
+$(document).ready(function() {
 	const dropdownIds = ["relationToApplicant", "nomineeRelationToApplicant"];
 
 	$.ajax({
 		url: "api/preference/getAllRelativeModule", // Ensure correct server path
 		method: "GET",
-		success: function (data) {
+		success: function(data) {
 			console.log("Received relation data:", data);
 
-			dropdownIds.forEach(function (id) {
+			dropdownIds.forEach(function(id) {
 				const $select = $("#" + id);
 				if ($select.length === 0) {
 					console.warn(`Dropdown with ID '${id}' not found.`);
@@ -676,7 +1265,7 @@ $(document).ready(function () {
 				$select.find("option:not(:first)").remove();
 
 				// Loop through data.data array
-				data.data.forEach(function (item) {
+				data.data.forEach(function(item) {
 					$select.append(
 						$("<option>", {
 							value: item.relation,
@@ -686,18 +1275,18 @@ $(document).ready(function () {
 				});
 			});
 		},
-		error: function (err) {
+		error: function(err) {
 			console.error("Error loading relations:", err);
 		}
 	});
 });
 
-$(document).ready(function () {
+$(document).ready(function() {
 	// Fetch all branches and populate the dropdown
 	$.ajax({
 		url: "api/preference/getAllBranchModule", // Ensure correct API path
 		method: "GET",
-		success: function (data) {
+		success: function(data) {
 			console.log("Fetched Branches:", data);
 
 			const $branchDropdown = $('#branchName');
@@ -711,7 +1300,7 @@ $(document).ready(function () {
 
 			// Loop through and add only unique branch names
 			if (Array.isArray(data.data)) {
-				data.data.forEach(function (branch) {
+				data.data.forEach(function(branch) {
 					const branchName = branch.branchName;
 
 					if (branchName && !addedBranches.has(branchName)) {
@@ -728,14 +1317,14 @@ $(document).ready(function () {
 				console.warn("Unexpected data format:", data);
 			}
 		},
-		error: function (err) {
+		error: function(err) {
 			console.error("Error fetching branches:", err);
 		}
 	});
 });
 
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
 	const paymentBy = document.getElementById("paymentBy");
 
 	const chequeNoDiv = document.getElementById("chequeNoDiv");
@@ -778,7 +1367,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
 	// Function to fetch and bind bank accounts
 	function loadBankAccounts() {
 		fetch("api/preference/getAllBankModule")
@@ -818,14 +1407,14 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-$(document).ready(function () {
+$(document).ready(function() {
 	// Fetch all customers and populate the "select by code" dropdown
 	$.ajax({
 		url: "api/customermanagement/getAllCustomer",
 		method: "GET",
-		success: function (data) {
+		success: function(data) {
 			console.log("Fetched Members:", data);
-			data.forEach(function (customer) {
+			data.forEach(function(customer) {
 				const optionText = `${customer.memberCode} - ${customer.customerName}`;
 				$('#selectMember').append(
 					$('<option>', {
@@ -835,7 +1424,7 @@ $(document).ready(function () {
 				);
 			});
 		},
-		error: function (err) {
+		error: function(err) {
 			console.error("Error fetching customers:", err);
 		}
 	});
@@ -843,14 +1432,14 @@ $(document).ready(function () {
 
 
 
-$(document).ready(function () {
+$(document).ready(function() {
 	// If already selected on load
 	if ($("#selectMember").val()) {
 		fetchBySelectedCustomer();
 	}
 
 	// On dropdown change
-	$("#selectMember").on("change", function () {
+	$("#selectMember").on("change", function() {
 		if ($(this).val()) {
 			fetchBySelectedCustomer();
 		} else {
@@ -871,7 +1460,7 @@ function fetchBySelectedCustomer() {
 		data: JSON.stringify(input),
 		url: 'fetchBySelectedCustomer',
 		async: false,
-		success: function (data) {
+		success: function(data) {
 			if (data && data.length > 0) {
 				const c = data[0];
 
@@ -910,7 +1499,7 @@ function fetchBySelectedCustomer() {
 				clearCustomerFields();
 			}
 		},
-		error: function (jqXHR, textStatus, errorThrown) {
+		error: function(jqXHR, textStatus, errorThrown) {
 			alert("Failed to fetch data: " + textStatus + ", " + errorThrown);
 		}
 	});
@@ -946,8 +1535,8 @@ function ifMinor() {
 
 
 // Auto-calculate Age and Minor detection
-$(document).ready(function () {
-	$('#dob').on('change', function () {
+$(document).ready(function() {
+	$('#dob').on('change', function() {
 		const dobVal = $(this).val();
 		if (!dobVal) return;
 
@@ -973,7 +1562,7 @@ $(document).ready(function () {
 		}
 	});
 
-	$('#nomineeDOB').on('change', function () {
+	$('#nomineeDOB').on('change', function() {
 		const dobVal = $(this).val();
 		if (!dobVal) return;
 
@@ -1002,12 +1591,12 @@ $(document).ready(function () {
 
 
 
-$(document).ready(function () {
+$(document).ready(function() {
 	// 1️⃣ Fetch all customers for dropdown
 	$.ajax({
 		url: "api/customersavings/getAllSavingAccountData",
 		method: "GET",
-		success: function (response) {
+		success: function(response) {
 			console.log("Fetched Members:", response);
 
 			const customers = response.data || response;
@@ -1025,7 +1614,7 @@ $(document).ready(function () {
 
 			// Populate dropdown
 			if (Array.isArray(customers) && customers.length > 0) {
-				customers.forEach(function (customer) {
+				customers.forEach(function(customer) {
 
 					const guardianValue = customer.selectByCustomer
 						? customer.selectByCustomer.trim()
@@ -1042,13 +1631,13 @@ $(document).ready(function () {
 				});
 			}
 		},
-		error: function (err) {
+		error: function(err) {
 			console.error("❌ Error fetching customers:", err);
 		}
 	});
 
 
-	$('#guardianName').on('change', function () {
+	$('#guardianName').on('change', function() {
 		const selectedCode = $(this).val().trim();
 
 		if (selectedCode === "") {
@@ -1062,7 +1651,7 @@ $(document).ready(function () {
 			$.ajax({
 				url: `api/customersavings/getAccountNumbersByCode?selectByCustomer=${encodeURIComponent(selectedCode)}`,
 				method: "GET",
-				success: function (res) {
+				success: function(res) {
 					console.log("Account number response:", res);
 
 					// Access account number using the selected code as key
@@ -1080,7 +1669,7 @@ $(document).ready(function () {
 						}
 					}
 				},
-				error: function (err) {
+				error: function(err) {
 					console.error("❌ Error fetching account number:", err);
 					$('#guardianAccNo').val('');
 				}
@@ -1117,7 +1706,7 @@ $(document).ready(function () {
 	$.ajax({
 		url: 'api/preference/getAllCategoryModule',
 		method: "GET",
-		success: function (response) {
+		success: function(response) {
 
 			if (response.status === 'FOUND') {
 
@@ -1128,14 +1717,14 @@ $(document).ready(function () {
 				// Set to store unique category names
 				const uniqueCategories = new Set();
 
-				response.data.forEach(function (category) {
+				response.data.forEach(function(category) {
 					if (category.category) {
 						uniqueCategories.add(category.category.trim());
 					}
 				});
 
 				// Append unique categories
-				uniqueCategories.forEach(function (categoryName) {
+				uniqueCategories.forEach(function(categoryName) {
 					$('#category').append(
 						$('<option>', {
 							value: categoryName,
@@ -1148,13 +1737,13 @@ $(document).ready(function () {
 				console.warn("No Category data available.");
 			}
 		},
-		error: function (err) {
+		error: function(err) {
 			console.error("Error fetching Categories:", err);
 		}
 	});
 
 
-	$('#category').on('change', function () {
+	$('#category').on('change', function() {
 		const selectedCategory = $("#category").val();
 		$('#caste').empty().append('<option value="">--SELECT CASTE--</option>');
 
@@ -1163,10 +1752,10 @@ $(document).ready(function () {
 				url: 'api/preference/getAllCasteByCategory',
 				method: 'GET',
 				data: { category: selectedCategory },  // ✅ Now correct ID passed
-				success: function (response) {
+				success: function(response) {
 					console.log("Fetched caste:", response);
 					const casteList = response.data;
-					casteList.forEach(function (caste) {
+					casteList.forEach(function(caste) {
 						$('#caste').append(
 							$('<option>', {
 								value: caste.caste,
@@ -1175,7 +1764,7 @@ $(document).ready(function () {
 						);
 					});
 				},
-				error: function (err) {
+				error: function(err) {
 					console.error("Error fetching caste:", err);
 				}
 			});
@@ -1183,13 +1772,13 @@ $(document).ready(function () {
 	});
 });
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
 	document.getElementById("memberFeesTable").style.display = "none";
 
 
 });
 
-document.getElementById("memberFees").addEventListener("click", function (event) {
+document.getElementById("memberFees").addEventListener("click", function(event) {
 	event.stopPropagation();
 
 	let table = document.getElementById("memberFeesTable");
@@ -1198,12 +1787,12 @@ document.getElementById("memberFees").addEventListener("click", function (event)
 });
 
 
-document.getElementById("memberFeesTable").addEventListener("click", function (event) {
+document.getElementById("memberFeesTable").addEventListener("click", function(event) {
 	event.stopPropagation();
 });
 
 
-document.addEventListener("click", function () {
+document.addEventListener("click", function() {
 	document.getElementById("memberFeesTable").style.display = "none";
 });
 

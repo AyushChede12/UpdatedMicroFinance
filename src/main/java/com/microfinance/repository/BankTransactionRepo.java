@@ -12,18 +12,14 @@ import com.microfinance.model.BankTransaction;
 @Repository
 public interface BankTransactionRepo extends JpaRepository<BankTransaction, Long> {
 
-	// Period ke transactions
-	@Query(value = "SELECT * FROM bank_transaction " + "WHERE account_number = :accountNumber "
-			+ "AND STR_TO_DATE(date, '%Y-%m-%d') " + "BETWEEN STR_TO_DATE(:startDate, '%Y-%m-%d') "
-			+ "AND STR_TO_DATE(:endDate, '%Y-%m-%d') "
-			+ "ORDER BY STR_TO_DATE(date, '%Y-%m-%d') ASC, id ASC", nativeQuery = true)
+	@Query("SELECT b FROM BankTransaction b " + "WHERE b.accountNumber = :accountNumber " + "AND b.date < :startDate "
+			+ "ORDER BY b.date DESC, b.id DESC")
+	List<BankTransaction> findPreviousTransactions(@Param("accountNumber") String accountNumber,
+			@Param("startDate") String startDate);
+
+	@Query("SELECT b FROM BankTransaction b " + "WHERE b.accountNumber = :accountNumber " + "AND b.date >= :startDate "
+			+ "AND b.date <= :endDate " + "ORDER BY b.date ASC, b.id ASC")
 	List<BankTransaction> findBankStatement(@Param("accountNumber") String accountNumber,
 			@Param("startDate") String startDate, @Param("endDate") String endDate);
 
-	// Start date se pehle ka latest transaction
-	@Query(value = "SELECT * FROM bank_transaction " + "WHERE account_number = :accountNumber "
-			+ "AND STR_TO_DATE(date, '%Y-%m-%d') < STR_TO_DATE(:startDate, '%Y-%m-%d') "
-			+ "ORDER BY STR_TO_DATE(date, '%Y-%m-%d') DESC, id DESC " + "LIMIT 1", nativeQuery = true)
-	BankTransaction findLastTransactionBeforeStartDate(@Param("accountNumber") String accountNumber,
-			@Param("startDate") String startDate);
 }

@@ -303,7 +303,8 @@ $(document).ready(function() {
 
 		e.preventDefault();
 
-		const policyCode = $("#policyCode").val();
+		const policyCode =
+			$("#policyCode").val();
 
 		const policyAmount =
 			parseFloat($("#policyAmount").val()) || 0;
@@ -326,45 +327,64 @@ $(document).ready(function() {
 		const dueDateValue =
 			$("#dueDate").val();
 
+
 		if (!policyCode) {
+
 			alert("Please select a Policy Code.");
 			return;
 		}
 
+
 		if (policyAmount <= 0) {
+
 			alert("Invalid Policy Amount.");
 			return;
 		}
 
+
 		if (noOfInstallments <= 0) {
+
 			alert("Please enter No. of Installments.");
 			$("#noOfInst").focus();
 			return;
 		}
 
+
 		if (
 			totalTerm > 0 &&
 			alreadyPaid + noOfInstallments > totalTerm
 		) {
+
 			alert(
 				"Installment limit exceeded!\n\n" +
-				"Total Term : " + totalTerm +
-				"\nAlready Paid : " + alreadyPaid +
+				"Total Term : " +
+				totalTerm +
+				"\nAlready Paid : " +
+				alreadyPaid +
 				"\nRemaining : " +
 				(totalTerm - alreadyPaid)
 			);
+
 			return;
 		}
+
 
 		const totalPayment =
 			policyAmount * noOfInstallments;
 
+
 		if (paymentDue <= 0) {
-			alert("No payment is due for this policy.");
+
+			alert(
+				"No payment is due for this policy."
+			);
+
 			return;
 		}
 
+
 		if (totalPayment > paymentDue) {
+
 			alert(
 				"Payment amount cannot be greater than payment due.\n\n" +
 				"Payment Amount : ₹" +
@@ -372,22 +392,37 @@ $(document).ready(function() {
 				"\nPayment Due : ₹" +
 				paymentDue.toFixed(2)
 			);
+
 			return;
 		}
+
 
 		const PENALTY_PER_DAY = 10;
 
 		let penaltyAmount = 0;
+
 		let lateDays = 0;
+
 
 		if (dueDateValue) {
 
 			const dueDate =
-				new Date(dueDateValue + "T00:00:00");
+				new Date(
+					dueDateValue + "T00:00:00"
+				);
 
-			const today = new Date();
 
-			today.setHours(0, 0, 0, 0);
+			const today =
+				new Date();
+
+
+			today.setHours(
+				0,
+				0,
+				0,
+				0
+			);
+
 
 			if (today > dueDate) {
 
@@ -395,57 +430,73 @@ $(document).ready(function() {
 					today.getTime() -
 					dueDate.getTime();
 
+
 				lateDays =
 					Math.floor(
 						difference /
 						(1000 * 60 * 60 * 24)
 					);
 
+
 				penaltyAmount =
-					lateDays * PENALTY_PER_DAY;
+					lateDays *
+					PENALTY_PER_DAY;
 			}
 		}
 
+
 		penaltyAmount =
-			Number(penaltyAmount.toFixed(2));
+			Number(
+				penaltyAmount.toFixed(2)
+			);
 
-		const confirmPayment = confirm(
 
-			"Please confirm payment details:\n\n" +
+		const confirmPayment =
+			confirm(
 
-			"Policy Code : " +
-			policyCode +
+				"Please confirm payment details:\n\n" +
 
-			"\nPolicy Amount : ₹" +
-			policyAmount.toFixed(2) +
+				"Policy Code : " +
+				policyCode +
 
-			"\nNo. of Installments : " +
-			noOfInstallments +
+				"\nPolicy Amount : ₹" +
+				policyAmount.toFixed(2) +
 
-			"\nPayment Amount : ₹" +
-			totalPayment.toFixed(2) +
+				"\nNo. of Installments : " +
+				noOfInstallments +
 
-			"\nPayment Due : ₹" +
-			paymentDue.toFixed(2) +
+				"\nPayment Amount : ₹" +
+				totalPayment.toFixed(2) +
 
-			"\nLate Days : " +
-			lateDays +
+				"\nPayment Due : ₹" +
+				paymentDue.toFixed(2) +
 
-			"\nPenalty Amount : ₹" +
-			penaltyAmount.toFixed(2) +
+				"\nLate Days : " +
+				lateDays +
 
-			"\n\nDo you want to save this payment?"
-		);
+				"\nPenalty Amount : ₹" +
+				penaltyAmount.toFixed(2) +
+
+				"\n\nDo you want to save this payment?"
+			);
+
 
 		if (!confirmPayment) {
+
 			return;
 		}
 
-		$("#saveBtn").prop("disabled", true);
+
+		$("#saveBtn").prop(
+			"disabled",
+			true
+		);
+
 
 		const rdPaymentData = {
 
-			policyCode: policyCode,
+			policyCode:
+				policyCode,
 
 			paymentAmount:
 				totalPayment.toFixed(2),
@@ -465,10 +516,12 @@ $(document).ready(function() {
 				penaltyAmount.toFixed(2)
 		};
 
+
 		console.log(
 			"RD Payment Request:",
 			rdPaymentData
 		);
+
 
 		$.ajax({
 
@@ -485,87 +538,286 @@ $(document).ready(function() {
 				"json",
 
 			data:
-				JSON.stringify(rdPaymentData),
+				JSON.stringify(
+					rdPaymentData
+				),
 
-			success: function(response) {
 
-				console.log(
-					"RD Payment Response:",
-					response
-				);
+			success:
+				function(response) {
 
-				if (
-					response &&
-					response.status === "CREATED"
-				) {
-
-					alert(
-						"✅ " +
-						(
-							response.message ||
-							"RD payment saved successfully."
-						)
+					console.log(
+						"RD Payment Response:",
+						response
 					);
 
-					location.reload();
 
-				} else {
+					if (
+						response &&
+						response.status === "CREATED"
+					) {
+
+
+						/*
+						 * =====================================================
+						 * SAVE ACCOUNT TRANSACTION
+						 * ONLY FOR CASH PAYMENT
+						 * =====================================================
+						 */
+
+						if (
+							modeOfPayment &&
+							modeOfPayment.toUpperCase() === "CASH"
+						) {
+
+
+							const accountTransactionData = {
+
+								branchName:
+									$("#branchName").val() || "",
+
+								accountCode:
+									"CASH",
+
+								accountNumber:
+									"CASH-001",
+
+								transactionDate:
+									new Date()
+										.toISOString()
+										.split("T")[0],
+
+								narration:
+									"RD Renewal - " +
+									policyCode +
+									" - " +
+									(
+										$("#customerCode").val() || ""
+									),
+
+								credit:
+									Number(
+										totalPayment.toFixed(2)
+									),
+
+								debit:
+									0,
+
+								transactionType:
+									"RD_INSTALLMENT",
+
+								referenceNo:
+									policyCode +
+									"-INST-" +
+									(
+										alreadyPaid + 1
+									),
+
+								status:
+									"SUCCESS",
+
+								loanId:
+									null,
+
+								policyId:
+									null,
+
+								createdBy:
+									"ADMIN"
+							};
+
+
+							console.log(
+								"Saving RD Account Transaction:",
+								accountTransactionData
+							);
+
+
+							$.ajax({
+
+								url:
+									"accountManagement/saveAccountTransaction",
+
+								type:
+									"POST",
+
+								contentType:
+									"application/json",
+
+								dataType:
+									"json",
+
+								data:
+									JSON.stringify(
+										accountTransactionData
+									),
+
+
+								success:
+									function(
+										accountResponse
+									) {
+
+										console.log(
+											"Account Transaction Response:",
+											accountResponse
+										);
+
+
+										if (
+											accountResponse &&
+											accountResponse.status === "CREATED"
+										) {
+
+											alert(
+												"✅ " +
+												(
+													response.message ||
+													"RD payment saved successfully."
+												)
+											);
+
+											location.reload();
+
+											return;
+										}
+
+
+										alert(
+											"⚠️ RD payment saved, but Cash Book transaction could not be saved.\n\n" +
+											(
+												accountResponse &&
+													accountResponse.message
+													?
+													accountResponse.message
+													:
+													"Account transaction failed."
+											)
+										);
+
+
+										$("#saveBtn").prop(
+											"disabled",
+											false
+										);
+									},
+
+
+								error:
+									function(
+										accountXhr
+									) {
+
+										console.error(
+											"Account Transaction Error:",
+											accountXhr
+										);
+
+
+										alert(
+											"⚠️ RD payment saved, but Cash Book transaction could not be saved."
+										);
+
+
+										$("#saveBtn").prop(
+											"disabled",
+											false
+										);
+									}
+							});
+
+
+						} else {
+
+
+							/*
+							 * =====================================================
+							 * ONLINE PAYMENT
+							 * NO CASH BOOK ENTRY
+							 * =====================================================
+							 */
+
+							alert(
+								"✅ " +
+								(
+									response.message ||
+									"RD payment saved successfully."
+								)
+							);
+
+
+							location.reload();
+						}
+
+
+					} else {
+
+
+						alert(
+							"⚠️ " +
+							(
+								response &&
+									response.message
+									?
+									response.message
+									:
+									"Payment could not be saved."
+							)
+						);
+
+
+						$("#saveBtn").prop(
+							"disabled",
+							false
+						);
+					}
+				},
+
+
+			error:
+				function(xhr) {
+
+					console.error(
+						"RD Payment Error:",
+						xhr
+					);
+
+
+					let message =
+						"Failed to save RD payment.";
+
+
+					if (
+						xhr.responseJSON &&
+						xhr.responseJSON.message
+					) {
+
+						message =
+							xhr.responseJSON.message;
+
+					} else if (
+						xhr.responseJSON &&
+						xhr.responseJSON.error
+					) {
+
+						message =
+							xhr.responseJSON.error;
+					}
+
 
 					alert(
-						"⚠️ " +
-						(
-							response &&
-								response.message
-								? response.message
-								: "Payment could not be saved."
-						)
+						"❌ " +
+						message
 					);
+
 
 					$("#saveBtn").prop(
 						"disabled",
 						false
 					);
 				}
-			},
-
-			error: function(xhr) {
-
-				console.error(
-					"RD Payment Error:",
-					xhr
-				);
-
-				let message =
-					"Failed to save RD payment.";
-
-				if (
-					xhr.responseJSON &&
-					xhr.responseJSON.message
-				) {
-
-					message =
-						xhr.responseJSON.message;
-
-				} else if (
-					xhr.responseJSON &&
-					xhr.responseJSON.error
-				) {
-
-					message =
-						xhr.responseJSON.error;
-
-				}
-
-				alert(
-					"❌ " + message
-				);
-
-				$("#saveBtn").prop(
-					"disabled",
-					false
-				);
-			}
 		});
+
 	});
 
 	/*
