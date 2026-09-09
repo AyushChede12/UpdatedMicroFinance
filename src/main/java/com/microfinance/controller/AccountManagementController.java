@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.microfinance.dto.AccountTransactionRequest;
 import com.microfinance.dto.ApiResponse;
 import com.microfinance.dto.BalanceSheetDTO;
 import com.microfinance.dto.BankCashTransferDto;
@@ -544,6 +545,35 @@ public class AccountManagementController {
 	}
 
 	// Cash Book
+
+	@PostMapping("/saveAccountTransaction")
+	public ResponseEntity<ApiResponse<AccountTransaction>> saveTransaction(
+			@RequestBody AccountTransactionRequest request) {
+
+		try {
+
+			AccountTransaction savedTransaction = accountManagementService.saveTransaction(request);
+
+			ApiResponse<AccountTransaction> response = ApiResponse.success(HttpStatus.CREATED,
+					"Account transaction saved successfully", savedTransaction);
+
+			return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
+		} catch (RuntimeException e) {
+
+			ApiResponse<AccountTransaction> response = ApiResponse.error(HttpStatus.BAD_REQUEST, e.getMessage());
+
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+
+		} catch (Exception e) {
+
+			ApiResponse<AccountTransaction> response = ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR,
+					"Unable to save account transaction");
+
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
+	}
+
 	@GetMapping("/getCashBookTransaction")
 	public ApiResponse<List<AccountTransaction>> getCashBook(@RequestParam String branchName,
 			@RequestParam String startDate, @RequestParam String endDate) {
@@ -685,4 +715,5 @@ public class AccountManagementController {
 
 		return new ApiResponse<>(HttpStatus.OK, "Active Bank Accounts Fetched Successfully", list);
 	}
+
 }

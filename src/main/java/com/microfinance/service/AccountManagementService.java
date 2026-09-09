@@ -3,6 +3,7 @@ package com.microfinance.service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.microfinance.dto.AccountTransactionRequest;
 import com.microfinance.dto.ApiResponse;
 import com.microfinance.dto.BalanceSheetDTO;
 import com.microfinance.dto.BalanceSheetItemDTO;
@@ -2305,7 +2307,10 @@ public class AccountManagementService {
 
 	public List<BankStatementDto> getBankStatement(String accountNumber, String startDate, String endDate) {
 
-		// 1. Basic validation
+		// =====================================================
+		// 1. BASIC VALIDATION
+		// =====================================================
+
 		if (accountNumber == null || accountNumber.trim().isEmpty()) {
 			throw new RuntimeException("Account number is required");
 		}
@@ -2318,77 +2323,219 @@ public class AccountManagementService {
 			throw new RuntimeException("End date is required");
 		}
 
-		// 2. Validate date range
-		if (startDate.compareTo(endDate) > 0) {
+		// =====================================================
+		// 2. CREATE CLEAN VARIABLES
+		// =====================================================
+		// Do NOT reassign method parameters because they are
+		// used inside lambda expressions below.
+
+		final String cleanAccountNumber = accountNumber.trim();
+		final String cleanStartDate = startDate.trim();
+		final String cleanEndDate = endDate.trim();
+
+		// =====================================================
+		// 3. VALIDATE DATE RANGE
+		// =====================================================
+
+		if (cleanStartDate.compareTo(cleanEndDate) > 0) {
 			throw new RuntimeException("Start date cannot be greater than end date");
 		}
 
-		accountNumber = accountNumber.trim();
+		// =====================================================
+		// 4. CHECK SAVING ACCOUNT
+		// =====================================================
 
-		// 3. Check account
-		CreateSavingsAccount acc = createSavingsAccountRepo.findByAccountNumber(accountNumber)
-				.orElseThrow(() -> new RuntimeException("Account not found"));
+		CreateSavingsAccount acc = createSavingsAccountRepo.findByAccountNumber(cleanAccountNumber)
+				.orElseThrow(() -> new RuntimeException("Account not found: " + cleanAccountNumber));
 
-		// 4. Get Bank / Branch details
-		String branchName = "";
+		// =====================================================
+		// 5. GET BANK / BRANCH DETAILS
+		// =====================================================
+
 		String bankName = "";
+		String branchName = "";
 
 		if (acc.getBranchName() != null) {
 
 			branchName = acc.getBranchName().getBranchName();
 
 			if (acc.getBranchName().getBank() != null) {
+
 				bankName = acc.getBranchName().getBank().getBankName();
 			}
 		}
 
-		// 5. Get opening balance
-		BankTransaction previousTxn = bankTransactionRepo.findLastTransactionBeforeStartDate(accountNumber, startDate);
+		// =====================================================
+		// 6. GET PREVIOUS TRANSACTION
+		// =====================================================
+		// This transaction is BEFORE selected start date.
+		//
+		// Its balance becomes Opening Balance.
+		//
+		// Example:
+		//
+		// 31-08-2026 -> Balance = 50,000
+		// Start Date = 01-09-2026
+		//
+		// Opening Balance = 50,000
+		// =====================================================
+
+		List<BankTransaction> previousTransactions = bankTransactionRepo.findPreviousTransactions(cleanAccountNumber,
+				cleanStartDate);
+
+		BankTransaction previousTxn = null;
+
+		if (previousTransactions != null && !previousTransactions.isEmpty()) {
+
+			// Repository must return latest transaction first
+			previousTxn = previousTransactions.get(0);
+		}
+
+		// =====================================================
+		// 7. CALCULATE OPENING BALANCE
+		// =====================================================
 
 		Double openingBalance = 0.0;
 
 		if (previousTxn != null && previousTxn.getBalance() != null) {
+
 			openingBalance = previousTxn.getBalance();
 		}
 
-		// 6. Get transactions for selected period
-		List<BankTransaction> txnList = bankTransactionRepo.findBankStatement(accountNumber, startDate, endDate);
+		// =====================================================
+		// 8. GET TRANSACTIONS FOR SELECTED DATE RANGE
+		// =====================================================
 
-		System.out.println("Account Number = " + accountNumber);
-		System.out.println("Start Date = " + startDate);
-		System.out.println("End Date = " + endDate);
-		System.out.println("Opening Balance = " + openingBalance);
-		System.out.println("Transaction Size = " + txnList.size());
+		List<BankTransaction> txnList = bankTransactionRepo.findBankStatement(cleanAccountNumber, cleanStartDate,
+				cleanEndDate);
 
-		// 7. No transactions
-		if (txnList.isEmpty()) {
+		// =====================================================
+		// 9. DEBUG LOG
+		// =====================================================
+
+		System.out.println("======================================");
+		System.out.println("BANK STATEMENT");
+		System.out.println("Account Number   = " + cleanAccountNumber);
+		System.out.println("Bank Name        = " + bankName);
+		System.out.println("Branch Name      = " + branchName);
+		System.out.println("Start Date       = " + cleanStartDate);
+		System.out.println("End Date         = " + cleanEndDate);
+		System.out.println("Opening Balance  = " + openingBalance);
+
+		System.out.println("Transaction Size = " + (txnList != null ? txnList.size() : 0));
+
+		System.out.println("======================================");
+
+		// =====================================================
+		// 10. NO TRANSACTION CASE
+		// =====================================================
+
+		if (txnList == null || txnList.isEmpty()) {
+
 			return new ArrayList<>();
 		}
 
-		// 8. Convert Entity -> DTO
+		// =====================================================
+		// 11. GET CLOSING BALANCE
+		// =====================================================
+
+		BankTransaction lastTxn = txnList.get(txnList.size() - 1);
+
+		Double closingBalance = openingBalance;
+
+		if (lastTxn.getBalance() != null) {
+
+			closingBalance = lastTxn.getBalance();
+		}
+
+		// =====================================================
+		// 12. CONVERT ENTITY -> DTO
+		// =====================================================
+
 		List<BankStatementDto> result = new ArrayList<>();
 
 		for (BankTransaction txn : txnList) {
 
 			BankStatementDto dto = new BankStatementDto();
 
+			// =================================================
+			// BANK DETAILS
+			// =================================================
+
 			dto.setBankName(bankName);
+
 			dto.setBranchName(branchName);
 
-			dto.setAccountNumber(txn.getAccountNumber());
+			// =================================================
+			// ACCOUNT NUMBER
+			// =================================================
+
+			dto.setAccountNumber(cleanAccountNumber);
+
+			// =================================================
+			// TRANSACTION DATE
+			// =================================================
+
 			dto.setDate(txn.getDate());
-			dto.setNarration(txn.getNarration());
 
-			dto.setCredit(txn.getCredit());
-			dto.setDebit(txn.getDebit());
-			dto.setBalance(txn.getBalance());
+			// =================================================
+			// NARRATION
+			// =================================================
 
-			// IMPORTANT: These were missing
-			dto.setTransactionType(txn.getTransactionType());
-			dto.setReferenceNo(txn.getReferenceNo());
+			dto.setNarration(txn.getNarration() != null ? txn.getNarration() : "-");
+
+			// =================================================
+			// CREDIT
+			// =================================================
+
+			dto.setCredit(txn.getCredit() != null ? txn.getCredit() : 0.0);
+
+			// =================================================
+			// DEBIT
+			// =================================================
+
+			dto.setDebit(txn.getDebit() != null ? txn.getDebit() : 0.0);
+
+			// =================================================
+			// RUNNING BALANCE
+			// =================================================
+
+			dto.setBalance(txn.getBalance() != null ? txn.getBalance() : 0.0);
+
+			// =================================================
+			// TRANSACTION TYPE
+			// =================================================
+
+			dto.setTransactionType(txn.getTransactionType() != null ? txn.getTransactionType() : "-");
+
+			// =================================================
+			// REFERENCE NUMBER
+			// =================================================
+
+			dto.setReferenceNo(txn.getReferenceNo() != null ? txn.getReferenceNo() : "-");
+
+			// =================================================
+			// OPENING BALANCE
+			// =================================================
+
+			dto.setOpeningBalance(openingBalance);
+
+			// =================================================
+			// CLOSING BALANCE
+			// =================================================
+
+			dto.setClosingBalance(closingBalance);
+
+			// =================================================
+			// ADD TO RESULT
+			// =================================================
 
 			result.add(dto);
 		}
+
+		// =====================================================
+		// 13. RETURN RESULT
+		// =====================================================
 
 		return result;
 	}
@@ -2807,5 +2954,123 @@ public class AccountManagementService {
 
 		return ledgerAccountRepository.findByGroupNameIgnoreCaseAndAccountTypeIgnoreCaseAndStatusIgnoreCase("ASSETS",
 				"Bank Account", "Active");
+	}
+
+	@Transactional
+	public AccountTransaction saveTransaction(AccountTransactionRequest request) {
+
+		if (request == null) {
+			throw new RuntimeException("Transaction request cannot be null");
+		}
+
+		if (request.getAccountNumber() == null || request.getAccountNumber().trim().isEmpty()) {
+
+			throw new RuntimeException("Account number is required");
+		}
+
+		if (request.getCredit() == null) {
+			request.setCredit(0.0);
+		}
+
+		if (request.getDebit() == null) {
+			request.setDebit(0.0);
+		}
+
+		if (request.getCredit() < 0 || request.getDebit() < 0) {
+			throw new RuntimeException("Credit/Debit amount cannot be negative");
+		}
+
+		if (request.getCredit() > 0 && request.getDebit() > 0) {
+			throw new RuntimeException("Both Credit and Debit cannot be greater than zero");
+		}
+
+		if (request.getCredit() == 0 && request.getDebit() == 0) {
+			throw new RuntimeException("Either Credit or Debit amount is required");
+		}
+
+		AccountTransaction transaction = new AccountTransaction();
+
+		transaction.setBranchName(request.getBranchName());
+		transaction.setAccountCode(request.getAccountCode());
+		transaction.setAccountNumber(request.getAccountNumber());
+
+		/*
+		 * Transaction Date
+		 */
+		if (request.getTransactionDate() != null && !request.getTransactionDate().trim().isEmpty()) {
+
+			transaction.setTransactionDate(request.getTransactionDate());
+
+		} else {
+
+			transaction.setTransactionDate(LocalDate.now().toString());
+		}
+
+		transaction.setNarration(request.getNarration());
+
+		transaction.setCredit(request.getCredit());
+		transaction.setDebit(request.getDebit());
+
+		transaction.setTransactionType(request.getTransactionType());
+
+		transaction.setReferenceNo(request.getReferenceNo());
+
+		/*
+		 * Default status
+		 */
+		if (request.getStatus() != null && !request.getStatus().trim().isEmpty()) {
+
+			transaction.setStatus(request.getStatus());
+
+		} else {
+
+			transaction.setStatus("SUCCESS");
+		}
+
+		transaction.setLoanId(request.getLoanId());
+		transaction.setPolicyId(request.getPolicyId());
+
+		transaction.setCreatedAt(LocalDateTime.now());
+
+		transaction.setCreatedBy(request.getCreatedBy());
+
+		/*
+		 * Calculate Running Balance
+		 *
+		 * Previous Balance + Credit - Debit
+		 */
+		Double previousBalance = getCurrentBalance(request.getAccountNumber());
+
+		Double newBalance = previousBalance + request.getCredit() - request.getDebit();
+
+		transaction.setBalance(newBalance);
+
+		return transactionRepository.save(transaction);
+	}
+
+	public Double getCurrentBalance(String accountNumber) {
+
+		List<AccountTransaction> transactions = transactionRepository
+				.findByAccountNumberOrderByIdAsc(accountNumber);
+
+		if (transactions == null || transactions.isEmpty()) {
+			return 0.0;
+		}
+
+		AccountTransaction lastTransaction = transactions.get(transactions.size() - 1);
+
+		if (lastTransaction.getBalance() == null) {
+			return 0.0;
+		}
+
+		return lastTransaction.getBalance();
+	}
+
+	/**
+	 * Get transactions by Account Number
+	 */
+	public List<AccountTransaction> getTransactions(String accountNumber) {
+
+		return transactionRepository.findByAccountNumberOrderByIdAsc(accountNumber);
 	}
 }

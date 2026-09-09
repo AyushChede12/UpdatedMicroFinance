@@ -68,4 +68,8 @@ public interface AccountTransactionRepo extends JpaRepository<AccountTransaction
 
 	List<AccountTransaction> findByTransactionTypeOrderByIdDesc(String transactionType);
 
+	List<AccountTransaction> findByAccountNumberOrderByIdAsc(String accountNumber);
+
+	List<AccountTransaction> findByBranchNameOrderByIdAsc(String branchName);
+
 }
