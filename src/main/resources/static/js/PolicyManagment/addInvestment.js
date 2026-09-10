@@ -1019,12 +1019,12 @@ $("#saveBtn").click(function(e) {
 	}
 
 
+
 	/*
 	 * FD VALIDATION
 	 *
 	 * Only FD requires split validation.
 	 */
-
 	if (
 		schemeType === "FD" &&
 		typeof isFDSplitValid === "function"
@@ -1041,8 +1041,8 @@ $("#saveBtn").click(function(e) {
 	}
 
 
-	// Photo
 
+	// Photo
 	let imageSrc =
 		$('#photoPreview').attr('src');
 
@@ -1055,8 +1055,8 @@ $("#saveBtn").click(function(e) {
 		.val(imageName);
 
 
-	// Signature
 
+	// Signature
 	let imageSrc1 =
 		$('#signaturePreview').attr('src');
 
@@ -1069,9 +1069,9 @@ $("#saveBtn").click(function(e) {
 		.val(imageName1);
 
 
+
 	// Step 1:
 	// Get next policy code
-
 	$.ajax({
 
 		url:
@@ -1090,9 +1090,9 @@ $("#saveBtn").click(function(e) {
 				.val(policyCode);
 
 
+
 			// Step 2:
 			// Prepare FormData
-
 			let formData =
 				new FormData();
 
@@ -1236,17 +1236,33 @@ $("#saveBtn").click(function(e) {
 				$("#depositAmount").val()
 			);
 
-			formData.append("fdSplitAmounts",
+			formData.append(
+				"fdSplitAmounts",
 				$("#schemeType").val() === "FD"
 					? getFDSplitJSON()
 					: ""
 			);
 
+
+
+			// =====================================================
+			// PAID AMOUNT
+			// =====================================================
+			// Policy Creation ke time payment nahi hua hai.
+			// Isliye RD / DRD / FD tino ke liye 0.00.
+			// Actual payment Payment Form se update hoga.
+			// =====================================================
+
 			formData.append(
 				"paidAmount",
-				$("#policyAmount").val()
+				"0.00"
 			);
 
+
+
+			// =====================================================
+			// AMOUNT DUE
+			// =====================================================
 
 			const depositAmount =
 				parseFloat(
@@ -1258,13 +1274,92 @@ $("#saveBtn").click(function(e) {
 					$("#policyAmount").val()
 				) || 0;
 
-			formData.append(
-				"amountDue",
-				(
-					depositAmount -
-					policyAmount
-				).toFixed(2)
-			);
+
+
+			if (schemeType === "FD") {	
+
+				// =============================================
+				// FD
+				// =============================================
+				// First FD split is the first payment due.
+				//
+				// Example:
+				// [300000, 300000, 300000, 100000]
+				//
+				// Initial Amount Due = 300000
+				// =============================================
+
+				let fdSplitJSON =
+					getFDSplitJSON();
+
+				let fdSplitAmounts = [];
+
+				try {
+
+					fdSplitAmounts =
+						JSON.parse(fdSplitJSON);
+
+				} catch (error) {
+
+					alert(
+						"Invalid FD split allocation."
+					);
+
+					return;
+				}
+
+
+
+				if (
+					!Array.isArray(fdSplitAmounts) ||
+					fdSplitAmounts.length === 0
+				) {
+
+					alert(
+						"FD split amounts are required."
+					);
+
+					return;
+				}
+
+
+
+				const firstFDSplit =
+					parseFloat(
+						fdSplitAmounts[0]
+					) || 0;
+
+
+
+				if (firstFDSplit <= 0) {
+
+					alert(
+						"Invalid first FD split amount."
+					);
+
+					return;
+				}
+
+				formData.append(
+					"amountDue",
+					firstFDSplit.toFixed(2)
+				);
+
+			} else {
+
+				// =============================================
+				// RD / DRD
+				// =============================================
+
+				formData.append(
+					"amountDue",
+					(
+						depositAmount -
+						policyAmount
+					).toFixed(2)
+				);
+			}
+
 
 
 			formData.append(
@@ -1300,10 +1395,20 @@ $("#saveBtn").click(function(e) {
 					: "0"
 			);
 
+
+
+			// =====================================================
+			// INITIAL INSTALLMENT PAID
+			// =====================================================
+			// Policy Creation ke time koi installment paid nahi hai.
+			// =====================================================
+
 			formData.append(
 				"lastInstPaid",
-				"1"
+				"0"
 			);
+
+
 
 			formData.append(
 				"image1",
@@ -1314,6 +1419,7 @@ $("#saveBtn").click(function(e) {
 				"image2",
 				$('#signatureHidden').val()
 			);
+
 
 
 			/*
@@ -1332,13 +1438,10 @@ $("#saveBtn").click(function(e) {
 					"fdSplitJSON",
 					getFDSplitJSON()
 				);
-
 			}
-
-
+			
 			// Step 3:
 			// Send POST request
-
 			$.ajax({
 
 				url:
@@ -1360,7 +1463,6 @@ $("#saveBtn").click(function(e) {
 					);
 
 					location.reload();
-
 				},
 
 				error: function(xhr) {
@@ -1374,10 +1476,8 @@ $("#saveBtn").click(function(e) {
 					);
 
 					location.reload();
-
 				}
 			});
-
 		},
 
 		error: function() {
@@ -1385,7 +1485,6 @@ $("#saveBtn").click(function(e) {
 			alert(
 				"❌ Failed to generate policy code."
 			);
-
 		}
 	});
 

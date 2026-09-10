@@ -123,90 +123,389 @@ $('#accountNumber').on('change', function() {
 $(document).ready(function() {
 
 	$('#saveBtn').click(function(event) {
+
 		event.preventDefault();
 
 		// Clear previous error message
 		$('#balanceError').text("");
 
 		const transactionDate = $('#transactionDate').val();
+
 		const accountNumber = $('#accountNumber').val();
+
 		const transactionType = $('#transactionType').val();
-		const transactionAmount = parseFloat($('#transactionAmount').val());
-		let avgBalance = parseFloat($('#averageBalance').val()) || 0;
+
+		const transactionAmount =
+			parseFloat($('#transactionAmount').val());
+
+		let avgBalance =
+			parseFloat($('#averageBalance').val()) || 0;
+
 
 		// Required field validation
-		if (!transactionDate || !accountNumber || !transactionType || isNaN(transactionAmount)) {
+		if (
+			!transactionDate ||
+			!accountNumber ||
+			!transactionType ||
+			isNaN(transactionAmount)
+		) {
+
 			alert("Please fill all required fields");
+
 			return;
 		}
 
+
 		// ===== Update average balance =====
+
 		if (transactionType === 'Deposit') {
+
 			avgBalance += transactionAmount;
+
 		}
+
 		else if (transactionType === 'Withdraw') {
+
 			avgBalance -= transactionAmount;
 		}
 
+
 		// ===== Balance negative check =====
+
 		if (avgBalance < 0) {
+
 			$('#balanceError').text("Balance is low");
+
 			return;
 		}
 
+
 		// Update balance field
-		$('#averageBalance').val(avgBalance.toFixed(2));
+
+		$('#averageBalance').val(
+			avgBalance.toFixed(2)
+		);
+
 
 		// ===== Prepare data =====
+
 		const accountData = {
-			selectSavingTransactionId: $('#selectSavingTransactionId').val(),
-			transactionDate: transactionDate,
-			selectBranchName: $('#selectBranchName').val(),
-			accountNumber: accountNumber,
-			customerCode: $('#customerCode').val(),
-			customerName: $('#customerName').val(),
-			contactNumber: $('#contactNumber').val(),
-			jointHolderName: $('#jointHolderName').val(),
-			savingPlanName: $('#savingPlanName').val(),
-			averageBalance: avgBalance.toFixed(2),
-			transactionFor: $('#transactionFor').val(),
-			comments: $('#comments').val(),
-			transactionType: transactionType,
-			transactionAmount: transactionAmount.toFixed(2),
-			payBy: $('#payBy').val(),
-			chequeNo: $('#chequeNo').val(),
-			chequeDate: $('#chequeDate').val(),
-			depositAcc1: $('#depositAcc1').val(),
-			depositAcc2: $('#depositAcc2').val(),
-			refNumber1: $('#refNumber1').val(),
-			depositAcc3: $('#depositAcc3').val(),
-			refNumber2: $('#refNumber2').val()
+
+			selectSavingTransactionId:
+				$('#selectSavingTransactionId').val(),
+
+			transactionDate:
+				transactionDate,
+
+			selectBranchName:
+				$('#selectBranchName').val(),
+
+			accountNumber:
+				accountNumber,
+
+			customerCode:
+				$('#customerCode').val(),
+
+			customerName:
+				$('#customerName').val(),
+
+			contactNumber:
+				$('#contactNumber').val(),
+
+			jointHolderName:
+				$('#jointHolderName').val(),
+
+			savingPlanName:
+				$('#savingPlanName').val(),
+
+			averageBalance:
+				avgBalance.toFixed(2),
+
+			transactionFor:
+				$('#transactionFor').val(),
+
+			comments:
+				$('#comments').val(),
+
+			transactionType:
+				transactionType,
+
+			transactionAmount:
+				transactionAmount.toFixed(2),
+
+			payBy:
+				$('#payBy').val(),
+
+			chequeNo:
+				$('#chequeNo').val(),
+
+			chequeDate:
+				$('#chequeDate').val(),
+
+			depositAcc1:
+				$('#depositAcc1').val(),
+
+			depositAcc2:
+				$('#depositAcc2').val(),
+
+			refNumber1:
+				$('#refNumber1').val(),
+
+			depositAcc3:
+				$('#depositAcc3').val(),
+
+			refNumber2:
+				$('#refNumber2').val()
 		};
 
+
 		// ===== Save API =====
+
 		$.ajax({
-			url: "api/customersavings/savesavingaccountactivity",
-			type: "POST",
-			contentType: "application/json",
-			data: JSON.stringify(accountData),
 
-			success: function(response) {
-				alert("Transaction saved successfully");
+			url:
+				"api/customersavings/savesavingaccountactivity",
 
-				// Update main balance
-				updateMainAccountBalance(accountNumber, avgBalance);
+			type:
+				"POST",
 
-				// Reload transaction table
-				reloadTransactionTable(accountNumber);
+			contentType:
+				"application/json",
 
-				// Clear error after successful save
-				$('#balanceError').text("");
-			},
+			data:
+				JSON.stringify(accountData),
 
-			error: function(xhr, status, error) {
-				console.error("Error saving transaction:", xhr.responseText);
-				alert("Failed to save transaction");
-			}
+			success:
+				function(response) {
+
+					alert(
+						"Transaction saved successfully"
+					);
+
+
+					// Update main balance
+					updateMainAccountBalance(
+						accountNumber,
+						avgBalance
+					);
+
+
+					// Reload transaction table
+					reloadTransactionTable(
+						accountNumber
+					);
+
+
+					// Clear error after successful save
+					$('#balanceError').text("");
+
+
+					// =====================================================
+					// SAVE ACCOUNT TRANSACTION
+					// ONLY FOR CASH TRANSACTION
+					// =====================================================
+
+					const payBy =
+						($('#payBy').val() || "")
+							.toUpperCase();
+
+					// =================================================
+					// DEPOSIT = CREDIT
+					// WITHDRAW = DEBIT
+					// =================================================
+
+					let creditAmount = 0;
+
+					let debitAmount = 0;
+
+
+					if (
+						transactionType === "Deposit"
+					) {
+
+						creditAmount =
+							Number(
+								transactionAmount.toFixed(2)
+							);
+
+					}
+
+					else if (
+						transactionType === "Withdraw"
+					) {
+
+						debitAmount =
+							Number(
+								transactionAmount.toFixed(2)
+							);
+					}
+
+
+					// =================================================
+					// ACCOUNT TRANSACTION DATA
+					// =================================================
+
+					const accountTransactionData = {
+
+						branchName:
+							$('#selectBranchName').val() || "",
+
+						accountCode:
+							payBy,
+
+						accountNumber:
+							"CASH-001",
+
+						transactionDate:
+							transactionDate,
+
+						narration:
+							"Saving Account " +
+							transactionType +
+							" - " +
+							accountNumber +
+							" - " +
+							(
+								$('#customerCode').val() || ""
+							),
+
+						credit:
+							creditAmount,
+
+						debit:
+							debitAmount,
+
+						transactionType:
+							transactionType === "Deposit"
+								?
+								"SAVING_DEPOSIT"
+								:
+								"SAVING_WITHDRAW",
+
+						referenceNo:
+							accountNumber +
+							"-" +
+							transactionDate +
+							"-" +
+							transactionType,
+
+						status:
+							"SUCCESS",
+
+						loanId:
+							null,
+
+						policyId:
+							null,
+
+						createdBy:
+							"ADMIN"
+					};
+
+
+					console.log(
+						"Saving Account Cash Transaction:",
+						accountTransactionData
+					);
+
+
+					// =================================================
+					// SAVE ACCOUNT TRANSACTION API
+					// =================================================
+
+					$.ajax({
+
+						url:
+							"accountManagement/saveAccountTransaction",
+
+						type:
+							"POST",
+
+						contentType:
+							"application/json",
+
+						dataType:
+							"json",
+
+						data:
+							JSON.stringify(
+								accountTransactionData
+							),
+
+						success:
+							function(
+								accountResponse
+							) {
+
+								console.log(
+									"Account Transaction Response:",
+									accountResponse
+								);
+
+
+								if (
+									accountResponse &&
+									accountResponse.status === "CREATED"
+								) {
+
+									console.log(
+										"Cash Book transaction saved successfully."
+									);
+
+								}
+
+								else {
+
+									console.warn(
+										"Saving Account transaction saved, but Cash Book transaction could not be saved.",
+										accountResponse
+									);
+
+									alert(
+										"⚠️ Saving Account transaction saved, but Cash Book transaction could not be saved."
+									);
+								}
+							},
+
+
+						error:
+							function(
+								accountXhr,
+								accountStatus,
+								accountError
+							) {
+
+								console.error(
+									"Account Transaction Error:",
+									accountXhr.responseText
+								);
+
+
+								alert(
+									"⚠️ Saving Account transaction saved, but Cash Book transaction could not be saved."
+								);
+							}
+					});
+
+				},
+
+
+			error:
+				function(
+					xhr,
+					status,
+					error
+				) {
+
+					console.error(
+						"Error saving transaction:",
+						xhr.responseText
+					);
+
+					alert(
+						"Failed to save transaction"
+					);
+				}
 		});
 
 	});

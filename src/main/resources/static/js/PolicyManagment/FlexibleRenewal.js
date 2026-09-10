@@ -325,9 +325,8 @@ $(document).ready(function() {
 					paymentDue = 0;
 				}
 
-
 				$("#paymentDue")
-					.val(balance);
+					.val(data.amountDue);
 
 
 				// =====================================================
@@ -660,8 +659,7 @@ $(document).ready(function() {
 		console.log(
 			"FD Payment Data:",
 			policyPaymentData
-		);
-
+		);	
 
 		// =====================================================
 		// SAVE FD PAYMENT API
@@ -688,7 +686,6 @@ $(document).ready(function() {
 
 			success:
 				function(response) {
-					alert("dd");
 
 					console.log(
 						"FD Payment Response:",
@@ -865,6 +862,7 @@ $(document).ready(function() {
 
 
 						} else {
+							alert("else")
 
 
 							// =================================================
@@ -886,6 +884,7 @@ $(document).ready(function() {
 
 
 					} else {
+						alert("ff");
 
 						alert(
 							"⚠️ " +
@@ -911,6 +910,7 @@ $(document).ready(function() {
 
 			error:
 				function(xhr) {
+					alert("error func");
 
 					console.error(
 						"FD Payment Error:",
