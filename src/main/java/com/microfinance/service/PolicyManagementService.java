@@ -25,6 +25,7 @@ import com.microfinance.model.MISDepositPM;
 import com.microfinance.model.PolicyRenewal;
 import com.microfinance.model.RecurringDepositPM;
 import com.microfinance.repository.AddInvestmentRepo;
+import com.microfinance.repository.CreateSavingAccountRepo;
 import com.microfinance.repository.DailyDepositPMRepo;
 import com.microfinance.repository.DailyPremiumRenewalRepo;
 import com.microfinance.repository.FixedDepositPMRepo;
@@ -36,6 +37,9 @@ import com.microfinance.repository.RecurringDepositRepo;
 
 @Service
 public class PolicyManagementService {
+	@Autowired
+	CreateSavingAccountRepo createSavingAccountRepo;
+
 	@Autowired
 	DailyDepositPMRepo dailyDepositPMRepo;
 
@@ -476,6 +480,7 @@ public class PolicyManagementService {
 		return policyRenewalRepo.findByPolicyCode(policyCode);
 	}
 
+	@Transactional
 	public ApiResponse<AddnewinvestmentPM> saveandupdateAddInvestmentDetails(PolicyManagementDto policyManagementDto,
 			String image1, String image2) {
 		// TODO Auto-generated method stub
@@ -487,6 +492,53 @@ public class PolicyManagementService {
 			addnewinvestmentPM = addinvestmentrepo.findById(policyManagementDto.getId())
 					.orElse(new AddnewinvestmentPM());
 			isNew = false;
+		}
+
+		// Handle Saving Account payment deduction on new investment creation
+		String paymentBy = policyManagementDto.getPaymentBy();
+		if (isNew && paymentBy != null && ("savingaccount".equalsIgnoreCase(paymentBy.replaceAll("\\s+", "")) || "saving account".equalsIgnoreCase(paymentBy))) {
+			String memberCode = policyManagementDto.getMemberSelection();
+			if (memberCode == null || memberCode.trim().isEmpty()) {
+				return ApiResponse.error(HttpStatus.BAD_REQUEST, "Customer selection is required for Saving Account payment.");
+			}
+
+			List<CreateSavingsAccount> accounts = createSavingAccountRepo.findBySelectByCustomer(memberCode);
+			if (accounts == null || accounts.isEmpty()) {
+				return ApiResponse.error(HttpStatus.BAD_REQUEST, "No Saving Account found for Customer: " + memberCode);
+			}
+
+			CreateSavingsAccount savingAcc = accounts.get(0);
+			double accountBalance = 0.0;
+			if (savingAcc.getBalance() != null && !savingAcc.getBalance().trim().isEmpty()) {
+				try {
+					accountBalance = Double.parseDouble(savingAcc.getBalance());
+				} catch (NumberFormatException e) {
+					accountBalance = 0.0;
+				}
+			}
+
+			double investmentAmount = 0.0;
+			String amtStr = policyManagementDto.getPolicyAmount();
+			if (amtStr == null || amtStr.trim().isEmpty()) {
+				amtStr = policyManagementDto.getPaidAmount();
+			}
+			if (amtStr != null && !amtStr.trim().isEmpty()) {
+				try {
+					investmentAmount = Double.parseDouble(amtStr);
+				} catch (NumberFormatException e) {
+					investmentAmount = 0.0;
+				}
+			}
+
+			if (accountBalance < investmentAmount) {
+				return ApiResponse.error(HttpStatus.BAD_REQUEST,
+						"Insufficient Saving Account balance! Available Balance: " + accountBalance + ", Required: " + investmentAmount);
+			}
+
+			// Deduct balance safely
+			accountBalance -= investmentAmount;
+			savingAcc.setBalance(String.valueOf(accountBalance));
+			createSavingAccountRepo.save(savingAcc);
 		}
 
 		// Map fields from DTO to entity
@@ -538,33 +590,15 @@ public class PolicyManagementService {
 			addnewinvestmentPM.setImage2(image2);
 		}
 
-		// Handle photo upload
-		/*
-		 * if (photo != null && !photo.isEmpty()) { try { String fileName1 =
-		 * saveFile(photo); // Save the signature
-		 * createSavingsAccount.setPhoto(fileName1); } catch (IOException e) { return
-		 * ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "File upload failed"); }
-		 * }
-		 */
-
-		// Handle signature upload
-		/*
-		 * if (signature != null && !signature.isEmpty()) { try { String fileName1 =
-		 * saveFile1(signature); // Save the signature
-		 * createSavingsAccount.setSignature(fileName1); } catch (IOException e) {
-		 * return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR,
-		 * "File upload failed"); } }
-		 */
-
 		// Save entity to the database
 		AddnewinvestmentPM saveaddinvestmentPM = addinvestmentrepo.save(addnewinvestmentPM);
 
 		if (isNew) {
 			return ApiResponse.success(HttpStatus.CREATED,
-					"Saved successfully. Director Name: " + saveaddinvestmentPM.getCustomerName(), saveaddinvestmentPM);
+					"Saved successfully. Customer Name: " + saveaddinvestmentPM.getCustomerName(), saveaddinvestmentPM);
 		} else {
 			return ApiResponse.success(HttpStatus.OK,
-					"Updated successfully. Director Name: " + saveaddinvestmentPM.getCustomerName(),
+					"Updated successfully. Customer Name: " + saveaddinvestmentPM.getCustomerName(),
 					saveaddinvestmentPM);
 		}
 	}

@@ -1015,19 +1015,17 @@ public class PolicyManagementController {
 
 		String customerCode = policyManagementDto.getMemberSelection(); // assuming it's Long
 
-		// Check for existing record before saving (only for new entries)
-		if (policyManagementDto.getId() == null && policyManagementService.existByMemberSelection(customerCode)) {
-			return ResponseEntity.status(HttpStatus.CONFLICT)
-					.body(new ApiResponse<>(HttpStatus.CONFLICT, "Customer already exists in Policy", null));
-		}
-
 		System.out.println("Received photo: " + image1);
 
 		System.out.println("Received signature: " + image2);
 
 		ApiResponse<AddnewinvestmentPM> response = policyManagementService
 				.saveandupdateAddInvestmentDetails(policyManagementDto, image1, image2);
-		// return new ResponseEntity<>(response, response.getStatus());
+
+		if (response.getStatus() != HttpStatus.OK && response.getStatus() != HttpStatus.CREATED) {
+			return ResponseEntity.status(response.getStatus()).body(response);
+		}
+
 		return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK,
 				policyManagementDto.getId() != null ? "✅ Investment Updated successfully"
 						: "✅ Investment saved successfully",
@@ -1040,15 +1038,74 @@ public class PolicyManagementController {
 
 		List<FullMaturity> policyList = policyManagementService.fetchFullMaturityByPolicyCode(policyCode);
 
-		if (!policyList.isEmpty()) {
+		if (policyList != null && !policyList.isEmpty()) {
 			ApiResponse<List<FullMaturity>> response = new ApiResponse<>(HttpStatus.OK,
 					"Payment Data found successfully", policyList);
 			return ResponseEntity.ok(response);
-		} else {
-			ApiResponse<List<FullMaturity>> response = new ApiResponse<>(HttpStatus.NOT_FOUND,
-					"Payment Data not found for code: " + policyCode, null);
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 		}
+
+		// Fallback 1: Daily Premium Renewals
+		List<DailyPremiumRenewalPM> drdData = policyManagementService.findDailyData(policyCode);
+		if (drdData != null && !drdData.isEmpty()) {
+			List<FullMaturity> mappedList = drdData.stream().map(drd -> {
+				FullMaturity fm = new FullMaturity();
+				fm.setPolicyCode(drd.getPolicyCode());
+				fm.setCustomerName(drd.getClientName());
+				fm.setPolicyAmount(drd.getPolicyAmount() != null ? String.valueOf(drd.getPolicyAmount()) : "0");
+				double amt = drd.getNetDeposit() > 0 ? drd.getNetDeposit() : (drd.getPolicyAmount() != null ? drd.getPolicyAmount() : 0);
+				fm.setAmount(String.valueOf(amt));
+				fm.setPaymentDate(drd.getRenewalDate() != null ? drd.getRenewalDate() : (drd.getLastPaymentDate() != null ? drd.getLastPaymentDate() : drd.getPolicyDate()));
+				fm.setMaturityDate(drd.getMaturityDate());
+				fm.setBranchName(drd.getBranchname());
+				fm.setModeofPayment(drd.getModeOfPayment());
+				return fm;
+			}).collect(Collectors.toList());
+
+			return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK, "Daily Renewal Data found", mappedList));
+		}
+
+		// Fallback 2: Policy Renewals (RD/MIS)
+		List<PolicyRenewal> renewalData = policyManagementService.findRenewalData(policyCode);
+		if (renewalData != null && !renewalData.isEmpty()) {
+			List<FullMaturity> mappedList = renewalData.stream().map(ren -> {
+				FullMaturity fm = new FullMaturity();
+				fm.setPolicyCode(ren.getPolicyCode());
+				fm.setCustomerName(ren.getClientName());
+				fm.setPolicyAmount(ren.getPolicyAmount() != null ? String.valueOf(ren.getPolicyAmount()) : "0");
+				fm.setAmount(ren.getPolicyAmount() != null ? String.valueOf(ren.getPolicyAmount()) : "0");
+				fm.setPaymentDate(ren.getRenewalDate() != null ? ren.getRenewalDate() : (ren.getLastPaymentDate() != null ? ren.getLastPaymentDate() : ren.getPolicyDate()));
+				fm.setMaturityDate(ren.getMaturityDate());
+				fm.setBranchName(ren.getBranchname());
+				fm.setModeofPayment(ren.getModeOfPayment());
+				return fm;
+			}).collect(Collectors.toList());
+
+			return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK, "Renewal Data found", mappedList));
+		}
+
+		// Fallback 3: Flexible Renewals
+		List<FlexibleRenewal> fdData = policyManagementService.findBypolicyCode(policyCode);
+		if (fdData != null && !fdData.isEmpty()) {
+			List<FullMaturity> mappedList = fdData.stream().map(fd -> {
+				FullMaturity fm = new FullMaturity();
+				fm.setPolicyCode(fd.getPolicyCode());
+				fm.setCustomerName(fd.getClientName());
+				fm.setPolicyAmount(fd.getPolicyAmount() != null ? String.valueOf(fd.getPolicyAmount()) : "0");
+				double amt = fd.getNetDeposit() > 0 ? fd.getNetDeposit() : (fd.getPolicyAmount() != null ? fd.getPolicyAmount() : 0);
+				fm.setAmount(String.valueOf(amt));
+				fm.setPaymentDate(fd.getRenewalDate() != null ? fd.getRenewalDate() : (fd.getLastPaymentDate() != null ? fd.getLastPaymentDate() : fd.getPolicyDate()));
+				fm.setMaturityDate(fd.getMaturityDate());
+				fm.setBranchName(fd.getBranchname());
+				fm.setModeofPayment(fd.getModeOfPayment());
+				return fm;
+			}).collect(Collectors.toList());
+
+			return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK, "Flexible Renewal Data found", mappedList));
+		}
+
+		// Return 200 OK with empty list if no installment data found (prevents JS error alert)
+		return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK,
+				"No installment data found for code: " + policyCode, java.util.Collections.emptyList()));
 	}
 	
 	@PostMapping("/deletePolicyDataById")
