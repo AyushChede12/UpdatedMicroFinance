@@ -61,7 +61,6 @@ $(document).ready(function() {
 
 						// Now populate the form fields with received data
 						$("#memberId").val(`${data.memberId} - ${data.memberName || "-"}`);
-						$("#relativeDetails").val(data.relativeDetails);
 						$("#dateOfBirth").val(data.dateOfBirth);
 						$("#age").val(data.age);
 						$("#contactNo").val(data.contactNo);
@@ -86,7 +85,6 @@ $(document).ready(function() {
 						$("#guarantorAddress").val(data.guarantorAddress);
 						$("#guarantorPinCode").val(data.guarantorPinCode);
 						$("#guarantorContactNo").val(data.guarantorContactNo);
-						$("#guarantorSecurityType").val(data.guarantorSecurityType);
 
 						// Co-Applicant Details
 						$("#coApplicantMemberId").val(data.coApplicantMemberId);
@@ -94,7 +92,6 @@ $(document).ready(function() {
 						$("#coApplicantAddress").val(data.coApplicantAddress);
 						$("#coApplicantPinCode").val(data.coApplicantPinCode);
 						$("#coApplicantContactNo").val(data.coApplicantContactNo);
-						$("#coApplicantSecurityType").val(data.coApplicantSecurityType);
 
 						// Deductions
 						$("#processingFee").val(data.processingFee);

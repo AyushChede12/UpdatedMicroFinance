@@ -52,7 +52,6 @@ $(document).ready(function() {
 						$("#loanPaymentDate").val(data.loanDate);
 						$("#memberId").val(data.memberId);
 						$("#memberName").val(data.memberName || "-");
-						$("#relativeDetails").val(data.relativeDetails);
 						$("#dateOfBirth").val(data.dateOfBirth);
 						$("#age").val(data.age);
 						$("#contactNo").val(data.contactNo);
@@ -77,7 +76,6 @@ $(document).ready(function() {
 						$("#guarantorAddress").val(data.guarantorAddress);
 						$("#guarantorPinCode").val(data.guarantorPinCode);
 						$("#guarantorContactNo").val(data.guarantorContactNo);
-						$("#guarantorSecurityType").val(data.guarantorSecurityType);
 
 						// Co-Applicant Details
 						$("#coApplicantMemberId").val(data.coApplicantMemberId);
@@ -85,7 +83,6 @@ $(document).ready(function() {
 						$("#coApplicantAddress").val(data.coApplicantAddress);
 						$("#coApplicantPinCode").val(data.coApplicantPinCode);
 						$("#coApplicantContactNo").val(data.coApplicantContactNo);
-						$("#coApplicantSecurityType").val(data.coApplicantSecurityType);
 
 						// Deductions
 						$("#processingFee").val(data.processingFee);
@@ -94,7 +91,17 @@ $(document).ready(function() {
 						$("#financialConsultantId").val(data.financialConsultantId);
 						$("#financialConsultantName").val(data.financialConsultantName);
 
+						// Disbursement status: default to UNPAID initially
+						const disburseStatus = (data.paymentStatus && data.paymentStatus.trim()) ? data.paymentStatus : "UNPAID";
+						$("#paymentStatus").val(disburseStatus);
+						if (disburseStatus.toUpperCase() === "PAID") {
+							$("#paymentStatus").css("color", "green");
+						} else {
+							$("#paymentStatus").css("color", "red");
+						}
 
+						// Fetch customer savings account for disbursement
+						loadCustomerSavingAccount(data.memberId);
 					} else {
 						alert("Loan data not found.");
 					}
@@ -107,34 +114,78 @@ $(document).ready(function() {
 	});
 });
 
-// ✅ Payment Mode Display
-$('#displayCheque').hide();
-$('#displaycheqdate').hide();
-$('#displaydeposit').hide();
-$('#displayRef').hide();
+let currentCustomerSavingAccount = null;
 
+function loadCustomerSavingAccount(memberId) {
+	currentCustomerSavingAccount = null;
+	$("#accountNo").val("");
+	if (!memberId) return;
+
+	$.ajax({
+		url: "api/customersavings/getAccountNumbersByCode",
+		type: "GET",
+		data: { selectByCustomer: memberId },
+		dataType: "json",
+		success: function(response) {
+			if (response.status === "FOUND" && Array.isArray(response.data) && response.data.length > 0) {
+				currentCustomerSavingAccount = response.data[0];
+				if ($("#paymentMode").val() === "Saving Account") {
+					$("#accountNo").val(currentCustomerSavingAccount.accountNumber || "");
+				}
+			} else {
+				currentCustomerSavingAccount = null;
+			}
+		},
+		error: function() {
+			currentCustomerSavingAccount = null;
+		}
+	});
+}
+
+// ✅ Mode of Disbursement Toggle
 $('#paymentMode').change(function() {
 	const paymentMode = $(this).val();
-	if (paymentMode === 'Cash') {
-		$('#displayCheque').hide();
-		$('#displaycheqdate').hide();
+	if (paymentMode === 'Saving Account') {
+		$('#displaydeposit').show();
+		if (currentCustomerSavingAccount && currentCustomerSavingAccount.accountNumber) {
+			$('#accountNo').val(currentCustomerSavingAccount.accountNumber);
+		} else {
+			const memberId = $('#memberId').val();
+			if (memberId) {
+				loadCustomerSavingAccount(memberId);
+			}
+		}
+	} else {
+		// Cash or empty
 		$('#displaydeposit').hide();
-		$('#displayRef').hide();
-	} else if (paymentMode === 'Cheque') {
-		$('#displayCheque').show();
-		$('#displaycheqdate').show();
-		$('#displaydeposit').show();
-		$('#displayRef').hide();
-	} else if (paymentMode === 'Online' || paymentMode === 'NEFT') {
-		$('#displayCheque').hide();
-		$('#displaycheqdate').hide();
-		$('#displaydeposit').show();
-		$('#displayRef').show();
+		$('#accountNo').val('');
 	}
 });
 
 $('#paymentBtn').click(function(e) {
 	e.preventDefault();
+
+	const loanId = $('#findByLoanId').val();
+	if (!loanId) {
+		alert("Please select a Loan ID first.");
+		$('#findByLoanId').focus();
+		return;
+	}
+
+	const paymentMode = $('#paymentMode').val();
+	if (!paymentMode) {
+		alert("Please select Mode of Disbursement (Cash or Saving Account).");
+		$('#paymentMode').focus();
+		return;
+	}
+
+	if (paymentMode === 'Saving Account') {
+		const accountNo = $('#accountNo').val();
+		if (!accountNo && !currentCustomerSavingAccount) {
+			alert("⚠️ No active Savings Account found for Member ID: " + $('#memberId').val() + ". Cannot disburse to Saving Account.");
+			return;
+		}
+	}
 
 	const paymentData = {
 		loanId: $('#findByLoanId').val(),
@@ -158,11 +209,11 @@ $('#paymentBtn').click(function(e) {
 		paymentStatus: $('#paymentStatus').val(),
 		paymentMode: $('#paymentMode').val(),
 		accountNo: $('#accountNo').val(),
-		ref_UpiId: $('#ref_UpiId').val(),
+		ref_UpiId: $('#ref_UpiId').val() || "",
 		charges: $('#charges').val(),
 		remarks: $('#remarks').val(),
-		chequeDate: $('#chequeDate').val(),
-		chequeNo: $('#chequeNo').val(),
+		chequeDate: $('#chequeDate').val() || "",
+		chequeNo: $('#chequeNo').val() || "",
 		noOfInst: $('#noOfInst').val() || "1"
 	};
 
@@ -177,17 +228,17 @@ $('#paymentBtn').click(function(e) {
 
 				if (response.data && response.data.loanStatus === "CLOSED") {
 					alert("This was your last installment. The loan is now CLOSED.");
-					$('#paymentBtn').prop('disabled', true); // Optional: disable further payments
+					$('#paymentBtn').prop('disabled', true);
 				}
 
 				location.reload();
 			} else {
-				alert("❌ Something went wrong.");
+				alert("❌ " + (response.message || "Something went wrong."));
 			}
 		},
 		error: function(xhr) {
-			const errorMsg = xhr.responseJSON?.message || "Unknown error occurred";
-			alert("❌ Payment failed: " + errorMsg);
+			const errorMsg = xhr.responseJSON?.message || xhr.responseJSON?.data?.error || "Unknown error occurred";
+			alert("❌ Disbursement failed: " + errorMsg);
 		}
 	});
 });

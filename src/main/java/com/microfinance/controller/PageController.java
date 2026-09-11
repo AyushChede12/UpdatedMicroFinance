@@ -18,8 +18,6 @@ import com.microfinance.repository.CreateSavingAccountRepo;
 import com.microfinance.repository.CustomerRepo;
 import com.microfinance.service.TeamManagementService;
 
-import com.microfinance.repository.LoanMangmentSchemeRepo;
-
 import com.microfinance.repository.FinancialConsultantRepo;
 import com.microfinance.repository.DailyDepositPMRepo;
 import com.microfinance.repository.FixedDepositPMRepo;
@@ -35,9 +33,6 @@ public class PageController {
 
 	@Autowired
 	CustomerRepo customerRepo;
-
-	@Autowired
-	LoanMangmentSchemeRepo loanMangmentSchemeRepo;
 
 	@Autowired
 	FinancialConsultantRepo financialConsultantRepo;
@@ -893,12 +888,6 @@ public class PageController {
 	}
 
 	// Loan Management
-	@GetMapping("/loanSchemeCatalog")
-	public String getLoanSchemeCatalog(Model model) {
-		model.addAttribute("contentPage", "loanManagement/loanSchemeCatalog.jsp");
-		return "main";
-	}
-
 	@GetMapping("/emiLoanCalculator")
 	public String getEmiLoanCalculator(Model model) {
 		model.addAttribute("contentPage", "loanManagement/emiLoanCalculator.jsp");

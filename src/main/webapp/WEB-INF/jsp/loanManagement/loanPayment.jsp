@@ -6,7 +6,7 @@
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-cash-coin"></i>
 			</a></li>
-			<li class="breadcrumb-item action">LOAN PAYMENT</li>
+			<li class="breadcrumb-item action">LOAN DISBURSEMENT</li>
 		</ol>
 	</nav>
 </div>
@@ -61,15 +61,6 @@
 
 				<input type="hidden" id="memberName" name="memberName">
 
-
-				<div class="col-lg-3">
-					<div class="d-flex flex-column formFields mb-4">
-						<label for="loanName">FAMILY MEMBER NAME</label> <input
-							type="text" name="relativeDetails" id="relativeDetails"
-							required="required" placeholder="ENTER FAMILY MEMBER NAME"
-							style="text-transform: uppercase;" readonly/>
-					</div>
-				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
@@ -257,14 +248,6 @@
 					</div>
 				</div>
 
-				<div class="col-lg-3">
-					<div class="d-flex flex-column formFields mb-4">
-						<label for="">SECURITY TYPE</label> <input type="text"
-							name="guarantorSecurityType" id="guarantorSecurityType"
-							required="required" placeholder="ENTER SECURITY TYPE" readonly/>
-					</div>
-				</div>
-
 
 
 
@@ -322,14 +305,6 @@
 							required="required" placeholder="ENTER GURANTOR CONTACT NO" readonly/>
 					</div>
 				</div>
-				<div class="col-lg-3">
-					<div class="d-flex flex-column formFields mb-4">
-						<label for="">SECURITY TYPE</label> <input type="text"
-							name="coApplicantSecurityType" id="coApplicantSecurityType"
-							required="required" placeholder="ENTER SECURITY TYPE" readonly/>
-					</div>
-				</div>
-
 
 
 
@@ -378,19 +353,19 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4"
 						style="margin-bottom: 30px">
-						<label> FINANCIAL CONSULTANT ID</label>
+						<label> EMPLOYEE ID</label>
 						<div class="d-flex flex-column formFields mb-4">
 							<input type="text" name="financialConsultantId"
 								id="financialConsultantId" required="required"
-								placeholder="ENTER CONSULTANT ID" readonly/>
+								placeholder="ENTER EMPLOYEE ID" readonly/>
 						</div>
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">FINANCIAL CONSULTANT NAME</label> <input type="text"
+						<label for="">EMPLOYEE NAME</label> <input type="text"
 							name="financialConsultantName" id="financialConsultantName"
-							required="required" placeholder="ENTER COLLECTOR NAME"
+							required="required" placeholder="ENTER EMPLOYEE NAME"
 							style="text-transform: uppercase;" readonly/>
 					</div>
 				</div>
@@ -403,14 +378,14 @@
 		<div>
 			<nav>
 				<ol class="breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item action">PAYMENT DETAILS</li>
+					<li class="breadcrumb-item action">DISBURSEMENT DETAILS</li>
 				</ol>
 			</nav>
 			<div class="row">
 				<div class="col-lg-3">
 
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="loanName"> DATE OF PAYMENT </label> <input type="date"
+						<label for="loanName"> DATE OF DISBURSEMENT </label> <input type="date"
 							name="paymentDate" id="paymentDate" required="required"
 							style="text-transform: uppercase;" readonly/>
 					</div>
@@ -418,8 +393,8 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="loanName">PAYMENT STATUS</label> <input type="text"
-							value="Paid" name="paymentStatus" id="paymentStatus" readonly
+						<label for="loanName">DISBURSEMENT STATUS</label> <input type="text"
+							value="UNPAID" name="paymentStatus" id="paymentStatus" readonly
 							style="color: red; font-weight: bold; font-size: 12px; text-transform: uppercase;"
 							required="required" readonly/>
 
@@ -428,59 +403,32 @@
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="referenceCode">MODE OF PAYMENT<span id="star">*</span></label>
+						<label for="referenceCode">MODE OF DISBURSEMENT<span id="star">*</span></label>
 						<select id="paymentMode" name="paymentMode" required="required"
 							class="form-control selectField" style="height: 30px;" >
-							<option value="">ENTER MODE OF PAYMENT</option>
+							<option value="">SELECT MODE OF DISBURSEMENT</option>
 							<option value="Cash">CASH</option>
-							<option value="Online">ONLINE</option>
-							<option value="Cheque">CHEQUE</option>
-							<option value="NEFT">NEFT</option>
-
-
+							<option value="Saving Account">SAVING ACCOUNT</option>
 						</select>
 					</div>
 				</div>
 
-
-				<div class="col-lg-3" id="displayCheque">
+				<div class="col-lg-3" id="displaydeposit" style="display: none;">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>CHEQUE NUMBER <span id="star">*</span></label> <input
-							type="text" name="chequeNo" id="chequeNo" required="required"
-							placeholder="ENTER CHEQUE NO" style="text-transform: uppercase;"/>
-					</div>
-				</div>
-
-				<div class="col-lg-3" id="displaycheqdate">
-					<div class="d-flex flex-column formFields"
-						style="margin-bottom: 30px">
-						<label>CHEQUE DATE <span id="star">*</span></label> <input
-							type="date" name="chequeDate" id="chequeDate" required="required"
-							placeholder="ENTER CHEQUE DATE"
-							style="text-transform: uppercase;" />
-					</div>
-				</div>
-
-
-				<div class="col-lg-3" id="displaydeposit">
-					<div class="d-flex flex-column formFields"
-						style="margin-bottom: 30px">
-						<label>DEPOSIT ACCOUNT <span id="star">*</span></label> <input
-							type="text" name="accountNo" id="accountNo" required="required"
-							placeholder="ENTER DEPOSIT ACCOUNT"
-							style="text-transform: uppercase;" />
+						<label>SAVINGS ACCOUNT NUMBER <span id="star">*</span></label> <input
+							type="text" name="accountNo" id="accountNo"
+							placeholder="CUSTOMER SAVINGS ACCOUNT"
+							style="text-transform: uppercase;" readonly />
 					</div>
 				</div>
 				<input type="hidden" id="noOfInst" name="noOfInst">
 
-				<div class="col-lg-3" id="displayRef">
-					<div class="d-flex flex-column formFields">
-						<label for="">REF NUMBER/UPI ID</label> <input type="text"
-							name="ref_UpiId" id="ref_UpiId" required="required"
-							placeholder="ENTER UPI ID"
-							style="text-transform: uppercase;" />
-					</div>
+				<!-- Hidden fields preserved for backend compatibility -->
+				<div style="display: none;">
+					<input type="hidden" name="chequeNo" id="chequeNo" />
+					<input type="hidden" name="chequeDate" id="chequeDate" />
+					<input type="hidden" name="ref_UpiId" id="ref_UpiId" />
 				</div>
 
 				<div class="col-lg-3">
@@ -506,11 +454,11 @@
 
 			<div class="col-12 text-center">
 				<button id="paymentBtn" class="btnStyle"
-					style="background-color: #FFA500;">PAYMENT</button>
+					style="background-color: #FFA500;">DISBURSE LOAN</button>
 
 			</div>
 
 		</div>
 	</form>
 	<script
-		src="${pageContext.request.contextPath}/js/LoanManagment/loanPayment.js"></script>
+		src="${pageContext.request.contextPath}/js/LoanManagment/loanPayment.js?v=<%= System.currentTimeMillis() %>"></script>

@@ -22,7 +22,9 @@ public interface LoanApplicationRepo extends JpaRepository<LoanApplication,Long>
 
 	List<LoanApplication> findByApprovalStatusTrueAndLoanStatus(String loanStatus);
 	
-	LoanApplication findByLoanId(String loanId); // assumes loanId is unique
+	List<LoanApplication> findAllByLoanId(String loanId);
+
+	LoanApplication findFirstByLoanIdOrderByIdDesc(String loanId);
 
 	List<LoanApplication> findByApprovalStatusFalse();
 

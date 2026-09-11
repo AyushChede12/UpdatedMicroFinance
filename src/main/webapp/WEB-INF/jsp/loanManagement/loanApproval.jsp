@@ -54,14 +54,7 @@
 					</div>
 				</div>
 
-				<div class="col-lg-3">
-					<div class="d-flex flex-column formFields mb-4">
-						<label for="loanName">FAMILY MEMBER NAME</label> <input
-							type="text" name="relativeDetails" id="relativeDetails"
-							required="required" placeholder="ENTER FAMILY MEMBER NAME"
-							readonly="readonly" style="text-transform: uppercase;" />
-					</div>
-				</div>
+
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
@@ -251,14 +244,7 @@
 					</div>
 				</div>
 
-				<div class="col-lg-3">
-					<div class="d-flex flex-column formFields mb-4">
-						<label for="">SECURITY TYPE</label> <input type="text"
-							name="guarantorSecurityType" id="guarantorSecurityType"
-							required="required" readonly="readonly"
-							placeholder="ENTER SECURITY TYPE" />
-					</div>
-				</div>
+
 			</div>
 
 
@@ -322,14 +308,7 @@
 					</div>
 				</div>
 
-				<div class="col-lg-3">
-					<div class="d-flex flex-column formFields mb-4">
-						<label for="">SECURITY TYPE</label> <input type="text"
-							name="coApplicantSecurityType" id="coApplicantSecurityType"
-							required="required" readonly="readonly"
-							placeholder="ENTER SECURITY TYPE" />
-					</div>
-				</div>
+
 
 			</div>
 
@@ -381,20 +360,20 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4"
 						style="margin-bottom: 30px">
-						<label> FINANCIAL CONSULTANT ID</label>
+						<label> EMPLOYEE ID</label>
 						<div class="d-flex flex-column formFields mb-4">
 							<input type="text" name="financialConsultantId"
 								id="financialConsultantId" required="required"
-								readonly="readonly" placeholder="ENTER FINANCIAL CONSULTANT ID" />
+								readonly="readonly" placeholder="ENTER EMPLOYEE ID" />
 						</div>
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">FINANCIAL CONSULTANT NAME</label> <input type="text"
+						<label for="">EMPLOYEE NAME</label> <input type="text"
 							name="financialConsultantName" id="financialConsultantName"
 							required="required" readonly="readonly"
-							placeholder="ENTER CONSULTANT NAME"
+							placeholder="ENTER EMPLOYEE NAME"
 							style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -481,4 +460,4 @@
 
 	</form>
 	<script
-		src="${pageContext.request.contextPath}/js/LoanManagment/loanApproval.js"></script>
+		src="${pageContext.request.contextPath}/js/LoanManagment/loanApproval.js?v=<%= System.currentTimeMillis() %>"></script>

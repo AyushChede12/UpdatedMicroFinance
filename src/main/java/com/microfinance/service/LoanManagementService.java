@@ -49,6 +49,18 @@ public class LoanManagementService {
 	@Autowired
 	LoanClosureRepo loanClosurerepo;
 
+	@org.springframework.beans.factory.annotation.Value("${loan.deduction.gst-rate:18.0}")
+	private double gstRate;
+
+	@Autowired
+	private com.microfinance.repository.LoanDeductionDetailsRepo loanDeductionDetailsRepo;
+
+	@Autowired
+	private com.microfinance.repository.FinancialConsultantRepo financialConsultantRepo;
+
+	@Autowired
+	private LoanNotificationService loanNotificationService;
+
 	// Service fo saving and updating the loan scheme data
 	public LoanSchemCatalog saveLoanManagmentData(LoanSchemCatalog loan) {
 		if (loan.getId() != null && loanRepository.existsById(loan.getId())) {
@@ -140,13 +152,225 @@ public class LoanManagementService {
 		return loanRepository.findAll();
 	}
 
+	public com.microfinance.model.LoanDeductionDetails validateAndCalculateDeductions(
+			java.math.BigDecimal loanAmount, com.microfinance.model.LoanDeductionDetails details) {
+
+		if (details == null) {
+			details = new com.microfinance.model.LoanDeductionDetails();
+		}
+
+		if (loanAmount == null || loanAmount.compareTo(java.math.BigDecimal.ZERO) <= 0) {
+			throw new IllegalArgumentException("Loan Amount must be greater than 0 before calculating deductions.");
+		}
+
+		java.math.BigDecimal processingFee = details.getProcessingFee() != null
+				? details.getProcessingFee().setScale(2, java.math.RoundingMode.HALF_UP)
+				: java.math.BigDecimal.ZERO.setScale(2, java.math.RoundingMode.HALF_UP);
+		java.math.BigDecimal legalCharges = details.getLegalCharges() != null
+				? details.getLegalCharges().setScale(2, java.math.RoundingMode.HALF_UP)
+				: java.math.BigDecimal.ZERO.setScale(2, java.math.RoundingMode.HALF_UP);
+		java.math.BigDecimal insuranceFee = details.getInsuranceFee() != null
+				? details.getInsuranceFee().setScale(2, java.math.RoundingMode.HALF_UP)
+				: java.math.BigDecimal.ZERO.setScale(2, java.math.RoundingMode.HALF_UP);
+		java.math.BigDecimal valuationFees = details.getValuationFees() != null
+				? details.getValuationFees().setScale(2, java.math.RoundingMode.HALF_UP)
+				: java.math.BigDecimal.ZERO.setScale(2, java.math.RoundingMode.HALF_UP);
+		java.math.BigDecimal stationaryFee = details.getStationaryChargesFee() != null
+				? details.getStationaryChargesFee().setScale(2, java.math.RoundingMode.HALF_UP)
+				: java.math.BigDecimal.ZERO.setScale(2, java.math.RoundingMode.HALF_UP);
+
+		// a. All fee fields must be >= 0
+		if (processingFee.compareTo(java.math.BigDecimal.ZERO) < 0
+				|| legalCharges.compareTo(java.math.BigDecimal.ZERO) < 0
+				|| insuranceFee.compareTo(java.math.BigDecimal.ZERO) < 0
+				|| valuationFees.compareTo(java.math.BigDecimal.ZERO) < 0
+				|| stationaryFee.compareTo(java.math.BigDecimal.ZERO) < 0) {
+			throw new IllegalArgumentException("Deduction fee values cannot be negative.");
+		}
+
+		// c. GST calculated server-side as configurable rate of processing fee if not manually supplied > 0
+		java.math.BigDecimal gst = details.getGst();
+		if (gst == null || gst.compareTo(java.math.BigDecimal.ZERO) <= 0) {
+			gst = processingFee.multiply(java.math.BigDecimal.valueOf(gstRate))
+					.divide(java.math.BigDecimal.valueOf(100), 2, java.math.RoundingMode.HALF_UP);
+		} else {
+			gst = gst.setScale(2, java.math.RoundingMode.HALF_UP);
+		}
+
+		if (gst.compareTo(java.math.BigDecimal.ZERO) < 0) {
+			throw new IllegalArgumentException("GST amount cannot be negative.");
+		}
+
+		// Sum of all deductions
+		java.math.BigDecimal totalDeductions = processingFee.add(legalCharges).add(gst).add(insuranceFee)
+				.add(valuationFees).add(stationaryFee).setScale(2, java.math.RoundingMode.HALF_UP);
+
+		// b. Sum of all deductions must NOT exceed Loan Amount
+		if (totalDeductions.compareTo(loanAmount) > 0) {
+			throw new IllegalArgumentException(
+					"Total deductions (" + totalDeductions + ") must not exceed the Loan Amount (" + loanAmount + ").");
+		}
+
+		// d. Net Disbursement Amount = Loan Amount - Total Deductions
+		java.math.BigDecimal netDisbursement = loanAmount.subtract(totalDeductions).setScale(2, java.math.RoundingMode.HALF_UP);
+
+		// Employee validation
+		if (details.getEmployeeId() != null && !details.getEmployeeId().trim().isEmpty()) {
+			List<com.microfinance.model.addFinancialConsultant> staffList = financialConsultantRepo
+					.findByFinancialCode(details.getEmployeeId().trim());
+			if (staffList != null && !staffList.isEmpty()) {
+				com.microfinance.model.addFinancialConsultant staff = staffList.get(0);
+				if (details.getEmployeeName() == null || details.getEmployeeName().trim().isEmpty()) {
+					details.setEmployeeName(staff.getFinancialName());
+				}
+			}
+		}
+
+		details.setProcessingFee(processingFee);
+		details.setLegalCharges(legalCharges);
+		details.setGst(gst);
+		details.setInsuranceFee(insuranceFee);
+		details.setValuationFees(valuationFees);
+		details.setStationaryChargesFee(stationaryFee);
+		details.setTotalDeductions(totalDeductions);
+		details.setNetDisbursementAmount(netDisbursement);
+
+		return details;
+	}
+
 	public boolean saveLoanApplicationData(LoanApplication loanApplication) {
 		try {
-			loanApplicationRepo.save(loanApplication);
+			if (loanApplication.getLoanId() == null || loanApplication.getLoanId().trim().isEmpty()) {
+				long nextId = loanApplicationRepo.getMaxId() + 1;
+				loanApplication.setLoanId("LA" + String.format("%05d", nextId));
+			}
+			loanApplication.syncDynamicFields();
+			checkLoanModeRangeOverride(loanApplication);
+
+			// Parse loan amount and deduction details
+			java.math.BigDecimal loanAmt = java.math.BigDecimal.ZERO;
+			try {
+				if (loanApplication.getLoanAmount() != null) {
+					loanAmt = new java.math.BigDecimal(loanApplication.getLoanAmount().trim());
+				}
+			} catch (Exception ignored) {}
+
+			if (loanAmt.compareTo(java.math.BigDecimal.ZERO) > 0) {
+				com.microfinance.model.LoanDeductionDetails deduction = loanApplication.getDeductionDetails();
+				if (deduction == null) {
+					deduction = new com.microfinance.model.LoanDeductionDetails();
+				}
+				if (deduction.getProcessingFee() == null || deduction.getProcessingFee().compareTo(java.math.BigDecimal.ZERO) == 0) {
+					try { if (loanApplication.getProcessingFee() != null) deduction.setProcessingFee(new java.math.BigDecimal(loanApplication.getProcessingFee().trim())); } catch (Exception ignored) {}
+				}
+				if (deduction.getLegalCharges() == null || deduction.getLegalCharges().compareTo(java.math.BigDecimal.ZERO) == 0) {
+					try { if (loanApplication.getLegalCharges() != null) deduction.setLegalCharges(new java.math.BigDecimal(loanApplication.getLegalCharges().trim())); } catch (Exception ignored) {}
+				}
+				if (deduction.getGst() == null || deduction.getGst().compareTo(java.math.BigDecimal.ZERO) == 0) {
+					try { if (loanApplication.getGst() != null) deduction.setGst(new java.math.BigDecimal(loanApplication.getGst().trim())); } catch (Exception ignored) {}
+				}
+				if (deduction.getInsuranceFee() == null || deduction.getInsuranceFee().compareTo(java.math.BigDecimal.ZERO) == 0) {
+					try { if (loanApplication.getInsuranceFee() != null) deduction.setInsuranceFee(new java.math.BigDecimal(loanApplication.getInsuranceFee().trim())); } catch (Exception ignored) {}
+				}
+				if (deduction.getValuationFees() == null || deduction.getValuationFees().compareTo(java.math.BigDecimal.ZERO) == 0) {
+					try { if (loanApplication.getValuationFees() != null) deduction.setValuationFees(new java.math.BigDecimal(loanApplication.getValuationFees().trim())); } catch (Exception ignored) {}
+				}
+				if (deduction.getStationaryChargesFee() == null || deduction.getStationaryChargesFee().compareTo(java.math.BigDecimal.ZERO) == 0) {
+					try { if (loanApplication.getStationaryFee() != null) deduction.setStationaryChargesFee(new java.math.BigDecimal(loanApplication.getStationaryFee().trim())); } catch (Exception ignored) {}
+				}
+				if (deduction.getEmployeeId() == null || deduction.getEmployeeId().trim().isEmpty()) {
+					deduction.setEmployeeId(loanApplication.getFinancialConsultantId());
+				}
+				if (deduction.getEmployeeName() == null || deduction.getEmployeeName().trim().isEmpty()) {
+					deduction.setEmployeeName(loanApplication.getFinancialConsultantName());
+				}
+
+				validateAndCalculateDeductions(loanAmt, deduction);
+
+				loanApplication.setProcessingFee(deduction.getProcessingFee().toPlainString());
+				loanApplication.setLegalCharges(deduction.getLegalCharges().toPlainString());
+				loanApplication.setGst(deduction.getGst().toPlainString());
+				loanApplication.setInsuranceFee(deduction.getInsuranceFee().toPlainString());
+				loanApplication.setValuationFees(deduction.getValuationFees().toPlainString());
+				loanApplication.setStationaryFee(deduction.getStationaryChargesFee().toPlainString());
+				loanApplication.setNetDisbursementAmount(deduction.getNetDisbursementAmount().toPlainString());
+				loanApplication.setDeductionDetails(deduction);
+			}
+
+			if (loanApplication.getPaymentStatus() == null || loanApplication.getPaymentStatus().trim().isEmpty()) {
+				loanApplication.setPaymentStatus("UNPAID");
+			}
+
+			LoanApplication savedApp = loanApplicationRepo.save(loanApplication);
+			if (savedApp.getDeductionDetails() != null) {
+				savedApp.getDeductionDetails().setLoanApplication(savedApp);
+				loanDeductionDetailsRepo.save(savedApp.getDeductionDetails());
+			}
+			loanNotificationService.sendLoanApplicationNotification(savedApp);
 			return true; // Saved successfully
 		} catch (Exception e) {
 			e.printStackTrace();
+			if (e instanceof IllegalArgumentException) {
+				throw (IllegalArgumentException) e;
+			}
 			return false; // Something went wrong
+		}
+	}
+
+	public LoanApplication saveLoanApplication(LoanApplication loanApplication) {
+		if (loanApplication.getLoanId() == null || loanApplication.getLoanId().trim().isEmpty()) {
+			long nextId = loanApplicationRepo.getMaxId() + 1;
+			loanApplication.setLoanId("LA" + String.format("%05d", nextId));
+		}
+		loanApplication.syncDynamicFields();
+		checkLoanModeRangeOverride(loanApplication);
+		LoanApplication saved = loanApplicationRepo.save(loanApplication);
+		loanNotificationService.sendLoanApplicationNotification(saved);
+		return saved;
+	}
+
+	private void checkLoanModeRangeOverride(LoanApplication loanApplication) {
+		if (loanApplication == null || loanApplication.getLoanMode() == null) return;
+		com.microfinance.enums.LoanModeConfig modeConfig = com.microfinance.enums.LoanModeConfig.fromMode(loanApplication.getLoanMode());
+		if (modeConfig != null) {
+			boolean termOverride = false;
+			boolean rateOverride = false;
+			int termVal = 0;
+			double rateVal = 0.0;
+
+			try {
+				if (loanApplication.getLoanTerm() != null && !loanApplication.getLoanTerm().trim().isEmpty()) {
+					termVal = Integer.parseInt(loanApplication.getLoanTerm().trim());
+					if (!modeConfig.isTermInRange(termVal)) {
+						termOverride = true;
+					}
+				}
+			} catch (Exception ignored) {}
+
+			try {
+				if (loanApplication.getRateOfInterest() != null && !loanApplication.getRateOfInterest().trim().isEmpty()) {
+					rateVal = Double.parseDouble(loanApplication.getRateOfInterest().trim());
+					if (!modeConfig.isRateInRange(rateVal)) {
+						rateOverride = true;
+					}
+				}
+			} catch (Exception ignored) {}
+
+			if (termOverride || rateOverride) {
+				loanApplication.setIsRangeOverride(true);
+				if (loanApplication.getRangeOverrideReason() == null || loanApplication.getRangeOverrideReason().trim().isEmpty()) {
+					StringBuilder reason = new StringBuilder();
+					if (termOverride) {
+						reason.append("Term (").append(termVal).append(" ").append(modeConfig.getTermUnit())
+							  .append(") outside typical range [").append(modeConfig.getMinTerm()).append("-").append(modeConfig.getMaxTerm()).append("]. ");
+					}
+					if (rateOverride) {
+						reason.append("Rate (").append(rateVal).append("%) outside typical range [")
+							  .append(modeConfig.getMinInterestRate()).append("%-").append(modeConfig.getMaxInterestRate()).append("%].");
+					}
+					loanApplication.setRangeOverrideReason(reason.toString().trim());
+				}
+			}
 		}
 	}
 
@@ -162,44 +386,48 @@ public class LoanManagementService {
 
 	// Service for fetching the data in the textfields (Vaibhav)
 	public LoanApplication getLoanById(String loanId) {
-		return loanApplicationRepo.findByLoanId(loanId); // Make sure this method exists
+		return loanApplicationRepo.findFirstByLoanIdOrderByIdDesc(loanId);
 	}
 
 	// Service for approving the loan application (Vaibhav)
 	public String updateApproval(LoanApplication approval) {
-		LoanApplication loan = loanApplicationRepo.findByLoanId(approval.getLoanId());
+		LoanApplication loan = loanApplicationRepo.findFirstByLoanIdOrderByIdDesc(approval.getLoanId());
 
 		if (loan != null) {
 			if (loan.isApprovalStatus()) {
 				return "already_approved";
 			}
 
-			// Step 1: Add loan amount to openingFees in CreateSavingsAccount
-			List<CreateSavingsAccount> accounts = createSavingRepo.findBySelectByCustomer(loan.getMemberId());
-
-			if (accounts != null && !accounts.isEmpty()) {
-				CreateSavingsAccount account = accounts.get(0); // assuming one account per member
-				double existingBalance = Double.parseDouble(account.getBalance()); // current amount like 3000
-				System.out.println("Balance fees :" + existingBalance);
-				double loanAmount = Double.parseDouble(loan.getLoanAmount()); // loan amount like 500000
-				double processingFee = Double.parseDouble(loan.getProcessingFee());
-				double gst = Double.parseDouble(loan.getGst());
-				double legalCharge = Double.parseDouble(loan.getLegalCharges());
-				double extraCharges = processingFee + gst + legalCharge;
-				double updatedBalance = existingBalance + (loanAmount - extraCharges);
-				double sanctionedAmount = loanAmount - extraCharges;
-
-				account.setBalance(String.valueOf(updatedBalance)); // update the balance
-
-				createSavingRepo.save(account); // save changes
-
-				// Step 2: Approve the loan
-
-				loan.setSanctionedAmount(String.valueOf(sanctionedAmount));
+			double loanAmount = 0.0;
+			try {
+				loanAmount = Double.parseDouble(loan.getLoanAmount());
+			} catch (Exception ignored) {
 			}
+			double processingFee = 0.0;
+			try {
+				processingFee = Double.parseDouble(loan.getProcessingFee());
+			} catch (Exception ignored) {
+			}
+			double gst = 0.0;
+			try {
+				gst = Double.parseDouble(loan.getGst());
+			} catch (Exception ignored) {
+			}
+			double legalCharge = 0.0;
+			try {
+				legalCharge = Double.parseDouble(loan.getLegalCharges());
+			} catch (Exception ignored) {
+			}
+			double extraCharges = processingFee + gst + legalCharge;
+			double sanctionedAmount = loanAmount - extraCharges;
+
+			loan.setSanctionedAmount(String.format(java.util.Locale.US, "%.2f", sanctionedAmount));
 			loan.setApprovalStatus(approval.isApprovalStatus());
 			loan.setApprovalDate(approval.getApprovalDate());
-			loanApplicationRepo.save(loan);
+			LoanApplication savedLoan = loanApplicationRepo.save(loan);
+			if (approval.isApprovalStatus()) {
+				loanNotificationService.sendLoanApprovalNotification(savedLoan);
+			}
 			return "success";
 		} else {
 			return "not_found";
@@ -219,42 +447,74 @@ public class LoanManagementService {
 	public boolean processEmiPayment(LoanPayment request, String noOfInst) {
 		String loanId = request.getLoanId();
 
-		LoanApplication loanApp = loanApplicationRepo.findByLoanId(loanId);
+		LoanApplication loanApp = loanApplicationRepo.findFirstByLoanIdOrderByIdDesc(loanId);
 		if (loanApp == null) {
 			throw new RuntimeException("Loan ID not found");
 		}
 
-		List<CreateSavingsAccount> accounts = createSavingRepo.findBySelectByCustomer(request.getMemberId());
+		String mode = request.getPaymentMode() != null ? request.getPaymentMode().trim() : "Cash";
 
-		if (accounts.isEmpty()) {
-			throw new RuntimeException("Saving account not found for Member ID: " + request.getMemberId());
+		// ✅ Mode of disbursement: Cash or Saving Account
+		// If Saving Account -> Transfer loan amount to customer savings account
+		if ("Saving Account".equalsIgnoreCase(mode) || "Savings Account".equalsIgnoreCase(mode)) {
+			List<CreateSavingsAccount> accounts = createSavingRepo.findBySelectByCustomer(request.getMemberId());
+			if (accounts == null || accounts.isEmpty()) {
+				accounts = createSavingRepo.findBySelectByCustomerIgnoreCase(request.getMemberId());
+			}
+
+			if (accounts == null || accounts.isEmpty()) {
+				throw new RuntimeException("Saving account not found for Member ID: " + request.getMemberId()
+						+ ". Cannot transfer loan disbursement to Saving Account.");
+			}
+
+			CreateSavingsAccount savingAcc = accounts.get(0);
+
+			double currentBalance = 0.0;
+			try {
+				currentBalance = Double.parseDouble(savingAcc.getBalance());
+			} catch (Exception e) {
+				currentBalance = 0.0;
+			}
+
+			double loanAmt = 0.0;
+			try {
+				loanAmt = Double.parseDouble(loanApp.getLoanAmount());
+			} catch (Exception e) {
+				loanAmt = 0.0;
+			}
+
+			double updatedBalance = currentBalance + loanAmt;
+			savingAcc.setBalance(String.format(java.util.Locale.US, "%.2f", updatedBalance));
+			savingAccountRepo.save(savingAcc);
+
+			if (request.getAccountNo() == null || request.getAccountNo().trim().isEmpty()) {
+				request.setAccountNo(savingAcc.getAccountNumber());
+			}
 		}
 
-		CreateSavingsAccount savingAcc = accounts.get(0); // take the first account
-
-		double accountBalance = Double.parseDouble(savingAcc.getBalance());
-		double emiAmount = Double.parseDouble(loanApp.getEmiPayment());
-
-		int numberOfInstallments = Integer.parseInt(noOfInst);
-
-		// ✅ Step 2: Check if balance is enough
-		if (accountBalance < (emiAmount * numberOfInstallments)) {
-			throw new RuntimeException("Insufficient balance! Available: " + accountBalance + ", Required: "
-					+ (emiAmount * numberOfInstallments));
-		}
-
-		// ✅ Step 3: Deduct balance before EMI processing
-		accountBalance -= (emiAmount * numberOfInstallments);
-		savingAcc.setBalance(String.valueOf(accountBalance));
-		savingAccountRepo.save(savingAcc);
-
-		// ✅ Continue your existing EMI processing logic
+		// ✅ Continue existing loan payment / disbursement tracking logic
 		String loanDate = loanApp.getLoanDate();
 		double policyAmount = Double.parseDouble(loanApp.getLoanAmount()); // Principal
 		double roi = Double.parseDouble(loanApp.getRateOfInterest()); // Annual ROI
 		double term = Double.parseDouble(loanApp.getLoanTerm());
 		String frequency = loanApp.getLoanMode();
 		String interestType = loanApp.getInterestType(); // "Flat" or "Reducing"
+
+		double emiAmount = 0.0;
+		try {
+			emiAmount = Double.parseDouble(loanApp.getEmiPayment());
+		} catch (Exception e) {
+			emiAmount = 0.0;
+		}
+
+		int numberOfInstallments = 1;
+		try {
+			if (noOfInst != null && !noOfInst.trim().isEmpty()) {
+				numberOfInstallments = Integer.parseInt(noOfInst.trim());
+			}
+		} catch (Exception e) {
+			numberOfInstallments = 1;
+		}
 
 		double periodDivisor;
 		switch (frequency) {
@@ -357,6 +617,9 @@ public class LoanManagementService {
 			payment.setAmountDue(String.valueOf(lastAmountDue));
 
 			loanPaymentRepo.save(payment);
+			loanApp.setPaymentStatus("PAID");
+			loanApplicationRepo.save(loanApp);
+			loanNotificationService.sendLoanDisbursementNotification(loanApp, payment);
 
 			double instCount = allPayments.size() + i;
 
@@ -430,7 +693,7 @@ public class LoanManagementService {
 		}
 
 		// Retrieve the loan application from the database
-		LoanApplication loan = loanApplicationRepo.findByLoanId(paymentDetails.getLoanId());
+		LoanApplication loan = loanApplicationRepo.findFirstByLoanIdOrderByIdDesc(paymentDetails.getLoanId());
 		if (loan == null) {
 			throw new RuntimeException("Loan not found for loanId: " + paymentDetails.getLoanId());
 		}

@@ -433,11 +433,6 @@
 		</a>
 
 			<ul id="loan-section" class="nav-content collapse">
-				<li><a href="${baseUrl}/loanSchemeCatalog"> <i class="bi bi-circle"></i>
-						<span style="font-family: 'Poppins', sans-serif">LOAN
-							SCHEME CATALOG</span>
-				</a></li>
-
 				<li><a href="${baseUrl}/emiLoanCalculator"> <i class="bi bi-circle"></i>
 						<span style="font-family: 'Poppins', sans-serif">EMI & LOAN
 							CALCULATOR</span>
@@ -455,7 +450,7 @@
 
 				<li><a href="${baseUrl}/loanPaymentLoanManagement"> <i
 						class="bi bi-circle"></i> <span
-						style="font-family: 'Poppins', sans-serif">LOAN PAYMENT</span>
+						style="font-family: 'Poppins', sans-serif">LOAN DISBURSEMENT</span>
 				</a></li>
 
 				<li><a href="${baseUrl}/regularEmiRePaymentLoanManagement"> <i

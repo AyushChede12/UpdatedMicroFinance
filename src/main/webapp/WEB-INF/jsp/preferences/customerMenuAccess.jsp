@@ -722,15 +722,6 @@ select {
 			<label>Loan Management</label>
 			<div class="member-row">
 				<div class="checkbox-col">
-					<input type="checkbox" id="myLoanSchemeCatalog" name="service"
-						value="Loan Scheme Catalog">
-				</div>
-				<div class="bold-text">Loan Management =></div>
-				<div class="normal-text">Loan Scheme Catalog</div>
-			</div>
-
-			<div class="member-row">
-				<div class="checkbox-col">
 					<input type="checkbox" id="myEMILoanCalculator" name="service"
 						value="EMI Loan Calculator">
 				</div>
@@ -762,7 +753,7 @@ select {
 						value="Loan Payment">
 				</div>
 				<div class="bold-text">Loan Management =></div>
-				<div class="normal-text">Loan Payment</div>
+				<div class="normal-text">Loan Disbursement</div>
 			</div>
 
 			<div class="member-row">

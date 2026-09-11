@@ -37,75 +37,6 @@ public class LoanManagementController {
 	@Autowired
 	private LoanManagementService loanServices;
 
-	// Api for saving and updatig the loan scheme data (Vaibhav) Loan Scheme Catalog
-	@PostMapping("/saveLoanManagment")
-	public ResponseEntity<ApiResponse<LoanSchemCatalog>> saveLoanManagmentData(@RequestBody LoanSchemCatalog loan) {
-		LoanSchemCatalog savedLoan = loanServices.saveLoanManagmentData(loan);
-
-		if (savedLoan != null) {
-			String message = (loan.getId() != null) ? "Data Updated successfully" : "Data Saved successfully";
-			ApiResponse<LoanSchemCatalog> response = new ApiResponse<>(HttpStatus.OK, message, savedLoan);
-			return ResponseEntity.ok(response);
-		} else {
-			ApiResponse<LoanSchemCatalog> errorResponse = new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR,
-					"Failed to save or update data", null);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
-		}
-	}
-
-	// Api for fetching the data on tabel (Vaibhav) Loan Scheme Catalog
-	@GetMapping("/allDataFetchLoanSchemCatelog")
-	public ResponseEntity<ApiResponse<List<LoanSchemCatalog>>> allDataFetchLoanSchemCatelog() {
-		List<LoanSchemCatalog> list = loanServices.allDataFetchLoanSchemCatelog();
-
-		if (list != null && !list.isEmpty()) {
-			ApiResponse<List<LoanSchemCatalog>> response = new ApiResponse<>(HttpStatus.OK,
-					"LoanSchemCatalog fetched successfully", list);
-			return ResponseEntity.ok(response);
-		} else {
-			ApiResponse<List<LoanSchemCatalog>> response = new ApiResponse<>(HttpStatus.NOT_FOUND, "No data found",
-					null);
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
-		}
-	}
-
-	// Edit BY Id 19/06/25 Loan scheme catalog
-
-	@GetMapping("/getLoanByIdEdite")
-	public ResponseEntity<ApiResponse<LoanSchemCatalog>> getLoanById(@RequestParam Long id) {
-		LoanSchemCatalog loan = loanServices.getLoanById(id);
-
-		if (loan != null) {
-			// Success response
-			ApiResponse<LoanSchemCatalog> response = new ApiResponse<>(
-
-					HttpStatus.OK, "Loan fetched successfully", loan);
-			return ResponseEntity.ok(response);
-		} else {
-			// Failure response
-			ApiResponse<LoanSchemCatalog> response = new ApiResponse<>(
-
-					HttpStatus.NOT_FOUND, "Loan not found with ID: " + id, null);
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-		}
-	}
-
-	// delete By Id 19/06/25 Loan scheme catalog
-
-	@PostMapping("/deleteLoanById")
-	public ResponseEntity<ApiResponse<LoanSchemCatalog>> deleteLoan(@RequestParam Long id) {
-		boolean deleted = loanServices.deleteLoanLoanById(id);
-
-		if (deleted) {
-			ApiResponse<LoanSchemCatalog> response = new ApiResponse<>(HttpStatus.OK, "Loan deleted successfully",
-					null);
-			return ResponseEntity.ok(response);
-		} else {
-			ApiResponse<LoanSchemCatalog> response = new ApiResponse<>(HttpStatus.NOT_FOUND, "Loan not found", null);
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-		}
-	}
-
 	// data Fetch from name and id from customer model
 	@GetMapping("/getByMemberCodeNewLoanApplication")
 	public ResponseEntity<ApiResponse<List<addCustomer>>> getLoanByMemberCode(@RequestParam String memberCode) {
@@ -166,15 +97,76 @@ public class LoanManagementController {
 	@PostMapping("/saveloanapplication")
 	public ResponseEntity<ApiResponse<LoanApplication>> saveSchemeCatalog(
 			@RequestBody LoanApplication loanApplication) {
-		boolean isSaved = loanServices.saveLoanApplicationData(loanApplication);
 
-		if (isSaved) {
-			ApiResponse<LoanApplication> response = ApiResponse.success(HttpStatus.CREATED,
-					"Saving Scheme saved successfully.", loanApplication);
-			return ResponseEntity.ok(response);
-		} else {
-			ApiResponse<LoanApplication> response = ApiResponse.error(HttpStatus.BAD_REQUEST, "Failed to save scheme.");
+		try {
+			loanApplication.syncDynamicFields();
+			if (loanApplication.getLoanTypeSpecificDetails() != null && !loanApplication.getLoanTypeSpecificDetails().trim().isEmpty()) {
+				try {
+					Map<String, Object> map = new com.fasterxml.jackson.databind.ObjectMapper().readValue(
+						loanApplication.getLoanTypeSpecificDetails(),
+						new com.fasterxml.jackson.core.type.TypeReference<Map<String, Object>>() {}
+					);
+					String err = LoanApplyController.validateDynamicFields(loanApplication.getTypeOfLoan(), map);
+					if (err != null) {
+						return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+								.body(ApiResponse.error(HttpStatus.BAD_REQUEST, err));
+					}
+				} catch (Exception ignored) {}
+			}
+
+			boolean isSaved = loanServices.saveLoanApplicationData(loanApplication);
+
+			if (isSaved) {
+				ApiResponse<LoanApplication> response = ApiResponse.success(HttpStatus.CREATED,
+						"Loan Application saved successfully.", loanApplication);
+				return ResponseEntity.ok(response);
+			} else {
+				ApiResponse<LoanApplication> response = ApiResponse.error(HttpStatus.BAD_REQUEST, "Failed to save loan application.");
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+			}
+		} catch (IllegalArgumentException ex) {
+			ApiResponse<LoanApplication> response = ApiResponse.error(HttpStatus.BAD_REQUEST, ex.getMessage());
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+		}
+	}
+
+	@PostMapping("/validateDeductions")
+	public ResponseEntity<ApiResponse<?>> validateDeductions(@RequestBody com.microfinance.dto.LoanDeductionDetailsDto dto) {
+		try {
+			if (dto.getLoanAmount() == null || dto.getLoanAmount().compareTo(java.math.BigDecimal.ZERO) <= 0) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+						.body(ApiResponse.error(HttpStatus.BAD_REQUEST, "Loan Amount must be greater than 0."));
+			}
+
+			com.microfinance.model.LoanDeductionDetails details = new com.microfinance.model.LoanDeductionDetails();
+			details.setProcessingFee(dto.getProcessingFee());
+			details.setLegalCharges(dto.getLegalCharges());
+			details.setGst(dto.getGst());
+			details.setInsuranceFee(dto.getInsuranceFee());
+			details.setValuationFees(dto.getValuationFees());
+			details.setStationaryChargesFee(dto.getStationaryChargesFee());
+			details.setEmployeeId(dto.getEmployeeId());
+			details.setEmployeeName(dto.getEmployeeName());
+
+			details = loanServices.validateAndCalculateDeductions(dto.getLoanAmount(), details);
+
+			dto.setProcessingFee(details.getProcessingFee());
+			dto.setLegalCharges(details.getLegalCharges());
+			dto.setGst(details.getGst());
+			dto.setInsuranceFee(details.getInsuranceFee());
+			dto.setValuationFees(details.getValuationFees());
+			dto.setStationaryChargesFee(details.getStationaryChargesFee());
+			dto.setTotalDeductions(details.getTotalDeductions());
+			dto.setNetDisbursementAmount(details.getNetDisbursementAmount());
+			dto.setEmployeeName(details.getEmployeeName());
+
+			return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "Deductions calculated successfully", dto));
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(ApiResponse.error(HttpStatus.BAD_REQUEST, e.getMessage()));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "Calculation error: " + e.getMessage()));
 		}
 	}
 
@@ -246,9 +238,15 @@ public class LoanManagementController {
 			Map<String, Object> data = new HashMap<>();
 			data.put("loanStatus", isClosed ? "CLOSED" : "ACTIVE");
 
-			String message = isClosed
-					? "EMI paid successfully. Loan is now closed."
-					: "EMI paid successfully. Remaining balance updated.";
+			String message;
+			if (isClosed) {
+				message = "Loan is closed.";
+			} else if ("Saving Account".equalsIgnoreCase(request.getPaymentMode())
+					|| "Savings Account".equalsIgnoreCase(request.getPaymentMode())) {
+				message = "Loan disbursed successfully and transferred to Customer's Savings Account.";
+			} else {
+				message = "Loan disbursed successfully in Cash.";
+			}
 
 			return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK, message, data));
 		} catch (RuntimeException e) {

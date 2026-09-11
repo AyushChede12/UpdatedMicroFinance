@@ -24,7 +24,6 @@ import com.microfinance.model.GoldLoanPayment;
 import com.microfinance.model.LoanApplication;
 import com.microfinance.model.LoanClosure;
 import com.microfinance.model.LoanPayment;
-import com.microfinance.model.LoanSchemCatalog;
 import com.microfinance.model.PolicyRenewal;
 import com.microfinance.model.SecuredGoldPlan;
 import com.microfinance.model.addCustomer;

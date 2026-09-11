@@ -175,11 +175,10 @@ function loadSidebar(session) {
 	if (session.includes("Search Policy")) $("#mySearchPolicy").show();
 
 	// LOAN MANAGEMENT
-	if (session.includes("Loan Scheme Catalog")) $("#myLoanSchemeCatalog").show();
 	if (session.includes("EMI Loan Calculator")) $("#myEMILoanCalculator").show();
 	if (session.includes("New Loan Application")) $("#myNewLoanApplication").show();
 	if (session.includes("Loan Approval")) $("#myLoanApproval").show();
-	if (session.includes("Loan Payment")) $("#myLoanPayment").show();
+	if (session.includes("Loan Payment") || session.includes("Loan Disbursement")) $("#myLoanPayment").show();
 	if (session.includes("Regular Installment Payment")) $("#myRegularInstallmentPayment").show();
 	if (session.includes("Irregular Installment Payment")) $("#myIrregularInstallmentPayment").show();
 	if (session.includes("Regular Loan Statement")) $("#myRegularLoanStatement").show();
