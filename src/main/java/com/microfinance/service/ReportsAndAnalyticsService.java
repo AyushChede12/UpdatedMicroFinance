@@ -57,8 +57,11 @@ public class ReportsAndAnalyticsService {
 	}
 
 	public List<CreateSavingsAccount> getApprovedSavingAccount() {
-		// TODO Auto-generated method stub
-		return createSavingAccountRepo.findByIsApprovedTrue();
+		List<CreateSavingsAccount> list = createSavingAccountRepo.findByIsApprovedTrue();
+		if (list == null || list.isEmpty()) {
+			list = createSavingAccountRepo.findAll();
+		}
+		return list;
 	}
 
 	public List<LoanApplication> getUnapprovedLoanApplication() {
