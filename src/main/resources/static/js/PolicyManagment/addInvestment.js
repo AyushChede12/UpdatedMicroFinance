@@ -1,38 +1,105 @@
+let allCustomersCache = [];
+
+function populateCustomerDropdowns(customerList) {
+	allCustomersCache = customerList || [];
+
+	const $select = $('#selectCustomer');
+	const $nomineeSelect = $('#suggestedNominee');
+
+	$select.empty().append('<option value="">SELECT CUSTOMER</option>');
+	$nomineeSelect.empty().append('<option value="">SELECT NOMINEE</option>');
+
+	if (allCustomersCache && allCustomersCache.length > 0) {
+		allCustomersCache.forEach(customer => {
+			let fullName = [
+				customer.firstName,
+				customer.middleName,
+				customer.lastName
+			]
+			.filter(name => name && name.trim() !== "")
+			.join(" ");
+
+			if (!fullName) {
+				fullName = customer.customerName || '';
+			}
+
+			if (fullName) {
+				const nomineeOptionText = `${fullName.toUpperCase()}`;
+				$nomineeSelect.append(
+					`<option value="${fullName.toUpperCase()}" data-membercode="${customer.memberCode || ''}">${nomineeOptionText}</option>`
+				);
+
+				if (customer.memberCode) {
+					const optionText = `${fullName.toUpperCase()} - ${customer.memberCode}`;
+					const optionValue = customer.memberCode;
+
+					$select.append(
+						`<option value="${optionValue}">${optionText}</option>`
+					);
+				}
+			}
+		});
+	}
+}
+
 $(document).ready(function () {
 	$.ajax({
-		url: '/api/customermanagement/approved',
+		url: 'api/customermanagement/getAllCustomer',
 		type: 'GET',
 		success: function (response) {
-			if (response.status === "OK" && Array.isArray(response.data)) {
-				const $select = $('#selectCustomer');
-				$select.empty().append('<option value="">SELECT CUSTOMER</option>');
+			let customerList = [];
+			if (Array.isArray(response)) {
+				customerList = response;
+			} else if (response && response.data && Array.isArray(response.data)) {
+				customerList = response.data;
+			}
 
-				response.data.forEach(customer => {
-
-					// ✅ Combine name using array
-					const fullName = [
-						customer.firstName,
-						customer.middleName,
-						customer.lastName
-					]
-					.filter(name => name && name.trim() !== "")
-					.join(" ");
-
-					if (fullName && customer.memberCode) {
-						const optionText = `${fullName} - ${customer.memberCode}`;
-						const optionValue = customer.memberCode;
-
-						$select.append(
-							`<option value="${optionValue}">${optionText}</option>`
-						);
-					}
-				});
+			if (customerList && customerList.length > 0) {
+				populateCustomerDropdowns(customerList);
 			} else {
-				alert("No approved customers found.");
+				alert("No customers found.");
 			}
 		},
 		error: function () {
-			alert("Failed to fetch approved customers.");
+			$.ajax({
+				url: 'api/customermanagement/approved',
+				type: 'GET',
+				success: function (response) {
+					let customerList = [];
+					if (Array.isArray(response)) {
+						customerList = response;
+					} else if (response && response.data && Array.isArray(response.data)) {
+						customerList = response.data;
+					}
+
+					populateCustomerDropdowns(customerList);
+				},
+				error: function () {
+					alert("Failed to fetch customers.");
+				}
+			});
+		}
+	});
+
+	// On suggestedNominee change, auto-populate nominee relationship & age
+	$("#suggestedNominee").on("change", function() {
+		const selectedNomineeName = $(this).val();
+		if (!selectedNomineeName) {
+			return;
+		}
+
+		// Find matching customer from cache
+		const foundCust = allCustomersCache.find(c => {
+			let name = [c.firstName, c.middleName, c.lastName]
+				.filter(n => n && n.trim() !== "")
+				.join(" ");
+			if (!name) name = c.customerName || '';
+			return name.toUpperCase() === selectedNomineeName.toUpperCase();
+		});
+
+		if (foundCust) {
+			$("#ageOfNominee").val(foundCust.customerAge || foundCust.nomineeAge || "");
+			$("#relation").val(foundCust.nomineeRelationToApplicant || foundCust.relationshipStatus || "Nominee");
 		}
 	});
 });
@@ -72,15 +139,28 @@ function fetchBySelectedCustomer() {
 				$("#district").val(c.district || "");
 				$("#drivingLicenceNo").val(c.drivingLicenceNo || "");
 				$("#voterNo").val(c.voterNo || "");
-				$("#relationDetails").val(c.guardianName || "");
 				$("#address").val(c.customerAddress || "");
 				$("#pinCode").val(c.pinCode || "");
-				$("#suggestedNominee").val(c.nomineeName || "");
 				$("#emailId").val(c.emailId || "");
 				$("#dateofBirth").val(c.dob || "");
 				$("#ageOfNominee").val(c.nomineeAge || "");
 				$("#branchName").val(c.branchName || "");
 				$("#relation").val(c.relationToApplicant || "");
+
+				// Suggested Nominee handling
+				if (c.nomineeName) {
+					const nomineeUpper = c.nomineeName.toUpperCase();
+					let exists = false;
+					$("#suggestedNominee option").each(function() {
+						if ($(this).val().toUpperCase() === nomineeUpper) {
+							exists = true;
+						}
+					});
+					if (!exists) {
+						$("#suggestedNominee").append(`<option value="${nomineeUpper}">${nomineeUpper}</option>`);
+					}
+					$("#suggestedNominee").val(nomineeUpper);
+				}
 
 				// Photo
 				if (c.customerPhoto) {
@@ -486,7 +566,6 @@ $("#saveBtn").click(function(e) {
 			formData.append("memberSelection", $("#selectCustomer").val());
 			formData.append("customerName", $("#customerName").val());
 			formData.append("dateofBirth", $("#dateofBirth").val());
-			formData.append("relationDetails", $("#relationDetails").val());
 			formData.append("contactNo", $("#contactNo").val());
 			formData.append("suggestedNominee", $("#suggestedNominee").val());
 			formData.append("ageOfNominee", $("#ageOfNominee").val());
@@ -513,7 +592,6 @@ $("#saveBtn").click(function(e) {
 			formData.append("amountDue", (parseFloat($("#depositAmount").val()) - parseFloat($("#policyAmount").val())).toFixed(2));
 			formData.append("introMCode", $("#introMCode").val());
 			formData.append("maturityAmount", $("#maturityAmount").val());
-			formData.append("MISInterest", $("#MISInterest").val());
 			formData.append("paymentBy", $("#paymentBy").val());
 			formData.append("remark", $("#remark").val());
 			formData.append("agent", $("#Agent").val());
@@ -547,6 +625,7 @@ $("#saveBtn").click(function(e) {
 });
 
 
+let consultantMap = {};
 
 $(document).ready(function() {
 	$.ajax({
@@ -557,10 +636,11 @@ $(document).ready(function() {
 			const $agentDropdown = $("#Agent");
 
 			$agentDropdown.empty(); // Clear any existing options
-			$agentDropdown.append('<option value="">SELECT AGENT</option>');
+			$agentDropdown.append('<option value="">SELECT EMPLOYEE CODE</option>');
 
 			// Create a Set to avoid duplicate codes
 			const addedCodes = new Set();
+			consultantMap = {};
 
 			consultants.forEach(consultant => {
 				const code = consultant.financialCode;
@@ -569,7 +649,8 @@ $(document).ready(function() {
 				// Add only if it's not null/empty/"undefined"
 				if (code && code.trim() !== "" && code.trim().toLowerCase() !== "undefined") {
 					if (!addedCodes.has(code)) {
-						$agentDropdown.append(`<option value="${code}">${code} - ${name}</option>`);
+						consultantMap[code] = name;
+						$agentDropdown.append(`<option value="${code}" data-name="${name || ''}">${code} - ${name}</option>`);
 						addedCodes.add(code);
 					}
 				}
@@ -577,6 +658,16 @@ $(document).ready(function() {
 		},
 		error: function(xhr, status, error) {
 			console.error("Failed to fetch financial consultant details:", error);
+		}
+	});
+
+	// Auto fill Employee Name when Employee Code is selected
+	$("#Agent").on("change", function() {
+		const selectedCode = $(this).val();
+		if (selectedCode && consultantMap[selectedCode]) {
+			$("#employeeName").val(consultantMap[selectedCode]);
+		} else {
+			$("#employeeName").val("");
 		}
 	});
 });

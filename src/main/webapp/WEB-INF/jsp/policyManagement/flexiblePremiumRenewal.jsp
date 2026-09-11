@@ -199,9 +199,14 @@
 
 					<div class="col-lg-3">
 						<div class="d-flex flex-column formFields mt-4">
-							<label for="">MODE OF PAYMENT <span class="star">*</span></label>
-							<input type="text" name="modeOfPayment" id="modeOfPayment"
-								required="required" placeholder="ENTER PAYMENT" />
+							<label for="modeOfPayment">MODE OF PAYMENT <span class="star">*</span></label>
+							<select id="modeOfPayment" name="modeOfPayment" required
+								class="form-control selectField" style="height: 30px;">
+								<option value="">SELECT MODE OF PAYMENT</option>
+								<option value="Online">Online</option>
+								<option value="Cash">Cash</option>
+								<option value="Saving Account">Saving Account</option>
+							</select>
 						</div>
 					</div>
 
@@ -289,14 +294,14 @@
 			<div class="modal-body">
 				<div class="table-responsive">
 					<table class="table table-bordered table-hover text-center"
-						id="installmentModal">
-						<thead class="thead-dark">
+						id="installmentTable">
+						<thead style="background-color: #e9ecef; color: #000000;">
 							<tr>
-								<th>INSTALLMENT NO</th>
-								<th>DUE DATE</th>
-								<th>AMOUNT</th>
-								<th>STATUS</th>
-								<th>PAYMENT DATE</th>
+								<th style="color: #000000 !important; background-color: #e9ecef !important; font-weight: 700;">INSTALLMENT NO</th>
+								<th style="color: #000000 !important; background-color: #e9ecef !important; font-weight: 700;">DUE DATE</th>
+								<th style="color: #000000 !important; background-color: #e9ecef !important; font-weight: 700;">AMOUNT</th>
+								<th style="color: #000000 !important; background-color: #e9ecef !important; font-weight: 700;">STATUS</th>
+								<th style="color: #000000 !important; background-color: #e9ecef !important; font-weight: 700;">PAYMENT DATE</th>
 							</tr>
 						</thead>
 						<tbody>

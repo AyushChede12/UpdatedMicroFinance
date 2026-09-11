@@ -67,15 +67,6 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">RELATION DETAILS <span class="star">*</span></label>
-						<input type="text" name="relationDetails" id="relationDetails"
-							required="required" placeholder="ENTER RELATIVE NAME" disabled/>
-					</div>
-				</div>
-
-
-				<div class="col-lg-3">
-					<div class="d-flex flex-column formFields">
 						<label for="">CONTACT NO <span class="star">*</span></label> <input
 							type="text" name="contactNo" id="contactNo" required="required"
 							placeholder="ENTER CONTACT NO." disabled />
@@ -84,9 +75,11 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">SUGGESTED NOMINEE <span class="star">*</span></label>
-						<input type="text" name="suggestedNominee" id="suggestedNominee"
-							required="required" placeholder="ENTER SUGGESTED NOMINEE" disabled />
+						<label for="suggestedNominee">SUGGESTED NOMINEE <span class="star">*</span></label>
+						<select id="suggestedNominee" name="suggestedNominee" required
+							class="form-control selectField" style="height: 30px;">
+							<option value="">SELECT NOMINEE</option>
+						</select>
 					</div>
 				</div>
 
@@ -267,15 +260,21 @@
 
 				<div class="col-lg-3 mb-4">
 					<div class="d-flex flex-column formFields">
-						<label for="Agent">AGENT <span class="star">*</span></label> <select
+						<label for="Agent">EMPLOYEE CODE <span class="star">*</span></label> <select
 							id="Agent" name="Agent" required class="form-control selectField"
 							style="height: 30px;">
-							<option value="">SELECT AGENT</option>
+							<option value="">SELECT EMPLOYEE CODE</option>
 						</select>
 					</div>
 				</div>
 
-
+				<div class="col-lg-3 mb-4">
+					<div class="d-flex flex-column formFields">
+						<label for="employeeName">EMPLOYEE NAME <span class="star">*</span></label>
+						<input type="text" name="employeeName" id="employeeName"
+							placeholder="EMPLOYEE NAME" disabled />
+					</div>
+				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
@@ -284,20 +283,6 @@
 							required="required" placeholder="ENTER MATURITY AMOUNT" />
 					</div>
 				</div>
-
-				<div class="col-lg-3">
-					<div class="d-flex flex-column formFields">
-						<label for="">MIS INTEREST <span class="star">*</span></label> <input
-							type="text" name="MISInterest" id="MISInterest"
-							required="required" placeholder="ENTER MIS INTEREST" />
-					</div>
-				</div>
-
-
-
-
-
-
 			</div>
 			<div class="row mt-4">
 				<div class="col-lg-3 mb-5">
@@ -345,14 +330,13 @@
 					<!-- Payment By -->
 					<div class="col-lg-3 mb-4">
 						<div class="d-flex flex-column formFields">
-							<label for="branchName">PAYMENT BY <span class="star">*</span></label>
+							<label for="paymentBy">PAYMENT BY <span class="star">*</span></label>
 							<select id="paymentBy" name="paymentBy" required
 								class="form-control selectField" style="height: 30px;">
 								<option value="">SELECT PAYMENT BY</option>
-								<option value="cash">CASH</option>
-								<option value="online">ONLINE</option>
-
-								<!-- Add options here -->
+								<option value="Online">Online</option>
+								<option value="Cash">Cash</option>
+								<option value="Saving Account">Saving Account</option>
 							</select>
 						</div>
 					</div>

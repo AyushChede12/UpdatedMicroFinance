@@ -97,6 +97,7 @@ $(document).ready(function() {
 						$("#dueDate").val(data.maturityDate);
 						$("#noOfInstPaid").val(data.lastInstPaid);
 						$("#installmentsCompleted").val(data.lastInstPaid);
+						$("#modeOfPayment").val(data.paymentBy);
 						$("#paymentMode").val(data.paymentBy);
 						$("#nomineeName").val(data.suggestedNominee);
 						$("#comment").val(data.remark);
@@ -207,18 +208,18 @@ $("#viewBtn").on("click", function() {
 	}
 
 	$.ajax({
-		url: "api/Policymangment/getFullMaturityByPolicyCode",
+		url: "/api/Policymangment/getFullMaturityByPolicyCode",
 		type: "GET",
 		dataType: "json",
 		data: { policyCode: selectedPolicyCode },
 		success: function(response) {
 			console.log("✅ Full Response:", response);
 
-			const $tbody = $("#installmentModal tbody");
+			const $tbody = $("#installmentTable tbody, #installmentModal table tbody");
 			let rowsHtml = "";
 			let installments = [];
 
-			if (response && response.status === "OK") {
+			if (response && (response.status === "OK" || response.status === "200")) {
 				if (Array.isArray(response.data)) {
 					installments = response.data;
 				} else if (response.data) {
@@ -227,20 +228,19 @@ $("#viewBtn").on("click", function() {
 			}
 
 			if (installments.length > 0) {
-				// ✅ Base date (policyStartDate → agar available ho)
-				let baseDate = installments[0].policyStartDate
-					? new Date(installments[0].policyStartDate)
-					: new Date();
+				const firstInst = installments[0];
+				let baseDateRaw = firstInst.paymentDate || firstInst.renewalDate || firstInst.policyDate || firstInst.policyStartDate;
+				let baseDate = baseDateRaw ? new Date(baseDateRaw) : new Date();
 
 				installments.forEach((inst, index) => {
 					const srNo = index + 1;
 
-					// ✅ Har installment ka dueDate = baseDate + index days
+					// Daily Deposit: each installment is 1 day after
 					let dueDate = new Date(baseDate);
 					dueDate.setDate(dueDate.getDate() + index);
 
-					// Format function
 					const formatDate = (dateObj) => {
+						if (!dateObj || isNaN(dateObj.getTime())) return "-";
 						const day = String(dateObj.getDate()).padStart(2, "0");
 						const month = String(dateObj.getMonth() + 1).padStart(2, "0");
 						const year = dateObj.getFullYear();
@@ -248,23 +248,22 @@ $("#viewBtn").on("click", function() {
 					};
 
 					const dueDateFormatted = formatDate(dueDate);
-					const paymentDateStr = inst.paymentDate
-						? formatDate(new Date(inst.paymentDate))
-						: "-";
+					const pDateRaw = inst.paymentDate || inst.renewalDate || inst.lastPaymentDate;
+					const paymentDateStr = pDateRaw ? formatDate(new Date(pDateRaw)) : "-";
 
-					// ✅ Status Logic
-					const status = inst.paymentDate && inst.paymentDate.trim() !== ""
+					const status = pDateRaw && String(pDateRaw).trim() !== ""
 						? `<span class="text-success fw-bold">Paid</span>`
 						: `<span class="text-danger fw-bold">Unpaid</span>`;
 
-					const amount = inst.amount
-						? `INR ${Number(inst.amount).toLocaleString("en-IN")}`
+					const amtVal = inst.amount || inst.netDeposit || inst.policyAmount;
+					const amount = amtVal
+						? `INR ${Number(amtVal).toLocaleString("en-IN")}`
 						: "INR 0";
 
 					rowsHtml += `
 						<tr>
 						  <td>${srNo}</td>
-						  <td>${dueDateFormatted}</td>   <!-- ✅ Daily Due Date -->
+						  <td>${dueDateFormatted}</td>
 						  <td>${amount}</td>
 						  <td>${status}</td>
 						  <td>${paymentDateStr}</td>
@@ -274,7 +273,7 @@ $("#viewBtn").on("click", function() {
 			} else {
 				rowsHtml = `
 					<tr>
-					  <td colspan="5" class="text-center text-danger">
+					  <td colspan="5" class="text-center text-danger font-weight-bold">
 						No installment data found for this policy.
 					  </td>
 					</tr>
@@ -285,7 +284,8 @@ $("#viewBtn").on("click", function() {
 		},
 		error: function(xhr) {
 			console.error("❌ Error:", xhr);
-			alert("❌ Failed to fetch installment data.");
+			const errMsg = xhr.responseJSON?.message || "Failed to fetch installment data.";
+			alert("❌ " + errMsg);
 		}
 	});
 });
