@@ -63,7 +63,7 @@ public class PolicyManagementService {
 
 	@Autowired
 	FlexibleRenewalRepo flexibleRenewalRepo;
-	
+
 	@Autowired
 	FullMaturityRepo fullMaturityRepo;
 
@@ -82,7 +82,7 @@ public class PolicyManagementService {
 		return recurringDepositRepo.findAll();
 	}
 
-// fixed deposite of the service
+	// fixed deposite of the service
 	public boolean saveFixedDeposite(FixedDepositPM fixedDepositPM) {
 		// TODO Auto-generated method stub
 		try {
@@ -94,13 +94,13 @@ public class PolicyManagementService {
 		}
 	}
 
-// feacth all data of the fixed deposite
+	// feacth all data of the fixed deposite
 	public List<FixedDepositPM> getAllFixeddata() {
 		// TODO Auto-generated method stub
 		return fixedDepositPMRepo.findAll();
 	}
 
-// daily Deposite save service
+	// daily Deposite save service
 	public boolean savedailydeposite(DailyDepositPM dailyDepositPM) {
 		// TODO Auto-generated method stub
 		try {
@@ -112,13 +112,13 @@ public class PolicyManagementService {
 		}
 	}
 
-//feacth all data of the daily deposite
+	// feacth all data of the daily deposite
 	public List<DailyDepositPM> getAlldailydepositedata() {
 		// TODO Auto-generated method stub
 		return dailyDepositPMRepo.findAll();
 	}
 
-//MIS Deposite save service
+	// MIS Deposite save service
 	public boolean savemistdeposite(MISDepositPM misDepositPM) {
 		try {
 			misDepositePMRepo.save(misDepositPM);
@@ -173,13 +173,13 @@ public class PolicyManagementService {
 		}
 	}
 
-// edit by id reccuring deposite
+	// edit by id reccuring deposite
 	public RecurringDepositPM getRecurringDepositById(Long id) {
 		// TODO Auto-generated method stub
 		return recurringDepositRepo.findById(id).orElse(null);
 	}
 
-//update the reccuring deposite service
+	// update the reccuring deposite service
 	public RecurringDepositPM updateRecurringDeposit(Long id, RecurringDepositPM updatedData) {
 		Optional<RecurringDepositPM> existingOptional = recurringDepositRepo.findById(id);
 
@@ -210,7 +210,7 @@ public class PolicyManagementService {
 		}
 	}
 
-//delete the recurring deposit service
+	// delete the recurring deposit service
 
 	public boolean deleteRecurringDeposit(Long id) {
 		if (recurringDepositRepo.existsById(id)) {
@@ -221,7 +221,7 @@ public class PolicyManagementService {
 		}
 	}
 
-//Fetch the data fixed deposit service
+	// Fetch the data fixed deposit service
 
 	public FixedDepositPM getFixedDepositById(Long id) {
 		// TODO Auto-generated method stub
@@ -310,7 +310,7 @@ public class PolicyManagementService {
 		}
 	}
 
-//Ashwini
+	// Ashwini
 	/*
 	 * public List<AddnewinvestmentPM> getAddInvestmentDetails() { // TODO
 	 * Auto-generated method stub return addinvestmentrepo.findAll(); }
@@ -318,23 +318,30 @@ public class PolicyManagementService {
 
 	public List<String> getSchemeNameBySchemeType(String drd) {
 		List<DailyDepositPM> allDrdPlans = dailyDepositPMRepo.findBydrd(drd);
-		return allDrdPlans.stream().map(DailyDepositPM::getPlanNameDD).distinct().collect(Collectors.toList());
+		return allDrdPlans.stream()
+				.filter(p -> p != null && p.getPlanNameDD() != null)
+				.map(DailyDepositPM::getPlanNameDD).distinct().collect(Collectors.toList());
 	}
 
 	public List<String> getRRDBySchemeType(String rd) {
 		List<RecurringDepositPM> allRrdPlans = recurringDepositRepo.findByrd(rd);
-		return allRrdPlans.stream().map(RecurringDepositPM::getPlanNameRD).distinct().collect(Collectors.toList());
+		return allRrdPlans.stream()
+				.filter(p -> p != null && p.getPlanNameRD() != null)
+				.map(RecurringDepositPM::getPlanNameRD).distinct().collect(Collectors.toList());
 	}
 
 	public List<String> getFRDBySchemeType(String fd) {
 		List<FixedDepositPM> allFrdPlans = fixedDepositPMRepo.findByfd(fd);
-		return allFrdPlans.stream().map(FixedDepositPM::getPlanNameFD).distinct().collect(Collectors.toList());
-
+		return allFrdPlans.stream()
+				.filter(p -> p != null && p.getPlanNameFD() != null)
+				.map(FixedDepositPM::getPlanNameFD).distinct().collect(Collectors.toList());
 	}
 
 	public List<String> getMISRDBySchemeType(String mis) {
 		List<MISDepositPM> allMisrdPlans = misDepositePMRepo.findBymis(mis);
-		return allMisrdPlans.stream().map(MISDepositPM::getPlanNameMD).distinct().collect(Collectors.toList());
+		return allMisrdPlans.stream()
+				.filter(p -> p != null && p.getPlanNameMD() != null)
+				.map(MISDepositPM::getPlanNameMD).distinct().collect(Collectors.toList());
 	}
 
 	public DailyDepositPM getDDTermAndInterestRate(String planNameDD) {
@@ -381,7 +388,7 @@ public class PolicyManagementService {
 	public List<AddnewinvestmentPM> getAllInvestments() {
 		return addinvestmentrepo.findAll();
 	}
-	
+
 	public List<AddnewinvestmentPM> getAllPolicyManagementData() {
 		// TODO Auto-generated method stub
 		return addinvestmentrepo.findAll();
@@ -496,10 +503,12 @@ public class PolicyManagementService {
 
 		// Handle Saving Account payment deduction on new investment creation
 		String paymentBy = policyManagementDto.getPaymentBy();
-		if (isNew && paymentBy != null && ("savingaccount".equalsIgnoreCase(paymentBy.replaceAll("\\s+", "")) || "saving account".equalsIgnoreCase(paymentBy))) {
+		if (isNew && paymentBy != null && ("savingaccount".equalsIgnoreCase(paymentBy.replaceAll("\\s+", ""))
+				|| "saving account".equalsIgnoreCase(paymentBy))) {
 			String memberCode = policyManagementDto.getMemberSelection();
 			if (memberCode == null || memberCode.trim().isEmpty()) {
-				return ApiResponse.error(HttpStatus.BAD_REQUEST, "Customer selection is required for Saving Account payment.");
+				return ApiResponse.error(HttpStatus.BAD_REQUEST,
+						"Customer selection is required for Saving Account payment.");
 			}
 
 			List<CreateSavingsAccount> accounts = createSavingAccountRepo.findBySelectByCustomer(memberCode);
@@ -532,7 +541,8 @@ public class PolicyManagementService {
 
 			if (accountBalance < investmentAmount) {
 				return ApiResponse.error(HttpStatus.BAD_REQUEST,
-						"Insufficient Saving Account balance! Available Balance: " + accountBalance + ", Required: " + investmentAmount);
+						"Insufficient Saving Account balance! Available Balance: " + accountBalance + ", Required: "
+								+ investmentAmount);
 			}
 
 			// Deduct balance safely
@@ -573,7 +583,6 @@ public class PolicyManagementService {
 		addnewinvestmentPM.setMISInterest(policyManagementDto.getMISInterest());
 		addnewinvestmentPM.setPaidAmount(policyManagementDto.getPaidAmount());
 		addnewinvestmentPM.setLastInstPaid(policyManagementDto.getLastInstPaid());
-		
 
 		addnewinvestmentPM.setPaymentBy(policyManagementDto.getPaymentBy());
 		addnewinvestmentPM.setSchemeCode(policyManagementDto.getSchemeCode());
@@ -609,12 +618,11 @@ public class PolicyManagementService {
 	}
 
 	public List<FullMaturity> fetchFullMaturityByPolicyCode(String policyCode) {
-	    if (policyCode == null || policyCode.trim().isEmpty()) {
-	        return Collections.emptyList(); // returns an immutable empty list
-	    }
-	    return fullMaturityRepo.findByPolicyCodeIgnoreCase(policyCode.trim());
+		if (policyCode == null || policyCode.trim().isEmpty()) {
+			return Collections.emptyList(); // returns an immutable empty list
+		}
+		return fullMaturityRepo.findByPolicyCodeIgnoreCase(policyCode.trim());
 	}
-
 
 	public boolean deletePolicyDataById(Long id) {
 		// TODO Auto-generated method stub
@@ -630,8 +638,8 @@ public class PolicyManagementService {
 		// TODO Auto-generated method stub
 		return fullMaturityRepo.findByApproveStatusTrue();
 	}
-	
+
 	public boolean planNameExists(String planName) {
-	    return dailyDepositPMRepo.existsByPlanNameDD(planName);
+		return dailyDepositPMRepo.existsByPlanNameDD(planName);
 	}
 }

@@ -28,6 +28,7 @@ import com.microfinance.model.PolicyRenewal;
 import com.microfinance.model.RecurringDepositPM;
 import com.microfinance.model.addCustomer;
 import com.microfinance.repository.AddInvestmentRepo;
+import com.microfinance.repository.CreateSavingAccountRepo;
 import com.microfinance.repository.DailyPremiumRenewalRepo;
 import com.microfinance.repository.FlexibleRenewalRepo;
 import com.microfinance.repository.PolicyRenewalRepo;
@@ -51,6 +52,9 @@ public class PolicyManagementController {
 
 	@Autowired
 	DailyPremiumRenewalRepo dailyPremiumRenewalRepo;
+
+	@Autowired
+	CreateSavingAccountRepo createSavingAccountRepo;
 
 	// save daily Deposite
 	@PostMapping("daily-depositsave")
@@ -602,6 +606,7 @@ public class PolicyManagementController {
 			String policyCode = (String) data.get("policyCode");
 			double policyAmount = Double.parseDouble(data.get("policyAmount").toString());
 			int noOfInstallments = Integer.parseInt(data.get("noOfInstallments").toString());
+			String modeOfPayment = data.get("modeOfPayment") != null ? data.get("modeOfPayment").toString() : "";
 
 			Optional<AddnewinvestmentPM> optional = addinvestmentrepo.findByPolicyCode(policyCode);
 			if (!optional.isPresent()) {
@@ -627,6 +632,28 @@ public class PolicyManagementController {
 				return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK,
 						"No payment needed. Policy is already settled or overpaid.", null));
 			}
+
+			// --- FIX 1: Deduct from Savings Account if payment mode is Savings Account ---
+			if ("savingaccount".equalsIgnoreCase(modeOfPayment.replaceAll("\\s+", ""))
+					|| "saving account".equalsIgnoreCase(modeOfPayment.trim())) {
+				String customerCode = investment.getMemberSelection();
+				List<CreateSavingsAccount> accounts = createSavingAccountRepo.findBySelectByCustomer(customerCode);
+				if (accounts == null || accounts.isEmpty()) {
+					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(
+							HttpStatus.BAD_REQUEST, "No Saving Account found for customer: " + customerCode, null));
+				}
+				CreateSavingsAccount savingAcc = accounts.get(0);
+				double balance = 0.0;
+				try { balance = Double.parseDouble(savingAcc.getBalance()); } catch (Exception ex) { balance = 0.0; }
+				if (balance < totalDeduction) {
+					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(
+							HttpStatus.BAD_REQUEST,
+							"Insufficient Saving Account balance! Available: " + balance + ", Required: " + totalDeduction, null));
+				}
+				savingAcc.setBalance(String.valueOf(balance - totalDeduction));
+				createSavingAccountRepo.save(savingAcc);
+			}
+			// -----------------------------------------------------------------------
 
 			// Update the investment
 			investment.setAmountDue(String.valueOf(updatedDue));
@@ -654,7 +681,7 @@ public class PolicyManagementController {
 			renewal.setBranchname(investment.getBranchName());
 			renewal.setNoOfInst(parseIntSafe(investment.getNoOfInstallments()));
 			renewal.setNoOfInstPaid(parseIntSafe(investment.getLastInstPaid()));
-			renewal.setModeOfPayment(investment.getModeOfPayment());
+			renewal.setModeOfPayment(modeOfPayment.isEmpty() ? investment.getModeOfPayment() : modeOfPayment);
 			policyRenewalRepo.save(renewal);
 
 			// Final message based on updatedDue
@@ -867,6 +894,7 @@ public class PolicyManagementController {
 			double totalDeposit = Double.parseDouble(data.get("totalDeposit").toString());
 	        double paymentDue = Double.parseDouble(data.get("paymentDue").toString());
 	        int noOfInstPaid = Integer.parseInt(data.get("noOfInstPaid").toString());
+	        String modeOfPayment = data.get("modeOfPayment") != null ? data.get("modeOfPayment").toString() : "";
 
 			// fetch all records
 			List<AddnewinvestmentPM> investments = addinvestmentrepo.findAllByPolicyCode(policyCode);
@@ -891,18 +919,39 @@ public class PolicyManagementController {
 	        double NetDeposit = policyAmount * noOfInstallments;
 
 	        // Updated values
-//	        int updatedPaid = currentPaid + noOfInstallments;
 	        double updatedTotalDeposit = totalDeposit + NetDeposit;
 	        double updatedDue = paymentDue - NetDeposit;
 
 	        System.out.println("Payment Due :" +  updatedDue);
-	        System.out.println("Deposite :" +  updatedTotalDeposit );
-	        System.out.println("Last : "+noOfInstPaid);
-	        
+	        System.out.println("Deposite :" +  updatedTotalDeposit);
+	        System.out.println("Last : " + noOfInstPaid);
+
+	        // --- FIX 1: Deduct from Savings Account if payment mode is Savings Account ---
+	        if ("savingaccount".equalsIgnoreCase(modeOfPayment.replaceAll("\\s+", ""))
+	        		|| "saving account".equalsIgnoreCase(modeOfPayment.trim())) {
+	        	String customerCode = investment.getMemberSelection();
+	        	List<CreateSavingsAccount> accounts = createSavingAccountRepo.findBySelectByCustomer(customerCode);
+	        	if (accounts == null || accounts.isEmpty()) {
+	        		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(
+	        				HttpStatus.BAD_REQUEST, "No Saving Account found for customer: " + customerCode, null));
+	        	}
+	        	CreateSavingsAccount savingAcc = accounts.get(0);
+	        	double balance = 0.0;
+	        	try { balance = Double.parseDouble(savingAcc.getBalance()); } catch (Exception ex) { balance = 0.0; }
+	        	if (balance < NetDeposit) {
+	        		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(
+	        				HttpStatus.BAD_REQUEST,
+	        				"Insufficient Saving Account balance! Available: " + balance + ", Required: " + NetDeposit, null));
+	        	}
+	        	savingAcc.setBalance(String.valueOf(balance - NetDeposit));
+	        	createSavingAccountRepo.save(savingAcc);
+	        }
+	        // -----------------------------------------------------------------------
+
 	        // Save updated values to AddnewinvestmentPM
 	        investment.setAmountDue(String.valueOf(updatedDue));
 	        investment.setLastInstPaid(String.valueOf(updatedLastInstPaid));
-	        investment.setPaidAmount(String.valueOf(updatedTotalDeposit ));
+	        investment.setPaidAmount(String.valueOf(updatedTotalDeposit));
 	        addinvestmentrepo.save(investment);
 
 			// Save to DailyPremiumRenewalPM
@@ -925,8 +974,8 @@ public class PolicyManagementController {
 			ddRenewal.setDueDate(investment.getDueDate());
 			ddRenewal.setNoOfInst(parseIntSafe(investment.getNoOfInstallments()));
 			ddRenewal.setNoOfInstPaid(parseIntSafe(investment.getLastInstPaid()));
-			ddRenewal.setModeOfPayment(investment.getModeOfPayment());
-			ddRenewal.setNetDeposit(NetDeposit);          // today's deposit
+			ddRenewal.setModeOfPayment(modeOfPayment.isEmpty() ? investment.getModeOfPayment() : modeOfPayment);
+			ddRenewal.setNetDeposit(NetDeposit);
 		    System.out.println("Net Deposite :" + NetDeposit);
 			dailyPremiumRenewalRepo.save(ddRenewal);
 
