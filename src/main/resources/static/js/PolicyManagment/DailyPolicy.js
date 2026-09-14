@@ -592,163 +592,142 @@ $(document).ready(function() {
 						 * =================================================
 						 */
 
-						if (
-							modeOfPayment.toUpperCase() === "CASH"
-						) {
+						var customerName = $("#clientName").val();
 
-							const accountTransactionData = {
+						const accountTransactionData = {
 
-								branchName:
-									$("#branchName").val() || "",
+							branchName:
+								$("#branchName").val() || "",
 
-								accountCode:
-									"CASH",
+							accountCode:
+								modeOfPayment,
 
-								accountNumber:
-									"CASH-001",
+							customerName:
+								customerName,
 
-								transactionDate:
-									new Date()
-										.toISOString()
-										.split("T")[0],
+							accountNumber:
+								policyCode,
 
-								narration:
-									"DRD Renewal - " +
-									policyCode +
-									" - " +
-									($("#customerCode").val() || ""),
+							transactionDate:
+								new Date()
+									.toISOString()
+									.split("T")[0],
 
-								credit:
-									Number(
-										totalPayment.toFixed(2)
-									),
+							narration:
+								"DRD Renewal - " +
+								policyCode +
+								" - " +
+								($("#customerCode").val() || ""),
 
-								debit:
-									0,
+							credit:
+								Number(
+									totalPayment.toFixed(2)
+								),
 
-								transactionType:
-									"DRD_INSTALLMENT",
+							debit:
+								0,
 
-								referenceNo:
-									policyCode +
-									"-INST-" +
-									(alreadyPaid + 1),
+							transactionType:
+								"DRD_INSTALLMENT",
 
-								status:
-									"SUCCESS",
+							referenceNo:
+								policyCode +
+								"-INST-" +
+								(alreadyPaid + 1),
 
-								loanId:
-									null,
+							status:
+								"SUCCESS",
 
-								policyId:
-									null,
+							loanId:
+								null,
 
-								createdBy:
-									"ADMIN"
-							};
+							policyId:
+								null,
 
-							console.log(
-								"Saving Account Transaction:",
-								accountTransactionData
-							);
+							createdBy:
+								"ADMIN"
+						};
 
-							$.ajax({
+						console.log(
+							"Saving Account Transaction:",
+							accountTransactionData
+						);
 
-								url:
-									"accountManagement/saveAccountTransaction",
+						$.ajax({
 
-								type:
-									"POST",
+							url:
+								"accountManagement/saveAccountTransaction",
 
-								contentType:
-									"application/json",
+							type:
+								"POST",
 
-								dataType:
-									"json",
+							contentType:
+								"application/json",
 
-								data:
-									JSON.stringify(
-										accountTransactionData
-									),
+							dataType:
+								"json",
 
-								success:
-									function(transactionResponse) {
+							data:
+								JSON.stringify(
+									accountTransactionData
+								),
 
-										console.log(
-											"AccountTransaction Response:",
-											transactionResponse
-										);
+							success:
+								function(transactionResponse) {
 
-										alert(
-											"✅ " +
-											(
-												response.message ||
-												"Payment saved successfully."
-											)
-										);
+									console.log(
+										"AccountTransaction Response:",
+										transactionResponse
+									);
 
-										location.reload();
-									},
+									alert(
+										"✅ " +
+										(
+											response.message ||
+											"Payment saved successfully."
+										)
+									);
 
-								error:
-									function(xhr) {
+									location.reload();
+								},
 
-										console.error(
-											"AccountTransaction Error:",
-											xhr
-										);
+							error:
+								function(xhr) {
 
-										/*
-										 * Policy payment is already saved.
-										 * Account transaction failed.
-										 */
+									console.error(
+										"AccountTransaction Error:",
+										xhr
+									);
 
-										let message =
-											"Payment saved, but Cash Book transaction could not be saved.";
+									/*
+									 * Policy payment is already saved.
+									 * Account transaction failed.
+									 */
 
-										if (
-											xhr.responseJSON &&
-											xhr.responseJSON.message
-										) {
+									let message =
+										"Payment saved, but Cash Book transaction could not be saved.";
 
-											message =
-												"Payment saved, but Cash Book transaction failed: " +
-												xhr.responseJSON.message;
-										}
+									if (
+										xhr.responseJSON &&
+										xhr.responseJSON.message
+									) {
 
-										alert(
-											"⚠️ " + message
-										);
-
-										$("#buttonSave").prop(
-											"disabled",
-											false
-										);
+										message =
+											"Payment saved, but Cash Book transaction failed: " +
+											xhr.responseJSON.message;
 									}
-							});
 
-						} else {
+									alert(
+										"⚠️ " + message
+									);
 
-							/*
-							 * =================================================
-							 * ONLINE PAYMENT
-							 *
-							 * NO CASH BOOK ENTRY
-							 * =================================================
-							 */
+									$("#buttonSave").prop(
+										"disabled",
+										false
+									);
+								}
+						});
 
-							alert(
-								"✅ " +
-								(
-									response.message ||
-									"Payment saved successfully."
-								)
-							);
-
-							location.reload();
-						}
-
-						return;
 					}
 
 					/*

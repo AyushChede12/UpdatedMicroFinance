@@ -14,6 +14,8 @@ public class AccountTransaction {
 
 	private String accountCode;
 
+	private String customerName;
+
 	// Savings Account Link
 	@Column(nullable = false)
 	private String accountNumber;
@@ -73,6 +75,14 @@ public class AccountTransaction {
 
 	public void setAccountCode(String accountCode) {
 		this.accountCode = accountCode;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
 	}
 
 	public String getAccountNumber() {

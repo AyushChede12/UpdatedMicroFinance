@@ -657,166 +657,159 @@ $(document).ready(function() {
 						adminCharge +
 						documentCharge +
 						entryFee;
+					var firstName = $('#firstName').val();
+					var middleName = $('#middleName').val();
+					var lastName = $('#lastName').val();
+					var accountNo=$('#lastName').val();
+					const customerName = [
+						firstName,
+						middleName,
+						lastName
+					].filter(Boolean).join(" ");
 
+					const accountTransactionData = {
 
-					/*
-					 * AccountTransaction should be created
-					 * ONLY when actual CASH is received.
-					 */
-					if (
-						paymentBy === "CASH" &&
-						totalFee > 0
-					) {
+						branchName:
+							$('#branchName').val(),
 
-						const accountTransactionData = {
+						accountCode:
+							paymentBy,
 
-							branchName:
-								$('#branchName').val(),
+						customerName:
+							customerName,
 
-							accountCode:
-								"CASH",
+						accountNumber:
+							memberCode,
 
-							accountNumber:
-								"CASH-001",
+						transactionDate:
+							$('#signupDate').val() ||
+							new Date()
+								.toISOString()
+								.split('T')[0],
 
-							transactionDate:
-								$('#signupDate').val() ||
-								new Date()
-									.toISOString()
-									.split('T')[0],
-
-							narration:
-								"Customer Registration Fees - " +
-								(
-									$('#memberCode').val() ||
-									customerId
-								),
-
-							credit:
-								totalFee,
-
-							debit:
-								0,
-
-							transactionType:
-								"CUSTOMER_FEES",
-
-							referenceNo:
+						narration:
+							"Customer Registration Fees - " +
+							(
 								$('#memberCode').val() ||
-								String(customerId),
+								customerId
+							),
 
-							status:
-								"SUCCESS",
+						credit:
+							totalFee,
 
-							loanId:
-								null,
+						debit:
+							0,
 
-							policyId:
-								null,
+						transactionType:
+							"CUSTOMER_FEES",
 
-							createdBy:
-								"ADMIN"
-						};
+						referenceNo:
+							$('#memberCode').val() ||
+							String(customerId),
+
+						status:
+							"SUCCESS",
+
+						loanId:
+							null,
+
+						policyId:
+							null,
+
+						createdBy:
+							"ADMIN"
+					};
 
 
-						// -------------------------------------------------
-						// SAVE ACCOUNT TRANSACTION
-						// -------------------------------------------------
+					// -------------------------------------------------
+					// SAVE ACCOUNT TRANSACTION
+					// -------------------------------------------------
 
-						$.ajax({
+					$.ajax({
 
-							type: 'POST',
+						type: 'POST',
 
-							url:
-								'accountManagement/saveAccountTransaction',
+						url:
+							'accountManagement/saveAccountTransaction',
 
-							contentType:
-								'application/json',
+						contentType:
+							'application/json',
 
-							data:
-								JSON.stringify(
-									accountTransactionData
-								),
+						data:
+							JSON.stringify(
+								accountTransactionData
+							),
 
-							success: function(
+						success: function(
 
+							transactionResponse
+						) {
+							alert("success");
+
+							console.log(
+								"AccountTransaction saved successfully:",
 								transactionResponse
-							) {
-								alert("success");
-
-								console.log(
-									"AccountTransaction saved successfully:",
-									transactionResponse
-								);
+							);
 
 
-								/*
-								 * Existing Customer flow
-								 * remains exactly same.
-								 */
-								uploadExtraImages(
-									customerId,
-									saveMsg
-								);
-							},
+							/*
+							 * Existing Customer flow
+							 * remains exactly same.
+							 */
+							uploadExtraImages(
+								customerId,
+								saveMsg
+							);
+						},
 
-							error: function(xhr) {
+						error: function(xhr) {
 
-								console.error(
-									"AccountTransaction Error:",
-									xhr
-								);
-
-
-								/*
-								 * Customer is already saved.
-								 * Do not save customer again.
-								 *
-								 * Continue existing flow.
-								 */
-								alert(
-									"Customer saved successfully, but cash transaction could not be saved."
-								);
-
-								uploadExtraImages(
-									customerId,
-									saveMsg
-								);
-							}
-						});
+							console.error(
+								"AccountTransaction Error:",
+								xhr
+							);
 
 
-					} else {
+							/*
+							 * Customer is already saved.
+							 * Do not save customer again.
+							 *
+							 * Continue existing flow.
+							 */
+							alert(
+								"Customer saved successfully, but cash transaction could not be saved."
+							);
 
-						/*
-						 * No AccountTransaction for:
-						 *
-						 * CHEQUE
-						 * NEFT
-						 * ONLINE
-						 * UPI
-						 *
-						 * OR
-						 *
-						 * Total Fee = 0
-						 *
-						 * Continue existing flow.
-						 */
-						uploadExtraImages(
-							customerId,
-							saveMsg
-						);
-					}
+							uploadExtraImages(
+								customerId,
+								saveMsg
+							);
+						}
+					});
+
 
 				} else {
 
-					alert(
-						response.message ||
-						"Customer saved successfully!"
+					/*
+					 * No AccountTransaction for:
+					 *
+					 * CHEQUE
+					 * NEFT
+					 * ONLINE
+					 * UPI
+					 *
+					 * OR
+					 *
+					 * Total Fee = 0
+					 *
+					 * Continue existing flow.
+					 */
+					uploadExtraImages(
+						customerId,
+						saveMsg
 					);
-
-					location.reload();
 				}
+
 			},
 
 			error: function(xhr) {
@@ -1199,7 +1192,7 @@ $(document).ready(function() {
 					$('#state').append(
 						$('<option>', {
 							value: state.stateName,  // What will be saved to DB
-							text: state.stateName,   // What user sees
+							text: state.stateName.toUpperCase(),   // What user sees
 							'data-id': state.stateId // Optional: internal use
 						})
 					);
@@ -1218,7 +1211,7 @@ $(document).ready(function() {
 // Load Districts when state is selected
 $('#state').on('change', function() {
 	const selectedStateId = $(this).find(':selected').data('id'); // ✅ Get ID from selected option
-	$('#district').empty().append('<option value="">Select District</option>');
+	$('#district').empty().append('<option value="">SELECT DISTRICT</option>');
 
 	if (selectedStateId) {
 		$.ajax({
@@ -1232,7 +1225,7 @@ $('#state').on('change', function() {
 					$('#district').append(
 						$('<option>', {
 							value: district.districtName,
-							text: district.districtName
+							text: district.districtName.toUpperCase()
 						})
 					);
 				});

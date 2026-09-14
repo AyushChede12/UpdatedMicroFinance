@@ -4,6 +4,7 @@ public class AccountTransactionRequest {
 
 	private String branchName;
 	private String accountCode;
+	private String customerName;
 	private String accountNumber;
 
 	private String transactionDate;
@@ -36,6 +37,14 @@ public class AccountTransactionRequest {
 
 	public void setAccountCode(String accountCode) {
 		this.accountCode = accountCode;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
 	}
 
 	public String getAccountNumber() {

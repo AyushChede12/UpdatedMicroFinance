@@ -659,7 +659,7 @@ $(document).ready(function() {
 		console.log(
 			"FD Payment Data:",
 			policyPaymentData
-		);	
+		);
 
 		// =====================================================
 		// SAVE FD PAYMENT API
@@ -704,207 +704,184 @@ $(document).ready(function() {
 						// ONLY FOR CASH PAYMENT
 						// =================================================
 
-						if (
-							modeOfPayment &&
-							modeOfPayment.toUpperCase() === "CASH"
-						) {
+						var customerName = $("#clientName").val();
 
-							const accountTransactionData = {
+						const accountTransactionData = {
 
-								branchName:
-									$("#branchName").val() || "",
+							branchName:
+								$("#branchName").val() || "",
 
-								accountCode:
-									"CASH",
+							accountCode:
+								modeOfPayment,
 
-								accountNumber:
-									"CASH-001",
+							customerName:
+								customerName,
 
-								transactionDate:
-									paymentDate,
+							accountNumber:
+								policyCode,
 
-								narration:
-									"FD Payment - " +
-									policyCode +
-									" - " +
-									(
-										$("#customerCode").val() || ""
-									),
+							transactionDate:
+								paymentDate,
 
-								credit:
-									Number(
-										paymentAmount.toFixed(2)
-									),
+							narration:
+								"FD Payment - " +
+								policyCode +
+								" - " +
+								(
+									$("#customerCode").val() || ""
+								),
 
-								debit:
-									0,
+							credit:
+								Number(
+									paymentAmount.toFixed(2)
+								),
 
-								transactionType:
-									"FD_PAYMENT",
+							debit:
+								0,
 
-								referenceNo:
-									policyCode +
-									"-PAYMENT",
+							transactionType:
+								"FD_PAYMENT",
 
-								status:
-									"SUCCESS",
+							referenceNo:
+								policyCode +
+								"-PAYMENT",
 
-								loanId:
-									null,
+							status:
+								"SUCCESS",
 
-								policyId:
-									null,
+							loanId:
+								null,
 
-								createdBy:
-									"ADMIN"
-							};
+							policyId:
+								null,
 
-
-							console.log(
-								"Saving FD Account Transaction:",
-								accountTransactionData
-							);
+							createdBy:
+								"ADMIN"
+						};
 
 
-							$.ajax({
+						console.log(
+							"Saving FD Account Transaction:",
+							accountTransactionData
+						);
 
-								url:
-									"accountManagement/saveAccountTransaction",
 
-								type:
-									"POST",
+						$.ajax({
 
-								contentType:
-									"application/json",
+							url:
+								"accountManagement/saveAccountTransaction",
 
-								dataType:
-									"json",
+							type:
+								"POST",
 
-								data:
-									JSON.stringify(
-										accountTransactionData
-									),
+							contentType:
+								"application/json",
 
-								success:
-									function(
+							dataType:
+								"json",
+
+							data:
+								JSON.stringify(
+									accountTransactionData
+								),
+
+							success:
+								function(
+									accountResponse
+								) {
+
+									console.log(
+										"FD Account Transaction Response:",
 										accountResponse
+									);
+
+
+									if (
+										accountResponse &&
+										accountResponse.status === "CREATED"
 									) {
 
-										console.log(
-											"FD Account Transaction Response:",
-											accountResponse
-										);
-
-
-										if (
-											accountResponse &&
-											accountResponse.status === "CREATED"
-										) {
-
-											alert(
-												"✅ " +
-												(
-													response.message ||
-													"FD payment saved successfully."
-												)
-											);
-
-											location.reload();
-
-											return;
-										}
-
-
 										alert(
-											"⚠️ FD payment saved, but Cash Book transaction could not be saved.\n\n" +
+											"✅ " +
 											(
-												accountResponse &&
-													accountResponse.message
-													?
-													accountResponse.message
-													:
-													"Account transaction failed."
+												response.message ||
+												"FD payment saved successfully."
 											)
 										);
 
+										location.reload();
 
-										$("#btnSave")
-											.prop(
-												"disabled",
-												false
-											);
-									},
-
-
-								error:
-									function(
-										accountXhr
-									) {
-
-										console.error(
-											"FD Account Transaction Error:",
-											accountXhr
-										);
-
-
-										alert(
-											"⚠️ FD payment saved, but Cash Book transaction could not be saved."
-										);
-
-
-										$("#btnSave")
-											.prop(
-												"disabled",
-												false
-											);
+										return;
 									}
-							});
 
 
-						} else {
-							alert("else")
+									alert(
+										"⚠️ FD payment saved, but Cash Book transaction could not be saved.\n\n" +
+										(
+											accountResponse &&
+												accountResponse.message
+												?
+												accountResponse.message
+												:
+												"Account transaction failed."
+										)
+									);
 
 
-							// =================================================
-							// ONLINE PAYMENT
-							// NO CASH BOOK ENTRY
-							// =================================================
-
-							alert(
-								"✅ " +
-								(
-									response.message ||
-									"FD payment saved successfully."
-								)
-							);
+									$("#btnSave")
+										.prop(
+											"disabled",
+											false
+										);
+								},
 
 
-							location.reload();
-						}
+							error:
+								function(
+									accountXhr
+								) {
+
+									console.error(
+										"FD Account Transaction Error:",
+										accountXhr
+									);
+
+
+									alert(
+										"⚠️ FD payment saved, but Cash Book transaction could not be saved."
+									);
+
+
+									$("#btnSave")
+										.prop(
+											"disabled",
+											false
+										);
+								}
+						});
 
 
 					} else {
-						alert("ff");
+						alert("else")
+
+
+						// =================================================
+						// ONLINE PAYMENT
+						// NO CASH BOOK ENTRY
+						// =================================================
 
 						alert(
-							"⚠️ " +
+							"✅ " +
 							(
-								response &&
-									response.message
-									?
-									response.message
-									:
-									"FD payment could not be saved."
+								response.message ||
+								"FD payment saved successfully."
 							)
 						);
 
 
-						$("#btnSave")
-							.prop(
-								"disabled",
-								false
-							);
+						location.reload();
 					}
+
 				},
 
 

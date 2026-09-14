@@ -2542,14 +2542,6 @@ public class AccountManagementService {
 
 	// CashBook
 	public List<AccountTransaction> getCashBookTransaction(String branchName, String startDate, String endDate) {
-		// TODO Auto-generated method stub
-		if (branchName == null || branchName.isEmpty()) {
-			throw new RuntimeException("Branch is required");
-		}
-
-		if (startDate == null || endDate == null) {
-			throw new RuntimeException("Date range is required");
-		}
 
 		return accountTransactionRepo.getCashBook(branchName, startDate, endDate);
 	}
@@ -2992,6 +2984,7 @@ public class AccountManagementService {
 
 		transaction.setBranchName(request.getBranchName());
 		transaction.setAccountCode(request.getAccountCode());
+		transaction.setCustomerName(request.getCustomerName());	
 		transaction.setAccountNumber(request.getAccountNumber());
 
 		/*
@@ -3050,8 +3043,7 @@ public class AccountManagementService {
 
 	public Double getCurrentBalance(String accountNumber) {
 
-		List<AccountTransaction> transactions = transactionRepository
-				.findByAccountNumberOrderByIdAsc(accountNumber);
+		List<AccountTransaction> transactions = transactionRepository.findByAccountNumberOrderByIdAsc(accountNumber);
 
 		if (transactions == null || transactions.isEmpty()) {
 			return 0.0;

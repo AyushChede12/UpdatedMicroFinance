@@ -188,6 +188,7 @@ $(document).ready(function() {
 
 
 		// ===== Prepare data =====
+		var customerName = $('#customerName').val();
 
 		const accountData = {
 
@@ -207,7 +208,7 @@ $(document).ready(function() {
 				$('#customerCode').val(),
 
 			customerName:
-				$('#customerName').val(),
+				customerName,
 
 			contactNumber:
 				$('#contactNumber').val(),
@@ -353,8 +354,11 @@ $(document).ready(function() {
 						accountCode:
 							payBy,
 
+						customerName:
+							customerName,
+
 						accountNumber:
-							"CASH-001",
+							accountNumber,
 
 						transactionDate:
 							transactionDate,

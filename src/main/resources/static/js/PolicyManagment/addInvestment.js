@@ -1525,7 +1525,7 @@ $(document).ready(function() {
 						consultant.financialCode;
 
 					const name =
-						consultant.financialName;
+						consultant.financialName.toUpperCase();
 
 					if (
 						code &&

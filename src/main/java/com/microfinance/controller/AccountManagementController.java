@@ -579,16 +579,18 @@ public class AccountManagementController {
 			@RequestParam String startDate, @RequestParam String endDate) {
 
 		try {
+
 			List<AccountTransaction> data = accountManagementService.getCashBookTransaction(branchName, startDate,
 					endDate);
 
-			if (data.isEmpty()) {
-				return new ApiResponse<>(HttpStatus.NOT_FOUND, "No Records Found", null);
+			if (data == null || data.isEmpty()) {
+				return new ApiResponse<>(HttpStatus.NOT_FOUND, "No CashBook Transactions Found", null);
 			}
 
-			return new ApiResponse<>(HttpStatus.OK, "Cashbook Data fetched successfully", data);
+			return new ApiResponse<>(HttpStatus.OK, "CashBook Data fetched successfully", data);
 
 		} catch (Exception e) {
+
 			return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Error", null);
 		}
 	}

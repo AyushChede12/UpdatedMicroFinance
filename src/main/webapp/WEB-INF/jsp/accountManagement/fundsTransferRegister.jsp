@@ -89,6 +89,3 @@
 
 <script
 	src="${pageContext.request.contextPath}/js/account-management/fundsTransferRegister.js"></script>
-
-<script
-	src="${pageContext.request.contextPath}/js/account-management/fundsTransferRegister.js"></script>
