@@ -838,6 +838,12 @@ public class PageController {
 		return "main";
 	}
 
+	@GetMapping("/misRenewal")
+	public String getMisRenewal(Model model) {
+		model.addAttribute("contentPage", "policyManagement/misRenewal.jsp");
+		return "main";
+	}
+
 	// Maturity Management
 	@GetMapping("/maturitySchemeMaster")
 	public String getMaturitySchemeMaster(Model model) {

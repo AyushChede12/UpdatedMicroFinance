@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.microfinance.dto.ApiResponse;
 
+import com.microfinance.exception.PolicyNotFoundException;
+import com.microfinance.exception.LockInPeriodActiveException;
+import com.microfinance.exception.InvalidPolicyStateException;
+
 @RestControllerAdvice
 public class RestGlobalExceptionHandler {
 
@@ -36,6 +40,29 @@ public class RestGlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(ApiResponse.error(HttpStatus.BAD_REQUEST, ex.getMessage()));
+    }
+
+    // ── MIS-specific exceptions ───────────────────────────────────────────
+
+    @ExceptionHandler(PolicyNotFoundException.class)
+    public ResponseEntity<ApiResponse<String>> handlePolicyNotFound(PolicyNotFoundException ex) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(ApiResponse.error(HttpStatus.NOT_FOUND, ex.getMessage()));
+    }
+
+    @ExceptionHandler(LockInPeriodActiveException.class)
+    public ResponseEntity<ApiResponse<String>> handleLockIn(LockInPeriodActiveException ex) {
+        return ResponseEntity
+                .status(HttpStatus.UNPROCESSABLE_ENTITY)
+                .body(ApiResponse.error(HttpStatus.UNPROCESSABLE_ENTITY, ex.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidPolicyStateException.class)
+    public ResponseEntity<ApiResponse<String>> handleInvalidState(InvalidPolicyStateException ex) {
+        return ResponseEntity
+                .status(HttpStatus.UNPROCESSABLE_ENTITY)
+                .body(ApiResponse.error(HttpStatus.UNPROCESSABLE_ENTITY, ex.getMessage()));
     }
 
     @ExceptionHandler(Exception.class)

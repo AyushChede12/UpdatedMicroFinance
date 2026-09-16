@@ -377,6 +377,12 @@
 							RENEWAL</span>
 				</a></li>
 
+				<li><a href="${baseUrl}/misRenewal"> <i
+						class="bi bi-circle"></i> <span
+						style="font-family: 'Poppins', sans-serif">MIS
+							RENEWAL</span>
+				</a></li>
+
 				<li><a href="${baseUrl}/installmentRecordBook"> <i
 						class="bi bi-circle"></i> <span
 						style="font-family: 'Poppins', sans-serif">INSTALLMENT

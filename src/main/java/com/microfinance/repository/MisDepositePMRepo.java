@@ -18,6 +18,9 @@ public interface MisDepositePMRepo extends JpaRepository<MISDepositPM, Long>{
 
 	List<MISDepositPM> findBymis(String mis);
 
+	@Query("SELECT m FROM MISDepositPM m WHERE UPPER(m.mis) = UPPER(:mis)")
+	List<MISDepositPM> findByMisFlexible(@org.springframework.data.repository.query.Param("mis") String mis);
+
 	MISDepositPM findByplanNameMD(String planNameMD);
 
 	

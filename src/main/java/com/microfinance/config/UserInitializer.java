@@ -41,9 +41,90 @@ public class UserInitializer implements CommandLineRunner {
     @Autowired
     private com.microfinance.repository.CreateSavingAccountRepo createSavingAccountRepo;
 
+    @Autowired
+    private javax.sql.DataSource dataSource;
+
     @Override
     public void run(String... args) throws Exception {
         System.out.println("=== DATA INITIALIZER RUNNING ===");
+
+        // ========== MIS Module Database Schema Auto-Initialization ==========
+        try (java.sql.Connection conn = dataSource.getConnection();
+             java.sql.Statement stmt = conn.createStatement()) {
+
+            String[] alterQueries = {
+                "ALTER TABLE misdepositpm ADD COLUMN lock_in_months INT DEFAULT 0",
+                "ALTER TABLE misdepositpm ADD COLUMN payout_day INT DEFAULT 1",
+                "ALTER TABLE misdepositpm ADD COLUMN premature_closure_penalty_rate DECIMAL(5,2) DEFAULT 1.00",
+                "ALTER TABLE MISDepositPM ADD COLUMN lock_in_months INT DEFAULT 0",
+                "ALTER TABLE MISDepositPM ADD COLUMN payout_day INT DEFAULT 1",
+                "ALTER TABLE MISDepositPM ADD COLUMN premature_closure_penalty_rate DECIMAL(5,2) DEFAULT 1.00",
+                "ALTER TABLE misdepositpm ADD COLUMN lockInMonths INT DEFAULT 0",
+                "ALTER TABLE misdepositpm ADD COLUMN payoutDay INT DEFAULT 1",
+                "ALTER TABLE misdepositpm ADD COLUMN prematureClosurePenaltyRate DECIMAL(5,2) DEFAULT 1.00"
+            };
+            for (String q : alterQueries) {
+                try {
+                    stmt.executeUpdate(q);
+                } catch (Exception ignored) {
+                    // Column already exists or table name case difference, ignore
+                }
+            }
+
+            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS mis_policy (" +
+                "id BIGINT NOT NULL AUTO_INCREMENT, " +
+                "policy_number VARCHAR(50) NOT NULL UNIQUE, " +
+                "customer_id VARCHAR(100), " +
+                "customer_name VARCHAR(255), " +
+                "plan_id BIGINT, " +
+                "plan_name VARCHAR(255), " +
+                "principal_amount DECIMAL(15,2) NOT NULL, " +
+                "interest_rate DECIMAL(5,2) NOT NULL, " +
+                "tenure_months INT NOT NULL, " +
+                "start_date DATE NOT NULL, " +
+                "maturity_date DATE NOT NULL, " +
+                "monthly_payout_amount DECIMAL(15,2), " +
+                "payout_day INT DEFAULT 1, " +
+                "lock_in_months INT DEFAULT 0, " +
+                "status VARCHAR(50) DEFAULT 'ACTIVE', " +
+                "linked_account_id VARCHAR(100), " +
+                "nominee_name VARCHAR(255), " +
+                "nominee_relation VARCHAR(100), " +
+                "renewed_from_policy_id BIGINT, " +
+                "add_investment_id BIGINT, " +
+                "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
+                "updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, " +
+                "PRIMARY KEY (id)" +
+            ")");
+
+            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS mis_payout_ledger (" +
+                "id BIGINT NOT NULL AUTO_INCREMENT, " +
+                "policy_id BIGINT NOT NULL, " +
+                "payout_date DATE NOT NULL, " +
+                "interest_amount DECIMAL(15,2), " +
+                "tds_deducted DECIMAL(15,2) DEFAULT 0.00, " +
+                "net_paid DECIMAL(15,2), " +
+                "status VARCHAR(50) DEFAULT 'PAID', " +
+                "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
+                "PRIMARY KEY (id)" +
+            ")");
+
+            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS mis_closure_audit (" +
+                "id BIGINT NOT NULL AUTO_INCREMENT, " +
+                "policy_id BIGINT NOT NULL, " +
+                "closure_type VARCHAR(50), " +
+                "closure_date DATE, " +
+                "penalty_applied DECIMAL(15,2) DEFAULT 0.00, " +
+                "refund_amount DECIMAL(15,2), " +
+                "reason VARCHAR(500), " +
+                "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
+                "PRIMARY KEY (id)" +
+            ")");
+
+            System.out.println("=== MIS DATABASE SCHEMA INITIALIZED SUCCESSFULLY ===");
+        } catch (Exception e) {
+            System.err.println("MIS DB Init Warning: " + e.getMessage());
+        }
 
         // ========== 1. Admin User ==========
         try {

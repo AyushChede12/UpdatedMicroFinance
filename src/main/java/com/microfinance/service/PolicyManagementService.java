@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.microfinance.dto.ApiResponse;
 import com.microfinance.dto.PolicyManagementDto;
+import com.microfinance.dto.MisPolicyRequestDto;
 import com.microfinance.model.AddnewinvestmentPM;
 import com.microfinance.model.CreateSavingsAccount;
 import com.microfinance.model.DailyDepositPM;
@@ -22,6 +23,7 @@ import com.microfinance.model.FixedDepositPM;
 import com.microfinance.model.FlexibleRenewal;
 import com.microfinance.model.FullMaturity;
 import com.microfinance.model.MISDepositPM;
+import com.microfinance.model.MisPolicy;
 import com.microfinance.model.PolicyRenewal;
 import com.microfinance.model.RecurringDepositPM;
 import com.microfinance.repository.AddInvestmentRepo;
@@ -66,6 +68,10 @@ public class PolicyManagementService {
 
 	@Autowired
 	FullMaturityRepo fullMaturityRepo;
+
+	// MIS Renewal Service — injected for auto-policy creation on MIS investment
+	@Autowired
+	MisRenewalService misRenewalService;
 
 	public boolean saveRecuringDailyDeposite(RecurringDepositPM deposit) {
 		try {
@@ -294,6 +300,10 @@ public class PolicyManagementService {
 			existing.setCommissionOnNewMD(updatedData.getCommissionOnNewMD());
 			existing.setRenewalCommissionMD(updatedData.getRenewalCommissionMD());
 			existing.setStatusOfPlanMDRD2(updatedData.getStatusOfPlanMDRD2());
+			// Update new MIS configuration fields
+			existing.setLockInMonths(updatedData.getLockInMonths());
+			existing.setPayoutDay(updatedData.getPayoutDay());
+			existing.setPrematureClosurePenaltyRate(updatedData.getPrematureClosurePenaltyRate());
 
 			return misDepositePMRepo.save(existing);
 		}
@@ -338,9 +348,10 @@ public class PolicyManagementService {
 	}
 
 	public List<String> getMISRDBySchemeType(String mis) {
-		List<MISDepositPM> allMisrdPlans = misDepositePMRepo.findBymis(mis);
+		String targetMis = (mis != null && !mis.trim().isEmpty()) ? mis.trim() : "MIS";
+		List<MISDepositPM> allMisrdPlans = misDepositePMRepo.findByMisFlexible(targetMis);
 		return allMisrdPlans.stream()
-				.filter(p -> p != null && p.getPlanNameMD() != null)
+				.filter(p -> p != null && p.getPlanNameMD() != null && !p.getPlanNameMD().trim().isEmpty())
 				.map(MISDepositPM::getPlanNameMD).distinct().collect(Collectors.toList());
 	}
 
@@ -602,6 +613,68 @@ public class PolicyManagementService {
 		// Save entity to the database
 		AddnewinvestmentPM saveaddinvestmentPM = addinvestmentrepo.save(addnewinvestmentPM);
 
+		// ── MIS: auto-create MisPolicy when scheme type is MIS and this is a new investment
+		if (isNew && "MIS".equalsIgnoreCase(policyManagementDto.getSchemeType())) {
+			try {
+				MISDepositPM misPlan = null;
+				if (policyManagementDto.getSchemeName() != null) {
+					misPlan = misDepositePMRepo.findByplanNameMD(policyManagementDto.getSchemeName());
+				}
+
+				MisPolicyRequestDto misReq = new MisPolicyRequestDto();
+				misReq.setCustomerId(policyManagementDto.getMemberSelection());
+				misReq.setCustomerName(policyManagementDto.getCustomerName());
+				misReq.setPlanName(policyManagementDto.getSchemeName());
+				if (misPlan != null) misReq.setPlanId(misPlan.getId());
+
+				// Principal amount
+				String amtStr = policyManagementDto.getPolicyAmount();
+				if (amtStr == null || amtStr.isEmpty()) amtStr = policyManagementDto.getDepositAmount();
+				misReq.setPrincipalAmount(new java.math.BigDecimal(amtStr != null && !amtStr.isEmpty() ? amtStr : "0"));
+
+				// Interest rate
+				String roiStr = policyManagementDto.getRoi();
+				if (roiStr == null || roiStr.isEmpty()) roiStr = policyManagementDto.getMISInterest();
+				misReq.setInterestRate(new java.math.BigDecimal(roiStr != null && !roiStr.isEmpty() ? roiStr : "0"));
+
+				// Tenure (try from schemeTerm, fallback to misPlan)
+				int tenureMonths = 12;
+				try {
+					if (policyManagementDto.getSchemeTerm() != null && !policyManagementDto.getSchemeTerm().isEmpty()) {
+						tenureMonths = Integer.parseInt(policyManagementDto.getSchemeTerm().replaceAll("[^0-9]", ""));
+					} else if (misPlan != null && misPlan.getMisTerm() != null) {
+						tenureMonths = Integer.parseInt(misPlan.getMisTerm().replaceAll("[^0-9]", ""));
+					}
+				} catch (NumberFormatException ignored) {}
+				misReq.setTenureMonths(tenureMonths);
+
+				// Start date
+				String startDate = policyManagementDto.getPolicyStartDate();
+				if (startDate == null || startDate.isEmpty()) startDate = java.time.LocalDate.now().toString();
+				misReq.setStartDate(startDate);
+
+				// Plan-level fields
+				if (misPlan != null) {
+					misReq.setLockInMonths(misPlan.getLockInMonths());
+					misReq.setPayoutDay(misPlan.getPayoutDay());
+				}
+
+				// Nominee and linked account
+				misReq.setNomineeName(policyManagementDto.getSuggestedNominee());
+				misReq.setNomineeRelation(policyManagementDto.getRelation());
+				misReq.setLinkedAccountId(policyManagementDto.getMemberSelection());
+				misReq.setAddInvestmentId(saveaddinvestmentPM.getId());
+
+				MisPolicy misPolicy = misRenewalService.createMisPolicy(misReq);
+				System.out.println("MIS Policy auto-created: " + misPolicy.getPolicyNumber() +
+						" for investment: " + saveaddinvestmentPM.getPolicyCode());
+			} catch (Exception e) {
+				System.err.println("Warning: MIS Policy auto-creation failed for investment " +
+						saveaddinvestmentPM.getPolicyCode() + ": " + e.getMessage());
+				// Do NOT roll back the investment — it's saved. Log and continue.
+			}
+		}
+		// ── END MIS auto-creation
 		if (isNew) {
 			return ApiResponse.success(HttpStatus.CREATED,
 					"Saved successfully. Customer Name: " + saveaddinvestmentPM.getCustomerName(), saveaddinvestmentPM);

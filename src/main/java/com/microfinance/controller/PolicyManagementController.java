@@ -328,7 +328,6 @@ public class PolicyManagementController {
 					"Failed to save MIS deposit.");
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
-
 	}
 
 	// View All MIS Deposits
@@ -341,11 +340,15 @@ public class PolicyManagementController {
 					"MIS deposits fetched successfully.", deposits);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} else {
-			ApiResponse<List<MISDepositPM>> response = ApiResponse.error(HttpStatus.NOT_FOUND,
-					"No MIS deposits found.");
-			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+			ApiResponse<List<MISDepositPM>> response = ApiResponse.success(HttpStatus.OK,
+					"No MIS deposits found.", java.util.Collections.emptyList());
+			return new ResponseEntity<>(response, HttpStatus.OK);
 		}
 	}
+
+
+
+
 
 	// Get MIS deposit by ID
 	@GetMapping("/misedit/{id}")

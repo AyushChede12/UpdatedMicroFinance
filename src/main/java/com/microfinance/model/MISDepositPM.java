@@ -31,6 +31,16 @@ public class MISDepositPM {
 	private String renewalCommissionMD;
 	private String statusOfPlanMDRD2;
 
+	// MIS-specific configuration fields stored in misdepositpm table
+	@javax.persistence.Column(name = "lock_in_months")
+	private Integer lockInMonths;        // lock-in period in months
+
+	@javax.persistence.Column(name = "payout_day")
+	private Integer payoutDay;           // day of month for monthly payout (1-28)
+
+	@javax.persistence.Column(name = "premature_closure_penalty_rate")
+	private java.math.BigDecimal prematureClosurePenaltyRate; // penalty % for premature closure
+
 	public long getId() {
 		return id;
 	}
@@ -158,6 +168,25 @@ public class MISDepositPM {
 		this.mis = mis;
 	}
 
-	
+	public Integer getLockInMonths() {
+		return lockInMonths;
+	}
+	public void setLockInMonths(Integer lockInMonths) {
+		this.lockInMonths = lockInMonths;
+	}
+
+	public Integer getPayoutDay() {
+		return payoutDay;
+	}
+	public void setPayoutDay(Integer payoutDay) {
+		this.payoutDay = payoutDay;
+	}
+
+	public java.math.BigDecimal getPrematureClosurePenaltyRate() {
+		return prematureClosurePenaltyRate;
+	}
+	public void setPrematureClosurePenaltyRate(java.math.BigDecimal prematureClosurePenaltyRate) {
+		this.prematureClosurePenaltyRate = prematureClosurePenaltyRate;
+	}
 
 }
