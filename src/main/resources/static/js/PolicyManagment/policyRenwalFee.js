@@ -564,213 +564,194 @@ $(document).ready(function() {
 						 * ONLY FOR CASH PAYMENT
 						 * =====================================================
 						 */
+						var customerName = $("#customerName").val();
+						if ("CASH".equalsIgnoreCase(paymentBy)) {
+							transactionType = "RD_INSTALLMENT_CASH";
+						} else {
+							transactionType = "TRANSFER";
+						}
 
-						if (
-							modeOfPayment &&
-							modeOfPayment.toUpperCase() === "CASH"
-						) {
+						const accountTransactionData = {
 
+							branchName:
+								$("#branchName").val() || "",
 
-							const accountTransactionData = {
+							accountCode:
+								modeOfPayment,
 
-								branchName:
-									$("#branchName").val() || "",
+							customerName:
+								customerName,
 
-								accountCode:
-									"CASH",
+							accountNumber:
+								policyCode,
 
-								accountNumber:
-									"CASH-001",
+							transactionDate:
+								new Date()
+									.toISOString()
+									.split("T")[0],
 
-								transactionDate:
-									new Date()
-										.toISOString()
-										.split("T")[0],
+							narration:
+								"RD Renewal - " +
+								policyCode +
+								" - " +
+								(
+									$("#customerCode").val() || ""
+								),
 
-								narration:
-									"RD Renewal - " +
-									policyCode +
-									" - " +
-									(
-										$("#customerCode").val() || ""
-									),
+							credit:
+								Number(
+									totalPayment.toFixed(2)
+								),
 
-								credit:
-									Number(
-										totalPayment.toFixed(2)
-									),
+							debit:
+								0,
 
-								debit:
-									0,
+							transactionType:
+								transactionType,
 
-								transactionType:
-									"RD_INSTALLMENT",
+							referenceNo:
+								policyCode +
+								"-INST-" +
+								(
+									alreadyPaid + 1
+								),
 
-								referenceNo:
-									policyCode +
-									"-INST-" +
-									(
-										alreadyPaid + 1
-									),
+							status:
+								"SUCCESS",
 
-								status:
-									"SUCCESS",
+							loanId:
+								null,
 
-								loanId:
-									null,
+							policyId:
+								null,
 
-								policyId:
-									null,
-
-								createdBy:
-									"ADMIN"
-							};
-
-
-							console.log(
-								"Saving RD Account Transaction:",
-								accountTransactionData
-							);
+							createdBy:
+								"ADMIN"
+						};
 
 
-							$.ajax({
-
-								url:
-									"accountManagement/saveAccountTransaction",
-
-								type:
-									"POST",
-
-								contentType:
-									"application/json",
-
-								dataType:
-									"json",
-
-								data:
-									JSON.stringify(
-										accountTransactionData
-									),
+						console.log(
+							"Saving RD Account Transaction:",
+							accountTransactionData
+						);
 
 
-								success:
-									function(
+						$.ajax({
+
+							url:
+								"accountManagement/saveAccountTransaction",
+
+							type:
+								"POST",
+
+							contentType:
+								"application/json",
+
+							dataType:
+								"json",
+
+							data:
+								JSON.stringify(
+									accountTransactionData
+								),
+
+
+							success:
+								function(
+									accountResponse
+								) {
+
+									console.log(
+										"Account Transaction Response:",
 										accountResponse
+									);
+
+
+									if (
+										accountResponse &&
+										accountResponse.status === "CREATED"
 									) {
 
-										console.log(
-											"Account Transaction Response:",
-											accountResponse
-										);
-
-
-										if (
-											accountResponse &&
-											accountResponse.status === "CREATED"
-										) {
-
-											alert(
-												"✅ " +
-												(
-													response.message ||
-													"RD payment saved successfully."
-												)
-											);
-
-											location.reload();
-
-											return;
-										}
-
-
 										alert(
-											"⚠️ RD payment saved, but Cash Book transaction could not be saved.\n\n" +
+											"✅ " +
 											(
-												accountResponse &&
-													accountResponse.message
-													?
-													accountResponse.message
-													:
-													"Account transaction failed."
+												response.message ||
+												"RD payment saved successfully."
 											)
 										);
 
+										location.reload();
 
-										$("#saveBtn").prop(
-											"disabled",
-											false
-										);
-									},
-
-
-								error:
-									function(
-										accountXhr
-									) {
-
-										console.error(
-											"Account Transaction Error:",
-											accountXhr
-										);
-
-
-										alert(
-											"⚠️ RD payment saved, but Cash Book transaction could not be saved."
-										);
-
-
-										$("#saveBtn").prop(
-											"disabled",
-											false
-										);
+										return;
 									}
-							});
 
 
-						} else {
+									alert(
+										"⚠️ RD payment saved, but Cash Book transaction could not be saved.\n\n" +
+										(
+											accountResponse &&
+												accountResponse.message
+												?
+												accountResponse.message
+												:
+												"Account transaction failed."
+										)
+									);
 
 
-							/*
-							 * =====================================================
-							 * ONLINE PAYMENT
-							 * NO CASH BOOK ENTRY
-							 * =====================================================
-							 */
-
-							alert(
-								"✅ " +
-								(
-									response.message ||
-									"RD payment saved successfully."
-								)
-							);
+									$("#saveBtn").prop(
+										"disabled",
+										false
+									);
+								},
 
 
-							location.reload();
-						}
+							error:
+								function(
+									accountXhr
+								) {
+
+									console.error(
+										"Account Transaction Error:",
+										accountXhr
+									);
+
+
+									alert(
+										"⚠️ RD payment saved, but Cash Book transaction could not be saved."
+									);
+
+
+									$("#saveBtn").prop(
+										"disabled",
+										false
+									);
+								}
+						});
 
 
 					} else {
 
 
+						/*
+						 * =====================================================
+						 * ONLINE PAYMENT
+						 * NO CASH BOOK ENTRY
+						 * =====================================================
+						 */
+
 						alert(
-							"⚠️ " +
+							"✅ " +
 							(
-								response &&
-									response.message
-									?
-									response.message
-									:
-									"Payment could not be saved."
+								response.message ||
+								"RD payment saved successfully."
 							)
 						);
 
 
-						$("#saveBtn").prop(
-							"disabled",
-							false
-						);
+						location.reload();
 					}
+
 				},
 
 

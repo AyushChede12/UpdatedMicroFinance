@@ -43,12 +43,16 @@
 </form>
 
 <div class="card mt-4">
-	<div class="card-header d-flex justify-content-between">
-		<h5>SEARCH RESULT</h5>
 
-		<div>
-			<button class="btn btn-success btn-sm" onclick="exportToExcel()">Export</button>
-			<button class="btn btn-primary btn-sm" onclick="printReport()">Print</button>
+	<div
+		class="card-header d-flex justify-content-between align-items-center">
+		<h5 class="mb-0">SEARCH RESULT</h5>
+
+		<div class="d-flex align-items-center gap-2">
+			<!-- Search Input -->
+			<input type="text" id="transactionSearch"
+				class="form-control form-control-sm"
+				placeholder="Search Customer Name..." style="width: 250px; text-transform: uppercase;">
 		</div>
 	</div>
 
@@ -57,19 +61,21 @@
 		<table class="table table-bordered datatable">
 			<thead>
 				<tr>
-					<th>SR NO</th>
-					<th>DATE</th>
-					<th>TRANSACTION ID</th>
-					<th>ACCOUNT NO</th>
-					<th>DESCRIPTION</th>
-					<th class="text-end">DEBIT</th>
-					<th class="text-end">CREDIT</th>
-					<th class="text-end">BALANCE</th>
+					<th style="text-align: center;">SR NO</th>
+					<th style="text-align: center;">DATE</th>
+					<th style="text-align: center;">TRANSACTION ID</th>
+					<th style="text-align: center;">CUSTOMER NAME</th>
+					<th style="text-align: center;">ACCOUNT NO</th>
+					<th style="text-align: center;">DESCRIPTION</th>
+					<th style="text-align: center;" class="text-end">DEBIT</th>
+					<th style="text-align: center;" class="text-end">CREDIT</th>
+					<th style="text-align: center;" class="text-end">BALANCE</th>
 				</tr>
 			</thead>
+
 			<tbody>
 				<tr>
-					<td colspan="8" class="text-center">No Data</td>
+					<td colspan="9" class="text-center">No Data</td>
 				</tr>
 			</tbody>
 		</table>
@@ -81,14 +87,12 @@
 		</div>
 
 	</div>
+
 </div>
 
 <!-- ✅ Excel Library -->
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-
-<script
-	src="${pageContext.request.contextPath}/js/account-management/fundsTransferRegister.js"></script>
 
 <script
 	src="${pageContext.request.contextPath}/js/account-management/fundsTransferRegister.js"></script>

@@ -579,16 +579,18 @@ public class AccountManagementController {
 			@RequestParam String startDate, @RequestParam String endDate) {
 
 		try {
+
 			List<AccountTransaction> data = accountManagementService.getCashBookTransaction(branchName, startDate,
 					endDate);
 
-			if (data.isEmpty()) {
-				return new ApiResponse<>(HttpStatus.NOT_FOUND, "No Records Found", null);
+			if (data == null || data.isEmpty()) {
+				return new ApiResponse<>(HttpStatus.NOT_FOUND, "No CashBook Transactions Found", null);
 			}
 
-			return new ApiResponse<>(HttpStatus.OK, "Cashbook Data fetched successfully", data);
+			return new ApiResponse<>(HttpStatus.OK, "CashBook Data fetched successfully", data);
 
 		} catch (Exception e) {
+
 			return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Error", null);
 		}
 	}
@@ -611,15 +613,17 @@ public class AccountManagementController {
 	// Daily Transaction Book
 	@GetMapping("/daily-transaction")
 	public ApiResponse<List<AccountTransaction>> getDailyTransaction(@RequestParam String branchName,
-			@RequestParam String accountNumber, @RequestParam String startDate, @RequestParam String endDate) {
+			@RequestParam String accountCode, @RequestParam String startDate, @RequestParam String endDate) {
 
 		try {
-			List<AccountTransaction> data = accountManagementService.getDailyTransactions(branchName, accountNumber,
+
+			List<AccountTransaction> data = accountManagementService.getDailyTransactions(branchName, accountCode,
 					startDate, endDate);
 
 			return new ApiResponse<>(HttpStatus.OK, "Daily Transaction fetched successfully", data);
 
 		} catch (Exception e) {
+
 			return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Error", null);
 		}
 	}

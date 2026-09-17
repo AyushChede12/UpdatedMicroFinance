@@ -2542,14 +2542,6 @@ public class AccountManagementService {
 
 	// CashBook
 	public List<AccountTransaction> getCashBookTransaction(String branchName, String startDate, String endDate) {
-		// TODO Auto-generated method stub
-		if (branchName == null || branchName.isEmpty()) {
-			throw new RuntimeException("Branch is required");
-		}
-
-		if (startDate == null || endDate == null) {
-			throw new RuntimeException("Date range is required");
-		}
 
 		return accountTransactionRepo.getCashBook(branchName, startDate, endDate);
 	}
@@ -2561,14 +2553,15 @@ public class AccountManagementService {
 	}
 
 	// Daily Transactions Book
-	public List<AccountTransaction> getDailyTransactions(String branchName, String accountNumber, String startDate,
+	public List<AccountTransaction> getDailyTransactions(String branchName, String accountCode, String startDate,
 			String endDate) {
-		// TODO Auto-generated method stub
-		if (branchName == null || accountNumber == null) {
+
+		if (branchName == null || branchName.trim().isEmpty() || accountCode == null || accountCode.trim().isEmpty()) {
+
 			throw new RuntimeException("Branch and Ledger required");
 		}
 
-		return accountTransactionRepo.getDailyTransactions(branchName, accountNumber, startDate, endDate);
+		return accountTransactionRepo.getDailyTransactions(branchName, accountCode, startDate, endDate);
 	}
 
 	public List<TrialBalanceDTO> getTrialBalance(String branchName, String startDate, String endDate) {
@@ -2992,6 +2985,7 @@ public class AccountManagementService {
 
 		transaction.setBranchName(request.getBranchName());
 		transaction.setAccountCode(request.getAccountCode());
+		transaction.setCustomerName(request.getCustomerName());
 		transaction.setAccountNumber(request.getAccountNumber());
 
 		/*
@@ -3050,8 +3044,7 @@ public class AccountManagementService {
 
 	public Double getCurrentBalance(String accountNumber) {
 
-		List<AccountTransaction> transactions = transactionRepository
-				.findByAccountNumberOrderByIdAsc(accountNumber);
+		List<AccountTransaction> transactions = transactionRepository.findByAccountNumberOrderByIdAsc(accountNumber);
 
 		if (transactions == null || transactions.isEmpty()) {
 			return 0.0;

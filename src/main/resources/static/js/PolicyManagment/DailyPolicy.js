@@ -592,163 +592,147 @@ $(document).ready(function() {
 						 * =================================================
 						 */
 
-						if (
-							modeOfPayment.toUpperCase() === "CASH"
-						) {
-
-							const accountTransactionData = {
-
-								branchName:
-									$("#branchName").val() || "",
-
-								accountCode:
-									"CASH",
-
-								accountNumber:
-									"CASH-001",
-
-								transactionDate:
-									new Date()
-										.toISOString()
-										.split("T")[0],
-
-								narration:
-									"DRD Renewal - " +
-									policyCode +
-									" - " +
-									($("#customerCode").val() || ""),
-
-								credit:
-									Number(
-										totalPayment.toFixed(2)
-									),
-
-								debit:
-									0,
-
-								transactionType:
-									"DRD_INSTALLMENT",
-
-								referenceNo:
-									policyCode +
-									"-INST-" +
-									(alreadyPaid + 1),
-
-								status:
-									"SUCCESS",
-
-								loanId:
-									null,
-
-								policyId:
-									null,
-
-								createdBy:
-									"ADMIN"
-							};
-
-							console.log(
-								"Saving Account Transaction:",
-								accountTransactionData
-							);
-
-							$.ajax({
-
-								url:
-									"accountManagement/saveAccountTransaction",
-
-								type:
-									"POST",
-
-								contentType:
-									"application/json",
-
-								dataType:
-									"json",
-
-								data:
-									JSON.stringify(
-										accountTransactionData
-									),
-
-								success:
-									function(transactionResponse) {
-
-										console.log(
-											"AccountTransaction Response:",
-											transactionResponse
-										);
-
-										alert(
-											"✅ " +
-											(
-												response.message ||
-												"Payment saved successfully."
-											)
-										);
-
-										location.reload();
-									},
-
-								error:
-									function(xhr) {
-
-										console.error(
-											"AccountTransaction Error:",
-											xhr
-										);
-
-										/*
-										 * Policy payment is already saved.
-										 * Account transaction failed.
-										 */
-
-										let message =
-											"Payment saved, but Cash Book transaction could not be saved.";
-
-										if (
-											xhr.responseJSON &&
-											xhr.responseJSON.message
-										) {
-
-											message =
-												"Payment saved, but Cash Book transaction failed: " +
-												xhr.responseJSON.message;
-										}
-
-										alert(
-											"⚠️ " + message
-										);
-
-										$("#buttonSave").prop(
-											"disabled",
-											false
-										);
-									}
-							});
-
+						var customerName = $("#clientName").val();
+						var transactionType = "";
+						if ("CASH".equalsIgnoreCase(paymentBy)) {
+							transactionType = "DRD_INSTALLMENT_CASH";
 						} else {
-
-							/*
-							 * =================================================
-							 * ONLINE PAYMENT
-							 *
-							 * NO CASH BOOK ENTRY
-							 * =================================================
-							 */
-
-							alert(
-								"✅ " +
-								(
-									response.message ||
-									"Payment saved successfully."
-								)
-							);
-
-							location.reload();
+							transactionType = "TRANSFER";
 						}
+						const accountTransactionData = {
 
-						return;
+							branchName:
+								$("#branchName").val() || "",
+
+							accountCode:
+								modeOfPayment,
+
+							customerName:
+								customerName,
+
+							accountNumber:
+								policyCode,
+
+							transactionDate:
+								new Date()
+									.toISOString()
+									.split("T")[0],
+
+							narration:
+								"DRD Renewal - " +
+								policyCode +
+								" - " +
+								($("#customerCode").val() || ""),
+
+							credit:
+								Number(
+									totalPayment.toFixed(2)
+								),
+
+							debit:
+								0,
+
+							transactionType:
+								transactionType,
+
+							referenceNo:
+								policyCode +
+								"-INST-" +
+								(alreadyPaid + 1),
+
+							status:
+								"SUCCESS",
+
+							loanId:
+								null,
+
+							policyId:
+								null,
+
+							createdBy:
+								"ADMIN"
+						};
+
+						console.log(
+							"Saving Account Transaction:",
+							accountTransactionData
+						);
+
+						$.ajax({
+
+							url:
+								"accountManagement/saveAccountTransaction",
+
+							type:
+								"POST",
+
+							contentType:
+								"application/json",
+
+							dataType:
+								"json",
+
+							data:
+								JSON.stringify(
+									accountTransactionData
+								),
+
+							success:
+								function(transactionResponse) {
+
+									console.log(
+										"AccountTransaction Response:",
+										transactionResponse
+									);
+
+									alert(
+										"✅ " +
+										(
+											response.message ||
+											"Payment saved successfully."
+										)
+									);
+
+									location.reload();
+								},
+
+							error:
+								function(xhr) {
+
+									console.error(
+										"AccountTransaction Error:",
+										xhr
+									);
+
+									/*
+									 * Policy payment is already saved.
+									 * Account transaction failed.
+									 */
+
+									let message =
+										"Payment saved, but Cash Book transaction could not be saved.";
+
+									if (
+										xhr.responseJSON &&
+										xhr.responseJSON.message
+									) {
+
+										message =
+											"Payment saved, but Cash Book transaction failed: " +
+											xhr.responseJSON.message;
+									}
+
+									alert(
+										"⚠️ " + message
+									);
+
+									$("#buttonSave").prop(
+										"disabled",
+										false
+									);
+								}
+						});
+
 					}
 
 					/*

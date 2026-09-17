@@ -92,9 +92,6 @@
 					</div>
 				</div>
 
-
-
-
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
@@ -273,8 +270,9 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">DEPOSIT AMOUNT <span class="star">*</span></label> <input
-							type="text" name="depositAmount" id="depositAmount" readonly="readonly"
-							required="required" placeholder="ENTER DEPOSIT AMOUNT " />
+							type="text" name="depositAmount" id="depositAmount"
+							readonly="readonly" required="required"
+							placeholder="ENTER DEPOSIT AMOUNT " />
 					</div>
 				</div>
 
@@ -327,18 +325,6 @@
 
 							<!-- FD TOTAL INFORMATION -->
 							<div class="row mt-3">
-
-								<div class="col-lg-4">
-
-									<div class="d-flex flex-column formFields">
-
-										<label> TOTAL POLICY AMOUNT </label> <input type="text"
-											id="fdSplitTotalAmount" class="form-control" readonly />
-
-									</div>
-
-								</div>
-
 
 								<div class="col-lg-4">
 
@@ -400,8 +386,9 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">MATURITY AMOUNT <span class="star">*</span></label>
-						<input type="text" name="maturityAmount" id="maturityAmount" readonly="readonly"
-							required="required" placeholder="ENTER MATURITY AMOUNT" />
+						<input type="text" name="maturityAmount" id="maturityAmount"
+							readonly="readonly" required="required"
+							placeholder="ENTER MATURITY AMOUNT" />
 					</div>
 				</div>
 

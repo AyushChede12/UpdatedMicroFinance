@@ -572,6 +572,8 @@ public class PolicyManagementService {
 		addnewinvestmentPM.setAgent(policyManagementDto.getAgent());
 
 		addnewinvestmentPM.setSmsSend(policyManagementDto.getSmsSend());
+		
+		addnewinvestmentPM.setAmountDue(policyManagementDto.getAmountDue());
 
 		// =====================================================
 		// FD SPLIT AMOUNTS

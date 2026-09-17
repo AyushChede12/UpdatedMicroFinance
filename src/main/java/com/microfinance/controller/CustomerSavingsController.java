@@ -422,59 +422,201 @@ public class CustomerSavingsController {
 	 * ResponseEntity.badRequest().body(response); } }
 	 */
 
-	// janvi 21/07
+	//Ayush
 	@PostMapping("/transferAmount")
 	@Transactional
 	public ResponseEntity<?> transferAmount(@RequestBody savingAccountFundTransfer savingAccFundTransfer) {
 
 		try {
-			String debitAccountNo = savingAccFundTransfer.getDebitAccountNumber();
-			String creditAccountNo = savingAccFundTransfer.getCreditAccountNumber();
-			double amount = Double.parseDouble(savingAccFundTransfer.getAmount());
 
-			// Check if there are any unapproved transactions for the sender
-			List<savingAccountFundTransfer> unapprovedTransfers = savingAccountFundTransferRepo
-					.findByDebitAccountNumberAndIsApproved(debitAccountNo, false);
+			// ==============================
+			// 1. Basic Validation
+			// ==============================
 
-			if (!unapprovedTransfers.isEmpty()) {
-				return new ResponseEntity<>(
-						"Previous transaction is pending approval. Complete approval before proceeding.",
-						HttpStatus.FORBIDDEN);
+			if (savingAccFundTransfer == null) {
+				Map<String, String> response = new HashMap<>();
+				response.put("message", "Transfer data is required");
+				return ResponseEntity.badRequest().body(response);
 			}
+
+			String debitAccountNo = savingAccFundTransfer.getDebitAccountNumber();
+
+			String creditAccountNo = savingAccFundTransfer.getCreditAccountNumber();
+
+			if (debitAccountNo == null || debitAccountNo.trim().isEmpty()) {
+				Map<String, String> response = new HashMap<>();
+				response.put("message", "Debit account number is required");
+				return ResponseEntity.badRequest().body(response);
+			}
+
+			if (creditAccountNo == null || creditAccountNo.trim().isEmpty()) {
+				Map<String, String> response = new HashMap<>();
+				response.put("message", "Credit account number is required");
+				return ResponseEntity.badRequest().body(response);
+			}
+
+			if (debitAccountNo.equals(creditAccountNo)) {
+				Map<String, String> response = new HashMap<>();
+				response.put("message", "Debit account and Credit account cannot be same");
+				return ResponseEntity.badRequest().body(response);
+			}
+
+			// ==============================
+			// 2. Validate Amount
+			// ==============================
+
+			if (savingAccFundTransfer.getAmount() == null || savingAccFundTransfer.getAmount().trim().isEmpty()) {
+
+				Map<String, String> response = new HashMap<>();
+				response.put("message", "Transfer amount is required");
+				return ResponseEntity.badRequest().body(response);
+			}
+
+			double amount;
+
+			try {
+
+				amount = Double.parseDouble(savingAccFundTransfer.getAmount());
+
+			} catch (NumberFormatException e) {
+
+				Map<String, String> response = new HashMap<>();
+				response.put("message", "Invalid transfer amount");
+				return ResponseEntity.badRequest().body(response);
+			}
+
+			if (amount <= 0) {
+
+				Map<String, String> response = new HashMap<>();
+				response.put("message", "Transfer amount must be greater than zero");
+
+				return ResponseEntity.badRequest().body(response);
+			}
+
+			// ==============================
+			// 3. Find Debit Account
+			// ==============================
 
 			CreateSavingsAccount debitAccount = createSavingAccountRepo.findByAccountNumber(debitAccountNo)
 					.orElseThrow(() -> new RuntimeException("Debit account not found"));
 
+			// ==============================
+			// 4. Find Credit Account
+			// ==============================
+
 			CreateSavingsAccount creditAccount = createSavingAccountRepo.findByAccountNumber(creditAccountNo)
 					.orElseThrow(() -> new RuntimeException("Credit account not found"));
 
-			double debitBalance = Double.parseDouble(debitAccount.getBalance());
-			double creditBalance = Double.parseDouble(creditAccount.getBalance());
+			// ==============================
+			// 5. Get Current Balances
+			// ==============================
+
+			double debitBalance;
+
+			double creditBalance;
+
+			try {
+
+				debitBalance = Double.parseDouble(debitAccount.getBalance());
+
+			} catch (Exception e) {
+
+				throw new RuntimeException("Invalid balance in debit account");
+			}
+
+			try {
+
+				creditBalance = Double.parseDouble(creditAccount.getBalance());
+
+			} catch (Exception e) {
+
+				throw new RuntimeException("Invalid balance in credit account");
+			}
+
+			// ==============================
+			// 6. Check Sufficient Balance
+			// ==============================
 
 			if (debitBalance < amount) {
+
 				Map<String, String> response = new HashMap<>();
+
 				response.put("message", "Insufficient balance in debit account");
+
 				return ResponseEntity.badRequest().body(response);
 			}
 
-			// Update balances
-			debitAccount.setBalance(String.valueOf(debitBalance - amount));
-			creditAccount.setBalance(String.valueOf(creditBalance + amount));
+			// ==============================
+			// 7. Calculate New Balances
+			// ==============================
 
-			// Save updated accounts
+			double newDebitBalance = debitBalance - amount;
+
+			double newCreditBalance = creditBalance + amount;
+
+			// ==============================
+			// 8. Update Debit Account
+			// ==============================
+
+			debitAccount.setBalance(String.valueOf(newDebitBalance));
+
+			// ==============================
+			// 9. Update Credit Account
+			// ==============================
+
+			creditAccount.setBalance(String.valueOf(newCreditBalance));
+
+			// ==============================
+			// 10. Save Updated Accounts
+			// ==============================
+
 			createSavingAccountRepo.save(debitAccount);
+
 			createSavingAccountRepo.save(creditAccount);
 
-			// Save the transfer record
+			// ==============================
+			// 11. Save Fund Transfer Record
+			// ==============================
+
 			savingAccountFundTransfer savedEntry = customersaving.saveSavingAccountFundTransfer(savingAccFundTransfer);
 
-			// Send response
-			return new ResponseEntity<>(savedEntry, HttpStatus.CREATED);
+			// ==============================
+			// 12. Success Response
+			// ==============================
+
+			Map<String, Object> response = new HashMap<>();
+
+			response.put("message", "Fund transfer successful");
+
+			response.put("debitAccount", debitAccountNo);
+
+			response.put("creditAccount", creditAccountNo);
+
+			response.put("amount", amount);
+
+			response.put("debitBalance", newDebitBalance);
+
+			response.put("creditBalance", newCreditBalance);
+
+			response.put("transfer", savedEntry);
+
+			return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
+		} catch (RuntimeException e) {
+
+			Map<String, String> response = new HashMap<>();
+
+			response.put("message", e.getMessage() != null ? e.getMessage() : "Transfer failed");
+
+			return ResponseEntity.badRequest().body(response);
 
 		} catch (Exception e) {
+
 			Map<String, String> response = new HashMap<>();
+
 			response.put("message", "Transfer failed: " + e.getMessage());
-			return ResponseEntity.badRequest().body(response);
+
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
 

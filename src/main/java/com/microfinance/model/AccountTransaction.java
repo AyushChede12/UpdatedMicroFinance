@@ -14,6 +14,8 @@ public class AccountTransaction {
 
 	private String accountCode;
 
+	private String customerName;
+
 	// Savings Account Link
 	@Column(nullable = false)
 	private String accountNumber;
@@ -33,6 +35,8 @@ public class AccountTransaction {
 
 	// Transaction Type (DEPOSIT / WITHDRAW / EMI / CHARGE / POLICY)
 	private String transactionType;
+
+	private String paymentBy;
 
 	// Reference Number (Cheque No / LoanId / PolicyId)
 	private String referenceNo;
@@ -73,6 +77,14 @@ public class AccountTransaction {
 
 	public void setAccountCode(String accountCode) {
 		this.accountCode = accountCode;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
 	}
 
 	public String getAccountNumber() {
@@ -129,6 +141,14 @@ public class AccountTransaction {
 
 	public void setTransactionType(String transactionType) {
 		this.transactionType = transactionType;
+	}
+
+	public String getPaymentBy() {
+		return paymentBy;
+	}
+
+	public void setPaymentBy(String paymentBy) {
+		this.paymentBy = paymentBy;
 	}
 
 	public String getReferenceNo() {
