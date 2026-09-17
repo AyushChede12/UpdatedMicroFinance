@@ -74,33 +74,36 @@
 				class="card-header d-flex justify-content-between align-items-center">
 				<h5 class="mb-0">SEARCH RESULT</h5>
 
-				<div>
-					<button class="btn btn-success btn-sm" onclick="exportToExcel()">Export</button>
-
-					<button class="btn btn-primary btn-sm" onclick="printReport()">Print</button>
+				<div class="d-flex align-items-center gap-2">
+					<!-- Search Input -->
+					<input type="text" id="transactionSearch"
+						class="form-control form-control-sm"
+						placeholder="Search Customer Name..."
+						style="width: 250px; text-transform: uppercase;">
 				</div>
 			</div>
 
 			<div class="card-body table-responsive">
 
-				<table class="table table-bordered datatable table-striped table-hover">
+				<table
+					class="table table-bordered datatable table-striped table-hover">
 					<thead class="table-light">
 						<tr>
-							<th>SR No</th>
-							<th>Date</th>
-							<th>Transaction ID</th>
-							<th>Ledger</th>
-							<th>Description</th>
-							<th class="text-end">Debit</th>
-							<th class="text-end">Credit</th>
-							<th class="text-end">Balance</th>
+							<th style="text-align: center;">SR NO</th>
+							<th style="text-align: center;">DATE</th>
+							<th style="text-align: center;">TRANSACTION ID</th>
+							<th style="text-align: center;">LEDGER</th>
+							<th style="text-align: center;">DESCRIPTION</th>
+							<th style="text-align: center;" class="text-end">DEBIT</th>
+							<th style="text-align: center;" class="text-end">CREDIT</th>
+							<th style="text-align: center;" class="text-end">BALANCE</th>
 						</tr>
 					</thead>
 
 					<tbody>
 						<tr>
-							<td colspan="8" class="text-center text-muted">No Data
-								Available</td>
+							<td colspan="8" class="text-center text-muted">NO DATA
+								AVAILABLE</td>
 						</tr>
 					</tbody>
 				</table>
@@ -126,6 +129,7 @@ table th, table td {
 	text-align: right;
 }
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script
 	src="${pageContext.request.contextPath}/js/account-management/dailyTransactionBook.js"></script>

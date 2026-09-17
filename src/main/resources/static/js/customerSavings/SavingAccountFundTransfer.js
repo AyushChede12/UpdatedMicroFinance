@@ -220,7 +220,7 @@ $(document).ready(function() {
 
 					branchName: accountData.debitAccountBranch,
 
-					accountCode: accountData.debitCustomerCode,
+					accountCode: "ONLINE",
 
 					customerName: "",
 

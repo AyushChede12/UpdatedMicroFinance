@@ -826,8 +826,6 @@
 								class="form-control selectField" style="height: 30px;">
 								<option value="">SELECT</option>
 								<option value="cash">CASH</option>
-								<option value="cheque">CHEQUE</option>
-								<option value="neft">NEFT</option>
 								<option value="online">ONLINE</option>
 							</select>
 						</div>

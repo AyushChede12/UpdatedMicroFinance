@@ -2553,14 +2553,15 @@ public class AccountManagementService {
 	}
 
 	// Daily Transactions Book
-	public List<AccountTransaction> getDailyTransactions(String branchName, String accountNumber, String startDate,
+	public List<AccountTransaction> getDailyTransactions(String branchName, String accountCode, String startDate,
 			String endDate) {
-		// TODO Auto-generated method stub
-		if (branchName == null || accountNumber == null) {
+
+		if (branchName == null || branchName.trim().isEmpty() || accountCode == null || accountCode.trim().isEmpty()) {
+
 			throw new RuntimeException("Branch and Ledger required");
 		}
 
-		return accountTransactionRepo.getDailyTransactions(branchName, accountNumber, startDate, endDate);
+		return accountTransactionRepo.getDailyTransactions(branchName, accountCode, startDate, endDate);
 	}
 
 	public List<TrialBalanceDTO> getTrialBalance(String branchName, String startDate, String endDate) {
@@ -2984,7 +2985,7 @@ public class AccountManagementService {
 
 		transaction.setBranchName(request.getBranchName());
 		transaction.setAccountCode(request.getAccountCode());
-		transaction.setCustomerName(request.getCustomerName());	
+		transaction.setCustomerName(request.getCustomerName());
 		transaction.setAccountNumber(request.getAccountNumber());
 
 		/*

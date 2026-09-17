@@ -705,6 +705,12 @@ $(document).ready(function() {
 						// =================================================
 
 						var customerName = $("#clientName").val();
+						var transactionType = "";
+						if ("CASH".equalsIgnoreCase(paymentBy)) {
+						    transactionType = "FD_INSTALLMENT_CASH";
+						} else {
+						    transactionType = "TRANSFER";
+						}
 
 						const accountTransactionData = {
 
@@ -740,7 +746,7 @@ $(document).ready(function() {
 								0,
 
 							transactionType:
-								"FD_PAYMENT",
+								transactionType,
 
 							referenceNo:
 								policyCode +

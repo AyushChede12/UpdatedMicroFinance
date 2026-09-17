@@ -593,7 +593,12 @@ $(document).ready(function() {
 						 */
 
 						var customerName = $("#clientName").val();
-
+						var transactionType = "";
+						if ("CASH".equalsIgnoreCase(paymentBy)) {
+							transactionType = "DRD_INSTALLMENT_CASH";
+						} else {
+							transactionType = "TRANSFER";
+						}
 						const accountTransactionData = {
 
 							branchName:
@@ -628,7 +633,7 @@ $(document).ready(function() {
 								0,
 
 							transactionType:
-								"DRD_INSTALLMENT",
+								transactionType,
 
 							referenceNo:
 								policyCode +

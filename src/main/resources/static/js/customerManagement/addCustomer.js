@@ -660,12 +660,18 @@ $(document).ready(function() {
 					var firstName = $('#firstName').val();
 					var middleName = $('#middleName').val();
 					var lastName = $('#lastName').val();
-					var accountNo=$('#lastName').val();
+					var lastName = $('#lastName').val();
 					const customerName = [
 						firstName,
 						middleName,
 						lastName
 					].filter(Boolean).join(" ");
+					var transactionType = "";
+					if ("CASH".equalsIgnoreCase(paymentBy)) {
+					    transactionType = "CUSTOMER_FEES_CASH";
+					} else {
+					    transactionType = "TRANSFER";
+					}
 
 					const accountTransactionData = {
 
@@ -701,7 +707,7 @@ $(document).ready(function() {
 							0,
 
 						transactionType:
-							"CUSTOMER_FEES",
+							transactionType,
 
 						referenceNo:
 							$('#memberCode').val() ||
