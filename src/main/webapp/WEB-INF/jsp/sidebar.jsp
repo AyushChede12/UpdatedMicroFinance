@@ -465,11 +465,7 @@
 							INSTALLMENT PAYMENT</span>
 				</a></li>
 
-				<li><a href="${baseUrl}/irrregularEmiRePaymentLoanManagement"> <i
-						class="bi bi-circle"></i> <span
-						style="font-family: 'Poppins', sans-serif">IRREGULAR
-							INSTALLMENT PAYMENT</span>
-				</a></li>
+
 
 				<li><a href="${baseUrl}/regularLoanStatementLoanManagement"> <i
 						class="bi bi-circle"></i> <span
@@ -477,11 +473,7 @@
 							STATEMENT</span>
 				</a></li>
 
-				<li><a href="${baseUrl}/irregularLoanStatementLoanManagement"> <i
-						class="bi bi-circle"></i> <span
-						style="font-family: 'Poppins', sans-serif">IRREGULAR LOAN
-							STATEMENT</span>
-				</a></li>
+
 
 				<li><a href="${baseUrl}/loanDocumentPrintLoanManagement"> <i
 						class="bi bi-circle"></i> <span

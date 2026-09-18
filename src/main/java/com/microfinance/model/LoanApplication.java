@@ -98,6 +98,8 @@ public class LoanApplication {
     private String chequeNo;
     private String sanctionedAmount;
     private String loanStatus;
+    private String totalInterest;
+    private String totalPayableAmount;
     
     @Column(name = "is_range_override")
     private Boolean isRangeOverride = false;
@@ -766,5 +768,21 @@ public class LoanApplication {
 				}
 			}
 		} catch (Exception ignored) {}
+	}
+
+	public String getTotalInterest() {
+		return totalInterest;
+	}
+
+	public void setTotalInterest(String totalInterest) {
+		this.totalInterest = totalInterest;
+	}
+
+	public String getTotalPayableAmount() {
+		return totalPayableAmount;
+	}
+
+	public void setTotalPayableAmount(String totalPayableAmount) {
+		this.totalPayableAmount = totalPayableAmount;
 	}
 }

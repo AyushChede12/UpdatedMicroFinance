@@ -30,6 +30,8 @@ import com.microfinance.repository.AddCustomerKycRepo;
 import com.microfinance.repository.CustomerRepo;
 import com.microfinance.repository.CreateSavingAccountRepo;
 import com.microfinance.repository.BranchModuleRepo;
+import com.microfinance.model.SavingAccountActivity;
+import com.microfinance.repository.SavingAccountActivityRepo;
 import org.springframework.util.StringUtils;
 import java.util.Optional;
 import java.util.ArrayList;
@@ -50,6 +52,9 @@ public class CustomerManagementService {
 
 	@Autowired
 	BranchModuleRepo branchModuleRepo;
+
+	@Autowired
+	SavingAccountActivityRepo savingAccountActivityRepo;
 
 	@Value("${upload.directory}")
 
@@ -326,6 +331,36 @@ public class CustomerManagementService {
 			account.setAccountNumber(accountNumber);
 
 			CreateSavingsAccount savedAccount = createSavingAccountRepo.save(account);
+
+			// Proactively save Member Registration Fees activity
+			try {
+				double feeAmt = 0.0;
+				try {
+					feeAmt = Double.parseDouble(initialBalance);
+				} catch (Exception ignored) {}
+
+				if (feeAmt > 0) {
+					SavingAccountActivity regAct = new SavingAccountActivity();
+					regAct.setSelectSavingTransactionId("TXN_REG_" + accountNumber);
+					regAct.setTransactionDate(savedCustomer.getSignupDate() != null ? savedCustomer.getSignupDate() : java.time.LocalDate.now().toString());
+					regAct.setSelectBranchName(savedCustomer.getBranchName() != null ? savedCustomer.getBranchName() : "");
+					regAct.setAccountNumber(accountNumber);
+					regAct.setCustomerCode(savedCustomer.getMemberCode());
+					regAct.setCustomerName(savedCustomer.getCustomerName());
+					regAct.setContactNumber(savedCustomer.getContactNo());
+					regAct.setTransactionFor("Member Registration");
+					regAct.setComments("Member Registration Fees / Opening Deposit");
+					regAct.setTransactionType("Deposit");
+					regAct.setTransactionAmount(String.format(java.util.Locale.US, "%.2f", feeAmt));
+					regAct.setAverageBalance(String.format(java.util.Locale.US, "%.2f", feeAmt));
+					regAct.setPayBy("Cash");
+					regAct.setApproved(true);
+					savingAccountActivityRepo.save(regAct);
+					System.out.println("✅ Recorded registration fee activity of " + feeAmt + " for " + accountNumber);
+				}
+			} catch (Exception actEx) {
+				System.err.println("Failed to record registration fee activity: " + actEx.getMessage());
+			}
 
 			System.out.println("✅ Auto-created savings account | MemberCode: " + savedCustomer.getMemberCode()
 					+ " | CustomerName: " + savedCustomer.getCustomerName()

@@ -171,30 +171,50 @@
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="interestType">INTEREST TYPE</label>
+						<label for="interestType">INTEREST TYPE <span class="star" style="color: red;">*</span></label>
 						<input list="interestTypeList" type="text"
 							name="interestType" id="interestType" required="required"
-							placeholder="ENTER INTEREST TYPE" class="form-control"
+							placeholder="SELECT OR ENTER INTEREST TYPE" class="form-control"
 							style="height: 30px; font-size: 12px; text-transform: uppercase;" />
 						<datalist id="interestTypeList">
-							<option value="Flat">FLAT</option>
+							<option value="Reducing Interest">REDUCING INTEREST</option>
+							<option value="Flat Interest">FLAT INTEREST</option>
+							<option value="Rule 78">RULE 78</option>
 							<option value="Reducing">REDUCING</option>
-							<option value="Compound">COMPOUND</option>
+							<option value="Flat">FLAT</option>
 						</datalist>
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="emiPayment">EMI PAYMENT</label> <input type="number"
+						<label for="emiPayment">EMI PAYMENT (&#8377;)</label> <input type="number"
 							step="0.01" min="0" name="emiPayment" id="emiPayment" required="required"
 							class="form-control" placeholder="ENTER EMI PAYMENT"
-							style="height: 30px; font-size: 12px; text-transform: uppercase;" />
-
+							style="height: 30px; font-size: 12px; font-weight: bold; text-transform: uppercase;" />
 					</div>
 				</div>
+
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">PURPOSE OF LOAN </label> <input type="text"
+						<label for="totalInterest">TOTAL INTEREST (&#8377;)</label> <input type="text"
+							name="totalInterest" id="totalInterest" readonly
+							class="form-control" placeholder="TOTAL INTEREST"
+							style="height: 30px; font-size: 12px; font-weight: bold; background: #f0f7ff; color: #0369a1;" />
+					</div>
+				</div>
+
+				<div class="col-lg-3">
+					<div class="d-flex flex-column formFields mb-4">
+						<label for="totalPayableAmount">TOTAL AMOUNT TO PAY (&#8377;)</label> <input type="text"
+							name="totalPayableAmount" id="totalPayableAmount" readonly
+							class="form-control" placeholder="TOTAL AMOUNT TO PAY"
+							style="height: 30px; font-size: 12px; font-weight: bold; background: #e8f5e9; color: #047857;" />
+					</div>
+				</div>
+
+				<div class="col-lg-3">
+					<div class="d-flex flex-column formFields mb-4">
+						<label for="purposeOfLoan">PURPOSE OF LOAN </label> <input type="text"
 							name="purposeOfLoan" id="purposeOfLoan" required="required"
 							placeholder="ENTER PURPOSE OF LOAN"
 							style="text-transform: uppercase;" />
@@ -218,6 +238,31 @@
 					</div>
 				</div>
 
+				<!-- Visual Repayment & Interest Summary Banner -->
+				<div class="col-12" id="repaymentBreakdownBox" style="display: none; margin-top: 5px; margin-bottom: 20px;">
+					<div style="background: linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%); border: 1px solid #cbd5e1; border-left: 4px solid #0284c7; border-radius: 8px; padding: 12px 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+						<div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+							<div>
+								<span style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Loan Principal:</span>
+								<span id="summaryPrincipalText" style="font-size: 13px; font-weight: 700; color: #1e293b; margin-left: 5px;">&#8377; 0.00</span>
+							</div>
+							<div style="font-size: 14px; color: #94a3b8; font-weight: bold;">+</div>
+							<div>
+								<span style="font-size: 11px; font-weight: 700; color: #0284c7; text-transform: uppercase;">Total Interest:</span>
+								<span id="summaryInterestText" style="font-size: 13px; font-weight: 700; color: #0369a1; margin-left: 5px;">&#8377; 0.00</span>
+							</div>
+							<div style="font-size: 14px; color: #94a3b8; font-weight: bold;">=</div>
+							<div>
+								<span style="font-size: 11px; font-weight: 700; color: #059669; text-transform: uppercase;">Total Amount to Pay:</span>
+								<span id="summaryPayableText" style="font-size: 14px; font-weight: 800; color: #047857; margin-left: 5px;">&#8377; 0.00</span>
+							</div>
+							<div style="border-left: 1px solid #cbd5e1; padding-left: 15px;">
+								<span style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">EMI Breakdown:</span>
+								<span id="summaryEmiText" style="font-size: 12px; font-weight: 700; color: #475569; margin-left: 5px;">-</span>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 
 			<!-- Dynamic Loan Fields Container -->

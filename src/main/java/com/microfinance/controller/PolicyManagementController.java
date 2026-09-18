@@ -91,9 +91,9 @@ public class PolicyManagementController {
 					"Daily deposits fetched successfully.", deposits);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} else {
-			ApiResponse<List<DailyDepositPM>> response = ApiResponse.error(HttpStatus.NOT_FOUND,
-					"No daily deposits found.");
-			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+			ApiResponse<List<DailyDepositPM>> response = ApiResponse.success(HttpStatus.OK,
+					"No daily deposits found.", java.util.Collections.emptyList());
+			return new ResponseEntity<>(response, HttpStatus.OK);
 		}
 	}
 
@@ -175,9 +175,9 @@ public class PolicyManagementController {
 					"Recurring deposits fetched successfully.", deposits);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} else {
-			ApiResponse<List<RecurringDepositPM>> response = ApiResponse.error(HttpStatus.NOT_FOUND,
-					"No recurring deposits found.");
-			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+			ApiResponse<List<RecurringDepositPM>> response = ApiResponse.success(HttpStatus.OK,
+					"No recurring deposits found.", java.util.Collections.emptyList());
+			return new ResponseEntity<>(response, HttpStatus.OK);
 		}
 	}
 

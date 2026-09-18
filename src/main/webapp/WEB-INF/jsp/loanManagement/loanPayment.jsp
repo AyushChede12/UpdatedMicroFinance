@@ -387,7 +387,7 @@
 					<div class="d-flex flex-column formFields mb-4">
 						<label for="loanName"> DATE OF DISBURSEMENT </label> <input type="date"
 							name="paymentDate" id="paymentDate" required="required"
-							style="text-transform: uppercase;" readonly/>
+							style="text-transform: uppercase;" />
 					</div>
 				</div>
 
@@ -452,6 +452,54 @@
 				</div>
 			</div>
 
+		<%-- ── PENALTY DETAILS SECTION ───────────────────────────────────────── --%>
+		<div id="penaltySectionWrapper" class="mt-4" style="display: none;">
+			<nav>
+				<ol class="breadcrumb breadcrumb-title">
+					<li class="breadcrumb-item action" style="color: #e53935;" id="penaltyHeaderTitle">
+						⚠ LATE PAYMENT PENALTY
+					</li>
+				</ol>
+			</nav>
+			<div id="penaltyBoxContainer" class="row" style="background: #fff8f8; border: 1px solid #ffcdd2; border-radius: 8px; padding: 12px 8px; margin: 0 0 16px 0;">
+				<div class="col-lg-2">
+					<div class="d-flex flex-column formFields mb-3">
+						<label for="penaltyDueDate" style="color:#888;">DUE DATE</label>
+						<input type="text" id="penaltyDueDate" readonly
+							style="background:#f9f9f9; font-weight:bold;" />
+					</div>
+				</div>
+				<div class="col-lg-2">
+					<div class="d-flex flex-column formFields mb-3">
+						<label for="penaltyDaysLate" style="color:#888;">DAYS LATE</label>
+						<input type="text" id="penaltyDaysLate" readonly
+							style="background:#fff3e0; color:#e65100; font-weight:bold;" />
+					</div>
+				</div>
+				<div class="col-lg-2">
+					<div class="d-flex flex-column formFields mb-3">
+						<label for="penaltyMode" style="color:#888;">PENALTY MODE</label>
+						<input type="text" id="penaltyModeDisplay" readonly
+							style="background:#f9f9f9;" />
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="d-flex flex-column formFields mb-3">
+						<label for="penaltyAmountDisplay" style="color:#c62828;">PENALTY AMOUNT (₹)</label>
+						<input type="text" id="penaltyAmountDisplay" readonly
+							style="background:#ffebee; color:#c62828; font-weight:bold; font-size:14px;" />
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="d-flex flex-column formFields mb-3">
+						<label for="totalPayableDisplay" style="color:#1b5e20;">TOTAL PAYABLE (EMI + PENALTY)</label>
+						<input type="text" id="totalPayableDisplay" readonly
+							style="background:#e8f5e9; color:#1b5e20; font-weight:bold; font-size:14px;" />
+					</div>
+				</div>
+			</div>
+		</div>
+
 			<div class="col-12 text-center">
 				<button id="paymentBtn" class="btnStyle"
 					style="background-color: #FFA500;">DISBURSE LOAN</button>
@@ -462,3 +510,4 @@
 	</form>
 	<script
 		src="${pageContext.request.contextPath}/js/LoanManagment/loanPayment.js?v=<%= System.currentTimeMillis() %>"></script>
+</content>

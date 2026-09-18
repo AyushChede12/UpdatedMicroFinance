@@ -86,6 +86,9 @@ public class CustomerSavingsController {
 	@Autowired
 	SavingsInterestTransferRepo savingsInterestTransferRepo;
 
+	@Autowired
+	com.microfinance.repository.SavingAccountActivityRepo savingAccountActivityRepo;
+
 	@Value("${upload.directory}")
 	private String uploadDirectory;
 
@@ -633,6 +636,54 @@ public class CustomerSavingsController {
 			// Save the transfer record
 			savingAccountFundTransfer savedEntry = customersaving.saveSavingAccountFundTransfer(savingAccFundTransfer);
 
+			// Proactively record Debit Activity for sender
+			try {
+				com.microfinance.model.SavingAccountActivity drAct = new com.microfinance.model.SavingAccountActivity();
+				drAct.setSelectSavingTransactionId("TXNFT_DR_" + (savedEntry != null ? savedEntry.getId() : System.currentTimeMillis()));
+				drAct.setTransactionDate(savingAccFundTransfer.getTransferDate() != null ? savingAccFundTransfer.getTransferDate() : java.time.LocalDate.now().toString());
+				drAct.setSelectBranchName(debitAccount.getBranchName() != null ? debitAccount.getBranchName().getBranchName() : "");
+				drAct.setAccountNumber(debitAccount.getAccountNumber());
+				drAct.setCustomerCode(debitAccount.getSelectByCustomer());
+				drAct.setCustomerName(debitAccount.getEnterCustomerName());
+				drAct.setContactNumber(debitAccount.getContactNumber());
+				drAct.setTransactionFor("Fund Transfer");
+				String drDesc = "Fund Transfer to A/c " + creditAccount.getAccountNumber();
+				if (savingAccFundTransfer.getComment() != null && !savingAccFundTransfer.getComment().trim().isEmpty()) {
+					drDesc += " (" + savingAccFundTransfer.getComment().trim() + ")";
+				}
+				drAct.setComments(drDesc);
+				drAct.setTransactionType("Withdrawal");
+				drAct.setTransactionAmount(String.format(java.util.Locale.US, "%.2f", amount));
+				drAct.setAverageBalance(debitAccount.getBalance());
+				drAct.setPayBy("Transfer");
+				drAct.setApproved(true);
+				savingAccountActivityRepo.save(drAct);
+
+				// Proactively record Credit Activity for receiver
+				com.microfinance.model.SavingAccountActivity crAct = new com.microfinance.model.SavingAccountActivity();
+				crAct.setSelectSavingTransactionId("TXNFT_CR_" + (savedEntry != null ? savedEntry.getId() : System.currentTimeMillis()));
+				crAct.setTransactionDate(savingAccFundTransfer.getTransferDate() != null ? savingAccFundTransfer.getTransferDate() : java.time.LocalDate.now().toString());
+				crAct.setSelectBranchName(creditAccount.getBranchName() != null ? creditAccount.getBranchName().getBranchName() : "");
+				crAct.setAccountNumber(creditAccount.getAccountNumber());
+				crAct.setCustomerCode(creditAccount.getSelectByCustomer());
+				crAct.setCustomerName(creditAccount.getEnterCustomerName());
+				crAct.setContactNumber(creditAccount.getContactNumber());
+				crAct.setTransactionFor("Fund Transfer");
+				String crDesc = "Fund Transfer from A/c " + debitAccount.getAccountNumber();
+				if (savingAccFundTransfer.getComment() != null && !savingAccFundTransfer.getComment().trim().isEmpty()) {
+					crDesc += " (" + savingAccFundTransfer.getComment().trim() + ")";
+				}
+				crAct.setComments(crDesc);
+				crAct.setTransactionType("Deposit");
+				crAct.setTransactionAmount(String.format(java.util.Locale.US, "%.2f", amount));
+				crAct.setAverageBalance(creditAccount.getBalance());
+				crAct.setPayBy("Transfer");
+				crAct.setApproved(true);
+				savingAccountActivityRepo.save(crAct);
+			} catch (Exception actEx) {
+				System.err.println("Failed to record fund transfer activities: " + actEx.getMessage());
+			}
+
 			// Send response
 			return new ResponseEntity<>(savedEntry, HttpStatus.CREATED);
 
@@ -672,8 +723,42 @@ public class CustomerSavingsController {
 		}
 
 		// ✔️ Use account.get() not Optional itself
+		CreateSavingsAccount acc = account.get();
+		if (acc.getSelectByCustomer() != null && !acc.getSelectByCustomer().trim().isEmpty()) {
+			List<addCustomer> custs = customerRepo.findBymemberCode(acc.getSelectByCustomer().trim());
+			if (custs != null && !custs.isEmpty()) {
+				addCustomer cust = custs.get(0);
+				if (acc.getEnterCustomerName() == null || acc.getEnterCustomerName().trim().isEmpty()) {
+					acc.setEnterCustomerName(cust.getCustomerName());
+				}
+				if (acc.getContactNumber() == null || acc.getContactNumber().trim().isEmpty()) {
+					acc.setContactNumber(cust.getContactNo());
+				}
+				if (acc.getAddress() == null || acc.getAddress().trim().isEmpty()) {
+					acc.setAddress(cust.getCustomerAddress());
+				}
+				if (acc.getFamilyDetails() == null || acc.getFamilyDetails().trim().isEmpty()) {
+					acc.setFamilyDetails(cust.getGuardianName());
+				}
+				if (acc.getBranchName() == null && cust.getBranchName() != null && !cust.getBranchName().trim().isEmpty()) {
+					String bName = cust.getBranchName().trim();
+					List<BranchModule> allBranches = branchModuleRepo.findAll();
+					BranchModule matched = allBranches.stream()
+							.filter(b -> bName.equalsIgnoreCase(b.getBranchName()))
+							.findFirst()
+							.orElseGet(() -> allBranches.stream()
+									.filter(b -> b.getBranchName() != null && b.getBranchName().toLowerCase().contains(bName.toLowerCase()))
+									.findFirst()
+									.orElse(null));
+					if (matched != null) {
+						acc.setBranchName(matched);
+					}
+				}
+			}
+		}
+
 		ApiResponse<CreateSavingsAccount> response = ApiResponse.success(HttpStatus.OK, "Account fetched successfully.",
-				account.get());
+				acc);
 		return ResponseEntity.ok(response);
 	}
 

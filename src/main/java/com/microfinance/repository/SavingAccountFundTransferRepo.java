@@ -13,5 +13,7 @@ public interface SavingAccountFundTransferRepo extends JpaRepository<savingAccou
 
 	List<savingAccountFundTransfer> findByIsApprovedFalse();
 
+	List<savingAccountFundTransfer> findByDebitAccountNumber(String debitAccountNumber);
 
+	List<savingAccountFundTransfer> findByCreditAccountNumber(String creditAccountNumber);
 }

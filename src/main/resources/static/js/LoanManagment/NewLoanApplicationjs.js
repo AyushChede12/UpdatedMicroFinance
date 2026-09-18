@@ -45,6 +45,24 @@ $(document).ready(function() {
 		}
 	);
 
+	$(document).on('input keyup change', '#emiPayment', function() {
+		const emi = parseFloat($(this).val()) || 0;
+		const tenure = parseInt($('#loanTerm').val(), 10) || 0;
+		const loanAmount = parseFloat($('#loanAmount').val()) || 0;
+		if (emi > 0 && tenure > 0) {
+			const totalPayable = emi * tenure;
+			const totalInterest = Math.max(0, totalPayable - loanAmount);
+			$('#totalInterest').val('Rs. ' + totalInterest.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+			$('#totalPayableAmount').val('Rs. ' + totalPayable.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+
+			$('#summaryPrincipalText').html('&#8377; ' + loanAmount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+			$('#summaryInterestText').html('&#8377; ' + totalInterest.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+			$('#summaryPayableText').html('&#8377; ' + totalPayable.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+			$('#summaryEmiText').html('&#8377; ' + emi.toFixed(2) + ' &times; ' + tenure + ' installments');
+			$('#repaymentBreakdownBox').slideDown(200);
+		}
+	});
+
 	$('#saveBtn').on('click', function(e) {
 		e.preventDefault();
 		saveLoanApplication();
@@ -469,6 +487,9 @@ function calculateEMI() {
 
 	if (!loanAmount || !tenure || rateStr === '') {
 		$('#emiPayment').val('');
+		$('#totalInterest').val('');
+		$('#totalPayableAmount').val('');
+		$('#repaymentBreakdownBox').slideUp(150);
 		return;
 	}
 
@@ -479,25 +500,46 @@ function calculateEMI() {
 	const R = (annualRate / periodsPerYear) / 100;
 
 	let emi = 0;
+	let totalInterest = 0;
+	let totalPayable = 0;
 
-	// Check if interest type is Flat
+	// Check interest calculation type
 	if (interestType.includes('flat')) {
+		// Flat Interest: Interest = P * (R_annual / 100) * (N / periodsPerYear)
 		const years = N / periodsPerYear;
-		const totalInterest = loanAmount * (annualRate / 100) * years;
-		const totalRepayable = loanAmount + totalInterest;
-		emi = totalRepayable / N;
+		totalInterest = loanAmount * (annualRate / 100) * years;
+		totalPayable = loanAmount + totalInterest;
+		emi = totalPayable / N;
+	} else if (interestType.includes('78') || interestType.includes('rule')) {
+		// Rule 78: Total interest = P * R * N, equal installment = (P + Total Interest) / N
+		totalInterest = loanAmount * R * N;
+		totalPayable = loanAmount + totalInterest;
+		emi = totalAmount / N;
 	} else {
 		// Reducing / Amortization: EMI = [P x R x (1+R)^N] / [(1+R)^N - 1]
 		if (annualRate === 0 || R === 0) {
 			emi = loanAmount / N;
+			totalPayable = loanAmount;
+			totalInterest = 0;
 		} else {
 			const factor = Math.pow(1 + R, N);
 			emi = (loanAmount * R * factor) / (factor - 1);
+			totalPayable = emi * N;
+			totalInterest = Math.max(0, totalPayable - loanAmount);
 		}
 	}
 
 	if (!isNaN(emi) && isFinite(emi) && emi > 0) {
 		$('#emiPayment').val(emi.toFixed(2));
+		$('#totalInterest').val('Rs. ' + totalInterest.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+		$('#totalPayableAmount').val('Rs. ' + totalPayable.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+
+		// Update visual breakdown banner
+		$('#summaryPrincipalText').html('&#8377; ' + loanAmount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+		$('#summaryInterestText').html('&#8377; ' + totalInterest.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+		$('#summaryPayableText').html('&#8377; ' + totalPayable.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+		$('#summaryEmiText').html('&#8377; ' + emi.toFixed(2) + ' &times; ' + N + ' installments');
+		$('#repaymentBreakdownBox').slideDown(200);
 	}
 }
 
@@ -662,6 +704,14 @@ function saveLoanApplication() {
 		return false;
 	}
 
+	// Check Interest Type
+	const interestTypeVal = ($('#interestType').val() || '').trim();
+	if (!interestTypeVal) {
+		alert('Please select or enter INTEREST TYPE!');
+		$('#interestType').focus();
+		return false;
+	}
+
 	/*// Check if loan amount is valid
 	const loanAmount = parseFloat($('#loanAmount').val()) || 0;
 	if (loanAmount < 100000) {
@@ -725,6 +775,8 @@ function saveLoanApplication() {
 		loanAmount: $('#loanAmount').val(),
 		interestType: $('#interestType').val(),
 		emiPayment: $('#emiPayment').val(),
+		totalInterest: ($('#totalInterest').val() || '').replace(/[^0-9.]/g, ''),
+		totalPayableAmount: ($('#totalPayableAmount').val() || '').replace(/[^0-9.]/g, ''),
 		purposeOfLoan: $('#purposeOfLoan').val(),
 		loanStatus: "ACTIVE",
 		messageStatus: $('#messageStatus').is(':checked') ? 1 : 0,

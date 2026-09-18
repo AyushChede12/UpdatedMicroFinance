@@ -238,25 +238,24 @@
 
 
 <!-- ===== HEADING SECTION ===== -->
-<div class="row mt-5">
-	<div class="col-12" id="headingSection" style="display: none;">
-		<div class="card recent-sales" id="headingId">
-			<div class="card-body table-responsive">
-				<table class="table" id="heading-tabl">
-					<thead>
-						<tr style="color: Black; margin: 20px;">
-							<th style="text-align: center; width: 100px; font-weight: 400; white-space: nowrap;">TXN
-								DATE</th>
-							<th style="text-align: center; width: 160px; font-weight: 400; white-space: nowrap;"">PARTICULARS</th>
-							<th style="text-align: center; width: 160px; font-weight: 400; white-space: nowrap;"">TRANSACTION
-								TYPE</th>
-							<th style="text-align: center; width: 160px; font-weight: 400; white-space: nowrap;"">DEBIT/CREDIT</th>
-							<th style="text-align: center; width: 160px; font-weight: 400; white-space: nowrap;"">BALANCE</th>
+<div class="row mt-4" id="headingSection" style="display: none;">
+	<div class="col-12">
+		<div class="card shadow-sm border recent-sales" id="headingId">
+			<div class="card-body p-4 table-responsive">
+				<h5 class="fw-bold mb-3" style="color: #b02a37;">PASSBOOK PRINT HEADER</h5>
+				<table class="table table-bordered align-middle" id="heading-tabl">
+					<thead class="table-dark text-nowrap" style="font-size: 13px;">
+						<tr>
+							<th style="text-align: center; width: 60px;">SR NO</th>
+							<th style="text-align: center; width: 110px;">TXN DATE</th>
+							<th style="text-align: left;">PARTICULARS / NARRATION</th>
+							<th style="text-align: center; width: 110px;">PAY MODE</th>
+							<th style="text-align: right; width: 140px;">DEPOSIT / CR (₹)</th>
+							<th style="text-align: right; width: 140px;">WITHDRAWAL / DR (₹)</th>
+							<th style="text-align: right; width: 150px;">BALANCE (₹)</th>
 						</tr>
 					</thead>
-					<tbody>
-						
-					</tbody>
+					<tbody></tbody>
 				</table>
 			</div>
 		</div>
@@ -264,21 +263,57 @@
 </div>
 
 <!-- ===== TRANSACTION TABLE ===== -->
-<div class="row mt-5">
-	<div class="col-12" id="TransactionSection" style="display: none;">
-		<div class="card recent-sales" id="transactionId">
-			<div class="card-body table-responsive">
-				<table class="table" id="transaction-tabl">
-					<thead>
+<div class="row mt-4" id="TransactionSection" style="display: none;">
+	<div class="col-12">
+		<div class="card shadow-sm border recent-sales" id="transactionId">
+			<div class="card-body p-4 table-responsive">
+
+				<!-- Bank & Account Header for View & Print -->
+				<div class="border-bottom pb-3 mb-3" id="txnCustomerHeader">
+					<div class="d-flex justify-content-between align-items-center flex-wrap">
+						<div>
+							<h4 class="fw-bold mb-1" style="color: #b02a37;">SAMITHA URBAN NIDHI LTD.</h4>
+							<p class="text-muted small mb-0">CUSTOMER SAVINGS PASSBOOK / TRANSACTION LEDGER</p>
+						</div>
+						<div class="text-end">
+							<span class="badge bg-primary fs-6 px-3 py-2" id="txnHdrAccountNo">A/C: -</span>
+						</div>
+					</div>
+					<div class="row g-2 mt-2 pt-2 bg-light rounded p-2 text-dark small" id="txnCustDetailsGrid">
+						<div class="col-md-4 col-sm-6">
+							<strong>CUSTOMER NAME:</strong> <span id="txnHdrCustName">-</span>
+						</div>
+						<div class="col-md-4 col-sm-6">
+							<strong>MEMBER CODE:</strong> <span id="txnHdrMemberCode">-</span>
+						</div>
+						<div class="col-md-4 col-sm-6">
+							<strong>BRANCH:</strong> <span id="txnHdrBranch">-</span>
+						</div>
+						<div class="col-md-4 col-sm-6">
+							<strong>MOBILE NO:</strong> <span id="txnHdrMobile">-</span>
+						</div>
+						<div class="col-md-4 col-sm-6">
+							<strong>ACCOUNT TYPE:</strong> <span id="txnHdrAccType">SAVINGS</span>
+						</div>
+						<div class="col-md-4 col-sm-6">
+							<strong>CURRENT BALANCE:</strong> <span id="txnHdrCurrentBal" class="fw-bold text-success">₹ 0.00</span>
+						</div>
+					</div>
+				</div>
+
+				<table class="table table-bordered table-hover align-middle" id="transaction-tabl">
+					<thead class="table-dark text-nowrap" style="font-size: 13px;">
 						<tr>
-							<th style="text-align: center; width: 100px"></th>
-							<th style="text-align: center; width: 100px"></th>
-							<th style="text-align: center; width: 100px"></th>
-							<th style="text-align: center; width: 100px"></th>
-							<th style="text-align: center; width: 100px"></th>
+							<th style="text-align: center; width: 60px;">SR NO</th>
+							<th style="text-align: center; width: 110px;">TXN DATE</th>
+							<th style="text-align: left;">PARTICULARS / NARRATION</th>
+							<th style="text-align: center; width: 110px;">PAY MODE</th>
+							<th style="text-align: right; width: 140px;">DEPOSIT / CR (₹)</th>
+							<th style="text-align: right; width: 140px;">WITHDRAWAL / DR (₹)</th>
+							<th style="text-align: right; width: 150px;">BALANCE (₹)</th>
 						</tr>
 					</thead>
-					<tbody id="tableBody1"></tbody>
+					<tbody id="tableBody1" style="font-size: 13px;"></tbody>
 				</table>
 			</div>
 		</div>

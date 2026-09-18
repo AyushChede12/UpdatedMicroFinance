@@ -102,6 +102,14 @@ $(document).ready(function() {
 
 						// Fetch customer savings account for disbursement
 						loadCustomerSavingAccount(data.memberId);
+
+						// Ensure paymentDate has today's date if empty
+						if (!$("#paymentDate").val()) {
+							const today = new Date().toISOString().split('T')[0];
+							$("#paymentDate").val(today);
+						}
+						// Automatically fetch and show penalty amount preview
+						fetchPenaltyPreview();
 					} else {
 						alert("Loan data not found.");
 					}
@@ -246,7 +254,95 @@ $('#paymentBtn').click(function(e) {
 
 
 
+// ── Penalty Preview ───────────────────────────────────────────────────────────
 
+/**
+ * Calls the penalty preview API and populates the penalty section.
+ * Always shows the section during loan payment with clear penalty details.
+ */
+function fetchPenaltyPreview() {
+	const loanId = $('#findByLoanId').val();
+	let paymentDate = $('#paymentDate').val();
+
+	if (!loanId) {
+		hidePenaltySection();
+		return;
+	}
+
+	if (!paymentDate) {
+		paymentDate = new Date().toISOString().split('T')[0];
+		$('#paymentDate').val(paymentDate);
+	}
+
+	$.ajax({
+		url: 'api/loanmanegment/calculatePenaltyPreview',
+		type: 'GET',
+		data: { loanId: loanId, paymentDate: paymentDate },
+		dataType: 'json',
+		success: function(response) {
+			if (response.status === 'OK' && response.data) {
+				const d = response.data;
+				const daysLate = parseInt(d.daysLate) || 0;
+				const penaltyAmt = parseFloat(d.penaltyAmount) || 0;
+				const emiAmt = parseFloat(d.emiAmount) || 0;
+				const totalPayable = parseFloat(d.totalPayable) || (emiAmt + penaltyAmt);
+
+				const dueDateVal = d.dueDate || d.emiDueDate || '-';
+				$('#penaltyDueDate').val(dueDateVal);
+				$('#penaltyModeDisplay').val(d.penaltyMode || 'Flat');
+				$('#penaltyAmountDisplay').val('₹ ' + penaltyAmt.toFixed(2));
+				$('#totalPayableDisplay').val('₹ ' + totalPayable.toFixed(2));
+
+				// Always show the penalty section during loan payment
+				$('#penaltySectionWrapper').slideDown(250);
+
+				if (daysLate > 0) {
+					$('#penaltyHeaderTitle').html('⚠ LATE PAYMENT PENALTY (' + daysLate + ' DAY' + (daysLate > 1 ? 'S' : '') + ' LATE)').css('color', '#e53935');
+					$('#penaltyBoxContainer').css({ 'background': '#fff8f8', 'border-color': '#ffcdd2' });
+					$('#penaltyDaysLate').val(daysLate + ' day(s) late').css({ 'color': '#c62828', 'background': '#ffebee' });
+					$('#penaltyAmountDisplay').css({ 'color': '#c62828', 'background': '#ffebee' });
+					// Flash effect for attention
+					setTimeout(function() {
+						$('#penaltyAmountDisplay').css('background', '#ffcdd2');
+						setTimeout(function() {
+							$('#penaltyAmountDisplay').css('background', '#ffebee');
+						}, 400);
+					}, 50);
+				} else {
+					$('#penaltyHeaderTitle').html('✓ EMI & PENALTY STATUS (ON TIME - NO PENALTY)').css('color', '#2e7d32');
+					$('#penaltyBoxContainer').css({ 'background': '#f1f8e9', 'border-color': '#c8e6c9' });
+					$('#penaltyDaysLate').val('0 days (On Time)').css({ 'color': '#2e7d32', 'background': '#e8f5e9' });
+					$('#penaltyAmountDisplay').css({ 'color': '#2e7d32', 'background': '#e8f5e9' });
+				}
+			} else {
+				hidePenaltySection();
+			}
+		},
+		error: function() {
+			hidePenaltySection();
+		}
+	});
+}
+
+function hidePenaltySection() {
+	$('#penaltySectionWrapper').slideUp(200);
+	$('#penaltyDueDate').val('');
+	$('#penaltyDaysLate').val('');
+	$('#penaltyModeDisplay').val('');
+	$('#penaltyAmountDisplay').val('');
+	$('#totalPayableDisplay').val('');
+}
+
+// Trigger preview when payment date changes
+$(document).ready(function() {
+	$(document).on('change', '#paymentDate', function() {
+		fetchPenaltyPreview();
+	});
+
+	$(document).on('change', '#findByLoanId', function() {
+		fetchPenaltyPreview();
+	});
+});
 
 
 

@@ -13,6 +13,20 @@ $(document).ready(function() {
 	});
 });
 
+function formatCurrency(num) {
+	const val = parseFloat(num) || 0;
+	return '₹ ' + val.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function formatDateDisplay(dateStr) {
+	if (!dateStr) return '-';
+	const parts = dateStr.split('-');
+	if (parts.length === 3) {
+		return parts[2] + '-' + parts[1] + '-' + parts[0];
+	}
+	return dateStr;
+}
+
 // fetch account numbers on dropdown
 function fetchAccountNumbers(accountType) {
 	$.ajax({
@@ -48,38 +62,84 @@ function displaySavingTransaction() {
 	}
 
 	isFetchingTransactions = true;
+
+	// 1. Fetch Account Details to populate header
+	$.ajax({
+		type: "GET",
+		url: "api/customersavings/getDataByAccountNumber",
+		data: { accountNumber: accountNumber },
+		success: function(accRes) {
+			if (accRes && accRes.status === "OK" && accRes.data) {
+				const acc = accRes.data;
+				let branch = (acc.branchName && acc.branchName.branchName) ? acc.branchName.branchName : "";
+
+				$("#txnHdrAccountNo").text("A/C: " + (acc.accountNumber || accountNumber));
+				$("#txnHdrCustName").text((acc.enterCustomerName || "-").toUpperCase());
+				$("#txnHdrMemberCode").text(acc.selectByCustomer || "-");
+				$("#txnHdrBranch").text(branch.toUpperCase() || "-");
+				$("#txnHdrMobile").text(acc.contactNumber || "-");
+				$("#txnHdrAccType").text((acc.typeofaccount || "SAVING ACCOUNT").toUpperCase());
+				const bal = parseFloat(acc.balance) || 0;
+				$("#txnHdrCurrentBal").text(formatCurrency(bal));
+			}
+
+			// 2. Fetch all transactions
+			fetchTransactionRecords(accountNumber);
+		},
+		error: function() {
+			// Fallback: fetch transactions anyway
+			fetchTransactionRecords(accountNumber);
+		}
+	});
+}
+
+function fetchTransactionRecords(accountNumber) {
 	$.ajax({
 		type: "GET",
 		url: "api/customersavings/getsavingaccountactivity",
 		data: { accountNumber: accountNumber },
 		success: function(response) {
 			isFetchingTransactions = false;
-			console.log("API Response:", response);
 
-			if (response && response.status && response.status.toUpperCase() === "OK" && Array.isArray(response.data) && response.data.length > 0) {
-				let data = response.data;
-				let tableBody = $("#tableBody1");
-				tableBody.empty();
+			let data = (response && response.data && Array.isArray(response.data)) ? response.data : [];
+			let tableBody = $("#tableBody1");
+			tableBody.empty();
 
-				data.forEach((item) => {
+			if (data.length > 0) {
+				data.forEach((item, index) => {
+					let tType = (item.transactionType || "").toUpperCase();
+					let amt = parseFloat(item.transactionAmount) || 0;
+					let isDeposit = tType.includes("DEPOSIT") || tType.includes("CREDIT");
+					let isWithdrawal = tType.includes("WITHDRAW") || tType.includes("DEBIT");
+
+					let crText = isDeposit ? `<span class="text-success fw-bold">${formatCurrency(amt)}</span>` : '-';
+					let drText = isWithdrawal ? `<span class="text-danger fw-bold">${formatCurrency(amt)}</span>` : '-';
+					let balText = item.averageBalance ? formatCurrency(item.averageBalance) : '-';
+					let particulars = item.comments || item.transactionFor || "Account Transaction";
+					let payMode = item.payBy || "Cash";
+
 					let row = `<tr>
-						<td>${item.transactionDate || ''}</td>
-						<td>${item.accountNumber || ''}</td>
-						<td>${item.transactionType || ''}</td>
-						<td>${item.transactionAmount || ''}</td>
-						<td>${item.averageBalance || ''}</td>
+						<td class="text-center">${index + 1}</td>
+						<td class="text-center text-nowrap">${formatDateDisplay(item.transactionDate)}</td>
+						<td class="text-start">${particulars}</td>
+						<td class="text-center"><span class="badge bg-secondary">${payMode}</span></td>
+						<td class="text-end">${crText}</td>
+						<td class="text-end">${drText}</td>
+						<td class="text-end fw-bold">${balText}</td>
 					</tr>`;
 					tableBody.append(row);
 				});
 
-				$("#tableSection").hide();
 				$('#printbtnSection').show();
 				$('#passbookSection').hide();
 				$("#headingSection").hide();
 				$("#TransactionSection").show();
 			} else {
-				alert("No transactions found for account " + accountNumber + ".");
-				$('#TransactionSection').hide();
+				tableBody.append(`<tr><td colspan="7" class="text-center text-muted p-4">No transactions found for account ${accountNumber}.</td></tr>`);
+				$('#printbtnSection').show();
+				$('#passbookSection').hide();
+				$("#headingSection").hide();
+				$("#TransactionSection").show();
 			}
 		},
 		error: function(xhr) {
@@ -90,68 +150,62 @@ function displaySavingTransaction() {
 	});
 }
 
-
-//janvi: Show saving acc details in table format
+// Show saving acc details in table format & also load transactions
 function displayTransactionDataList() {
-	// const accountNumber = $(this).val();
-	let accountNumber = document.getElementById("accountNumber").value; // Get the selected Account No.
-	// $("#tabl").show();
+	let accountNumber = ($("#accountNumber").val() || "").trim();
 	if (!accountNumber) {
 		alert("Please select an Account Number.");
 		return;
 	}
-	if (accountNumber !== "") {
-		$.ajax({
-			type: "GET",
-			url: "api/customersavings/getDataByAccountNumber",
-			data: { accountNumber: accountNumber },
-			success: function(response) {
-				if (response.status === "OK" && response.data) {
-					const data = response.data;
-					let branch = "";
 
-					if (data.branchName != null) {
-						branch = data.branchName.branchName || "";
-					}
+	$.ajax({
+		type: "GET",
+		url: "api/customersavings/getDataByAccountNumber",
+		data: { accountNumber: accountNumber },
+		success: function(response) {
+			if (response.status === "OK" && response.data) {
+				const data = response.data;
+				let branch = "";
 
-					// Inject table row dynamically
-					$("#customerDetails").html(`
-                            <tr>
-                                <td>${data.id || ''}</td>
-                                <td>${branch || ''}</td>
-                                <td>${data.accountNumber || ''}</td>
-                                <td>${(data.enterCustomerName || '').toUpperCase()}</td>
-                                <td>${data.selectByCustomer || ''}</td>
-                                <td>${data.contactNumber || ''}</td>
-                                <td>${(data.address || '').toUpperCase()}</td>
-                                <td>${data.openingDate || ''}</td>
-                                <td>${data.balance || ''}</td>
-                                <td></td>
-                            </tr>
-                        `);
-					$("#tableSection").show();
-					$('#printbtnSection').hide();
-					$('#passbookSection').hide();
-					$("#headingSection").hide();
-					$("#TransactionSection").hide();
-				} else {
-					alert("No data found for this account.");
-					$("#customerDetails").empty();
+				if (data.branchName != null) {
+					branch = data.branchName.branchName || "";
 				}
-			},
-			error: function(xhr) {
-				alert("Error: " + xhr.responseText);
+
+				// Inject table row dynamically
+				$("#customerDetails").html(`
+					<tr>
+						<td>${data.id || ''}</td>
+						<td>${branch || ''}</td>
+						<td>${data.accountNumber || ''}</td>
+						<td>${(data.enterCustomerName || '').toUpperCase()}</td>
+						<td>${data.selectByCustomer || ''}</td>
+						<td>${data.contactNumber || ''}</td>
+						<td>${(data.address || '').toUpperCase()}</td>
+						<td>${data.openingDate || ''}</td>
+						<td>${data.balance || ''}</td>
+					</tr>
+				`);
+				$("#tableSection").show();
+				$('#printbtnSection').hide();
+				$('#passbookSection').hide();
+				$("#headingSection").hide();
+
+				// Also auto-fetch and display transactions below
+				displaySavingTransaction();
+			} else {
+				alert("No data found for this account.");
 				$("#customerDetails").empty();
 			}
-		});
-	} else {
-		$("#customerDetails").empty(); // Clear if no account selected
-	}
+		},
+		error: function(xhr) {
+			alert("Error: " + xhr.responseText);
+			$("#customerDetails").empty();
+		}
+	});
 }
 
-
 function displaySavingfrontPage() {
-	let accountNumber = document.getElementById("accountNumber").value;
+	let accountNumber = ($("#accountNumber").val() || "").trim();
 
 	if (!accountNumber) {
 		alert("Please select an account number!");
@@ -161,7 +215,7 @@ function displaySavingfrontPage() {
 	$.ajax({
 		type: "GET",
 		url: "api/customersavings/getDataByAccountNumber",
-		data: { accountNumber: accountNumber },  // 🔥 make sure name matches @RequestParam
+		data: { accountNumber: accountNumber },
 		success: function(response) {
 			if (response.status === "OK" && response.data) {
 				const data = response.data;
@@ -170,34 +224,32 @@ function displaySavingfrontPage() {
 				if (data.branchName != null) {
 					branch = data.branchName.branchName || "";
 				}
-				let fullAddress = `${data.address}, ${data.state}, ${data.pinCode}`;
+				let fullAddress = `${data.address || ''}, ${data.district || ''}, ${data.state || ''}, ${data.pinCode || ''}`.replace(/^,\s*|,\s*$/g, '');
 
-				$("#customerNo").text(data.selectByCustomer);
-				$("#accountNo").text(data.accountNumber);
-				$("#customerName").text(data.enterCustomerName.toUpperCase());
-				$("#familyDetails").text(data.familyDetails);
-				$("#dateOfBirth").text(data.dateOfBirth);
-				$("#contactNo").text(data.contactNumber);
-				$("#emailId").text(data.emailId.toUpperCase());
-				$("#operationType").text(data.operationType.toUpperCase());
-				$("#aadharNo").text(data.aadharNo);
-				$("#address").text(fullAddress.toUpperCase());
-				$("#dateOfIssue").text(data.openingDate);
-				$("#typeofaccount").text(data.typeofaccount.toUpperCase());
-				$("#branchName").text(branch.toUpperCase());
+				$("#customerNo").text(data.selectByCustomer || '-');
+				$("#accountNo").text(data.accountNumber || '-');
+				$("#customerName").text((data.enterCustomerName || '-').toUpperCase());
+				$("#familyDetails").text((data.familyDetails || '-').toUpperCase());
+				$("#dateOfBirth").text(data.dateOfBirth || '-');
+				$("#contactNo").text(data.contactNumber || '-');
+				$("#emailId").text((data.emailId || '-').toUpperCase());
+				$("#operationType").text((data.operationType || 'Single').toUpperCase());
+				$("#aadharNo").text(data.aadharNo || '-');
+				$("#address").text(fullAddress.toUpperCase() || '-');
+				$("#dateOfIssue").text(data.openingDate || '-');
+				$("#typeofaccount").text((data.typeofaccount || 'Saving Account').toUpperCase());
+				$("#branchName").text(branch.toUpperCase() || '-');
 
-				// If you have these fields in your data, else remove
-				$("#IFSCCode").text(data.ifscCode || '');
-				//$("#dateOfIssue").text(data.dateOfIssue || '');
-				$("#nominationStatus").text(data.nominationStatus || '');
-				$("#nominationName").text(data.nominationName || '');
-				$("#upi").text(data.upi || '');
+				$("#IFSCCode").text(data.ifscCode || '-');
+				$("#nominationStatus").text(data.suggestedNomineeName ? 'YES' : 'NO');
+				$("#nominationName").text((data.suggestedNomineeName || '-').toUpperCase());
+				$("#upi").text(data.upi || '-');
+
 				$("#tableSection").hide();
 				$('#printbtnSection').show();
 				$('#passbookSection').show();
 				$("#headingSection").hide();
 				$("#TransactionSection").hide();
-
 			} else {
 				alert("No account data found.");
 			}
@@ -208,65 +260,6 @@ function displaySavingfrontPage() {
 	});
 }
 
-//Janvi : Print Button
-// print Code
-/*$("#printBtn").on("click", function (e) {
-		e.preventDefault();
-
-		// Clone the form
-		const $formClone = $("#passbookId").clone();
-
-		// Optional: remove any row that holds the buttons
-		$formClone.find(".text-center").each(function () {
-			if ($(this).find("button").length > 0) {
-				$(this).remove();
-			}
-		});
-
-		// Open print window
-		const printWindow = window.open("", "_blank");
-
-		if (printWindow) {
-			printWindow.document.open();
-			printWindow.document.write(`
-				<html>
-				<head>
-					<title>Print - Customer Form</title>
-					<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
-					<style>
-						body {
-							font-family: Arial, sans-serif;
-							padding: 20px;
-						}
-						.formFields {
-							margin-bottom: 15px;
-						}
-						label {
-							font-weight: bold;
-						}
-						input, select, textarea {
-							border: 1px solid #ccc;
-							border-radius: 5px;
-							padding: 5px;
-							width: 100%;
-						}
-						.toggle {
-							pointer-events: none;
-						}
-					</style>
-				</head>
-				<body onload="window.print(); window.close();">
-					<h3 class="text-center mb-4">Customer Information</h3>
-					${$formClone[0].outerHTML}
-				</body>
-				</html>
-			`);
-			printWindow.document.close();
-		} else {
-			alert("Popup blocked. Please allow popups for this website.");
-		}
-	});*/
-
 function displayHeadingSA() {
 	$("#tableSection").hide();
 	$('#printbtnSection').show();
@@ -275,55 +268,74 @@ function displayHeadingSA() {
 	$("#TransactionSection").hide();
 }
 
-//janvi : print button code
+// Print button code for passbook & transactions
 function printTransactionSection1() {
 	let visibleSection = null;
+	let title = "Print";
 
 	if ($("#passbookSection").is(":visible")) {
 		visibleSection = document.getElementById("passbookSection");
+		title = "Customer Passbook Front Page";
 	} else if ($("#TransactionSection").is(":visible")) {
 		visibleSection = document.getElementById("TransactionSection");
-	}
-	else if ($("#headingSection").is(":visible")) {
+		title = "Customer Savings Passbook Ledger";
+	} else if ($("#headingSection").is(":visible")) {
 		visibleSection = document.getElementById("headingSection");
+		title = "Passbook Header";
 	} else {
 		alert("No section visible to print.");
 		return;
 	}
 
-	const printWindow = window.open('', '', 'width=1000,height=800');
+	const printWindow = window.open('', '', 'width=1100,height=850');
 
 	printWindow.document.write(`
-        <html>
-        <head>
-            <title>Print Page</title>
-            <!-- Include your main CSS and Bootstrap -->
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-            <style>
-                body {
-                    margin: 20px;
-                    font-family: Arial, sans-serif;
-                }
-                .card {
-                    box-shadow: none !important;
-                    border: 1px solid #ccc;
-                }
-                table {
-                    width: 100%;
-                    border-collapse: collapse;
-                }
-                th, td {
-                    border: 1px solid #000;
-                    padding: 6px;
-                    text-align: center;
-                }
-            </style>
-        </head>
-        <body>
-            ${visibleSection.outerHTML}
-        </body>
-        </html>
-    `);
+		<html>
+		<head>
+			<title>${title}</title>
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+			<style>
+				body {
+					margin: 15px;
+					font-family: Arial, sans-serif;
+					color: #000;
+				}
+				.card {
+					box-shadow: none !important;
+					border: 1px solid #ccc;
+				}
+				table {
+					width: 100%;
+					border-collapse: collapse;
+					margin-top: 10px;
+				}
+				th, td {
+					border: 1px solid #333 !important;
+					padding: 6px 8px;
+					font-size: 12px;
+				}
+				th {
+					background-color: #f2f2f2 !important;
+					color: #000 !important;
+					font-weight: bold;
+				}
+				.badge {
+					border: 1px solid #666;
+					color: #000;
+					background: transparent !important;
+				}
+				@media print {
+					@page {
+						margin: 15mm;
+					}
+				}
+			</style>
+		</head>
+		<body>
+			${visibleSection.outerHTML}
+		</body>
+		</html>
+	`);
 
 	printWindow.document.close();
 
@@ -331,7 +343,6 @@ function printTransactionSection1() {
 		setTimeout(() => {
 			printWindow.print();
 			printWindow.close();
-		}, 500); // wait for styles to apply
+		}, 400);
 	};
 }
-
