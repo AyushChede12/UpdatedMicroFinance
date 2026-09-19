@@ -56,7 +56,7 @@ function toggleTransaction() {
 		.then(data => {
 			const policy = data.data;
 
-			// Fill all the spans with policy data
+			// Fill all the spans with policy data (existing logic – unchanged)
 			document.getElementById("branchCodeSpan").textContent = policy.branchName || "";
 			document.getElementById("docSpan").textContent = policy.policyStartDate || "";
 			document.getElementById("policyNoSpan").textContent = policy.policyCode || "";
@@ -78,6 +78,37 @@ function toggleTransaction() {
 			document.getElementById("mobileSpan").textContent = policy.contactNo || "";
 			document.getElementById("collectorSpan").textContent = policy.agent || "";
 
+			// ── Styling update: mirror span values into the visible display cells ──
+			var f = function(id) { var el = document.getElementById(id); return el ? el.textContent.trim() : ""; };
+			document.getElementById("disp-branchCode").textContent    = f("branchCodeSpan");
+			document.getElementById("disp-doc").textContent           = f("docSpan");
+			document.getElementById("disp-policyNo").textContent      = f("policyNoSpan");
+			document.getElementById("disp-memberCode").textContent    = f("memberCodeSpan");
+			document.getElementById("disp-applicantName").textContent = f("applicantNameSpan");
+			document.getElementById("disp-fatherName").textContent    = f("fatherNameSpan");
+			document.getElementById("disp-nomineeName").textContent   = f("nomineeNameSpan");
+			document.getElementById("disp-address").textContent       = f("addressSpan");
+			document.getElementById("disp-mobile").textContent        = f("mobileSpan");
+			document.getElementById("disp-relationship").textContent  = f("relationshipSpan");
+			document.getElementById("disp-scheme").textContent        = f("schemeSpan");
+			document.getElementById("disp-plan").textContent          = f("planSpan");
+			document.getElementById("disp-roi").textContent           = f("roiSpan");
+			document.getElementById("disp-mode").textContent          = f("modeSpan");
+			document.getElementById("disp-term").textContent          = f("termSpan");
+			document.getElementById("disp-maturityDate").textContent  = f("maturityDateSpan");
+			document.getElementById("disp-renewalAmount").textContent = f("renewalAmountSpan");
+			document.getElementById("disp-totalValue").textContent    = f("totalValueSpan");
+			document.getElementById("disp-maturity").textContent      = f("maturitySpan");
+			document.getElementById("disp-collector").textContent     = f("collectorSpan");
+
+			// Set the on-screen date stamps
+			var now = new Date();
+			var dateStr = now.toLocaleDateString('en-GB');
+			var el1 = document.getElementById("irb-print-date");
+			if (el1) el1.textContent = "DATE: " + dateStr;
+			var el2 = document.getElementById("irb-footer-date");
+			if (el2) el2.textContent = now.toLocaleString();
+
 			// Show the transaction section
 			document.getElementById("transactionSection").style.display = "block";
 		})
@@ -87,49 +118,271 @@ function toggleTransaction() {
 		});
 }
 
+// ── Helper: builds the styled print HTML for Installment Record Book ──
+function _buildIrbPrintHtml(autoPrint) {
+	var f = function(id) { var el = document.getElementById(id); return el ? el.textContent.trim() : ""; };
 
+	var now = new Date();
+	var dateStr = now.toLocaleDateString('en-GB');
+
+	return `<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Installment Record Book</title>
+	<style>
+		@page {
+			size: A4;
+			margin: 12mm 15mm 12mm 15mm;
+		}
+		* {
+			-webkit-print-color-adjust: exact !important;
+			print-color-adjust: exact !important;
+			color-adjust: exact !important;
+			box-sizing: border-box;
+		}
+		body {
+			font-family: 'Segoe UI', Arial, sans-serif;
+			color: #222;
+			line-height: 1.35;
+			margin: 0;
+			padding: 10px;
+			background: #fff;
+		}
+
+		/* ── Header ── */
+		.header-box {
+			text-align: center;
+			border-bottom: 2.5px solid #0d6efd;
+			padding-bottom: 8px;
+			margin-bottom: 12px;
+		}
+		.header-box h2 {
+			margin: 0;
+			color: #0d6efd;
+			text-transform: uppercase;
+			font-size: 20px;
+			letter-spacing: 0.5px;
+		}
+		.header-box p {
+			margin: 2px 0;
+			font-size: 11px;
+			color: #555;
+		}
+
+		/* ── Title bar ── */
+		.report-title-bar {
+			background: #0d6efd !important;
+			color: #ffffff !important;
+			padding: 5px 10px;
+			font-weight: bold;
+			font-size: 12px;
+			text-transform: uppercase;
+			margin-bottom: 10px;
+			display: flex;
+			justify-content: space-between;
+			border-radius: 3px;
+		}
+
+		/* ── Section headings ── */
+		.section-heading {
+			background: #e9ecef !important;
+			color: #0d6efd;
+			font-size: 11.5px;
+			font-weight: bold;
+			padding: 3px 8px;
+			border-left: 4px solid #0d6efd;
+			margin-top: 10px;
+			margin-bottom: 5px;
+			text-transform: uppercase;
+		}
+
+		/* ── Data tables ── */
+		.meta-table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-bottom: 4px;
+		}
+		.meta-table th {
+			background: #f1f4f9 !important;
+			text-align: left;
+			padding: 5px 8px;
+			font-size: 11px;
+			width: 22%;
+			border: 1px solid #ced4da;
+			color: #222;
+			font-weight: 600;
+			vertical-align: middle;
+		}
+		.meta-table td {
+			padding: 5px 8px;
+			font-size: 11.5px;
+			border: 1px solid #ced4da;
+			vertical-align: middle;
+			color: #333;
+		}
+
+		/* ── Authorized signature ── */
+		.auth-row {
+			display: flex;
+			justify-content: flex-end;
+			align-items: center;
+			margin-top: 28px;
+			gap: 14px;
+		}
+		.auth-row span {
+			font-size: 10.5px;
+			font-weight: 600;
+			text-transform: uppercase;
+			color: #444;
+			white-space: nowrap;
+		}
+		.auth-row hr {
+			border: none;
+			border-top: 1px solid #333;
+			width: 180px;
+			margin: 0;
+		}
+
+		/* ── Footer ── */
+		.footer-note {
+			text-align: center;
+			margin-top: 14px;
+			font-size: 9.5px;
+			color: #777;
+			border-top: 1px dashed #bbb;
+			padding-top: 6px;
+		}
+
+		/* Hide print/download buttons when printing */
+		.irb-print-actions { display: none !important; }
+	</style>
+</head>
+<body>
+
+	<div class="header-box">
+		<h2>SAMITHA URBAN NIDHI LTD.</h2>
+		<p>ADDRESS : NAGPUR (440024) - MAHARASHTRA</p>
+	</div>
+
+	<div class="report-title-bar">
+		<span>SAMITHA URBAN NIDHI LTD. — INSTALLMENT RECORD BOOK</span>
+		<span>DATE: ${dateStr}</span>
+	</div>
+
+	<!-- Section 1: Policy Identification -->
+	<div class="section-heading">Policy Identification</div>
+	<table class="meta-table">
+		<tr>
+			<th>BRANCH &amp; CODE</th><td>${f("branchCodeSpan")}</td>
+			<th>DOC / START DATE</th><td>${f("docSpan")}</td>
+		</tr>
+		<tr>
+			<th>POLICY NO.</th><td>${f("policyNoSpan")}</td>
+			<th>MEMBER CODE</th><td>${f("memberCodeSpan")}</td>
+		</tr>
+	</table>
+
+	<!-- Section 2: Applicant Details -->
+	<div class="section-heading">Applicant Details</div>
+	<table class="meta-table">
+		<tr>
+			<th>APPLICANT NAME</th><td colspan="3">${f("applicantNameSpan")}</td>
+		</tr>
+		<tr>
+			<th>FATHER / HUSBAND NAME</th><td>${f("fatherNameSpan")}</td>
+			<th>NOMINEE NAME</th><td>${f("nomineeNameSpan")}</td>
+		</tr>
+		<tr>
+			<th>ADDRESS</th><td colspan="3">${f("addressSpan")}</td>
+		</tr>
+		<tr>
+			<th>MOBILE NO.</th><td>${f("mobileSpan")}</td>
+			<th>RELATIONSHIP</th><td>${f("relationshipSpan")}</td>
+		</tr>
+	</table>
+
+	<!-- Section 3: Scheme & Plan Details -->
+	<div class="section-heading">Scheme &amp; Plan Details</div>
+	<table class="meta-table">
+		<tr>
+			<th>SCHEME</th><td>${f("schemeSpan")}</td>
+			<th>PLAN</th><td>${f("planSpan")}</td>
+		</tr>
+		<tr>
+			<th>ROI (%)</th><td>${f("roiSpan")}</td>
+			<th>MODE</th><td>${f("modeSpan")}</td>
+		</tr>
+		<tr>
+			<th>TERM</th><td>${f("termSpan")}</td>
+			<th>MATURITY DATE</th><td>${f("maturityDateSpan")}</td>
+		</tr>
+	</table>
+
+	<!-- Section 4: Financial Summary -->
+	<div class="section-heading">Financial Summary</div>
+	<table class="meta-table">
+		<tr>
+			<th>RENEWAL AMOUNT</th><td>${f("renewalAmountSpan")}</td>
+			<th>TOTAL VALUE</th><td>${f("totalValueSpan")}</td>
+		</tr>
+		<tr>
+			<th>MATURITY AMOUNT</th><td>${f("maturitySpan")}</td>
+			<th>COLLECTOR NAME</th><td>${f("collectorSpan")}</td>
+		</tr>
+	</table>
+
+	<!-- Authorized Signature -->
+	<div class="auth-row">
+		<span>AUTHORIZED SIGNATURE</span>
+		<hr />
+	</div>
+
+	<div class="footer-note">
+		This is a system-generated Installment Record from Samitha Urban Microfinance Banking System.
+		Generated on ${now.toLocaleString()}.
+	</div>
+
+</body>
+</html>`;
+}
 
 function printTransactionSection() {
-	const content = document.getElementById("transactionSection").innerHTML;
+	if (document.getElementById("transactionSection").style.display === "none") {
+		alert("Please click TRANSACTION first to load the policy data.");
+		return;
+	}
 
-	const printWindow = window.open('', '', 'height=800,width=1000');
-	printWindow.document.write('<html><head><title>Transaction Receipt</title>');
+	const printHtml = _buildIrbPrintHtml(true);
+	const printWindow = window.open("", "_blank");
+	if (printWindow) {
+		printWindow.document.open();
+		printWindow.document.write(printHtml);
+		printWindow.document.close();
+		setTimeout(function() {
+			printWindow.focus();
+			printWindow.print();
+		}, 400);
+	} else {
+		alert("Pop-up blocked. Please allow pop-ups for this site to print.");
+	}
+}
 
-	// Optional styling for print
-	printWindow.document.write(`
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                padding: 20px;
-            }
-            p {
-                margin: 5px 0;
-            }
-            h1 {
-                text-align: center;
-            }
-            hr {
-                margin: 10px 0;
-                border: 1px solid black;
-            }
-            .d-flex {
-                display: flex;
-                justify-content: space-between;
-            }
-        </style>
-    `);
+function downloadTransactionRecord() {
+	if (document.getElementById("transactionSection").style.display === "none") {
+		alert("Please click TRANSACTION first to load the policy data.");
+		return;
+	}
 
-	printWindow.document.write('</head><body>');
-	printWindow.document.write(content);
-	printWindow.document.write('</body></html>');
-
-	printWindow.document.close();
-	printWindow.focus();
-
-	printWindow.onload = function() {
-		printWindow.print();
-		printWindow.close();
-	};
+	const downloadHtml = _buildIrbPrintHtml(false);
+	const printWindow = window.open("", "_blank");
+	if (printWindow) {
+		printWindow.document.open();
+		printWindow.document.write(downloadHtml);
+		printWindow.document.close();
+	} else {
+		alert("Pop-up blocked. Please allow pop-ups for this site.");
+	}
 }
 
 

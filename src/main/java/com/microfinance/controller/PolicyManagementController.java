@@ -73,11 +73,11 @@ public class PolicyManagementController {
 
 		}
 	}
-	
+
 	@GetMapping("check-plan-name")
 	public boolean checkPlanName(@RequestParam String planName) {
 
-	    return policyManagementService.planNameExists(planName);
+		return policyManagementService.planNameExists(planName);
 
 	}
 
@@ -97,7 +97,7 @@ public class PolicyManagementController {
 		}
 	}
 
-// feacth by id daily deposite
+	// feacth by id daily deposite
 	@GetMapping("dailyedit/{id}")
 	public ResponseEntity<ApiResponse<DailyDepositPM>> getDailyDepositById(@PathVariable Long id) {
 		DailyDepositPM deposit = policyManagementService.getDailyDepositById(id);
@@ -113,7 +113,7 @@ public class PolicyManagementController {
 		}
 	}
 
-// update the deposite daily data
+	// update the deposite daily data
 	@PostMapping("/dailyupdate/{id}")
 	public ResponseEntity<ApiResponse<DailyDepositPM>> updateDailyDeposit(@PathVariable Long id,
 			@RequestBody DailyDepositPM updatedData) {
@@ -345,10 +345,6 @@ public class PolicyManagementController {
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		}
 	}
-
-
-
-
 
 	// Get MIS deposit by ID
 	@GetMapping("/misedit/{id}")
@@ -647,11 +643,17 @@ public class PolicyManagementController {
 				}
 				CreateSavingsAccount savingAcc = accounts.get(0);
 				double balance = 0.0;
-				try { balance = Double.parseDouble(savingAcc.getBalance()); } catch (Exception ex) { balance = 0.0; }
+				try {
+					balance = Double.parseDouble(savingAcc.getBalance());
+				} catch (Exception ex) {
+					balance = 0.0;
+				}
 				if (balance < totalDeduction) {
 					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(
 							HttpStatus.BAD_REQUEST,
-							"Insufficient Saving Account balance! Available: " + balance + ", Required: " + totalDeduction, null));
+							"Insufficient Saving Account balance! Available: " + balance + ", Required: "
+									+ totalDeduction,
+							null));
 				}
 				savingAcc.setBalance(String.valueOf(balance - totalDeduction));
 				createSavingAccountRepo.save(savingAcc);
@@ -722,10 +724,9 @@ public class PolicyManagementController {
 			String policyCode = (String) data.get("policyCode");
 			double policyAmount = Double.parseDouble(data.get("policyAmount").toString());
 			int noOfInstallments = Integer.parseInt(data.get("noOfInstallments").toString());
-			double totalDeposit = Double.parseDouble(data.get("totalDeposit").toString());
-	        double paymentDue = Double.parseDouble(data.get("paymentDue").toString());
-	        int noOfInstPaid = Integer.parseInt(data.get("noOfInstPaid").toString());
-	        
+
+			// Fetch policy first — totalDeposit, paymentDue, noOfInstPaid may not be
+			// sent by the frontend; read them from the stored investment record instead.
 			Optional<AddnewinvestmentPM> optional = addinvestmentrepo.findByPolicyCode(policyCode);
 			if (!optional.isPresent()) {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -734,37 +735,46 @@ public class PolicyManagementController {
 
 			AddnewinvestmentPM investment = optional.get();
 
-			 int oldLastInstPaid = parseIntSafe(investment.getLastInstPaid());
-		        int todayInstallments = noOfInstallments;
-		        int updatedLastInstPaid = oldLastInstPaid + todayInstallments;
+			// Use request-body values when explicitly sent, otherwise fall back to DB
+			// values
+			double totalDeposit = (data.get("totalDeposit") != null)
+					? Double.parseDouble(data.get("totalDeposit").toString())
+					: parseDoubleSafe(investment.getPaidAmount());
+			double paymentDue = (data.get("paymentDue") != null)
+					? Double.parseDouble(data.get("paymentDue").toString())
+					: parseDoubleSafe(investment.getAmountDue());
+			int noOfInstPaid = (data.get("noOfInstPaid") != null)
+					? Integer.parseInt(data.get("noOfInstPaid").toString())
+					: parseIntSafe(investment.getLastInstPaid());
 
+			int oldLastInstPaid = parseIntSafe(investment.getLastInstPaid());
+			int todayInstallments = noOfInstallments;
+			int updatedLastInstPaid = oldLastInstPaid + todayInstallments;
 
+			// If policy fully paid already
+			if (paymentDue <= 0) {
+				return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK,
+						"No payment needed. Policy is already settled.", null));
+			}
 
-		        // If policy fully paid already
-		        if (paymentDue <= 0) {
-		            return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK,
-		                    "No payment needed. Policy is already settled.", null));
-		        }
+			// Today's deposit
+			double NetDeposit = policyAmount * noOfInstallments;
 
-		        // Today's deposit
-		        double NetDeposit = policyAmount * noOfInstallments;
+			// Updated values
+			// int updatedPaid = currentPaid + noOfInstallments;
+			double updatedTotalDeposit = totalDeposit + NetDeposit;
+			double updatedDue = paymentDue - NetDeposit;
 
-		        // Updated values
-//		        int updatedPaid = currentPaid + noOfInstallments;
-		        double updatedTotalDeposit = totalDeposit + NetDeposit;
-		        double updatedDue = paymentDue - NetDeposit;
+			System.out.println("Payment Due :" + updatedDue);
+			System.out.println("Deposite :" + updatedTotalDeposit);
+			System.out.println("Last : " + noOfInstPaid);
 
-		        System.out.println("Payment Due :" +  updatedDue);
-		        System.out.println("Deposite :" +  updatedTotalDeposit );
-		        System.out.println("Last : "+noOfInstPaid);
-		        
-		        // Save updated values to AddnewinvestmentPM
-		        investment.setAmountDue(String.valueOf(updatedDue));
-		        investment.setLastInstPaid(String.valueOf(updatedLastInstPaid));
-		        investment.setPaidAmount(String.valueOf(updatedTotalDeposit ));
-		        addinvestmentrepo.save(investment);
-		        
-		        
+			// Save updated values to AddnewinvestmentPM
+			investment.setAmountDue(String.valueOf(updatedDue));
+			investment.setLastInstPaid(String.valueOf(updatedLastInstPaid));
+			investment.setPaidAmount(String.valueOf(updatedTotalDeposit));
+			addinvestmentrepo.save(investment);
+
 			// Save to PolicyRenewal
 			FlexibleRenewal fRenewal = new FlexibleRenewal();
 			fRenewal.setPolicyCode(investment.getPolicyCode());
@@ -787,9 +797,9 @@ public class PolicyManagementController {
 			fRenewal.setNoOfInstPaid(parseIntSafe(investment.getLastInstPaid()));
 			fRenewal.setModeOfPayment(investment.getModeOfPayment());
 
-	        // >>>>>> MOST IMPORTANT FIX <<<<<<
-	        fRenewal.setNetDeposit(NetDeposit);          // today's deposit
-	        System.out.println("Net Deposite :" + NetDeposit);
+			// >>>>>> MOST IMPORTANT FIX <<<<<<
+			fRenewal.setNetDeposit(NetDeposit); // today's deposit
+			System.out.println("Net Deposite :" + NetDeposit);
 
 			flexibleRenewalRepo.save(fRenewal);
 
@@ -810,83 +820,91 @@ public class PolicyManagementController {
 		}
 	}
 
-//	@PostMapping("/updateDDDueAndInstallment")
-//	public ResponseEntity<ApiResponse<String>> updateDDDueAndInstallments(@RequestBody Map<String, Object> data) {
-//		try {
-//			String policyCode = (String) data.get("policyCode");
-//			double policyAmount = Double.parseDouble(data.get("policyAmount").toString());
-//			int noOfInstallments = Integer.parseInt(data.get("noOfInstallments").toString());
-//
-//			Optional<AddnewinvestmentPM> optional = addinvestmentrepo.findByPolicyCode(policyCode);
-//			if (!optional.isPresent()) {
-//				return ResponseEntity.status(HttpStatus.NOT_FOUND)
-//						.body(new ApiResponse<>(HttpStatus.NOT_FOUND, "Policy not found", null));
-//			}
-//
-//			AddnewinvestmentPM investment = optional.get();
-//
-//			// Parse current values
-//			double currentDue = parseDoubleSafe(investment.getAmountDue());
-//			int currentPaid = parseIntSafe(investment.getLastInstPaid());
-//			double currentPaidAmount = parseDoubleSafe(investment.getPaidAmount());
-//
-//			// Calculate updated values
-//			double totalDeduction = policyAmount * noOfInstallments;
-//			double updatedDue = currentDue - totalDeduction;
-//			int updatedPaid = currentPaid + noOfInstallments;
-//			double updatedPaidAmount = currentPaidAmount + totalDeduction;
-//
-//			// Check if no payment is needed
-//			if (currentDue <= 0) {
-//				return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK,
-//						"No payment needed. Policy is already settled or overpaid.", null));
-//			}
-//
-//			// Update the investment
-//			investment.setAmountDue(String.valueOf(updatedDue));
-//			investment.setLastInstPaid(String.valueOf(updatedPaid));
-//			investment.setPaidAmount(String.valueOf(updatedPaidAmount));
-//			addinvestmentrepo.save(investment);
-//
-//			// Save to PolicyRenewal
-//			DailyPremiumRenewalPM ddRenewal = new DailyPremiumRenewalPM();
-//			ddRenewal.setPolicyCode(investment.getPolicyCode());
-//			ddRenewal.setRenewalDate(LocalDate.now().toString());
-//			ddRenewal.setPolicyDate(investment.getPolicyStartDate());
-//			ddRenewal.setMaturityDate(investment.getMaturityDate());
-//			ddRenewal.setCustomerCode(investment.getMemberSelection());
-//			ddRenewal.setClientName(investment.getCustomerName());
-//			ddRenewal.setContactNo(investment.getContactNo());
-//			ddRenewal.setPolicyAmount(parseDoubleSafe(investment.getPolicyAmount()));
-//			ddRenewal.setPolicyType(investment.getSchemeType());
-//			ddRenewal.setPolicyTerm(investment.getSchemeTerm());
-//			ddRenewal.setBranchname(investment.getBranchName());
-//			ddRenewal.setMaturityAmount(parseDoubleSafe(investment.getMaturityAmount()));
-//			ddRenewal.setTotalDeposit(parseDoubleSafe(investment.getPaidAmount()));
-//			ddRenewal.setPaymentDue(parseDoubleSafe(investment.getAmountDue()));
-//			ddRenewal.setLastPaymentDate(investment.getLastPaymentDate());
-//			ddRenewal.setDueDate(investment.getDueDate());
-//			ddRenewal.setNoOfInst(parseIntSafe(investment.getNoOfInstallments()));
-//			ddRenewal.setNoOfInstPaid(parseIntSafe(investment.getLastInstPaid()));
-//			ddRenewal.setModeOfPayment(investment.getModeOfPayment());
-//			dailyPremiumRenewalRepo.save(ddRenewal);
-//
-//			// Final message based on updatedDue
-//			if (updatedDue == 0) {
-//				return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK, "Policy is ready for maturity.", null));
-//			} else if (updatedDue < 0) {
-//				return ResponseEntity
-//						.ok(new ApiResponse<>(HttpStatus.OK, "No payment needed. Policy is overpaid.", null));
-//			} else {
-//				return ResponseEntity.ok(
-//						new ApiResponse<>(HttpStatus.OK, "Installment updated and renewal saved successfully", null));
-//			}
-//
-//		} catch (Exception e) {
-//			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-//					new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, "Update failed: " + e.getMessage(), null));
-//		}
-//	}
+	// @PostMapping("/updateDDDueAndInstallment")
+	// public ResponseEntity<ApiResponse<String>>
+	// updateDDDueAndInstallments(@RequestBody Map<String, Object> data) {
+	// try {
+	// String policyCode = (String) data.get("policyCode");
+	// double policyAmount =
+	// Double.parseDouble(data.get("policyAmount").toString());
+	// int noOfInstallments =
+	// Integer.parseInt(data.get("noOfInstallments").toString());
+	//
+	// Optional<AddnewinvestmentPM> optional =
+	// addinvestmentrepo.findByPolicyCode(policyCode);
+	// if (!optional.isPresent()) {
+	// return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	// .body(new ApiResponse<>(HttpStatus.NOT_FOUND, "Policy not found", null));
+	// }
+	//
+	// AddnewinvestmentPM investment = optional.get();
+	//
+	// // Parse current values
+	// double currentDue = parseDoubleSafe(investment.getAmountDue());
+	// int currentPaid = parseIntSafe(investment.getLastInstPaid());
+	// double currentPaidAmount = parseDoubleSafe(investment.getPaidAmount());
+	//
+	// // Calculate updated values
+	// double totalDeduction = policyAmount * noOfInstallments;
+	// double updatedDue = currentDue - totalDeduction;
+	// int updatedPaid = currentPaid + noOfInstallments;
+	// double updatedPaidAmount = currentPaidAmount + totalDeduction;
+	//
+	// // Check if no payment is needed
+	// if (currentDue <= 0) {
+	// return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK,
+	// "No payment needed. Policy is already settled or overpaid.", null));
+	// }
+	//
+	// // Update the investment
+	// investment.setAmountDue(String.valueOf(updatedDue));
+	// investment.setLastInstPaid(String.valueOf(updatedPaid));
+	// investment.setPaidAmount(String.valueOf(updatedPaidAmount));
+	// addinvestmentrepo.save(investment);
+	//
+	// // Save to PolicyRenewal
+	// DailyPremiumRenewalPM ddRenewal = new DailyPremiumRenewalPM();
+	// ddRenewal.setPolicyCode(investment.getPolicyCode());
+	// ddRenewal.setRenewalDate(LocalDate.now().toString());
+	// ddRenewal.setPolicyDate(investment.getPolicyStartDate());
+	// ddRenewal.setMaturityDate(investment.getMaturityDate());
+	// ddRenewal.setCustomerCode(investment.getMemberSelection());
+	// ddRenewal.setClientName(investment.getCustomerName());
+	// ddRenewal.setContactNo(investment.getContactNo());
+	// ddRenewal.setPolicyAmount(parseDoubleSafe(investment.getPolicyAmount()));
+	// ddRenewal.setPolicyType(investment.getSchemeType());
+	// ddRenewal.setPolicyTerm(investment.getSchemeTerm());
+	// ddRenewal.setBranchname(investment.getBranchName());
+	// ddRenewal.setMaturityAmount(parseDoubleSafe(investment.getMaturityAmount()));
+	// ddRenewal.setTotalDeposit(parseDoubleSafe(investment.getPaidAmount()));
+	// ddRenewal.setPaymentDue(parseDoubleSafe(investment.getAmountDue()));
+	// ddRenewal.setLastPaymentDate(investment.getLastPaymentDate());
+	// ddRenewal.setDueDate(investment.getDueDate());
+	// ddRenewal.setNoOfInst(parseIntSafe(investment.getNoOfInstallments()));
+	// ddRenewal.setNoOfInstPaid(parseIntSafe(investment.getLastInstPaid()));
+	// ddRenewal.setModeOfPayment(investment.getModeOfPayment());
+	// dailyPremiumRenewalRepo.save(ddRenewal);
+	//
+	// // Final message based on updatedDue
+	// if (updatedDue == 0) {
+	// return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK, "Policy is ready
+	// for maturity.", null));
+	// } else if (updatedDue < 0) {
+	// return ResponseEntity
+	// .ok(new ApiResponse<>(HttpStatus.OK, "No payment needed. Policy is
+	// overpaid.", null));
+	// } else {
+	// return ResponseEntity.ok(
+	// new ApiResponse<>(HttpStatus.OK, "Installment updated and renewal saved
+	// successfully", null));
+	// }
+	//
+	// } catch (Exception e) {
+	// return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+	// new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, "Update failed: " +
+	// e.getMessage(), null));
+	// }
+	// }
 
 	@PostMapping("/updateDDDueAndInstallment")
 	public ResponseEntity<ApiResponse<String>> updateDDDueAndInstallments(@RequestBody Map<String, Object> data) {
@@ -895,9 +913,9 @@ public class PolicyManagementController {
 			double policyAmount = Double.parseDouble(data.get("policyAmount").toString());
 			int noOfInstallments = Integer.parseInt(data.get("noOfInstallments").toString());
 			double totalDeposit = Double.parseDouble(data.get("totalDeposit").toString());
-	        double paymentDue = Double.parseDouble(data.get("paymentDue").toString());
-	        int noOfInstPaid = Integer.parseInt(data.get("noOfInstPaid").toString());
-	        String modeOfPayment = data.get("modeOfPayment") != null ? data.get("modeOfPayment").toString() : "";
+			double paymentDue = Double.parseDouble(data.get("paymentDue").toString());
+			int noOfInstPaid = Integer.parseInt(data.get("noOfInstPaid").toString());
+			String modeOfPayment = data.get("modeOfPayment") != null ? data.get("modeOfPayment").toString() : "";
 
 			// fetch all records
 			List<AddnewinvestmentPM> investments = addinvestmentrepo.findAllByPolicyCode(policyCode);
@@ -910,52 +928,57 @@ public class PolicyManagementController {
 			AddnewinvestmentPM investment = investments.get(0);
 
 			int oldLastInstPaid = parseIntSafe(investment.getLastInstPaid());
-	        int todayInstallments = noOfInstallments;
-	        int updatedLastInstPaid = oldLastInstPaid + todayInstallments;
+			int todayInstallments = noOfInstallments;
+			int updatedLastInstPaid = oldLastInstPaid + todayInstallments;
 
-	        if (paymentDue <= 0) {
-	            return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK,
-	                    "No payment needed. Policy is already settled.", null));
-	        }
+			if (paymentDue <= 0) {
+				return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK,
+						"No payment needed. Policy is already settled.", null));
+			}
 
-	        // Today's deposit
-	        double NetDeposit = policyAmount * noOfInstallments;
+			// Today's deposit
+			double NetDeposit = policyAmount * noOfInstallments;
 
-	        // Updated values
-	        double updatedTotalDeposit = totalDeposit + NetDeposit;
-	        double updatedDue = paymentDue - NetDeposit;
+			// Updated values
+			double updatedTotalDeposit = totalDeposit + NetDeposit;
+			double updatedDue = paymentDue - NetDeposit;
 
-	        System.out.println("Payment Due :" +  updatedDue);
-	        System.out.println("Deposite :" +  updatedTotalDeposit);
-	        System.out.println("Last : " + noOfInstPaid);
+			System.out.println("Payment Due :" + updatedDue);
+			System.out.println("Deposite :" + updatedTotalDeposit);
+			System.out.println("Last : " + noOfInstPaid);
 
-	        // --- FIX 1: Deduct from Savings Account if payment mode is Savings Account ---
-	        if ("savingaccount".equalsIgnoreCase(modeOfPayment.replaceAll("\\s+", ""))
-	        		|| "saving account".equalsIgnoreCase(modeOfPayment.trim())) {
-	        	String customerCode = investment.getMemberSelection();
-	        	List<CreateSavingsAccount> accounts = createSavingAccountRepo.findBySelectByCustomer(customerCode);
-	        	if (accounts == null || accounts.isEmpty()) {
-	        		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(
-	        				HttpStatus.BAD_REQUEST, "No Saving Account found for customer: " + customerCode, null));
-	        	}
-	        	CreateSavingsAccount savingAcc = accounts.get(0);
-	        	double balance = 0.0;
-	        	try { balance = Double.parseDouble(savingAcc.getBalance()); } catch (Exception ex) { balance = 0.0; }
-	        	if (balance < NetDeposit) {
-	        		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(
-	        				HttpStatus.BAD_REQUEST,
-	        				"Insufficient Saving Account balance! Available: " + balance + ", Required: " + NetDeposit, null));
-	        	}
-	        	savingAcc.setBalance(String.valueOf(balance - NetDeposit));
-	        	createSavingAccountRepo.save(savingAcc);
-	        }
-	        // -----------------------------------------------------------------------
+			// --- FIX 1: Deduct from Savings Account if payment mode is Savings Account ---
+			if ("savingaccount".equalsIgnoreCase(modeOfPayment.replaceAll("\\s+", ""))
+					|| "saving account".equalsIgnoreCase(modeOfPayment.trim())) {
+				String customerCode = investment.getMemberSelection();
+				List<CreateSavingsAccount> accounts = createSavingAccountRepo.findBySelectByCustomer(customerCode);
+				if (accounts == null || accounts.isEmpty()) {
+					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(
+							HttpStatus.BAD_REQUEST, "No Saving Account found for customer: " + customerCode, null));
+				}
+				CreateSavingsAccount savingAcc = accounts.get(0);
+				double balance = 0.0;
+				try {
+					balance = Double.parseDouble(savingAcc.getBalance());
+				} catch (Exception ex) {
+					balance = 0.0;
+				}
+				if (balance < NetDeposit) {
+					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(
+							HttpStatus.BAD_REQUEST,
+							"Insufficient Saving Account balance! Available: " + balance + ", Required: " + NetDeposit,
+							null));
+				}
+				savingAcc.setBalance(String.valueOf(balance - NetDeposit));
+				createSavingAccountRepo.save(savingAcc);
+			}
+			// -----------------------------------------------------------------------
 
-	        // Save updated values to AddnewinvestmentPM
-	        investment.setAmountDue(String.valueOf(updatedDue));
-	        investment.setLastInstPaid(String.valueOf(updatedLastInstPaid));
-	        investment.setPaidAmount(String.valueOf(updatedTotalDeposit));
-	        addinvestmentrepo.save(investment);
+			// Save updated values to AddnewinvestmentPM
+			investment.setAmountDue(String.valueOf(updatedDue));
+			investment.setLastInstPaid(String.valueOf(updatedLastInstPaid));
+			investment.setPaidAmount(String.valueOf(updatedTotalDeposit));
+			addinvestmentrepo.save(investment);
 
 			// Save to DailyPremiumRenewalPM
 			DailyPremiumRenewalPM ddRenewal = new DailyPremiumRenewalPM();
@@ -979,7 +1002,7 @@ public class PolicyManagementController {
 			ddRenewal.setNoOfInstPaid(parseIntSafe(investment.getLastInstPaid()));
 			ddRenewal.setModeOfPayment(modeOfPayment.isEmpty() ? investment.getModeOfPayment() : modeOfPayment);
 			ddRenewal.setNetDeposit(NetDeposit);
-		    System.out.println("Net Deposite :" + NetDeposit);
+			System.out.println("Net Deposite :" + NetDeposit);
 			dailyPremiumRenewalRepo.save(ddRenewal);
 
 			if (updatedDue == 0) {
@@ -1104,9 +1127,11 @@ public class PolicyManagementController {
 				fm.setPolicyCode(drd.getPolicyCode());
 				fm.setCustomerName(drd.getClientName());
 				fm.setPolicyAmount(drd.getPolicyAmount() != null ? String.valueOf(drd.getPolicyAmount()) : "0");
-				double amt = drd.getNetDeposit() > 0 ? drd.getNetDeposit() : (drd.getPolicyAmount() != null ? drd.getPolicyAmount() : 0);
+				double amt = drd.getNetDeposit() > 0 ? drd.getNetDeposit()
+						: (drd.getPolicyAmount() != null ? drd.getPolicyAmount() : 0);
 				fm.setAmount(String.valueOf(amt));
-				fm.setPaymentDate(drd.getRenewalDate() != null ? drd.getRenewalDate() : (drd.getLastPaymentDate() != null ? drd.getLastPaymentDate() : drd.getPolicyDate()));
+				fm.setPaymentDate(drd.getRenewalDate() != null ? drd.getRenewalDate()
+						: (drd.getLastPaymentDate() != null ? drd.getLastPaymentDate() : drd.getPolicyDate()));
 				fm.setMaturityDate(drd.getMaturityDate());
 				fm.setBranchName(drd.getBranchname());
 				fm.setModeofPayment(drd.getModeOfPayment());
@@ -1125,7 +1150,8 @@ public class PolicyManagementController {
 				fm.setCustomerName(ren.getClientName());
 				fm.setPolicyAmount(ren.getPolicyAmount() != null ? String.valueOf(ren.getPolicyAmount()) : "0");
 				fm.setAmount(ren.getPolicyAmount() != null ? String.valueOf(ren.getPolicyAmount()) : "0");
-				fm.setPaymentDate(ren.getRenewalDate() != null ? ren.getRenewalDate() : (ren.getLastPaymentDate() != null ? ren.getLastPaymentDate() : ren.getPolicyDate()));
+				fm.setPaymentDate(ren.getRenewalDate() != null ? ren.getRenewalDate()
+						: (ren.getLastPaymentDate() != null ? ren.getLastPaymentDate() : ren.getPolicyDate()));
 				fm.setMaturityDate(ren.getMaturityDate());
 				fm.setBranchName(ren.getBranchname());
 				fm.setModeofPayment(ren.getModeOfPayment());
@@ -1143,9 +1169,11 @@ public class PolicyManagementController {
 				fm.setPolicyCode(fd.getPolicyCode());
 				fm.setCustomerName(fd.getClientName());
 				fm.setPolicyAmount(fd.getPolicyAmount() != null ? String.valueOf(fd.getPolicyAmount()) : "0");
-				double amt = fd.getNetDeposit() > 0 ? fd.getNetDeposit() : (fd.getPolicyAmount() != null ? fd.getPolicyAmount() : 0);
+				double amt = fd.getNetDeposit() > 0 ? fd.getNetDeposit()
+						: (fd.getPolicyAmount() != null ? fd.getPolicyAmount() : 0);
 				fm.setAmount(String.valueOf(amt));
-				fm.setPaymentDate(fd.getRenewalDate() != null ? fd.getRenewalDate() : (fd.getLastPaymentDate() != null ? fd.getLastPaymentDate() : fd.getPolicyDate()));
+				fm.setPaymentDate(fd.getRenewalDate() != null ? fd.getRenewalDate()
+						: (fd.getLastPaymentDate() != null ? fd.getLastPaymentDate() : fd.getPolicyDate()));
 				fm.setMaturityDate(fd.getMaturityDate());
 				fm.setBranchName(fd.getBranchname());
 				fm.setModeofPayment(fd.getModeOfPayment());
@@ -1155,11 +1183,12 @@ public class PolicyManagementController {
 			return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK, "Flexible Renewal Data found", mappedList));
 		}
 
-		// Return 200 OK with empty list if no installment data found (prevents JS error alert)
+		// Return 200 OK with empty list if no installment data found (prevents JS error
+		// alert)
 		return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK,
 				"No installment data found for code: " + policyCode, java.util.Collections.emptyList()));
 	}
-	
+
 	@PostMapping("/deletePolicyDataById")
 	public ResponseEntity<ApiResponse<String>> deletePolicyDataById(@RequestParam("id") Long id) {
 		boolean isDeleted = policyManagementService.deletePolicyDataById(id);
@@ -1173,7 +1202,7 @@ public class PolicyManagementController {
 			return ResponseEntity.badRequest().body(response);
 		}
 	}
-	
+
 	@GetMapping("/getApprovedRDFromFullMaturity")
 	public ResponseEntity<ApiResponse<List<FullMaturity>>> getApprovedRD() {
 		List<FullMaturity> approvedList = policyManagementService.getAllApprovedRDPolicies();
@@ -1187,7 +1216,5 @@ public class PolicyManagementController {
 				.ok(new ApiResponse<>(HttpStatus.OK, "Approved RD policies fetched successfully", approvedList));
 
 	}
-	
-	
 
 }

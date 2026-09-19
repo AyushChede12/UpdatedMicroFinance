@@ -119,28 +119,28 @@
 							<table class="table table-bordered table-striped"
 								id="policyTable">
 								<thead class="thead-dark"
-									style="position: sticky; top: 0; background-color: #343a40; color: white;">
-									<tr>
-										<th>POLICY CODE</th>
-										<th>CUSTOMER NAME</th>
-										<th>POLICY AMOUNT</th>
-										<th>RENEWAL DATE</th>
-										<th>POLICY TYPE</th>
-										<th>MATURITY AMOUNT</th>
-										<th>DEPOSITE AMOUNT</th>
-										<th>START DATE</th>
-										<th>POLICY TERM</th>
-										<th>MATURITY DATE</th>
-										<th>CUSTOMER CODE</th>
-										<th>CONTACT NO</th>
-										<th>TOTAL DEPOSIT</th>
-										<th>PAYMENT DUE</th>
-										<th>NO. OF INSTALLMENTS PAID</th>
-										<th>APPROVED</th>
-										<th>BRANCH NAME</th>
-										<th>ACTION</th>
-									</tr>
-								</thead>
+						style="position: sticky; top: 0; background-color: #343a40; color: #000000;">
+						<tr>
+							<th style="color: #000000 !important;">POLICY CODE</th>
+							<th style="color: #000000 !important;">CUSTOMER NAME</th>
+							<th style="color: #000000 !important;">POLICY AMOUNT</th>
+							<th style="color: #000000 !important;">RENEWAL DATE</th>
+							<th style="color: #000000 !important;">POLICY TYPE</th>
+							<th style="color: #000000 !important;">MATURITY AMOUNT</th>
+							<th style="color: #000000 !important;">DEPOSITE AMOUNT</th>
+							<th style="color: #000000 !important;">START DATE</th>
+							<th style="color: #000000 !important;">POLICY TERM</th>
+							<th style="color: #000000 !important;">MATURITY DATE</th>
+							<th style="color: #000000 !important;">CUSTOMER CODE</th>
+							<th style="color: #000000 !important;">CONTACT NO</th>
+							<th style="color: #000000 !important;">TOTAL DEPOSIT</th>
+							<th style="color: #000000 !important;">PAYMENT DUE</th>
+							<th style="color: #000000 !important;">NO. OF INSTALLMENTS PAID</th>
+							<th style="color: #000000 !important;">APPROVED</th>
+							<th style="color: #000000 !important;">BRANCH NAME</th>
+							<th style="color: #000000 !important;">ACTION</th>
+						</tr>
+					</thead>
 								<tbody id="policyTableBody">
 									<!-- Data will be inserted here -->
 								</tbody>
