@@ -97,8 +97,8 @@ function fetchJournalEntryReport() {
 				const row = `
                     <tr>
                         <td>${entry.dateOfEntry || ''}</td>
-                        <td>${entry.voucherID || ''}</td>
-                        <td>${entry.remarks || ''}</td>
+                        <td>${entry.voucherID.toUpperCase() || ''}</td>
+                        <td>${entry.remarks.toUpperCase() || ''}</td>
                         <td>${entry.accountCode || ''}</td>
                         <td class="text-right">${Number(debit).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
                         <td class="text-right">${Number(credit).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
@@ -110,7 +110,7 @@ function fetchJournalEntryReport() {
 			// ✅ Add Totals Row
 			tbody.append(`
                 <tr class="font-weight-bold table-warning">
-                    <td colspan="4" class="text-right">Total:</td>
+                    <td colspan="4" class="text-right">TOTAL:</td>
                     <td class="text-right">${Number(totalDebit).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
                     <td class="text-right">${Number(totalCredit).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
                 </tr>
@@ -122,11 +122,10 @@ function fetchJournalEntryReport() {
 				$(".card-body").prepend(`<div id="summaryInfo" class="alert alert-info py-2 mb-3"></div>`);
 			}
 			$("#summaryInfo").html(`
-                <strong>Branch:</strong> ${branch} |
-                <strong>Voucher Type:</strong> ${voucherType.toUpperCase()} |
-                <strong>Report Period:</strong> ${startDate} to ${endDate} |
-                <strong>Total Debit:</strong> ₹${Number(totalDebit).toLocaleString('en-IN', { minimumFractionDigits: 2 })} |
-                <strong>Total Credit:</strong> ₹${Number(totalCredit).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                <strong>BRANCH:</strong> ${branch} |
+                <strong>REPORT PERIOD:</strong> ${startDate} to ${endDate} |
+                <strong>TOTAL DEBIT:</strong> ₹${Number(totalDebit).toLocaleString('en-IN', { minimumFractionDigits: 2 })} |
+                <strong>TOTAL CREDIT:</strong> ₹${Number(totalCredit).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
             `);
 		},
 		error: function(xhr) {

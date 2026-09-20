@@ -2735,10 +2735,12 @@ public class AccountManagementService {
 		// =========================
 		System.out.println(dto.getAccountCode());
 		System.out.println(dto.getSourceBranch());
-		Optional<LedgerAccountMaster> sourceLedgerOptional =
+		Optional<LedgerAccountMaster> sourceLedgerOptional = ledgerAccountRepository
+				.findByAccountCodeAndBranchName(dto.getAccountCode(), dto.getSourceBranch());
+		System.out.println("Source Account Code : "+dto.getAccountCode());
+		System.out.println("Source Branch : "+ dto.getSourceBranch());
+		System.out.println("Source Ledger : "+sourceLedgerOptional);
 
-				ledgerAccountRepository.findByAccountCodeAndBranchName(dto.getAccountCode(), dto.getSourceBranch());
-		System.out.println(sourceLedgerOptional.isPresent());
 		if (!sourceLedgerOptional.isPresent()) {
 
 			throw new RuntimeException(
@@ -2762,21 +2764,23 @@ public class AccountManagementService {
 		// =========================
 		// ACCOUNT TYPE VALIDATION
 		// =========================
-
-		if (!"Cash".equalsIgnoreCase(sourceLedger.getAccountType())) {
-
-			throw new RuntimeException(
-
-					"Selected Ledger is not a CASH Ledger");
-		}
+//		if (!"Cash In Hand".equalsIgnoreCase(sourceLedger.getAccountType())) {
+//
+//			throw new RuntimeException(
+//
+//					"Selected Ledger is not a CASH Ledger");
+//		}
 
 		// =========================
 		// RECEIVING LEDGER CHECK
 		// =========================
+		System.out.println(dto.getReceivingBranch());
+		Optional<LedgerAccountMaster> receivingLedgerOptional = ledgerAccountRepository
+				.findByAccountCodeAndBranchName(dto.getAccountCode(), dto.getReceivingBranch());
+		System.out.println("Receiving Account Code : "+dto.getAccountCode());
+		System.out.println("Receiving Branch : "+ dto.getReceivingBranch());
+		System.out.println("Receiving Ledger : "+receivingLedgerOptional);
 
-		Optional<LedgerAccountMaster> receivingLedgerOptional =
-
-				ledgerAccountRepository.findByAccountCodeAndBranchName(dto.getAccountCode(), dto.getReceivingBranch());
 
 		if (!receivingLedgerOptional.isPresent()) {
 

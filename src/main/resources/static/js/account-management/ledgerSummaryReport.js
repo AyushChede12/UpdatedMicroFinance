@@ -119,7 +119,7 @@ function fetchLedgerSummary() {
 				const row = `
                     <tr>
                         <td>${entry.dateOfEntry || ''}</td>
-                        <td>${entry.voucherId || ''}</td>
+                        <td>${entry.voucherId.toUpperCase() || ''}</td>
                         <td>${(entry.remarks).toUpperCase() || ''}</td>
                         <td>${entry.accountCode || ''}</td>
                         <td class="text-right">${Number(debit).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
@@ -143,10 +143,10 @@ function fetchLedgerSummary() {
 			if (first.openingBalance !== undefined && first.closingBalance !== undefined) {
 				$("#summaryInfo").html(`
                     <div class="alert alert-info py-2">
-                        <strong>Branch:</strong> ${branch} |
-                        <strong>Ledger:</strong> ${ledger} |
-                        <strong>Opening Balance:</strong> ${Number(first.openingBalance).toLocaleString('en-IN', { minimumFractionDigits: 2 })} |
-                        <strong>Closing Balance:</strong> ${Number(first.closingBalance).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                        <strong>BRANCH:</strong> ${branch.toUpperCase()} |
+                        <strong>LEDGER:</strong> ${ledger.toUpperCase()} |
+                        <strong>OPENING BALANCE:</strong> ${Number(first.openingBalance).toLocaleString('en-IN', { minimumFractionDigits: 2 })} |
+                        <strong>CLOSING BALANCE:</strong> ${Number(first.closingBalance).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                     </div>
                 `);
 			}
