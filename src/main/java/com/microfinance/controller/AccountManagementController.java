@@ -339,6 +339,7 @@ public class AccountManagementController {
 			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
 
 		List<LedgerSummaryDto> result = accountManagementService.getLedgerSummary(branch, ledger, startDate, endDate);
+
 		return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "Fetched Successfully", result));
 	}
 
