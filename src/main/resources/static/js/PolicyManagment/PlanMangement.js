@@ -1331,7 +1331,7 @@ $(document).ready(function() {
 		console.log("Sending MIS Data:", misDeposit);
 
 		$.ajax({
-			url: '/api/Policymangment/mis-deposit/save',
+			url: 'api/Policymangment/mis-deposit/save',
 			type: 'POST',
 			contentType: 'application/json',
 			data: JSON.stringify(misDeposit),
@@ -1355,7 +1355,7 @@ $(document).ready(function() {
 	function fetchMISDeposits() {
 		$.ajax({
 			type: "GET",
-			url: "/api/Policymangment/mis-deposit/view",
+			url: "api/Policymangment/mis-deposit/view",
 			dataType: "json",
 			success: function(response) {
 				if (response.status === "OK") {
@@ -1623,15 +1623,12 @@ function calculateMISDeposit() {
     // Maturity amount
     const maturityAmount = principal + totalInterest;
 	
-	const interestEarned = maturityAmount - principal;
-
     // Interest per interval (monthly payout)
     const interestPerInterval = monthlyInterest;
 
     // Update fields
     document.getElementById("totalPaidMD").value = totalDeposit.toFixed(2);
     document.getElementById("maturityAmountMD").value = maturityAmount.toFixed(2);
-	document.getElementById("interestEarnedMD").value = interestEarned.toFixed(2);
 	//document.getElementById("interestPerIntervalMD").value = interestPerInterval.toFixed(2);
 }
 
