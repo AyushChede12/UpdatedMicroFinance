@@ -149,6 +149,12 @@ function bindEventHandlers() {
 	$('#printReceiptBtn').on('click', function() {
 		printForeclosureReceipt();
 	});
+
+	// Modal dismiss buttons click handler
+	$(document).on('click', '[data-dismiss="modal"], [data-bs-dismiss="modal"], .close', function() {
+		hideModal('#closureConfirmModal');
+		hideModal('#closureSuccessModal');
+	});
 }
 
 // 5. Fetch server-side foreclosure settlement calculation
@@ -267,11 +273,10 @@ function recalculateNetSettlement() {
 	const interestDue = parseFloat($('#interestDue').val()) || 0;
 	const fineAmount = parseFloat($('#deductFineAmount').val()) || 0;
 	const feeAmount = parseFloat($('#foreclosureFee').val()) || 0;
-	const overdueArrears = currentSettlementData.overdueArrears || 0;
 	const waiver = parseFloat($('#waiver').val()) || 0;
 
-	// Formula: Net = (Principal + Interest + Arrears + Fine + ForeclosureFee) - Waiver
-	let net = (principalDue + interestDue + overdueArrears + fineAmount + feeAmount) - waiver;
+	// Formula: Net = (Principal + Interest + Fine + ForeclosureFee) - Waiver
+	let net = (principalDue + interestDue + fineAmount + feeAmount) - waiver;
 	if (net < 0) net = 0;
 
 	$('#netAmount').val(net.toFixed(2));
@@ -376,8 +381,67 @@ function initiateClosureConfirmation() {
 	$('#modalConfPayoff').text(`₹${submittedAmount.toLocaleString('en-IN', {minimumFractionDigits: 2})}`);
 	$('#modalConfReason').text(reason);
 
-	const modal = new bootstrap.Modal(document.getElementById('closureConfirmModal'));
-	modal.show();
+	showModal('#closureConfirmModal');
+}
+
+// Modal Helper Functions (compatible with Bootstrap 4 & 5 and pure DOM fallback)
+function showModal(selector) {
+	const $m = $(selector);
+	if (typeof $m.modal === 'function') {
+		$m.modal('show');
+	} else if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+		const inst = bootstrap.Modal.getOrCreateInstance($m[0]);
+		inst.show();
+	} else {
+		$m.addClass('show').css('display', 'block').removeAttr('aria-hidden');
+		if ($('.modal-backdrop').length === 0) {
+			$('body').append('<div class="modal-backdrop fade show"></div>');
+		}
+		$('body').addClass('modal-open');
+	}
+}
+
+function hideModal(selector) {
+	const $m = $(selector);
+	if (typeof $m.modal === 'function') {
+		try { $m.modal('hide'); } catch(e) {}
+	}
+	if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+		try {
+			const inst = bootstrap.Modal.getInstance($m[0]);
+			if (inst) inst.hide();
+		} catch(e) {}
+	}
+	$m.removeClass('show').css('display', 'none').attr('aria-hidden', 'true');
+	$('.modal-backdrop').remove();
+	$('body').removeClass('modal-open').css('padding-right', '');
+}
+
+// Reset entire form and restore clean state
+function resetEarlyClosureForm() {
+	currentSettlementData = null;
+	const $form = $('#formid');
+	if ($form.length > 0 && $form[0]) {
+		$form[0].reset();
+	}
+	$('#earlyLoanclosureId').val('');
+	$('#loanDate, #memberId, #memberName, #relativeDetails, #contactNo, #branchName, #paymentBranch, #loanPlanName, #loanTerm, #loanMode, #loanAmount, #rateOfInterest, #interestType, #emiPayment, #sanctionedAmount, #totalinterestofLoan, #totalPayableofLoan, #typeOfLoan, #noOfInst, #principalDue, #interestDue, #amountPaid, #balanceLoanAmount, #foreclosureFee, #deductFineAmount, #waiver, #paymentAmount, #netAmount, #accountNo, #chequeNo, #ref_UpiId, #remarks, #financialConsultantName').val('');
+	$('#financialConsultantId').val('');
+	$('#reasonForClosure').val('Foreclosure / Early Settlement');
+	$('#deductfine').val('NO');
+	$('#paymentMode').val('');
+
+	$('#displayCheque, #displaycheqdate, #displaydeposit, #displayRef, #displaySavingsAccount').hide();
+	$('#remarksReqStar').hide();
+	$('#remarks').removeAttr('required');
+
+	$('#settlementSummaryCard').slideUp(200);
+	$('#collateralStatusBadgeContainer').hide();
+	$('#summaryLoanIdBadge').text('');
+	$('#summarySanctioned, #summaryPrincipalPaid, #summaryPrincipalDue, #summaryAccruedInterest, #summaryArrearsFines, #summaryNetPayoff').text('₹0.00');
+	$('#summaryElapsedDays').text('');
+
+	initializeDateDefaults();
 }
 
 // 9. Execute Loan Closure via AJAX POST
@@ -443,52 +507,37 @@ function executeLoanClosure() {
 		success: function(response) {
 			$btn.prop('disabled', false).html('<i class="bi bi-check-circle me-1"></i> YES, EXECUTE CLOSURE');
 
-			// Hide confirmation modal
-			const confModalEl = document.getElementById('closureConfirmModal');
-			const confModal = bootstrap.Modal.getInstance(confModalEl);
-			if (confModal) confModal.hide();
+			// 1. Hide confirmation modal immediately
+			hideModal('#closureConfirmModal');
+			hideModal('#closureSuccessModal');
 
-			// Prepare Success Modal & Receipt
-			const data = response.data || {};
-			const receiptNo = data.receiptId || ('REC-FC-' + payload.loanId);
-			const collMsg = data.collateralMessage || (data.collateralReleased ? 'Collateral / Lien Released' : '');
+			const successMessage = (response && response.message) ? response.message : `Loan ${payload.loanId} closed and settled successfully.`;
 
-			$('#succModalMsg').text(response.message || `Loan ${payload.loanId} closed and settled successfully.`);
-			$('#succModalCollateralMsg').text(collMsg);
+			// 2. Alert popup as requested by user
+			alert(successMessage);
 
-			// Fill Receipt Area
-			$('#recReceiptNo').text(receiptNo);
-			$('#recDate').text(payload.paymentDate);
-			$('#recLoanId').text(payload.loanId);
-			$('#recBranch').text(payload.paymentBranch);
-			$('#recBorrower').text(payload.memberName + ' (' + payload.memberId + ')');
-			$('#recMode').text(payload.paymentMode);
+			// 3. Ensure modals and lingering backdrops are completely removed from screen
+			hideModal('#closureConfirmModal');
+			hideModal('#closureSuccessModal');
+			$('.modal-backdrop').remove();
+			$('body').removeClass('modal-open').css('padding-right', '');
 
-			$('#recPrincipal').text(parseFloat(payload.principaldue || 0).toFixed(2));
-			$('#recInterest').text(parseFloat(payload.interestDue || 0).toFixed(2));
-			$('#recFines').text(parseFloat(payload.fine || 0).toFixed(2));
-			$('#recFee').text(parseFloat(payload.foreclosureFee || 0).toFixed(2));
-			$('#recWaiver').text('-' + parseFloat(payload.waiver || 0).toFixed(2));
-			$('#recTotal').text('₹' + parseFloat(payload.netAmount || 0).toLocaleString('en-IN', {minimumFractionDigits: 2}));
-
-			// Setup NOC and Statement buttons
-			$('#downloadNocBtn').off('click').on('click', function() {
-				window.open(`loanDocumentPrintLoanManagement?loanId=${encodeURIComponent(payload.loanId)}`, '_blank');
-			});
-
-			$('#viewStatementBtn').off('click').on('click', function() {
-				window.open(`regularLoanStatementLoanManagement?loanId=${encodeURIComponent(payload.loanId)}`, '_blank');
-			});
-
-			// Show Success Modal
-			const succModal = new bootstrap.Modal(document.getElementById('closureSuccessModal'));
-			succModal.show();
+			// 4. Reset form inputs and refresh approved active loan list
+			resetEarlyClosureForm();
+			populateApprovedLoanIds();
 		},
 		error: function(xhr) {
 			$btn.prop('disabled', false).html('<i class="bi bi-check-circle me-1"></i> YES, EXECUTE CLOSURE');
+			hideModal('#closureConfirmModal');
 			console.error("Closure error:", xhr.responseText);
-			const err = xhr.responseJSON ? xhr.responseJSON.message : xhr.responseText;
-			alert("Failed to close loan: " + (err || "Internal Server Error"));
+			let errMsg = "Failed to close loan.";
+			try {
+				const res = JSON.parse(xhr.responseText);
+				if (res && res.message) errMsg = res.message;
+			} catch(e) {
+				if (xhr.statusText) errMsg = xhr.statusText;
+			}
+			alert(errMsg);
 		}
 	});
 }

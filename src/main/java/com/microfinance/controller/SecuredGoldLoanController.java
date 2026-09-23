@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.microfinance.dto.ApiResponse;
+import com.microfinance.dto.ApplyForGoldRequestDto;
 import com.microfinance.model.ApplyForGold;
 import com.microfinance.model.EmiInstallmentPaymentGold;
 import com.microfinance.model.GoldDirectory;
@@ -195,17 +196,20 @@ public class SecuredGoldLoanController {
 	}
 
 	@PostMapping("/saveApplyForGold")
-	public ResponseEntity<ApiResponse<ApplyForGold>> saveApplyForGold(@RequestBody ApplyForGold applyForGold) {
-		boolean isSaved = secureGoldLoanService.saveApplyForGoldData(applyForGold);
-
-		if (isSaved) {
+	public ResponseEntity<ApiResponse<ApplyForGold>> saveApplyForGold(@RequestBody ApplyForGoldRequestDto applyForGoldDto) {
+		try {
+			ApplyForGold savedLoan = secureGoldLoanService.createGoldLoanApplication(applyForGoldDto);
 			ApiResponse<ApplyForGold> response = ApiResponse.success(HttpStatus.CREATED,
-					"Gold Loan Application saved successfully.", applyForGold);
+					"Gold Loan Application saved successfully.", savedLoan);
 			return ResponseEntity.ok(response);
-		} else {
-			ApiResponse<ApplyForGold> response = ApiResponse.error(HttpStatus.BAD_REQUEST,
-					"Failed to save Gold Loan Application.");
+		} catch (IllegalArgumentException ex) {
+			ApiResponse<ApplyForGold> response = ApiResponse.error(HttpStatus.BAD_REQUEST, ex.getMessage());
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			ApiResponse<ApplyForGold> response = ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR,
+					"Failed to save Gold Loan Application: " + ex.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
 

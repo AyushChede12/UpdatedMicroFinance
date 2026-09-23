@@ -1413,8 +1413,8 @@ public class LoanManagementService implements org.springframework.beans.factory.
 		double totalPrincipalPaid = 0.0;
 		double outstandingPrincipal = principal;
 		double unearnedRebate = 0.0;
-
-		if ("Flat".equalsIgnoreCase(interestType)) {
+		boolean isFlat = interestType != null && interestType.toLowerCase().contains("flat");
+		if (isFlat) {
 			double totalInterest = principal * (roi / 100.0) * (term / periodDivisor);
 			double principalPerInst = term > 0 ? (principal / term) : 0.0;
 			double interestPerInst = term > 0 ? (totalInterest / term) : 0.0;
@@ -1498,8 +1498,8 @@ public class LoanManagementService implements org.springframework.beans.factory.
 		double feeAmount = roundTwoDecimals(outstandingPrincipal * (feePercent / 100.0));
 		dto.setForeclosureFeeAmount(feeAmount);
 
-		// 5. Net Payoff Amount = Principal Outstanding + Accrued Interest + Overdue Arrears + Penalties + Foreclosure Fee - Rebates
-		double netPayoff = Math.max(0.0, outstandingPrincipal + accruedInterest + overdueArrears + totalPenalties + feeAmount - unearnedRebate);
+		// 5. Net Payoff Amount = Principal Outstanding + Accrued Interest + Penalties + Foreclosure Fee - Rebates
+		double netPayoff = Math.max(0.0, outstandingPrincipal + accruedInterest + totalPenalties + feeAmount - unearnedRebate);
 		dto.setNetPayoffAmount(roundTwoDecimals(netPayoff));
 
 		// 6. Check Collateral/Security

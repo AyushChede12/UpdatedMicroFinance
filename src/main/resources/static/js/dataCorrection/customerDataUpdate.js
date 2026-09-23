@@ -185,49 +185,52 @@ $(document).ready(function() {
 		}
 		var customerData = new FormData();
 		var id = $('#id').val();
-		customerData.append("id", id);
-		customerData.append("memberCode", customerCode);
-		customerData.append("signupDate", $('#signupDate').val());
-		customerData.append("authenticateFor", $('#authenticateFor').val());
-		customerData.append("customerName", $('#customerName').val());
-		customerData.append("customerGender", $('#customerGender').val());
-		customerData.append("guardianName", $('#guardianName').val());
-		customerData.append("relationToApplicant", $('#relationToApplicant').val());
-		customerData.append("dob", $('#dob').val());
-		customerData.append("customerAge", $('#customerAge').val());
-		customerData.append("relationshipStatus", $('#relationshipStatus').val());
-		customerData.append("customerAddress", $('#customerAddress').val());
-		customerData.append("state", $('#state').val());
-		customerData.append("district", $('#district').val());
-		customerData.append("aadharNo", $('#aadharNo').val());
-		customerData.append("pinCode", $('#pinCode').val());
-		customerData.append("branchName", $('#branchName').val());
-		customerData.append("panNo", $('#panNo').val());
-		customerData.append("voterNo", $('#voterNo').val());
-		customerData.append("drivingLicenceNo", $('#drivingLicenceNo').val());
-		customerData.append("referralCode", $('#referralCode').val());
-		customerData.append("referralName", $('#referralName').val());
-		customerData.append("contactNo", $('#contactNo').val());
-		customerData.append("emailId", $('#emailId').val());
-		customerData.append("profession", $('#profession').val());
-		customerData.append("academicBackground", $('#academicBackground').val());
 
-		// Nominee
-		customerData.append("nomineeName", $('#nomineeName').val());
-		customerData.append("nomineeRelationToApplicant", $('#nomineeRelationToApplicant').val());
-		customerData.append("nomineeAddress", $('#nomineeAddress').val());
-		customerData.append("nomineeKycNo", $('#nomineeKycNo').val());
-		customerData.append("nomineeMobileNo", $('#nomineeMobileNo').val());
-		customerData.append("nomineeAge", $('#nomineeAge').val());
-		customerData.append("nomineePanNo", $('#nomineePanNo').val());
-		customerData.append("nomineeKycType", $('#nomineeKycType').val());
-		customerData.append("memberStatus", $('#toggle-member-status').is(':checked') ? 1 : 0);
-		customerData.append("memberBanking", $('#toggle-mobile-banking').is(':checked') ? 1 : 0);
-		customerData.append("netBanking", $('#toggle-net-banking').is(':checked') ? 1 : 0);
-		customerData.append("smsSend", $('#toggle-sms-send').is(':checked') ? 1 : 0);
+		const custObj = {
+			id: id ? parseInt(id) : null,
+			memberCode: customerCode,
+			signupDate: $('#signupDate').val(),
+			authenticateFor: $('#authenticateFor').val(),
+			customerName: $('#customerName').val(),
+			customerGender: $('#customerGender').val(),
+			guardianName: $('#guardianName').val(),
+			relationToApplicant: $('#relationToApplicant').val(),
+			dob: $('#dob').val(),
+			customerAge: $('#customerAge').val(),
+			relationshipStatus: $('#relationshipStatus').val(),
+			customerAddress: $('#customerAddress').val(),
+			state: $('#state').val(),
+			district: $('#district').val(),
+			aadharNo: $('#aadharNo').val(),
+			pinCode: $('#pinCode').val(),
+			branchName: $('#branchName').val(),
+			panNo: $('#panNo').val(),
+			voterNo: $('#voterNo').val(),
+			drivingLicenceNo: $('#drivingLicenceNo').val(),
+			referralCode: $('#referralCode').val(),
+			referralName: $('#referralName').val(),
+			contactNo: $('#contactNo').val(),
+			emailId: $('#emailId').val(),
+			profession: $('#profession').val(),
+			academicBackground: $('#academicBackground').val(),
+			nomineeName: $('#nomineeName').val(),
+			nomineeRelationToApplicant: $('#nomineeRelationToApplicant').val(),
+			nomineeAddress: $('#nomineeAddress').val(),
+			nomineeKycNo: $('#nomineeKycNo').val(),
+			nomineeMobileNo: $('#nomineeMobileNo').val(),
+			nomineeAge: $('#nomineeAge').val(),
+			nomineePanNo: $('#nomineePanNo').val(),
+			nomineeKycType: $('#nomineeKycType').val(),
+			memberStatus: $('#toggle-member-status').is(':checked') ? 1 : 0,
+			mobileBanking: $('#toggle-mobile-banking').is(':checked') ? 1 : 0,
+			netBanking: $('#toggle-net-banking').is(':checked') ? 1 : 0,
+			smsSend: $('#toggle-sms-send').is(':checked') ? 1 : 0
+		};
 
-		const photoFile = $('#customerPhoto')[0].files[0];
-		const signatureFile = $('#customerSignature')[0].files[0];
+		customerData.append("customerData", JSON.stringify(custObj));
+
+		const photoFile = $('#customerPhoto')[0]?.files?.[0];
+		const signatureFile = $('#customerSignature')[0]?.files?.[0];
 
 		if (photoFile) {
 			customerData.append("customerPhoto", photoFile);

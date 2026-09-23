@@ -1,0 +1,421 @@
+﻿9761e9b | 2025-12-27 | ayush | first commit
+412b378 | 2025-12-27 | ayush | first commit
+11c0bb1 | 2025-12-27 | ayush | application.properties
+5983156 | 2025-12-27 | anjalipatil12 | anjali working on report section 27/12/25
+5d9b754 | 2025-12-27 | Puja Bagmare | customer savings edit
+9d6085c | 2025-12-27 | pujabagmare | Merge pull request #1 from AyushChede12/puja
+878aa00 | 2025-12-27 | Anjali Patil | Merge pull request #2 from AyushChede12/anjali
+ab0a2b3 | 2025-12-29 | ayush | Ayush CustomerManagement
+df18905 | 2025-12-29 | AyushChede12 | Merge pull request #3 from AyushChede12/ayush
+899a44e | 2025-12-29 | anjalipatil12 | anjali work on team managment 29/12/2025
+e2f8734 | 2025-12-29 | prachimorande | loan management
+956e382 | 2025-12-29 | ayush | Ayush CustomerManagement 29/12/25
+0821a02 | 2025-12-30 | AyushChede12 | Merge pull request #4 from AyushChede12/main
+4cee495 | 2025-12-30 | prachimorande | loan management 30/12/25
+d4e57ae | 2025-12-30 | ayush | Ayush CustomerManagement on 30/12/2025
+28f5e50 | 2025-12-31 | Puja Bagmare | customer saving model edit
+a7fbb6a | 2026-01-01 | anjalipatil12 | anjali work on financial consultant
+b8cbe0c | 2026-01-02 | anjalipatil12 | anjali work on maturity model on 2/1/26
+1295441 | 2026-01-02 | Puja Bagmare | customer saving in micro
+67c71ab | 2026-01-02 | ayush | Ayush
+4baf02f | 2026-01-03 | pujabagmare | Merge pull request #5 from AyushChede12/main
+0a762e1 | 2026-01-03 | AyushChede12 | Merge pull request #6 from AyushChede12/ayush
+d9fa0fb | 2026-01-03 | pujabagmare | Merge pull request #7 from AyushChede12/main
+454f216 | 2026-01-03 | prachimorande | Merge pull request #8 from AyushChede12/main
+bc8790d | 2026-01-03 | pujabagmare | Merge pull request #9 from AyushChede12/puja
+85f4a6a | 2026-01-03 | Puja Bagmare | customer saving edit
+562cb3f | 2026-01-03 | pujabagmare | Merge pull request #10 from AyushChede12/puja
+0d2a2ab | 2026-01-03 | ayush | Ayush CustomerManagement 03/01/2025
+a4e6c1c | 2026-01-03 | AyushChede12 | Merge branch 'main' into ayush
+a0a1a91 | 2026-01-03 | AyushChede12 | Merge pull request #11 from AyushChede12/ayush
+273de3d | 2026-01-03 | prachimorande | Merge pull request #13 from AyushChede12/main
+57b0840 | 2026-01-03 | ayush | Ayush
+2018313 | 2026-01-03 | AyushChede12 | Merge pull request #14 from AyushChede12/ayush
+88c4694 | 2026-01-03 | prachimorande | Merge pull request #15 from AyushChede12/main
+1b49fc5 | 2026-01-03 | prachimorande | prachi Loan management
+0ce765f | 2026-01-05 | AyushChede12 | Merge pull request #16 from AyushChede12/main
+5da3e8c | 2026-01-05 | pujabagmare | Merge pull request #17 from AyushChede12/main
+be5613b | 2026-01-05 | Puja Bagmare | Puja
+8cadaa5 | 2026-01-05 | anjalipatil12 | anjali work on request approval
+c957ab0 | 2026-01-06 | Anjali Patil | Merge pull request #18 from AyushChede12/main
+ca556bd | 2026-01-06 | Puja Bagmare | work on create savings account
+118f929 | 2026-01-06 | pujabagmare | Merge pull request #19 from AyushChede12/puja
+3b1392b | 2026-01-06 | anjalipatil12 | joint liability
+89d7f81 | 2026-01-06 | prachimorande | loan management
+da9998f | 2026-01-06 | prachimorande | Merge pull request #20 from AyushChede12/prachi
+28746a1 | 2026-01-06 | ayush | Ayush
+309d9cf | 2026-01-07 | Anjali Patil | Merge pull request #21 from AyushChede12/main
+bbdb61e | 2026-01-07 | AyushChede12 | Merge pull request #22 from AyushChede12/main
+56d5411 | 2026-01-07 | prachimorande | Merge pull request #23 from AyushChede12/main
+a598da9 | 2026-01-07 | anjalipatil12 | working on gold loan
+64001f3 | 2026-01-07 | Anjali Patil | Merge pull request #24 from AyushChede12/anjali
+b4a273c | 2026-01-07 | prachimorande | loan management 07/01/2026
+2f381c3 | 2026-01-08 | AyushChede12 | Merge pull request #25 from AyushChede12/main
+c74caba | 2026-01-08 | pujabagmare | Merge pull request #26 from AyushChede12/main
+fc1c386 | 2026-01-08 | anjalipatil12 | anjali work on policy mamnegment
+9d27d14 | 2026-01-08 | ayush | Ayush
+4af6198 | 2026-01-09 | Anjali Patil | Merge pull request #27 from AyushChede12/main
+2d1af65 | 2026-01-09 | prachimorande | Merge pull request #28 from AyushChede12/main
+1880164 | 2026-01-09 | anjalipatil12 | anjali working on customer shareholding
+8788bf9 | 2026-01-09 | Anjali Patil | Merge pull request #29 from AyushChede12/anjali
+9653d33 | 2026-01-10 | prachimorande | loan management
+95411d6 | 2026-01-10 | prachimorande | loan management
+4ec84f9 | 2026-01-10 | prachimorande | Merge pull request #30 from AyushChede12/prachi
+62963d6 | 2026-01-12 | pujabagmare | Merge pull request #31 from AyushChede12/main
+bcd87b5 | 2026-01-12 | pujabagmare | Merge pull request #32 from AyushChede12/puja
+ed6e421 | 2026-01-12 | pujabagmare | Merge pull request #33 from AyushChede12/main
+d6102b8 | 2026-01-12 | pujabagmare | Merge pull request #34 from AyushChede12/puja
+23d8f5b | 2026-01-12 | AyushChede12 | Merge pull request #35 from AyushChede12/main
+651f360 | 2026-01-12 | Puja Bagmare | edit customer savings puja
+19e8b4b | 2026-01-12 | pujabagmare | Merge pull request #36 from AyushChede12/puja
+2c6f6d5 | 2026-01-13 | pujabagmare | Merge pull request #37 from AyushChede12/main
+40aa33e | 2026-01-13 | pujabagmare | Merge pull request #38 from AyushChede12/main
+f9734b3 | 2026-01-13 | prachimorande | Merge pull request #39 from AyushChede12/main
+797888a | 2026-01-13 | prachimorande | loan management
+d4d15da | 2026-01-13 | Puja Bagmare | sms-charge deduct
+e1a75ef | 2026-01-13 | pujabagmare | Merge pull request #41 from AyushChede12/puja
+75c307e | 2026-01-16 | pujabagmare | Merge pull request #42 from AyushChede12/main
+4d43d5b | 2026-01-16 | prachimorande | Merge pull request #43 from AyushChede12/main
+a5ad4c0 | 2026-01-16 | Puja Bagmare | sms charge
+a888753 | 2026-01-16 | pujabagmare | Merge pull request #44 from AyushChede12/puja
+266acc2 | 2026-01-17 | AyushChede12 | Merge pull request #45 from AyushChede12/main
+9cbe85a | 2026-01-17 | prachimorande | Merge pull request #47 from AyushChede12/main
+a233e63 | 2026-01-17 | Puja Bagmare | customer sasvings
+1c98f95 | 2026-01-17 | pujabagmare | Merge pull request #48 from AyushChede12/puja
+f2b3a2c | 2026-01-17 | prachimorande | loan management
+3b285f8 | 2026-01-17 | prachimorande | Merge pull request #49 from AyushChede12/prachi
+87e9cb6 | 2026-01-19 | pujabagmare | Merge pull request #46 from AyushChede12/main
+4f23ba5 | 2026-01-19 | prachimorande | Merge pull request #50 from AyushChede12/main
+c13d672 | 2026-01-19 | AyushChede12 | Merge pull request #51 from AyushChede12/main
+36d9a25 | 2026-01-19 | Puja Bagmare | saving account activity
+401a4d1 | 2026-01-19 | pujabagmare | Merge pull request #52 from AyushChede12/puja
+3790ce8 | 2026-01-19 | Puja Bagmare | savings account activity edit
+7920057 | 2026-01-19 | pujabagmare | Merge pull request #53 from AyushChede12/puja
+a077b78 | 2026-01-19 | Puja Bagmare | sms-charge-deduct
+581283b | 2026-01-19 | pujabagmare | Merge pull request #54 from AyushChede12/puja
+688ec6f | 2026-01-19 | prachimorande | loan management
+3f10e62 | 2026-01-19 | prachimorande | Merge pull request #55 from AyushChede12/prachi
+8771ca8 | 2026-01-19 | ayush | Ayush
+c96d1f1 | 2026-01-19 | ayush | Ayush
+98a20d5 | 2026-01-20 | AyushChede12 | Merge pull request #56 from AyushChede12/main
+8265123 | 2026-01-20 | pujabagmare | Merge pull request #57 from AyushChede12/main
+f2ced49 | 2026-01-20 | prachimorande | Merge pull request #58 from AyushChede12/main
+95f2504 | 2026-01-20 | ayush | Ayush
+bf93e98 | 2026-01-20 | Puja Bagmare | saving account activity
+d79a68f | 2026-01-20 | prachimorande | loan management
+7be1b04 | 2026-01-20 | pujabagmare | Merge pull request #59 from AyushChede12/puja
+685c3ea | 2026-01-20 | prachimorande | Merge pull request #60 from AyushChede12/prachi
+9905354 | 2026-01-21 | AyushChede12 | Merge pull request #61 from AyushChede12/main
+9b63dbf | 2026-01-21 | pujabagmare | Merge pull request #62 from AyushChede12/main
+8d8d48c | 2026-01-21 | prachimorande | Merge pull request #63 from AyushChede12/main
+ea4ff7d | 2026-01-21 | Puja Bagmare | customer saving model
+a9d6d1b | 2026-01-21 | pujabagmare | Merge pull request #64 from AyushChede12/puja
+d2b697d | 2026-01-21 | ayush | Ayush
+f679820 | 2026-01-21 | AyushChede12 | Merge pull request #65 from AyushChede12/ayush
+4f19009 | 2026-01-22 | pujabagmare | Merge pull request #66 from AyushChede12/main
+dd99fc5 | 2026-01-22 | Puja Bagmare | savings schema catalog
+39a9e75 | 2026-01-22 | pujabagmare | Merge pull request #67 from AyushChede12/puja
+9b5be9a | 2026-01-22 | AyushChede12 | Merge pull request #68 from AyushChede12/main
+211d6e0 | 2026-01-23 | pujabagmare | Merge pull request #69 from AyushChede12/main
+e7b6434 | 2026-01-23 | prachimorande | Merge pull request #70 from AyushChede12/main
+b494854 | 2026-01-23 | Puja Bagmare | customer saving
+92647ad | 2026-01-23 | ayush | Ayush
+b532e4c | 2026-01-23 | AyushChede12 | Merge pull request #71 from AyushChede12/ayush
+6c6be5b | 2026-01-27 | ayush | Ayush
+4082ee7 | 2026-01-28 | pujabagmare | Merge pull request #73 from AyushChede12/main
+77b8de3 | 2026-01-28 | prachimorande | Merge pull request #72 from AyushChede12/main
+9ab93f4 | 2026-01-28 | prachimorande | team management
+783ec47 | 2026-01-28 | ayush | Ayush
+e272970 | 2026-01-28 | Puja Bagmare | saving account interest
+16b865a | 2026-01-28 | pujabagmare | Merge pull request #74 from AyushChede12/puja
+4477c7a | 2026-01-28 | AyushChede12 | Merge pull request #75 from AyushChede12/ayush
+b63e62e | 2026-01-28 | AyushChede12 | Merge pull request #76 from AyushChede12/main
+6b25498 | 2026-01-29 | pujabagmare | Merge pull request #77 from AyushChede12/main
+6a6e9ed | 2026-01-29 | Puja Bagmare | customer saving model in create saving account
+79cc115 | 2026-01-29 | pujabagmare | Merge pull request #78 from AyushChede12/puja
+e635376 | 2026-01-29 | ayush | Ayush
+c539588 | 2026-01-29 | AyushChede12 | Merge pull request #79 from AyushChede12/ayush
+8201125 | 2026-01-30 | AyushChede12 | Merge pull request #80 from AyushChede12/main
+341c20b | 2026-01-30 | pujabagmare | Merge pull request #81 from AyushChede12/main
+031ec23 | 2026-01-30 | ayush | Ayush
+bea07b6 | 2026-01-30 | AyushChede12 | Merge pull request #82 from AyushChede12/ayush
+01d23e9 | 2026-01-30 | Isha | Saving changes
+1310dea | 2026-01-30 | Isha | Resolved merge conflict
+d9b686f | 2026-01-31 | ayush | Ayush
+bd6d4de | 2026-01-31 | AyushChede12 | Merge pull request #83 from AyushChede12/ayush
+56ec21c | 2026-02-02 | pujabagmare | Merge pull request #85 from AyushChede12/main
+d89ff1d | 2026-02-02 | Puja Bagmare | report analytics
+b17cc61 | 2026-02-02 | pujabagmare | Merge pull request #86 from AyushChede12/puja
+417d5b5 | 2026-02-02 | IshaWaghaye | Merge pull request #87 from AyushChede12/main
+efff5a1 | 2026-02-02 | IshaWaghaye | Merge pull request #88 from AyushChede12/isha
+ada9963 | 2026-02-02 | ayush | Ayush
+fb67aea | 2026-02-02 | AyushChede12 | Merge pull request #89 from AyushChede12/ayush
+c64b098 | 2026-02-02 | Isha | policy module
+eb72125 | 2026-02-02 | IshaWaghaye | Merge pull request #90 from AyushChede12/isha
+86b4de2 | 2026-02-02 | Puja Bagmare | updated INVESTMENT TRANSACTION REPORT
+1355ca5 | 2026-02-02 | pujabagmare | Merge pull request #91 from AyushChede12/puja
+4d8ef12 | 2026-02-02 | ayush | Ayush
+e5887ae | 2026-02-02 | AyushChede12 | Merge pull request #92 from AyushChede12/ayush
+44dbcc0 | 2026-02-02 | Isha | changes in plan management
+5c6eee8 | 2026-02-02 | IshaWaghaye | Merge pull request #93 from AyushChede12/isha
+4dc4c08 | 2026-02-03 | AyushChede12 | Merge pull request #84 from AyushChede12/main
+ed7f91f | 2026-02-03 | Isha | updated in add invenstment
+376969b | 2026-02-03 | IshaWaghaye | Merge pull request #94 from AyushChede12/isha
+ef96584 | 2026-02-03 | prachimorande | Merge pull request #95 from AyushChede12/main
+3fe626f | 2026-02-04 | AyushChede12 | Merge pull request #96 from AyushChede12/main
+7d9de5c | 2026-02-04 | pujabagmare | Merge pull request #97 from AyushChede12/main
+b8c9dc7 | 2026-02-04 | Isha | update in DailyPremiunRenewal
+0c9fad3 | 2026-02-04 | IshaWaghaye | Merge pull request #99 from AyushChede12/main
+1b980a9 | 2026-02-04 | IshaWaghaye | Merge pull request #98 from AyushChede12/isha
+aed1239 | 2026-02-04 | pujabagmare | Merge pull request #100 from AyushChede12/main
+8e2955d | 2026-02-04 | AyushChede12 | Merge pull request #101 from AyushChede12/main
+72f09a9 | 2026-02-04 | ayush | Ayush
+61e9b71 | 2026-02-04 | Puja Bagmare | FINANCIAL CONSULTANT REPORT
+5fa4c73 | 2026-02-04 | pujabagmare | Merge pull request #102 from AyushChede12/puja
+9cdbe72 | 2026-02-05 | AyushChede12 | Merge pull request #103 from AyushChede12/main
+3920809 | 2026-02-05 | pujabagmare | Merge pull request #104 from AyushChede12/main
+ba5e337 | 2026-02-05 | Puja Bagmare | FINANCIAL CONSULTANT REPORT
+748142c | 2026-02-05 | pujabagmare | Merge pull request #105 from AyushChede12/puja
+ef39757 | 2026-02-05 | ayush | Ayush
+b7bcbb4 | 2026-02-05 | AyushChede12 | Merge pull request #106 from AyushChede12/ayush
+6bf6930 | 2026-02-06 | pujabagmare | Merge pull request #107 from AyushChede12/main
+d2824f8 | 2026-02-06 | AyushChede12 | Merge pull request #108 from AyushChede12/main
+faa4f98 | 2026-02-06 | Puja Bagmare | FINANCIAL CONSULTANT REPORT
+bf1e469 | 2026-02-06 | pujabagmare | Merge pull request #109 from AyushChede12/puja
+5778c15 | 2026-02-06 | prachimorande | loan management
+8801999 | 2026-02-06 | prachimorande | loan management
+52a46a6 | 2026-02-06 | ayush | Ayush
+05dd437 | 2026-02-06 | IshaWaghaye | Merge pull request #110 from AyushChede12/main
+7f713a3 | 2026-02-06 | AyushChede12 | Merge pull request #111 from AyushChede12/ayush
+7d8f267 | 2026-02-07 | pujabagmare | Merge pull request #112 from AyushChede12/main
+51d8cb9 | 2026-02-07 | AyushChede12 | Merge pull request #113 from AyushChede12/main
+61f6516 | 2026-02-07 | ayush | Ayush
+80e06e9 | 2026-02-07 | ayush | Ayush
+db295e5 | 2026-02-09 | prachimorande | Merge pull request #114 from AyushChede12/main
+73cbc89 | 2026-02-09 | Isha | changes in add investment
+3e83280 | 2026-02-09 | IshaWaghaye | Merge pull request #115 from AyushChede12/isha
+512262d | 2026-02-09 | Puja Bagmare | CHEQUE TRANSACTION REPORT
+0896d1c | 2026-02-09 | Puja Bagmare | CHEQUE TRANSACTION REPORT
+3c1ff36 | 2026-02-09 | pujabagmare | Merge pull request #116 from AyushChede12/puja
+8497b2a | 2026-02-09 | ayush | Ayush
+bf7ae61 | 2026-02-09 | ayush | Ayush
+cc6a04e | 2026-02-10 | AyushChede12 | Merge pull request #117 from AyushChede12/main
+a3fb3ec | 2026-02-10 | ayush | Ayush
+3b18469 | 2026-02-10 | AyushChede12 | Merge pull request #118 from AyushChede12/ayush
+1220c80 | 2026-02-10 | pujabagmare | Merge pull request #119 from AyushChede12/main
+6b9889a | 2026-02-10 | prachimorande | Merge pull request #120 from AyushChede12/main
+f27f9df | 2026-02-10 | prachimorande | loan
+d8fb0d6 | 2026-02-10 | pujabagmare | Merge pull request #121 from AyushChede12/puja
+bafea09 | 2026-02-11 | AyushChede12 | Merge pull request #124 from AyushChede12/main
+8962716 | 2026-02-11 | Puja Bagmare | create saving account
+ff8fb7d | 2026-02-11 | pujabagmare | Merge pull request #125 from AyushChede12/puja
+7bc695c | 2026-02-11 | ayush | Ayush
+496edea | 2026-02-11 | AyushChede12 | Merge pull request #126 from AyushChede12/ayush
+833d11c | 2026-02-12 | AyushChede12 | Merge pull request #127 from AyushChede12/main
+60e5943 | 2026-02-12 | ayush | Ayush
+e511e30 | 2026-02-13 | ayush | Ayush
+eaa653c | 2026-02-13 | ayush | Ayush
+5f76a8e | 2026-02-14 | prachimorande | Merge pull request #128 from AyushChede12/main
+d65d7c5 | 2026-02-14 | prachimorande | Prachi
+c6b13a2 | 2026-02-14 | prachimorande | Ayush
+e6551dd | 2026-02-14 | prachimorande | Merge pull request #129 from AyushChede12/ayush
+b0d0b7a | 2026-02-14 | prachimorande | Merge pull request #130 from AyushChede12/prachi
+3ad37c4 | 2026-02-14 | AyushChede12 | Merge pull request #131 from AyushChede12/main
+bef1e66 | 2026-02-14 | prachimorande | Ayush
+ae50a7d | 2026-02-14 | prachimorande | Merge pull request #132 from AyushChede12/prachi
+ee68d8c | 2026-02-14 | AyushChede12 | Merge pull request #133 from AyushChede12/main
+880c9aa | 2026-02-14 | ayush | Ayush
+eec2e95 | 2026-02-16 | prachimorande | Merge pull request #134 from AyushChede12/main
+7e26d76 | 2026-02-16 | ayush | Ayush
+db7c938 | 2026-02-16 | AyushChede12 | Merge pull request #135 from AyushChede12/ayush
+7abbffe | 2026-02-16 | ayush | Ayush
+4cc7971 | 2026-02-16 | AyushChede12 | Merge pull request #136 from AyushChede12/ayush
+7e75d07 | 2026-02-17 | pujabagmare | Merge pull request #122 from AyushChede12/main
+1dd78f4 | 2026-02-17 | prachimorande | Merge pull request #137 from AyushChede12/main
+b8bbf39 | 2026-02-17 | Isha | changes in add invenstment for maturity amount
+230a7e6 | 2026-02-17 | IshaWaghaye | Merge pull request #139 from AyushChede12/isha
+cafe0e3 | 2026-02-17 | Puja Bagmare | customer saving model
+e5f96d7 | 2026-02-17 | pujabagmare | Merge pull request #140 from AyushChede12/puja
+479d45f | 2026-02-17 | prachimorande | loan management
+312442d | 2026-02-17 | prachimorande | Merge pull request #141 from AyushChede12/prachi
+f058152 | 2026-02-17 | ayush | Ayush
+fcd4dd4 | 2026-02-17 | AyushChede12 | Merge pull request #142 from AyushChede12/ayush
+4edf7ea | 2026-02-18 | pujabagmare | Merge pull request #143 from AyushChede12/main
+12d704c | 2026-02-18 | AyushChede12 | Merge pull request #144 from AyushChede12/main
+a89c0fe | 2026-02-18 | prachimorande | Merge pull request #145 from AyushChede12/main
+7747464 | 2026-02-18 | Isha | updated
+0683226 | 2026-02-18 | IshaWaghaye | Merge pull request #146 from AyushChede12/isha
+1764f79 | 2026-02-18 | Puja Bagmare | INVESTMENT TRANSACTION REPORT
+1abca4b | 2026-02-18 | pujabagmare | Merge pull request #147 from AyushChede12/puja
+220c59c | 2026-02-18 | prachimorande | loan management
+6621871 | 2026-02-19 | ayush | Ayush
+c5f38f2 | 2026-02-19 | AyushChede12 | Merge pull request #148 from AyushChede12/ayush
+0579b9d | 2026-02-20 | AyushChede12 | Merge pull request #149 from AyushChede12/main
+835aeb1 | 2026-02-20 | prachimorande | Merge pull request #150 from AyushChede12/main
+ccc5991 | 2026-02-20 | prachimorande | Merge pull request #151 from AyushChede12/prachi
+2974a5b | 2026-02-20 | ayush | Ayush
+b13178e | 2026-02-20 | AyushChede12 | Merge pull request #152 from AyushChede12/ayush
+06ed439 | 2026-02-20 | AyushChede12 | Merge pull request #153 from AyushChede12/main
+c7929fa | 2026-02-23 | Ananta Rajegore | update on loan
+3527ae3 | 2026-02-23 | ANANTA SUBHASH RAJEGORE | Merge pull request #154 from AyushChede12/Ananta
+152f3ae | 2026-02-23 | Arjunw2003 | Gold Loan
+5943966 | 2026-02-23 | Arjunw2003 | Merge pull request #155 from AyushChede12/Arjun
+87de5d2 | 2026-02-24 | pujabagmare | Merge pull request #156 from AyushChede12/main
+fd23266 | 2026-02-24 | ANANTA SUBHASH RAJEGORE | Merge pull request #157 from AyushChede12/main
+d472f02 | 2026-02-24 | Arjunw2003 | Merge pull request #158 from AyushChede12/main
+aa38054 | 2026-02-24 | Ananta Rajegore | work on loan
+ac74364 | 2026-02-24 | ANANTA SUBHASH RAJEGORE | Merge pull request #159 from AyushChede12/Ananta
+a5a950f | 2026-02-24 | Arjunw2003 | ApplyForGold
+9421c13 | 2026-02-24 | Puja Bagmare | report
+0d7dc08 | 2026-02-24 | Arjunw2003 | Merge pull request #160 from AyushChede12/Arjun
+0119550 | 2026-02-24 | Puja Bagmare | Puja
+090e811 | 2026-02-24 | pujabagmare | Merge pull request #161 from AyushChede12/puja
+bf3ab61 | 2026-02-25 | Isha | updated in plan management
+a3c64c1 | 2026-02-25 | IshaWaghaye | Merge pull request #162 from AyushChede12/isha
+541540f | 2026-02-25 | Arjunw2003 | Merge pull request #163 from AyushChede12/main
+6c7ea63 | 2026-02-25 | Arjunw2003 | Apply for gold
+9282aa2 | 2026-02-25 | Arjunw2003 | Merge pull request #164 from AyushChede12/Arjun
+506ee34 | 2026-02-26 | pujabagmare | Merge pull request #165 from AyushChede12/main
+b80dbb7 | 2026-02-26 | Puja Bagmare | report
+443db93 | 2026-02-26 | pujabagmare | Merge pull request #166 from AyushChede12/puja
+64f959f | 2026-02-27 | ANANTA SUBHASH RAJEGORE | Merge pull request #167 from AyushChede12/main
+eb7afc0 | 2026-02-27 | Arjunw2003 | Merge pull request #168 from AyushChede12/main
+e4a0841 | 2026-02-27 | YogiA2002 | Yogi policy 26
+d3c38fc | 2026-02-27 | YogiA2002 | yogi second
+4810207 | 2026-02-27 | YogiA2002 | Merge pull request #169 from AyushChede12/Yogi
+7398c7c | 2026-02-27 | YogiA2002 | Yogi policy
+1d295eb | 2026-02-27 | YogiA2002 | Merge pull request #170 from AyushChede12/Yogi
+24384c6 | 2026-02-27 | YogiA2002 | Merge pull request #171 from AyushChede12/main
+a870df8 | 2026-02-27 | IshaWaghaye | Merge pull request #138 from AyushChede12/main
+9005792 | 2026-02-27 | Ananta Rajegore | working on loan
+b76c10b | 2026-02-27 | ANANTA SUBHASH RAJEGORE | Merge pull request #172 from AyushChede12/Ananta
+1aeac57 | 2026-02-27 | Arjunw2003 | Update Project
+e90dfc3 | 2026-02-27 | Arjunw2003 | Merge pull request #173 from AyushChede12/Arjun
+ef93225 | 2026-02-27 | YogiA2002 | Yogi policy27
+1e89ebc | 2026-02-27 | YogiA2002 | Merge pull request #174 from AyushChede12/Yogi
+9f4ebaa | 2026-02-28 | pujabagmare | Merge pull request #175 from AyushChede12/main
+cbca73e | 2026-02-28 | Arjunw2003 | Merge pull request #176 from AyushChede12/main
+a93cdb9 | 2026-02-28 | ANANTA SUBHASH RAJEGORE | Merge pull request #177 from AyushChede12/main
+fa42f15 | 2026-02-28 | Ananta Rajegore |  working on loan
+a15c47c | 2026-02-28 | ANANTA SUBHASH RAJEGORE | Merge pull request #178 from AyushChede12/Ananta
+11ff3a2 | 2026-02-28 | Arjunw2003 | Arjun
+ab8d810 | 2026-02-28 | Arjunw2003 | Merge pull request #179 from AyushChede12/Arjun
+52d34a0 | 2026-03-02 | Arjunw2003 | Merge pull request #180 from AyushChede12/main
+86a21de | 2026-03-02 | ANANTA SUBHASH RAJEGORE | Merge pull request #181 from AyushChede12/main
+ff4d5b7 | 2026-03-02 | Arjunw2003 | Arjun
+8e2ef37 | 2026-03-04 | pujabagmare | Merge pull request #182 from AyushChede12/main
+45c41c8 | 2026-03-04 | Ananta Rajegore |  working on loan
+b21a773 | 2026-03-04 | ANANTA SUBHASH RAJEGORE | Merge pull request #183 from AyushChede12/Ananta
+4d28a51 | 2026-03-04 | Arjunw2003 | Merge branch 'Arjun' into main
+4fd25db | 2026-03-04 | Arjunw2003 | Merge pull request #184 from AyushChede12/main
+e398724 | 2026-03-04 | Arjunw2003 | Arjun
+ad7c2db | 2026-03-04 | AyushChede12 | Merge pull request #185 from AyushChede12/main
+33071d7 | 2026-03-04 | Puja Bagmare | approve loab
+7778220 | 2026-03-04 | pujabagmare | Merge pull request #186 from AyushChede12/puja
+f8602e0 | 2026-03-04 | Arjunw2003 | Arjun
+b47b5f1 | 2026-03-04 | Arjunw2003 | Merge pull request #187 from AyushChede12/Arjun
+56d75d0 | 2026-03-05 | IshaWaghaye | Merge pull request #188 from AyushChede12/main
+b1c5b10 | 2026-03-05 | Isha | isha
+dafe204 | 2026-03-05 | IshaWaghaye | Merge pull request #189 from AyushChede12/isha
+66f9d25 | 2026-03-06 | Arjunw2003 | Merge pull request #190 from AyushChede12/main
+7308ca6 | 2026-03-06 | AyushChede12 | Merge pull request #191 from AyushChede12/main
+a163b74 | 2026-03-06 | Arjunw2003 | Arjun
+8ecfdd1 | 2026-03-06 | Arjunw2003 | Merge pull request #192 from AyushChede12/Arjun
+eab9f24 | 2026-03-06 | AyushChede12 | Merge pull request #193 from AyushChede12/main
+c575435 | 2026-03-06 | ayush | Ayush
+cee4c50 | 2026-03-06 | AyushChede12 | Merge pull request #194 from AyushChede12/ayush
+f281a32 | 2026-03-06 | Arjunw2003 | Merge pull request #195 from AyushChede12/main
+ecbf112 | 2026-03-06 | Arjunw2003 | ArjunChange
+f84bb3d | 2026-03-07 | Arjunw2003 | Arjun
+ea70c19 | 2026-03-07 | Arjunw2003 | Merge pull request #196 from AyushChede12/Arjun
+0d7f6b0 | 2026-03-07 | AyushChede12 | Merge pull request #197 from AyushChede12/main
+7b9e3f1 | 2026-03-07 | Arjunw2003 | Arjun
+a7c9a1f | 2026-03-07 | Arjunw2003 | Merge pull request #198 from AyushChede12/Arjun
+8d10de9 | 2026-03-07 | AyushChede12 | Merge pull request #199 from AyushChede12/main
+038a4c2 | 2026-03-07 | Arjunw2003 | Arjun
+ca6e4ce | 2026-03-07 | Arjunw2003 | Merge pull request #200 from AyushChede12/Arjun
+d21eb19 | 2026-03-09 | pujabagmare | Merge pull request #201 from AyushChede12/main
+4dfe17a | 2026-03-09 | Arjunw2003 | Merge pull request #202 from AyushChede12/main
+9f1a087 | 2026-03-09 | Arjunw2003 | Arjun
+b8cc391 | 2026-03-09 | Arjunw2003 | Merge pull request #203 from AyushChede12/Arjun
+e1d8c3c | 2026-03-09 | Puja Bagmare | report and analytics
+8f4f25f | 2026-03-09 | pujabagmare | Merge pull request #204 from AyushChede12/puja
+1784309 | 2026-03-09 | IshaWaghaye | Merge pull request #205 from AyushChede12/main
+4f2934b | 2026-03-09 | IshaWaghaye | Merge pull request #206 from AyushChede12/isha
+5c69357 | 2026-03-10 | Arjunw2003 | Merge pull request #207 from AyushChede12/main
+888a18b | 2026-03-10 | Arjunw2003 | Arjun
+6a9caf8 | 2026-03-10 | Arjunw2003 | Merge pull request #210 from AyushChede12/Arjun
+f912392 | 2026-03-11 | pujabagmare | Merge pull request #211 from AyushChede12/main
+72b31b5 | 2026-03-11 | Arjunw2003 | Merge pull request #213 from AyushChede12/main
+9ceaddc | 2026-03-12 | Arjunw2003 | Arjun
+4f96f0f | 2026-03-12 | Arjunw2003 | Arjun
+f0e07fc | 2026-03-12 | Arjunw2003 | Merge pull request #214 from AyushChede12/Arjun
+ab4772b | 2026-03-14 | Arjunw2003 | Merge pull request #215 from AyushChede12/main
+f433f79 | 2026-03-14 | pujabagmare | Merge pull request #216 from AyushChede12/main
+db375ca | 2026-03-14 | Arjunw2003 | Gold Laon Payment
+e950562 | 2026-03-14 | Arjunw2003 | Merge pull request #217 from AyushChede12/Arjun
+a522194 | 2026-03-18 | Arjunw2003 | Merge pull request #218 from AyushChede12/main
+b146583 | 2026-03-18 | Arjunw2003 | Arjun
+b89c1c1 | 2026-03-20 | Arjunw2003 | Merge pull request #219 from AyushChede12/Arjun
+98f09bc | 2026-03-20 | Arjunw2003 | Merge pull request #220 from AyushChede12/main
+1db3292 | 2026-03-21 | pujabagmare | Merge pull request #221 from AyushChede12/main
+3d63b5f | 2026-03-21 | Arjunw2003 | Arjun
+040ca5b | 2026-03-21 | Arjunw2003 | Merge pull request #222 from AyushChede12/Arjun
+3578d0b | 2026-03-21 | Puja Bagmare | upcoming emi due report
+cdf2987 | 2026-03-21 | pujabagmare | Merge pull request #223 from AyushChede12/puja
+eed17f4 | 2026-04-03 | ANANTA SUBHASH RAJEGORE | Merge pull request #224 from AyushChede12/main
+c213c9d | 2026-04-03 | Arjunw2003 | Merge pull request #225 from AyushChede12/main
+73465fe | 2026-04-07 | Ananta Rajegore | working on loan management
+77451ca | 2026-04-07 | ANANTA SUBHASH RAJEGORE | Merge pull request #226 from AyushChede12/Ananta
+5816999 | 2026-04-07 | AyushChede12 | Merge pull request #227 from AyushChede12/main
+ef1c753 | 2026-04-07 | ayush | Ayush
+7c13533 | 2026-04-11 | ayush | Ayush
+e709af4 | 2026-04-11 | AyushChede12 | Merge pull request #229 from AyushChede12/ayush
+5fdf6e0 | 2026-04-20 | ayush | Ayush
+1f0dcf5 | 2026-04-20 | AyushChede12 | Merge pull request #231 from AyushChede12/ayush
+bb008a7 | 2026-04-23 | AyushChede12 | Merge pull request #232 from AyushChede12/main
+7e4d0d3 | 2026-04-26 | ayush | Ayush
+a1eff42 | 2026-04-27 | ayush | Ayush
+372ced1 | 2026-05-04 | ayush | Ayush
+9643e73 | 2026-05-04 | Arjunw2003 | Merge pull request #233 from AyushChede12/main
+68abbad | 2026-05-04 | ayush | Ayush
+83917d8 | 2026-05-09 | ayush | Ayush
+1a218b9 | 2026-05-11 | ayush | Ayush
+2f2e878 | 2026-05-15 | ayush | Ayush
+ededee0 | 2026-06-03 | AyushChede12 | Merge pull request #234 from AyushChede12/ayush
+7d4ea3b | 2026-06-04 | ayush | Ayush
+3cbe86e | 2026-06-18 | Arjunw2003 | Merge pull request #235 from AyushChede12/main
+37926b4 | 2026-06-18 | ayush | Ayush
+562229c | 2026-06-18 | AyushChede12 | Merge pull request #236 from AyushChede12/ayush
+099a031 | 2026-06-18 | Ananta Rajegore | Ananta
+5e0e2ed | 2026-06-18 | ANANTA SUBHASH RAJEGORE | Merge pull request #237 from AyushChede12/ananta
+02f5721 | 2026-06-18 | AyushChede12 | Merge pull request #238 from AyushChede12/main
+a650fc4 | 2026-06-18 | Arjunw2003 | Merge pull request #239 from AyushChede12/main
+ef10439 | 2026-06-19 | ANANTA SUBHASH RAJEGORE | Merge pull request #240 from AyushChede12/main
+b62de9d | 2026-06-19 | ayush | Ayush
+88464a8 | 2026-06-19 | ayush | Ayush
+941e20b | 2026-06-19 | AyushChede12 | Merge pull request #241 from AyushChede12/ayush
+93f3f20 | 2026-06-19 | Ananta Rajegore | work on loan application
+2f0042e | 2026-06-19 | ANANTA SUBHASH RAJEGORE | Merge pull request #242 from AyushChede12/ananta
+34ca1b5 | 2026-06-20 | Arjunw2003 | Merge pull request #245 from AyushChede12/main
+b32a7c1 | 2026-06-20 | Arjunw2003 | Arjun
+b8498e6 | 2026-06-23 | Arjunw2003 | Merge pull request #246 from AyushChede12/Arjun
+6ce1254 | 2026-08-10 | Arpit Kohale | Update project: customer management, activity logging, documentation and preferences
+1a0002b | 2026-08-21 | Arpit Kohale | Update project files and add new features
+10b318d | 2026-08-22 | Arpit Kohale | Add application.properties and update gitignore - include config for team cloning
+747f44b | 2026-08-22 | Arpit Kohale | Fix: Add customerName validation and null guard for auto savings account creation
+5d29f2b | 2026-08-25 | Shruti Tajne | Update customer management form, dto, model, service, and frontend scripts
+8cd6d06 | 2026-08-27 | Arpit Kohale | feat: update image upload fields, make aadhar visible, uppercase stored data, and apply Samitha Urban branding
+8cbb35d | 2026-09-01 | Shruti Tajne | fix: account number not fetching in customer summary - field name mismatch (customerAccountNo -> accountNumber)
+d7e01bb | 2026-09-07 | Arpit Kohale | feat: add interest percent to customer and implement quarterly interest transfer with batch transfer button
+22fc7eb | 2026-09-07 | Arpit Kohale | fix: resolve account numbers not fetching in savings record book
+63ef547 | 2026-09-07 | Arpit Kohale | fix: prevent multiple duplicate alerts on passbook transaction button click
+8267586 | 2026-09-07 | Arpit Kohale | fix: resolve account numbers not fetching in customer savings statement
+c4b5814 | 2026-09-07 | Arpit Kohale | feat: add bank statement search filters (date range), summary cards, PDF download, and print on customer savings statement
+aab145a | 2026-09-11 | Shruti Tajne | policy management updates
+63ec0af | 2026-09-11 | Shruti Tajne | Merge branch 'main' of https://github.com/NirajVasantUkey/SamithUrban
+62b2ef6 | 2026-09-11 | Arpit Kohale | feat: enhance loan management with dynamic loan type configurations, deduction details, notification service, and disbursement updates
+b336cd0 | 2026-09-11 | Arpit Kohale | Merge branch 'main' of https://github.com/NirajVasantUkey/SamithUrban into main
+90c7146 | 2026-09-12 | Shruti Tajne | Fix: Add savings account deduction for policy renewal payments and handle null values in plan management APIs
+48bea91 | 2026-09-16 | Shruti Tajne | Update MIS renewal dropdown styling
+edaf970 | 2026-09-18 | Arpit Kohale | feat: complete loan management, document printing, pdf report generator, and mis renewal integration

@@ -384,4 +384,4 @@
 </div>
 
 <script
-	src="${pageContext.request.contextPath}/js/PolicyManagment/addInvestment.js"></script>
+	src="${pageContext.request.contextPath}/js/PolicyManagment/addInvestment.js?v=<%=System.currentTimeMillis()%>"></script>

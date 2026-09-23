@@ -1,26 +1,25 @@
-package com.microfinance.model;
+package com.microfinance.dto;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
-@Entity
-public class ApplyForGold {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+public class ApplyForGoldRequestDto {
 
-	private String loanNo;
 	private String goldID;
+	private String loanNo;
+
+	@NotBlank(message = "Loan date is required")
 	private String loanDate;
+
+	@NotBlank(message = "Member code is required")
 	private String memberCode;
+
 	private String customerName;
 	private String dateOfBirth;
 	private String age;
@@ -28,46 +27,37 @@ public class ApplyForGold {
 	private String address;
 	private String pinCode;
 	private String branchName;
+
+	@NotBlank(message = "Loan plan name is required")
 	private String loanPlanName;
+
 	private String typeOfLoan;
-	private String loanMode;
-	private String loanTerm;
+	private String loanMode; // e.g. "EMI" or "Bullet"
+	private String loanTerm; // in months
 	private String rateOfInterest;
-	private String loanAmount;
-	private String interestType;
-	private String emiPayment;
+
+	@NotNull(message = "Amount of loan is required")
+	@DecimalMin(value = "1.0", message = "Amount of loan must be greater than 0")
+	private BigDecimal loanAmount;
+
+	private String interestType; // "FLAT" or "REDUCING"
+	private BigDecimal emiPayment;
 	private String purposeOfLoan;
 	private String smsSend;
 
-	@Column(columnDefinition = "LONGTEXT")
+	@NotBlank(message = "Photo upload is mandatory before saving")
 	private String photo;
 
-	@Column(columnDefinition = "LONGTEXT")
+	@NotBlank(message = "Signature upload is mandatory before saving")
 	private String signature;
 
-	@Column(columnDefinition = "LONGTEXT")
 	private String ornamentPhoto;
-
-	@Column(columnDefinition = "LONGTEXT")
 	private String ornamentPhoto2;
 
-	private boolean approvalStatus;
-	private String approvalDate;
-
-	// Gold Silver Details
-	private String karat;
-	private String itemType;
-	private String custgoldRate;
-	private String itemName;
-	private String lockerBranch;
-	private String purity;
-	private String itemQty;
-	private String itemWt;
-	private String grossWt;
-	private String stoneWt;
-	private String netWt;
-	private String marketValuation;
-	private String eligibleLoan;
+	// Repeatable Gold Items
+	@Valid
+	@NotEmpty(message = "At least one gold item is required")
+	private List<GoldItemDto> items = new ArrayList<>();
 
 	// Guarantor Details
 	private String guarantorcustomerCode;
@@ -86,34 +76,39 @@ public class ApplyForGold {
 	private String securityDetails;
 
 	// Deduction Details
-	private String processingFee;
-	private String legalCharges;
-	private String stampDuty;
-	private String smsCharges;
-	private String mainCharges;
-	private String stationaryFee;
+	private BigDecimal processingFee = BigDecimal.ZERO;
+	private BigDecimal legalCharges = BigDecimal.ZERO;
+	private BigDecimal stampDuty = BigDecimal.ZERO;
+	private BigDecimal smsCharges = BigDecimal.ZERO;
+	private BigDecimal mainCharges = BigDecimal.ZERO;
+	private BigDecimal stationaryFee = BigDecimal.ZERO;
+	private BigDecimal gst = BigDecimal.ZERO;
+	private BigDecimal insuFee = BigDecimal.ZERO;
+	private BigDecimal penaltyCharge = BigDecimal.ZERO;
+	private BigDecimal valuationFees = BigDecimal.ZERO;
+	private BigDecimal overCharge = BigDecimal.ZERO;
+	private BigDecimal collectionCharge = BigDecimal.ZERO;
 	private String financialConsultantId;
-	private String gst;
-	private String insuFee;
-	private String penaltyCharge;
-	private String valuationFees;
-	private String overCharge;
-	private String collectionCharge;
 	private String financialConsultantName;
-	private String sanctionedAmount;
-	private String netDisbursement;
-	private String goldLoanStatus;
 
-	@OneToMany(mappedBy = "applyForGold", cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonManagedReference
-	private List<ApplyForGoldItem> items = new ArrayList<>();
+	private BigDecimal netDisbursement;
+	private BigDecimal totalEligibleLoan;
+	private BigDecimal totalMarketValuation;
 
-	public Long getId() {
-		return id;
+	public String getGoldID() {
+		return goldID;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setGoldID(String goldID) {
+		this.goldID = goldID;
+	}
+
+	public String getLoanNo() {
+		return loanNo;
+	}
+
+	public void setLoanNo(String loanNo) {
+		this.loanNo = loanNo;
 	}
 
 	public String getLoanDate() {
@@ -228,11 +223,11 @@ public class ApplyForGold {
 		this.rateOfInterest = rateOfInterest;
 	}
 
-	public String getLoanAmount() {
+	public BigDecimal getLoanAmount() {
 		return loanAmount;
 	}
 
-	public void setLoanAmount(String loanAmount) {
+	public void setLoanAmount(BigDecimal loanAmount) {
 		this.loanAmount = loanAmount;
 	}
 
@@ -244,11 +239,11 @@ public class ApplyForGold {
 		this.interestType = interestType;
 	}
 
-	public String getEmiPayment() {
+	public BigDecimal getEmiPayment() {
 		return emiPayment;
 	}
 
-	public void setEmiPayment(String emiPayment) {
+	public void setEmiPayment(BigDecimal emiPayment) {
 		this.emiPayment = emiPayment;
 	}
 
@@ -284,108 +279,12 @@ public class ApplyForGold {
 		this.signature = signature;
 	}
 
-	public String getKarat() {
-		return karat;
+	public List<GoldItemDto> getItems() {
+		return items;
 	}
 
-	public void setKarat(String karat) {
-		this.karat = karat;
-	}
-
-	public String getItemType() {
-		return itemType;
-	}
-
-	public void setItemType(String itemType) {
-		this.itemType = itemType;
-	}
-
-	public String getCustgoldRate() {
-		return custgoldRate;
-	}
-
-	public void setCustgoldRate(String custgoldRate) {
-		this.custgoldRate = custgoldRate;
-	}
-
-	public String getItemName() {
-		return itemName;
-	}
-
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
-	}
-
-	public String getLockerBranch() {
-		return lockerBranch;
-	}
-
-	public void setLockerBranch(String lockerBranch) {
-		this.lockerBranch = lockerBranch;
-	}
-
-	public String getPurity() {
-		return purity;
-	}
-
-	public void setPurity(String purity) {
-		this.purity = purity;
-	}
-
-	public String getItemQty() {
-		return itemQty;
-	}
-
-	public void setItemQty(String itemQty) {
-		this.itemQty = itemQty;
-	}
-
-	public String getItemWt() {
-		return itemWt;
-	}
-
-	public void setItemWt(String itemWt) {
-		this.itemWt = itemWt;
-	}
-
-	public String getGrossWt() {
-		return grossWt;
-	}
-
-	public void setGrossWt(String grossWt) {
-		this.grossWt = grossWt;
-	}
-
-	public String getStoneWt() {
-		return stoneWt;
-	}
-
-	public void setStoneWt(String stoneWt) {
-		this.stoneWt = stoneWt;
-	}
-
-	public String getNetWt() {
-		return netWt;
-	}
-
-	public void setNetWt(String netWt) {
-		this.netWt = netWt;
-	}
-
-	public String getMarketValuation() {
-		return marketValuation;
-	}
-
-	public void setMarketValuation(String marketValuation) {
-		this.marketValuation = marketValuation;
-	}
-
-	public String getEligibleLoan() {
-		return eligibleLoan;
-	}
-
-	public void setEligibleLoan(String eligibleLoan) {
-		this.eligibleLoan = eligibleLoan;
+	public void setItems(List<GoldItemDto> items) {
+		this.items = items;
 	}
 
 	public String getGuarantorcustomerCode() {
@@ -484,52 +383,100 @@ public class ApplyForGold {
 		this.securityDetails = securityDetails;
 	}
 
-	public String getProcessingFee() {
+	public BigDecimal getProcessingFee() {
 		return processingFee;
 	}
 
-	public void setProcessingFee(String processingFee) {
+	public void setProcessingFee(BigDecimal processingFee) {
 		this.processingFee = processingFee;
 	}
 
-	public String getLegalCharges() {
+	public BigDecimal getLegalCharges() {
 		return legalCharges;
 	}
 
-	public void setLegalCharges(String legalCharges) {
+	public void setLegalCharges(BigDecimal legalCharges) {
 		this.legalCharges = legalCharges;
 	}
 
-	public String getStampDuty() {
+	public BigDecimal getStampDuty() {
 		return stampDuty;
 	}
 
-	public void setStampDuty(String stampDuty) {
+	public void setStampDuty(BigDecimal stampDuty) {
 		this.stampDuty = stampDuty;
 	}
 
-	public String getSmsCharges() {
+	public BigDecimal getSmsCharges() {
 		return smsCharges;
 	}
 
-	public void setSmsCharges(String smsCharges) {
+	public void setSmsCharges(BigDecimal smsCharges) {
 		this.smsCharges = smsCharges;
 	}
 
-	public String getMainCharges() {
+	public BigDecimal getMainCharges() {
 		return mainCharges;
 	}
 
-	public void setMainCharges(String mainCharges) {
+	public void setMainCharges(BigDecimal mainCharges) {
 		this.mainCharges = mainCharges;
 	}
 
-	public String getStationaryFee() {
+	public BigDecimal getStationaryFee() {
 		return stationaryFee;
 	}
 
-	public void setStationaryFee(String stationaryFee) {
+	public void setStationaryFee(BigDecimal stationaryFee) {
 		this.stationaryFee = stationaryFee;
+	}
+
+	public BigDecimal getGst() {
+		return gst;
+	}
+
+	public void setGst(BigDecimal gst) {
+		this.gst = gst;
+	}
+
+	public BigDecimal getInsuFee() {
+		return insuFee;
+	}
+
+	public void setInsuFee(BigDecimal insuFee) {
+		this.insuFee = insuFee;
+	}
+
+	public BigDecimal getPenaltyCharge() {
+		return penaltyCharge;
+	}
+
+	public void setPenaltyCharge(BigDecimal penaltyCharge) {
+		this.penaltyCharge = penaltyCharge;
+	}
+
+	public BigDecimal getValuationFees() {
+		return valuationFees;
+	}
+
+	public void setValuationFees(BigDecimal valuationFees) {
+		this.valuationFees = valuationFees;
+	}
+
+	public BigDecimal getOverCharge() {
+		return overCharge;
+	}
+
+	public void setOverCharge(BigDecimal overCharge) {
+		this.overCharge = overCharge;
+	}
+
+	public BigDecimal getCollectionCharge() {
+		return collectionCharge;
+	}
+
+	public void setCollectionCharge(BigDecimal collectionCharge) {
+		this.collectionCharge = collectionCharge;
 	}
 
 	public String getFinancialConsultantId() {
@@ -540,54 +487,6 @@ public class ApplyForGold {
 		this.financialConsultantId = financialConsultantId;
 	}
 
-	public String getGst() {
-		return gst;
-	}
-
-	public void setGst(String gst) {
-		this.gst = gst;
-	}
-
-	public String getInsuFee() {
-		return insuFee;
-	}
-
-	public void setInsuFee(String insuFee) {
-		this.insuFee = insuFee;
-	}
-
-	public String getPenaltyCharge() {
-		return penaltyCharge;
-	}
-
-	public void setPenaltyCharge(String penaltyCharge) {
-		this.penaltyCharge = penaltyCharge;
-	}
-
-	public String getValuationFees() {
-		return valuationFees;
-	}
-
-	public void setValuationFees(String valuationFees) {
-		this.valuationFees = valuationFees;
-	}
-
-	public String getOverCharge() {
-		return overCharge;
-	}
-
-	public void setOverCharge(String overCharge) {
-		this.overCharge = overCharge;
-	}
-
-	public String getCollectionCharge() {
-		return collectionCharge;
-	}
-
-	public void setCollectionCharge(String collectionCharge) {
-		this.collectionCharge = collectionCharge;
-	}
-
 	public String getFinancialConsultantName() {
 		return financialConsultantName;
 	}
@@ -596,73 +495,28 @@ public class ApplyForGold {
 		this.financialConsultantName = financialConsultantName;
 	}
 
-	public String getGoldID() {
-		return goldID;
-	}
-
-	public void setGoldID(String goldID) {
-		this.goldID = goldID;
-	}
-
-	public boolean isApprovalStatus() {
-		return approvalStatus;
-	}
-
-	public void setApprovalStatus(boolean approvalStatus) {
-		this.approvalStatus = approvalStatus;
-	}
-
-	public String getApprovalDate() {
-		return approvalDate;
-	}
-
-	public void setApprovalDate(String approvalDate) {
-		this.approvalDate = approvalDate;
-	}
-
-	public String getSanctionedAmount() {
-		return sanctionedAmount;
-	}
-
-	public void setSanctionedAmount(String sanctionedAmount) {
-		this.sanctionedAmount = sanctionedAmount;
-	}
-
-	public String getGoldLoanStatus() {
-		return goldLoanStatus;
-	}
-
-	public void setGoldLoanStatus(String goldLoanStatus) {
-		this.goldLoanStatus = goldLoanStatus;
-	}
-
-	public String getLoanNo() {
-		return loanNo != null ? loanNo : goldID;
-	}
-
-	public void setLoanNo(String loanNo) {
-		this.loanNo = loanNo;
-	}
-
-	public String getNetDisbursement() {
+	public BigDecimal getNetDisbursement() {
 		return netDisbursement;
 	}
 
-	public void setNetDisbursement(String netDisbursement) {
+	public void setNetDisbursement(BigDecimal netDisbursement) {
 		this.netDisbursement = netDisbursement;
 	}
 
-	public List<ApplyForGoldItem> getItems() {
-		return items;
+	public BigDecimal getTotalEligibleLoan() {
+		return totalEligibleLoan;
 	}
 
-	public void setItems(List<ApplyForGoldItem> items) {
-		this.items = items;
-		if (items != null) {
-			for (ApplyForGoldItem item : items) {
-				item.setApplyForGold(this);
-			}
-		}
+	public void setTotalEligibleLoan(BigDecimal totalEligibleLoan) {
+		this.totalEligibleLoan = totalEligibleLoan;
+	}
+
+	public BigDecimal getTotalMarketValuation() {
+		return totalMarketValuation;
+	}
+
+	public void setTotalMarketValuation(BigDecimal totalMarketValuation) {
+		this.totalMarketValuation = totalMarketValuation;
 	}
 
 	public String getOrnamentPhoto() {
@@ -679,13 +533,5 @@ public class ApplyForGold {
 
 	public void setOrnamentPhoto2(String ornamentPhoto2) {
 		this.ornamentPhoto2 = ornamentPhoto2;
-	}
-
-	public void addItem(ApplyForGoldItem item) {
-		if (items == null) {
-			items = new ArrayList<>();
-		}
-		items.add(item);
-		item.setApplyForGold(this);
 	}
 }

@@ -542,5 +542,7 @@
 
 </div>
 
-<script
-	src="${pageContext.request.contextPath}/js/dataCorrection/customerDataUpdate.js"></script>
+	<script
+	src="${pageContext.request.contextPath}/js/dataCorrection/customerDataUpdate.js?v=<%=System.currentTimeMillis()%>"></script>
+
+</content>

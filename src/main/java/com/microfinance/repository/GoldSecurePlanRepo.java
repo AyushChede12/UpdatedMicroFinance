@@ -11,6 +11,5 @@ import com.microfinance.model.SecuredGoldPlan;
 @Repository
 public interface GoldSecurePlanRepo extends JpaRepository<SecuredGoldPlan, Long> {
 
-	
-
+	java.util.Optional<SecuredGoldPlan> findByLoanPlanName(String loanPlanName);
 }

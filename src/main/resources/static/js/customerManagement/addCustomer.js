@@ -92,112 +92,80 @@ $(document).ready(function () {
 		if (!isValid) return false;
 
 		// ----------- FORM DATA -----------
-
+		// Bundle text fields into single JSON object to stay well within Tomcat's maxPartCount limit (default 50)
 		var formData = new FormData();
 
-		// Customer Basic
-		formData.append("memberCode", $('#memberCode').val());
-		// formData.append("authenticateFor", $('#authenticateFor').val());
-		formData.append("signupDate", $('#signupDate').val());
-		formData.append("major", $('#major').val());
+		const customerObj = {
+			memberCode: $('#memberCode').val(),
+			signupDate: $('#signupDate').val(),
+			major: $('#major').val(),
+			firstName: $('#firstName').val(),
+			middleName: $('#middleName').val(),
+			lastName: $('#lastName').val(),
+			customerName: ($('#firstName').val() + " " + $('#middleName').val() + " " + $('#lastName').val()).trim(),
+			dob: $('#dob').val(),
+			minor: $('#minor').val(),
+			guardianName: $('#guardianName').val(),
+			guardianAccountNo: $('#guardianAccNo').val(),
+			customerGender: $('#customerGender').val(),
+			customerAge: $('#customerAge').val(),
+			relationshipStatus: $('#relationshipStatus').val(),
+			customerAddress: $('#customerAddress').val(),
+			category: $('#category').val(),
+			caste: $('#caste').val(),
+			state: $('#state').val(),
+			district: $('#district').val(),
+			pinCode: $('#pinCode').val(),
+			branchName: $('#branchName').val(),
+			memberType: $('#memberType').val(),
+			aadharNo: $('#aadharNo').val(),
+			panNo: $('#panNo').val(),
+			voterNo: $('#voterNo').val(),
+			drivingLicenceNo: $('#drivingLicenceNo').val(),
+			contactNo: $('#contactNo').val(),
+			emailId: $('#emailId').val(),
+			profession: $('#profession').val(),
+			occupation: $('#occupation').val(),
+			education: $('#education').val(),
+			monthlyIncome: $('#monthlyIncome').val(),
+			referralCode: $('#employeeCode').val(),
+			referralName: $('#employeeName').val(),
+			shareAmount: $('#shareAmount').val(),
+			noOfShare: $('#noOfShare').val(),
+			shareValue: $('#shareValue').val(),
+			lightBill: $('#lightBill').val(),
+			taxBill: $('#taxBill').val(),
+			interestPercent: $('#interestPercent').val(),
+			nomineeName: $('#nomineeName').val(),
+			nomineeAge: $('#nomineeAge').val(),
+			nomineeAddress: $('#nomineeAddress').val(),
+			nomineePanNo: $('#nomineePanNo').val(),
+			nomineeKycNo: $('#nomineeKycNo').val(),
+			nomineeKycType: $('#nomineeKycType').val(),
+			nomineeMobileNo: $('#nomineeMobileNo').val(),
+			nomineeDOB: $('#nomineeDOB').val(),
+			memberFees: $('#memberFees').val(),
+			buildingFund: $('#buildingFund').val(),
+			adminCharge: $('#adminCharge').val(),
+			documentCharge: $('#documentCharge').val(),
+			otherCharge: $('#otherCharge').val(),
+			chequeNo: $('#chequeNo').val(),
+			chequeDate: $('#chequeDate').val(),
+			depositAcNo: $('#depositAccount').val(),
+			referenceNo: $('#referenceNo').val(),
+			remarks: $('#remarks').val(),
+			paymentBy: $('#paymentBy').val(),
+			fDate: $('#fDate').val(),
+			tDate: $('#tDate').val(),
+			memberStatus: $('#toggle-member-status').is(":checked") ? 1 : 0,
+			mobileBanking: $('#toggle-banking-status').is(":checked") ? 1 : 0,
+			netBanking: $('#toggle-netbanking-status').is(":checked") ? 1 : 0,
+			smsSend: $('#toggle-sms-status').is(":checked") ? 1 : 0
+		};
 
-		formData.append("firstName", $('#firstName').val());
-		formData.append("middleName", $('#middleName').val());
-		formData.append("lastName", $('#lastName').val());
-		formData.append("customerName",
-			$('#firstName').val() + " " +
-			$('#middleName').val() + " " +
-			$('#lastName').val()
-		);
-		formData.append("dob", $('#dob').val());
-		formData.append("minor", $('#minor').val());
-		formData.append("guardianName", $('#guardianName').val());
-		formData.append("guardianAccountNo", $('#guardianAccNo').val());
+		formData.append("customerData", JSON.stringify(customerObj));
 
-		// formData.append("relationToApplicant", $('#relationToApplicant').val());
-		formData.append("customerGender", $('#customerGender').val());
-		formData.append("customerAge", $('#customerAge').val());
-		formData.append("relationshipStatus", $('#relationshipStatus').val());
-
-		formData.append("customerAddress", $('#customerAddress').val());
-
-		formData.append("category", $('#category').val());
-		formData.append("caste", $('#caste').val());
-
-		formData.append("state", $('#state').val());
-		formData.append("district", $('#district').val());
-		formData.append("pinCode", $('#pinCode').val());
-
-		formData.append("branchName", $('#branchName').val());
-		formData.append("memberType", $('#memberType').val());
-
-		formData.append("aadharNo", $('#aadharNo').val());
-		formData.append("panNo", $('#panNo').val());
-		formData.append("voterNo", $('#voterNo').val());
-		formData.append("drivingLicenceNo", $('#drivingLicenceNo').val());
-
-		formData.append("contactNo", $('#contactNo').val());
-		formData.append("emailId", $('#emailId').val());
-
-		formData.append("profession", $('#profession').val());
-		// formData.append("academicBackground", $('#academicBackground').val());
-
-		// New Customer Fields
-		formData.append("occupation", $('#occupation').val());
-		formData.append("education", $('#education').val());
-		formData.append("monthlyIncome", $('#monthlyIncome').val());
-
-
-		// Employee Code / Employee Name
-		formData.append("referralCode", $('#employeeCode').val());
-		formData.append("referralName", $('#employeeName').val());
-
-		// Share
-		formData.append("shareAmount", $('#shareAmount').val());
-		formData.append("noOfShare", $('#noOfShare').val());
-		formData.append("shareValue", $('#shareValue').val());
-
-		formData.append("lightBill", $('#lightBill').val());
-		formData.append("taxBill", $('#taxBill').val());
-		formData.append("interestPercent", $('#interestPercent').val());
-
-		// Nominee
-		formData.append("nomineeName", $('#nomineeName').val());
-		// formData.append("nomineeRelationToApplicant", $('#nomineeRelationToApplicant').val());
-		formData.append("nomineeAge", $('#nomineeAge').val());
-		formData.append("nomineeAddress", $('#nomineeAddress').val());
-		formData.append("nomineePanNo", $('#nomineePanNo').val());
-		formData.append("nomineeKycNo", $('#nomineeKycNo').val());
-		formData.append("nomineeKycType", $('#nomineeKycType').val());
-		formData.append("nomineeMobileNo", $('#nomineeMobileNo').val());
-		formData.append("nomineeDOB", $('#nomineeDOB').val());
-
-		// Fees
-		formData.append("memberFees", $('#memberFees').val());
-		formData.append("buildingFund", $('#buildingFund').val());
-		formData.append("adminCharge", $('#adminCharge').val());
-		formData.append("documentCharge", $('#documentCharge').val());
-		formData.append("otherCharge", $('#otherCharge').val());
-
-
-		formData.append("chequeNo", $('#chequeNo').val());
-		formData.append("chequeDate", $('#chequeDate').val());
-		formData.append("depositAcNo", $('#depositAccount').val());
-		formData.append("referenceNo", $('#referenceNo').val());
-
-		formData.append("remarks", $('#remarks').val());
-		formData.append("paymentBy", $('#paymentBy').val());
-
-		formData.append("fDate", $('#fDate').val());
-		formData.append("tDate", $('#tDate').val());
-
-		// Toggles
-		formData.append("memberStatus", $('#toggle-member-status').is(":checked") ? "1" : "0");
-		formData.append("mobileBanking", $('#toggle-banking-status').is(":checked") ? "1" : "0");
-		formData.append("netBanking", $('#toggle-netbanking-status').is(":checked") ? "1" : "0");
-		formData.append("smsSend", $('#toggle-sms-status').is(":checked") ? "1" : "0");
-
-		// Files
+		// Files (only appended if selected)
 		if (customerAadharImage) formData.append("customerAadharImage", customerAadharImage);
 		if (customerPanImage) formData.append("customerPanImage", customerPanImage);
 		if (customerVoter) formData.append("customerVoter", customerVoter);

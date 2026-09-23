@@ -208,7 +208,7 @@ $("#viewBtn").on("click", function() {
 	}
 
 	$.ajax({
-		url: "/api/Policymangment/getFullMaturityByPolicyCode",
+		url: "api/Policymangment/getFullMaturityByPolicyCode",
 		type: "GET",
 		dataType: "json",
 		data: { policyCode: selectedPolicyCode },

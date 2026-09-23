@@ -252,7 +252,7 @@ function getSchemeNameBySchemeType() {
 
 	$.ajax({
 		type: "GET",
-		url: "/api/Policymangment/getSchemeNameBySchemeType",
+		url: "api/Policymangment/getSchemeNameBySchemeType",
 		// ✅ Include prefix if controller uses @RequestMapping("/api")
 		data: requestData,
 		success: function(response) {

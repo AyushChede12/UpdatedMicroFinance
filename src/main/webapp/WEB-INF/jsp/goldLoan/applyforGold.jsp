@@ -108,61 +108,73 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label>LOAN PLAN NAME</label> <input type="text" id="loanPlanName"
-							name="loanPlanName" required="required"
-							class="form-control selectField" style="height: 30px;"
-							readonly="readonly">
+						<label for="loanPlanName">LOAN PLAN NAME</label>
+						<select id="loanPlanName" name="loanPlanName" required="required"
+							class="form-control selectField" style="height: 30px;">
+							<option value="">SELECT LOAN PLAN</option>
+						</select> <small id="vloanPlanName" style="color: red;"></small>
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">TYPE OF LOAN</label> <input type="text"
-							name="typeOfLoan" id="typeOfLoan" required="required"
-							placeholder="ENTER TYPE OF LOAN"
-							style="text-transform: uppercase;" readonly="readonly" />
-
-					</div>
-				</div>
-
-				<div class="col-lg-3">
-					<div class="d-flex flex-column formFields mb-4">
-						<label for="">LOAN MODE</label> <input type="text" name="loanMode"
-							id="loanMode" required="required" placeholder="ENTER LOAN MODE"
-							style="text-transform: uppercase;" readonly="readonly" />
-					</div>
-				</div>
-
-
-				<div class="col-lg-3">
-					<div class="d-flex flex-column formFields mb-4">
-						<label for="">LOAN TERM</label> <input type="text" name="loanTerm"
-							id="loanTerm" required="required" placeholder="ENTER LOAN TERM"
-							style="text-transform: uppercase;" readonly="readonly" />
+						<label for="typeOfLoan">TYPE OF LOAN</label>
+						<select id="typeOfLoan" name="typeOfLoan" required="required"
+							class="form-control selectField" style="height: 30px;">
+							<option value="Gold Loan">GOLD LOAN</option>
+							<option value="Silver Loan">SILVER LOAN</option>
+						</select>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">RATE OF INTEREST(%)</label> <input type="text"
+						<label for="loanMode">LOAN MODE</label>
+						<select id="loanMode" name="loanMode" required="required"
+							class="form-control selectField" style="height: 30px;">
+							<option value="EMI">EMI</option>
+							<option value="Bullet">BULLET</option>
+							<option value="Monthly">MONTHLY</option>
+							<option value="Weekly">WEEKLY</option>
+							<option value="Daily">DAILY</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="col-lg-3">
+					<div class="d-flex flex-column formFields mb-4">
+						<label for="loanTerm">LOAN TERM (MONTHS)</label> <input type="number"
+							name="loanTerm" id="loanTerm" required="required" min="1" max="120"
+							placeholder="ENTER LOAN TERM" value="12"
+							style="text-transform: uppercase;" />
+					</div>
+				</div>
+
+				<div class="col-lg-3">
+					<div class="d-flex flex-column formFields mb-4">
+						<label for="rateOfInterest">RATE OF INTEREST(%)</label> <input type="text"
 							name="rateOfInterest" id="rateOfInterest" required="required"
-							placeholder="ENTER RATE OF INTEREST"
-							style="text-transform: uppercase;" readonly="readonly" />
+							placeholder="ENTER RATE OF INTEREST" value="12.0"
+							style="text-transform: uppercase;" />
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">AMOUNT OF LOAN </label> <input type="text"
+						<label for="loanAmount">AMOUNT OF LOAN </label> <input type="text"
 							name="loanAmount" id="loanAmount" required="required"
 							placeholder="ENTER AMOUNT OF LOAN"
-							style="text-transform: uppercase;" readonly="readonly" />
+							style="text-transform: uppercase;" /> <small id="vloanAmount"
+							style="color: red;"></small>
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">INTEREST TYPE</label> <input type="text"
-							name="interestType" id="interestType" required="required"
-							placeholder="ENTER INTEREST TYPE"
-							style="text-transform: uppercase;" readonly="readonly" />
+						<label for="interestType">INTEREST TYPE</label>
+						<select id="interestType" name="interestType" required="required"
+							class="form-control selectField" style="height: 30px;">
+							<option value="FLAT">FLAT</option>
+							<option value="REDUCING">REDUCING</option>
+							<option value="Rule 78">RULE 78</option>
+						</select>
 					</div>
 				</div>
 				<div class="col-lg-3">
@@ -206,7 +218,7 @@
 					<label for=""
 						style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">UPLOAD
 						PHOTO <span id="star">*</span>
-					</label> <label for="signature" id="drop-area"> <input type="file"
+					</label> <label for="photo" id="drop-area"> <input type="file"
 						accept="image/*" name="photo" id="photo" hidden="hidden"
 						onchange="photoUpload();"
 						style="background-size: cover; background-repeat: no-repeat" />
@@ -236,6 +248,40 @@
 					</label>
 				</div>
 
+				<div class="col-lg-3 mb-5">
+					<label for=""
+						style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">UPLOAD
+						ORNAMENT PHOTO 1
+					</label> <label for="ornamentPhoto" id="drop-area"> <input type="file"
+						accept="image/*" name="ornamentPhoto" id="ornamentPhoto" hidden="hidden"
+						onchange="ornamentPhotoUpload();"
+						style="background-size: cover; background-repeat: no-repeat" />
+						<div id="img-view">
+							<img src="Uploads/upload.png" alt="upload_icon"
+								id="ornamentPhotoPreview" /> <input type="hidden"
+								id="ornamentPhotoHidden" name="ornamentPhotoHidden">
+
+						</div>
+					</label>
+				</div>
+
+				<div class="col-lg-3 mb-5">
+					<label for=""
+						style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">UPLOAD
+						ORNAMENT PHOTO 2
+					</label> <label for="ornamentPhoto2" id="drop-area"> <input type="file"
+						accept="image/*" name="ornamentPhoto2" id="ornamentPhoto2" hidden="hidden"
+						onchange="ornamentPhotoUpload2();"
+						style="background-size: cover; background-repeat: no-repeat" />
+						<div id="img-view">
+							<img src="Uploads/upload.png" alt="upload_icon"
+								id="ornamentPhoto2Preview" /> <input type="hidden"
+								id="ornamentPhoto2Hidden" name="ornamentPhoto2Hidden">
+
+						</div>
+					</label>
+				</div>
+
 			</div>
 		</div>
 
@@ -252,104 +298,105 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields"
 						style="margin-bottom: 30px">
-						<label> KARAT </label>
+						<label for="karat"> KARAT </label>
 						<div class="position-relative">
-							<input type="text" id="karat" name="karat" required="required"
-								class="form-control selectField" style="height: 30px;"
-								readonly="readonly">
-
+							<select id="karat" name="karat" required="required"
+								class="form-control selectField" style="height: 30px;">
+								<option value="">SELECT KARAT</option>
+								<option value="18">18</option>
+								<option value="20">20</option>
+								<option value="22">22</option>
+								<option value="24">24</option>
+							</select> <small id="vkarat" style="color: red;"></small>
 						</div>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">ITEM TYPE</label> <input type="text" id="itemType"
-							name="itemType" required="required"
-							class="form-control selectField" style="height: 30px;"
-							readonly="readonly">
+						<label for="itemType">ITEM TYPE</label>
+						<select id="itemType" name="itemType" required="required"
+							class="form-control selectField" style="height: 30px;">
+							<option value="Gold">GOLD</option>
+							<option value="Silver">SILVER</option>
+						</select>
 					</div>
 				</div>
 
 				<input type="hidden" id="marketValue">
 
-
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">CUSTOMER KARAT RATE</label> <input type="text"
+						<label for="custgoldRate">CUSTOMER KARAT RATE (₹/g)</label> <input type="number" step="0.01"
 							name="custgoldRate" id="custgoldRate" required="required"
-							placeholder="ENTER CUSTOMER KARAT RATE" readonly="readonly">
+							placeholder="ENTER CUSTOMER KARAT RATE" />
 					</div>
 				</div>
 
-
-
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="itemName">ITEM NAME</label> <input type="text"
+						<label for="itemName">ITEM / ORNAMENT NAME</label> <input type="text"
 							id="itemName" name="itemName" required="required"
-							placeholder="ENTER ITEM NAME" readonly="readonly">
+							placeholder="ENTER ORNAMENT NAME (E.G. RING, CHAIN)"
+							style="text-transform: uppercase;">
 					</div>
 				</div>
 
-
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">LOCKER BRANCH</label> <input type="text"
+						<label for="lockerBranch">LOCKER BRANCH</label> <input type="text"
 							id="lockerBranch" name="lockerBranch" required="required"
-							class="form-control selectField" style="height: 30px;"
-							readonly="readonly">
-
+							placeholder="ENTER LOCKER BRANCH"
+							style="text-transform: uppercase;">
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">PURITY</label> <input type="text" id="purity"
+						<label for="purity">PURITY</label> <input type="text" id="purity"
 							name="purity" required="required"
 							class="form-control selectField" style="height: 30px;"
-							readonly="readonly">
-
+							placeholder="PURITY (E.G. 0.9167)" readonly="readonly">
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">ITEM QUANTITY</label> <input type="text"
-							name="itemQty" id="itemQty" required="required"
-							placeholder="ENTER QUANTITY" /> <small id="vitemQty"
+						<label for="itemQty">ITEM QUANTITY</label> <input type="number"
+							name="itemQty" id="itemQty" required="required" min="1"
+							placeholder="ENTER QUANTITY" value="1" /> <small id="vitemQty"
 							style="color: red;"></small>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">ITEM WEIGHT</label> <input type="text" name="itemWt"
-							id="itemWt" required="required" placeholder="ENTER ITEM WEIGHT" />
+						<label for="itemWt">ITEM WEIGHT (g)</label> <input type="number" step="0.001" name="itemWt"
+							id="itemWt" required="required" placeholder="ENTER ITEM WEIGHT (g)" />
 						<small id="vitemWt" style="color: red;"></small>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">GROSS WEIGHT</label> <input type="text"
+						<label for="grossWt">GROSS WEIGHT (g)</label> <input type="number" step="0.001"
 							name="grosswt" id="grossWt" required="required"
-							placeholder="ENTER GROSS WEIGHT" readonly="readonly" />
+							placeholder="ENTER GROSS WEIGHT" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">STONE WEIGHT</label> <input type="text"
+						<label for="stoneWt">STONE WEIGHT (g)</label> <input type="number" step="0.001"
 							name="stoneWt" id="stoneWt" required="required"
-							placeholder="ENTER STONE WEIGHT" /> <small id="vstoneWt"
+							placeholder="ENTER STONE WEIGHT" value="0.00" /> <small id="vstoneWt"
 							style="color: red;"></small>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">NET WEIGHT</label> <input type="text" name="netWt"
+						<label for="netWt">NET WEIGHT (g)</label> <input type="text" name="netWt"
 							id="netWt" required="required" placeholder="ENTER NET WEIGHT"
 							readonly="readonly" />
 					</div>
@@ -357,7 +404,7 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">MARKET VALUATION</label> <input type="text"
+						<label for="marketValuation">MARKET VALUATION (₹)</label> <input type="text"
 							name="marketValuatiion" id="marketValuation" required="required"
 							placeholder="ENTER MARKET VALUATION" readonly="readonly" />
 					</div>
@@ -365,12 +412,46 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">ELIGIBLE LOAN</label> <input type="text"
+						<label for="eligibleLoan">ELIGIBLE LOAN (₹)</label> <input type="text"
 							name="eligibleLoan" id="eligibleLoan" required="required"
 							placeholder="ENTER ELIGIBLE LOAN" readonly="readonly" />
 					</div>
 				</div>
 
+			</div>
+
+			<!-- Repeatable Gold Items Container -->
+			<div id="repeatableItemsSection" class="mt-2" style="display: none;">
+				<h6 style="font-size: 13px; font-weight: 600; color: #495057;">ADDITIONAL GOLD ITEMS</h6>
+				<div class="table-responsive">
+					<table class="table table-bordered table-sm" id="additionalItemsTable" style="font-size: 12px;">
+						<thead class="table-light">
+							<tr>
+								<th>#</th>
+								<th>ITEM NAME</th>
+								<th>KARAT</th>
+								<th>RATE (₹/G)</th>
+								<th>QTY</th>
+								<th>ITEM WT (G)</th>
+								<th>GROSS WT</th>
+								<th>STONE WT</th>
+								<th>NET WT</th>
+								<th>VALUATION (₹)</th>
+								<th>ELIGIBLE LOAN (₹)</th>
+								<th>ACTION</th>
+							</tr>
+						</thead>
+						<tbody id="additionalItemsBody"></tbody>
+					</table>
+				</div>
+			</div>
+
+			<div class="row mt-1 mb-3">
+				<div class="col-12 text-end">
+					<button type="button" class="btn btn-outline-secondary btn-sm" id="addItemBtn" onclick="addRepeatableGoldItem()">
+						<i class="bi bi-plus-circle"></i> + ADD ANOTHER GOLD ITEM
+					</button>
+				</div>
 			</div>
 		</div>
 
@@ -697,7 +778,14 @@
 					</div>
 				</div>
 
-
+				<div class="col-lg-3">
+					<div class="d-flex flex-column formFields mb-4">
+						<label for="netDisbursement">NET DISBURSEMENT (₹)</label> <input type="text"
+							name="netDisbursement" id="netDisbursement"
+							placeholder="NET DISBURSEMENT" readonly="readonly"
+							style="text-transform: uppercase; font-weight: 700; background-color: #f1f8e9; color: #1b5e20; border: 1px solid #81c784;" />
+					</div>
+				</div>
 
 			</div>
 		</div>
@@ -712,8 +800,6 @@
 		</div>
 	</form>
 </div>
-<script src="./js/SecuredGoldLoan/ApplyForGold.js"></script>
-
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 	const toggles = document.querySelectorAll('.toggle__input');
@@ -735,43 +821,5 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 });
 </script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const LOAN_PERCENTAGE = 0.75; // 75%
-
-        const karatRate = document.getElementById("karatRate");
-        const grossWt = document.getElementById("grossWt");
-        const stoneWt = document.getElementById("stoneWt");
-        const netWt = document.getElementById("netWr");
-        const marketValuation = document.getElementById("marketValuation");
-        const eligibleLoan = document.getElementById("eligibleLoan");
-
-        function calculateValues() {
-            let gross = parseFloat(grossWt.value) || 0;
-            let stone = parseFloat(stoneWt.value) || 0;
-            let rate = parseFloat(karatRate.value) || 0;
-
-            let net = gross - stone;
-            if (net < 0) net = 0;
-
-            let valuation = net * rate;
-            let loan = valuation * LOAN_PERCENTAGE;
-
-            netWt.value = net.toFixed(2);
-            marketValuation.value = valuation.toFixed(2);
-            eligibleLoan.value = loan.toFixed(2);
-        }
-
-        [karatRate, grossWt, stoneWt].forEach(input => {
-            input.addEventListener("input", calculateValues);
-        });
-    });
-    
-    $("select option").each(function() {
-        $(this).text($(this).text().toUpperCase());
-    });
-
-  </script>
 <script
 	src="${pageContext.request.contextPath}/js/SecuredGoldLoan/ApplyForGold.js"></script>

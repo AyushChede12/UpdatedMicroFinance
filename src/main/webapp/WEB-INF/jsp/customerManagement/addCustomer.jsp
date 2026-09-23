@@ -901,4 +901,4 @@
 		});
 
 	</script>
-	<script src="${pageContext.request.contextPath}/js/customerManagement/addCustomer.js"></script>
+	<script src="${pageContext.request.contextPath}/js/customerManagement/addCustomer.js?v=<%=System.currentTimeMillis()%>"></script>

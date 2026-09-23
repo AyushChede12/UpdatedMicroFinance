@@ -1,16 +1,23 @@
 package com.microfinance.service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.microfinance.dto.ApiResponse;
+import com.microfinance.dto.ApplyForGoldRequestDto;
+import com.microfinance.dto.GoldItemDto;
 import com.microfinance.model.ApplyForGold;
+import com.microfinance.model.ApplyForGoldItem;
 import com.microfinance.model.CreateSavingsAccount;
 import com.microfinance.model.EmiInstallmentPaymentGold;
 import com.microfinance.model.GoldDirectory;
@@ -179,6 +186,285 @@ public class SecuredGoldLoanService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
+		}
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	public ApplyForGold createGoldLoanApplication(ApplyForGoldRequestDto dto) {
+		if (dto == null) {
+			throw new IllegalArgumentException("Gold loan request data cannot be null");
+		}
+
+		// Validation 1: Mandatory Photo and Signature
+		if (dto.getPhoto() == null || dto.getPhoto().trim().isEmpty() || dto.getPhoto().contains("default-placeholder")) {
+			throw new IllegalArgumentException("Upload Photo is mandatory before saving.");
+		}
+		if (dto.getSignature() == null || dto.getSignature().trim().isEmpty() || dto.getSignature().contains("default-placeholder")) {
+			throw new IllegalArgumentException("Upload Signature is mandatory before saving.");
+		}
+
+		// Validation 2: Items presence
+		List<GoldItemDto> itemDtos = dto.getItems();
+		if (itemDtos == null || itemDtos.isEmpty()) {
+			throw new IllegalArgumentException("At least one gold item must be provided.");
+		}
+
+		ApplyForGold applyForGold = new ApplyForGold();
+		applyForGold.setLoanDate(dto.getLoanDate());
+		applyForGold.setMemberCode(dto.getMemberCode());
+		applyForGold.setCustomerName(dto.getCustomerName());
+		applyForGold.setDateOfBirth(dto.getDateOfBirth());
+		applyForGold.setAge(dto.getAge());
+		applyForGold.setContactNo(dto.getContactNo());
+		applyForGold.setAddress(dto.getAddress());
+		applyForGold.setPinCode(dto.getPinCode());
+		applyForGold.setBranchName(dto.getBranchName());
+		applyForGold.setLoanPlanName(dto.getLoanPlanName());
+		applyForGold.setTypeOfLoan(dto.getTypeOfLoan());
+		applyForGold.setLoanMode(dto.getLoanMode());
+		applyForGold.setLoanTerm(dto.getLoanTerm());
+		applyForGold.setRateOfInterest(dto.getRateOfInterest());
+		applyForGold.setInterestType(dto.getInterestType());
+		applyForGold.setPurposeOfLoan(dto.getPurposeOfLoan());
+		applyForGold.setSmsSend(dto.getSmsSend());
+		applyForGold.setPhoto(dto.getPhoto());
+		applyForGold.setSignature(dto.getSignature());
+		applyForGold.setOrnamentPhoto(dto.getOrnamentPhoto());
+		applyForGold.setOrnamentPhoto2(dto.getOrnamentPhoto2());
+
+		// Process repeatable items
+		BigDecimal totalGrossWt = BigDecimal.ZERO;
+		BigDecimal totalNetWt = BigDecimal.ZERO;
+		BigDecimal totalStoneWt = BigDecimal.ZERO;
+		BigDecimal totalValuation = BigDecimal.ZERO;
+		BigDecimal totalEligibleLoan = BigDecimal.ZERO;
+		int totalQty = 0;
+
+		List<Integer> allowedKarats = Arrays.asList(18, 20, 22, 24);
+
+		for (int i = 0; i < itemDtos.size(); i++) {
+			GoldItemDto itemDto = itemDtos.get(i);
+			int itemIndex = i + 1;
+
+			// Validate Karat
+			if (itemDto.getKarat() == null || !allowedKarats.contains(itemDto.getKarat())) {
+				throw new IllegalArgumentException("Item " + itemIndex + ": Karat must be one of 18, 20, 22, or 24.");
+			}
+
+			// Validate Weights
+			BigDecimal itemWt = itemDto.getItemWt() != null ? itemDto.getItemWt() : BigDecimal.ZERO;
+			BigDecimal stoneWt = itemDto.getStoneWt() != null ? itemDto.getStoneWt() : BigDecimal.ZERO;
+			int qty = itemDto.getItemQty() != null && itemDto.getItemQty() > 0 ? itemDto.getItemQty() : 1;
+
+			if (itemWt.compareTo(BigDecimal.ZERO) <= 0) {
+				throw new IllegalArgumentException("Item " + itemIndex + ": Item Weight must be greater than zero.");
+			}
+			if (itemWt.compareTo(stoneWt) <= 0) {
+				throw new IllegalArgumentException("Item " + itemIndex + ": Item Weight (" + itemWt + "g) must be strictly greater than Stone Weight (" + stoneWt + "g).");
+			}
+
+			BigDecimal grossWt = itemWt.multiply(new BigDecimal(qty)).setScale(3, RoundingMode.HALF_UP);
+			if (grossWt.compareTo(stoneWt) <= 0) {
+				throw new IllegalArgumentException("Item " + itemIndex + ": Gross Weight (" + grossWt + "g) must be strictly greater than Stone Weight (" + stoneWt + "g).");
+			}
+
+			BigDecimal netWt = grossWt.subtract(stoneWt).setScale(3, RoundingMode.HALF_UP);
+
+			// Purity: karat / 24
+			BigDecimal purity = new BigDecimal(itemDto.getKarat())
+					.divide(new BigDecimal("24"), 6, RoundingMode.HALF_UP);
+
+			// Rate
+			BigDecimal custRate = itemDto.getCustgoldRate();
+			if (custRate == null || custRate.compareTo(BigDecimal.ZERO) <= 0) {
+				throw new IllegalArgumentException("Item " + itemIndex + ": Customer Karat Rate must be greater than 0.");
+			}
+
+			// Market Valuation = Net Weight * (Karat / 24) * Customer Karat Rate
+			BigDecimal marketValuation = netWt.multiply(purity).multiply(custRate).setScale(2, RoundingMode.HALF_UP);
+
+			// Eligible Loan using RBI Tiered Slab (85% <= 2.5L, 80% <= 5L, 75% above)
+			BigDecimal ltvRate;
+			if (marketValuation.compareTo(new BigDecimal("250000.00")) <= 0) {
+				ltvRate = new BigDecimal("0.85");
+			} else if (marketValuation.compareTo(new BigDecimal("500000.00")) <= 0) {
+				ltvRate = new BigDecimal("0.80");
+			} else {
+				ltvRate = new BigDecimal("0.75");
+			}
+			BigDecimal eligibleLoan = marketValuation.multiply(ltvRate).setScale(2, RoundingMode.HALF_UP);
+
+			ApplyForGoldItem itemEntity = new ApplyForGoldItem();
+			itemEntity.setItemName(itemDto.getItemName());
+			itemEntity.setItemType(itemDto.getItemType());
+			itemEntity.setKarat(itemDto.getKarat());
+			itemEntity.setCustgoldRate(custRate);
+			itemEntity.setLockerBranch(itemDto.getLockerBranch());
+			itemEntity.setPurity(purity);
+			itemEntity.setItemQty(qty);
+			itemEntity.setItemWt(itemWt);
+			itemEntity.setGrossWt(grossWt);
+			itemEntity.setStoneWt(stoneWt);
+			itemEntity.setNetWt(netWt);
+			itemEntity.setMarketValuation(marketValuation);
+			itemEntity.setEligibleLoan(eligibleLoan);
+
+			String itemPhoto = itemDto.getItemPhoto();
+			if ((itemPhoto == null || itemPhoto.trim().isEmpty()) && i == 0) {
+				itemPhoto = dto.getOrnamentPhoto();
+			}
+			itemEntity.setItemPhoto(itemPhoto);
+
+			applyForGold.addItem(itemEntity);
+
+			totalGrossWt = totalGrossWt.add(grossWt);
+			totalNetWt = totalNetWt.add(netWt);
+			totalStoneWt = totalStoneWt.add(stoneWt);
+			totalValuation = totalValuation.add(marketValuation);
+			totalEligibleLoan = totalEligibleLoan.add(eligibleLoan);
+			totalQty += qty;
+		}
+
+		// Set primary aggregate fields on ApplyForGold for backward compatibility
+		ApplyForGoldItem firstItem = applyForGold.getItems().get(0);
+		applyForGold.setKarat(String.valueOf(firstItem.getKarat()));
+		applyForGold.setItemType(firstItem.getItemType());
+		applyForGold.setCustgoldRate(firstItem.getCustgoldRate().toString());
+		applyForGold.setItemName(firstItem.getItemName());
+		applyForGold.setLockerBranch(firstItem.getLockerBranch());
+		applyForGold.setPurity(firstItem.getPurity().toString());
+		applyForGold.setItemQty(String.valueOf(totalQty));
+		applyForGold.setItemWt(firstItem.getItemWt().toString());
+		applyForGold.setGrossWt(totalGrossWt.setScale(2, RoundingMode.HALF_UP).toString());
+		applyForGold.setStoneWt(totalStoneWt.setScale(2, RoundingMode.HALF_UP).toString());
+		applyForGold.setNetWt(totalNetWt.setScale(2, RoundingMode.HALF_UP).toString());
+		applyForGold.setMarketValuation(totalValuation.setScale(2, RoundingMode.HALF_UP).toString());
+		applyForGold.setEligibleLoan(totalEligibleLoan.setScale(2, RoundingMode.HALF_UP).toString());
+
+		// Validate Loan Amount cannot exceed Eligible Loan
+		BigDecimal loanAmount = dto.getLoanAmount();
+		if (loanAmount == null || loanAmount.compareTo(BigDecimal.ZERO) <= 0) {
+			throw new IllegalArgumentException("Amount of loan must be greater than zero.");
+		}
+		if (loanAmount.compareTo(totalEligibleLoan) > 0) {
+			throw new IllegalArgumentException("Amount of Loan (₹" + loanAmount.setScale(2, RoundingMode.HALF_UP)
+					+ ") cannot exceed Eligible Loan (₹" + totalEligibleLoan.setScale(2, RoundingMode.HALF_UP) + ").");
+		}
+		applyForGold.setLoanAmount(loanAmount.setScale(2, RoundingMode.HALF_UP).toString());
+
+		// EMI calculation
+		if ("Bullet".equalsIgnoreCase(dto.getLoanMode())) {
+			applyForGold.setEmiPayment("0");
+		} else {
+			BigDecimal calculatedEmi = calculateEmi(loanAmount, dto.getRateOfInterest(), dto.getLoanTerm(), dto.getInterestType());
+			applyForGold.setEmiPayment(calculatedEmi.setScale(2, RoundingMode.HALF_UP).toString());
+		}
+
+		// Guarantor Details
+		applyForGold.setGuarantorcustomerCode(dto.getGuarantorcustomerCode());
+		applyForGold.setGuarantorIdentity(dto.getGuarantorIdentity());
+		applyForGold.setGuarantorAddress(dto.getGuarantorAddress());
+		applyForGold.setGuarantorPinCode(dto.getGuarantorPinCode());
+		applyForGold.setGuarantorContactNo(dto.getGuarantorContactNo());
+		applyForGold.setGuarantorSecurityType(dto.getGuarantorSecurityType());
+
+		// Co-Applicant Details
+		applyForGold.setCoApplicantMemberId(dto.getCoApplicantMemberId());
+		applyForGold.setCoApplicantIdentity(dto.getCoApplicantIdentity());
+		applyForGold.setCoApplicantAddress(dto.getCoApplicantAddress());
+		applyForGold.setCoAge(dto.getCoAge());
+		applyForGold.setCoApplicantContactNo(dto.getCoApplicantContactNo());
+		applyForGold.setSecurityDetails(dto.getSecurityDetails());
+
+		// Deduction Details calculation
+		BigDecimal processingFee = dto.getProcessingFee() != null ? dto.getProcessingFee() : BigDecimal.ZERO;
+		if (dto.getLoanPlanName() != null && !dto.getLoanPlanName().trim().isEmpty()) {
+			Optional<SecuredGoldPlan> planOpt = goldSecurePlanRepo.findByLoanPlanName(dto.getLoanPlanName().trim());
+			if (planOpt.isPresent() && planOpt.get().getProcFee() != null) {
+				try {
+					String procStr = planOpt.get().getProcFee().replace("%", "").trim();
+					BigDecimal procPercent = new BigDecimal(procStr);
+					processingFee = loanAmount.multiply(procPercent).divide(new BigDecimal("100"), 2, RoundingMode.HALF_UP);
+				} catch (Exception ignored) {}
+			}
+		}
+
+		BigDecimal valuationFees = dto.getValuationFees() != null ? dto.getValuationFees() : BigDecimal.ZERO;
+		BigDecimal legalCharges = dto.getLegalCharges() != null ? dto.getLegalCharges() : BigDecimal.ZERO;
+		BigDecimal stampDuty = dto.getStampDuty() != null ? dto.getStampDuty() : BigDecimal.ZERO;
+		BigDecimal smsCharges = dto.getSmsCharges() != null ? dto.getSmsCharges() : BigDecimal.ZERO;
+		BigDecimal mainCharges = dto.getMainCharges() != null ? dto.getMainCharges() : BigDecimal.ZERO;
+		BigDecimal stationaryFee = dto.getStationaryFee() != null ? dto.getStationaryFee() : BigDecimal.ZERO;
+		BigDecimal insuFee = dto.getInsuFee() != null ? dto.getInsuFee() : BigDecimal.ZERO;
+		BigDecimal penaltyCharge = dto.getPenaltyCharge() != null ? dto.getPenaltyCharge() : BigDecimal.ZERO;
+		BigDecimal overCharge = dto.getOverCharge() != null ? dto.getOverCharge() : BigDecimal.ZERO;
+		BigDecimal collectionCharge = dto.getCollectionCharge() != null ? dto.getCollectionCharge() : BigDecimal.ZERO;
+
+		// GST = 18% of (Processing Fee + Valuation Fees + Legal Charges)
+		BigDecimal gstBase = processingFee.add(valuationFees).add(legalCharges);
+		BigDecimal gst = gstBase.multiply(new BigDecimal("0.18")).setScale(2, RoundingMode.HALF_UP);
+
+		BigDecimal totalDeductions = processingFee.add(legalCharges).add(stampDuty).add(smsCharges)
+				.add(mainCharges).add(stationaryFee).add(gst).add(insuFee).add(penaltyCharge)
+				.add(valuationFees).add(overCharge).add(collectionCharge);
+
+		BigDecimal netDisbursement = loanAmount.subtract(totalDeductions).setScale(2, RoundingMode.HALF_UP);
+
+		applyForGold.setProcessingFee(processingFee.setScale(2, RoundingMode.HALF_UP).toString());
+		applyForGold.setValuationFees(valuationFees.setScale(2, RoundingMode.HALF_UP).toString());
+		applyForGold.setLegalCharges(legalCharges.setScale(2, RoundingMode.HALF_UP).toString());
+		applyForGold.setStampDuty(stampDuty.setScale(2, RoundingMode.HALF_UP).toString());
+		applyForGold.setSmsCharges(smsCharges.setScale(2, RoundingMode.HALF_UP).toString());
+		applyForGold.setMainCharges(mainCharges.setScale(2, RoundingMode.HALF_UP).toString());
+		applyForGold.setStationaryFee(stationaryFee.setScale(2, RoundingMode.HALF_UP).toString());
+		applyForGold.setGst(gst.setScale(2, RoundingMode.HALF_UP).toString());
+		applyForGold.setInsuFee(insuFee.setScale(2, RoundingMode.HALF_UP).toString());
+		applyForGold.setPenaltyCharge(penaltyCharge.setScale(2, RoundingMode.HALF_UP).toString());
+		applyForGold.setOverCharge(overCharge.setScale(2, RoundingMode.HALF_UP).toString());
+		applyForGold.setCollectionCharge(collectionCharge.setScale(2, RoundingMode.HALF_UP).toString());
+		applyForGold.setFinancialConsultantId(dto.getFinancialConsultantId());
+		applyForGold.setFinancialConsultantName(dto.getFinancialConsultantName());
+
+		applyForGold.setNetDisbursement(netDisbursement.toString());
+		applyForGold.setSanctionedAmount(netDisbursement.toString());
+
+		// Generate unique loan_no and goldID
+		Long maxId = applyForGoldRepo.getMaxId();
+		String goldId = "GL" + String.format("%05d", (maxId != null ? maxId + 1 : 1));
+		applyForGold.setGoldID(goldId);
+		applyForGold.setLoanNo(goldId);
+
+		// Status: PENDING_APPROVAL and approvalStatus false
+		applyForGold.setApprovalStatus(false);
+		applyForGold.setGoldLoanStatus("PENDING_APPROVAL");
+
+		return applyForGoldRepo.save(applyForGold);
+	}
+
+	private BigDecimal calculateEmi(BigDecimal principal, String rateStr, String termStr, String interestType) {
+		try {
+			if (principal == null || principal.compareTo(BigDecimal.ZERO) <= 0) return BigDecimal.ZERO;
+			double p = principal.doubleValue();
+			double annualRate = (rateStr != null && !rateStr.trim().isEmpty()) ? Double.parseDouble(rateStr.trim()) : 0.0;
+			int term = (termStr != null && !termStr.trim().isEmpty()) ? Integer.parseInt(termStr.trim()) : 12;
+			if (term <= 0) term = 12;
+
+			if ("REDUCING".equalsIgnoreCase(interestType)) {
+				if (annualRate <= 0) {
+					return BigDecimal.valueOf(p / term).setScale(2, RoundingMode.HALF_UP);
+				}
+				double monthlyRate = (annualRate / 12.0) / 100.0;
+				double emi = (p * monthlyRate * Math.pow(1 + monthlyRate, term)) / (Math.pow(1 + monthlyRate, term) - 1);
+				return BigDecimal.valueOf(emi).setScale(2, RoundingMode.HALF_UP);
+			} else {
+				// Flat interest
+				double totalInterest = p * (annualRate / 100.0) * (term / 12.0);
+				double totalPayable = p + totalInterest;
+				double emi = totalPayable / term;
+				return BigDecimal.valueOf(emi).setScale(2, RoundingMode.HALF_UP);
+			}
+		} catch (Exception e) {
+			return BigDecimal.ZERO;
 		}
 	}
 

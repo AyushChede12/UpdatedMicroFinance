@@ -543,12 +543,12 @@
 <!-- ========================================================================= -->
 <!-- 5. CONFIRMATION MODAL -->
 <!-- ========================================================================= -->
-<div class="modal fade" id="closureConfirmModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+<div class="modal fade" id="closureConfirmModal" tabindex="-1" aria-hidden="true" data-backdrop="static" data-bs-backdrop="static">
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content" style="border-radius: 12px; border: none; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2);">
 			<div class="modal-header" style="background: #0f172a; color: #fff; border-radius: 12px 12px 0 0;">
 				<h5 class="modal-title fw-bold"><i class="bi bi-exclamation-triangle text-warning me-2"></i>CONFIRM EARLY LOAN CLOSURE</h5>
-				<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+				<button type="button" class="close text-white" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" style="background:transparent; border:none; font-size:24px; line-height:1;">&times;</button>
 			</div>
 			<div class="modal-body p-4">
 				<p class="text-muted mb-3">You are about to foreclose and permanently settle this loan account. Please verify settlement summary:</p>
@@ -581,7 +581,7 @@
 				</div>
 			</div>
 			<div class="modal-footer" style="background: #f8fafc; border-radius: 0 0 12px 12px;">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal" data-bs-dismiss="modal">Cancel</button>
 				<button type="button" id="confirmProceedCloseBtn" class="btn btn-warning fw-bold px-4">
 					<i class="bi bi-check-circle me-1"></i> YES, EXECUTE CLOSURE
 				</button>
@@ -593,7 +593,7 @@
 <!-- ========================================================================= -->
 <!-- 6. POST-CLOSURE SUCCESS & NOC MODAL -->
 <!-- ========================================================================= -->
-<div class="modal fade" id="closureSuccessModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+<div class="modal fade" id="closureSuccessModal" tabindex="-1" aria-hidden="true" data-backdrop="static" data-bs-backdrop="static">
 	<div class="modal-dialog modal-lg modal-dialog-centered">
 		<div class="modal-content" style="border-radius: 12px; border: none; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);">
 			<div class="settlement-modal-header d-flex justify-content-between align-items-center">
@@ -601,7 +601,7 @@
 					<h4 class="m-0 fw-bold"><i class="bi bi-check2-circle me-2"></i>LOAN CLOSED SUCCESSFULLY!</h4>
 					<small style="opacity: 0.9;">Early Foreclosure & Account Settlement Executed</small>
 				</div>
-				<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+				<button type="button" class="close text-white" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" style="background:transparent; border:none; font-size:24px; line-height:1;">&times;</button>
 			</div>
 			<div class="modal-body p-4">
 				<div class="alert alert-success d-flex align-items-center mb-4" role="alert">

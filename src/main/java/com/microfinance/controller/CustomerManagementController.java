@@ -45,6 +45,7 @@ public class CustomerManagementController {
 
 	@PostMapping("/saveOrUpdateCustomer")
 	public ResponseEntity<?> saveOrUpdateCustomer(@ModelAttribute CustomerDto clientMasterDto,
+			@RequestParam(value = "customerData", required = false) String customerDataJson,
 			@RequestParam(value = "customerAadharImage", required = false) MultipartFile customerAadharImage,
 			@RequestParam(value = "customerPanImage", required = false) MultipartFile customerPanImage,
 			@RequestParam(value = "customerPhoto", required = false) MultipartFile customerPhoto,
@@ -56,6 +57,11 @@ public class CustomerManagementController {
 	{
 
 		try {
+			if (customerDataJson != null && !customerDataJson.trim().isEmpty()) {
+				com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+				mapper.configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+				clientMasterDto = mapper.readValue(customerDataJson, CustomerDto.class);
+			}
 
 			ApiResponse<?> response = customerService.saveOrUpdateCustomer(clientMasterDto, customerAadharImage,
 					customerPanImage, customerPhoto, customerVoter, nomineAadhar, nomineSignature, customerSignature);
