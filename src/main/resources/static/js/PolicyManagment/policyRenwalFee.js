@@ -236,14 +236,14 @@ $(document).ready(function() {
 
 
 function toggleTransaction() {
-	const policyCode = document.getElementById("findByPolicyNumber").value;
+	const policyCode = (document.getElementById("findByPolicyNumber").value || "").trim();
 
 	if (!policyCode) {
 		alert("Please select a Policy Code first.");
 		return;
 	}
 
-	fetch(`api/Policymangment/getPolicyByPolicyCode?policyCode=${policyCode}`)
+	fetch(`api/Policymangment/getPolicyByPolicyCode?policyCode=${encodeURIComponent(policyCode)}`)
 		.then(response => {
 			if (!response.ok) {
 				throw new Error("Policy not found");

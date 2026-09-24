@@ -8,6 +8,7 @@ import java.math.BigDecimal;
  */
 public class MisPolicyRequestDto {
 
+    private String policyNumber;
     private String customerId;
     private String customerName;
     private Long planId;
@@ -24,6 +25,9 @@ public class MisPolicyRequestDto {
     private Long addInvestmentId;
 
     // Getters & Setters
+
+    public String getPolicyNumber() { return policyNumber; }
+    public void setPolicyNumber(String policyNumber) { this.policyNumber = policyNumber; }
 
     public String getCustomerId() { return customerId; }
     public void setCustomerId(String customerId) { this.customerId = customerId; }

@@ -24,6 +24,7 @@ import com.microfinance.model.FixedDepositPM;
 import com.microfinance.model.FlexibleRenewal;
 import com.microfinance.model.FullMaturity;
 import com.microfinance.model.MISDepositPM;
+import com.microfinance.model.MisPayoutLedger;
 import com.microfinance.model.PolicyRenewal;
 import com.microfinance.model.RecurringDepositPM;
 import com.microfinance.model.addCustomer;
@@ -1077,6 +1078,12 @@ public class PolicyManagementController {
 			return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "RD/MIS data found", renewalData));
 		}
 
+		// Extend: check MIS payout ledger (for MIS policies created in mis_policy table)
+		List<MisPayoutLedger> misLedger = policyManagementService.findMisPayoutLedger(policyCode);
+		if (!misLedger.isEmpty()) {
+			return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "MIS payout ledger found", misLedger));
+		}
+
 		return ResponseEntity.status(HttpStatus.NOT_FOUND)
 				.body(ApiResponse.error(HttpStatus.NOT_FOUND, "No policy data found for policyCode: " + policyCode));
 	}
@@ -1207,9 +1214,8 @@ public class PolicyManagementController {
 	public ResponseEntity<ApiResponse<List<FullMaturity>>> getApprovedRD() {
 		List<FullMaturity> approvedList = policyManagementService.getAllApprovedRDPolicies();
 
-		if (approvedList.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND)
-					.body(new ApiResponse<>(HttpStatus.NOT_FOUND, "No approved policies found", null));
+		if (approvedList == null || approvedList.isEmpty()) {
+			return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK, "No approved policies found", java.util.Collections.emptyList()));
 		}
 
 		return ResponseEntity

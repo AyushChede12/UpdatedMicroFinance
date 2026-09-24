@@ -23,6 +23,7 @@ import com.microfinance.model.FixedDepositPM;
 import com.microfinance.model.FlexibleRenewal;
 import com.microfinance.model.FullMaturity;
 import com.microfinance.model.MISDepositPM;
+import com.microfinance.model.MisPayoutLedger;
 import com.microfinance.model.MisPolicy;
 import com.microfinance.model.PolicyRenewal;
 import com.microfinance.model.RecurringDepositPM;
@@ -34,6 +35,8 @@ import com.microfinance.repository.FixedDepositPMRepo;
 import com.microfinance.repository.FlexibleRenewalRepo;
 import com.microfinance.repository.FullMaturityRepo;
 import com.microfinance.repository.MisDepositePMRepo;
+import com.microfinance.repository.MisPayoutLedgerRepo;
+import com.microfinance.repository.MisPolicyRepo;
 import com.microfinance.repository.PolicyRenewalRepo;
 import com.microfinance.repository.RecurringDepositRepo;
 
@@ -72,6 +75,13 @@ public class PolicyManagementService {
 	// MIS Renewal Service — injected for auto-policy creation on MIS investment
 	@Autowired
 	MisRenewalService misRenewalService;
+
+	// MIS repositories — used to extend policy-code lookups for MIS policies
+	@Autowired
+	MisPolicyRepo misPolicyRepo;
+
+	@Autowired
+	MisPayoutLedgerRepo misPayoutLedgerRepo;
 
 	public boolean saveRecuringDailyDeposite(RecurringDepositPM deposit) {
 		try {
@@ -457,7 +467,145 @@ public class PolicyManagementService {
 	}
 
 	public List<AddnewinvestmentPM> getAllApprovedPolicies() {
-		return addinvestmentrepo.findByIsApprovedTrue();
+		// Original approved policies (RD, FD, DRD, MIS, etc. from AddnewinvestmentPM)
+		List<AddnewinvestmentPM> result = new java.util.ArrayList<>(addinvestmentrepo.findByIsApprovedTrue());
+
+		// Track existing policy codes already in result to avoid duplicates
+		java.util.Set<String> existingCodes = new java.util.HashSet<>();
+		for (AddnewinvestmentPM item : result) {
+			if (item.getPolicyCode() != null && !item.getPolicyCode().trim().isEmpty()) {
+				existingCodes.add(item.getPolicyCode().trim().toUpperCase());
+			}
+		}
+
+		// Also include ACTIVE MIS policies from mis_policy table that are not already present
+		List<MisPolicy> misPolicies = misPolicyRepo.findByStatus("ACTIVE");
+		for (MisPolicy mis : misPolicies) {
+			AddnewinvestmentPM linkedInv = null;
+			if (mis.getAddInvestmentId() != null) {
+				linkedInv = addinvestmentrepo.findById(mis.getAddInvestmentId()).orElse(null);
+			}
+
+			String codeToUse = null;
+			if (linkedInv != null && linkedInv.getPolicyCode() != null && !linkedInv.getPolicyCode().trim().isEmpty()) {
+				codeToUse = linkedInv.getPolicyCode().trim();
+			} else if (mis.getPolicyNumber() != null && !mis.getPolicyNumber().trim().isEmpty()) {
+				codeToUse = mis.getPolicyNumber().trim();
+			}
+
+			if (codeToUse != null && !existingCodes.contains(codeToUse.toUpperCase())) {
+				if (linkedInv != null) {
+					result.add(linkedInv);
+				} else {
+					AddnewinvestmentPM dto = mapMisPolicyToInvestment(mis);
+					dto.setPolicyCode(codeToUse);
+					result.add(dto);
+				}
+				existingCodes.add(codeToUse.toUpperCase());
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * Looks up a policy by policyCode — first in the original AddnewinvestmentPM table,
+	 * then in mis_policy (and resolves linked investment). Returns empty if not found in either.
+	 */
+	public Optional<AddnewinvestmentPM> findByPolicyCode(String policyCode) {
+		if (policyCode == null || policyCode.trim().isEmpty())
+			return Optional.empty();
+
+		String normalizedCode = policyCode.trim();
+
+		// First: try original AddnewinvestmentPM table directly by policyCode (case-insensitive)
+		Optional<AddnewinvestmentPM> existing = addinvestmentrepo.findAll().stream()
+				.filter(p -> p.getPolicyCode() != null && p.getPolicyCode().trim().equalsIgnoreCase(normalizedCode))
+				.findFirst();
+		if (existing.isPresent()) return existing;
+
+		// Second: try mis_policy table by policyNumber (or legacy MIS-YYYY-NNNNNN format)
+		Optional<MisPolicy> mis = misPolicyRepo.findByPolicyNumberIgnoreCase(normalizedCode);
+		if (!mis.isPresent()) {
+			mis = misPolicyRepo.findByPolicyNumber(normalizedCode);
+		}
+		if (mis.isPresent()) {
+			MisPolicy mp = mis.get();
+			if (mp.getAddInvestmentId() != null) {
+				Optional<AddnewinvestmentPM> linkedInv = addinvestmentrepo.findById(mp.getAddInvestmentId());
+				if (linkedInv.isPresent()) {
+					return linkedInv;
+				}
+			}
+			return Optional.of(mapMisPolicyToInvestment(mp));
+		}
+
+		return Optional.empty();
+	}
+
+	/** Finds MIS payout ledger entries by policy number (for Investment Transaction Slip) */
+	public List<MisPayoutLedger> findMisPayoutLedger(String policyNumber) {
+		if (policyNumber == null || policyNumber.trim().isEmpty()) return Collections.emptyList();
+		String code = policyNumber.trim();
+
+		// 1. Try direct match in misPolicyRepo by policyNumber
+		Optional<MisPolicy> directMis = misPolicyRepo.findByPolicyNumberIgnoreCase(code);
+		if (!directMis.isPresent()) {
+			directMis = misPolicyRepo.findByPolicyNumber(code);
+		}
+		if (directMis.isPresent()) {
+			return misPayoutLedgerRepo.findByPolicyIdOrderByPayoutDateDesc(directMis.get().getId());
+		}
+
+		// 2. Lookup AddnewinvestmentPM by policyCode -> find linked MisPolicy via addInvestmentId
+		Optional<AddnewinvestmentPM> inv = addinvestmentrepo.findAll().stream()
+				.filter(p -> p.getPolicyCode() != null && p.getPolicyCode().trim().equalsIgnoreCase(code))
+				.findFirst();
+		if (inv.isPresent()) {
+			Long addInvId = inv.get().getId();
+			Optional<MisPolicy> misByInv = misPolicyRepo.findByAddInvestmentId(addInvId);
+			if (!misByInv.isPresent()) {
+				misByInv = misPolicyRepo.findAll().stream()
+						.filter(m -> addInvId.equals(m.getAddInvestmentId()))
+						.findFirst();
+			}
+			if (misByInv.isPresent()) {
+				return misPayoutLedgerRepo.findByPolicyIdOrderByPayoutDateDesc(misByInv.get().getId());
+			}
+		}
+
+		return Collections.emptyList();
+	}
+
+	/** Maps a MisPolicy entity to AddnewinvestmentPM shape so the same IRB UI/JS can render it */
+	private AddnewinvestmentPM mapMisPolicyToInvestment(MisPolicy mis) {
+		String code = mis.getPolicyNumber();
+		if (mis.getAddInvestmentId() != null) {
+			AddnewinvestmentPM inv = addinvestmentrepo.findById(mis.getAddInvestmentId()).orElse(null);
+			if (inv != null && inv.getPolicyCode() != null && !inv.getPolicyCode().trim().isEmpty()) {
+				code = inv.getPolicyCode().trim();
+			}
+		}
+
+		AddnewinvestmentPM dto = new AddnewinvestmentPM();
+		dto.setPolicyCode(code);
+		dto.setCustomerName(mis.getCustomerName());
+		dto.setMemberSelection(mis.getCustomerId());
+		dto.setPolicyStartDate(mis.getStartDate() != null ? mis.getStartDate().toString() : null);
+		dto.setMaturityDate(mis.getMaturityDate() != null ? mis.getMaturityDate().toString() : null);
+		dto.setPolicyAmount(mis.getPrincipalAmount() != null ? mis.getPrincipalAmount().toPlainString() : null);
+		dto.setDepositAmount(mis.getPrincipalAmount() != null ? mis.getPrincipalAmount().toPlainString() : null);
+		dto.setRoi(mis.getInterestRate() != null ? mis.getInterestRate().toPlainString() : null);
+		dto.setSchemeTerm(mis.getTenureMonths() != null ? mis.getTenureMonths() + " Months" : null);
+		dto.setSchemeType("MIS");
+		dto.setSchemeName(mis.getPlanName());
+		dto.setSchemeCode(mis.getPlanName());
+		dto.setSuggestedNominee(mis.getNomineeName());
+		dto.setRelation(mis.getNomineeRelation());
+		dto.setSchemeMode("Monthly");
+		// Monthly payout as "paid amount" (interest per month)
+		dto.setPaidAmount(mis.getMonthlyPayoutAmount() != null ? mis.getMonthlyPayoutAmount().toPlainString() : null);
+		dto.setApproved("ACTIVE".equalsIgnoreCase(mis.getStatus()) || "MATURED".equalsIgnoreCase(mis.getStatus()));
+		return dto;
 	}
 
 	public AddnewinvestmentPM updateInstalmentDetails(String policyCode, String DepositAmount) {
@@ -622,6 +770,7 @@ public class PolicyManagementService {
 				}
 
 				MisPolicyRequestDto misReq = new MisPolicyRequestDto();
+				misReq.setPolicyNumber(saveaddinvestmentPM.getPolicyCode());
 				misReq.setCustomerId(policyManagementDto.getMemberSelection());
 				misReq.setCustomerName(policyManagementDto.getCustomerName());
 				misReq.setPlanName(policyManagementDto.getSchemeName());

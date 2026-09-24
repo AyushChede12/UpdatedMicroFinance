@@ -42,6 +42,7 @@ public class MisRenewalService {
     @Autowired private MisClosureAuditRepo closureAuditRepo;
     @Autowired private CreateSavingAccountRepo savingAccountRepo;
     @Autowired private MisDepositePMRepo misDepositePMRepo;
+    @Autowired private AddInvestmentRepo addinvestmentrepo;
 
     private static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -79,8 +80,19 @@ public class MisRenewalService {
         // Maturity date
         LocalDate maturityDate = startDate.plusMonths(req.getTenureMonths());
 
-        // Generate policy number: MIS-YYYY-NNNNNN
-        String policyNumber = generatePolicyNumber();
+        // Determine policy number: use source-of-truth from AddnewinvestmentPM if present
+        String policyNumber = req.getPolicyNumber();
+        if (policyNumber == null || policyNumber.trim().isEmpty()) {
+            if (req.getAddInvestmentId() != null) {
+                AddnewinvestmentPM inv = addinvestmentrepo.findById(req.getAddInvestmentId()).orElse(null);
+                if (inv != null && inv.getPolicyCode() != null && !inv.getPolicyCode().trim().isEmpty()) {
+                    policyNumber = inv.getPolicyCode().trim();
+                }
+            }
+        }
+        if (policyNumber == null || policyNumber.trim().isEmpty()) {
+            policyNumber = generatePolicyNumber();
+        }
 
         MisPolicy policy = new MisPolicy();
         policy.setPolicyNumber(policyNumber);
@@ -110,6 +122,7 @@ public class MisRenewalService {
     // ════════════════════════════════════════════════════════════════════════
 
     public List<MisPolicyResponseDto> getAllPolicies() {
+        syncMisInvestments();
         return misPolicyRepo.findAll().stream().map(this::toDto).collect(Collectors.toList());
     }
 
@@ -120,8 +133,52 @@ public class MisRenewalService {
     }
 
     public List<MisPolicyResponseDto> getPoliciesByCustomer(String customerId) {
+        syncMisInvestments();
         return misPolicyRepo.findByCustomerId(customerId)
                 .stream().map(this::toDto).collect(Collectors.toList());
+    }
+
+    /**
+     * Auto-sync any investments from AddnewinvestmentPM where schemeType=MIS that do not yet
+     * have a corresponding MisPolicy record.
+     */
+    private void syncMisInvestments() {
+        try {
+            List<AddnewinvestmentPM> misInvestments = addinvestmentrepo.findAll().stream()
+                    .filter(inv -> "MIS".equalsIgnoreCase(inv.getSchemeType()))
+                    .collect(Collectors.toList());
+            for (AddnewinvestmentPM inv : misInvestments) {
+                boolean exists = misPolicyRepo.findAll().stream()
+                        .anyMatch(mp -> inv.getId().equals(mp.getAddInvestmentId()) ||
+                                (inv.getPolicyCode() != null && inv.getPolicyCode().equalsIgnoreCase(mp.getPolicyNumber())));
+                if (!exists) {
+                    MisPolicyRequestDto req = new MisPolicyRequestDto();
+                    req.setPolicyNumber(inv.getPolicyCode());
+                    req.setCustomerId(inv.getMemberSelection());
+                    req.setCustomerName(inv.getCustomerName());
+                    req.setPlanName(inv.getSchemeName() != null ? inv.getSchemeName() : inv.getSchemeCode());
+                    String amtStr = inv.getPolicyAmount() != null && !inv.getPolicyAmount().isEmpty() ? inv.getPolicyAmount() : inv.getDepositAmount();
+                    req.setPrincipalAmount(new BigDecimal(amtStr != null && !amtStr.isEmpty() ? amtStr : "0"));
+                    String roiStr = inv.getRoi() != null && !inv.getRoi().isEmpty() ? inv.getRoi() : inv.getMISInterest();
+                    req.setInterestRate(new BigDecimal(roiStr != null && !roiStr.isEmpty() ? roiStr : "0"));
+                    int tenure = 12;
+                    if (inv.getSchemeTerm() != null) {
+                        try {
+                            tenure = Integer.parseInt(inv.getSchemeTerm().replaceAll("[^0-9]", ""));
+                        } catch (Exception ignored) {}
+                    }
+                    req.setTenureMonths(tenure);
+                    req.setStartDate(inv.getPolicyStartDate() != null ? inv.getPolicyStartDate() : LocalDate.now().toString());
+                    req.setAddInvestmentId(inv.getId());
+                    req.setLinkedAccountId(inv.getMemberSelection());
+                    req.setNomineeName(inv.getSuggestedNominee());
+                    req.setNomineeRelation(inv.getRelation());
+                    createMisPolicy(req);
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Warning: syncMisInvestments failed: " + e.getMessage());
+        }
     }
 
     public List<MisPayoutLedger> getLedgerByPolicyId(Long policyId) {
@@ -385,8 +442,25 @@ public class MisRenewalService {
                     "Only MATURED policies can be renewed. Current status: " + old.getStatus());
         }
 
+        // Determine base policy code from old policy or linked AddnewinvestmentPM
+        String baseCode = old.getPolicyNumber();
+        if (old.getAddInvestmentId() != null) {
+            AddnewinvestmentPM inv = addinvestmentrepo.findById(old.getAddInvestmentId()).orElse(null);
+            if (inv != null && inv.getPolicyCode() != null && !inv.getPolicyCode().trim().isEmpty()) {
+                baseCode = inv.getPolicyCode().trim();
+            }
+        }
+        int renewalCount = 1;
+        String newPolicyNumber = baseCode + "-R" + renewalCount;
+        while (misPolicyRepo.findByPolicyNumber(newPolicyNumber).isPresent() ||
+               misPolicyRepo.findByPolicyNumberIgnoreCase(newPolicyNumber).isPresent()) {
+            renewalCount++;
+            newPolicyNumber = baseCode + "-R" + renewalCount;
+        }
+
         // Create new policy using same terms, start date = today
         MisPolicyRequestDto req = new MisPolicyRequestDto();
+        req.setPolicyNumber(newPolicyNumber);
         req.setCustomerId(old.getCustomerId());
         req.setCustomerName(old.getCustomerName());
         req.setPlanId(old.getPlanId());
@@ -400,6 +474,7 @@ public class MisRenewalService {
         req.setLinkedAccountId(old.getLinkedAccountId());
         req.setNomineeName(old.getNomineeName());
         req.setNomineeRelation(old.getNomineeRelation());
+        req.setAddInvestmentId(old.getAddInvestmentId());
 
         MisPolicy newPolicy = createMisPolicy(req);
         newPolicy.setRenewedFromPolicyId(oldPolicyId);
@@ -478,7 +553,24 @@ public class MisRenewalService {
     public MisPolicyResponseDto toDto(MisPolicy p) {
         MisPolicyResponseDto dto = new MisPolicyResponseDto();
         dto.setId(p.getId());
-        dto.setPolicyNumber(p.getPolicyNumber());
+
+        // Resolve source-of-truth policy number
+        String policyNum = p.getPolicyNumber();
+        if (p.getAddInvestmentId() != null) {
+            AddnewinvestmentPM inv = addinvestmentrepo.findById(p.getAddInvestmentId()).orElse(null);
+            if (inv != null && inv.getPolicyCode() != null && !inv.getPolicyCode().trim().isEmpty()) {
+                String trueCode = inv.getPolicyCode().trim();
+                // If the MisPolicy entity had a legacy generated number like MIS-2026-..., update it in DB as well
+                if (policyNum != null && policyNum.startsWith("MIS-") && !trueCode.equals(policyNum)) {
+                    try {
+                        p.setPolicyNumber(trueCode);
+                        misPolicyRepo.save(p);
+                    } catch (Exception ignored) {}
+                }
+                policyNum = trueCode;
+            }
+        }
+        dto.setPolicyNumber(policyNum);
         dto.setCustomerId(p.getCustomerId());
         dto.setCustomerName(p.getCustomerName());
         dto.setPlanId(p.getPlanId());

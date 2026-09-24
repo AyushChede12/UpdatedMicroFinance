@@ -18,6 +18,7 @@ const _misCustomerPolicyMap = {};
 // ══════════════════════════════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', function () {
     initCustomerCodeDropdown();
+    loadAllPolicies();
     document.getElementById('misSearchBtn').addEventListener('click', handleSearch);
     document.getElementById('misLoadAllBtn').addEventListener('click', loadAllPolicies);
     document.getElementById('misViewSelectedBtn') && document.getElementById('misViewSelectedBtn').addEventListener('click', handleViewSelected);
@@ -36,10 +37,16 @@ function initCustomerCodeDropdown() {
             if (!res.data || res.data.length === 0) return;
 
             const select = document.getElementById('misSearchCustomer');
+            const policySelect = document.getElementById('misSearchPolicy');
             if (!select) return;
 
             select.innerHTML = '<option value="">SELECT CUSTOMER CODE</option>';
+            if (policySelect) {
+                policySelect.innerHTML = '<option value="">SELECT POLICY NUMBER</option>';
+            }
             const seen = new Set();
+            const seenPolicies = new Set();
+            const policyToCustomerMap = {};
 
             res.data.forEach(p => {
                 const code = p.customerId;
@@ -51,6 +58,7 @@ function initCustomerCodeDropdown() {
                 }
                 if (p.policyNumber && !_misCustomerPolicyMap[code].includes(p.policyNumber)) {
                     _misCustomerPolicyMap[code].push(p.policyNumber);
+                    policyToCustomerMap[p.policyNumber] = code;
                 }
 
                 // Add option only once per unique customer code
@@ -61,16 +69,24 @@ function initCustomerCodeDropdown() {
                     opt.textContent = p.customerName ? `${code} - ${p.customerName}` : code;
                     select.appendChild(opt);
                 }
+
+                // Populate all unique policies initially in policySelect
+                if (policySelect && p.policyNumber && !seenPolicies.has(p.policyNumber)) {
+                    seenPolicies.add(p.policyNumber);
+                    const pOpt = document.createElement('option');
+                    pOpt.value = p.policyNumber;
+                    pOpt.textContent = p.policyNumber;
+                    policySelect.appendChild(pOpt);
+                }
             });
 
             // Wire change & input event: populate policy dropdown when customer is selected
             const handleCustomerChange = function () {
                 const selectedCode = this.value.trim();
-                const policySelect = document.getElementById('misSearchPolicy');
                 if (!policySelect) return;
 
                 policySelect.innerHTML = '<option value="">SELECT POLICY NUMBER</option>';
-                const policies = _misCustomerPolicyMap[selectedCode] || [];
+                const policies = selectedCode ? (_misCustomerPolicyMap[selectedCode] || []) : Array.from(seenPolicies);
 
                 policies.forEach(pNo => {
                     const opt = document.createElement('option');
@@ -79,8 +95,8 @@ function initCustomerCodeDropdown() {
                     policySelect.appendChild(opt);
                 });
 
-                // Auto-select first policy if available
-                if (policies.length > 0) {
+                // Auto-select first policy if available and a customer was picked
+                if (selectedCode && policies.length > 0) {
                     policySelect.value = policies[0];
                 }
             };
@@ -89,9 +105,12 @@ function initCustomerCodeDropdown() {
             select.addEventListener('input', handleCustomerChange);
 
             // Wire change event on policy select dropdown
-            const policySelect = document.getElementById('misSearchPolicy');
             if (policySelect) {
                 policySelect.addEventListener('change', function () {
+                    const chosenPolicy = this.value.trim();
+                    if (chosenPolicy && policyToCustomerMap[chosenPolicy] && !select.value) {
+                        select.value = policyToCustomerMap[chosenPolicy];
+                    }
                     handleSearch();
                 });
             }

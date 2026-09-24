@@ -39,14 +39,14 @@ $(document).ready(function() {
 
 
 function toggleTransaction() {
-	const policyCode = document.getElementById("findByPolicyNumber").value;
+	const policyCode = (document.getElementById("findByPolicyNumber").value || "").trim();
 
 	if (!policyCode) {
 		alert("Please select a Policy Code first.");
 		return;
 	}
 
-	fetch(`api/Policymangment/getPolicyByPolicyCode?policyCode=${policyCode}`)
+	fetch(`api/Policymangment/getPolicyByPolicyCode?policyCode=${encodeURIComponent(policyCode)}`)
 		.then(response => {
 			if (!response.ok) {
 				throw new Error("Policy not found");
@@ -475,7 +475,7 @@ $(document).ready(function() {
 });
 
 $("#findBtn").click(function() {
-    const policyCode = $("#findPolicyNumber").val();
+    const policyCode = ($("#findPolicyNumber").val() || "").trim();
 
     if (!policyCode) {
         $('#policyTableBody').empty();
@@ -493,31 +493,64 @@ $("#findBtn").click(function() {
 
                 $('#policyTableBody').empty();
 
-                dataList.forEach(function(data) {
+                // ── Detect MIS payout ledger data (has payoutDate field, not policyCode) ──
+                const isMisLedger = (dataList[0].payoutDate !== undefined && dataList[0].policyCode === undefined);
 
-                    const newRow = `
-                        <tr>
-                            <td>${data.policyCode || ''}</td>
-                            <td>${data.clientName || data.customerName || ''}</td>
-                            <td>${data.policyAmount || ''}</td>
-                            <td>${data.renewalDate || ''}</td>
-                            <td>${data.policyType || ''}</td>
-                            <td>${data.maturityAmount || ''}</td>
-                            <td>${data.totalDeposit || ''}</td>
-                            <td>${data.policyDate || ''}</td>
-                            <td>${data.policyTerm || ''}</td>
-                            <td>${data.maturityDate || ''}</td>
-                            <td>${data.customerCode || ''}</td>
-                            <td>${data.contactNo || ''}</td>
-                            <td>${data.totalDeposit || ''}</td>
-                            <td>${data.paymentDue || ''}</td>
-                            <td>${data.noOfInstPaid || ''}</td>
-                            <td>${data.approved==true ? 'Yes' : 'No'}</td>
-                            <td>${data.branchname || ''}</td>
-                            <td><button class="btn btn-primary print-btn">Print</button></td>
-                        </tr>`;
-                    $('#policyTableBody').append(newRow);
-                });
+                if (isMisLedger) {
+                    // ── MIS: render each payout ledger entry in the existing table ──
+                    dataList.forEach(function(data) {
+                        const newRow = `
+                            <tr data-mis-policy-code="${policyCode}">
+                                <td>${policyCode}</td>
+                                <td>MIS Payout</td>
+                                <td>${data.interestAmount || ''}</td>
+                                <td>${data.payoutDate || ''}</td>
+                                <td>MIS</td>
+                                <td>${data.netPaid || ''}</td>
+                                <td>—</td>
+                                <td>—</td>
+                                <td>—</td>
+                                <td>—</td>
+                                <td>—</td>
+                                <td>—</td>
+                                <td>${data.netPaid || ''}</td>
+                                <td>${data.tdsDeducted || ''}</td>
+                                <td>—</td>
+                                <td>${data.status || ''}</td>
+                                <td>—</td>
+                                <td><button class="btn btn-primary print-btn">Print</button></td>
+                            </tr>`;
+                        $('#policyTableBody').append(newRow);
+                    });
+                } else {
+                    // ── Existing logic for FD / DRD / RD (unchanged) ──
+                    dataList.forEach(function(data) {
+
+                        const newRow = `
+                            <tr>
+                                <td>${data.policyCode || ''}</td>
+                                <td>${data.clientName || data.customerName || ''}</td>
+                                <td>${data.policyAmount || ''}</td>
+                                <td>${data.renewalDate || ''}</td>
+                                <td>${data.policyType || ''}</td>
+                                <td>${data.maturityAmount || ''}</td>
+                                <td>${data.totalDeposit || ''}</td>
+                                <td>${data.policyDate || ''}</td>
+                                <td>${data.policyTerm || ''}</td>
+                                <td>${data.maturityDate || ''}</td>
+                                <td>${data.customerCode || ''}</td>
+                                <td>${data.contactNo || ''}</td>
+                                <td>${data.totalDeposit || ''}</td>
+                                <td>${data.paymentDue || ''}</td>
+                                <td>${data.noOfInstPaid || ''}</td>
+                                <td>${data.approved==true ? 'Yes' : 'No'}</td>
+                                <td>${data.branchname || ''}</td>
+                                <td><button class="btn btn-primary print-btn">Print</button></td>
+                            </tr>`;
+                        $('#policyTableBody').append(newRow);
+                    });
+                }
+
             } else {
                 alert("No data found for the selected policy.");
                 $('#policyTableBody').empty();
