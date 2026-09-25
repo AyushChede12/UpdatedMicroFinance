@@ -5,7 +5,7 @@
 
 'use strict';
 
-const MIS_API = window.location.origin + '/api/mis';
+const MIS_API =  'api/mis';
 let selectedPolicyId = null;
 let selectedPolicyData = null;
 
@@ -284,25 +284,25 @@ function handleAddNextPayout() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' }
     })
-    .then(r => r.json())
-    .then(res => {
-        btn.disabled = false;
-        btn.innerHTML = originalText;
+        .then(r => r.json())
+        .then(res => {
+            btn.disabled = false;
+            btn.innerHTML = originalText;
 
-        if (res.status === 'OK') {
-            alert(res.message || 'Next payout added successfully!');
-            selectPolicy(selectedPolicyId);
-            loadAllPolicies();
-        } else {
-            alert('Cannot add payout: ' + (res.message || 'Unknown error'));
-        }
-    })
-    .catch(err => {
-        btn.disabled = false;
-        btn.innerHTML = originalText;
-        console.error('Add next payout error:', err);
-        alert('Failed to add next payout: ' + err.message);
-    });
+            if (res.status === 'OK') {
+                alert(res.message || 'Next payout added successfully!');
+                selectPolicy(selectedPolicyId);
+                loadAllPolicies();
+            } else {
+                alert('Cannot add payout: ' + (res.message || 'Unknown error'));
+            }
+        })
+        .catch(err => {
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+            console.error('Add next payout error:', err);
+            alert('Failed to add next payout: ' + err.message);
+        });
 }
 
 // ══════════════════════════════════════════════════════════════════════
@@ -430,17 +430,17 @@ function handlePrematureClose() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ reason: reason })
     })
-    .then(r => r.json())
-    .then(res => {
-        if (res.status === 'OK') {
-            alert('Policy prematurely closed successfully.\nRefund Amount: ₹' + formatNum(res.data.refundAmount));
-            loadAllPolicies();
-            hidePolicyDetail();
-        } else {
-            alert('Error: ' + res.message);
-        }
-    })
-    .catch(err => alert('Premature close failed: ' + err.message));
+        .then(r => r.json())
+        .then(res => {
+            if (res.status === 'OK') {
+                alert('Policy prematurely closed successfully.\nRefund Amount: ₹' + formatNum(res.data.refundAmount));
+                loadAllPolicies();
+                hidePolicyDetail();
+            } else {
+                alert('Error: ' + res.message);
+            }
+        })
+        .catch(err => alert('Premature close failed: ' + err.message));
 }
 
 // ══════════════════════════════════════════════════════════════════════
@@ -454,17 +454,17 @@ function handleRenew() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' }
     })
-    .then(r => r.json())
-    .then(res => {
-        if (res.status === 'CREATED') {
-            alert('Policy renewed successfully!\nNew Policy Number: ' + (res.data ? res.data.policyNumber : ''));
-            loadAllPolicies();
-            hidePolicyDetail();
-        } else {
-            alert('Error: ' + res.message);
-        }
-    })
-    .catch(err => alert('Renewal failed: ' + err.message));
+        .then(r => r.json())
+        .then(res => {
+            if (res.status === 'CREATED') {
+                alert('Policy renewed successfully!\nNew Policy Number: ' + (res.data ? res.data.policyNumber : ''));
+                loadAllPolicies();
+                hidePolicyDetail();
+            } else {
+                alert('Error: ' + res.message);
+            }
+        })
+        .catch(err => alert('Renewal failed: ' + err.message));
 }
 
 // ══════════════════════════════════════════════════════════════════════
@@ -478,11 +478,11 @@ function hidePolicyDetail() {
 
 function statusBadge(status) {
     const map = {
-        'ACTIVE'            : 'mis-status-active',
-        'MATURED'           : 'mis-status-matured',
-        'CLOSED'            : 'mis-status-closed',
+        'ACTIVE': 'mis-status-active',
+        'MATURED': 'mis-status-matured',
+        'CLOSED': 'mis-status-closed',
         'PREMATURELY_CLOSED': 'mis-status-prematurely_closed',
-        'RENEWED'           : 'mis-status-renewed'
+        'RENEWED': 'mis-status-renewed'
     };
     const cls = map[status] || '';
     return `<span class="mis-status-badge ${cls}">${status || '—'}</span>`;

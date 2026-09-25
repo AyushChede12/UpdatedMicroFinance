@@ -1078,10 +1078,10 @@ public class PolicyManagementController {
 			return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "RD/MIS data found", renewalData));
 		}
 
-		// Extend: check MIS payout ledger (for MIS policies created in mis_policy table)
-		List<MisPayoutLedger> misLedger = policyManagementService.findMisPayoutLedger(policyCode);
-		if (!misLedger.isEmpty()) {
-			return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "MIS payout ledger found", misLedger));
+		// Extend: check MIS policy / renewal data (for MIS policies)
+		List<PolicyRenewal> misData = policyManagementService.findMisRenewalData(policyCode);
+		if (!misData.isEmpty()) {
+			return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "MIS data found", misData));
 		}
 
 		return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -1211,8 +1211,9 @@ public class PolicyManagementController {
 	}
 
 	@GetMapping("/getApprovedRDFromFullMaturity")
-	public ResponseEntity<ApiResponse<List<FullMaturity>>> getApprovedRD() {
-		List<FullMaturity> approvedList = policyManagementService.getAllApprovedRDPolicies();
+	public ResponseEntity<ApiResponse<List<FullMaturity>>> getApprovedRD(
+			@RequestParam(value = "policyCode", required = false) String policyCode) {
+		List<FullMaturity> approvedList = policyManagementService.getAllApprovedRDPolicies(policyCode);
 
 		if (approvedList == null || approvedList.isEmpty()) {
 			return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK, "No approved policies found", java.util.Collections.emptyList()));
