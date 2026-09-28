@@ -1,14 +1,11 @@
 /**
  * misRenewal.js — Frontend logic for the MIS Renewal module
- * API base: /api/mis (resolved with context path from <meta name="baseUrl">)
+ * API base: /api/mis
  */
 
 'use strict';
 
-// Read the application context path injected by main.jsp via <meta name="baseUrl" content="${baseUrl}">
-// e.g. /MicrofinanceDemo  — ensures fetch reaches /MicrofinanceDemo/api/mis/... not /api/mis/...
-const _ctxPath = (document.querySelector('meta[name="baseUrl"]') || {}).content || '';
-const MIS_API = _ctxPath + '/api/mis';
+const MIS_API =  'api/mis';
 let selectedPolicyId = null;
 let selectedPolicyData = null;
 
@@ -175,7 +172,7 @@ function loadAllPolicies() {
 }
 
 function loadPoliciesByCustomer(customerId) {
-    return fetch(MIS_API + '/policies/customer/' + encodeURIComponent(customerId))
+    fetch(MIS_API + '/policies/customer/' + encodeURIComponent(customerId))
         .then(r => r.json())
         .then(res => {
             if (res.data && res.data.length > 0) renderPolicyTable(res.data);
