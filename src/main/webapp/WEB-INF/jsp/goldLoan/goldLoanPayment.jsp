@@ -588,19 +588,19 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="financialConsultantId">FINANCIAL CONSULTANT
-							Name</label> <input type="text" name="financialConsultantId"
-							id="financialConsultantId" required="required"
-							placeholder="ENTER CONULTANT ID"
-							style="text-transform: uppercase;" />
+						<label for="financialConsultantId">FINANCIAL CONSULTANT CODE</label>
+						<select name="financialConsultantId" id="financialConsultantId"
+							class="form-control selectField" style="height: 30px;">
+							<option value="">-- SELECT FINANCIAL CONSULTANT --</option>
+						</select>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
-						<label for="">FINANCIAL CONSULTANT NAME</label> <input type="text"
-							name="financialConsultantName" id="financialConsultantName"
-							required="required" placeholder="ENTER CONSULTANT NAME"
+						<label for="financialConsultantName">FINANCIAL CONSULTANT NAME</label>
+						<input type="text" name="financialConsultantName" id="financialConsultantName"
+							placeholder="ENTER CONSULTANT NAME"
 							readonly="readonly" style="text-transform: uppercase;" />
 					</div>
 				</div>
@@ -635,89 +635,72 @@
 
 			<div class="col-lg-3">
 				<div class="d-flex flex-column formFields mb-4">
-					<label for="">PAYMENT AMOUNT</label> <input type="text"
-						name="paymentAmount" id="paymentAmount" required="required"
-						placeholder="ENTER PAYMENT AMOUNT" />
+					<label for="paymentAmount">DISBURSEMENT AMOUNT <span id="star">*</span></label> <input type="text"
+						name="paymentAmount" id="paymentAmount" required="required" readonly
+						placeholder="DISBURSEMENT AMOUNT" />
 				</div>
 			</div>
 
 			<div class="col-lg-3">
 				<div class="d-flex flex-column formFields mb-4">
-					<label for="loanName">AMOUNT DUE</label> <input type="text"
-						name="noOfInst" id="noOfInst" required="required"
+					<label for="noOfInst">GROSS LOAN AMOUNT</label> <input type="text"
+						name="noOfInst" id="noOfInst" readonly="readonly"
 						style="text-transform: uppercase;" />
 				</div>
 			</div>
 
 			<div class="col-lg-3">
 				<div class="d-flex flex-column formFields">
-					<label for="referenceCode">MODE OF PAYMENT <span id="star">*</span></label>
+					<label for="modeofPayment">MODE OF PAYMENT <span id="star">*</span></label>
 					<select id="modeofPayment" name="modeofPayment" required="required"
 						class="form-control selectField" style="height: 30px;">
-						<option value="">ENTER MODE OF PAYMENT</option>
-						<option value="Online">ONLINE</option>
-						<option value="NEFT">NEFT</option>
+						<option value="Saving Account" selected>SAVINGS ACCOUNT</option>
 					</select>
 				</div>
 			</div>
-
-
-			<div class="col-lg-3" id="displayCheque">
-				<div class="d-flex flex-column formFields"
-					style="margin-bottom: 30px">
-					<label>CHEQUE NUMBER <span id="star">*</span></label> <input
-						type="text" name="chequeNo" id="chequeNo" required="required"
-						placeholder="ENTER CHEQUE NO" style="text-transform: uppercase;" />
-				</div>
-			</div>
-
-			<div class="col-lg-3" id="displaycheqdate">
-				<div class="d-flex flex-column formFields"
-					style="margin-bottom: 30px">
-					<label>CHEQUE DATE <span id="star">*</span></label> <input
-						type="date" name="chequeDate" id="chequeDate" required="required"
-						placeholder="ENTER CHEQUE DATE" style="text-transform: uppercase;" />
-				</div>
-			</div>
-
 
 			<div class="col-lg-3" id="displaydeposit">
 				<div class="d-flex flex-column formFields"
 					style="margin-bottom: 30px">
-					<label>DEPOSITE ACCOUNT<span id="star">*</span></label> <input
-						type="text" name="depositAccount" id="depositAccount"
-						required="required" placeholder="ENTER DEPOSITE ACCOUNT"
+					<label>CUSTOMER SAVINGS ACCOUNT NO <span id="star">*</span></label> <input
+						type="text" name="depositAccount" id="depositAccount" readonly
+						required="required" placeholder="SAVINGS ACCOUNT NO"
 						style="text-transform: uppercase;" />
 				</div>
 			</div>
 
+			<div class="col-lg-3" id="displayCheque" style="display: none;">
+				<div class="d-flex flex-column formFields"
+					style="margin-bottom: 30px">
+					<label>CHEQUE NUMBER <span id="star">*</span></label> <input
+						type="text" name="chequeNo" id="chequeNo"
+						placeholder="ENTER CHEQUE NO" style="text-transform: uppercase;" />
+				</div>
+			</div>
 
-			<div class="col-lg-3" id="displayRef">
+			<div class="col-lg-3" id="displaycheqdate" style="display: none;">
+				<div class="d-flex flex-column formFields"
+					style="margin-bottom: 30px">
+					<label>CHEQUE DATE <span id="star">*</span></label> <input
+						type="date" name="chequeDate" id="chequeDate"
+						placeholder="ENTER CHEQUE DATE" style="text-transform: uppercase;" />
+				</div>
+			</div>
+
+			<div class="col-lg-3" id="displayRef" style="display: none;">
 				<div class="d-flex flex-column formFields">
-					<label for="">REF NUMBER/UPI ID</label> <input type="text"
-						name="refNo" id="refNo" required="required"
-						placeholder="ENTER DEPOSITE ACCOUNT"
+					<label for="refNo">REF NUMBER/UPI ID</label> <input type="text"
+						name="refNo" id="refNo"
+						placeholder="ENTER REF NUMBER"
 						style="text-transform: uppercase;" />
 				</div>
 			</div>
-
-			<!-- <div class="col-lg-3">
-				<div class="d-flex flex-column formFields mb-4">
-					<label for="">CHEG. DEDUCT CASH</label> <select
-						id="chargDeductCash" name="chargDeductCash" required="required"
-						class="form-control selectField" style="height: 30px;">
-						<option value="">SELECT YES/NO</option>
-						<option value="Blue">YES</option>
-						<option value="Blue">NO</option>
-
-					</select>
-				</div>
-			</div> -->
 
 			<div class="col-lg-3">
 				<div class="d-flex flex-column formFields mb-4">
-					<label for="loanName">REMARKS</label> <input type="text"
-						name="remarks" id="remarks" required="required"
+					<label for="remarks">REMARKS</label> <input type="text"
+						name="remarks" id="remarks"
+						placeholder="ENTER REMARKS"
 						style="text-transform: uppercase;" />
 				</div>
 			</div>
@@ -725,8 +708,7 @@
 
 			<div class="col-12 text-center">
 				<button type="button" id="paymentBtn" class="btnStyle"
-					style="background-color: #FFA500;">PAYMENT</button>
-
+					style="background-color: #FFA500;">DISBURSE TO SAVINGS ACCOUNT</button>
 			</div>
 
 		</div>
@@ -734,58 +716,12 @@
 </div>
 <script>
 	$(document).ready(function() {
-
-		// sab fields ko default hide karo
+		// Only Savings Account mode is used
 		$("#displayCheque").hide();
 		$("#displaycheqdate").hide();
-		$("#displaydeposit").hide();
 		$("#displayRef").hide();
-
-		$("#modeofPayment").change(function() {
-			let mode = $(this).val();
-
-			// sab ko hide kardo pehle
-			$("#displayCheque").hide();
-			$("#displaycheqdate").hide();
-			$("#displaydeposit").hide();
-			$("#displayRef").hide();
-
-			// sari required hata do pehle
-			$("#chequeNo").prop("required", false);
-			$("#chequeDate").prop("required", false);
-			$("#depositAccount").prop("required", false);
-			$("#refNo").prop("required", false);
-
-			// ab payment mode ke hisab se show/hide
-			if (mode === "Cash") {
-				// Cash -> kuch nahi show hoga
-			}
-
-			else if (mode === "Cheque") {
-				$("#displayCheque").show();
-				$("#displaycheqdate").show();
-				$("#depositAccount").show();
-
-				$("#chequeNo").prop("required", true);
-				$("#chequeDate").prop("required", true);
-				$("#depositAccount").prop("required", true);
-			}
-
-			else if (mode === "Online") {
-				$("#displayRef").show();
-
-				$("#refNo").prop("required", true);
-			}
-
-			else if (mode === "NEFT") {
-				$("#displayRef").show();
-				$("#displaydeposit").show();
-
-				$("#refNo").prop("required", true);
-				$("#depositAccount").prop("required", true);
-			}
-		});
-
+		$("#displaydeposit").show();
+		$("#modeofPayment").val("Saving Account");
 	});
 </script>
 

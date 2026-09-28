@@ -356,28 +356,28 @@ function fetchTermBySchemeName() {
 
 	switch (schemeType) {
 		case "DRD":
-			apiUrl = "/api/Policymangment/ddterm";
+			apiUrl = "api/Policymangment/ddterm";
 			dataParam = { planNameDD: selectedSchemeName };
 			termField = "ddterm";
 			interestRateField = "rateOfInterest";
 			planCodeField = "planCodeDD";
 			break;
 		case "RD":
-			apiUrl = "/api/Policymangment/rdterm";
+			apiUrl = "api/Policymangment/rdterm";
 			dataParam = { planNameRD: selectedSchemeName };
 			termField = "rdterm";
 			interestRateField = "rateOfInterestRD";
 			planCodeField = "planCodeRD";
 			break;
 		case "FD":
-			apiUrl = "/api/Policymangment/fdterm";
+			apiUrl = "api/Policymangment/fdterm";
 			dataParam = { planNameFD: selectedSchemeName };
 			termField = "fdterm";
 			interestRateField = "rateOfInterestFD";
 			planCodeField = "planCodeFD";
 			break;
 		case "MIS":
-			apiUrl = "/api/Policymangment/misterm";
+			apiUrl = "api/Policymangment/misterm";
 			dataParam = { planNameMD: selectedSchemeName };
 			termField = "misterm";
 			interestRateField = "rateOfInterestMD";

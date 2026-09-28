@@ -167,6 +167,14 @@
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
+						<label for="">DISBURSEMENT LOAN AMOUNT</label> <input type="text"
+							name="netDisbursementAmount" id="netDisbursementAmount" required="required"
+							readonly="readonly" placeholder="ENTER DISBURSEMENT AMOUNT"
+							style="text-transform: uppercase;" />
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="d-flex flex-column formFields mb-4">
 						<label for=""> INTEREST TYPE </label> <input type="text"
 							name="interestType" id="interestType" required="required"
 							readonly="readonly" placeholder="ENTER INTEREST TYPE"
@@ -375,6 +383,16 @@
 							required="required" readonly="readonly"
 							placeholder="ENTER EMPLOYEE NAME"
 							style="text-transform: uppercase;" />
+					</div>
+				</div>
+
+				<div class="col-lg-3">
+					<div class="d-flex flex-column formFields mb-4">
+						<label for="">NET DISBURSEMENT AMOUNT</label> <input type="text"
+							name="netDisbursementAmountDeduction" id="netDisbursementAmountDeduction"
+							required="required" readonly="readonly"
+							placeholder="NET DISBURSEMENT"
+							style="text-transform: uppercase; font-weight: 700; color: #16a34a;" />
 					</div>
 				</div>
 

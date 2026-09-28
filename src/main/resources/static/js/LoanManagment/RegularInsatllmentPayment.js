@@ -239,6 +239,45 @@ $(document).ready(function() {
 	// Load loan IDs
 	approvedLoanIdDropdown();
 
+	// Load Financial Consultants (Codes and Names)
+	function loadFinancialConsultants(selectedCode) {
+		$.ajax({
+			url: 'api/financialconsultant/getAllFinancialConsultantDetails',
+			type: 'GET',
+			dataType: 'json',
+			success: function(response) {
+				const $dropdown = $('#financialConsultantId');
+				$dropdown.empty().append('<option value="">-- SELECT FINANCIAL CONSULTANT --</option>');
+				if (response && response.data && Array.isArray(response.data)) {
+					response.data.forEach(function(c) {
+						const code = c.financialCode || '';
+						const name = (c.financialName || '').toUpperCase();
+						if (code) {
+							$dropdown.append(`<option value="${code}" data-name="${name}">${code} - ${name}</option>`);
+						}
+					});
+					if (selectedCode) {
+						$dropdown.val(selectedCode).trigger('change');
+					}
+				}
+			},
+			error: function(xhr) {
+				console.error("Error loading financial consultants:", xhr);
+			}
+		});
+	}
+
+	loadFinancialConsultants();
+
+	// Auto-populate Financial Consultant Name on Code Selection
+	$("#financialConsultantId").on("change", function() {
+		const selectedOpt = $(this).find("option:selected");
+		const name = selectedOpt.data("name") || "";
+		if (name) {
+			$("#financialConsultantName").val(name);
+		}
+	});
+
 	$("#PaymentDate").on("change", function() {
 		recalculatePenalty();
 	});
@@ -313,8 +352,12 @@ $(document).ready(function() {
 					$("#amountLoan").val(data.loanAmount || "");
 					$("#intesteType").val(data.interestType || "");
 					$("#paymnetEmi").val(data.emiPayment || "");
-					$("#financialConsultantId").val(data.financialConsultantId || "");
-					$("#financialConsultantName").val(data.financialConsultantName || "");
+					if (data.financialConsultantId) {
+						$("#financialConsultantId").val(data.financialConsultantId).trigger('change');
+					}
+					if (data.financialConsultantName) {
+						$("#financialConsultantName").val(data.financialConsultantName);
+					}
 
 					// Reset payment mode to prompt by default
 					$("#sourcePayment").val("");

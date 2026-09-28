@@ -24,7 +24,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import com.microfinance.model.ApplyForGold;
 import com.microfinance.model.CreateSavingsAccount;
+import com.microfinance.model.GoldLoanPayment;
 import com.microfinance.model.LoanApplication;
 import com.microfinance.model.LoanDeductionDetails;
 import com.microfinance.model.LoanPayment;
@@ -275,6 +277,159 @@ public class LoanNotificationService {
 		String textBody = buildDisbursementTextEmail(contact.name, memberId, loanId, grossPrincipal, totalDeductions, netDisbursementAmount,
 				processingFee, legalCharges, gst, insuranceFee, valuationFees, stationaryFee,
 				mode, accountNo, disburseDateStr, interestType, annualRoi, tenure, loanMode, emiAmount, schedule);
+
+		sendHtmlEmail(contact.email, emailSubject, htmlBody, textBody);
+	}
+
+	// ==========================================
+	// 4. GOLD LOAN APPLICATION NOTIFICATION
+	// ==========================================
+	public void sendGoldLoanApplicationNotification(ApplyForGold goldLoan) {
+		if (goldLoan == null) return;
+
+		CustomerContact contact = resolveCustomerContact(goldLoan.getMemberCode(), goldLoan.getContactNo(), goldLoan.getCustomerName());
+
+		String goldId = goldLoan.getGoldID() != null ? goldLoan.getGoldID() : "N/A";
+		String loanAmount = goldLoan.getLoanAmount() != null ? goldLoan.getLoanAmount() : "0.00";
+		String loanPlan = goldLoan.getLoanPlanName() != null ? goldLoan.getLoanPlanName() : "Gold Loan Scheme";
+
+		// SMS message
+		String smsText = "Dear " + contact.name + ", your gold loan application (" + goldId + ") for Rs." 
+				+ loanAmount + " under " + loanPlan + " has been submitted successfully. - Samitha Urban";
+		sendSms(contact.mobile, smsText);
+
+		// Email message
+		String emailSubject = "Gold Loan Application Submitted - " + goldId + " | Samitha Urban Nidhi Limited";
+		String htmlBody = buildGoldLoanApplicationHtmlEmail(contact.name, goldLoan);
+		String textBody = buildGoldLoanApplicationTextEmail(contact.name, goldLoan);
+
+		sendHtmlEmail(contact.email, emailSubject, htmlBody, textBody);
+	}
+
+	// ==========================================
+	// 5. GOLD LOAN APPROVAL NOTIFICATION
+	// ==========================================
+	public void sendGoldLoanApprovalNotification(ApplyForGold goldLoan) {
+		if (goldLoan == null) return;
+
+		CustomerContact contact = resolveCustomerContact(goldLoan.getMemberCode(), goldLoan.getContactNo(), goldLoan.getCustomerName());
+
+		String goldId = goldLoan.getGoldID() != null ? goldLoan.getGoldID() : "N/A";
+		String sanctionedAmount = goldLoan.getSanctionedAmount() != null && !goldLoan.getSanctionedAmount().trim().isEmpty()
+				? goldLoan.getSanctionedAmount()
+				: (goldLoan.getLoanAmount() != null ? goldLoan.getLoanAmount() : "0.00");
+
+		// SMS message
+		String smsText = "Dear " + contact.name + ", congratulations! Your Gold Loan (" + goldId + ") of Rs." 
+				+ sanctionedAmount + " has been approved successfully. - Samitha Urban";
+		sendSms(contact.mobile, smsText);
+
+		// Email message
+		String emailSubject = "Gold Loan Application Approved - " + goldId + " | Samitha Urban Nidhi Limited";
+		String emailBody = "Dear " + contact.name + ",\n\n"
+				+ "Congratulations! We are pleased to inform you that your Gold Loan application has been APPROVED.\n\n"
+				+ "--------------------------------------------------\n"
+				+ "Gold Loan ID        : " + goldId + "\n"
+				+ "Customer Member Code: " + (goldLoan.getMemberCode() != null ? goldLoan.getMemberCode() : "N/A") + "\n"
+				+ "Sanctioned Amount   : Rs. " + sanctionedAmount + "\n"
+				+ "Gold Karat          : " + (goldLoan.getKarat() != null ? goldLoan.getKarat() + " K" : "N/A") + "\n"
+				+ "Net Gold Weight     : " + (goldLoan.getNetWt() != null ? goldLoan.getNetWt() + " g" : "N/A") + "\n"
+				+ "Market Valuation    : Rs. " + (goldLoan.getMarketValuation() != null ? goldLoan.getMarketValuation() : "N/A") + "\n"
+				+ "Loan Plan Name      : " + (goldLoan.getLoanPlanName() != null ? goldLoan.getLoanPlanName() : "N/A") + "\n"
+				+ "Approval Date       : " + (goldLoan.getApprovalDate() != null ? goldLoan.getApprovalDate() : LocalDate.now().toString()) + "\n"
+				+ "Repayment Mode      : " + (goldLoan.getLoanMode() != null ? goldLoan.getLoanMode() : "N/A") + "\n"
+				+ "Installment (EMI)   : Rs. " + (goldLoan.getEmiPayment() != null ? goldLoan.getEmiPayment() : "N/A") + "\n"
+				+ "Disbursement Status : UNPAID (Ready for Disbursement to Savings Account)\n"
+				+ "--------------------------------------------------\n\n"
+				+ "Your gold loan has been sanctioned and is now ready for disbursement. The sanctioned amount will be disbursed and credited directly to your registered Savings Account.\n\n"
+				+ "Warm regards,\n"
+				+ "Credit Approval Team\n"
+				+ "Samitha Urban Nidhi Limited";
+		sendEmail(contact.email, emailSubject, emailBody);
+	}
+
+	// ==========================================
+	// 6. GOLD LOAN DISBURSEMENT NOTIFICATION
+	// ==========================================
+	public void sendGoldLoanDisbursementNotification(ApplyForGold goldLoan, GoldLoanPayment payment) {
+		if (goldLoan == null) return;
+
+		CustomerContact contact = resolveCustomerContact(goldLoan.getMemberCode(), goldLoan.getContactNo(), goldLoan.getCustomerName());
+
+		String goldId = goldLoan.getGoldID() != null ? goldLoan.getGoldID() : "N/A";
+		double grossLoan = parseDoubleSafely(goldLoan.getLoanAmount());
+		double procFee = parseDoubleSafely(goldLoan.getProcessingFee());
+		double legalFee = parseDoubleSafely(goldLoan.getLegalCharges());
+		double stampDuty = parseDoubleSafely(goldLoan.getStampDuty());
+		double smsCharges = parseDoubleSafely(goldLoan.getSmsCharges());
+		double mainCharges = parseDoubleSafely(goldLoan.getMainCharges());
+		double statFee = parseDoubleSafely(goldLoan.getStationaryFee());
+		double gst = parseDoubleSafely(goldLoan.getGst());
+		double insuFee = parseDoubleSafely(goldLoan.getInsuFee());
+		double penaltyCharge = parseDoubleSafely(goldLoan.getPenaltyCharge());
+		double valFee = parseDoubleSafely(goldLoan.getValuationFees());
+		double overCharge = parseDoubleSafely(goldLoan.getOverCharge());
+		double colCharge = parseDoubleSafely(goldLoan.getCollectionCharge());
+
+		double totalDeductions = procFee + legalFee + stampDuty + smsCharges + mainCharges + statFee + gst + insuFee + penaltyCharge + valFee + overCharge + colCharge;
+
+		double netDisbursement = parseDoubleSafely(goldLoan.getNetDisbursement());
+		if (netDisbursement <= 0) {
+			netDisbursement = parseDoubleSafely(goldLoan.getSanctionedAmount());
+		}
+		if (netDisbursement <= 0 && payment != null) {
+			netDisbursement = parseDoubleSafely(payment.getPaymentAmount());
+		}
+		if (netDisbursement <= 0) {
+			netDisbursement = Math.max(0.0, grossLoan - totalDeductions);
+		}
+
+		String savingsAccNo = (payment != null && payment.getDepositAccount() != null && !payment.getDepositAccount().trim().isEmpty())
+				? payment.getDepositAccount().trim()
+				: "N/A";
+		boolean hasSavings = !"N/A".equals(savingsAccNo);
+		if (!hasSavings && goldLoan.getMemberCode() != null && !goldLoan.getMemberCode().trim().isEmpty()) {
+			try {
+				List<CreateSavingsAccount> accounts = createSavingRepo.findBySelectByCustomer(goldLoan.getMemberCode().trim());
+				if (accounts != null && !accounts.isEmpty()) {
+					savingsAccNo = accounts.get(0).getAccountNumber();
+					hasSavings = true;
+				}
+			} catch (Exception e) {
+				logger.warn("Could not retrieve savings account for member {}: {}", goldLoan.getMemberCode(), e.getMessage());
+			}
+		}
+
+		// SMS message
+		String smsText = String.format(Locale.US,
+				"Dear %s, congratulations! Your Gold Loan (%s) of Gross Rs.%.2f has been disbursed. Net Rs.%.2f credited to Savings A/c %s. - Samitha Urban",
+				contact.name, goldId, grossLoan, netDisbursement, savingsAccNo);
+		sendSms(contact.mobile, smsText);
+
+		// Build Schedule if tenure & emi present
+		int tenure = 0;
+		try {
+			if (goldLoan.getLoanTerm() != null) tenure = Integer.parseInt(goldLoan.getLoanTerm().trim());
+		} catch (Exception ignored) {}
+
+		double annualRoi = parseDoubleSafely(goldLoan.getRateOfInterest());
+		double emiAmount = parseDoubleSafely(goldLoan.getEmiPayment());
+		String disburseDateStr = payment != null && payment.getPaymentDate() != null ? payment.getPaymentDate()
+				: (goldLoan.getApprovalDate() != null ? goldLoan.getApprovalDate() : LocalDate.now().toString());
+		LocalDate disburseDate = parseDateSafely(disburseDateStr);
+
+		List<EmiScheduleRow> schedule = new ArrayList<>();
+		if (tenure > 0 && !"Bullet".equalsIgnoreCase(goldLoan.getLoanMode())) {
+			schedule = generateEmiAmortizationSchedule(grossLoan, annualRoi, tenure, goldLoan.getLoanMode(), goldLoan.getInterestType(), disburseDate, emiAmount);
+		}
+
+		String emailSubject = "Gold Loan Disbursed Successfully & EMI Schedule - " + goldId + " | Samitha Urban Nidhi Limited";
+		String htmlBody = buildGoldLoanDisbursementHtmlEmail(contact.name, goldLoan, grossLoan, totalDeductions, netDisbursement,
+				procFee, legalFee, gst, insuFee, valFee, statFee, stampDuty, smsCharges, mainCharges, penaltyCharge, overCharge, colCharge,
+				hasSavings, savingsAccNo, schedule);
+		String textBody = buildGoldLoanDisbursementTextEmail(contact.name, goldLoan, grossLoan, totalDeductions, netDisbursement,
+				procFee, legalFee, gst, insuFee, valFee, statFee, stampDuty, smsCharges, mainCharges, penaltyCharge, overCharge, colCharge,
+				hasSavings, savingsAccNo, schedule);
 
 		sendHtmlEmail(contact.email, emailSubject, htmlBody, textBody);
 	}
@@ -720,6 +875,239 @@ public class LoanNotificationService {
 		sb.append("Disbursement & Operations Team\n");
 		sb.append("Samitha Urban Nidhi Limited\n");
 
+		return sb.toString();
+	}
+
+	// ==========================================
+	// BUILD GOLD LOAN APPLICATION HTML EMAIL
+	// ==========================================
+	private String buildGoldLoanApplicationHtmlEmail(String customerName, ApplyForGold g) {
+		String goldId = g.getGoldID() != null ? g.getGoldID() : "N/A";
+		String memberCode = g.getMemberCode() != null ? g.getMemberCode() : "N/A";
+		String loanPlan = g.getLoanPlanName() != null ? g.getLoanPlanName() : "Gold Loan Scheme";
+		String loanAmt = g.getLoanAmount() != null ? g.getLoanAmount() : "0.00";
+		String appDate = g.getLoanDate() != null ? g.getLoanDate() : LocalDate.now().toString();
+		String karat = g.getKarat() != null ? g.getKarat() + " K" : "N/A";
+		String netWt = g.getNetWt() != null ? g.getNetWt() + " g" : "N/A";
+		String valuation = g.getMarketValuation() != null ? "₹ " + g.getMarketValuation() : "N/A";
+		String eligible = g.getEligibleLoan() != null ? "₹ " + g.getEligibleLoan() : "N/A";
+		String term = g.getLoanTerm() != null ? g.getLoanTerm() + " Months" : "N/A";
+		String roi = g.getRateOfInterest() != null ? g.getRateOfInterest() + "% P.A." : "N/A";
+		String emi = g.getEmiPayment() != null ? "₹ " + g.getEmiPayment() : "N/A";
+		String mode = g.getLoanMode() != null ? g.getLoanMode() : "Monthly";
+
+		return "<!DOCTYPE html>"
+				+ "<html><head><meta charset=\"UTF-8\"><title>Gold Loan Application Submitted</title></head>"
+				+ "<body style=\"margin: 0; padding: 20px; background-color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #334155;\">"
+				+ "<div style=\"max-width: 700px; margin: 0 auto; background-color: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 1px solid #e2e8f0;\">"
+				+ "<div style=\"background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); color: #ffffff; padding: 24px 30px; text-align: center;\">"
+				+ "<h1 style=\"margin: 0; font-size: 20px; letter-spacing: 0.5px;\">SAMITHA URBAN NIDHI LIMITED</h1>"
+				+ "<p style=\"margin: 6px 0 0 0; font-size: 13px; color: #fbbf24; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;\">Gold Loan Application Acknowledgement</p>"
+				+ "</div>"
+				+ "<div style=\"padding: 24px 30px;\">"
+				+ "<p style=\"font-size: 15px; margin: 0 0 12px 0;\">Dear <strong>" + customerName + "</strong>,</p>"
+				+ "<p style=\"font-size: 14px; line-height: 1.5; margin: 0 0 20px 0; color: #475569;\">We have successfully received your <strong>Gold Loan Application</strong>. Your gold ornament evaluation and loan application details are summarized below:</p>"
+				+ "<div style=\"background-color: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 16px 20px; margin-bottom: 20px;\">"
+				+ "<h3 style=\"margin: 0 0 10px 0; font-size: 13px; color: #92400e; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #fef3c7; padding-bottom: 4px;\">Gold Collateral & Valuation Summary</h3>"
+				+ "<table style=\"width: 100%; border-collapse: collapse; font-size: 13px;\">"
+				+ "<tr><td style=\"padding: 5px 0; color: #78350f; width: 35%;\">Purity / Karat:</td><td style=\"padding: 5px 0; font-weight: 600;\">" + karat + "</td><td style=\"padding: 5px 0; color: #78350f; width: 30%;\">Net Gold Weight:</td><td style=\"padding: 5px 0; font-weight: 600;\">" + netWt + "</td></tr>"
+				+ "<tr><td style=\"padding: 5px 0; color: #78350f;\">Market Valuation:</td><td style=\"padding: 5px 0; font-weight: 600; color: #0f172a;\">" + valuation + "</td><td style=\"padding: 5px 0; color: #78350f;\">Eligible Loan Limit:</td><td style=\"padding: 5px 0; font-weight: 600; color: #16a34a;\">" + eligible + "</td></tr>"
+				+ "</table>"
+				+ "</div>"
+				+ "<div style=\"background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px 20px; margin-bottom: 20px;\">"
+				+ "<h3 style=\"margin: 0 0 10px 0; font-size: 13px; color: #0f172a; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px;\">Loan Application Details</h3>"
+				+ "<table style=\"width: 100%; border-collapse: collapse; font-size: 13px;\">"
+				+ "<tr><td style=\"padding: 5px 0; color: #64748b; width: 35%;\">Application ID:</td><td style=\"padding: 5px 0; font-weight: 700; color: #0f172a;\">" + goldId + "</td><td style=\"padding: 5px 0; color: #64748b; width: 30%;\">Member Code:</td><td style=\"padding: 5px 0; font-weight: 600;\">" + memberCode + "</td></tr>"
+				+ "<tr><td style=\"padding: 5px 0; color: #64748b;\">Loan Plan:</td><td style=\"padding: 5px 0; font-weight: 600;\">" + loanPlan + "</td><td style=\"padding: 5px 0; color: #64748b;\">Application Date:</td><td style=\"padding: 5px 0; font-weight: 600;\">" + appDate + "</td></tr>"
+				+ "<tr><td style=\"padding: 5px 0; color: #64748b;\">Amount Applied:</td><td style=\"padding: 5px 0; font-weight: 700; color: #0f172a; font-size: 14px;\">₹ " + loanAmt + "</td><td style=\"padding: 5px 0; color: #64748b;\">Repayment Mode:</td><td style=\"padding: 5px 0; font-weight: 600;\">" + mode + "</td></tr>"
+				+ "<tr><td style=\"padding: 5px 0; color: #64748b;\">Loan Term:</td><td style=\"padding: 5px 0; font-weight: 600;\">" + term + "</td><td style=\"padding: 5px 0; color: #64748b;\">Rate of Interest:</td><td style=\"padding: 5px 0; font-weight: 600;\">" + roi + "</td></tr>"
+				+ "<tr><td style=\"padding: 5px 0; color: #64748b;\">Estimated EMI:</td><td style=\"padding: 5px 0; font-weight: 700; color: #2563eb;\">" + emi + "</td><td style=\"padding: 5px 0; color: #64748b;\">Application Status:</td><td style=\"padding: 5px 0; font-weight: 700; color: #d97706;\">Under Verification</td></tr>"
+				+ "</table>"
+				+ "</div>"
+				+ "<p style=\"font-size: 13px; line-height: 1.5; color: #64748b; margin: 0 0 16px 0;\">Your application is currently being appraised and processed by our credit underwriting team. Once approved, the funds will be disbursed and you will receive instant confirmation.</p>"
+				+ "<div style=\"border-top: 1px solid #e2e8f0; padding-top: 14px; font-size: 12px; color: #64748b;\">"
+				+ "Warm regards,<br><strong style=\"color: #0f172a;\">Gold Loan Underwriting Team</strong><br>Samitha Urban Nidhi Limited"
+				+ "</div></div></div></body></html>";
+	}
+
+	// ==========================================
+	// BUILD GOLD LOAN APPLICATION TEXT EMAIL
+	// ==========================================
+	private String buildGoldLoanApplicationTextEmail(String customerName, ApplyForGold g) {
+		String goldId = g.getGoldID() != null ? g.getGoldID() : "N/A";
+		StringBuilder sb = new StringBuilder();
+		sb.append("Dear ").append(customerName).append(",\n\n");
+		sb.append("Greetings from Samitha Urban Nidhi Limited!\n\n");
+		sb.append("We have successfully received your Gold Loan Application. Details are as follows:\n");
+		sb.append("--------------------------------------------------\n");
+		sb.append("Gold Loan ID        : ").append(goldId).append("\n");
+		sb.append("Customer Member Code: ").append(g.getMemberCode() != null ? g.getMemberCode() : "N/A").append("\n");
+		sb.append("Loan Plan Name      : ").append(g.getLoanPlanName() != null ? g.getLoanPlanName() : "Gold Loan").append("\n");
+		sb.append("Amount Applied      : Rs. ").append(g.getLoanAmount() != null ? g.getLoanAmount() : "0.00").append("\n");
+		sb.append("Gold Karat          : ").append(g.getKarat() != null ? g.getKarat() + " K" : "N/A").append("\n");
+		sb.append("Net Gold Weight     : ").append(g.getNetWt() != null ? g.getNetWt() + " g" : "N/A").append("\n");
+		sb.append("Market Valuation    : Rs. ").append(g.getMarketValuation() != null ? g.getMarketValuation() : "N/A").append("\n");
+		sb.append("Eligible Loan Limit : Rs. ").append(g.getEligibleLoan() != null ? g.getEligibleLoan() : "N/A").append("\n");
+		sb.append("Loan Mode / Term    : ").append(g.getLoanMode() != null ? g.getLoanMode() : "N/A").append(" / ").append(g.getLoanTerm() != null ? g.getLoanTerm() + " Months" : "N/A").append("\n");
+		sb.append("Rate of Interest    : ").append(g.getRateOfInterest() != null ? g.getRateOfInterest() + "% P.A." : "N/A").append("\n");
+		sb.append("Estimated Installment: Rs. ").append(g.getEmiPayment() != null ? g.getEmiPayment() : "N/A").append("\n");
+		sb.append("Application Date    : ").append(g.getLoanDate() != null ? g.getLoanDate() : LocalDate.now().toString()).append("\n");
+		sb.append("Status              : Under Appraisal & Verification\n");
+		sb.append("--------------------------------------------------\n\n");
+		sb.append("Your application is currently being appraised and processed. We will notify you once approved.\n\n");
+		sb.append("Warm regards,\nGold Loan Underwriting Team\nSamitha Urban Nidhi Limited\n");
+		return sb.toString();
+	}
+
+	// ==========================================
+	// BUILD GOLD LOAN DISBURSEMENT HTML EMAIL
+	// ==========================================
+	private String buildGoldLoanDisbursementHtmlEmail(String customerName, ApplyForGold g,
+			double grossLoan, double totalDeductions, double netDisbursement,
+			double procFee, double legalFee, double gst, double insuFee, double valFee, double statFee,
+			double stampDuty, double smsCharges, double mainCharges, double penaltyCharge, double overCharge, double colCharge,
+			boolean hasSavings, String savingsAccNo, List<EmiScheduleRow> schedule) {
+
+		String goldId = g.getGoldID() != null ? g.getGoldID() : "N/A";
+		String memberCode = g.getMemberCode() != null ? g.getMemberCode() : "N/A";
+		String appDate = g.getApprovalDate() != null ? g.getApprovalDate() : LocalDate.now().toString();
+		String karat = g.getKarat() != null ? g.getKarat() + " K" : "N/A";
+		String netWt = g.getNetWt() != null ? g.getNetWt() + " g" : "N/A";
+		String grossWt = g.getGrossWt() != null ? g.getGrossWt() + " g" : "N/A";
+		String valuation = g.getMarketValuation() != null ? "₹ " + g.getMarketValuation() : "N/A";
+		String loanPlan = g.getLoanPlanName() != null ? g.getLoanPlanName() : "Gold Loan Scheme";
+		String mode = g.getLoanMode() != null ? g.getLoanMode() : "Monthly";
+		String term = g.getLoanTerm() != null ? g.getLoanTerm() + " Months" : "N/A";
+		String roi = g.getRateOfInterest() != null ? g.getRateOfInterest() + "% P.A." : "N/A";
+		String emi = g.getEmiPayment() != null ? "₹ " + g.getEmiPayment() : "N/A";
+
+		StringBuilder rowsHtml = new StringBuilder();
+		if (schedule != null && !schedule.isEmpty()) {
+			for (int i = 0; i < schedule.size(); i++) {
+				EmiScheduleRow r = schedule.get(i);
+				String bg = (i % 2 == 0) ? "#ffffff" : "#f8fafc";
+				rowsHtml.append(String.format(Locale.US,
+						"<tr style=\"background-color: %s;\">"
+						+ "<td style=\"padding: 7px 10px; text-align: center; border: 1px solid #e2e8f0; color: #334155;\">%d</td>"
+						+ "<td style=\"padding: 7px 10px; text-align: center; border: 1px solid #e2e8f0; color: #334155; font-weight: 500;\">%s</td>"
+						+ "<td style=\"padding: 7px 10px; text-align: right; border: 1px solid #e2e8f0; color: #0f172a; font-weight: 600;\">₹%.2f</td>"
+						+ "<td style=\"padding: 7px 10px; text-align: right; border: 1px solid #e2e8f0; color: #2563eb;\">₹%.2f</td>"
+						+ "<td style=\"padding: 7px 10px; text-align: right; border: 1px solid #e2e8f0; color: #d97706;\">₹%.2f</td>"
+						+ "<td style=\"padding: 7px 10px; text-align: right; border: 1px solid #e2e8f0; color: #16a34a; font-weight: 600;\">₹%.2f</td>"
+						+ "</tr>",
+						bg, r.emiNo, r.dueDate, r.emi, r.principle, r.interest, r.currentBalance));
+			}
+		}
+
+		return "<!DOCTYPE html>"
+				+ "<html><head><meta charset=\"UTF-8\"><title>Gold Loan Approval & Disbursement Advice</title></head>"
+				+ "<body style=\"margin: 0; padding: 20px; background-color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #334155;\">"
+				+ "<div style=\"max-width: 800px; margin: 0 auto; background-color: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 1px solid #e2e8f0;\">"
+				+ "<div style=\"background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); color: #ffffff; padding: 25px 30px; text-align: center;\">"
+				+ "<h1 style=\"margin: 0; font-size: 22px; letter-spacing: 0.5px;\">SAMITHA URBAN NIDHI LIMITED</h1>"
+				+ "<p style=\"margin: 6px 0 0 0; font-size: 13px; color: #fbbf24; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;\">Gold Loan Sanction & Disbursement Advice</p>"
+				+ "</div>"
+				+ "<div style=\"padding: 24px 30px;\">"
+				+ "<p style=\"font-size: 15px; margin: 0 0 14px 0;\">Dear <strong>" + customerName + "</strong>,</p>"
+				+ "<p style=\"font-size: 14px; line-height: 1.5; margin: 0 0 20px 0; color: #475569;\">Congratulations! We are delighted to inform you that your <strong>Gold Loan</strong> has been approved and successfully <strong>DISBURSED</strong>. Details of the sanctioned loan, collateral valuation, deduction charges, and repayment schedule are provided below:</p>"
+				+ "<div style=\"background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 18px 20px; margin-bottom: 22px;\">"
+				+ "<h3 style=\"margin: 0 0 12px 0; font-size: 14px; color: #0f172a; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px;\">Disbursement Summary</h3>"
+				+ "<table style=\"width: 100%; border-collapse: collapse; font-size: 13px;\">"
+				+ "<tr><td style=\"padding: 6px 0; width: 25%; color: #64748b;\">Gold Loan ID:</td><td style=\"padding: 6px 0; width: 25%; font-weight: 700; color: #0f172a;\">" + goldId + "</td><td style=\"padding: 6px 0; width: 25%; color: #64748b;\">Customer ID:</td><td style=\"padding: 6px 0; width: 25%; font-weight: 600; color: #0f172a;\">" + memberCode + "</td></tr>"
+				+ "<tr><td style=\"padding: 6px 0; color: #64748b;\">Gross Loan Amount:</td><td style=\"padding: 6px 0; font-weight: 700; color: #0f172a; font-size: 14px;\">" + String.format(Locale.US, "₹%.2f", grossLoan) + "</td><td style=\"padding: 6px 0; color: #64748b;\">Approval Date:</td><td style=\"padding: 6px 0; font-weight: 600; color: #0f172a;\">" + appDate + "</td></tr>"
+				+ "<tr><td style=\"padding: 6px 0; color: #64748b;\">Total Deductions:</td><td style=\"padding: 6px 0; font-weight: 600; color: #dc2626;\">" + String.format(Locale.US, "- ₹%.2f", totalDeductions) + "</td><td style=\"padding: 6px 0; color: #64748b;\">Net Disbursed Amount:</td><td style=\"padding: 6px 0; font-weight: 700; color: #16a34a; font-size: 16px;\">" + String.format(Locale.US, "₹%.2f", netDisbursement) + "</td></tr>"
+				+ "<tr><td style=\"padding: 6px 0; color: #64748b;\">Disbursement Mode:</td><td style=\"padding: 6px 0; font-weight: 600; color: #0f172a;\">" + (hasSavings ? "Credited to Savings Account" : "Direct / Cash Disbursement") + "</td><td style=\"padding: 6px 0; color: #64748b;\">" + (hasSavings ? "Savings A/c No:" : "Plan Name:") + "</td><td style=\"padding: 6px 0; font-weight: 600; color: #0f172a;\">" + (hasSavings ? savingsAccNo : loanPlan) + "</td></tr>"
+				+ "<tr><td style=\"padding: 6px 0; color: #64748b;\">Loan Mode:</td><td style=\"padding: 6px 0; font-weight: 600; color: #0f172a;\">" + mode + "</td><td style=\"padding: 6px 0; color: #64748b;\">Rate of Interest:</td><td style=\"padding: 6px 0; font-weight: 600; color: #0f172a;\">" + roi + "</td></tr>"
+				+ "<tr><td style=\"padding: 6px 0; color: #64748b;\">Loan Term:</td><td style=\"padding: 6px 0; font-weight: 600; color: #0f172a;\">" + term + "</td><td style=\"padding: 6px 0; color: #64748b;\">Installment (EMI):</td><td style=\"padding: 6px 0; font-weight: 700; color: #2563eb;\">" + emi + "</td></tr>"
+				+ "</table></div>"
+				+ "<div style=\"background-color: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 16px 20px; margin-bottom: 22px;\">"
+				+ "<h3 style=\"margin: 0 0 10px 0; font-size: 13px; color: #92400e; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #fef3c7; padding-bottom: 4px;\">Pledged Gold Security Details</h3>"
+				+ "<table style=\"width: 100%; border-collapse: collapse; font-size: 13px;\">"
+				+ "<tr><td style=\"padding: 5px 0; color: #78350f; width: 25%;\">Gold Karat:</td><td style=\"padding: 5px 0; font-weight: 600; width: 25%;\">" + karat + "</td><td style=\"padding: 5px 0; color: #78350f; width: 25%;\">Gross Weight:</td><td style=\"padding: 5px 0; font-weight: 600; width: 25%;\">" + grossWt + "</td></tr>"
+				+ "<tr><td style=\"padding: 5px 0; color: #78350f;\">Net Gold Weight:</td><td style=\"padding: 5px 0; font-weight: 600;\">" + netWt + "</td><td style=\"padding: 5px 0; color: #78350f;\">Assessed Valuation:</td><td style=\"padding: 5px 0; font-weight: 700; color: #0f172a;\">" + valuation + "</td></tr>"
+				+ "</table></div>"
+				+ "<div style=\"margin-bottom: 22px;\">"
+				+ "<h3 style=\"margin: 0 0 10px 0; font-size: 14px; color: #0f172a; text-transform: uppercase; letter-spacing: 0.5px;\">Deductions Breakdown</h3>"
+				+ "<table style=\"width: 100%; border-collapse: collapse; font-size: 13px;\">"
+				+ "<tr style=\"background-color: #f1f5f9;\"><th style=\"padding: 8px 12px; text-align: left; border: 1px solid #e2e8f0; color: #475569;\">Particulars</th><th style=\"padding: 8px 12px; text-align: right; border: 1px solid #e2e8f0; color: #475569;\">Amount (₹)</th></tr>"
+				+ "<tr><td style=\"padding: 7px 12px; border: 1px solid #e2e8f0;\">Processing Fee</td><td style=\"padding: 7px 12px; text-align: right; border: 1px solid #e2e8f0;\">" + String.format(Locale.US, "₹%.2f", procFee) + "</td></tr>"
+				+ "<tr><td style=\"padding: 7px 12px; border: 1px solid #e2e8f0;\">Valuation Fees</td><td style=\"padding: 7px 12px; text-align: right; border: 1px solid #e2e8f0;\">" + String.format(Locale.US, "₹%.2f", valFee) + "</td></tr>"
+				+ "<tr><td style=\"padding: 7px 12px; border: 1px solid #e2e8f0;\">Legal & Documentation Charges</td><td style=\"padding: 7px 12px; text-align: right; border: 1px solid #e2e8f0;\">" + String.format(Locale.US, "₹%.2f", legalFee) + "</td></tr>"
+				+ "<tr><td style=\"padding: 7px 12px; border: 1px solid #e2e8f0;\">GST (18%)</td><td style=\"padding: 7px 12px; text-align: right; border: 1px solid #e2e8f0;\">" + String.format(Locale.US, "₹%.2f", gst) + "</td></tr>"
+				+ (stampDuty > 0 ? "<tr><td style=\"padding: 7px 12px; border: 1px solid #e2e8f0;\">Stamp Duty</td><td style=\"padding: 7px 12px; text-align: right; border: 1px solid #e2e8f0;\">" + String.format(Locale.US, "₹%.2f", stampDuty) + "</td></tr>" : "")
+				+ (statFee > 0 ? "<tr><td style=\"padding: 7px 12px; border: 1px solid #e2e8f0;\">Stationary Charges</td><td style=\"padding: 7px 12px; text-align: right; border: 1px solid #e2e8f0;\">" + String.format(Locale.US, "₹%.2f", statFee) + "</td></tr>" : "")
+				+ (insuFee > 0 ? "<tr><td style=\"padding: 7px 12px; border: 1px solid #e2e8f0;\">Insurance Fee</td><td style=\"padding: 7px 12px; text-align: right; border: 1px solid #e2e8f0;\">" + String.format(Locale.US, "₹%.2f", insuFee) + "</td></tr>" : "")
+				+ (smsCharges > 0 ? "<tr><td style=\"padding: 7px 12px; border: 1px solid #e2e8f0;\">SMS Charges</td><td style=\"padding: 7px 12px; text-align: right; border: 1px solid #e2e8f0;\">" + String.format(Locale.US, "₹%.2f", smsCharges) + "</td></tr>" : "")
+				+ "<tr style=\"background-color: #fee2e2; font-weight: 700;\"><td style=\"padding: 8px 12px; border: 1px solid #fecaca; color: #dc2626;\">Total Deductions</td><td style=\"padding: 8px 12px; text-align: right; border: 1px solid #fecaca; color: #dc2626;\">" + String.format(Locale.US, "- ₹%.2f", totalDeductions) + "</td></tr>"
+				+ "<tr style=\"background-color: #ecfdf5; font-weight: 700;\"><td style=\"padding: 10px 12px; border: 1px solid #a7f3d0; color: #16a34a; font-size: 14px;\">Net Disbursement Loan Amount</td><td style=\"padding: 10px 12px; text-align: right; border: 1px solid #a7f3d0; color: #16a34a; font-size: 15px;\">" + String.format(Locale.US, "₹%.2f", netDisbursement) + "</td></tr>"
+				+ "</table></div>"
+				+ (rowsHtml.length() > 0 ? ("<div style=\"margin-bottom: 22px;\">"
+						+ "<h3 style=\"margin: 0 0 10px 0; font-size: 14px; color: #0f172a; text-transform: uppercase; letter-spacing: 0.5px;\">Installment Repayment Schedule</h3>"
+						+ "<table style=\"width: 100%; border-collapse: collapse; font-size: 12px;\">"
+						+ "<thead><tr style=\"background-color: #0f172a; color: #ffffff;\"><th style=\"padding: 8px; text-align: center;\">#</th><th style=\"padding: 8px; text-align: center;\">Due Date</th><th style=\"padding: 8px; text-align: right;\">EMI</th><th style=\"padding: 8px; text-align: right;\">Principal</th><th style=\"padding: 8px; text-align: right;\">Interest</th><th style=\"padding: 8px; text-align: right;\">Balance</th></tr></thead>"
+						+ "<tbody>" + rowsHtml.toString() + "</tbody></table></div>") : "")
+				+ "<p style=\"font-size: 13px; line-height: 1.5; color: #475569; margin: 0 0 16px 0;\">Your gold ornaments are stored securely in our insured bank locker. Upon complete closure and repayment of the loan, ornaments will be safely handed over back to you.</p>"
+				+ "<div style=\"border-top: 1px solid #e2e8f0; padding-top: 14px; font-size: 12px; color: #64748b;\">Warm regards,<br><strong style=\"color: #0f172a;\">Gold Loan & Credit Operations Team</strong><br>Samitha Urban Nidhi Limited</div>"
+				+ "</div></div></body></html>";
+	}
+
+	// ==========================================
+	// BUILD GOLD LOAN DISBURSEMENT TEXT EMAIL
+	// ==========================================
+	private String buildGoldLoanDisbursementTextEmail(String customerName, ApplyForGold g,
+			double grossLoan, double totalDeductions, double netDisbursement,
+			double procFee, double legalFee, double gst, double insuFee, double valFee, double statFee,
+			double stampDuty, double smsCharges, double mainCharges, double penaltyCharge, double overCharge, double colCharge,
+			boolean hasSavings, String savingsAccNo, List<EmiScheduleRow> schedule) {
+
+		String goldId = g.getGoldID() != null ? g.getGoldID() : "N/A";
+		StringBuilder sb = new StringBuilder();
+		sb.append("Dear ").append(customerName).append(",\n\n");
+		sb.append("Congratulations! Your Gold Loan has been approved and successfully DISBURSED.\n\n");
+		sb.append("--------------------------------------------------------------------------------\n");
+		sb.append("GOLD LOAN DISBURSEMENT SUMMARY\n");
+		sb.append("--------------------------------------------------------------------------------\n");
+		sb.append("Gold Loan ID            : ").append(goldId).append("\n");
+		sb.append("Customer Member Code    : ").append(g.getMemberCode() != null ? g.getMemberCode() : "N/A").append("\n");
+		sb.append(String.format(Locale.US, "Gross Loan Amount       : Rs. %.2f\n", grossLoan));
+		sb.append(String.format(Locale.US, "Total Deductions        : - Rs. %.2f\n", totalDeductions));
+		sb.append(String.format(Locale.US, "Net Disbursed Amount    : Rs. %.2f\n", netDisbursement));
+		sb.append("Disbursement Mode       : ").append(hasSavings ? "Credited to Savings Account (" + savingsAccNo + ")" : "Cash / Direct Disbursement").append("\n");
+		sb.append("Approval/Disburse Date  : ").append(g.getApprovalDate() != null ? g.getApprovalDate() : LocalDate.now().toString()).append("\n");
+		sb.append("Gold Karat / Net Weight : ").append(g.getKarat() != null ? g.getKarat() + " K" : "N/A").append(" / ").append(g.getNetWt() != null ? g.getNetWt() + " g" : "N/A").append("\n");
+		sb.append("Assessed Valuation      : Rs. ").append(g.getMarketValuation() != null ? g.getMarketValuation() : "N/A").append("\n");
+		sb.append("Loan Mode / Term        : ").append(g.getLoanMode() != null ? g.getLoanMode() : "N/A").append(" / ").append(g.getLoanTerm() != null ? g.getLoanTerm() + " Months" : "N/A").append("\n");
+		sb.append("Rate of Interest        : ").append(g.getRateOfInterest() != null ? g.getRateOfInterest() + "% P.A." : "N/A").append("\n");
+		sb.append("Installment (EMI)       : Rs. ").append(g.getEmiPayment() != null ? g.getEmiPayment() : "N/A").append("\n");
+		sb.append("--------------------------------------------------------------------------------\n\n");
+
+		sb.append("DEDUCTIONS BREAKDOWN:\n");
+		sb.append(String.format(Locale.US, " - Processing Fee       : Rs. %.2f\n", procFee));
+		sb.append(String.format(Locale.US, " - Valuation Fees       : Rs. %.2f\n", valFee));
+		sb.append(String.format(Locale.US, " - Legal / Documentation: Rs. %.2f\n", legalFee));
+		sb.append(String.format(Locale.US, " - GST (18%%)           : Rs. %.2f\n", gst));
+		if (stampDuty > 0) sb.append(String.format(Locale.US, " - Stamp Duty           : Rs. %.2f\n", stampDuty));
+		if (statFee > 0) sb.append(String.format(Locale.US, " - Stationary Charges   : Rs. %.2f\n", statFee));
+		if (insuFee > 0) sb.append(String.format(Locale.US, " - Insurance Fee        : Rs. %.2f\n", insuFee));
+		if (smsCharges > 0) sb.append(String.format(Locale.US, " - SMS Charges          : Rs. %.2f\n", smsCharges));
+		sb.append(String.format(Locale.US, "Total Charges Deducted  : Rs. %.2f\n", totalDeductions));
+		sb.append(String.format(Locale.US, "Net Disbursed Amount    : Rs. %.2f\n", netDisbursement));
+		sb.append("--------------------------------------------------------------------------------\n\n");
+
+		if (schedule != null && !schedule.isEmpty()) {
+			sb.append("REPAYMENT SCHEDULE:\n");
+			sb.append(String.format("%-8s | %-12s | %-12s | %-12s | %-12s | %-15s\n",
+					"EMI NO.", "DUE DATE", "EMI (Rs.)", "PRINCIPLE", "INTEREST", "CURRENT BALANCE"));
+			sb.append("--------------------------------------------------------------------------------\n");
+			for (EmiScheduleRow r : schedule) {
+				sb.append(String.format(Locale.US, "%-8d | %-12s | %-12.2f | %-12.2f | %-12.2f | %-15.2f\n",
+						r.emiNo, r.dueDate, r.emi, r.principle, r.interest, r.currentBalance));
+			}
+			sb.append("--------------------------------------------------------------------------------\n\n");
+		}
+
+		sb.append("Your pledged gold ornaments are stored safely in our bank locker until full loan repayment.\n\n");
+		sb.append("Warm regards,\nGold Loan & Credit Operations Team\nSamitha Urban Nidhi Limited\n");
 		return sb.toString();
 	}
 

@@ -50,6 +50,45 @@ $(document).ready(function() {
 		}
 	});
 
+	// Load Financial Consultants (Codes and Names)
+	function loadFinancialConsultants(selectedCode) {
+		$.ajax({
+			url: 'api/financialconsultant/getAllFinancialConsultantDetails',
+			type: 'GET',
+			dataType: 'json',
+			success: function(response) {
+				const $dropdown = $('#financialConsultantId');
+				$dropdown.empty().append('<option value="">-- SELECT FINANCIAL CONSULTANT --</option>');
+				if (response && response.data && Array.isArray(response.data)) {
+					response.data.forEach(function(c) {
+						const code = c.financialCode || '';
+						const name = (c.financialName || '').toUpperCase();
+						if (code) {
+							$dropdown.append(`<option value="${code}" data-name="${name}">${code} - ${name}</option>`);
+						}
+					});
+					if (selectedCode) {
+						$dropdown.val(selectedCode).trigger('change');
+					}
+				}
+			},
+			error: function(xhr) {
+				console.error("Error loading financial consultants:", xhr);
+			}
+		});
+	}
+
+	loadFinancialConsultants();
+
+	// Auto-fill consultant name on code selection
+	$("#financialConsultantId").change(function() {
+		const selectedOpt = $(this).find("option:selected");
+		const name = selectedOpt.data("name") || "";
+		if (name) {
+			$("#financialConsultantName").val(name);
+		}
+	});
+
 	$("#findByGoldLoanId").change(function() {
 
 		let findByGoldLoanId = $("#findByGoldLoanId").val();
@@ -127,8 +166,12 @@ $(document).ready(function() {
 						$("#valuationFees").val(data.valuationFees);
 						$("#overCharge").val(data.overCharge);
 						$("#collectionCharge").val(data.collectionCharge);
-						$("#financialConsultantId").val(data.financialConsultantId);
-						$("#financialConsultantName").val(data.financialConsultantName);
+						if (data.financialConsultantId) {
+							$("#financialConsultantId").val(data.financialConsultantId).trigger('change');
+						}
+						if (data.financialConsultantName) {
+							$("#financialConsultantName").val(data.financialConsultantName);
+						}
 
 						if (data.approvalStatus === true || data.approvalStatus === 1 || data.approvalStatus === "1") {
 							$('#approvalStatus').val("Approved").css('color', 'green');
@@ -136,7 +179,50 @@ $(document).ready(function() {
 							$('#approvalStatus').val("Not Approved").css('color', 'red');
 						}
 
-						fetchEMIValues();
+						// Payment Status display: UNPAID until disbursed
+						let pStatus = (data.paymentStatus && data.paymentStatus.trim() !== "") ? data.paymentStatus.toUpperCase() : "UNPAID";
+						$("#paymentStatus").val(pStatus);
+						if (pStatus === "PAID") {
+							$("#paymentStatus").css({"color": "green", "font-weight": "bold"});
+							$("#paymentBtn").prop("disabled", true).text("LOAN ALREADY DISBURSED").css("background-color", "#28a745");
+						} else {
+							$("#paymentStatus").css({"color": "red", "font-weight": "bold"});
+							$("#paymentBtn").prop("disabled", false).text("DISBURSE TO SAVINGS ACCOUNT").css("background-color", "#FFA500");
+						}
+
+						// Net Disbursement Amount
+						let disburseAmt = data.netDisbursement || data.sanctionedAmount || data.loanAmount || "0";
+						$("#paymentAmount").val(disburseAmt);
+						$("#noOfInst").val(data.loanAmount || "0");
+						$("#modeofPayment").val("Saving Account");
+
+						// Set default payment date to today
+						if (!$("#paymentDate").val()) {
+							let today = new Date().toISOString().split('T')[0];
+							$("#paymentDate").val(today);
+						}
+
+						// Auto-fetch Customer Savings Account Number
+						if (data.memberCode) {
+							$.ajax({
+								url: "api/customersavings/getAccountNumbersByCode?selectByCustomer=" + encodeURIComponent(data.memberCode),
+								type: "GET",
+								success: function(accResp) {
+									if (accResp && accResp.data && accResp.data.length > 0) {
+										let acc = accResp.data[0];
+										let accNum = acc.accountNumber || (typeof acc === "string" ? acc : "");
+										$("#depositAccount").val(accNum);
+									} else if (accResp && Array.isArray(accResp) && accResp.length > 0) {
+										let acc = accResp[0];
+										let accNum = acc.accountNumber || (typeof acc === "string" ? acc : "");
+										$("#depositAccount").val(accNum);
+									}
+								},
+								error: function() {
+									console.log("Could not load savings account for member " + data.memberCode);
+								}
+							});
+						}
 
 					} else {
 						alert("No customer found for this member code.");
@@ -152,10 +238,34 @@ $(document).ready(function() {
 	$("#paymentBtn").click(function(e) {
 		e.preventDefault();
 
+		let goldLoanId = $("#findByGoldLoanId").val();
+		if (!goldLoanId || goldLoanId.trim() === "") {
+			alert("Please search and select a Gold Loan ID first!");
+			return;
+		}
+
+		let currentStatus = $("#paymentStatus").val();
+		if (currentStatus === "PAID") {
+			alert("This Gold Loan is already disbursed and PAID.");
+			return;
+		}
+
+		let depositAcc = $("#depositAccount").val();
+		if (!depositAcc || depositAcc.trim() === "") {
+			alert("Customer savings account not found! A savings account is required for disbursement.");
+			return;
+		}
+
+		let payAmt = $("#paymentAmount").val();
+		if (!payAmt || parseFloat(payAmt) <= 0) {
+			alert("Invalid disbursement amount!");
+			return;
+		}
+
 		let requestData = {
 
 			// ---------- Customer Details ----------
-			goldID: $("#findByGoldLoanId").val(),
+			goldID: goldLoanId,
 			customerCode: $("#customerCode").val(),
 			customerName: $("#customerName").val(),
 			dateOfBirth: $("#dateOfBirth").val(),
@@ -187,7 +297,7 @@ $(document).ready(function() {
 			itemQty: $("#itemQty").val(),
 			itemWt: $("#itemWt").val(),
 			grossWt: $("#grossWt").val(),
-			stoneWt: $("#stoneWeight").val(),
+			stoneWt: $("#stoneWt").val(),
 			netWt: $("#netWt").val(),
 			marketValuation: $("#marketValuation").val(),
 			eligibleLoan: $("#eligibleLoan").val(),
@@ -221,43 +331,46 @@ $(document).ready(function() {
 			valuationFees: $("#valuationFees").val(),
 			overdueInterestCharge: $("#overdueInterestCharge").val(),
 			collectionCharge: $("#collectionCharge").val(),
-			financialCode: $("#financialCode").val(),
-			financialName: $("#financialName").val(),
+			financialCode: $("#financialConsultantId").val(),
+			financialName: $("#financialConsultantName").val(),
 
 			// ---------- Payment Details ----------
-			paymentDate: $("#paymentDate").val(),
-			paymentStatus: $("#paymentStatus").val(),
-			modeOfPayment: $("#modeOfPayment").val(),
-			chargeDeductCash: $("#chargeDeductCash").val(),
-			remarks: $("#remarks").val(),
-			amountDue: $("#amountDue").val(),
-			chequeNo: $("#chequeNo").val(),
-			chequeDate: $("#chequeDate").val(),
-			depositAccount: $("#depositAccount").val(),
-			upiID: $("#refNo").val()
+			paymentDate: $("#paymentDate").val() || new Date().toISOString().split('T')[0],
+			paymentStatus: "PAID",
+			modeOfPayment: "Saving Account",
+			paymentAmount: payAmt,
+			chargeDeductCash: "0",
+			remarks: $("#remarks").val() || "Gold Loan Disbursed to Savings Account",
+			amountDue: $("#loanAmount").val(),
+			depositAccount: depositAcc
 		};
 
-		// ---- VALIDATION ----
-		if (requestData.goldID === "" || requestData.customerCode === "" || requestData.emiPayment === "") {
-			alert("Please fill required fields!");
-			return;
-		}
+		// Disable button during processing
+		$("#paymentBtn").prop("disabled", true).text("DISBURSING...");
 
 		$.ajax({
-			url: "api/securedGoldLoan/payEmi",
+			url: "api/securedGoldLoan/disburseGoldLoanPayment",
 			type: "POST",
 			contentType: "application/json",
 			data: JSON.stringify(requestData),
 			success: function(response) {
-				if (response.status === "OK") {
-					alert(response.message);   // ✔ Normal alert
+				if (response.status === "OK" || response.status === "200") {
+					alert(response.message || "Gold Loan disbursed successfully to customer savings account!");
+					$("#paymentStatus").val("PAID").css({"color": "green", "font-weight": "bold"});
+					$("#paymentBtn").prop("disabled", true).text("LOAN ALREADY DISBURSED").css("background-color", "#28a745");
 				} else {
-					alert("Warning: " + response.message);  // ✔ Warning message
+					alert("Warning: " + response.message);
+					$("#paymentBtn").prop("disabled", false).text("DISBURSE TO SAVINGS ACCOUNT").css("background-color", "#FFA500");
 				}
 			},
-
-			error: function() {
-				alert("Warning: " + response.message);  // ✔ Error message
+			error: function(xhr) {
+				let errMsg = "Disbursement failed.";
+				try {
+					let errObj = JSON.parse(xhr.responseText);
+					if (errObj && errObj.message) errMsg = errObj.message;
+				} catch (e) {}
+				alert("Error: " + errMsg);
+				$("#paymentBtn").prop("disabled", false).text("DISBURSE TO SAVINGS ACCOUNT").css("background-color", "#FFA500");
 			}
 		});
 	});

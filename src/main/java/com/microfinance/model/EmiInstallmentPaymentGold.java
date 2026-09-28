@@ -39,8 +39,12 @@ public class EmiInstallmentPaymentGold {
 	private String paymentDate;
 	private String netAmount;
 	private String paymentMode;
+	private String accountNumber;
 	private String financialCode;
 	private String financialName;
+	private String penaltyAmount;
+	private String daysLate;
+	private String emiDueDate;
 	private String remarks;
 
 	public Long getId() {
@@ -251,6 +255,14 @@ public class EmiInstallmentPaymentGold {
 		this.paymentMode = paymentMode;
 	}
 
+	public String getAccountNumber() {
+		return accountNumber;
+	}
+
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+
 	public String getFinancialCode() {
 		return financialCode;
 	}
@@ -265,6 +277,30 @@ public class EmiInstallmentPaymentGold {
 
 	public void setFinancialName(String financialName) {
 		this.financialName = financialName;
+	}
+
+	public String getPenaltyAmount() {
+		return penaltyAmount;
+	}
+
+	public void setPenaltyAmount(String penaltyAmount) {
+		this.penaltyAmount = penaltyAmount;
+	}
+
+	public String getDaysLate() {
+		return daysLate;
+	}
+
+	public void setDaysLate(String daysLate) {
+		this.daysLate = daysLate;
+	}
+
+	public String getEmiDueDate() {
+		return emiDueDate;
+	}
+
+	public void setEmiDueDate(String emiDueDate) {
+		this.emiDueDate = emiDueDate;
 	}
 
 	public String getRemarks() {

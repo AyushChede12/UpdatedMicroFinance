@@ -161,6 +161,15 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields mb-4">
+						<label for="">DISBURSEMENT LOAN AMOUNT</label> <input type="text"
+							name="netDisbursement" id="netDisbursement" required="required"
+							placeholder="DISBURSEMENT AMOUNT" readonly="readonly"
+							style="text-transform: uppercase;" />
+					</div>
+				</div>
+
+				<div class="col-lg-3">
+					<div class="d-flex flex-column formFields mb-4">
 						<label for="">EMI PAYMENT</label> <input type="text"
 							name="emiPayment" id="emiPayment" required="required"
 							placeholder="ENTER EMI PAYMENT" readonly="readonly"
@@ -580,6 +589,15 @@
 							name="financialConsultantName" id="financialConsultantName"
 							required="required" placeholder="ENTER CONSULTANT NAME"
 							readonly="readonly" style="text-transform: uppercase;" />
+					</div>
+				</div>
+
+				<div class="col-lg-3">
+					<div class="d-flex flex-column formFields mb-4">
+						<label for="">NET DISBURSEMENT AMOUNT</label> <input type="text"
+							name="netDisbursementDeduction" id="netDisbursementDeduction"
+							required="required" placeholder="NET DISBURSEMENT"
+							readonly="readonly" style="text-transform: uppercase; font-weight: 700; color: #16a34a;" />
 					</div>
 				</div>
 

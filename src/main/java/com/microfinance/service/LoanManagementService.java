@@ -613,8 +613,7 @@ public class LoanManagementService implements org.springframework.beans.factory.
 
 	// Service for fetching Active Loan Id's In the dropdown (Vaibhav)
 	public List<String> fetchAllLoanIds() {
-		return loanApplicationRepo.findAll().stream().filter(loan -> "ACTIVE".equalsIgnoreCase(loan.getLoanStatus()))
-				.map(LoanApplication::getLoanId).filter(Objects::nonNull).collect(Collectors.toList());
+		return loanApplicationRepo.findActiveLoanIds();
 	}
 
 	// Service for fetching the data in the textfields (Vaibhav)
@@ -669,8 +668,7 @@ public class LoanManagementService implements org.springframework.beans.factory.
 
 	// Service for getting Approved & Active loan Ids( Vaibhav)
 	public List<String> getApprovedLoanIds() {
-		List<LoanApplication> approvedActiveLoans = loanApplicationRepo.findByApprovalStatusTrueAndLoanStatus("ACTIVE");
-		return approvedActiveLoans.stream().map(LoanApplication::getLoanId).collect(Collectors.toList());
+		return loanApplicationRepo.findApprovedActiveLoanIds();
 	}
 
 	// Service for paying the payment

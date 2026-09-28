@@ -78,6 +78,26 @@ $(document).ready(function() {
 						$("#loanTerm").val(data.loanTerm.toUpperCase());
 						$("#rateOfInterest").val(data.rateOfInterest);
 						$("#loanAmount").val(data.loanAmount);
+						let netDisb = data.netDisbursement || data.sanctionedAmount;
+						if (!netDisb || parseFloat(netDisb) <= 0) {
+							let gross = parseFloat(data.loanAmount) || 0;
+							let proc = parseFloat(data.processingFee) || 0;
+							let legal = parseFloat(data.legalCharges) || 0;
+							let stamp = parseFloat(data.stampDuty) || 0;
+							let sms = parseFloat(data.smsCharges) || 0;
+							let main = parseFloat(data.mainCharges) || 0;
+							let stat = parseFloat(data.stationaryFee) || 0;
+							let gst = parseFloat(data.gst) || 0;
+							let ins = parseFloat(data.insuFee) || 0;
+							let pen = parseFloat(data.penaltyCharge) || 0;
+							let val = parseFloat(data.valuationFees) || 0;
+							let over = parseFloat(data.overCharge) || 0;
+							let col = parseFloat(data.collectionCharge) || 0;
+							let totalDeductions = proc + legal + stamp + sms + main + stat + gst + ins + pen + val + over + col;
+							netDisb = gross > 0 ? (gross - totalDeductions).toFixed(2) : "0.00";
+						}
+						$("#netDisbursement").val(netDisb);
+						$("#netDisbursementDeduction").val(netDisb);
 						$("#interestType").val(data.interestType.toUpperCase());
 						$("#emiPayment").val(data.emiPayment.toUpperCase());
 						$("#purposeOfLoan").val(data.purposeOfLoan);

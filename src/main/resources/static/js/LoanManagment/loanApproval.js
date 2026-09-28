@@ -75,6 +75,18 @@ $(document).ready(function() {
 						$("#loanTerm").val(data.loanTerm);
 						$("#rateOfInterest").val(data.rateOfInterest);
 						$("#loanAmount").val(data.loanAmount);
+						let netDisbursed = data.netDisbursementAmount || data.sanctionedAmount;
+						if (!netDisbursed || parseFloat(netDisbursed) <= 0) {
+							let gross = parseFloat(data.loanAmount) || 0;
+							let proc = parseFloat(data.processingFee) || 0;
+							let legal = parseFloat(data.legalCharges) || 0;
+							let ins = parseFloat(data.insuranceFee) || 0;
+							let gst = parseFloat(data.gst) || 0;
+							let totalDed = proc + legal + ins + gst;
+							netDisbursed = (gross > 0 && totalDed > 0) ? (gross - totalDed).toFixed(2) : (gross > 0 ? gross.toFixed(2) : "0.00");
+						}
+						$("#netDisbursementAmount").val(netDisbursed);
+						$("#netDisbursementAmountDeduction").val(netDisbursed);
 						$("#interestType").val(data.interestType);
 						$("#emiPayment").val(data.emiPayment);
 						$("#purposeOfLoan").val(data.purposeOfLoan);

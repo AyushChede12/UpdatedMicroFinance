@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.Table;
 
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -15,6 +17,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Entity
+@Table(name = "loan_application", indexes = {
+	@Index(name = "idx_la_loanid", columnList = "loanId"),
+	@Index(name = "idx_la_status", columnList = "loanStatus"),
+	@Index(name = "idx_la_approval", columnList = "approvalStatus"),
+	@Index(name = "idx_la_member", columnList = "memberId")
+})
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LoanApplication {
 	

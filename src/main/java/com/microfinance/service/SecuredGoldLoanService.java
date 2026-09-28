@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.microfinance.dto.ApiResponse;
 import com.microfinance.dto.ApplyForGoldRequestDto;
 import com.microfinance.dto.GoldItemDto;
+import com.microfinance.dto.GoldLoanDropdownDto;
 import com.microfinance.model.ApplyForGold;
 import com.microfinance.model.ApplyForGoldItem;
 import com.microfinance.model.CreateSavingsAccount;
@@ -32,8 +33,10 @@ import com.microfinance.repository.EMIInstallmentRepo;
 import com.microfinance.repository.GoldCloseRepo;
 import com.microfinance.repository.GoldDirectoryRepo;
 import com.microfinance.repository.GoldLoanApprovalRepo;
+import com.microfinance.model.SavingAccountActivity;
 import com.microfinance.repository.GoldPaymentRepo;
 import com.microfinance.repository.GoldSecurePlanRepo;
+import com.microfinance.repository.SavingAccountActivityRepo;
 
 @Service
 public class SecuredGoldLoanService {
@@ -64,6 +67,12 @@ public class SecuredGoldLoanService {
 
 	@Autowired
 	EMIInstallmentRepo emiRepo;
+
+	@Autowired
+	private SavingAccountActivityRepo savingAccountActivityRepo;
+
+	@Autowired
+	private LoanNotificationService loanNotificationService;
 
 	public SecuredGoldPlan saveLoanManagmentData(SecuredGoldPlan goldLoan) {
 		if (goldLoan.getId() != null && goldSecurePlanRepo.existsById(goldLoan.getId())) {
@@ -181,7 +190,12 @@ public class SecuredGoldLoanService {
 	public boolean saveApplyForGoldData(ApplyForGold applyForGold) {
 		// TODO Auto-generated method stub
 		try {
-			applyForGoldRepo.save(applyForGold);
+			ApplyForGold saved = applyForGoldRepo.save(applyForGold);
+			try {
+				if (loanNotificationService != null) {
+					loanNotificationService.sendGoldLoanApplicationNotification(saved);
+				}
+			} catch (Exception ignored) {}
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -437,8 +451,15 @@ public class SecuredGoldLoanService {
 		// Status: PENDING_APPROVAL and approvalStatus false
 		applyForGold.setApprovalStatus(false);
 		applyForGold.setGoldLoanStatus("PENDING_APPROVAL");
+		applyForGold.setPaymentStatus("UNPAID");
 
-		return applyForGoldRepo.save(applyForGold);
+		ApplyForGold savedGoldLoan = applyForGoldRepo.save(applyForGold);
+		try {
+			if (loanNotificationService != null) {
+				loanNotificationService.sendGoldLoanApplicationNotification(savedGoldLoan);
+			}
+		} catch (Exception ignored) {}
+		return savedGoldLoan;
 	}
 
 	private BigDecimal calculateEmi(BigDecimal principal, String rateStr, String termStr, String interestType) {
@@ -473,9 +494,23 @@ public class SecuredGoldLoanService {
 		return applyForGoldRepo.findAll();
 	}
 
+	@Transactional(readOnly = true)
 	public List<ApplyForGold> getByGoldIDforApproval(String goldID) {
-		// TODO Auto-generated method stub
-		return applyForGoldRepo.findByGoldID(goldID);
+		List<ApplyForGold> list = applyForGoldRepo.findByGoldID(goldID);
+		if (list != null) {
+			for (ApplyForGold g : list) {
+				g.setPhoto(null);
+				g.setSignature(null);
+				g.setOrnamentPhoto(null);
+				g.setOrnamentPhoto2(null);
+				if (g.getItems() != null) {
+					for (ApplyForGoldItem item : g.getItems()) {
+						item.setItemPhoto(null);
+					}
+				}
+			}
+		}
+		return list;
 	}
 
 	public String approveGoldLoan(ApplyForGold approval) {
@@ -515,22 +550,24 @@ public class SecuredGoldLoanService {
 
 		double sanctionedAmount = loanAmount - totalDeductions;
 
-		// Step 2: Update linked savings account balance
-		List<CreateSavingsAccount> accounts = createSavingRepo.findBySelectByCustomer(goldLoan.getMemberCode());
-		if (accounts != null && !accounts.isEmpty()) {
-			CreateSavingsAccount account = accounts.get(0); // assuming one account per member
-			double existingBalance = Double.parseDouble(account.getBalance());
-			double updatedBalance = existingBalance + sanctionedAmount;
-			account.setBalance(String.valueOf(updatedBalance));
-			createSavingRepo.save(account);
-		}
-
-		// Step 3: Update gold loan approval
+		// Step 2: Set approval fields, keep paymentStatus as UNPAID until disbursed on Gold Loan Payment
 		goldLoan.setApprovalStatus(true);
 		goldLoan.setSanctionedAmount(String.valueOf(sanctionedAmount));
-		goldLoan.setApprovalDate(LocalDate.now().toString());
+		goldLoan.setNetDisbursement(String.valueOf(sanctionedAmount));
+		goldLoan.setPaymentStatus("UNPAID");
+		if (approval.getApprovalDate() != null && !approval.getApprovalDate().trim().isEmpty()) {
+			goldLoan.setApprovalDate(approval.getApprovalDate().trim());
+		} else {
+			goldLoan.setApprovalDate(LocalDate.now().toString());
+		}
 		goldLoan.setGoldLoanStatus("ACTIVE");
-		applyForGoldRepo.save(goldLoan);
+		ApplyForGold savedApprovedLoan = applyForGoldRepo.save(goldLoan);
+
+		try {
+			if (loanNotificationService != null) {
+				loanNotificationService.sendGoldLoanApprovalNotification(savedApprovedLoan);
+			}
+		} catch (Exception ignored) {}
 
 		return "success";
 	}
@@ -752,9 +789,25 @@ public class SecuredGoldLoanService {
 		return applyForGoldRepo.findByGoldLoanStatus("ACTIVE");
 	}
 
+	public List<GoldLoanDropdownDto> getAllActiveGoldLoansDropdown() {
+		return applyForGoldRepo.findActiveGoldLoanDropdown();
+	}
+
 	public List<ApplyForGold> getNotApprovedGoldCustomer() {
 		// TODO Auto-generated method stub
 		return applyForGoldRepo.findByApprovalStatusFalse();
+	}
+
+	public List<GoldLoanDropdownDto> getNotApprovedGoldCustomerDropdown() {
+		return applyForGoldRepo.findNotApprovedGoldLoanDropdown();
+	}
+
+	public List<GoldLoanDropdownDto> getApprovedGoldCustomerDropdown() {
+		return applyForGoldRepo.findApprovedGoldLoanDropdown();
+	}
+
+	public List<GoldLoanDropdownDto> getAllGoldLoanCustomerDropdown() {
+		return applyForGoldRepo.findAllGoldLoanDropdown();
 	}
 
 	public List<GoldLoanPayment> getGoldPaymentByGoldId(String goldID) {
@@ -762,38 +815,312 @@ public class SecuredGoldLoanService {
 		return goldPaymentRepo.findByGoldID(goldID);
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	public ApiResponse saveInstallmentAndUpdateSavings(EmiInstallmentPaymentGold emi) {
+		if (emi == null || emi.getGoldID() == null || emi.getGoldID().trim().isEmpty()) {
+			return new ApiResponse(HttpStatus.BAD_REQUEST, "FAILED", "Gold Loan ID is required!");
+		}
+		if (emi.getInstallment() == null || emi.getInstallment().trim().isEmpty()) {
+			return new ApiResponse(HttpStatus.BAD_REQUEST, "FAILED", "Installment Number is required!");
+		}
 
-		// 1. Save EMI installment
+		// Prevent duplicate payment for the same installment
+		List<EmiInstallmentPaymentGold> existing = emiRepo.findByGoldID(emi.getGoldID());
+		if (existing != null) {
+			for (EmiInstallmentPaymentGold prev : existing) {
+				if (emi.getInstallment() != null && emi.getInstallment().trim().equalsIgnoreCase(prev.getInstallment() != null ? prev.getInstallment().trim() : "")) {
+					return new ApiResponse(HttpStatus.BAD_REQUEST, "FAILED", "Installment " + emi.getInstallment() + " is already paid for Gold ID: " + emi.getGoldID());
+				}
+			}
+		}
+
+		double payAmount = 0.0;
+		try {
+			if (emi.getPaymentAmount() != null) {
+				payAmount = Double.parseDouble(emi.getPaymentAmount().trim());
+			}
+		} catch (Exception e) {
+			payAmount = 0.0;
+		}
+
+		if (payAmount <= 0) {
+			return new ApiResponse(HttpStatus.BAD_REQUEST, "FAILED", "Payment Amount must be greater than 0!");
+		}
+
+		double penaltyAmount = 0.0;
+		if (emi.getPenaltyAmount() != null) {
+			try {
+				penaltyAmount = Double.parseDouble(emi.getPenaltyAmount().replaceAll("[^0-9.]", "").trim());
+			} catch (Exception ignored) {}
+		}
+
+		double totalPayable = payAmount + penaltyAmount;
+
+		String mode = emi.getPaymentMode() != null ? emi.getPaymentMode().trim() : "";
+		boolean isSavings = "SAVINGS ACCOUNT".equalsIgnoreCase(mode) || "Saving Account".equalsIgnoreCase(mode);
+		boolean isCash = "CASH".equalsIgnoreCase(mode);
+
+		if (!isSavings && !isCash) {
+			return new ApiResponse(HttpStatus.BAD_REQUEST, "FAILED", "Please select a valid payment mode: CASH or SAVINGS ACCOUNT.");
+		}
+
+		if (isSavings) {
+			CreateSavingsAccount acc = null;
+			// 1. Try finding by account number if provided
+			if (emi.getAccountNumber() != null && !emi.getAccountNumber().trim().isEmpty()) {
+				Optional<CreateSavingsAccount> optAcc = createSavingRepo.findByAccountNumber(emi.getAccountNumber().trim());
+				if (optAcc.isPresent()) {
+					acc = optAcc.get();
+				}
+			}
+
+			// 2. Fallback to customer code
+			if (acc == null && emi.getCustomerCode() != null && !emi.getCustomerCode().trim().isEmpty()) {
+				List<CreateSavingsAccount> optionalAcc = createSavingRepo.findBySelectByCustomer(emi.getCustomerCode().trim());
+				if (optionalAcc != null && !optionalAcc.isEmpty()) {
+					acc = optionalAcc.get(0);
+				}
+			}
+
+			if (acc == null) {
+				return new ApiResponse(HttpStatus.BAD_REQUEST, "FAILED", "Customer Savings Account Not Found!");
+			}
+
+			double oldBalance = 0.0;
+			try {
+				oldBalance = Double.parseDouble(acc.getBalance());
+			} catch (Exception e) {
+				oldBalance = 0.0;
+			}
+
+			if (oldBalance < totalPayable) {
+				return new ApiResponse(HttpStatus.BAD_REQUEST, "FAILED",
+						"Insufficient Balance in Savings Account (" + acc.getAccountNumber() + ")! Required: ₹" + String.format(java.util.Locale.US, "%.2f", totalPayable)
+								+ ", Available: ₹" + String.format(java.util.Locale.US, "%.2f", oldBalance));
+			}
+
+			double newBalance = oldBalance - totalPayable;
+			acc.setBalance(String.format(java.util.Locale.US, "%.2f", newBalance));
+			createSavingRepo.save(acc);
+
+			// Log SavingAccountActivity
+			try {
+				String txnId = "TXNEMI_" + emi.getGoldID() + "_" + emi.getInstallment() + "_" + System.currentTimeMillis();
+				SavingAccountActivity act = new SavingAccountActivity();
+				act.setSelectSavingTransactionId(txnId);
+				act.setTransactionDate(emi.getPaymentDate() != null && !emi.getPaymentDate().trim().isEmpty() ? emi.getPaymentDate() : LocalDate.now().toString());
+				act.setSelectBranchName(emi.getBranchName() != null ? emi.getBranchName() : "");
+				act.setAccountNumber(acc.getAccountNumber());
+				act.setCustomerCode(acc.getSelectByCustomer());
+				act.setCustomerName(acc.getEnterCustomerName());
+				act.setContactNumber(acc.getContactNumber());
+				act.setTransactionFor("Gold Loan EMI Repayment");
+				act.setComments("Gold Loan EMI Repayment - Gold ID: " + emi.getGoldID() + ", Installment: " + emi.getInstallment() + (penaltyAmount > 0 ? " (includes Penalty: ₹" + String.format(java.util.Locale.US, "%.2f", penaltyAmount) + ")" : ""));
+				act.setTransactionType("Withdrawal");
+				act.setTransactionAmount(String.format(java.util.Locale.US, "%.2f", totalPayable));
+				act.setAverageBalance(String.format(java.util.Locale.US, "%.2f", newBalance));
+				act.setPayBy("Saving Account");
+				act.setApproved(true);
+				savingAccountActivityRepo.save(act);
+			} catch (Exception actEx) {
+				System.err.println("SavingAccountActivity Error: " + actEx.getMessage());
+			}
+
+			emi.setAccountNumber(acc.getAccountNumber());
+			emi.setPaymentMode("SAVINGS ACCOUNT");
+		} else {
+			emi.setPaymentMode("CASH");
+		}
+
+		// Save EMI installment
 		emiRepo.save(emi);
 
-		// 2. Fetch Savings Account
-		List<CreateSavingsAccount> optionalAcc = createSavingRepo.findBySelectByCustomer(emi.getCustomerCode());
-		System.out.println(optionalAcc);
-		if (optionalAcc == null || optionalAcc.isEmpty()) {
-			return new ApiResponse(HttpStatus.INTERNAL_SERVER_ERROR, "FAILED", "Savings Account Not Found!");
+		// Check Gold Loan Closure
+		boolean isClosed = false;
+		ApplyForGold goldLoan = applyForGoldRepo.findSingleByGoldID(emi.getGoldID());
+		int term = 0;
+		if (goldLoan != null && goldLoan.getLoanTerm() != null) {
+			try {
+				term = Integer.parseInt(goldLoan.getLoanTerm().trim());
+			} catch (Exception ignored) {}
+		}
+		int currentInst = 0;
+		try {
+			currentInst = Integer.parseInt(emi.getInstallment().trim());
+		} catch (Exception ignored) {}
+
+		if (goldLoan != null && term > 0 && currentInst >= term) {
+			isClosed = true;
+			goldLoan.setGoldLoanStatus("CLOSED");
+			applyForGoldRepo.save(goldLoan);
+
+			try {
+				GoldLoanClose closure = new GoldLoanClose();
+				closure.setGoldID(goldLoan.getGoldID());
+				closure.setDateOfLoan(goldLoan.getLoanDate());
+				closure.setCustomerCode(goldLoan.getMemberCode());
+				closure.setCustomerName(goldLoan.getCustomerName());
+				closure.setContactNo(goldLoan.getContactNo());
+				closure.setBranchName(goldLoan.getBranchName());
+				closure.setLoanPlanName(goldLoan.getLoanPlanName());
+				closure.setLoanTerm(goldLoan.getLoanTerm());
+				closure.setLoanMode(goldLoan.getLoanMode());
+				closure.setLoanAmount(goldLoan.getLoanAmount());
+				closure.setRateOfInterest(goldLoan.getRateOfInterest());
+				closure.setInterestType(goldLoan.getInterestType());
+				closure.setEmiPayment(goldLoan.getEmiPayment());
+				closure.setNoOfInstPaid(String.valueOf(currentInst));
+				closure.setPaymentDate(emi.getPaymentDate() != null ? emi.getPaymentDate() : LocalDate.now().toString());
+				closure.setPaymentAmount(String.format(java.util.Locale.US, "%.2f", totalPayable));
+				closure.setFinancialCode(emi.getFinancialCode());
+				closure.setFinancialName(emi.getFinancialName());
+				closure.setGoldLoanStatus("CLOSED");
+				closure.setRemarks("Gold Loan closed after Installment " + currentInst);
+				goldCloseRepo.save(closure);
+			} catch (Exception closeEx) {
+				System.err.println("Gold Loan Closure save error: " + closeEx.getMessage());
+			}
 		}
 
-		// Extract actual entity
-		CreateSavingsAccount acc = optionalAcc.get(0);
+		String successMsg = "Installment " + emi.getInstallment() + " of ₹" + String.format(java.util.Locale.US, "%.2f", totalPayable)
+				+ " Paid Successfully via " + emi.getPaymentMode() + "!" + (isClosed ? " 🎉 This Gold Loan is now completely CLOSED." : "");
 
-		double oldBalance = Double.parseDouble(acc.getBalance());
-		double payAmount = Double.parseDouble(emi.getPaymentAmount());
-
-		if (oldBalance < payAmount) {
-			return new ApiResponse(HttpStatus.BAD_REQUEST, "FAILED", "Insufficient Balance in Savings Account!");
-		}
-
-		double newBalance = oldBalance - payAmount;
-		acc.setBalance(String.valueOf(newBalance));
-
-		createSavingRepo.save(acc);
-
-		return new ApiResponse(HttpStatus.OK, "SUCCESS", "Installment Saved & Balance Updated");
+		return new ApiResponse(HttpStatus.OK, "SUCCESS", successMsg);
 	}
 
 	public List<EmiInstallmentPaymentGold> getEMIInstallmentGoldByID(String goldID) {
 		return emiRepo.findByGoldID(goldID);
+	}
+
+	public ApplyForGold getApplyForGoldByGoldId(String goldID) {
+		return applyForGoldRepo.findSingleByGoldID(goldID);
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	public ApiResponse disburseGoldLoanToSavings(GoldLoanPayment request) {
+		if (request == null || request.getGoldID() == null || request.getGoldID().trim().isEmpty()) {
+			return new ApiResponse(HttpStatus.BAD_REQUEST, "FAILED", "Gold Loan ID is required.");
+		}
+		String goldId = request.getGoldID().trim();
+		ApplyForGold goldLoan = applyForGoldRepo.findSingleByGoldID(goldId);
+		if (goldLoan == null) {
+			return new ApiResponse(HttpStatus.NOT_FOUND, "FAILED", "Gold Loan not found for ID: " + goldId);
+		}
+		if (!goldLoan.isApprovalStatus()) {
+			return new ApiResponse(HttpStatus.BAD_REQUEST, "FAILED", "Gold Loan is not yet approved. Approval is required before disbursement.");
+		}
+		if ("PAID".equalsIgnoreCase(goldLoan.getPaymentStatus())) {
+			return new ApiResponse(HttpStatus.BAD_REQUEST, "FAILED", "Gold Loan is already disbursed and PAID.");
+		}
+
+		// Determine disbursement amount:
+		// Prefer request.getPaymentAmount() if valid, else netDisbursement, else sanctionedAmount, else loanAmount
+		double disburseAmount = 0.0;
+		if (request.getPaymentAmount() != null && !request.getPaymentAmount().trim().isEmpty()) {
+			try {
+				disburseAmount = Double.parseDouble(request.getPaymentAmount().trim());
+			} catch (Exception ignored) {}
+		}
+		if (disburseAmount <= 0) {
+			if (goldLoan.getNetDisbursement() != null && !goldLoan.getNetDisbursement().trim().isEmpty()) {
+				try { disburseAmount = Double.parseDouble(goldLoan.getNetDisbursement().trim()); } catch (Exception ignored) {}
+			}
+		}
+		if (disburseAmount <= 0) {
+			if (goldLoan.getSanctionedAmount() != null && !goldLoan.getSanctionedAmount().trim().isEmpty()) {
+				try { disburseAmount = Double.parseDouble(goldLoan.getSanctionedAmount().trim()); } catch (Exception ignored) {}
+			}
+		}
+		if (disburseAmount <= 0) {
+			try { disburseAmount = Double.parseDouble(goldLoan.getLoanAmount()); } catch (Exception ignored) {}
+		}
+
+		if (disburseAmount <= 0) {
+			return new ApiResponse(HttpStatus.BAD_REQUEST, "FAILED", "Invalid disbursement amount: " + disburseAmount);
+		}
+
+		// Fetch savings account by customer memberCode or depositAccount
+		List<CreateSavingsAccount> accounts = createSavingRepo.findBySelectByCustomer(goldLoan.getMemberCode());
+		CreateSavingsAccount savingAcc = null;
+		if (accounts != null && !accounts.isEmpty()) {
+			if (request.getDepositAccount() != null && !request.getDepositAccount().trim().isEmpty()) {
+				for (CreateSavingsAccount acc : accounts) {
+					if (request.getDepositAccount().trim().equalsIgnoreCase(acc.getAccountNumber())) {
+						savingAcc = acc;
+						break;
+					}
+				}
+			}
+			if (savingAcc == null) {
+				savingAcc = accounts.get(0);
+			}
+		} else if (request.getDepositAccount() != null && !request.getDepositAccount().trim().isEmpty()) {
+			Optional<CreateSavingsAccount> accOpt = createSavingRepo.findByAccountNumber(request.getDepositAccount().trim());
+			if (accOpt.isPresent()) {
+				savingAcc = accOpt.get();
+			}
+		}
+
+		if (savingAcc == null) {
+			return new ApiResponse(HttpStatus.BAD_REQUEST, "FAILED", "Customer does not have a linked Savings Account. Please create a Savings Account first.");
+		}
+
+		double currentBalance = 0.0;
+		try {
+			currentBalance = Double.parseDouble(savingAcc.getBalance() != null ? savingAcc.getBalance() : "0");
+		} catch (Exception ignored) {}
+		double newBalance = currentBalance + disburseAmount;
+		savingAcc.setBalance(String.format(java.util.Locale.US, "%.2f", newBalance));
+		createSavingRepo.save(savingAcc);
+
+		// Log SavingAccountActivity
+		try {
+			String txnId = "TXNGL_" + goldLoan.getGoldID();
+			com.microfinance.model.SavingAccountActivity loanAct = new com.microfinance.model.SavingAccountActivity();
+			loanAct.setSelectSavingTransactionId(txnId);
+			loanAct.setTransactionDate(request.getPaymentDate() != null && !request.getPaymentDate().trim().isEmpty() ? request.getPaymentDate() : LocalDate.now().toString());
+			loanAct.setSelectBranchName(goldLoan.getBranchName() != null ? goldLoan.getBranchName() : "");
+			loanAct.setAccountNumber(savingAcc.getAccountNumber());
+			loanAct.setCustomerCode(savingAcc.getSelectByCustomer());
+			loanAct.setCustomerName(savingAcc.getEnterCustomerName());
+			loanAct.setContactNumber(savingAcc.getContactNumber());
+			loanAct.setTransactionFor("Gold Loan Disbursement");
+			loanAct.setComments("Gold Loan Disbursed Credited - Gold ID: " + goldLoan.getGoldID());
+			loanAct.setTransactionType("Deposit");
+			loanAct.setTransactionAmount(String.format(java.util.Locale.US, "%.2f", disburseAmount));
+			loanAct.setAverageBalance(String.format(java.util.Locale.US, "%.2f", newBalance));
+			loanAct.setPayBy("Saving Account");
+			loanAct.setApproved(true);
+			savingAccountActivityRepo.save(loanAct);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// Populate and save GoldLoanPayment record
+		request.setModeOfPayment("Saving Account");
+		request.setDepositAccount(savingAcc.getAccountNumber());
+		request.setPaymentStatus("PAID");
+		request.setPaymentAmount(String.format(java.util.Locale.US, "%.2f", disburseAmount));
+		if (request.getPaymentDate() == null || request.getPaymentDate().trim().isEmpty()) {
+			request.setPaymentDate(LocalDate.now().toString());
+		}
+		request.setAmountDue(goldLoan.getLoanAmount());
+		GoldLoanPayment savedPayment = goldPaymentRepo.save(request);
+
+		// Update ApplyForGold status
+		goldLoan.setPaymentStatus("PAID");
+		ApplyForGold updatedLoan = applyForGoldRepo.save(goldLoan);
+
+		// Send notification
+		try {
+			if (loanNotificationService != null) {
+				loanNotificationService.sendGoldLoanDisbursementNotification(updatedLoan, savedPayment);
+			}
+		} catch (Exception ignored) {}
+
+		return new ApiResponse(HttpStatus.OK, "SUCCESS", "Gold Loan disbursed successfully! Amount Rs. " 
+			+ String.format(java.util.Locale.US, "%.2f", disburseAmount) 
+			+ " credited to Savings Account " + savingAcc.getAccountNumber());
 	}
 
 }

@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.microfinance.dto.GoldLoanDropdownDto;
 import com.microfinance.model.ApplyForGold;
 
 @Repository
@@ -21,13 +22,24 @@ public interface ApplyForGoldRepo extends JpaRepository<ApplyForGold, Long> {
 	List<ApplyForGold> findByGoldID(@Param("goldID") String goldID);
 
 	ApplyForGold findSingleByGoldID(String goldID);
-	// List<addCustomer> findByMemberCode(String memberCode);
 
 	List<ApplyForGold> findByApprovalStatusTrue();
 
 	List<ApplyForGold> findByGoldLoanStatus(String string);
 
 	List<ApplyForGold> findByApprovalStatusFalse();
+
+	@Query("SELECT new com.microfinance.dto.GoldLoanDropdownDto(a.goldID, a.customerName, a.memberCode, a.goldLoanStatus, a.approvalStatus, a.paymentStatus, a.loanDate, a.loanAmount) FROM ApplyForGold a WHERE UPPER(a.goldLoanStatus) = 'ACTIVE' ORDER BY a.id DESC")
+	List<GoldLoanDropdownDto> findActiveGoldLoanDropdown();
+
+	@Query("SELECT new com.microfinance.dto.GoldLoanDropdownDto(a.goldID, a.customerName, a.memberCode, a.goldLoanStatus, a.approvalStatus, a.paymentStatus, a.loanDate, a.loanAmount) FROM ApplyForGold a WHERE a.approvalStatus = false ORDER BY a.id DESC")
+	List<GoldLoanDropdownDto> findNotApprovedGoldLoanDropdown();
+
+	@Query("SELECT new com.microfinance.dto.GoldLoanDropdownDto(a.goldID, a.customerName, a.memberCode, a.goldLoanStatus, a.approvalStatus, a.paymentStatus, a.loanDate, a.loanAmount) FROM ApplyForGold a WHERE a.approvalStatus = true ORDER BY a.id DESC")
+	List<GoldLoanDropdownDto> findApprovedGoldLoanDropdown();
+
+	@Query("SELECT new com.microfinance.dto.GoldLoanDropdownDto(a.goldID, a.customerName, a.memberCode, a.goldLoanStatus, a.approvalStatus, a.paymentStatus, a.loanDate, a.loanAmount) FROM ApplyForGold a ORDER BY a.id DESC")
+	List<GoldLoanDropdownDto> findAllGoldLoanDropdown();
 
 	long countByFinancialConsultantIdInAndLoanDateContaining(List<String> financialConsultantCode, String yearMonth);
 

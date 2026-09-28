@@ -292,17 +292,19 @@
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">FINANCIAL CONSULTANT ID</label> <input type="text"
-							name="financialConsultantId" id="financialConsultantId"
-							required="required" placeholder="ENTER FINANCIAL CONSULTANT ID" />
+						<label for="financialConsultantId">FINANCIAL CONSULTANT CODE</label>
+						<select id="financialConsultantId" name="financialConsultantId"
+							class="form-control selectField" style="height: 30px;">
+							<option value="">-- SELECT FINANCIAL CONSULTANT --</option>
+						</select>
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">FINANCIAL CONSULTANT NAME</label> <input type="text"
-							name="financialConsultantName" id="financialConsultantName"
-							required="required" placeholder="ENTER FINANCIAL CONSULTANT NAME" />
+						<label for="financialConsultantName">FINANCIAL CONSULTANT NAME</label>
+						<input type="text" name="financialConsultantName" id="financialConsultantName"
+							readonly="readonly" placeholder="FINANCIAL CONSULTANT NAME" />
 					</div>
 				</div>
 

@@ -107,7 +107,7 @@ public class FinancialConsultantController {
 	    return new ResponseEntity<>(response, response.getStatus());
 	}
 	
-	@PostMapping("/getAllFinancialConsultantDetails")
+	@org.springframework.web.bind.annotation.RequestMapping(value = "/getAllFinancialConsultantDetails", method = {org.springframework.web.bind.annotation.RequestMethod.GET, org.springframework.web.bind.annotation.RequestMethod.POST})
 	public ResponseEntity<ApiResponse<List<addFinancialConsultant>>> getAllFinancialConsultantDetails() {
 		List<addFinancialConsultant> list = financialConsultantService.getAllFinancialConsultantDetails();
 		ApiResponse<List<addFinancialConsultant>> response= ApiResponse.success(HttpStatus.OK, "Details Fetched Successfully", list);

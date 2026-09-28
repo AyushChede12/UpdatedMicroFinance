@@ -28,6 +28,15 @@ public interface LoanApplicationRepo extends JpaRepository<LoanApplication,Long>
 
 	List<LoanApplication> findByApprovalStatusFalse();
 
+	@Query("SELECT DISTINCT l.loanId FROM LoanApplication l WHERE UPPER(l.loanStatus) = 'ACTIVE' AND l.loanId IS NOT NULL ORDER BY l.loanId DESC")
+	List<String> findActiveLoanIds();
+
+	@Query("SELECT DISTINCT l.loanId FROM LoanApplication l WHERE l.approvalStatus = true AND UPPER(l.loanStatus) = 'ACTIVE' AND l.loanId IS NOT NULL ORDER BY l.loanId DESC")
+	List<String> findApprovedActiveLoanIds();
+
+	@Query("SELECT DISTINCT l.loanId FROM LoanApplication l WHERE UPPER(l.loanStatus) = 'CLOSED' AND l.loanId IS NOT NULL ORDER BY l.loanId DESC")
+	List<String> findClosedLoanIds();
+
 	long countByFinancialConsultantIdInAndLoanDateContaining(List<String> financialConsultantCode, String yearMonth);
 
 	List<LoanApplication> findByFinancialConsultantIdIn(List<String> financialCodes);

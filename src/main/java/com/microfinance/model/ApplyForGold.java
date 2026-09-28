@@ -8,10 +8,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
+@Table(name = "apply_for_gold", indexes = {
+	@Index(name = "idx_afg_goldid", columnList = "goldID"),
+	@Index(name = "idx_afg_status", columnList = "goldLoanStatus"),
+	@Index(name = "idx_afg_approval", columnList = "approvalStatus"),
+	@Index(name = "idx_afg_member", columnList = "memberCode")
+})
 public class ApplyForGold {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -102,6 +110,7 @@ public class ApplyForGold {
 	private String financialConsultantName;
 	private String sanctionedAmount;
 	private String netDisbursement;
+	private String paymentStatus;
 	private String goldLoanStatus;
 
 	@OneToMany(mappedBy = "applyForGold", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -650,6 +659,14 @@ public class ApplyForGold {
 
 	public void setNetDisbursement(String netDisbursement) {
 		this.netDisbursement = netDisbursement;
+	}
+
+	public String getPaymentStatus() {
+		return paymentStatus != null ? paymentStatus : "UNPAID";
+	}
+
+	public void setPaymentStatus(String paymentStatus) {
+		this.paymentStatus = paymentStatus;
 	}
 
 	public List<ApplyForGoldItem> getItems() {

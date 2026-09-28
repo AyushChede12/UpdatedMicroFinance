@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.microfinance.dto.ApiResponse;
 import com.microfinance.dto.ApplyForGoldRequestDto;
+import com.microfinance.dto.GoldLoanDropdownDto;
 import com.microfinance.model.ApplyForGold;
 import com.microfinance.model.EmiInstallmentPaymentGold;
 import com.microfinance.model.GoldDirectory;
@@ -214,8 +215,8 @@ public class SecuredGoldLoanController {
 	}
 
 	@GetMapping("/getAllGoldLoanCustomer")
-	public ResponseEntity<ApiResponse<List<ApplyForGold>>> getAllGoldLoanCustomer() {
-		List<ApplyForGold> list = secureGoldLoanService.getAllGoldLoanCustomer();
+	public ResponseEntity<ApiResponse<List<GoldLoanDropdownDto>>> getAllGoldLoanCustomer() {
+		List<GoldLoanDropdownDto> list = secureGoldLoanService.getAllGoldLoanCustomerDropdown();
 
 		return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK,
 				list.isEmpty() ? "No records found" : "Records fetched successfully", list));
@@ -263,32 +264,27 @@ public class SecuredGoldLoanController {
 	}
 
 	@GetMapping("/getAllApprovedGoldCustomer")
-	public ResponseEntity<ApiResponse<List<ApplyForGold>>> getApprovedGoldCustomer() {
-		List<ApplyForGold> gold = secureGoldLoanService.getApprovedGoldCustomer();
+	public ResponseEntity<ApiResponse<List<GoldLoanDropdownDto>>> getApprovedGoldCustomer() {
+		List<GoldLoanDropdownDto> gold = secureGoldLoanService.getApprovedGoldCustomerDropdown();
 		if (gold != null && !gold.isEmpty()) {
-
-			ApiResponse<List<ApplyForGold>> response = new ApiResponse<>(HttpStatus.OK,
-					"Approved Gold Data fetched successfully.", gold);
-			return ResponseEntity.ok(response);
+			return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK, "Approved Gold Data fetched successfully.", gold));
 		} else {
-			ApiResponse<List<ApplyForGold>> response = new ApiResponse<>(HttpStatus.OK,
-					"No approved Policy Renewal found.", java.util.Collections.emptyList());
-			return ResponseEntity.ok(response);
+			return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK, "No approved Gold Customer found.", java.util.Collections.emptyList()));
 		}
 	}
 
-	@GetMapping("/getAllNotApprovedGoldCustomer")
-	public ResponseEntity<ApiResponse<List<ApplyForGold>>> getNotApprovedGoldCustomer() {
-		List<ApplyForGold> gold = secureGoldLoanService.getNotApprovedGoldCustomer();
-		if (gold != null && !gold.isEmpty()) {
+	@GetMapping("/getchAllApprovedGoldCustomer")
+	public ResponseEntity<ApiResponse<List<GoldLoanDropdownDto>>> getchAllApprovedGoldCustomer() {
+		return getApprovedGoldCustomer();
+	}
 
-			ApiResponse<List<ApplyForGold>> response = new ApiResponse<>(HttpStatus.OK,
-					"Approved Gold Data fetched successfully.", gold);
-			return ResponseEntity.ok(response);
+	@GetMapping("/getAllNotApprovedGoldCustomer")
+	public ResponseEntity<ApiResponse<List<GoldLoanDropdownDto>>> getNotApprovedGoldCustomer() {
+		List<GoldLoanDropdownDto> gold = secureGoldLoanService.getNotApprovedGoldCustomerDropdown();
+		if (gold != null && !gold.isEmpty()) {
+			return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK, "Unapproved Gold Data fetched successfully.", gold));
 		} else {
-			ApiResponse<List<ApplyForGold>> response = new ApiResponse<>(HttpStatus.OK,
-					"No unapproved Gold Customer found.", java.util.Collections.emptyList());
-			return ResponseEntity.ok(response);
+			return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK, "No unapproved Gold Customer found.", java.util.Collections.emptyList()));
 		}
 	}
 
@@ -328,9 +324,34 @@ public class SecuredGoldLoanController {
 		}
 	}
 
+	@PostMapping("/disburseGoldLoanPayment")
+	public ResponseEntity<ApiResponse> disburseGoldLoanPayment(@RequestBody GoldLoanPayment request) {
+		try {
+			ApiResponse response = secureGoldLoanService.disburseGoldLoanToSavings(request);
+			return ResponseEntity.status(response.getStatus()).body(response);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(new ApiResponse(HttpStatus.INTERNAL_SERVER_ERROR, "FAILED", "Disbursement failed: " + e.getMessage()));
+		}
+	}
+
 	@PostMapping("/payEmi")
 	public ResponseEntity<ApiResponse<Map<String, Object>>> payGoldLoanEmi(@RequestBody GoldLoanPayment request) {
 		try {
+			// Check if this loan is still UNPAID. If UNPAID, this is the initial disbursement payment!
+			ApplyForGold loan = secureGoldLoanService.getApplyForGoldByGoldId(request.getGoldID());
+			if (loan != null && !"PAID".equalsIgnoreCase(loan.getPaymentStatus())) {
+				ApiResponse disbResponse = secureGoldLoanService.disburseGoldLoanToSavings(request);
+				Map<String, Object> data = new HashMap<>();
+				data.put("loanStatus", "ACTIVE");
+				data.put("paymentStatus", "PAID");
+				if (disbResponse.getStatus() == HttpStatus.OK) {
+					return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK, disbResponse.getMessage(), data));
+				} else {
+					return ResponseEntity.badRequest().body(new ApiResponse<>(disbResponse.getStatus(), disbResponse.getMessage(), data));
+				}
+			}
+
 			boolean isClosed = secureGoldLoanService.processGoldLoanEmi(request, 1); // default 1 installment
 
 			Map<String, Object> data = new HashMap<>();
@@ -350,8 +371,8 @@ public class SecuredGoldLoanController {
 	}
 
 	@GetMapping("/getAllActive")
-	public ApiResponse<List<ApplyForGold>> getAllActiveLoans() {
-		List<ApplyForGold> activeLoans = secureGoldLoanService.getAllActiveGoldLoans();
+	public ApiResponse<List<GoldLoanDropdownDto>> getAllActiveLoans() {
+		List<GoldLoanDropdownDto> activeLoans = secureGoldLoanService.getAllActiveGoldLoansDropdown();
 
 		return new ApiResponse<>(HttpStatus.OK,
 				activeLoans.isEmpty() ? "No Active Loans Found" : "Active Loans Loaded Successfully", activeLoans);
