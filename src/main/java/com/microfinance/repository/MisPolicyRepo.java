@@ -14,6 +14,10 @@ public interface MisPolicyRepo extends JpaRepository<MisPolicy, Long> {
 
     Optional<MisPolicy> findByPolicyNumber(String policyNumber);
 
+    Optional<MisPolicy> findByPolicyNumberIgnoreCase(String policyNumber);
+
+    Optional<MisPolicy> findByAddInvestmentId(Long addInvestmentId);
+
     List<MisPolicy> findByCustomerId(String customerId);
 
     List<MisPolicy> findByStatus(String status);

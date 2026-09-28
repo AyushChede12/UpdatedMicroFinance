@@ -5,9 +5,13 @@ $(document).ready(function() {
 		success: function(response) {
 			if (response.data && response.data.length > 0) {
 				const policySelect = $("#policyCode");
+				const seen = new Set();
 				response.data.forEach(policy => {
-					const optionText = `${policy.policyCode} - ${policy.customerName}`;
-					policySelect.append(`<option value="${policy.policyCode}">${optionText}</option>`);
+					if (policy.policyCode && !seen.has(policy.policyCode)) {
+						seen.add(policy.policyCode);
+						const optionText = `${policy.policyCode} - ${policy.customerName}`;
+						policySelect.append(`<option value="${policy.policyCode}">${optionText}</option>`);
+					}
 				});
 			}
 		},

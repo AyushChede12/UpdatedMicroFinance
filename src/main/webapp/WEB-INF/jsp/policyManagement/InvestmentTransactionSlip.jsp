@@ -153,6 +153,33 @@
 			<br> <br> <br> <br> <br> <br> <br>
 
 
+			<!-- Hidden data holder: spans populated by row Print click, read by _buildIrbPrintHtml() -->
+			<div id="printDataHolder" style="display:none;">
+				<span id="branchCodeSpan"></span>
+				<span id="docSpan"></span>
+				<span id="policyNoSpan"></span>
+				<span id="memberCodeSpan"></span>
+				<span id="applicantNameSpan"></span>
+				<span id="fatherNameSpan"></span>
+				<span id="nomineeNameSpan"></span>
+				<span id="addressSpan"></span>
+				<span id="schemeSpan"></span>
+				<span id="planSpan"></span>
+				<span id="relationshipSpan"></span>
+				<span id="roiSpan"></span>
+				<span id="modeSpan"></span>
+				<span id="maturitySpan"></span>
+				<span id="renewalAmountSpan"></span>
+				<span id="totalValueSpan"></span>
+				<span id="termSpan"></span>
+				<span id="maturityDateSpan"></span>
+				<span id="mobileSpan"></span>
+				<span id="collectorSpan"></span>
+				<span id="paymentDueSpan"></span>
+				<span id="approvedSpan"></span>
+				<span id="installmentsPaidSpan"></span>
+			</div>
+
 			<!-- <div id="transactionSection" class="transaction-section">
 						<div style="width: 70%; margin: auto">
 							<h1>SAMITHA URBAN NIDHI LTD.</h1>
@@ -246,7 +273,7 @@
 			<br> <br> <br> <br> <br> <br> <br>
 			<div class="mb-4"
 				style="display: flex; justify-content: center; margin-top: -55px;">
-				<button id="printBtn" class="btn btn-success">Print</button>
+				<button id="printBtnBottom" class="btn btn-success" onclick="printTransactionSection()">Print</button>
 			</div>
 
 
@@ -269,10 +296,10 @@
 					</div>
 
 					<div class="modal-footer">
-						<button id="printBtn" class="btn btn-success">
+						<button id="printBtn" class="btn btn-success" onclick="printTransactionSection()">
 							<i class="bi bi-printer"></i> PRINT
 						</button>
-						<button id="downloadBtn" class="btn btn-danger">
+						<button id="downloadBtn" class="btn btn-danger" onclick="downloadTransactionRecord()">
 							<i class="bi bi-file-earmark-pdf"></i> PDF
 						</button>
 					</div>
@@ -286,43 +313,6 @@
 <!-- Load html2pdf -->
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-<script>
-    document.getElementById("printBtn").addEventListener("click", function () {
-        const printContent = document.getElementById("transactionSection").innerHTML;
-
-        const printWindow = window.open('', '', 'width=800,height=600');
-        printWindow.document.write('<html><head><title>Print</title>');
-        printWindow.document.write('<style>');
-        printWindow.document.write(`
-            body {
-                font-family: Arial, sans-serif;
-                padding: 20px;
-            }
-            table {
-                width: 100%;
-                border-collapse: collapse;
-            }
-            table, th, td {
-                border: 1px solid black;
-                padding: 8px;
-                text-align: left;
-            }
-        `);
-        printWindow.document.write('</style>');
-        printWindow.document.write('</head><body>');
-        printWindow.document.write(printContent);
-        printWindow.document.write('</body></html>');
-        printWindow.document.close();
-
-        // Wait for new window to load before printing
-        printWindow.onload = function () {
-            printWindow.focus();
-            printWindow.print();
-            printWindow.close();
-        };
-    });
-</script>
 
 	<script
 	src="${pageContext.request.contextPath}/js/PolicyManagment/policyReport.js"></script>

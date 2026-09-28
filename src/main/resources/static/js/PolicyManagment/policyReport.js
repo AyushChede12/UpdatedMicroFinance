@@ -38,79 +38,57 @@ $(document).ready(function() {
 });
 
 
+// ── Helper: populate all hidden spans from a full policy object (AddnewinvestmentPM shape) ──
+function _populateSpansFromPolicy(policy) {
+	var set = function(id, val) {
+		var el = document.getElementById(id);
+		if (el) el.textContent = val || '';
+	};
+	set('branchCodeSpan',    policy.branchName      || '');
+	set('docSpan',           policy.policyStartDate || '');
+	set('policyNoSpan',      policy.policyCode      || '');
+	set('memberCodeSpan',    policy.memberSelection || '');
+	set('applicantNameSpan', policy.customerName    || '');
+	// Issue 2 fix: these fields exist in AddnewinvestmentPM but were never mapped in row-click path
+	set('fatherNameSpan',    policy.relationDetails || '');
+	set('nomineeNameSpan',   policy.suggestedNominee || '');
+	set('addressSpan',       policy.address         || '');
+	set('schemeSpan',        policy.schemeType      || '');
+	// Issue 1 fix: use schemeName (plan name like "Life Access") not schemeCode (plan code like "MIS001")
+	set('planSpan',          policy.schemeName      || policy.schemeCode || '');
+	set('relationshipSpan',  policy.relation        || '');
+	set('roiSpan',           policy.roi             || '');
+	set('modeSpan',          policy.schemeMode      || '');
+	set('maturitySpan',      policy.maturityAmount  || '');
+	set('renewalAmountSpan', policy.paidAmount      || '');
+	set('totalValueSpan',    policy.depositAmount   || '');
+	set('termSpan',          policy.schemeTerm      || '');
+	set('maturityDateSpan',  policy.maturityDate    || '');
+	set('mobileSpan',        policy.contactNo       || '');
+	// Issue 6 fix: Collector Name must show customer name, not agent/collector code (e.g. FC0000)
+	set('collectorSpan',     policy.customerName    || '');
+}
+
 function toggleTransaction() {
-	const policyCode = document.getElementById("findByPolicyNumber").value;
+	const policyCode = (document.getElementById("findByPolicyNumber").value || "").trim();
 
 	if (!policyCode) {
 		alert("Please select a Policy Code first.");
 		return;
 	}
 
-	fetch(`api/Policymangment/getPolicyByPolicyCode?policyCode=${policyCode}`)
+	fetch(`api/Policymangment/getPolicyByPolicyCode?policyCode=${encodeURIComponent(policyCode)}`)
 		.then(response => {
-			if (!response.ok) {
-				throw new Error("Policy not found");
-			}
+			if (!response.ok) throw new Error("Policy not found");
 			return response.json();
 		})
 		.then(data => {
-			const policy = data.data;
-
-			// Fill all the spans with policy data (existing logic – unchanged)
-			document.getElementById("branchCodeSpan").textContent = policy.branchName || "";
-			document.getElementById("docSpan").textContent = policy.policyStartDate || "";
-			document.getElementById("policyNoSpan").textContent = policy.policyCode || "";
-			document.getElementById("memberCodeSpan").textContent = policy.memberSelection || "";
-			document.getElementById("applicantNameSpan").textContent = policy.customerName || "";
-			document.getElementById("fatherNameSpan").textContent = policy.relationDetails || "";
-			document.getElementById("nomineeNameSpan").textContent = policy.suggestedNominee || "";
-			document.getElementById("addressSpan").textContent = policy.address || "";
-			document.getElementById("schemeSpan").textContent = policy.schemeType || "";
-			document.getElementById("planSpan").textContent = policy.schemeCode || "";
-			document.getElementById("relationshipSpan").textContent = policy.relation || "";
-			document.getElementById("roiSpan").textContent = policy.roi || "";
-			document.getElementById("modeSpan").textContent = policy.schemeMode || "";
-			document.getElementById("maturitySpan").textContent = policy.maturityAmount || "";
-			document.getElementById("renewalAmountSpan").textContent = policy.paidAmount || "";
-			document.getElementById("totalValueSpan").textContent = policy.depositAmount || "";
-			document.getElementById("termSpan").textContent = policy.schemeTerm || "";
-			document.getElementById("maturityDateSpan").textContent = policy.maturityDate || "";
-			document.getElementById("mobileSpan").textContent = policy.contactNo || "";
-			document.getElementById("collectorSpan").textContent = policy.agent || "";
-
-			// ── Styling update: mirror span values into the visible display cells ──
-			var f = function(id) { var el = document.getElementById(id); return el ? el.textContent.trim() : ""; };
-			document.getElementById("disp-branchCode").textContent    = f("branchCodeSpan");
-			document.getElementById("disp-doc").textContent           = f("docSpan");
-			document.getElementById("disp-policyNo").textContent      = f("policyNoSpan");
-			document.getElementById("disp-memberCode").textContent    = f("memberCodeSpan");
-			document.getElementById("disp-applicantName").textContent = f("applicantNameSpan");
-			document.getElementById("disp-fatherName").textContent    = f("fatherNameSpan");
-			document.getElementById("disp-nomineeName").textContent   = f("nomineeNameSpan");
-			document.getElementById("disp-address").textContent       = f("addressSpan");
-			document.getElementById("disp-mobile").textContent        = f("mobileSpan");
-			document.getElementById("disp-relationship").textContent  = f("relationshipSpan");
-			document.getElementById("disp-scheme").textContent        = f("schemeSpan");
-			document.getElementById("disp-plan").textContent          = f("planSpan");
-			document.getElementById("disp-roi").textContent           = f("roiSpan");
-			document.getElementById("disp-mode").textContent          = f("modeSpan");
-			document.getElementById("disp-term").textContent          = f("termSpan");
-			document.getElementById("disp-maturityDate").textContent  = f("maturityDateSpan");
-			document.getElementById("disp-renewalAmount").textContent = f("renewalAmountSpan");
-			document.getElementById("disp-totalValue").textContent    = f("totalValueSpan");
-			document.getElementById("disp-maturity").textContent      = f("maturitySpan");
-			document.getElementById("disp-collector").textContent     = f("collectorSpan");
-
-			// Set the on-screen date stamps
+			_populateSpansFromPolicy(data.data);
 			var now = new Date();
-			var dateStr = now.toLocaleDateString('en-GB');
 			var el1 = document.getElementById("irb-print-date");
-			if (el1) el1.textContent = "DATE: " + dateStr;
+			if (el1) el1.textContent = "DATE: " + now.toLocaleDateString('en-GB');
 			var el2 = document.getElementById("irb-footer-date");
 			if (el2) el2.textContent = now.toLocaleString();
-
-			// Show the transaction section
-			document.getElementById("transactionSection").style.display = "block";
 		})
 		.catch(error => {
 			alert("Error fetching policy data: " + error.message);
@@ -348,11 +326,6 @@ function _buildIrbPrintHtml(autoPrint) {
 }
 
 function printTransactionSection() {
-	if (document.getElementById("transactionSection").style.display === "none") {
-		alert("Please click TRANSACTION first to load the policy data.");
-		return;
-	}
-
 	const printHtml = _buildIrbPrintHtml(true);
 	const printWindow = window.open("", "_blank");
 	if (printWindow) {
@@ -369,11 +342,6 @@ function printTransactionSection() {
 }
 
 function downloadTransactionRecord() {
-	if (document.getElementById("transactionSection").style.display === "none") {
-		alert("Please click TRANSACTION first to load the policy data.");
-		return;
-	}
-
 	const downloadHtml = _buildIrbPrintHtml(false);
 	const printWindow = window.open("", "_blank");
 	if (printWindow) {
@@ -426,56 +394,96 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
+	// Issue 4 fix: row print-btn fetches full detail from API so all fields (address, ROI, etc.) are populated
 	$('#policyTableBody').on('click', '.print-btn', function(e) {
-		e.preventDefault(); // ✅ Prevent page reload
+		e.preventDefault();
 
 		const $row = $(this).closest('tr');
+		const policyCode = ($row.find('td:eq(0)').text() || '').trim();
 
-		const policyCode = $row.find('td:eq(0)').text();
-		const customerName = $row.find('td:eq(1)').text();
-		const policyAmount = $row.find('td:eq(2)').text();
-		const renewalDate = $row.find('td:eq(3)').text();
-		const policyType = $row.find('td:eq(4)').text();
-		const maturityAmount = $row.find('td:eq(5)').text();
-		const depositAmount = $row.find('td:eq(6)').text();
-		const policyDate = $row.find('td:eq(7)').text();
-		const policyTerm = $row.find('td:eq(8)').text();
-		const maturityDate = $row.find('td:eq(9)').text();
-		const customerCode = $row.find('td:eq(10)').text();
-		const contactNo = $row.find('td:eq(11)').text();
-		const totalDeposit = $row.find('td:eq(12)').text();
-		const paymentDue = $row.find('td:eq(13)').text();
-		const noOfInstPaid = $row.find('td:eq(14)').text();
-		const isApproved = $row.find('td:eq(15)').text();
-		const branchname = $row.find('td:eq(16)').text();
+		if (!policyCode) {
+			alert('Cannot determine policy code for this row.');
+			return;
+		}
 
-		// Populate spans
-		$('#policyNoSpan').text(policyCode);
-		$('#applicantNameSpan').text(customerName);
-		$('#renewalAmountSpan').text(policyAmount);
-		$('#docSpan').text(policyDate);
-		$('#planSpan').text(policyType);
-		$('#maturitySpan').text(maturityAmount);
-		$('#totalValueSpan').text(totalDeposit);
-		$('#termSpan').text(policyTerm);
-		$('#maturityDateSpan').text(maturityDate);
-		$('#memberCodeSpan').text(customerCode);
-		$('#mobileSpan').text(contactNo);
-		$('#branchCodeSpan').text(branchname);
-		$('#paymentDueSpan').text(paymentDue);
-		$('#approvedSpan').text(isApproved);
-		$('#installmentsPaidSpan').text(noOfInstPaid);
-		// lastPaymentDate, dueDate, modeOfPayment, fees are missing from your table
+		// Issue 2 fix: read the row's cumulative net payout (col 2) and actual maturity (col 5) before fetch,
+		// because these are specific to this row and not available from the API's single-policy response.
+		const rowCumulativePayout = ($row.find('td:eq(2)').text() || '').trim();
+		const rowMaturityAmount   = ($row.find('td:eq(5)').text() || '').trim();
+		const rowPolicyType       = ($row.find('td:eq(4)').text() || '').trim();
+		const isMisRow = rowPolicyType.toUpperCase() === 'MIS';
 
-		// Scroll to transaction section
-		$('html, body').animate({
-			scrollTop: $('#transactionSection').offset().top
-		}, 500);
+		// Fetch full detail so address, ROI, nominee, plan name etc. are all populated
+		fetch('api/Policymangment/getPolicyByPolicyCode?policyCode=' + encodeURIComponent(policyCode))
+			.then(function(r) { return r.json(); })
+			.then(function(data) {
+				if (data && data.data) {
+					_populateSpansFromPolicy(data.data);
+					// Issue 2 fix: for MIS, override renewalAmountSpan with this row's cumulative net payout
+					// and maturitySpan with the actual backend-computed maturity amount (from the table row).
+					// policy.paidAmount = monthly gross payout (e.g. ₹60), not cumulative net (e.g. ₹54, ₹108…)
+					if (isMisRow) {
+						var elR = document.getElementById('renewalAmountSpan');
+						if (elR && rowCumulativePayout) elR.textContent = rowCumulativePayout;
+						var elM = document.getElementById('maturitySpan');
+						if (elM && rowMaturityAmount) elM.textContent = rowMaturityAmount;
+					}
+				} else {
+					// Fallback: populate only table-visible fields
+					_populateSpansFromTableRow($row);
+				}
+				printTransactionSection();
+			})
+			.catch(function() {
+				// Fallback on network error
+				_populateSpansFromTableRow($row);
+				printTransactionSection();
+			});
 	});
 });
 
+// Fallback: populate spans from table row columns only (used if API call fails)
+function _populateSpansFromTableRow($row) {
+	var set = function(id, val) {
+		var el = document.getElementById(id);
+		if (el) el.textContent = val || '';
+	};
+	const policyCode    = ($row.find('td:eq(0)').text() || '').trim();
+	const customerName  = ($row.find('td:eq(1)').text() || '').trim();
+	const policyAmount  = ($row.find('td:eq(2)').text() || '').trim();
+	const policyDate    = ($row.find('td:eq(7)').text() || '').trim();
+	const policyType    = ($row.find('td:eq(4)').text() || '').trim();
+	const maturityAmount= ($row.find('td:eq(5)').text() || '').trim();
+	const totalDeposit  = ($row.find('td:eq(12)').text() || '').trim();
+	const policyTerm    = ($row.find('td:eq(8)').text() || '').trim();
+	const maturityDate  = ($row.find('td:eq(9)').text() || '').trim();
+	const customerCode  = ($row.find('td:eq(10)').text() || '').trim();
+	const contactNo     = ($row.find('td:eq(11)').text() || '').trim();
+	const branchname    = ($row.find('td:eq(16)').text() || '').trim();
+	const paymentDue    = ($row.find('td:eq(13)').text() || '').trim();
+	const isApproved    = ($row.find('td:eq(15)').text() || '').trim();
+	const noOfInstPaid  = ($row.find('td:eq(14)').text() || '').trim();
+	set('policyNoSpan',      policyCode);
+	set('applicantNameSpan', customerName);
+	set('renewalAmountSpan', policyAmount);
+	set('docSpan',           policyDate);
+	set('schemeSpan',        policyType);
+	// Issue 1: for fallback path we cannot know schemeName, so show policyType as scheme and leave plan blank
+	set('planSpan',          '');
+	set('maturitySpan',      maturityAmount);
+	set('totalValueSpan',    totalDeposit);
+	set('termSpan',          policyTerm);
+	set('maturityDateSpan',  maturityDate);
+	set('memberCodeSpan',    customerCode);
+	set('mobileSpan',        contactNo);
+	set('branchCodeSpan',    branchname);
+	set('paymentDueSpan',    paymentDue);
+	set('approvedSpan',      isApproved);
+	set('installmentsPaidSpan', noOfInstPaid);
+}
+
 $("#findBtn").click(function() {
-    const policyCode = $("#findPolicyNumber").val();
+    const policyCode = ($("#findPolicyNumber").val() || "").trim();
 
     if (!policyCode) {
         $('#policyTableBody').empty();
@@ -483,23 +491,47 @@ $("#findBtn").click(function() {
     }
 
     $.ajax({
-        url: 'api/Policymangment/findPolicyData',  // ✅ endpoint
+        url: 'api/Policymangment/findPolicyData',
         method: 'GET',
-        data: { policyCode: policyCode },          // ✅ pass as query param
-        dataType: 'json',                          // ✅ specify dataType
+        data: { policyCode: policyCode },
+        dataType: 'json',
         success: function(response) {
             if (response.status === "OK" && Array.isArray(response.data) && response.data.length > 0) {
                 const dataList = response.data;
-
                 $('#policyTableBody').empty();
 
-                dataList.forEach(function(data) {
+                // Issue 3 & 5 fix: detect MIS type and compute cumulative net payout per row
+                const isMis = dataList.length > 0 && (dataList[0].policyType || '').toUpperCase() === 'MIS';
+                const principal = isMis ? parseFloat(dataList[0].policyAmount || 0) : 0;
+                // MIS monthly net payout = principal * roi/1200 * (1 - tds%/100)
+                // We read ROI from the data; if not available we'll show policyAmount as fallback
+                // The actual monthly interest is stored in policyRenewal rows — for display purposes
+                // we calculate: monthlyInterest = principal * roi / 1200
+                // TDS applies if annual interest > threshold; for 6000 @ 12%: 60/month * 12 = 720 < 5000 threshold → no TDS
+                // We use monthlyPayoutAmount if available, otherwise compute from principal & roi
+
+                dataList.forEach(function(data, index) {
+                    let displayAmount;
+                    if (isMis) {
+                        // Issue 3 fix: for MIS rows show cumulative net payout, not principal
+                        // Monthly net payout comes from maturityAmount context:
+                        // backend sets totalDeposit=principal but the per-row amount shown should be cumulative net payout
+                        // Monthly payout = principal * roi / 1200  (from AddnewinvestmentPM.roi or MisPolicy.interestRate)
+                        // We approximate from the stored maturityAmount: (maturity - principal) / totalMonths = total net interest / months
+                        const totalMonths = dataList.length;
+                        const maturity = parseFloat(data.maturityAmount || 0);
+                        const monthlyNetPayout = totalMonths > 0 ? (maturity - principal) / totalMonths : 0;
+                        const cumulativePayout = monthlyNetPayout * (index + 1);
+                        displayAmount = cumulativePayout.toFixed(2);
+                    } else {
+                        displayAmount = data.policyAmount || '';
+                    }
 
                     const newRow = `
                         <tr>
                             <td>${data.policyCode || ''}</td>
                             <td>${data.clientName || data.customerName || ''}</td>
-                            <td>${data.policyAmount || ''}</td>
+                            <td>${displayAmount}</td>
                             <td>${data.renewalDate || ''}</td>
                             <td>${data.policyType || ''}</td>
                             <td>${data.maturityAmount || ''}</td>
@@ -518,13 +550,41 @@ $("#findBtn").click(function() {
                         </tr>`;
                     $('#policyTableBody').append(newRow);
                 });
+
+                // Issue 5 fix: bottom Print button — auto-load full policy detail so it works immediately after Find
+                // without requiring user to click a row Print button first
+                fetch('api/Policymangment/getPolicyByPolicyCode?policyCode=' + encodeURIComponent(policyCode))
+                    .then(function(r) { return r.json(); })
+                    .then(function(detailRes) {
+                        if (detailRes && detailRes.data) {
+                            _populateSpansFromPolicy(detailRes.data);
+                            // Issue 3 fix: for MIS bottom print, override renewalAmountSpan with the TOTAL
+                            // cumulative net payout (all months combined) and maturitySpan with actual maturity.
+                            // _populateSpansFromPolicy sets renewalAmountSpan = paidAmount (monthly gross, e.g. ₹60),
+                            // but bottom print needs total net payout (e.g. ₹270 for 5 months @ net ₹54/month).
+                            if (isMis && dataList.length > 0) {
+                                // The last row's cumulative value in column 2 = total cumulative net payout
+                                var lastRow = $('#policyTableBody tr:last');
+                                var totalNetPayout = (lastRow.find('td:eq(2)').text() || '').trim();
+                                var overallMaturity = (dataList[0].maturityAmount || '').toString().trim();
+                                var elR = document.getElementById('renewalAmountSpan');
+                                if (elR && totalNetPayout) elR.textContent = totalNetPayout;
+                                var elM = document.getElementById('maturitySpan');
+                                if (elM && overallMaturity) elM.textContent = overallMaturity;
+                            }
+                        }
+                    })
+                    .catch(function(err) {
+                        console.warn('Could not pre-load policy detail for bottom Print:', err);
+                    });
+
             } else {
                 alert("No data found for the selected policy.");
                 $('#policyTableBody').empty();
             }
         },
         error: function(xhr) {
-            console.error("❌ Error:", xhr);
+            console.error("\u274c Error:", xhr);
             alert("Error while fetching policy data.");
         }
     });

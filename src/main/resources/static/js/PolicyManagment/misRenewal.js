@@ -5,7 +5,7 @@
 
 'use strict';
 
-const MIS_API = window.location.origin + '/api/mis';
+const MIS_API =  'api/mis';
 let selectedPolicyId = null;
 let selectedPolicyData = null;
 
@@ -18,6 +18,7 @@ const _misCustomerPolicyMap = {};
 // ══════════════════════════════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', function () {
     initCustomerCodeDropdown();
+    loadAllPolicies();
     document.getElementById('misSearchBtn').addEventListener('click', handleSearch);
     document.getElementById('misLoadAllBtn').addEventListener('click', loadAllPolicies);
     document.getElementById('misViewSelectedBtn') && document.getElementById('misViewSelectedBtn').addEventListener('click', handleViewSelected);
@@ -36,10 +37,16 @@ function initCustomerCodeDropdown() {
             if (!res.data || res.data.length === 0) return;
 
             const select = document.getElementById('misSearchCustomer');
+            const policySelect = document.getElementById('misSearchPolicy');
             if (!select) return;
 
             select.innerHTML = '<option value="">SELECT CUSTOMER CODE</option>';
+            if (policySelect) {
+                policySelect.innerHTML = '<option value="">SELECT POLICY NUMBER</option>';
+            }
             const seen = new Set();
+            const seenPolicies = new Set();
+            const policyToCustomerMap = {};
 
             res.data.forEach(p => {
                 const code = p.customerId;
@@ -51,6 +58,7 @@ function initCustomerCodeDropdown() {
                 }
                 if (p.policyNumber && !_misCustomerPolicyMap[code].includes(p.policyNumber)) {
                     _misCustomerPolicyMap[code].push(p.policyNumber);
+                    policyToCustomerMap[p.policyNumber] = code;
                 }
 
                 // Add option only once per unique customer code
@@ -61,16 +69,24 @@ function initCustomerCodeDropdown() {
                     opt.textContent = p.customerName ? `${code} - ${p.customerName}` : code;
                     select.appendChild(opt);
                 }
+
+                // Populate all unique policies initially in policySelect
+                if (policySelect && p.policyNumber && !seenPolicies.has(p.policyNumber)) {
+                    seenPolicies.add(p.policyNumber);
+                    const pOpt = document.createElement('option');
+                    pOpt.value = p.policyNumber;
+                    pOpt.textContent = p.policyNumber;
+                    policySelect.appendChild(pOpt);
+                }
             });
 
             // Wire change & input event: populate policy dropdown when customer is selected
             const handleCustomerChange = function () {
                 const selectedCode = this.value.trim();
-                const policySelect = document.getElementById('misSearchPolicy');
                 if (!policySelect) return;
 
                 policySelect.innerHTML = '<option value="">SELECT POLICY NUMBER</option>';
-                const policies = _misCustomerPolicyMap[selectedCode] || [];
+                const policies = selectedCode ? (_misCustomerPolicyMap[selectedCode] || []) : Array.from(seenPolicies);
 
                 policies.forEach(pNo => {
                     const opt = document.createElement('option');
@@ -79,8 +95,8 @@ function initCustomerCodeDropdown() {
                     policySelect.appendChild(opt);
                 });
 
-                // Auto-select first policy if available
-                if (policies.length > 0) {
+                // Auto-select first policy if available and a customer was picked
+                if (selectedCode && policies.length > 0) {
                     policySelect.value = policies[0];
                 }
             };
@@ -89,9 +105,12 @@ function initCustomerCodeDropdown() {
             select.addEventListener('input', handleCustomerChange);
 
             // Wire change event on policy select dropdown
-            const policySelect = document.getElementById('misSearchPolicy');
             if (policySelect) {
                 policySelect.addEventListener('change', function () {
+                    const chosenPolicy = this.value.trim();
+                    if (chosenPolicy && policyToCustomerMap[chosenPolicy] && !select.value) {
+                        select.value = policyToCustomerMap[chosenPolicy];
+                    }
                     handleSearch();
                 });
             }
@@ -265,25 +284,25 @@ function handleAddNextPayout() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' }
     })
-    .then(r => r.json())
-    .then(res => {
-        btn.disabled = false;
-        btn.innerHTML = originalText;
+        .then(r => r.json())
+        .then(res => {
+            btn.disabled = false;
+            btn.innerHTML = originalText;
 
-        if (res.status === 'OK') {
-            alert(res.message || 'Next payout added successfully!');
-            selectPolicy(selectedPolicyId);
-            loadAllPolicies();
-        } else {
-            alert('Cannot add payout: ' + (res.message || 'Unknown error'));
-        }
-    })
-    .catch(err => {
-        btn.disabled = false;
-        btn.innerHTML = originalText;
-        console.error('Add next payout error:', err);
-        alert('Failed to add next payout: ' + err.message);
-    });
+            if (res.status === 'OK') {
+                alert(res.message || 'Next payout added successfully!');
+                selectPolicy(selectedPolicyId);
+                loadAllPolicies();
+            } else {
+                alert('Cannot add payout: ' + (res.message || 'Unknown error'));
+            }
+        })
+        .catch(err => {
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+            console.error('Add next payout error:', err);
+            alert('Failed to add next payout: ' + err.message);
+        });
 }
 
 // ══════════════════════════════════════════════════════════════════════
@@ -411,17 +430,17 @@ function handlePrematureClose() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ reason: reason })
     })
-    .then(r => r.json())
-    .then(res => {
-        if (res.status === 'OK') {
-            alert('Policy prematurely closed successfully.\nRefund Amount: ₹' + formatNum(res.data.refundAmount));
-            loadAllPolicies();
-            hidePolicyDetail();
-        } else {
-            alert('Error: ' + res.message);
-        }
-    })
-    .catch(err => alert('Premature close failed: ' + err.message));
+        .then(r => r.json())
+        .then(res => {
+            if (res.status === 'OK') {
+                alert('Policy prematurely closed successfully.\nRefund Amount: ₹' + formatNum(res.data.refundAmount));
+                loadAllPolicies();
+                hidePolicyDetail();
+            } else {
+                alert('Error: ' + res.message);
+            }
+        })
+        .catch(err => alert('Premature close failed: ' + err.message));
 }
 
 // ══════════════════════════════════════════════════════════════════════
@@ -435,17 +454,17 @@ function handleRenew() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' }
     })
-    .then(r => r.json())
-    .then(res => {
-        if (res.status === 'CREATED') {
-            alert('Policy renewed successfully!\nNew Policy Number: ' + (res.data ? res.data.policyNumber : ''));
-            loadAllPolicies();
-            hidePolicyDetail();
-        } else {
-            alert('Error: ' + res.message);
-        }
-    })
-    .catch(err => alert('Renewal failed: ' + err.message));
+        .then(r => r.json())
+        .then(res => {
+            if (res.status === 'CREATED') {
+                alert('Policy renewed successfully!\nNew Policy Number: ' + (res.data ? res.data.policyNumber : ''));
+                loadAllPolicies();
+                hidePolicyDetail();
+            } else {
+                alert('Error: ' + res.message);
+            }
+        })
+        .catch(err => alert('Renewal failed: ' + err.message));
 }
 
 // ══════════════════════════════════════════════════════════════════════
@@ -459,11 +478,11 @@ function hidePolicyDetail() {
 
 function statusBadge(status) {
     const map = {
-        'ACTIVE'            : 'mis-status-active',
-        'MATURED'           : 'mis-status-matured',
-        'CLOSED'            : 'mis-status-closed',
+        'ACTIVE': 'mis-status-active',
+        'MATURED': 'mis-status-matured',
+        'CLOSED': 'mis-status-closed',
         'PREMATURELY_CLOSED': 'mis-status-prematurely_closed',
-        'RENEWED'           : 'mis-status-renewed'
+        'RENEWED': 'mis-status-renewed'
     };
     const cls = map[status] || '';
     return `<span class="mis-status-badge ${cls}">${status || '—'}</span>`;
