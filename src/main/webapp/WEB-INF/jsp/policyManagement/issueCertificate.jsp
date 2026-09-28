@@ -80,17 +80,17 @@
 									<table class="table table-bordered table-striped"
 										id="policyTable">
 										<thead class="thead-dark"
-											style="position: sticky; top: 0; background-color: #343a40; color: white;">
+											style="position: sticky; top: 0; background-color: #343a40; color: #000000;">
 											<tr>
-												<th>POLICY CODE</th>
-												<th>CUSTOMER NAME</th>
-												<th>POLICY AMOUNT</th>
-												<th>MATURITY DATE</th>
-												<th>MATURITY AMOUNT</th>
-												<th>CONTACT NO.</th>
-												<th>NOMINEE</th>
-												<th>ADDRESS</th>
-												<th>ACTION</th>
+												<th style="color: #000000 !important;">POLICY CODE</th>
+												<th style="color: #000000 !important;">CUSTOMER NAME</th>
+												<th style="color: #000000 !important;">POLICY AMOUNT</th>
+												<th style="color: #000000 !important;">MATURITY DATE</th>
+												<th style="color: #000000 !important;">MATURITY AMOUNT</th>
+												<th style="color: #000000 !important;">CONTACT NO.</th>
+												<th style="color: #000000 !important;">NOMINEE</th>
+												<th style="color: #000000 !important;">ADDRESS</th>
+												<th style="color: #000000 !important;">ACTION</th>
 											</tr>
 										</thead>
 										<tbody id="policyTableBody">

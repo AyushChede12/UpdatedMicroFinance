@@ -310,9 +310,5 @@
 	</form>
 </div>
 
-<!-- Load html2pdf -->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
 	<script
 	src="${pageContext.request.contextPath}/js/PolicyManagment/policyReport.js"></script>
