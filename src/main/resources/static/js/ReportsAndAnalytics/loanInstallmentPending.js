@@ -348,8 +348,16 @@ function parseDate(dateStr) {
 
     if (!dateStr) return new Date(0);
 
-    let parts = dateStr.split('-');
+    let parts = dateStr.split(/[-/]/);
 
-    return new Date(parts[0], parts[1] - 1, parts[2]);
+    if (parts.length === 3) {
+        if (parts[0].length === 4) {
+            return new Date(parts[0], parts[1] - 1, parts[2]);
+        } else {
+            return new Date(parts[2], parts[1] - 1, parts[0]);
+        }
+    }
+
+    return new Date(dateStr);
 
 }
