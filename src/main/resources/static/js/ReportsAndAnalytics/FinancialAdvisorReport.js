@@ -178,26 +178,44 @@ $(document).ready(function () {
             );
         }
 
+        function parseDate(dateStr) {
+            if (!dateStr) return null;
+            if (typeof dateStr === 'string') {
+                let parts = dateStr.split(/[-/]/);
+                if (parts.length === 3) {
+                    if (parts[0].length !== 4) {
+                        dateStr = `${parts[2]}-${parts[1]}-${parts[0]}`;
+                    }
+                }
+            }
+            let d = new Date(dateStr);
+            return isNaN(d) ? null : d;
+        }
+
         if (fromDate && toDate) {
+            let from = new Date(fromDate);
+            let to = new Date(toDate);
+            to.setHours(23, 59, 59, 999);
+
             filtered = filtered.filter(f => {
                 if (!f.joiningDate) return false;
-                let d = new Date(f.joiningDate);
-                return d >= new Date(fromDate) && d <= new Date(toDate);
+                let d = parseDate(f.joiningDate);
+                return d && d >= from && d <= to;
             });
         }
 
         renderTable(filtered);
     });
-	/* ================= PRINT ================= */
+    /* ================= PRINT ================= */
 
-	$(document).off("click", "#printBankReportBtn").on("click", "#printBankReportBtn", function () {
+    $(document).off("click", "#printBankReportBtn").on("click", "#printBankReportBtn", function () {
 
-	    var newWindow = window.open('', '', 'width=900,height=700');
+        var newWindow = window.open('', '', 'width=900,height=700');
 
-	    // Fetch values from modal
-	    let getText = (id) => document.getElementById(id).innerText || '-';
+        // Fetch values from modal
+        let getText = (id) => document.getElementById(id).innerText || '-';
 
-	    newWindow.document.write(`
+        newWindow.document.write(`
 	    <html>
 	    <head>
 	        <title>Consultant Report</title>
@@ -318,8 +336,8 @@ $(document).ready(function () {
 	    </html>
 	    `);
 
-	    newWindow.document.close();
-	    newWindow.focus();
-	    newWindow.print();
-	});
-	});
+        newWindow.document.close();
+        newWindow.focus();
+        newWindow.print();
+    });
+});

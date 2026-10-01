@@ -1,11 +1,11 @@
-$(document).ready(function() {
+$(document).ready(function () {
 	let allPaymentData = [];
 
 	// ✅ 1. Fetch all approved loan applications on page load
 	$.ajax({
 		url: "api/reports/getLoanPaymentReport",
 		method: "GET",
-		success: function(response) {
+		success: function (response) {
 			console.log("API Response:", response);
 
 			if (response && response.data && Array.isArray(response.data)) {
@@ -26,13 +26,13 @@ $(document).ready(function() {
 				$(".datatable tbody").html("<tr><td colspan='10'>No LoanPayment found.</td></tr>");
 			}
 		},
-		error: function() {
+		error: function () {
 			alert("Error while fetching loan payment.");
 		}
 	});
 
 	// ✅ 2. Filter on Find button click
-	$('#findBtn').click(function(e) {
+	$('#findBtn').click(function (e) {
 		e.preventDefault();
 
 		const loanId = $('#loanId').val();
@@ -87,7 +87,7 @@ $(document).ready(function() {
 		});
 
 		// ✅ Handle print popup
-		$(".printPopupBtn").click(function() {
+		$(".printPopupBtn").click(function () {
 			const id = $(this).data("id");
 			const selectedPolicy = allPaymentData.find(p => p.id === id);
 
@@ -269,4 +269,4 @@ $(document).ready(function() {
 		printWindow.print();
 
 	});
-	});
+});

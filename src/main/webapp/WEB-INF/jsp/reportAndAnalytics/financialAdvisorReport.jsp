@@ -1,35 +1,34 @@
-
 <style>
-body {
-	font-family: 'Segoe UI', Arial, sans-serif;
-	background-color: #f5f6fa;
-}
+	body {
+		font-family: 'Segoe UI', Arial, sans-serif;
+		background-color: #f5f6fa;
+	}
 
-.modal-content {
-	border-radius: 10px;
-	overflow: hidden;
-}
+	.modal-content {
+		border-radius: 10px;
+		overflow: hidden;
+	}
 
-.modal-header {
-	background: linear-gradient(45deg, #0d6efd, #004aad);
-}
+	.modal-header {
+		background: linear-gradient(45deg, #0d6efd, #004aad);
+	}
 
-.modal-title {
-	font-weight: 600;
-}
+	.modal-title {
+		font-weight: 600;
+	}
 
-.table th, .table td {
-	vertical-align: middle;
-}
+	.table th,
+	.table td {
+		vertical-align: middle;
+	}
 </style>
 
 <div class="pagetitle">
 	<h1>REPORTS & ANALYTICS</h1>
 	<nav>
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="openDashboard"> <i
-					class="bi bi-file-earmark-text"></i>
-			</a></li>
+			<li class="breadcrumb-item"><a href="openDashboard"> <i class="bi bi-file-earmark-text"></i>
+				</a></li>
 			<li class="breadcrumb-item action">FINANCIAL CONSULTANT REPORT</li>
 		</ol>
 	</nav>
@@ -59,11 +58,9 @@ body {
 						</div> -->
 
 				<div class="col-lg-3">
-					<div class="d-flex flex-column formFields"
-						style="margin-bottom: 30px;">
-						<label for="">BRANCH NAME </label> <select id="branchName2"
-							name="branchName2" required="required"
-							class="form-control selectField" style="height: 30px;">
+					<div class="d-flex flex-column formFields" style="margin-bottom: 30px;">
+						<label for="">BRANCH NAME </label> <select id="branchName2" name="branchName2"
+							required="required" class="form-control selectField" style="height: 30px;">
 							<option value="">SELECT</option>
 						</select>
 					</div>
@@ -75,17 +72,15 @@ body {
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">FROM DATE :</label> <input type="date"
-							name="fromDate" id="fromDate" required="required"
-							placeholder="ENTER FROM DATE" style="text-transform: uppercase;" />
+						<label for="">FROM DATE :</label> <input type="date" name="fromDate" id="fromDate"
+							required="required" placeholder="ENTER FROM DATE" style="text-transform: uppercase;" />
 					</div>
 				</div>
 
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
-						<label for="">TO DATE :</label> <input type="date" name="toDate"
-							id="toDate" required="required" placeholder="ENTER TO DATE"
-							style="text-transform: uppercase;" />
+						<label for="">TO DATE :</label> <input type="date" name="toDate" id="toDate" required="required"
+							placeholder="ENTER TO DATE" style="text-transform: uppercase;" />
 					</div>
 				</div>
 
@@ -143,8 +138,7 @@ body {
 
 </div>
 
-<div class="modal fade" id="bankReportModal" tabindex="-1"
-	aria-hidden="true">
+<div class="modal fade" id="bankReportModal" tabindex="-1" aria-hidden="true">
 	<div class="modal-dialog modal-xl modal-dialog-scrollable">
 		<div class="modal-content shadow-lg border-0">
 
@@ -153,8 +147,8 @@ body {
 				<h5 class="modal-title">
 					<i class="bi bi-person-vcard me-2"></i> Financial Consultant Report
 				</h5>
-				<button type="button" class="btn-close btn-close-white"
-					data-bs-dismiss="modal" aria-label="Close"></button>
+				<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+					aria-label="Close"></button>
 			</div>
 
 			<!-- Body -->
@@ -162,10 +156,9 @@ body {
 				<div class="p-4" style="background-color: #f8fafc;">
 
 					<!-- Bank Header -->
-					<div
-						class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
+					<div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
 						<div class="d-flex align-items-center">
-							
+
 							<div>
 								<h4 id="bankName" class="mb-0 fw-bold text-primary"></h4>
 								<small id="reportTitle" class="text-secondary"></small>
@@ -215,15 +208,13 @@ body {
 									<strong>District:</strong> <span id="district"></span>
 								</p>
 								<p>
-									<strong>State:</strong> <span id="state"></span> - <span
-										id="pinCode"></span>
+									<strong>State:</strong> <span id="state"></span> - <span id="pinCode"></span>
 								</p>
 								<p>
 									<strong>Profession:</strong> <span id="profession"></span>
 								</p>
 								<p>
-									<strong>Academic Background:</strong> <span
-										id="academicBackground"></span>
+									<strong>Academic Background:</strong> <span id="academicBackground"></span>
 								</p>
 							</div>
 						</div>
@@ -291,13 +282,10 @@ body {
 
 			<!-- Footer -->
 			<div class="modal-footer bg-light">
-				<button id="printBankReportBtn"
-        type="button"
-        class="btn btn-success">
-    <i class="bi bi-printer"></i> Print Report
-</button>
-				<button type="button" class="btn btn-secondary"
-					data-bs-dismiss="modal">Close</button>
+				<button id="printBankReportBtn" type="button" class="btn btn-success">
+					<i class="bi bi-printer"></i> Print Report
+				</button>
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 			</div>
 		</div>
 	</div>
@@ -311,6 +299,4 @@ body {
 
 <!-- Your JS -->
 <script src="${pageContext.request.contextPath}/js/ReportsAndAnalytics/FinancialAdvisorReport.js"></script>
-<script
-	src="${pageContext.request.contextPath}/js/ReportsAndAnalytics/FinancialAdvisorReport.js"></script>
-
+<script src="${pageContext.request.contextPath}/js/ReportsAndAnalytics/FinancialAdvisorReport.js"></script>

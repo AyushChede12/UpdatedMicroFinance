@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
 	// 🔒 PREVENT MULTIPLE EXECUTION
 	if (window.investmentTxnReportLoaded) {
@@ -16,7 +16,7 @@ $(document).ready(function() {
 		$.ajax({
 			url: "api/Policymangment/getApprovedPolicies",
 			type: "GET",
-			success: function(response) {
+			success: function (response) {
 
 				if (response && Array.isArray(response.data)) {
 					allPolicies = response.data;
@@ -28,7 +28,7 @@ $(document).ready(function() {
 					);
 				}
 			},
-			error: function() {
+			error: function () {
 				alert("Error while fetching policy data");
 			}
 		});
@@ -71,12 +71,24 @@ $(document).ready(function() {
 	// ================= DATE PARSER =================
 	function parseDate(dateStr) {
 		if (!dateStr) return null;
+		
+		if (typeof dateStr === 'string') {
+			let parts = dateStr.split(/[-/]/);
+			if (parts.length === 3) {
+				// If first part is 4 digits, it's YYYY-MM-DD, otherwise assume DD-MM-YYYY
+				if (parts[0].length !== 4) {
+					// Convert DD-MM-YYYY to YYYY-MM-DD
+					dateStr = `${parts[2]}-${parts[1]}-${parts[0]}`;
+				}
+			}
+		}
+		
 		let d = new Date(dateStr);
 		return isNaN(d) ? null : d;
 	}
 
 	// ================= FIND BUTTON =================
-	$("#findBtn").on("click", function(e) {
+	$("#findBtn").on("click", function (e) {
 		e.preventDefault();
 
 		let branch = $("#branchName2").val();
@@ -174,35 +186,35 @@ $(document).ready(function() {
 
 function openPrintModal(id) {
 
-    if (!id) {
-        alert("Invalid policy ID");
-        return;
-    }
+	if (!id) {
+		alert("Invalid policy ID");
+		return;
+	}
 
-    $.ajax({
-        url: "api/reports/getPolicyForPrint/" + id,
-        type: "GET",
-        success: function(data) {
+	$.ajax({
+		url: "api/reports/getPolicyForPrint/" + id,
+		type: "GET",
+		success: function (data) {
 
-            // ================= HEADER =================
-            $("#bankName").text("SAMITHA URBAN NIDHI LTD.");
-            $("#reportTitle").text("Investment Statement");
-            $("#accountNumber").text(data.policyCode || "-");
-            $("#periodCovered").text(data.policyStartDate || "-");
+			// ================= HEADER =================
+			$("#bankName").text("SAMITHA URBAN NIDHI LTD.");
+			$("#reportTitle").text("Investment Statement");
+			$("#accountNumber").text(data.policyCode || "-");
+			$("#periodCovered").text(data.policyStartDate || "-");
 
-            // ================= CUSTOMER =================
-            $("#customerName").text(data.customerName || "-");
-            $("#customerAddress1").text(data.address || "-");
-            $("#customerAddress2").text(data.city || "-");
+			// ================= CUSTOMER =================
+			$("#customerName").text(data.customerName || "-");
+			$("#customerAddress1").text(data.address || "-");
+			$("#customerAddress2").text(data.city || "-");
 
-            // ================= SUMMARY =================
-            $("#startingBalance").text("0");
-            $("#incomeAmount").text(data.policyAmount || "0");
-            $("#expensesAmount").text("0");
-            $("#closingBalance").text(data.policyAmount || "0");
+			// ================= SUMMARY =================
+			$("#startingBalance").text("0");
+			$("#incomeAmount").text(data.policyAmount || "0");
+			$("#expensesAmount").text("0");
+			$("#closingBalance").text(data.policyAmount || "0");
 
-            // ================= TABLE =================
-            let row = `
+			// ================= TABLE =================
+			let row = `
                 <tr>
                     <td>${data.policyCode || "-"}</td>
                     <td>${data.policyStartDate || "-"}</td>
@@ -211,35 +223,35 @@ function openPrintModal(id) {
                     <td>${data.paymentMode || "-"}</td>
                 </tr>
             `;
-            $("#transactionTableBody").html(row);
+			$("#transactionTableBody").html(row);
 
-            // ================= OPEN MODAL (BOOTSTRAP 5) =================
-            const modal = new bootstrap.Modal(
-                document.getElementById('bankReportModal')
-            );
-            modal.show();
-        },
-        error: function() {
-            alert("Failed to load print data");
-        }
-    });
+			// ================= OPEN MODAL (BOOTSTRAP 5) =================
+			const modal = new bootstrap.Modal(
+				document.getElementById('bankReportModal')
+			);
+			modal.show();
+		},
+		error: function () {
+			alert("Failed to load print data");
+		}
+	});
 }
 
 function openPrintModal(id) {
 
-    if (!id) {
-        alert("Invalid policy ID");
-        return;
-    }
+	if (!id) {
+		alert("Invalid policy ID");
+		return;
+	}
 
-    $.ajax({
-        url: "api/reports/getPolicyForPrint/" + id,
-        type: "GET",
-        success: function (data) {
+	$.ajax({
+		url: "api/reports/getPolicyForPrint/" + id,
+		type: "GET",
+		success: function (data) {
 
-            let printWindow = window.open('', '', 'width=900,height=700');
+			let printWindow = window.open('', '', 'width=900,height=700');
 
-            printWindow.document.write(`
+			printWindow.document.write(`
 
 <html>
 <head>
@@ -461,10 +473,10 @@ window.print();
 
             `);
 
-            printWindow.document.close();
-        },
-        error: function () {
-            alert("Failed to load print data");
-        }
-    });
+			printWindow.document.close();
+		},
+		error: function () {
+			alert("Failed to load print data");
+		}
+	});
 }

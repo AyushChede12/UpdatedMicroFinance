@@ -1086,17 +1086,6 @@
 							CONFIRMATION DOCUMENT</span>
 				</a></li>
 
-				<li><a href="${baseUrl}/loanConfirmationDocument"> <i
-						class="bi bi-circle"></i> <span
-						style="font-family: 'Poppins', sans-serif">GOLD LOAN
-							DOCUMENT</span>
-				</a></li>
-
-				<li><a href="${baseUrl}/loanConfirmationDocument"> <i
-						class="bi bi-circle"></i> <span
-						style="font-family: 'Poppins', sans-serif">JOINT LIABILITY
-							DOCUMENT</span>
-				</a></li>
 
 				<li><a href="${baseUrl}/maturityStatusReport"> <i class="bi bi-circle"></i>
 						<span style="font-family: 'Poppins', sans-serif">MATURITY

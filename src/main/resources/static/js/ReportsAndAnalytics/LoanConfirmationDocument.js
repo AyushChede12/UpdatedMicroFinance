@@ -17,8 +17,9 @@ $(document).ready(function () {
                 const uniquePlans = new Set();
 
                 allLoans.forEach(item => {
-                    if (item.loanPlanName) {
-                        uniquePlans.add(item.loanPlanName.trim());
+                    let planName = item.loanPlanName || item.typeOfLoan;
+                    if (planName) {
+                        uniquePlans.add(planName.trim());
                     }
                 });
 
@@ -39,8 +40,10 @@ $(document).ready(function () {
             }
 
         },
-        error: function () {
-            alert("API Error");
+        error: function (xhr) {
+            if (xhr.status !== 404) {
+                alert("API Error");
+            }
         }
     });
 
@@ -56,14 +59,32 @@ $(document).ready(function () {
         let financialCode = $("#financialCode").val().trim().toUpperCase();
         let toDate = $("#toDate").val();
 
+        function parseDate(dateStr) {
+            if (!dateStr) return null;
+            if (typeof dateStr === 'string') {
+                let parts = dateStr.split(/[-/]/);
+                if (parts.length === 3) {
+                    if (parts[0].length !== 4) {
+                        dateStr = `${parts[2]}-${parts[1]}-${parts[0]}`;
+                    }
+                }
+            }
+            let d = new Date(dateStr);
+            return isNaN(d) ? null : d;
+        }
+
         let filtered = allLoans.filter(item => {
 
-            let loanDate = new Date(item.loanDate);
+            let loanDate = parseDate(item.loanDate);
+            let tDate = toDate ? new Date(toDate) : null;
+            if (tDate) tDate.setHours(23, 59, 59, 999);
+            
+            let planName = item.loanPlanName || item.typeOfLoan || "";
 
             return (
-                (!plan || item.loanPlanName === plan) &&
+                (!plan || planName === plan) &&
                 (!financialCode || (item.financialConsultantId && item.financialConsultantId.toUpperCase().includes(financialCode))) &&
-                (!toDate || loanDate <= new Date(toDate))
+                (!tDate || (loanDate && loanDate <= tDate))
             );
 
         });
