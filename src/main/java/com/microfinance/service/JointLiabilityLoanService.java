@@ -143,7 +143,8 @@ public class JointLiabilityLoanService {
 			existing.setCommunityLeader(updatedDirectory.getCommunityLeader());
 			existing.setContactNo(updatedDirectory.getContactNo());
 			existing.setCommunityAddress(updatedDirectory.getCommunityAddress());
-			existing.setAllocatedStaff(updatedDirectory.getAllocatedStaff());
+			existing.setFinancialCode(updatedDirectory.getFinancialCode());
+			existing.setFinancialConsultantName(updatedDirectory.getFinancialConsultantName());
 			existing.setCollectionDay(updatedDirectory.getCollectionDay());
 			existing.setCollectionTime(updatedDirectory.getCollectionTime());
 
@@ -152,8 +153,12 @@ public class JointLiabilityLoanService {
 			existing.setReferralDetails(updatedDirectory.getReferralDetails());
 			existing.setContact(updatedDirectory.getContact());
 
-			// existing.setUploadPhoto(updatedDirectory.getUploadPhoto());
-			// existing.setUploadSignature(updatedDirectory.getUploadSignature());
+			if (updatedDirectory.getPhoto() != null && !updatedDirectory.getPhoto().isEmpty()) {
+				existing.setPhoto(updatedDirectory.getPhoto());
+			}
+			if (updatedDirectory.getSignature() != null && !updatedDirectory.getSignature().isEmpty()) {
+				existing.setSignature(updatedDirectory.getSignature());
+			}
 
 			return groupDirectoryRepo.save(existing);
 		} else {

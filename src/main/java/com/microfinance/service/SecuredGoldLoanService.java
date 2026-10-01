@@ -3,8 +3,11 @@ package com.microfinance.service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.microfinance.dto.ApiResponse;
 import com.microfinance.dto.ApplyForGoldRequestDto;
 import com.microfinance.dto.GoldItemDto;
+import com.microfinance.dto.GoldLoanCloseRequestDto;
 import com.microfinance.dto.GoldLoanDropdownDto;
+import com.microfinance.dto.GoldLoanForeclosureSettlementDto;
 import com.microfinance.model.ApplyForGold;
 import com.microfinance.model.ApplyForGoldItem;
 import com.microfinance.model.CreateSavingsAccount;
@@ -373,6 +378,38 @@ public class SecuredGoldLoanService {
 			BigDecimal calculatedEmi = calculateEmi(loanAmount, dto.getRateOfInterest(), dto.getLoanTerm(), dto.getInterestType());
 			applyForGold.setEmiPayment(calculatedEmi.setScale(2, RoundingMode.HALF_UP).toString());
 		}
+
+		// Total Interest & Total Payable Amount (Interest is calculated on the Applied Loan Amount)
+		BigDecimal totalInterest = dto.getTotalInterest();
+		BigDecimal totalPayableAmount = dto.getTotalPayableAmount();
+		if (totalPayableAmount == null || totalPayableAmount.compareTo(BigDecimal.ZERO) <= 0) {
+			try {
+				double annualRate = dto.getRateOfInterest() != null ? Double.parseDouble(dto.getRateOfInterest()) : 0.0;
+				int term = dto.getLoanTerm() != null ? Integer.parseInt(dto.getLoanTerm()) : 12;
+				if (term <= 0) term = 12;
+
+				if ("REDUCING".equalsIgnoreCase(dto.getInterestType())) {
+					if (annualRate <= 0) {
+						totalInterest = BigDecimal.ZERO;
+						totalPayableAmount = loanAmount;
+					} else {
+						double r = (annualRate / 12.0) / 100.0;
+						double emiVal = (loanAmount.doubleValue() * r * Math.pow(1 + r, term)) / (Math.pow(1 + r, term) - 1);
+						totalPayableAmount = BigDecimal.valueOf(emiVal * term).setScale(2, RoundingMode.HALF_UP);
+						totalInterest = totalPayableAmount.subtract(loanAmount).max(BigDecimal.ZERO);
+					}
+				} else {
+					double interest = loanAmount.doubleValue() * (annualRate / 100.0) * (term / 12.0);
+					totalInterest = BigDecimal.valueOf(interest).setScale(2, RoundingMode.HALF_UP);
+					totalPayableAmount = loanAmount.add(totalInterest);
+				}
+			} catch (Exception ex) {
+				totalInterest = BigDecimal.ZERO;
+				totalPayableAmount = loanAmount;
+			}
+		}
+		applyForGold.setTotalInterest(totalInterest != null ? totalInterest.setScale(2, RoundingMode.HALF_UP).toString() : "0.00");
+		applyForGold.setTotalPayableAmount(totalPayableAmount != null ? totalPayableAmount.setScale(2, RoundingMode.HALF_UP).toString() : loanAmount.toString());
 
 		// Guarantor Details
 		applyForGold.setGuarantorcustomerCode(dto.getGuarantorcustomerCode());
@@ -1121,6 +1158,572 @@ public class SecuredGoldLoanService {
 		return new ApiResponse(HttpStatus.OK, "SUCCESS", "Gold Loan disbursed successfully! Amount Rs. " 
 			+ String.format(java.util.Locale.US, "%.2f", disburseAmount) 
 			+ " credited to Savings Account " + savingAcc.getAccountNumber());
+	}
+
+	public List<GoldLoanDropdownDto> getClosableGoldLoans() {
+		return applyForGoldRepo.findClosableGoldLoans();
+	}
+
+	public GoldLoanForeclosureSettlementDto calculateGoldForeclosureSettlement(String goldId) {
+		if (goldId == null || goldId.trim().isEmpty()) {
+			throw new IllegalArgumentException("Gold ID must not be empty.");
+		}
+
+		ApplyForGold loan = applyForGoldRepo.findSingleByGoldID(goldId.trim());
+		if (loan == null) {
+			List<ApplyForGold> list = applyForGoldRepo.findByGoldID(goldId.trim());
+			if (list != null && !list.isEmpty()) {
+				loan = list.get(0);
+			}
+		}
+		if (loan == null) {
+			throw new RuntimeException("Gold Loan application not found for Gold ID: " + goldId);
+		}
+
+		GoldLoanForeclosureSettlementDto dto = new GoldLoanForeclosureSettlementDto();
+		dto.setGoldId(loan.getGoldID());
+		dto.setCustomerCode(loan.getMemberCode());
+		dto.setCustomerName(loan.getCustomerName());
+		dto.setContactNo(loan.getContactNo());
+		dto.setBranchName(loan.getBranchName());
+		dto.setLoanPlanName(loan.getLoanPlanName() != null ? loan.getLoanPlanName() : "Gold Loan Standard");
+		dto.setTypeOfLoan(loan.getTypeOfLoan());
+		dto.setLoanMode(loan.getLoanMode() != null ? loan.getLoanMode() : "Monthly");
+		dto.setLoanTerm(loan.getLoanTerm());
+		dto.setRateOfInterest(loan.getRateOfInterest());
+		dto.setInterestType(loan.getInterestType() != null ? loan.getInterestType() : "Flat");
+		dto.setEmiPayment(loan.getEmiPayment());
+		dto.setLoanDate(loan.getLoanDate());
+		dto.setFinancialConsultantId(loan.getFinancialConsultantId());
+		dto.setFinancialConsultantName(loan.getFinancialConsultantName());
+		dto.setGuarantorName(loan.getGuarantorIdentity());
+		dto.setCoApplicantName(loan.getCoApplicantIdentity());
+		dto.setLockerBranch(loan.getLockerBranch() != null ? loan.getLockerBranch() : loan.getBranchName());
+		dto.setTotalGrossWt(loan.getGrossWt());
+		dto.setTotalNetWt(loan.getNetWt());
+		dto.setTotalMarketValuation(loan.getMarketValuation());
+
+		// Gold Items Collateral
+		List<GoldItemDto> itemDtos = new ArrayList<>();
+		if (loan.getItems() != null && !loan.getItems().isEmpty()) {
+			for (ApplyForGoldItem item : loan.getItems()) {
+				GoldItemDto idto = new GoldItemDto();
+				idto.setItemType(item.getItemType());
+				idto.setItemName(item.getItemName());
+				idto.setPurity(item.getPurity());
+				idto.setItemQty(item.getItemQty());
+				idto.setItemWt(item.getItemWt());
+				idto.setStoneWt(item.getStoneWt());
+				idto.setNetWt(item.getNetWt());
+				idto.setMarketValuation(item.getMarketValuation());
+				itemDtos.add(idto);
+			}
+		}
+		dto.setItems(itemDtos);
+		dto.setTotalItemsCount(itemDtos.size());
+
+		// Financial values
+		double principal = 0.0;
+		try {
+			String pStr = loan.getLoanAmount() != null && !loan.getLoanAmount().trim().isEmpty()
+					? loan.getLoanAmount() : loan.getSanctionedAmount();
+			if (pStr != null) {
+				principal = Double.parseDouble(pStr.replaceAll("[^0-9.]", "").trim());
+			}
+		} catch (Exception ignored) {}
+		dto.setSanctionedPrincipal(principal);
+
+		double roi = 0.0;
+		try {
+			if (loan.getRateOfInterest() != null) {
+				roi = Double.parseDouble(loan.getRateOfInterest().replaceAll("[^0-9.]", "").trim());
+			}
+		} catch (Exception ignored) {}
+
+		double emi = 0.0;
+		try {
+			if (loan.getEmiPayment() != null) {
+				emi = Double.parseDouble(loan.getEmiPayment().replaceAll("[^0-9.]", "").trim());
+			}
+		} catch (Exception ignored) {}
+
+		int term = 12;
+		try {
+			if (loan.getLoanTerm() != null) {
+				term = Integer.parseInt(loan.getLoanTerm().replaceAll("[^0-9]", "").trim());
+			}
+		} catch (Exception ignored) {}
+		if (term <= 0) term = 12;
+		dto.setTotalInstallments(term);
+
+		double totalPayable = 0.0;
+		if (loan.getTotalPayableAmount() != null && !loan.getTotalPayableAmount().trim().isEmpty()) {
+			try {
+				totalPayable = Double.parseDouble(loan.getTotalPayableAmount().replaceAll("[^0-9.]", "").trim());
+			} catch (Exception ignored) {}
+		}
+		if (totalPayable <= 0 && emi > 0 && term > 0) {
+			totalPayable = emi * term;
+		}
+
+		double totalInt = 0.0;
+		if (loan.getTotalInterest() != null && !loan.getTotalInterest().trim().isEmpty()) {
+			try {
+				totalInt = Double.parseDouble(loan.getTotalInterest().replaceAll("[^0-9.]", "").trim());
+			} catch (Exception ignored) {}
+		}
+		if (totalInt <= 0 && totalPayable > principal) {
+			totalInt = totalPayable - principal;
+		}
+		dto.setTotalPayableAmount(String.format(Locale.US, "%.2f", totalPayable));
+		dto.setTotalInterest(String.format(Locale.US, "%.2f", totalInt));
+
+		String mode = loan.getLoanMode() != null ? loan.getLoanMode().trim() : "Monthly";
+		String interestType = loan.getInterestType() != null ? loan.getInterestType().trim() : "Flat";
+
+		// 1. Fetch EMI installments payment history
+		List<EmiInstallmentPaymentGold> emiPayments = emiRepo.findByGoldID(loan.getGoldID());
+		int paidCount = 0;
+		double totalPenalties = 0.0;
+		String lastPaymentDateStr = loan.getLoanDate();
+
+		if (emiPayments != null) {
+			for (EmiInstallmentPaymentGold p : emiPayments) {
+				paidCount++;
+				if (p.getPaymentDate() != null && !p.getPaymentDate().trim().isEmpty()) {
+					lastPaymentDateStr = p.getPaymentDate().trim();
+				}
+				if (p.getPenaltyAmount() != null) {
+					try {
+						totalPenalties += Double.parseDouble(p.getPenaltyAmount().replaceAll("[^0-9.]", "").trim());
+					} catch (Exception ignored) {}
+				}
+			}
+		}
+
+		dto.setPaidInstallments(paidCount);
+		dto.setLastPaymentDate(lastPaymentDateStr);
+
+		double periodDivisor = 12.0;
+		if ("Daily".equalsIgnoreCase(mode)) periodDivisor = 365.0;
+		else if ("Weekly".equalsIgnoreCase(mode)) periodDivisor = 52.0;
+		else if ("Fortnightly".equalsIgnoreCase(mode)) periodDivisor = 26.0;
+		else if ("Quarterly".equalsIgnoreCase(mode)) periodDivisor = 4.0;
+		else periodDivisor = 12.0;
+
+		double totalPrincipalPaid = 0.0;
+		double outstandingPrincipal = principal;
+		double unearnedRebate = 0.0;
+		boolean isFlat = interestType.toLowerCase().contains("flat");
+
+		if (isFlat) {
+			double totalInterest = principal * (roi / 100.0) * (term / periodDivisor);
+			double principalPerInst = term > 0 ? (principal / term) : 0.0;
+			double interestPerInst = term > 0 ? (totalInterest / term) : 0.0;
+
+			totalPrincipalPaid = Math.min(principal, paidCount * principalPerInst);
+			outstandingPrincipal = Math.max(0.0, principal - totalPrincipalPaid);
+
+			int remainingInst = Math.max(0, term - paidCount);
+			unearnedRebate = remainingInst * interestPerInst;
+		} else {
+			// Reducing Balance
+			double periodRate = (roi / 100.0) / periodDivisor;
+			double runningBalance = principal;
+			for (int i = 1; i <= paidCount; i++) {
+				double interestComponent = runningBalance * periodRate;
+				double principalComponent = emi - interestComponent;
+				if (principalComponent > runningBalance) {
+					principalComponent = runningBalance;
+				}
+				if (principalComponent < 0) principalComponent = 0;
+				totalPrincipalPaid += principalComponent;
+				runningBalance -= principalComponent;
+				if (runningBalance <= 0) {
+					runningBalance = 0;
+					break;
+				}
+			}
+			outstandingPrincipal = Math.max(0.0, runningBalance);
+			unearnedRebate = 0.0;
+		}
+
+		dto.setTotalPrincipalPaid(roundTwoDecimals(totalPrincipalPaid));
+		dto.setPrincipalOutstanding(roundTwoDecimals(outstandingPrincipal));
+		dto.setUnearnedInterestRebate(roundTwoDecimals(unearnedRebate));
+
+		// 2. Accrued Interest till Today using Actual/365 convention
+		LocalDate today = LocalDate.now();
+		LocalDate lastPayDate = today;
+		try {
+			if (lastPaymentDateStr != null && lastPaymentDateStr.trim().length() >= 10) {
+				lastPayDate = LocalDate.parse(lastPaymentDateStr.trim().substring(0, 10));
+			} else {
+				lastPayDate = today;
+			}
+		} catch (Exception e) {
+			lastPayDate = today;
+		}
+
+		long elapsedDays = 0;
+		if (today.isAfter(lastPayDate)) {
+			elapsedDays = ChronoUnit.DAYS.between(lastPayDate, today);
+		}
+		dto.setElapsedDaysSinceLastPayment(elapsedDays);
+
+		double dailyRate = (roi / 100.0) / 365.0;
+		double accruedInterest = outstandingPrincipal * dailyRate * elapsedDays;
+		dto.setAccruedInterestTillDate(roundTwoDecimals(accruedInterest));
+
+		// 3. Overdue arrears check
+		LocalDate startDate = today;
+		try {
+			if (loan.getLoanDate() != null && loan.getLoanDate().trim().length() >= 10) {
+				startDate = LocalDate.parse(loan.getLoanDate().trim().substring(0, 10));
+			}
+		} catch (Exception ignored) {}
+
+		int expectedMaturedInstallments = calculateElapsedInstallments(startDate, today, mode, term);
+		int arrearsCount = Math.max(0, expectedMaturedInstallments - paidCount);
+		double overdueArrears = arrearsCount * emi;
+		dto.setOverdueArrears(roundTwoDecimals(overdueArrears));
+		dto.setPendingPenalties(roundTwoDecimals(totalPenalties));
+
+		// 4. Foreclosure fee
+		dto.setForeclosureFeePercent(0.0);
+		dto.setForeclosureFeeAmount(0.0);
+
+		// 5. Net Payoff Amount = Principal Outstanding + Accrued Interest + Penalties - Rebates
+		double netPayoff = Math.max(0.0, outstandingPrincipal + accruedInterest + totalPenalties - unearnedRebate);
+		dto.setNetPayoffAmount(roundTwoDecimals(netPayoff));
+
+		// 6. Savings Account Lookup
+		if (loan.getMemberCode() != null && !loan.getMemberCode().trim().isEmpty()) {
+			List<CreateSavingsAccount> accList = createSavingRepo.findBySelectByCustomer(loan.getMemberCode().trim());
+			if (accList == null || accList.isEmpty()) {
+				accList = createSavingRepo.findBySelectByCustomerIgnoreCase(loan.getMemberCode().trim());
+			}
+			if (accList != null && !accList.isEmpty()) {
+				CreateSavingsAccount sa = accList.get(0);
+				dto.setSavingsAccountNumber(sa.getAccountNumber());
+				try {
+					dto.setSavingsAccountBalance(Double.parseDouble(sa.getBalance() != null ? sa.getBalance() : "0"));
+				} catch (Exception ignored) {
+					dto.setSavingsAccountBalance(0.0);
+				}
+			}
+		}
+
+		return dto;
+	}
+
+	@Transactional
+	public ApiResponse executeEarlyGoldLoanClosure(GoldLoanCloseRequestDto request) {
+		if (request == null || request.getGoldID() == null || request.getGoldID().trim().isEmpty()) {
+			throw new IllegalArgumentException("Gold ID must be provided for early loan closure.");
+		}
+
+		String goldId = request.getGoldID().trim();
+		ApplyForGold loan = applyForGoldRepo.findSingleByGoldID(goldId);
+		if (loan == null) {
+			List<ApplyForGold> list = applyForGoldRepo.findByGoldID(goldId);
+			if (list != null && !list.isEmpty()) {
+				loan = list.get(0);
+			}
+		}
+		if (loan == null) {
+			throw new RuntimeException("Gold Loan not found for Gold ID: " + goldId);
+		}
+
+		if ("CLOSED".equalsIgnoreCase(loan.getGoldLoanStatus())) {
+			throw new IllegalStateException("Gold Loan " + goldId + " is already CLOSED.");
+		}
+
+		// 1. Calculate settlement server-side to validate submitted payment
+		GoldLoanForeclosureSettlementDto settlement = calculateGoldForeclosureSettlement(goldId);
+
+		double waiverAmount = 0.0;
+		if (request.getWaiver() != null && !request.getWaiver().trim().isEmpty()) {
+			try {
+				waiverAmount = Double.parseDouble(request.getWaiver().replaceAll("[^0-9.]", "").trim());
+			} catch (Exception ignored) {}
+		}
+
+		double fineAmount = 0.0;
+		if (request.getDeductFineAmount() != null && !request.getDeductFineAmount().trim().isEmpty()) {
+			try {
+				fineAmount = Double.parseDouble(request.getDeductFineAmount().replaceAll("[^0-9.]", "").trim());
+			} catch (Exception ignored) {}
+		}
+
+		double feeAmount = 0.0;
+		if (request.getForeclosureFee() != null && !request.getForeclosureFee().trim().isEmpty()) {
+			try {
+				feeAmount = Double.parseDouble(request.getForeclosureFee().replaceAll("[^0-9.]", "").trim());
+			} catch (Exception ignored) {}
+		}
+
+		double expectedPayoff = Math.max(0.0, (settlement.getPrincipalOutstanding() + settlement.getAccruedInterestTillDate() + fineAmount + feeAmount) - waiverAmount);
+
+		double submittedPayment = 0.0;
+		String rawPayment = request.getNetAmount() != null && !request.getNetAmount().trim().isEmpty()
+				? request.getNetAmount() : request.getPaymentAmount();
+		if (rawPayment != null && !rawPayment.trim().isEmpty()) {
+			try {
+				submittedPayment = Double.parseDouble(rawPayment.replaceAll("[^0-9.]", "").trim());
+			} catch (Exception ignored) {}
+		}
+
+		// Tolerance check
+		if (submittedPayment < (expectedPayoff - 0.50)) {
+			throw new IllegalArgumentException("Submitted payment amount (Rs. " + String.format(Locale.US, "%.2f", submittedPayment)
+					+ ") is less than required settlement amount (Rs. " + String.format(Locale.US, "%.2f", expectedPayoff) + ").");
+		}
+
+		String paymentMode = request.getPaymentMode() != null ? request.getPaymentMode().trim() : "Cash";
+		String paymentDate = request.getPaymentDate() != null && !request.getPaymentDate().trim().isEmpty()
+				? request.getPaymentDate().trim() : LocalDate.now().toString();
+
+		// 2. Savings Account auto-debit if selected
+		String savingsAccountNo = request.getAccountNo();
+		if ("Saving Account".equalsIgnoreCase(paymentMode) || "Savings Account".equalsIgnoreCase(paymentMode)) {
+			CreateSavingsAccount savingAcc = null;
+			if (savingsAccountNo != null && !savingsAccountNo.trim().isEmpty()) {
+				savingAcc = createSavingRepo.findByAccountNumber(savingsAccountNo.trim()).orElse(null);
+			}
+			if (savingAcc == null && loan.getMemberCode() != null) {
+				List<CreateSavingsAccount> accList = createSavingRepo.findBySelectByCustomer(loan.getMemberCode());
+				if (accList == null || accList.isEmpty()) {
+					accList = createSavingRepo.findBySelectByCustomerIgnoreCase(loan.getMemberCode());
+				}
+				if (accList != null && !accList.isEmpty()) {
+					savingAcc = accList.get(0);
+				}
+			}
+
+			if (savingAcc == null) {
+				throw new RuntimeException("No active savings account found for customer " + loan.getMemberCode() + " to execute debit.");
+			}
+
+			double curBal = 0.0;
+			try {
+				curBal = Double.parseDouble(savingAcc.getBalance() != null ? savingAcc.getBalance() : "0");
+			} catch (Exception e) {
+				curBal = 0.0;
+			}
+
+			if (curBal < submittedPayment) {
+				throw new IllegalStateException("Insufficient funds in savings account " + savingAcc.getAccountNumber()
+						+ ". Available: Rs. " + String.format(Locale.US, "%.2f", curBal)
+						+ ", Required: Rs. " + String.format(Locale.US, "%.2f", submittedPayment));
+			}
+
+			double newBal = curBal - submittedPayment;
+			savingAcc.setBalance(String.format(Locale.US, "%.2f", newBal));
+			createSavingRepo.save(savingAcc);
+
+			// Log SavingAccountActivity
+			try {
+				SavingAccountActivity act = new SavingAccountActivity();
+				act.setAccountNumber(savingAcc.getAccountNumber());
+				act.setCustomerCode(savingAcc.getSelectByCustomer());
+				act.setCustomerName(savingAcc.getEnterCustomerName());
+				act.setContactNumber(savingAcc.getContactNumber());
+				act.setSelectBranchName(request.getPaymentBranch() != null ? request.getPaymentBranch() : loan.getBranchName());
+				act.setTransactionDate(paymentDate);
+				act.setTransactionFor("Gold Loan Early Closure Foreclosure Settlement");
+				act.setTransactionType("Debit");
+				act.setTransactionAmount(String.format(Locale.US, "%.2f", submittedPayment));
+				act.setAverageBalance(String.format(Locale.US, "%.2f", newBal));
+				act.setPayBy("Savings Auto-Debit");
+				act.setComments("Foreclosure Settlement for Gold Loan ID: " + goldId);
+				act.setApproved(true);
+				savingAccountActivityRepo.save(act);
+			} catch (Exception ex) {
+				System.err.println("Warning: Failed to log saving account activity for gold loan closure: " + ex.getMessage());
+			}
+		}
+
+		// 3. Generate Settlement Receipt Number
+		String receiptNo = "EGLC-" + System.currentTimeMillis();
+
+		// 4. Create and persist GoldLoanClose entity
+		GoldLoanClose closure = new GoldLoanClose();
+		closure.setGoldID(goldId);
+		closure.setDateOfLoan(loan.getLoanDate());
+		closure.setCustomerCode(loan.getMemberCode());
+		closure.setCustomerName(loan.getCustomerName());
+		closure.setContactNo(loan.getContactNo());
+		closure.setBranchName(loan.getBranchName());
+		closure.setLoanPlanName(loan.getLoanPlanName());
+		closure.setLoanTerm(loan.getLoanTerm());
+		closure.setLoanMode(loan.getLoanMode());
+		closure.setLoanAmount(loan.getLoanAmount());
+		closure.setRateOfInterest(loan.getRateOfInterest());
+		closure.setInterestType(loan.getInterestType());
+		closure.setEmiPayment(loan.getEmiPayment());
+		closure.setTotalInterestOfLoan(settlement.getTotalInterest());
+		closure.setSanctionedAmount(String.format(Locale.US, "%.2f", settlement.getSanctionedPrincipal()));
+		closure.setTotalPayableOfLoan(settlement.getTotalPayableAmount());
+
+		closure.setNoOfInstPaid(String.valueOf(settlement.getPaidInstallments()));
+		closure.setInterestDue(String.format(Locale.US, "%.2f", settlement.getAccruedInterestTillDate()));
+		closure.setPrincipalDue(String.format(Locale.US, "%.2f", settlement.getPrincipalOutstanding()));
+		closure.setAmountPaidTillDate(String.format(Locale.US, "%.2f", settlement.getTotalPrincipalPaid()));
+		closure.setLoanBalanceAmount("0.00");
+		closure.setDueDate(request.getDueDate() != null ? request.getDueDate() : paymentDate);
+		closure.setPaymentBranch(request.getPaymentBranch() != null ? request.getPaymentBranch() : loan.getBranchName());
+		closure.setPaymentDate(paymentDate);
+		closure.setDeductFine(request.getDeductFine() != null ? request.getDeductFine() : "NO");
+		closure.setDeductFineAmount(String.format(Locale.US, "%.2f", fineAmount));
+		closure.setPaymentAmount(String.format(Locale.US, "%.2f", submittedPayment));
+		closure.setNetAmount(String.format(Locale.US, "%.2f", submittedPayment));
+		closure.setFinancialCode(request.getFinancialCode() != null ? request.getFinancialCode() : loan.getFinancialConsultantId());
+		closure.setFinancialName(request.getFinancialName() != null ? request.getFinancialName() : loan.getFinancialConsultantName());
+		closure.setRemarks(request.getRemarks() != null ? request.getRemarks() : "Early Foreclosure Settlement Completed");
+		closure.setGoldLoanStatus("CLOSED");
+
+		closure.setPaymentMode(paymentMode);
+		closure.setAccountNo(request.getAccountNo());
+		closure.setChequeNo(request.getChequeNo());
+		closure.setChequeDate(request.getChequeDate());
+		closure.setDepositAccount(request.getDepositAccount());
+		closure.setRef_UpiId(request.getRef_UpiId());
+		closure.setWaiver(String.format(Locale.US, "%.2f", waiverAmount));
+		closure.setForeclosureFee(String.format(Locale.US, "%.2f", feeAmount));
+		closure.setReasonForClosure(request.getReasonForClosure() != null ? request.getReasonForClosure() : "Voluntary Prepayment");
+		closure.setAccruedInterest(String.format(Locale.US, "%.2f", settlement.getAccruedInterestTillDate()));
+		closure.setSettlementReceiptNo(receiptNo);
+
+		goldCloseRepo.save(closure);
+
+		// 5. Update ApplyForGold entity status to CLOSED
+		loan.setGoldLoanStatus("CLOSED");
+		loan.setPaymentStatus("PAID");
+		applyForGoldRepo.save(loan);
+
+		return new ApiResponse<>(HttpStatus.OK, "Gold Loan " + goldId + " has been successfully foreclosed and CLOSED. Collateral released.", closure);
+	}
+
+	private double roundTwoDecimals(double val) {
+		return Math.round(val * 100.0) / 100.0;
+	}
+
+	private int calculateElapsedInstallments(LocalDate startDate, LocalDate today, String mode, int maxTerm) {
+		if (today.isBefore(startDate) || startDate.isEqual(today)) {
+			return 0;
+		}
+		long days = ChronoUnit.DAYS.between(startDate, today);
+		int elapsed = 0;
+		if ("Daily".equalsIgnoreCase(mode)) {
+			elapsed = (int) days;
+		} else if ("Weekly".equalsIgnoreCase(mode)) {
+			elapsed = (int) (days / 7);
+		} else if ("Fortnightly".equalsIgnoreCase(mode)) {
+			elapsed = (int) (days / 14);
+		} else if ("Quarterly".equalsIgnoreCase(mode)) {
+			long months = ChronoUnit.MONTHS.between(startDate, today);
+			elapsed = (int) (months / 3);
+		} else {
+			// Monthly
+			long months = ChronoUnit.MONTHS.between(startDate, today);
+			elapsed = (int) months;
+		}
+		return Math.min(maxTerm, Math.max(0, elapsed));
+	}
+
+	/**
+	 * Returns gold loans that have all EMIs paid and are eligible for NOC (normal closure).
+	 * A loan is eligible when: status is ACTIVE and installments paid >= loan term.
+	 */
+	public List<GoldLoanDropdownDto> getNocEligibleGoldLoans() {
+		List<ApplyForGold> allActive = applyForGoldRepo.findByGoldLoanStatus("ACTIVE");
+		List<GoldLoanDropdownDto> eligible = new ArrayList<>();
+		for (ApplyForGold loan : allActive) {
+			if (loan.getGoldID() == null) continue;
+			int term = 0;
+			try {
+				if (loan.getLoanTerm() != null) {
+					term = Integer.parseInt(loan.getLoanTerm().replaceAll("[^0-9]", "").trim());
+				}
+			} catch (Exception ignored) {}
+			if (term <= 0) continue;
+			List<EmiInstallmentPaymentGold> emis = emiRepo.findByGoldID(loan.getGoldID());
+			int paidCount = emis != null ? emis.size() : 0;
+			if (paidCount >= term) {
+				GoldLoanDropdownDto dto = new GoldLoanDropdownDto();
+				dto.setGoldID(loan.getGoldID());
+				dto.setCustomerName(loan.getCustomerName());
+				dto.setMemberCode(loan.getMemberCode());
+				dto.setLoanAmount(loan.getLoanAmount());
+				dto.setGoldLoanStatus(loan.getGoldLoanStatus());
+				dto.setPaymentStatus(loan.getPaymentStatus());
+				dto.setLoanDate(loan.getLoanDate());
+				eligible.add(dto);
+			}
+		}
+		return eligible;
+	}
+
+	/**
+	 * Normal loan closure: validates all EMIs are paid, then closes the loan and issues NOC.
+	 */
+	@Transactional
+	public ApiResponse executeNormalGoldLoanClosure(GoldLoanClose request) {
+		if (request == null || request.getGoldID() == null || request.getGoldID().trim().isEmpty()) {
+			throw new IllegalArgumentException("Gold ID must be provided.");
+		}
+		String goldId = request.getGoldID().trim();
+		ApplyForGold loan = applyForGoldRepo.findSingleByGoldID(goldId);
+		if (loan == null) {
+			List<ApplyForGold> list = applyForGoldRepo.findByGoldID(goldId);
+			if (list != null && !list.isEmpty()) loan = list.get(0);
+		}
+		if (loan == null) {
+			throw new RuntimeException("Gold Loan not found for ID: " + goldId);
+		}
+		if ("CLOSED".equalsIgnoreCase(loan.getGoldLoanStatus())) {
+			throw new IllegalStateException("Loan " + goldId + " is already CLOSED.");
+		}
+
+		// Validate all EMIs paid
+		int term = 0;
+		try {
+			if (loan.getLoanTerm() != null) {
+				term = Integer.parseInt(loan.getLoanTerm().replaceAll("[^0-9]", "").trim());
+			}
+		} catch (Exception ignored) {}
+
+		List<EmiInstallmentPaymentGold> emis = emiRepo.findByGoldID(goldId);
+		int paidCount = emis != null ? emis.size() : 0;
+		if (paidCount < term) {
+			throw new IllegalStateException("Cannot close: " + paidCount + " of " + term + " installments paid. All EMIs must be paid for NOC closure.");
+		}
+
+		// Generate receipt number
+		String receiptNo = "NOC-GL-" + goldId + "-" + System.currentTimeMillis() % 100000;
+		request.setSettlementReceiptNo(receiptNo);
+		request.setGoldLoanStatus("CLOSED");
+		request.setNoOfInstPaid(String.valueOf(paidCount));
+
+		// Populate from loan if not set
+		if (request.getCustomerName() == null) request.setCustomerName(loan.getCustomerName());
+		if (request.getCustomerCode() == null) request.setCustomerCode(loan.getMemberCode());
+		if (request.getLoanAmount() == null) request.setLoanAmount(loan.getLoanAmount());
+		if (request.getLoanTerm() == null) request.setLoanTerm(loan.getLoanTerm());
+		if (request.getDateOfLoan() == null) request.setDateOfLoan(loan.getLoanDate());
+		if (request.getInterestType() == null) request.setInterestType(loan.getInterestType());
+		if (request.getRateOfInterest() == null) request.setRateOfInterest(loan.getRateOfInterest());
+
+		goldCloseRepo.save(request);
+
+		// Mark loan as CLOSED
+		loan.setGoldLoanStatus("CLOSED");
+		loan.setPaymentStatus("PAID");
+		applyForGoldRepo.save(loan);
+
+		return new ApiResponse<>(HttpStatus.OK,
+				"Loan " + goldId + " has been successfully closed and NOC issued. Receipt: " + receiptNo, request);
 	}
 
 }

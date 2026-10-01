@@ -60,6 +60,15 @@ public class GoldLoanDropdownDto {
 		this.customerName = customerName;
 	}
 
+	@JsonProperty("clientName")
+	public String getClientName() {
+		return customerName;
+	}
+
+	public void setClientName(String clientName) {
+		this.customerName = clientName;
+	}
+
 	public String getMemberCode() {
 		return memberCode;
 	}

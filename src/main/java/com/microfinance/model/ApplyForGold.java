@@ -110,6 +110,8 @@ public class ApplyForGold {
 	private String financialConsultantName;
 	private String sanctionedAmount;
 	private String netDisbursement;
+	private String totalInterest;
+	private String totalPayableAmount;
 	private String paymentStatus;
 	private String goldLoanStatus;
 
@@ -704,5 +706,21 @@ public class ApplyForGold {
 		}
 		items.add(item);
 		item.setApplyForGold(this);
+	}
+
+	public String getTotalInterest() {
+		return totalInterest;
+	}
+
+	public void setTotalInterest(String totalInterest) {
+		this.totalInterest = totalInterest;
+	}
+
+	public String getTotalPayableAmount() {
+		return totalPayableAmount;
+	}
+
+	public void setTotalPayableAmount(String totalPayableAmount) {
+		this.totalPayableAmount = totalPayableAmount;
 	}
 }

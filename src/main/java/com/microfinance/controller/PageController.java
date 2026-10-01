@@ -1200,20 +1200,20 @@ public class PageController {
 		return "main";
 	}
 
-	@GetMapping("/goldLoanStatement")
-	public String getgoldLoanStatement(Model model) {
-		model.addAttribute("contentPage", "goldLoan/goldLoanStatement.jsp");
-		return "main";
-	}
-
 	@GetMapping("/goldSecurePlan")
 	public String getgoldSecurePlan(Model model) {
 		model.addAttribute("contentPage", "goldLoan/goldSecurePlan.jsp");
 		return "main";
 	}
 
+	@GetMapping("/earlyGoldLoanClosure")
+	public String getEarlyGoldLoanClosure(Model model) {
+		model.addAttribute("contentPage", "goldLoan/earlyGoldLoanClosure.jsp");
+		return "main";
+	}
+
 	@GetMapping("/goldLoanClosure")
-	public String getgoldLoanClosure(Model model) {
+	public String getGoldLoanClosure(Model model) {
 		model.addAttribute("contentPage", "goldLoan/goldLoanClosure.jsp");
 		return "main";
 	}

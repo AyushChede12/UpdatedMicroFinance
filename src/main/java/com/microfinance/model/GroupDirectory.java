@@ -1,5 +1,6 @@
 package com.microfinance.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,7 +19,8 @@ public class GroupDirectory {
     private String communityLeader;
     private String contactNo;
     private String communityAddress;
-    private String allocatedStaff;
+    private String financialCode;
+    private String financialConsultantName;
     private String collectionDay;
     private String collectionTime;
 
@@ -30,7 +32,10 @@ public class GroupDirectory {
     
 
     // Uploads
+    @Column(columnDefinition = "LONGTEXT")
     private String photo;
+
+    @Column(columnDefinition = "LONGTEXT")
     private String signature;
     
     
@@ -126,11 +131,17 @@ public class GroupDirectory {
 	public void setCommunityAddress(String communityAddress) {
 		this.communityAddress = communityAddress;
 	}
-	public String getAllocatedStaff() {
-		return allocatedStaff;
+	public String getFinancialCode() {
+		return financialCode;
 	}
-	public void setAllocatedStaff(String allocatedStaff) {
-		this.allocatedStaff = allocatedStaff;
+	public void setFinancialCode(String financialCode) {
+		this.financialCode = financialCode;
+	}
+	public String getFinancialConsultantName() {
+		return financialConsultantName;
+	}
+	public void setFinancialConsultantName(String financialConsultantName) {
+		this.financialConsultantName = financialConsultantName;
 	}
 	public String getCollectionDay() {
 		return collectionDay;

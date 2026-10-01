@@ -92,6 +92,8 @@ public class ApplyForGoldRequestDto {
 	private String financialConsultantName;
 
 	private BigDecimal netDisbursement;
+	private BigDecimal totalInterest;
+	private BigDecimal totalPayableAmount;
 	private BigDecimal totalEligibleLoan;
 	private BigDecimal totalMarketValuation;
 
@@ -533,5 +535,21 @@ public class ApplyForGoldRequestDto {
 
 	public void setOrnamentPhoto2(String ornamentPhoto2) {
 		this.ornamentPhoto2 = ornamentPhoto2;
+	}
+
+	public BigDecimal getTotalInterest() {
+		return totalInterest;
+	}
+
+	public void setTotalInterest(BigDecimal totalInterest) {
+		this.totalInterest = totalInterest;
+	}
+
+	public BigDecimal getTotalPayableAmount() {
+		return totalPayableAmount;
+	}
+
+	public void setTotalPayableAmount(BigDecimal totalPayableAmount) {
+		this.totalPayableAmount = totalPayableAmount;
 	}
 }

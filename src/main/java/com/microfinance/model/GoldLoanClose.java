@@ -46,6 +46,19 @@ public class GoldLoanClose {
 	private String remarks;
 	private String goldLoanStatus;
 
+	// Enhanced Early Loan Closure & Payment Mode fields
+	private String paymentMode;
+	private String accountNo;
+	private String chequeNo;
+	private String chequeDate;
+	private String depositAccount;
+	private String ref_UpiId;
+	private String waiver;
+	private String foreclosureFee;
+	private String reasonForClosure;
+	private String accruedInterest;
+	private String settlementReceiptNo;
+
 	public Long getId() {
 		return id;
 	}
@@ -308,6 +321,94 @@ public class GoldLoanClose {
 
 	public void setGoldLoanStatus(String goldLoanStatus) {
 		this.goldLoanStatus = goldLoanStatus;
+	}
+
+	public String getPaymentMode() {
+		return paymentMode;
+	}
+
+	public void setPaymentMode(String paymentMode) {
+		this.paymentMode = paymentMode;
+	}
+
+	public String getAccountNo() {
+		return accountNo;
+	}
+
+	public void setAccountNo(String accountNo) {
+		this.accountNo = accountNo;
+	}
+
+	public String getChequeNo() {
+		return chequeNo;
+	}
+
+	public void setChequeNo(String chequeNo) {
+		this.chequeNo = chequeNo;
+	}
+
+	public String getChequeDate() {
+		return chequeDate;
+	}
+
+	public void setChequeDate(String chequeDate) {
+		this.chequeDate = chequeDate;
+	}
+
+	public String getDepositAccount() {
+		return depositAccount;
+	}
+
+	public void setDepositAccount(String depositAccount) {
+		this.depositAccount = depositAccount;
+	}
+
+	public String getRef_UpiId() {
+		return ref_UpiId;
+	}
+
+	public void setRef_UpiId(String ref_UpiId) {
+		this.ref_UpiId = ref_UpiId;
+	}
+
+	public String getWaiver() {
+		return waiver;
+	}
+
+	public void setWaiver(String waiver) {
+		this.waiver = waiver;
+	}
+
+	public String getForeclosureFee() {
+		return foreclosureFee;
+	}
+
+	public void setForeclosureFee(String foreclosureFee) {
+		this.foreclosureFee = foreclosureFee;
+	}
+
+	public String getReasonForClosure() {
+		return reasonForClosure;
+	}
+
+	public void setReasonForClosure(String reasonForClosure) {
+		this.reasonForClosure = reasonForClosure;
+	}
+
+	public String getAccruedInterest() {
+		return accruedInterest;
+	}
+
+	public void setAccruedInterest(String accruedInterest) {
+		this.accruedInterest = accruedInterest;
+	}
+
+	public String getSettlementReceiptNo() {
+		return settlementReceiptNo;
+	}
+
+	public void setSettlementReceiptNo(String settlementReceiptNo) {
+		this.settlementReceiptNo = settlementReceiptNo;
 	}
 
 }

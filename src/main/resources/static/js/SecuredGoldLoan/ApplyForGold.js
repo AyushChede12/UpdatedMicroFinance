@@ -328,8 +328,11 @@ $(document).ready(function() {
 	if (!$("#stoneWt").val()) $("#stoneWt").val("0.00");
 	if (!$("#itemType").val()) $("#itemType").val("Gold");
 
-	// Initial toggle check
+	// Initial toggle check & summary sync
 	handleLoanModeToggle();
+	calculateDeductions();
+	calculateEMI();
+	updateCalculationSummary();
 });
 
 // =========================================================================
@@ -613,6 +616,8 @@ function calculateDeductions() {
 	// 4. Net Disbursement = Amount of Loan - sum(all deduction fields)
 	const netDisbursement = Math.max(0, loanAmount - sumDeductions);
 	$("#netDisbursement").val(netDisbursement.toFixed(2));
+
+	updateCalculationSummary();
 }
 
 // =========================================================================
@@ -624,6 +629,7 @@ function handleLoanModeToggle() {
 	if (mode === "BULLET") {
 		$("#emiPayment").val("0").prop("readonly", true).prop("disabled", true);
 		$("#emiPayment").attr("placeholder", "NOT APPLICABLE (BULLET MODE)");
+		calculateEMI();
 	} else {
 		$("#emiPayment").prop("disabled", false).prop("readonly", true);
 		$("#emiPayment").attr("placeholder", "ENTER EMI PAYMENT");
@@ -633,11 +639,6 @@ function handleLoanModeToggle() {
 
 function calculateEMI() {
 	const mode = ($("#loanMode").val() || "").trim().toUpperCase();
-	if (mode === "BULLET") {
-		$("#emiPayment").val("0");
-		return;
-	}
-
 	const P = parseFloat($("#loanAmount").val()) || 0;
 	const R = parseFloat($("#rateOfInterest").val()) || 0;
 	const N = parseInt($("#loanTerm").val()) || 12;
@@ -645,25 +646,75 @@ function calculateEMI() {
 
 	if (P <= 0 || N <= 0) {
 		$("#emiPayment").val("0.00");
+		$("#totalInterest").val("0.00");
+		$("#totalPayableAmount").val("0.00");
+		updateCalculationSummary();
 		return;
 	}
 
 	let emi = 0;
-	if (interestType === "REDUCING") {
+	let totalInterest = 0;
+	let totalPayable = 0;
+
+	if (mode === "BULLET") {
+		// Bullet repayment: interest charged on applied principal P for the term N, no monthly EMI
+		totalInterest = P * (R / 100) * (N / 12);
+		totalPayable = P + totalInterest;
+		emi = 0;
+	} else if (interestType === "REDUCING") {
 		if (R <= 0) {
 			emi = P / N;
+			totalInterest = 0;
+			totalPayable = P;
 		} else {
 			const r = (R / 12) / 100;
 			emi = (P * r * Math.pow(1 + r, N)) / (Math.pow(1 + r, N) - 1);
+			totalPayable = emi * N;
+			totalInterest = Math.max(0, totalPayable - P);
 		}
 	} else {
-		// Flat Rate
-		const totalInterest = P * (R / 100) * (N / 12);
-		const totalAmount = P + totalInterest;
-		emi = totalAmount / N;
+		// Flat Rate / Rule 78: interest calculated on full applied loan amount P
+		totalInterest = P * (R / 100) * (N / 12);
+		totalPayable = P + totalInterest;
+		emi = totalPayable / N;
 	}
 
 	$("#emiPayment").val(emi.toFixed(2));
+	$("#totalInterest").val(totalInterest.toFixed(2));
+	$("#totalPayableAmount").val(totalPayable.toFixed(2));
+
+	updateCalculationSummary();
+}
+
+function updateCalculationSummary() {
+	const P = parseFloat($("#loanAmount").val()) || 0;
+	const netDisbursement = parseFloat($("#netDisbursement").val()) || 0;
+	const totalInterest = parseFloat($("#totalInterest").val()) || 0;
+	const totalPayable = parseFloat($("#totalPayableAmount").val()) || (P + totalInterest);
+	const emi = parseFloat($("#emiPayment").val()) || 0;
+	const R = parseFloat($("#rateOfInterest").val()) || 0;
+	const N = parseInt($("#loanTerm").val()) || 12;
+
+	const deductions = Math.max(0, P - netDisbursement);
+
+	const fmt = function(val) {
+		return "₹" + Number(val || 0).toLocaleString('en-IN', {
+			minimumFractionDigits: 2,
+			maximumFractionDigits: 2
+		});
+	};
+
+	$("#displayAppliedAmount").text(fmt(P));
+	$("#displayTotalDeductions").text("- " + fmt(deductions));
+	$("#displayNetDisbursement").text(fmt(netDisbursement));
+	$("#displayTotalPayable").text(fmt(totalPayable));
+	$("#displayInterestBreakdown").text("Principal + " + fmt(totalInterest) + " Interest");
+
+	$("#notePrincipal").text(fmt(P));
+	$("#noteInterestAmount").text(fmt(totalInterest));
+	$("#noteEmiAmount").text(fmt(emi));
+	$("#noteRoi").text(R.toFixed(1) + "%");
+	$("#noteTerm").text(N);
 }
 
 // =========================================================================
@@ -923,6 +974,8 @@ function saveGoldapplication() {
 		loanAmount: loanAmount,
 		interestType: $('#interestType').val() || "FLAT",
 		emiPayment: parseFloat($('#emiPayment').val()) || 0,
+		totalInterest: parseFloat($('#totalInterest').val()) || 0,
+		totalPayableAmount: parseFloat($('#totalPayableAmount').val()) || 0,
 		purposeOfLoan: $('#purposeOfLoan').val() || "Business/Personal",
 		smsSend: $('#toggle-sms-send').is(':checked') ? "1" : "0",
 

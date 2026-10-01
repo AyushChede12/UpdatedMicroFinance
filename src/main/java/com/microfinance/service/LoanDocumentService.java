@@ -56,8 +56,18 @@ public class LoanDocumentService {
     private LoanManagementService loanManagementService;
 
     @Autowired
+    private CommonDocumentService commonDocumentService;
+
+    @Autowired(required = false)
     @Qualifier("documentTemplateEngine")
     private SpringTemplateEngine documentTemplateEngine;
+
+    private SpringTemplateEngine getTemplateEngine() {
+        if (documentTemplateEngine == null) {
+            documentTemplateEngine = new com.microfinance.config.DocumentTemplateConfig().documentTemplateEngine();
+        }
+        return documentTemplateEngine;
+    }
 
     public List<String> getPrintableLoanIds() {
         return loanApplicationRepo.findAll().stream()
@@ -288,14 +298,7 @@ public class LoanDocumentService {
 
         Context context = new Context();
         context.setVariable("loan", details);
-
-        Map<String, String> society = new HashMap<>();
-        society.put("name", "SAMITHA URBAN MULTI-STATE CREDIT CO-OPERATIVE SOCIETY LTD.");
-        society.put("regInfo", "Registered Under MSCS Act 2002, Govt. of India | Reg. No: MSCS/CR/2014");
-        society.put("address", "Head Office: Administrative Complex, City Center");
-        society.put("phone", "+91 1800-123-4567");
-        society.put("email", "contact@samithaurban.coop");
-        context.setVariable("society", society);
+        context.setVariable("society", commonDocumentService.getSocietyDetails());
 
         String todayStr = LocalDate.now().toString();
         context.setVariable("todayDate", todayStr);
@@ -334,7 +337,7 @@ public class LoanDocumentService {
                 double deductions = parseDouble(details.getTotalDeductions());
                 context.setVariable("totalDeductionsFormatted", String.format(java.util.Locale.US, "%,.2f", deductions));
                 context.setVariable("netDisbursedFormatted", String.format(java.util.Locale.US, "%,.2f", netAmt));
-                context.setVariable("netDisbursedInWords", convertNumberToWords((long) netAmt) + " Rupees Only");
+                context.setVariable("netDisbursedInWords", commonDocumentService.convertNumberToWords((long) netAmt) + " Rupees Only");
                 break;
 
             case "NOC":
@@ -346,27 +349,25 @@ public class LoanDocumentService {
                 throw new IllegalArgumentException("Unsupported document type: " + docType);
         }
 
-        return documentTemplateEngine.process(templateName, context);
+        return getTemplateEngine().process(templateName, context);
     }
 
     public byte[] generateDocumentPdf(String loanId, String docType, String username) throws Exception {
         String htmlContent = renderDocumentHtml(loanId, docType);
-        byte[] pdfBytes = PdfDocumentGenerator.generatePdfFromHtml(htmlContent);
+        byte[] pdfBytes = commonDocumentService.generatePdf(htmlContent);
 
-        // Record audit log
+        // Record audit log via CommonDocumentService
         String filename = docType + "_" + loanId + ".pdf";
         String docName = getDocumentReadableName(docType);
 
-        DocumentGenerationLog log = new DocumentGenerationLog(
+        commonDocumentService.recordDocumentLog(
                 loanId,
                 docType,
                 docName,
-                (username != null && !username.trim().isEmpty()) ? username : "ADMIN",
+                username,
                 filename,
-                (long) pdfBytes.length
+                pdfBytes.length
         );
-        log.setGeneratedAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        documentGenerationLogRepo.save(log);
 
         logger.info("Generated PDF for loan: {}, docType: {}, size: {} bytes, user: {}",
                 loanId, docType, pdfBytes.length, username);
@@ -375,10 +376,7 @@ public class LoanDocumentService {
     }
 
     public List<DocumentGenerationLog> getDocumentLogs(String loanId) {
-        if (loanId == null || loanId.trim().isEmpty()) {
-            return new ArrayList<>();
-        }
-        return documentGenerationLogRepo.findByLoanIdOrderByGeneratedAtDesc(loanId.trim());
+        return commonDocumentService.getDocumentLogs(loanId);
     }
 
     private void buildRepaymentScheduleContext(LoanDocumentDetailDto details, Context context) {

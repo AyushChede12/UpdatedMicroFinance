@@ -137,14 +137,19 @@
 
 		<div class="col-lg-3 mb-4 ">
 			<div class="d-flex flex-column formFields">
-				<label for="">ALLOCATED STAFF*</label> <select id="allocatedStaff"
-					name="allocatedStaff" required="required"
+				<label for="financialCode">FINANCIAL CODE*</label>
+				<select id="financialCode" name="financialCode" required="required"
 					class="form-control selectField" style="height: 30px;">
-					<option value="">SELECT STAFF</option>
-					<option>STAFF A</option>
-					<option>STAFF B</option>
-
+					<option value="">SELECT FINANCIAL CODE</option>
 				</select>
+			</div>
+		</div>
+
+		<div class="col-lg-3 mb-4 ">
+			<div class="d-flex flex-column formFields">
+				<label for="financialConsultantName">FINANCIAL CONSULTANT NAME*</label>
+				<input type="text" id="financialConsultantName" name="financialConsultantName"
+					class="form-control" readonly placeholder="AUTO FILLED" />
 			</div>
 		</div>
 
@@ -181,7 +186,7 @@
 		<div class="col-lg-3 mb-5">
 			<label for=""
 				style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">UPLOAD
-				PHOTO <span class="star">*</span>
+				GROUP PHOTO <span class="star">*</span>
 			</label> <label for="uploadPhoto" id="drop-area"> <input type="file"
 				accept="image/*" name="uploadPhoto" id="uploadPhoto" hidden="hidden"
 				onchange="photoUpload();"
@@ -198,7 +203,7 @@
 		<div class="col-lg-3 mb-5">
 			<label for=""
 				style="font-size: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 5px;">UPLOAD
-				SIGNATURE  <span class="star">*</span>
+				GROUP SIGNATURE  <span class="star">*</span>
 			</label> <label for="uploadSignature" id="drop-area"> <input
 				type="file" accept="image/*" name="uploadSignature"
 				id="uploadSignature" hidden="hidden" onchange="signatureUpload();"
@@ -316,7 +321,8 @@
 								<th>GROUP LEADER</th>
 								<th>GL CONTACT NO</th>
 								<th>COMMUNITY ADDRESS</th>
-								<th>ALLOCATED STAFF</th>
+								<th>FINANCIAL CODE</th>
+								<th>FINANCIAL CONSULTANT NAME</th>
 								<th>COLLECTION DAY</th>
 								<th>COLLECTION TIME</th>
 								<th>GROUP MEMBERS ID'S</th>

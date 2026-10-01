@@ -21,6 +21,9 @@ public interface ApplyForGoldRepo extends JpaRepository<ApplyForGold, Long> {
 	@Query("SELECT a FROM ApplyForGold a WHERE a.goldID = :goldID")
 	List<ApplyForGold> findByGoldID(@Param("goldID") String goldID);
 
+	@Query("SELECT DISTINCT a.goldID FROM ApplyForGold a WHERE a.goldID IS NOT NULL AND TRIM(a.goldID) != '' ORDER BY a.goldID")
+	List<String> findPrintableGoldLoanIds();
+
 	ApplyForGold findSingleByGoldID(String goldID);
 
 	List<ApplyForGold> findByApprovalStatusTrue();
@@ -40,6 +43,9 @@ public interface ApplyForGoldRepo extends JpaRepository<ApplyForGold, Long> {
 
 	@Query("SELECT new com.microfinance.dto.GoldLoanDropdownDto(a.goldID, a.customerName, a.memberCode, a.goldLoanStatus, a.approvalStatus, a.paymentStatus, a.loanDate, a.loanAmount) FROM ApplyForGold a ORDER BY a.id DESC")
 	List<GoldLoanDropdownDto> findAllGoldLoanDropdown();
+
+	@Query("SELECT new com.microfinance.dto.GoldLoanDropdownDto(a.goldID, a.customerName, a.memberCode, a.goldLoanStatus, a.approvalStatus, a.paymentStatus, a.loanDate, a.loanAmount) FROM ApplyForGold a WHERE a.approvalStatus = true AND (a.goldLoanStatus IS NULL OR UPPER(a.goldLoanStatus) != 'CLOSED') ORDER BY a.id DESC")
+	List<GoldLoanDropdownDto> findClosableGoldLoans();
 
 	long countByFinancialConsultantIdInAndLoanDateContaining(List<String> financialConsultantCode, String yearMonth);
 

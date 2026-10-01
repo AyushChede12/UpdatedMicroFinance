@@ -1,4 +1,6 @@
 
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <div class="pagetitle">
 	<h1>SECURED GOLD LOAN</h1>
 	<nav>
@@ -183,6 +185,24 @@
 							onclick="calculateEMI()" name="emiPayment" id="emiPayment"
 							required="required" placeholder="ENTER EMI PAYMENT"
 							style="text-transform: uppercase;" readonly="readonly" />
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="d-flex flex-column formFields mb-4">
+						<label for="totalInterest">TOTAL INTEREST (₹)</label> <input type="text"
+							name="totalInterest" id="totalInterest" readonly="readonly"
+							placeholder="TOTAL INTEREST"
+							style="text-transform: uppercase; font-weight: 700; color: #b45309; background-color: #fffbeb; border: 1px solid #fde68a;" />
+						<small class="text-muted" style="font-size: 10px;">Calculated on Applied Amount</small>
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="d-flex flex-column formFields mb-4">
+						<label for="totalPayableAmount">TOTAL AMOUNT TO PAY (₹)</label> <input type="text"
+							name="totalPayableAmount" id="totalPayableAmount" readonly="readonly"
+							placeholder="TOTAL AMOUNT TO PAY"
+							style="text-transform: uppercase; font-weight: 700; color: #1d4ed8; background-color: #eff6ff; border: 1px solid #bfdbfe;" />
+						<small class="text-muted" style="font-size: 10px;">Principal + Total Interest</small>
 					</div>
 				</div>
 				<div class="col-lg-3">
@@ -787,6 +807,50 @@
 					</div>
 				</div>
 
+			</div>
+		</div>
+
+		<!-- Loan Disbursement & Repayment Calculation Summary Card -->
+		<div class="card my-4 p-3 shadow-sm border" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border-radius: 8px;">
+			<div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom">
+				<span style="font-size: 13px; font-weight: 700; color: #0f172a; text-transform: uppercase;">
+					<i class="bi bi-calculator text-primary mr-1"></i> LOAN CALCULATION &amp; REPAYMENT BREAKDOWN
+				</span>
+				<span class="badge bg-primary text-white" style="font-size: 11px;">Interest Charged on Applied Principal</span>
+			</div>
+			<div class="row g-2 text-center">
+				<div class="col-lg-3 col-md-6 mb-2">
+					<div class="p-3 bg-white rounded border shadow-sm h-100">
+						<div class="text-muted text-uppercase" style="font-size: 11px; font-weight: 600;">Applied Loan Amount</div>
+						<div class="text-dark font-weight-bold my-1" id="displayAppliedAmount" style="font-size: 18px;">₹0.00</div>
+						<small class="text-secondary" style="font-size: 10px;">Principal (Interest calculated on this)</small>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6 mb-2">
+					<div class="p-3 bg-white rounded border shadow-sm h-100">
+						<div class="text-muted text-uppercase" style="font-size: 11px; font-weight: 600;">Total Deductions</div>
+						<div class="text-danger font-weight-bold my-1" id="displayTotalDeductions" style="font-size: 18px;">- ₹0.00</div>
+						<small class="text-muted" style="font-size: 10px;">Charges + GST deducted upfront</small>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6 mb-2">
+					<div class="p-3 bg-white rounded border shadow-sm h-100" style="border-top: 3px solid #16a34a !important;">
+						<div class="text-muted text-uppercase" style="font-size: 11px; font-weight: 600;">Net Amount Received</div>
+						<div class="text-success font-weight-bold my-1" id="displayNetDisbursement" style="font-size: 18px;">₹0.00</div>
+						<small class="text-success" style="font-size: 10px;">Disbursed to borrower</small>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6 mb-2">
+					<div class="p-3 bg-white rounded border shadow-sm h-100" style="border-top: 3px solid #2563eb !important;">
+						<div class="text-muted text-uppercase" style="font-size: 11px; font-weight: 600;">Total Amount to Pay</div>
+						<div class="text-primary font-weight-bold my-1" id="displayTotalPayable" style="font-size: 18px;">₹0.00</div>
+						<small class="text-primary" id="displayInterestBreakdown" style="font-size: 10px;">Principal + ₹0.00 Interest</small>
+					</div>
+				</div>
+			</div>
+			<div class="mt-2 text-muted px-1" style="font-size: 11.5px; line-height: 1.5;">
+				<i class="bi bi-info-circle-fill text-info mr-1"></i>
+				<b>Repayment Policy Note:</b> Upfront deductions are subtracted from the applied loan amount to yield the net received amount. The interest (<span id="noteInterestAmount" style="font-weight: 600; color: #b45309;">₹0.00</span>) and monthly EMI (<span id="noteEmiAmount" style="font-weight: 600; color: #0d47a1;">₹0.00</span>) are strictly calculated on the full <b>Applied Loan Amount</b> (<span id="notePrincipal" style="font-weight: 600;">₹0.00</span>) at <span id="noteRoi" style="font-weight: 600;">12.0%</span> p.a. for a term of <span id="noteTerm" style="font-weight: 600;">12</span> months.
 			</div>
 		</div>
 

@@ -554,19 +554,12 @@
 							DOCUMENT</span>
 				</a></li>
 
-
-
-
-
-				<li><a href="${baseUrl}/goldLoanStatement"> <i class="bi bi-circle"></i>
-						<span style="font-family: 'Poppins', sans-serif">GOLD LOAN
-							STATEMENT</span>
-				</a></li>
-
-
-				<li><a href="${baseUrl}/goldLoanClosure"> <i class="bi bi-circle"></i>
-						<span style="font-family: 'Poppins', sans-serif">GOLD LOAN
+				<li><a href="${baseUrl}/earlyGoldLoanClosure"> <i class="bi bi-circle"></i>
+						<span style="font-family: 'Poppins', sans-serif">EARLY LOAN
 							CLOSURE</span>
+				</a></li>
+				<li><a href="${baseUrl}/goldLoanClosure"> <i class="bi bi-circle"></i>
+						<span style="font-family: 'Poppins', sans-serif">LOAN CLOSURE</span>
 				</a></li>
 
 

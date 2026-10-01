@@ -12,6 +12,7 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 public class DocumentTemplateConfig {
 
     @Bean(name = "documentTemplateEngine")
+    @org.springframework.context.annotation.Primary
     public SpringTemplateEngine documentTemplateEngine() {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
 

@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.microfinance.dto.ApiResponse;
 import com.microfinance.dto.ApplyForGoldRequestDto;
+import com.microfinance.dto.GoldLoanCloseRequestDto;
 import com.microfinance.dto.GoldLoanDropdownDto;
+import com.microfinance.dto.GoldLoanForeclosureSettlementDto;
 import com.microfinance.model.ApplyForGold;
 import com.microfinance.model.EmiInstallmentPaymentGold;
 import com.microfinance.model.GoldDirectory;
@@ -408,6 +410,55 @@ public class SecuredGoldLoanController {
 		} else {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(
 					new ApiResponse<>(HttpStatus.NO_CONTENT, "No EMI Installment records found for this Gold ID", null));
+		}
+	}
+
+	@GetMapping("/getClosableGoldLoans")
+	public ResponseEntity<ApiResponse<List<GoldLoanDropdownDto>>> getClosableGoldLoans() {
+		List<GoldLoanDropdownDto> list = secureGoldLoanService.getClosableGoldLoans();
+		return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK, "Closable Gold Loans fetched successfully", list));
+	}
+
+	@GetMapping("/calculateForeclosure")
+	public ResponseEntity<ApiResponse<GoldLoanForeclosureSettlementDto>> calculateForeclosure(@RequestParam("goldId") String goldId) {
+		try {
+			GoldLoanForeclosureSettlementDto dto = secureGoldLoanService.calculateGoldForeclosureSettlement(goldId);
+			return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK, "Foreclosure settlement calculated successfully", dto));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(new ApiResponse<>(HttpStatus.BAD_REQUEST, e.getMessage(), null));
+		}
+	}
+
+	@PostMapping("/executeEarlyLoanClosure")
+	public ResponseEntity<ApiResponse> executeEarlyLoanClosure(@RequestBody GoldLoanCloseRequestDto request) {
+		try {
+			ApiResponse response = secureGoldLoanService.executeEarlyGoldLoanClosure(request);
+			return ResponseEntity.ok(response);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(new ApiResponse<>(HttpStatus.BAD_REQUEST, e.getMessage(), null));
+		}
+	}
+
+	@GetMapping("/getNocEligibleGoldLoans")
+	public ResponseEntity<ApiResponse<List<GoldLoanDropdownDto>>> getNocEligibleGoldLoans() {
+		List<GoldLoanDropdownDto> list = secureGoldLoanService.getNocEligibleGoldLoans();
+		return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK,
+				list.isEmpty() ? "No loans eligible for NOC found" : "NOC-eligible loans fetched successfully", list));
+	}
+
+	@PostMapping("/executeNormalLoanClosure")
+	public ResponseEntity<ApiResponse> executeNormalLoanClosure(@RequestBody GoldLoanClose request) {
+		try {
+			ApiResponse response = secureGoldLoanService.executeNormalGoldLoanClosure(request);
+			return ResponseEntity.ok(response);
+		} catch (IllegalStateException | IllegalArgumentException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(new ApiResponse<>(HttpStatus.BAD_REQUEST, e.getMessage(), null));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, "Closure failed: " + e.getMessage(), null));
 		}
 	}
 }

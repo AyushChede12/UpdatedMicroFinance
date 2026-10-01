@@ -42,7 +42,38 @@ $(document).ready(function() {
 	});
 });
 
-// js for fetching the members in the dropdown
+// Load Financial Consultants into FINANCIAL CODE dropdown
+$(document).ready(function() {
+	$.ajax({
+		url: 'api/financialconsultant/getAllFinancialConsultantDetails',
+		type: 'GET',
+		success: function(response) {
+			const consultants = response.data;
+			const fcDropdown = $('#financialCode');
+			fcDropdown.empty().append('<option value="">SELECT FINANCIAL CODE</option>');
+			if (Array.isArray(consultants) && consultants.length > 0) {
+				consultants.forEach(function(fc) {
+					if (fc.financialCode && fc.financialName) {
+						fcDropdown.append(
+							`<option value="${fc.financialCode}" data-name="${fc.financialName}">${fc.financialCode} - ${fc.financialName}</option>`
+						);
+					}
+				});
+			}
+		},
+		error: function() {
+			console.error('Failed to load financial consultants');
+		}
+	});
+});
+
+// Auto-fill Financial Consultant Name when Financial Code is selected
+$(document).on('change', '#financialCode', function() {
+	const selected = $(this).find('option:selected');
+	$('#financialConsultantName').val(selected.data('name') || '');
+});
+
+
 $(document).ready(function() {
 	$('#communityLeader,#selectedMember').on('change', function() {
 		const selectedCode = $(this).val(); // This is your memberCode now!
@@ -67,35 +98,6 @@ $(document).ready(function() {
 
 							if (changedId === 'communityLeader') {
 								$('#contactNo').val(d.contactNo || '');
-
-								if (d.customerPhoto) {
-									const fileName = d.customerPhoto; // This should be JUST the name
-									const photoPath = `/Uploads/${encodeURIComponent(fileName)}`;
-
-									$("#photoPreview").attr("src", photoPath);
-									$("#photoHidden").val(fileName); // ✅ Only file name!
-									photoSizeEdit({ target: { result: photoPath } });
-								} else {
-									$("#photoPreview").attr("src", "/Uploads/default-placeholder.jpg");
-									$("#photoHidden").val("");
-									photoSizeEdit({ target: { result: "/Uploads/default-placeholder.jpg" } });
-								}
-
-								if (d.customerSignature) {
-									const fileName = d.customerSignature;
-									const signPath = `/Uploads/${encodeURIComponent(fileName)}`;
-
-									$('#signaturePreview').attr('src', signPath);
-									$('#signatureHidden').val(fileName); // ✅ Only file name!
-									signatureSizeEdit({ target: { result: signPath } });
-								} else {
-									$('#signaturePreview').attr('src', '/Uploads/default-placeholder.jpg');
-									$('#signatureHidden').val("");
-									signatureSizeEdit({ target: { result: "/Uploads/default-placeholder.jpg" } });
-								}
-
-
-
 							} else if (changedId === 'selectedMember') {
 
 								$('#customerName').val(d.customerName);
@@ -213,7 +215,8 @@ $(document).ready(function() {
 			communityLeader: $('#communityLeader').val(),
 			contactNo: $('#contactNo').val(),
 			communityAddress: $('#communityAddress').val(),
-			allocatedStaff: $('#allocatedStaff').val(),
+			financialCode: $('#financialCode').val(),
+			financialConsultantName: $('#financialConsultantName').val(),
 			collectionDay: $('#collectionDay').val(),
 			collectionTime: $('#collectionTime').val(),
 			photo: $('#photoHidden').val(),
@@ -226,7 +229,11 @@ $(document).ready(function() {
 			contact: contacts.join(",")
 		};
 
-		// 4️⃣ AJAX request
+		// 4️⃣ Disable button to prevent double submission
+		const $saveBtn = $('#savegroupdirectory');
+		$saveBtn.prop('disabled', true);
+
+		// 5️⃣ AJAX request
 		$.ajax({
 			url: 'api/joinliability/savegroupdirectory',
 			type: 'POST',
@@ -234,16 +241,18 @@ $(document).ready(function() {
 			data: JSON.stringify(groupDirectory),
 			success: function(response) {
 				console.log('Response:', response);
-				if (response.status === 'CREATED') {
-					alert("Group Directory saved successfully!\n" + response.message);
+				if (response.status === 'CREATED' || response.status === 'OK') {
+					alert(response.message || "Group Directory saved successfully!");
 					location.reload();
 				} else {
-					alert("❌ Failed: " + response.message);
+					alert("❌ Failed: " + (response.message || "Could not save group directory."));
+					$saveBtn.prop('disabled', false);
 				}
 			},
 			error: function(xhr, status, error) {
 				console.error('Error:', error);
 				alert('❌ Error while saving group directory.');
+				$saveBtn.prop('disabled', false);
 			}
 		});
 	});
@@ -277,7 +286,8 @@ $(document).ready(function() {
                 <td>${item.communityLeader || ''}</td>
                 <td>${item.contactNo || ''}</td>
                 <td>${item.communityAddress || ''}</td>
-                <td>${item.allocatedStaff || ''}</td>
+                <td>${item.financialCode || ''}</td>
+                <td>${item.financialConsultantName || ''}</td>
                 <td>${item.collectionDay || ''}</td>
                 <td>${item.collectionTime || ''}</td>
                 <td>${item.selectedMember || '-'}</td>
@@ -310,6 +320,98 @@ $(document).ready(function() {
 });
 
 
+
+// Upload Group Photo
+function photoUpload() {
+	const fileInput = document.getElementById("uploadPhoto");
+	const file = fileInput.files && fileInput.files[0];
+	if (!file) return;
+
+	if (!file.type.startsWith("image/")) {
+		alert("Please upload a valid image file for group photo.");
+		fileInput.value = "";
+		return;
+	}
+
+	// Immediate preview
+	const reader = new FileReader();
+	reader.onload = function(e) {
+		photoSizeEdit(e);
+	};
+	reader.readAsDataURL(file);
+
+	// Upload to server
+	const formData = new FormData();
+	formData.append("file", file);
+
+	$.ajax({
+		url: "api/joinliability/uploadFile",
+		type: "POST",
+		data: formData,
+		processData: false,
+		contentType: false,
+		success: function(response) {
+			if (response.data && response.data.fileName) {
+				$("#photoHidden").val(response.data.fileName);
+				$("#chkphoto").text("");
+			}
+		},
+		error: function(xhr) {
+			console.error("Failed to upload group photo to server:", xhr.responseText);
+			const r = new FileReader();
+			r.onload = function(ev) {
+				$("#photoHidden").val(ev.target.result);
+			};
+			r.readAsDataURL(file);
+		}
+	});
+}
+
+// Upload Group Signature
+function signatureUpload() {
+	const fileInput = document.getElementById("uploadSignature");
+	const file = fileInput.files && fileInput.files[0];
+	if (!file) return;
+
+	if (!file.type.startsWith("image/")) {
+		alert("Please upload a valid image file for group signature.");
+		fileInput.value = "";
+		return;
+	}
+
+	// Immediate preview
+	const reader = new FileReader();
+	reader.onload = function(e) {
+		signatureSizeEdit(e);
+	};
+	reader.readAsDataURL(file);
+
+	// Upload to server
+	const formData = new FormData();
+	formData.append("file", file);
+
+	$.ajax({
+		url: "api/joinliability/uploadFile",
+		type: "POST",
+		data: formData,
+		processData: false,
+		contentType: false,
+		success: function(response) {
+			if (response.data && response.data.fileName) {
+				$("#signatureHidden").val(response.data.fileName);
+				$("#chksignature").text("");
+			}
+		},
+		error: function(xhr) {
+			console.error("Failed to upload group signature to server:", xhr.responseText);
+			const r = new FileReader();
+			r.onload = function(ev) {
+				$("#signatureHidden").val(ev.target.result);
+			};
+			r.readAsDataURL(file);
+		}
+	});
+}
 
 // js for sizing the photos
 function photoSizeEdit(e) {
@@ -401,10 +503,12 @@ $(document).ready(function() {
 							<td>${item.communityLeader || ''}</td>
 							<td>${item.contactNo || ''}</td>
 							<td>${item.communityAddress || ''}</td>
-							<td>${item.allocatedStaff || ''}</td>
+							<td>${item.financialCode || ''}</td>
+							<td>${item.financialConsultantName || ''}</td>
 							<td>${item.collectionDay || ''}</td>
 							<td>${item.collectionTime || ''}</td>
-							
+							<td>${item.selectedMember || '-'}</td>
+							<td>${item.customerName || '-'}</td>
 									    
 									   <td class="d-flex" style="gap:.5rem;">
 									   <button class="iconbutton edit-btn" data-id="${item.id}">
@@ -448,9 +552,30 @@ $(document).ready(function() {
 					$("#communityLeader").val(item.communityLeader);
 					$("#contactNo").val(item.contactNo);
 					$("#communityAddress").val(item.communityAddress);
-					$("#allocatedStaff").val(item.allocatedStaff);
+					$("#financialCode").val(item.financialCode);
+					$("#financialConsultantName").val(item.financialConsultantName);
 					$("#collectionDay").val(item.collectionDay);
 					$("#collectionTime").val(item.collectionTime);
+
+					if (item.photo) {
+						const photoSrc = item.photo.startsWith("data:") || item.photo.startsWith("http") ? item.photo : `/Uploads/${encodeURIComponent(item.photo)}`;
+						$("#photoPreview").attr("src", photoSrc);
+						$("#photoHidden").val(item.photo);
+						photoSizeEdit({ target: { result: photoSrc } });
+					} else {
+						$("#photoPreview").attr("src", "Uploads/upload.png");
+						$("#photoHidden").val("");
+					}
+
+					if (item.signature) {
+						const signSrc = item.signature.startsWith("data:") || item.signature.startsWith("http") ? item.signature : `/Uploads/${encodeURIComponent(item.signature)}`;
+						$("#signaturePreview").attr("src", signSrc);
+						$("#signatureHidden").val(item.signature);
+						signatureSizeEdit({ target: { result: signSrc } });
+					} else {
+						$("#signaturePreview").attr("src", "Uploads/upload.png");
+						$("#signatureHidden").val("");
+					}
 
 					$("#savegroupdirectory").hide();
 					$("#updategroupdirectory").show();
@@ -481,9 +606,12 @@ $(document).ready(function() {
 			communityLeader: $('#communityLeader').val()?.trim(),
 			contactNo: $('#contactNo').val()?.trim(),
 			communityAddress: $('#communityAddress').val()?.trim(),
-			allocatedStaff: $('#allocatedStaff').val()?.trim(),
+			financialCode: $('#financialCode').val()?.trim(),
+			financialConsultantName: $('#financialConsultantName').val()?.trim(),
 			collectionDay: $('#collectionDay').val(),
-			collectionTime: $('#collectionTime').val()
+			collectionTime: $('#collectionTime').val(),
+			photo: $('#photoHidden').val(),
+			signature: $('#signatureHidden').val()
 		};
 
 		$.ajax({
@@ -494,6 +622,12 @@ $(document).ready(function() {
 			success: function(response) {
 				alert("✅ Group Directory updated successfully!");
 				$('#groupdirectordform')[0].reset();
+				$('#photoHidden').val('');
+				$('#signatureHidden').val('');
+				$('#photoPreview').attr('src', 'Uploads/upload.png');
+				$('#signaturePreview').attr('src', 'Uploads/upload.png');
+				$("#savegroupdirectory").show();
+				$("#updategroupdirectory").hide();
 
 				fetchGroupDirectory(); // Make sure this function is defined
 			},

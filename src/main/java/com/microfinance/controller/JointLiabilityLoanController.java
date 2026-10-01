@@ -33,6 +33,10 @@ import com.microfinance.model.LoanApplication;
 import com.microfinance.model.LoanAprroval;
 import com.microfinance.service.JointLiabilityLoanService;
 
+import org.springframework.http.MediaType;
+import java.io.File;
+import java.util.HashMap;
+
 @RestController
 @RequestMapping("/api/joinliability")
 public class JointLiabilityLoanController {
@@ -42,6 +46,31 @@ public class JointLiabilityLoanController {
 
 	@Autowired
 	JointLiabilityLoanService jointLiabilityLoanService;
+
+	@PostMapping(value = "/uploadFile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<ApiResponse<Map<String, String>>> uploadFile(@RequestParam("file") MultipartFile file) {
+		if (file == null || file.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(ApiResponse.error(HttpStatus.BAD_REQUEST, "File is empty."));
+		}
+		try {
+			File dir = new File(uploadDirectory);
+			if (!dir.exists()) {
+				dir.mkdirs();
+			}
+			String originalFilename = file.getOriginalFilename() != null ? file.getOriginalFilename().replaceAll("\\s+", "_") : "file.jpg";
+			String fileName = System.currentTimeMillis() + "_" + originalFilename;
+			File dest = new File(dir, fileName);
+			file.transferTo(dest);
+			Map<String, String> data = new HashMap<>();
+			data.put("fileName", fileName);
+			data.put("filePath", "/Uploads/" + fileName);
+			return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "File uploaded successfully.", data));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "File upload failed: " + e.getMessage()));
+		}
+	}
 
 	@PostMapping("/createLendingGroupsave")
 	public ResponseEntity<ApiResponse<CreateLendingGroup>> saveLendingGroup(
@@ -63,16 +92,12 @@ public class JointLiabilityLoanController {
 	@GetMapping("/viewlendinggroup")
 	public ResponseEntity<ApiResponse<List<CreateLendingGroup>>> getAlllendinggroup() {
 		List<CreateLendingGroup> plans = jointLiabilityLoanService.getAlllendinggroup();
-
-		if (plans != null && !plans.isEmpty()) {
-			ApiResponse<List<CreateLendingGroup>> response = ApiResponse.success(HttpStatus.OK,
-					"Lending Group fetched successfully.", plans);
-			return ResponseEntity.ok(response);
-		} else {
-			ApiResponse<List<CreateLendingGroup>> response = ApiResponse.error(HttpStatus.NOT_FOUND,
-					"No Lending Group found.");
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+		if (plans == null) {
+			plans = new java.util.ArrayList<>();
 		}
+		ApiResponse<List<CreateLendingGroup>> response = ApiResponse.success(HttpStatus.OK,
+				"Lending Group fetched successfully.", plans);
+		return ResponseEntity.ok(response);
 	}
 
 	@GetMapping("/editLendingGroup/{id}")
@@ -145,16 +170,12 @@ public class JointLiabilityLoanController {
 	@GetMapping("/viewGroupDirectories")
 	public ResponseEntity<ApiResponse<List<GroupDirectory>>> getAllGroupDirectories() {
 		List<GroupDirectory> groups = jointLiabilityLoanService.getAllGroupDirectories();
-
-		if (groups != null && !groups.isEmpty()) {
-			ApiResponse<List<GroupDirectory>> response = ApiResponse.success(HttpStatus.OK,
-					"Group Directories fetched successfully.", groups);
-			return ResponseEntity.ok(response);
-		} else {
-			ApiResponse<List<GroupDirectory>> response = ApiResponse.error(HttpStatus.NOT_FOUND,
-					"No Group Directory found.");
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+		if (groups == null) {
+			groups = new java.util.ArrayList<>();
 		}
+		ApiResponse<List<GroupDirectory>> response = ApiResponse.success(HttpStatus.OK,
+				"Group Directories fetched successfully.", groups);
+		return ResponseEntity.ok(response);
 	}
 
 	// Append the group directory in the form
