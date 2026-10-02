@@ -2733,13 +2733,8 @@ public class AccountManagementService {
 		// =========================
 		// SOURCE LEDGER CHECK
 		// =========================
-		System.out.println(dto.getAccountCode());
-		System.out.println(dto.getSourceBranch());
 		Optional<LedgerAccountMaster> sourceLedgerOptional = ledgerAccountRepository
 				.findByAccountCodeAndBranchName(dto.getAccountCode(), dto.getSourceBranch());
-		System.out.println("Source Account Code : "+dto.getAccountCode());
-		System.out.println("Source Branch : "+ dto.getSourceBranch());
-		System.out.println("Source Ledger : "+sourceLedgerOptional);
 
 		if (!sourceLedgerOptional.isPresent()) {
 
@@ -2774,13 +2769,8 @@ public class AccountManagementService {
 		// =========================
 		// RECEIVING LEDGER CHECK
 		// =========================
-		System.out.println(dto.getReceivingBranch());
 		Optional<LedgerAccountMaster> receivingLedgerOptional = ledgerAccountRepository
 				.findByAccountCodeAndBranchName(dto.getAccountCode(), dto.getReceivingBranch());
-		System.out.println("Receiving Account Code : "+dto.getAccountCode());
-		System.out.println("Receiving Branch : "+ dto.getReceivingBranch());
-		System.out.println("Receiving Ledger : "+receivingLedgerOptional);
-
 
 		if (!receivingLedgerOptional.isPresent()) {
 

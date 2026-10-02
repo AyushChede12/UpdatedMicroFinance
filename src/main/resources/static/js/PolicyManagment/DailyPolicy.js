@@ -594,8 +594,8 @@ $(document).ready(function() {
 
 						var customerName = $("#clientName").val();
 						var transactionType = "";
-						if ("CASH".equalsIgnoreCase(paymentBy)) {
-							transactionType = "DRD_INSTALLMENT_CASH";
+						if (modeOfPayment && modeOfPayment.toUpperCase() === "CASH") {
+							transactionType = "DD_INSTALLMENT_CASH";
 						} else {
 							transactionType = "TRANSFER";
 						}

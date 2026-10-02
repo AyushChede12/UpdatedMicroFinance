@@ -660,7 +660,6 @@ $(document).ready(function() {
 					var firstName = $('#firstName').val();
 					var middleName = $('#middleName').val();
 					var lastName = $('#lastName').val();
-					var lastName = $('#lastName').val();
 					const customerName = [
 						firstName,
 						middleName,

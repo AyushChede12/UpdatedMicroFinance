@@ -1,8 +1,47 @@
 $(document).ready(function() {
 
+	$.ajax({
+		url: 'api/preference/getAllCategoryModule',
+		method: "GET",
+		success: function(response) {
+
+			if (response.status === 'FOUND') {
+
+				console.log("Fetched Category:", response.data);
+
+				$('#category').empty().append('<option value="">--SELECT CATEGORY--</option>');
+
+				// Set to store unique category names
+				const uniqueCategories = new Set();
+
+				response.data.forEach(function(category) {
+					if (category.category) {
+						uniqueCategories.add(category.category.trim());
+					}
+				});
+
+				// Append unique categories
+				uniqueCategories.forEach(function(categoryName) {
+					$('#category').append(
+						$('<option>', {
+							value: categoryName,
+							text: categoryName
+						})
+					);
+				});
+
+			} else {
+				console.warn("No Category data available.");
+			}
+		},
+		error: function(err) {
+			console.error("Error fetching Categories:", err);
+		}
+	});
+
 	//With Search in Dropdown
 	$.ajax({
-		url: 'api/customermanagement/approved',
+		url: 'api/customermanagement/getAllCustomer',
 		type: 'GET',
 		success: function(response) {
 			// Check if response has data array inside `data`
@@ -10,12 +49,12 @@ $(document).ready(function() {
 				let customerOptions = response.data.map(function(item) {
 					return {
 						id: item.memberCode,
-						text: item.memberCode + " - " + item.customerName
+						text: item.memberCode + " - " + item.customerName.toUpperCase()
 					};
 				});
 
 				$('#customerCode').select2({
-					placeholder: '-- Search Customer Code or Name --',
+					placeholder: '-- SEARCH CUSTOMER CODE OR NAME --',
 					data: customerOptions,
 					matcher: function(params, data) {
 						if ($.trim(params.term) === '') return data;
@@ -46,17 +85,27 @@ $(document).ready(function() {
 				success: function(response) {
 					if (response.status == "FOUND") {
 						let data = response.data[0];
+						var firstName = data.firstName;
+						var middleName = data.middleName;
+						var lastName = data.lastName;
+						const customerName = [
+							firstName,
+							middleName,
+							lastName
+						].filter(Boolean).join(" ");
 						$("#id").val(data.id);
 						$("#signupDate").val(data.signupDate);
 						$("#authenticateFor").val(data.authenticateFor);
-						$("#customerName").val(data.customerName.toUpperCase());
-						$("#familyMemberName").val(data.guardianName.toUpperCase());
+						$("#customerName").val(customerName);
+						$("#guardianName").val(data.guardianName.toUpperCase());
 						$("#relationToApplicant").val(data.relationToApplicant.toUpperCase());
 						$("#customerGender").val(data.customerGender);
 						$("#dob").val(data.dob);
 						$("#customerAge").val(data.customerAge);
 						$("#relationshipStatus").val(data.relationshipStatus.toUpperCase());
 						$("#customerAddress").val(data.customerAddress.toUpperCase());
+						$("#category").val(data.category);
+						$("#caste").val(data.caste);
 						$("#district").val(data.district.toUpperCase());
 						$("#state").val(data.state.toUpperCase());
 						$("#branchName").val(data.branchName.toUpperCase());
@@ -64,18 +113,25 @@ $(document).ready(function() {
 						$("#aadharNo").val(data.aadharNo);
 						$("#panNo").val(data.panNo.toUpperCase());
 						$("#voterNo").val(data.voterNo.toUpperCase());
+						$("#drivingLicenceNo").val(data.drivingLicenceNo);
 						$("#contactNo").val(data.contactNo);
 						$("#emailId").val(data.emailId.toUpperCase());
 						$("#profession").val(data.profession.toUpperCase());
 						$("#academicBackground").val(data.academicBackground.toUpperCase());
 						$("#referralCode").val(data.referralCode.toUpperCase());
 						$("#referralName").val(data.referralName.toUpperCase());
+						$("#shareValue").val(data.shareValue.toUpperCase());
+						$("#noOfShare").val(data.noOfShare.toUpperCase());
+						$("#shareAmount").val(data.shareAmount.toUpperCase());
+						$("#lightBill").val(data.lightBill.toUpperCase());
+						$("#taxBill").val(data.taxBill.toUpperCase());
 						$("#minor").val(data.minor);
 						//$("#photoPreview").attr("src", data.customerPhoto ? `Uploads/${data.customerPhoto}` : "Uploads/default-placeholder.jpg");
-						
+
 						//Nominee 
 						$("#nomineeName").val(data.nomineeName.toUpperCase());
 						$("#nomineeRelationToApplicant").val(data.nomineeRelationToApplicant.toUpperCase());
+						$("#nomineeDOB").val(data.nomineeDOB);
 						$("#nomineeAddress").val(data.nomineeAddress.toUpperCase());
 						$("#nomineeKycNo").val(data.nomineeKycNo.toUpperCase());
 						$("#nomineeMobileNo").val(data.nomineeMobileNo);
@@ -108,7 +164,65 @@ $(document).ready(function() {
 							$("#signatureHidden").val("");
 						}
 
+						if (data.customerVoter) {
+							const voterPath = `Uploads/${data.customerVoter}`;
+							$("#voterPreview").attr("src", voterPath);
+							$("#voterHidden").val(voterPath);
+							const fakeVoterEvent = { target: { result: voterPath } };
+							voterSizeEdit(fakeVoterEvent);
 
+						} else {
+							$("#voterPreview").attr("src", "Uploads/default-placeholder.jpg");
+							$("#voterHidden").val("");
+						}
+
+						if (data.customerDriving) {
+							const drivingPath = `Uploads/${data.customerDriving}`;
+							$("#drivingPreview").attr("src", drivingPath);
+							$("#drivingHidden").val(drivingPath);
+							const fakeDrivingEvent = { target: { result: drivingPath } };
+							drivingSizeEdit(fakeDrivingEvent);
+
+						} else {
+							$("#drivingPreview").attr("src", "Uploads/default-placeholder.jpg");
+							$("#drivingHidden").val("");
+						}
+
+						if (data.newlyAddedImage) {
+							const newlyAddedPath = `Uploads/${data.newlyAddedImage}`;
+							$("#newlyAddedPreview").attr("src", newlyAddedPath);
+							$("#newlyAddedHidden").val(newlyAddedPath);
+							const fakeNewlyAddedEvent = { target: { result: newlyAddedPath } };
+							newlyAddedSizeEdit(fakeNewlyAddedEvent);
+
+						} else {
+							$("#newlyAddedPreview").attr("src", "Uploads/default-placeholder.jpg");
+							$("#newlyAddedHidden").val("");
+						}
+
+						if (data.nomineAadhar) {
+							const nomineAadharPath = `Uploads/${data.nomineAadhar}`;
+							$("#nomineAadharPreview").attr("src", nomineAadharPath);
+							$("#nomineAadharHidden").val(nomineAadharPath);
+							const fakeNomineAadharEvent = { target: { result: nomineAadharPath } };
+							nomineAadharSizeEdit(fakeNomineAadharEvent);
+
+						} else {
+							$("#nomineAadharPreview").attr("src", "Uploads/default-placeholder.jpg");
+							$("#nomineAadharHidden").val("");
+						}
+
+						if (data.nomineSignature) {
+							const nomineSignaturePath = `Uploads/${data.nomineSignature}`;
+							$("#nomineSignaturePreview").attr("src", nomineSignaturePath);
+							$("#nomineSignatureHidden").val(nomineSignaturePath);
+							const fakeNomineSignatureEvent = { target: { result: nomineSignaturePath } };
+							nomineSignatureSizeEdit(fakeNomineSignatureEvent);
+
+						} else {
+							$("#nomineSignaturePreview").attr("src", "Uploads/default-placeholder.jpg");
+							$("#nomineSignatureHidden").val("");
+						}
 
 						if (parseInt(data.memberStatus) === 1) {
 							$('#toggle-member-status').prop('checked', true);
@@ -138,6 +252,16 @@ $(document).ready(function() {
 						updateToggleColor(document.getElementById('toggle-mobile-banking'));
 						updateToggleColor(document.getElementById('toggle-net-banking'));
 						updateToggleColor(document.getElementById('toggle-sms-send'));
+
+						//Fees Details
+						$("#memberFees").val(data.memberFees);
+						$("#buildingFund").val(data.buildingFund);
+						$("#adminCharge").val(data.adminCharge);
+						$("#documentCharge").val(data.documentCharge);
+						$("#entryFee").val(data.entryFee);
+						$("#otherCharge").val(data.otherCharge);
+						$("#paymentBy").val(data.paymentBy);
+						$("#remarks").val(data.remarks);
 
 					} else {
 						alert("No customer found for this member code.");
@@ -185,13 +309,44 @@ $(document).ready(function() {
 		}
 		var customerData = new FormData();
 		var id = $('#id').val();
+		var customerName = $('#customerName').val().trim();
+
+		var firstName = "";
+		var middleName = "";
+		var lastName = "";
+
+		if (customerName) {
+		    var nameParts = customerName.split(/\s+/);
+
+		    if (nameParts.length === 1) {
+		        // Example: Niraj
+		        firstName = nameParts[0];
+
+		    } else if (nameParts.length === 2) {
+		        // Example: Niraj Sharma
+		        firstName = nameParts[0];
+		        lastName = nameParts[1];
+
+		    } else {
+		        // Example: Niraj Kumar Sharma
+		        firstName = nameParts[0];
+		        lastName = nameParts[nameParts.length - 1];
+
+		        middleName = nameParts.slice(1, -1).join(" ");
+		    }
+		}
+
 		customerData.append("id", id);
 		customerData.append("memberCode", customerCode);
 		customerData.append("signupDate", $('#signupDate').val());
 		customerData.append("authenticateFor", $('#authenticateFor').val());
 		customerData.append("customerName", $('#customerName').val());
+		customerData.append("firstName", firstName);
+		customerData.append("middleName", middleName);
+		customerData.append("lastName", lastName);
 		customerData.append("customerGender", $('#customerGender').val());
 		customerData.append("guardianName", $('#guardianName').val());
+		customerData.append("guardianAccNo", $('#guardianAccNo').val());
 		customerData.append("relationToApplicant", $('#relationToApplicant').val());
 		customerData.append("dob", $('#dob').val());
 		customerData.append("customerAge", $('#customerAge').val());
@@ -211,6 +366,12 @@ $(document).ready(function() {
 		customerData.append("emailId", $('#emailId').val());
 		customerData.append("profession", $('#profession').val());
 		customerData.append("academicBackground", $('#academicBackground').val());
+		customerData.append("shareValue", $('#shareValue').val());
+		customerData.append("noOfShare", $('#noOfShare').val());
+		customerData.append("shareAmount", $('#shareAmount').val());
+		customerData.append("lightBill", $('#lightBill').val());
+		customerData.append("taxBill", $('#taxBill').val());
+		customerData.append("minor", $('#minor').val());
 
 		// Nominee
 		customerData.append("nomineeName", $('#nomineeName').val());
@@ -221,6 +382,19 @@ $(document).ready(function() {
 		customerData.append("nomineeAge", $('#nomineeAge').val());
 		customerData.append("nomineePanNo", $('#nomineePanNo').val());
 		customerData.append("nomineeKycType", $('#nomineeKycType').val());
+		customerData.append("nomineeDOB", $('#nomineeDOB').val());
+
+		//Fees Details
+		customerData.append("memberFees", $('#memberFees').val());
+		customerData.append("buildingFund", $('#buildingFund').val());
+		customerData.append("adminCharge", $('#adminCharge').val());
+		customerData.append("documentCharge", $('#documentCharge').val());
+		customerData.append("entryFee", $('#entryFee').val());
+		customerData.append("otherCharge", $('#otherCharge').val());
+		customerData.append("paymentBy", $('#paymentBy').val());
+		customerData.append("remarks", $('#remarks').val());
+
+		//Toggles
 		customerData.append("memberStatus", $('#toggle-member-status').is(':checked') ? 1 : 0);
 		customerData.append("memberBanking", $('#toggle-mobile-banking').is(':checked') ? 1 : 0);
 		customerData.append("netBanking", $('#toggle-net-banking').is(':checked') ? 1 : 0);
@@ -228,6 +402,9 @@ $(document).ready(function() {
 
 		const photoFile = $('#customerPhoto')[0].files[0];
 		const signatureFile = $('#customerSignature')[0].files[0];
+		const votingFile = $('#customerVoter')[0].files[0];
+		const drivingFile = $('#customerDriving')[0].files[0];
+		const newlyAddedFile = $('#newlyAddedImage')[0].files[0];
 
 		if (photoFile) {
 			customerData.append("customerPhoto", photoFile);
@@ -235,6 +412,18 @@ $(document).ready(function() {
 
 		if (signatureFile) {
 			customerData.append("customerSignature", signatureFile);
+		}
+
+		if (votingFile) {
+			customerData.append("customerVoter", votingFile);
+		}
+
+		if (drivingFile) {
+			customerData.append("customerDriving", drivingFile);
+		}
+
+		if (newlyAddedFile) {
+			customerData.append("newlyAddedImage", newlyAddedFile);
 		}
 
 		$.ajax({
@@ -484,6 +673,90 @@ function signatureUpload() {
 	}
 }
 
+function voterUpload() {
+	const file = document.getElementById("customerVoter").files[0];
+	if (file && file.type.startsWith("image/")) {
+		const reader = new FileReader();
+		reader.onload = function(e) {
+			voterSizeEdit(e);
+			$("#voterHidden").val("");
+		};
+		reader.readAsDataURL(file);
+	} else {
+		alert("Please upload a valid image file for Voter.");
+	}
+}
+
+function drivingUpload() {
+	const file = document.getElementById("customerDriving").files[0];
+	if (file && file.type.startsWith("image/")) {
+		const reader = new FileReader();
+		reader.onload = function(e) {
+			drivingSizeEdit(e);
+			$("#drivingHidden").val("");
+		};
+		reader.readAsDataURL(file);
+	} else {
+		alert("Please upload a valid image file for Driving License.");
+	}
+}
+
+function newlyAddedUpload() {
+	const file = document.getElementById("newlyAddedImage").files[0];
+	if (file && file.type.startsWith("image/")) {
+		const reader = new FileReader();
+		reader.onload = function(e) {
+			newlyAddedSizeEdit(e);
+			$("#newlyAddedHidden").val("");
+		};
+		reader.readAsDataURL(file);
+	} else {
+		alert("Please upload a valid image file for this image.");
+	}
+}
+
+function nomineAadharUpload() {
+	const file = document.getElementById("nomineAadhar").files[0];
+	if (file && file.type.startsWith("image/")) {
+		const reader = new FileReader();
+		reader.onload = function(e) {
+			nomineAadharSizeEdit(e);
+			$("#nomineAadharHidden").val("");
+		};
+		reader.readAsDataURL(file);
+	} else {
+		alert("Please upload a valid image file for nominee aadhar.");
+	}
+}
+
+function nomineSignatureUpload() {
+	const file = document.getElementById("nomineSignature").files[0];
+	if (file && file.type.startsWith("image/")) {
+		const reader = new FileReader();
+		reader.onload = function(e) {
+			nomineAadharSizeEdit(e);
+			$("#nomineSignatureHidden").val("");
+		};
+		reader.readAsDataURL(file);
+	} else {
+		alert("Please upload a valid image file for nominee aadhar.");
+	}
+}
+
+function nomineSignatureUpload() {
+	const file = document.getElementById("nomineSignature").files[0];
+	if (file && file.type.startsWith("image/")) {
+		const reader = new FileReader();
+		reader.onload = function(e) {
+			nomineAadharSizeEdit(e);
+			$("#nomineSignatureHidden").val("");
+		};
+		reader.readAsDataURL(file);
+	} else {
+		alert("Please upload a valid image file for nominee signature.");
+	}
+}
+
 function photoSizeEdit(e) {
 	const previewimg = document.getElementById("photoPreview");
 	previewimg.src = e.target.result;
@@ -496,6 +769,56 @@ function photoSizeEdit(e) {
 
 function signatureSizeEdit(e) {
 	const previewimg = document.getElementById("signaturePreview");
+	previewimg.src = e.target.result;
+	previewimg.style.width = "100%";
+	previewimg.style.height = "100%";
+	previewimg.style.objectFit = "cover";
+	previewimg.style.overflow = "hidden";
+	previewimg.style.borderRadius = "20px";
+}
+
+function voterSizeEdit(e) {
+	const previewimg = document.getElementById("voterPreview");
+	previewimg.src = e.target.result;
+	previewimg.style.width = "100%";
+	previewimg.style.height = "100%";
+	previewimg.style.objectFit = "cover";
+	previewimg.style.overflow = "hidden";
+	previewimg.style.borderRadius = "20px";
+}
+
+function drivingSizeEdit(e) {
+	const previewimg = document.getElementById("drivingPreview");
+	previewimg.src = e.target.result;
+	previewimg.style.width = "100%";
+	previewimg.style.height = "100%";
+	previewimg.style.objectFit = "cover";
+	previewimg.style.overflow = "hidden";
+	previewimg.style.borderRadius = "20px";
+}
+
+function newlyAddedSizeEdit(e) {
+	const previewimg = document.getElementById("newlyAddedPreview");
+	previewimg.src = e.target.result;
+	previewimg.style.width = "100%";
+	previewimg.style.height = "100%";
+	previewimg.style.objectFit = "cover";
+	previewimg.style.overflow = "hidden";
+	previewimg.style.borderRadius = "20px";
+}
+
+function nomineAadharSizeEdit(e) {
+	const previewimg = document.getElementById("nomineAadharPreview");
+	previewimg.src = e.target.result;
+	previewimg.style.width = "100%";
+	previewimg.style.height = "100%";
+	previewimg.style.objectFit = "cover";
+	previewimg.style.overflow = "hidden";
+	previewimg.style.borderRadius = "20px";
+}
+
+function nomineSignatureSizeEdit(e) {
+	const previewimg = document.getElementById("nomineSignaturePreview");
 	previewimg.src = e.target.result;
 	previewimg.style.width = "100%";
 	previewimg.style.height = "100%";
