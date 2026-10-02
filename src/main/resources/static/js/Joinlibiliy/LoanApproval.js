@@ -268,11 +268,9 @@ function handleAction(action) {
         data: JSON.stringify(payload),
         success: function(response) {
             targetBtn.prop('disabled', false).html(originalText);
-            if (response && response.status === 'OK' && response.data) {
+            if (response && response.status === 'OK') {
                 alert('SUCCESS: Group Loan Application ' + appNo + ' has been ' + action + 'D successfully!');
-                populateForm(response.data);
-                loadDropdown(response.data.applicationNo);
-                loadApplicationsList();
+                location.reload();
             } else {
                 alert('Response: ' + (response.message || 'Action executed.'));
             }
