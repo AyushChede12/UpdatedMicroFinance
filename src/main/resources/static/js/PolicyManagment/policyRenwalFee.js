@@ -565,10 +565,10 @@ $(document).ready(function() {
 						 * =====================================================
 						 */
 						var customerName = $("#customerName").val();
-						if ("CASH".equalsIgnoreCase(paymentBy)) {
-							transactionType = "RD_INSTALLMENT_CASH";
+						if (modeOfPayment && modeOfPayment.toUpperCase() === "CASH") {
+						    transactionType = "RD_INSTALLMENT_CASH";
 						} else {
-							transactionType = "TRANSFER";
+						    transactionType = "TRANSFER";
 						}
 
 						const accountTransactionData = {
