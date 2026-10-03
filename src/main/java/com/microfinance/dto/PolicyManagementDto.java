@@ -49,6 +49,8 @@ public class PolicyManagementDto {
 	private String dueDate;
 	private String noOfInstallments;
 	private String modeOfPayment;
+	private String balance;
+	private String fdSplitAmounts;
 
 	public Long getId() {
 		return id;
@@ -329,7 +331,7 @@ public class PolicyManagementDto {
 	public void setSmsSend(String smsSend) {
 		this.smsSend = smsSend;
 	}
- 
+
 	public String getImage1() {
 		return image1;
 	}
@@ -408,6 +410,22 @@ public class PolicyManagementDto {
 
 	public void setModeOfPayment(String modeOfPayment) {
 		this.modeOfPayment = modeOfPayment;
+	}
+
+	public String getBalance() {
+		return balance;
+	}
+
+	public void setBalance(String balance) {
+		this.balance = balance;
+	}
+
+	public String getFdSplitAmounts() {
+		return fdSplitAmounts;
+	}
+
+	public void setFdSplitAmounts(String fdSplitAmounts) {
+		this.fdSplitAmounts = fdSplitAmounts;
 	}
 
 }

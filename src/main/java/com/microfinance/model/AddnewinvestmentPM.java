@@ -55,6 +55,8 @@ public class AddnewinvestmentPM {
 	private String dueDate;
 	private String noOfInstallments;
 	private String modeOfPayment;
+	private String balance;
+	private String fdSplitAmounts;
 
 	public Long getId() {
 		return id;
@@ -423,6 +425,22 @@ public class AddnewinvestmentPM {
 
 	public void setRoi(String roi) {
 		this.roi = roi;
+	}
+
+	public String getBalance() {
+		return balance;
+	}
+
+	public void setBalance(String balance) {
+		this.balance = balance;
+	}
+
+	public String getFdSplitAmounts() {
+		return fdSplitAmounts;
+	}
+
+	public void setFdSplitAmounts(String fdSplitAmounts) {
+		this.fdSplitAmounts = fdSplitAmounts;
 	}
 
 }

@@ -1,23 +1,35 @@
 $(document).ready(function() {
 
 	$.ajax({
-		url: "accountManagement/assets",
+		url: "accountManagement/bank-accounts",
 		type: "GET",
 		success: function(response) {
+
 			if (response.status === "OK") {
-				const assetsList = response.data;
 
-				$("#paymentFrom").empty().append("<option value=''>--SELECT PAYMENT FROM--</option>");
+				const bankAccounts = response.data;
 
-				assetsList.forEach(assets => {
-					const option =
-						`<option value="${assets.accountId}">
-									${assets.accountTitle.toUpperCase()}
-								</option>`;
+				$("#paymentFrom")
+					.empty()
+					.append("<option value=''>--SELECT PAYMENT FROM--</option>");
+
+				bankAccounts.forEach(bank => {
+
+					const option = `
+	                    <option value="${bank.accountId}">
+	                        ${bank.accountTitle.toUpperCase()}
+	                    </option>
+	                `;
 
 					$("#paymentFrom").append(option);
 				});
 			}
+		},
+		error: function(xhr) {
+
+			$("#paymentFrom")
+				.empty()
+				.append("<option value=''>--NO BANK ACCOUNT FOUND--</option>");
 		}
 	});
 
@@ -69,7 +81,10 @@ $(document).ready(function() {
 
 	$("#payBtn").click(function() {
 
-		// ✅ 1. Basic Validation
+		// =========================================================
+		// 1. BASIC VALIDATION
+		// =========================================================
+
 		let month = $("#month").val();
 		let agentCode = $("#agentCode").val();
 		let fullName = $("#fullName").val();
@@ -80,67 +95,112 @@ $(document).ready(function() {
 		let paymentMode = $("#paymentMode").val();
 		let paymentFrom = $("#paymentFrom").val();
 
-		if (!month || !agentCode || !finalPayout || !paymentDate || !paymentBranch || !paymentMode || !paymentFrom) {
+		if (!month ||
+			!agentCode ||
+			!finalPayout ||
+			!paymentDate ||
+			!paymentBranch ||
+			!paymentMode ||
+			!paymentFrom) {
+
 			alert("Please fill all required fields!");
 			return;
 		}
 
-		// ✅ 2. Prepare Request Object
+		// =========================================================
+		// 2. PREPARE REQUEST OBJECT
+		// =========================================================
+
 		let requestData = {
+
 			month: month,
+
 			agentCode: agentCode,
+
 			fullName: fullName,
+
 			designation: designation,
 
 			personalSales: $("#personalSales").val() || 0,
+
 			groupSales: $("#groupSales").val() || 0,
+
 			overallSales: $("#overallSales").val() || 0,
 
 			totalEarnings: $("#totalEarnings").val() || 0,
+
 			taxDeducted: $("#taxDeducted").val() || 0,
+
 			serviceDeduction: $("#serviceDeduction").val() || 0,
+
 			extraAllowance: $("#extraAllowance").val() || 0,
+
 			finalPayout: finalPayout,
 
 			paymentDate: paymentDate,
+
 			paymentBranch: paymentBranch,
+
 			paymentMode: paymentMode,
 
 			paymentFromLedgerId: paymentFrom
 		};
 
-		// ✅ 3. Disable Button (avoid double click)
-		$("#payBtn").prop("disabled", true).text("Processing...");
+		// =========================================================
+		// 3. DISABLE BUTTON
+		// =========================================================
 
-		// ✅ 4. AJAX Call
+		$("#payBtn")
+			.prop("disabled", true)
+			.text("Processing...");
+
+		// =========================================================
+		// 4. PAYMENT AJAX
+		// =========================================================
+
 		$.ajax({
+
 			url: "accountManagement/pay",
+
 			type: "POST",
+
 			contentType: "application/json",
+
 			data: JSON.stringify(requestData),
+
 			success: function(response) {
 
 				if (response.status === "OK") {
+
 					alert("✅ Incentive Paid Successfully!");
 
 					location.reload();
 
 				} else {
-					alert("❌ " + response.message);
-				}
 
-				$("#payBtn").prop("disabled", false).text("PAY");
+					alert("❌ " + response.message);
+
+					$("#payBtn")
+						.prop("disabled", false)
+						.text("PAY");
+				}
 			},
 
 			error: function(xhr) {
+
 				let msg = "Something went wrong!";
-				if (xhr.responseJSON && xhr.responseJSON.message) {
+
+				if (xhr.responseJSON &&
+					xhr.responseJSON.message) {
+
 					msg = xhr.responseJSON.message;
 				}
 
 				alert("❌ " + msg);
 
-				$("#payBtn").prop("disabled", false).text("PAY");
+				$("#payBtn")
+					.prop("disabled", false)
+					.text("PAY");
 			}
 		});
 

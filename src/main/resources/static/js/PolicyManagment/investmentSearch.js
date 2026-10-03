@@ -8,12 +8,12 @@ $(document).ready(function() {
 				let policyOptions = response.data.map(function(item) {
 					return {
 						id: item.policyCode,
-						text: item.policyCode + " - " + item.customerName
+						text: item.policyCode + " - " + item.customerName.toUpperCase()
 					};
 				});
 
 				$('#policyCode').select2({
-					placeholder: '-- Search Policy Code or Name --',
+					placeholder: '-- SEARCH POLICY CODE OR NAME --',
 					data: policyOptions,
 					matcher: function(params, data) {
 						if ($.trim(params.term) === '') return data;
@@ -47,18 +47,18 @@ $(document).ready(function() {
 	                    <tr style="font-family: 'Poppins', sans-serif;">
 	                        <td>${index + 1}</td>
 	                        <td>${item.policyCode || ''}</td>
-	                        <td>${item.customerName || ''}</td>
+	                        <td>${item.customerName.toUpperCase() || ''}</td>
 	                        <td>${item.policyStartDate || ''}</td>
 	                        <td>${item.contactNo || ''}</td>
-	                        <td>${item.address || ''}</td>
-	                        <td>${item.district || ''}</td>
-	                        <td>${item.state || ''}</td>
-	                        <td>${item.branchName || ''}</td>
-	                        <td>${item.schemeType || ''}</td>
+	                        <td>${item.address.toUpperCase() || ''}</td>
+	                        <td>${item.district.toUpperCase() || ''}</td>
+	                        <td>${item.state.toUpperCase() || ''}</td>
+	                        <td>${item.branchName.toUpperCase() || ''}</td>
+	                        <td>${item.schemeType.toUpperCase() || ''}</td>
 	                        <td>${item.policyAmount || ''}</td>
 	                        <td>${item.maturityAmount || ''}</td>
-	                        <td>${item.paymentBy || ''}</td>
-	                        <td>${item.approved == true ? 'Approved' : 'Pending'}</td>
+	                        <td>${item.paymentBy.toUpperCase() || ''}</td>
+	                        <td>${item.approved == true ? 'APPROVED' : 'PENDING'}</td>
 	                    </tr>`;
 					tbody.append(row);
 				});
@@ -107,18 +107,18 @@ $(document).ready(function() {
 		                <tr>
 		                    <td>1</td>
 		                    <td>${data.policyCode || ''}</td>
-		                    <td>${data.customerName || ''}</td>
+		                    <td>${data.customerName.toUpperCase() || ''}</td>
 		                    <td>${data.policyStartDate || ''}</td>
 		                    <td>${data.contactNo || ''}</td>
-		                    <td>${data.address || ''}</td>
-		                    <td>${data.district || ''}</td>
-		                    <td>${data.state || ''}</td>
-		                    <td>${data.branchName || ''}</td>
-		                    <td>${data.schemeType || ''}</td>
+		                    <td>${data.address.toUpperCase() || ''}</td>
+		                    <td>${data.district.toUpperCase() || ''}</td>
+		                    <td>${data.state.toUpperCase() || ''}</td>
+		                    <td>${data.branchName.toUpperCase() || ''}</td>
+		                    <td>${data.schemeType.toUpperCase() || ''}</td>
 		                    <td>${data.policyAmount || ''}</td>
 		                    <td>${data.maturityAmount || ''}</td>
-		                    <td>${data.paymentBy || ''}</td>
-		                    <td>${(data.approved === true || data.approved === 'true' || data.approved === 1) ? 'Approved' : 'Pending'}</td>
+		                    <td>${data.paymentBy.toUpperCase() || ''}</td>
+		                    <td>${(data.approved === true || data.approved === 'true' || data.approved === 1) ? 'APPROVED' : 'PENDING'}</td>
 		                </tr>`;
 					$('#policyTableBody').append(newRow);
 

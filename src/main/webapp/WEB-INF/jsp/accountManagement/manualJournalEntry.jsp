@@ -113,7 +113,7 @@
 		<div class="col-lg-3">
 			<div class="d-flex flex-column formFields mb-4">
 				<label for="">TRANSACTION AMOUNT <span class="star">*</span></label>
-				<input type="text" name="transactionAmount" id="transactionAmount"
+				<input type="number" name="transactionAmount" id="transactionAmount"
 					required="required" placeholder="ENTER AMOUNT" />
 			</div>
 		</div>

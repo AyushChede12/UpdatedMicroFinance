@@ -4,159 +4,160 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 public class DailyPremiumRenewalPM {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	
 	private long id;
 
-    private String policyCode;
-    private String renewalDate;
+	private String policyCode;
+	private String renewalDate;
 
-    private String policyDate;
-    private String maturityDate;
+	private String policyDate;
+	private String maturityDate;
 
-    private String customerCode;
-    private String clientName;
-    private String contactNo;
+	private String customerCode;
+	private String clientName;
+	private String contactNo;
 
-    private Double policyAmount;
-    private String policyType;
-    private String policyTerm;
+	private Double policyAmount;
+	private String policyType;
+	private String policyTerm;
 
-    private Double maturityAmount;
-    private Double totalDeposit;
-    private Double paymentDue;
+	private Double maturityAmount;
+	private Double totalDeposit;
+	private Double paymentDue;
 
-    private String lastPaymentDate; // can be Date if it's stored as date
-    private String dueDate;
+	private String lastPaymentDate; // can be Date if it's stored as date
+	private String dueDate;
 
-    private Integer noOfInst;
-    private Integer noOfInstPaid;
+	private Integer noOfInst;
+	private Integer noOfInstPaid;
 
-    private String modeOfPayment;
-    private boolean isApproved;
-    private String fees;
-    private String branchname;
-    private double netDeposit;
+	private String modeOfPayment;
 
-    // Getters and Setters
+	@JsonProperty("isApproved")
+	private boolean isApproved;
+	private String fees;
+	private String branchname;
+	private double netDeposit;
 
-    public String getPolicyCode() {
-        return policyCode;
-    }
+	// Getters and Setters
 
-    public void setPolicyCode(String policyCode) {
-        this.policyCode = policyCode;
-    }
+	public String getPolicyCode() {
+		return policyCode;
+	}
 
-  
-    public String getCustomerCode() {
-        return customerCode;
-    }
+	public void setPolicyCode(String policyCode) {
+		this.policyCode = policyCode;
+	}
 
-    public void setCustomerCode(String customerCode) {
-        this.customerCode = customerCode;
-    }
+	public String getCustomerCode() {
+		return customerCode;
+	}
 
-    public String getClientName() {
-        return clientName;
-    }
+	public void setCustomerCode(String customerCode) {
+		this.customerCode = customerCode;
+	}
 
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
-    }
+	public String getClientName() {
+		return clientName;
+	}
 
-    public String getContactNo() {
-        return contactNo;
-    }
+	public void setClientName(String clientName) {
+		this.clientName = clientName;
+	}
 
-    public void setContactNo(String contactNo) {
-        this.contactNo = contactNo;
-    }
+	public String getContactNo() {
+		return contactNo;
+	}
 
-    public Double getPolicyAmount() {
-        return policyAmount;
-    }
+	public void setContactNo(String contactNo) {
+		this.contactNo = contactNo;
+	}
 
-    public void setPolicyAmount(Double policyAmount) {
-        this.policyAmount = policyAmount;
-    }
+	public Double getPolicyAmount() {
+		return policyAmount;
+	}
 
-    public String getPolicyType() {
-        return policyType;
-    }
+	public void setPolicyAmount(Double policyAmount) {
+		this.policyAmount = policyAmount;
+	}
 
-    public void setPolicyType(String policyType) {
-        this.policyType = policyType;
-    }
+	public String getPolicyType() {
+		return policyType;
+	}
 
-    public String getPolicyTerm() {
-        return policyTerm;
-    }
+	public void setPolicyType(String policyType) {
+		this.policyType = policyType;
+	}
 
-    public void setPolicyTerm(String policyTerm) {
-        this.policyTerm = policyTerm;
-    }
+	public String getPolicyTerm() {
+		return policyTerm;
+	}
 
-    public Double getMaturityAmount() {
-        return maturityAmount;
-    }
+	public void setPolicyTerm(String policyTerm) {
+		this.policyTerm = policyTerm;
+	}
 
-    public void setMaturityAmount(Double maturityAmount) {
-        this.maturityAmount = maturityAmount;
-    }
+	public Double getMaturityAmount() {
+		return maturityAmount;
+	}
 
-    public Double getTotalDeposit() {
-        return totalDeposit;
-    }
+	public void setMaturityAmount(Double maturityAmount) {
+		this.maturityAmount = maturityAmount;
+	}
 
-    public void setTotalDeposit(Double totalDeposit) {
-        this.totalDeposit = totalDeposit;
-    }
+	public Double getTotalDeposit() {
+		return totalDeposit;
+	}
 
-    public Double getPaymentDue() {
-        return paymentDue;
-    }
+	public void setTotalDeposit(Double totalDeposit) {
+		this.totalDeposit = totalDeposit;
+	}
 
-    public void setPaymentDue(Double paymentDue) {
-        this.paymentDue = paymentDue;
-    }
+	public Double getPaymentDue() {
+		return paymentDue;
+	}
 
-    public String getLastPaymentDate() {
-        return lastPaymentDate;
-    }
+	public void setPaymentDue(Double paymentDue) {
+		this.paymentDue = paymentDue;
+	}
 
-    public void setLastPaymentDate(String lastPaymentDate) {
-        this.lastPaymentDate = lastPaymentDate;
-    }
+	public String getLastPaymentDate() {
+		return lastPaymentDate;
+	}
 
-   
+	public void setLastPaymentDate(String lastPaymentDate) {
+		this.lastPaymentDate = lastPaymentDate;
+	}
 
-    public Integer getNoOfInst() {
-        return noOfInst;
-    }
+	public Integer getNoOfInst() {
+		return noOfInst;
+	}
 
-    public void setNoOfInst(Integer noOfInst) {
-        this.noOfInst = noOfInst;
-    }
+	public void setNoOfInst(Integer noOfInst) {
+		this.noOfInst = noOfInst;
+	}
 
-    public Integer getNoOfInstPaid() {
-        return noOfInstPaid;
-    }
+	public Integer getNoOfInstPaid() {
+		return noOfInstPaid;
+	}
 
-    public void setNoOfInstPaid(Integer noOfInstPaid) {
-        this.noOfInstPaid = noOfInstPaid;
-    }
+	public void setNoOfInstPaid(Integer noOfInstPaid) {
+		this.noOfInstPaid = noOfInstPaid;
+	}
 
-    public String getModeOfPayment() {
-        return modeOfPayment;
-    }
+	public String getModeOfPayment() {
+		return modeOfPayment;
+	}
 
-    public void setModeOfPayment(String modeOfPayment) {
-        this.modeOfPayment = modeOfPayment;
-    }
+	public void setModeOfPayment(String modeOfPayment) {
+		this.modeOfPayment = modeOfPayment;
+	}
 
 	public long getId() {
 		return id;
@@ -229,7 +230,5 @@ public class DailyPremiumRenewalPM {
 	public void setNetDeposit(double netDeposit) {
 		this.netDeposit = netDeposit;
 	}
-    
-	
 
 }

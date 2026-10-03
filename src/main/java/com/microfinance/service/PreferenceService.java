@@ -716,4 +716,9 @@ public class PreferenceService {
 		return categoryModuleRepo.findByCategory(category);
 	}
 
+	public CompanyAdministration getCompanyDetails() {
+		// TODO Auto-generated method stub
+		return companyAdministrationRepo.findTopByOrderByIdAsc();
+	}
+
 }

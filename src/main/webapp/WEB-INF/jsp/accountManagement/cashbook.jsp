@@ -57,47 +57,97 @@
 </form>
 
 <div class="row mt-5">
+
 	<div class="col-12">
+
 		<div class="card recent-sales">
 
 			<div class="card-body table-responsive">
+
 				<div
 					class="card-header d-flex justify-content-between align-items-center">
+
 					<h5 class="mb-0">SEARCH RESULT</h5>
 
-					<div>
-						<button class="btn btn-success btn-sm" onclick="exportToExcel()">Export</button>
+					<div style="width: 250px;">
 
-						<button class="btn btn-primary btn-sm" onclick="printReport()">Print</button>
+						<input type="text" id="cashBookSearch" class="form-control"
+							placeholder="Search customer..." style="text-transform: uppercase;">
+
 					</div>
+
 				</div>
+
 
 
 				<table class="table table-borderless datatable overflow-scroll">
+
 					<thead class="table-light">
+
 						<tr style="font-family: 'Poppins', sans-serif;">
-							<th style="white-space: nowrap;">SR NO.</th>
-							<th style="white-space: nowrap;">DATE</th>
-							<th style="white-space: nowrap;">TRANSACTION ID</th>
-							<th style="white-space: nowrap;">ACCOUNT NO</th>
-							<th style="white-space: nowrap;">DESCRIPTION</th>
-							<th style="white-space: nowrap;">DEBIT (CASH IN)</th>
-							<th style="white-space: nowrap;">CREDIT (CASH OUT)</th>
-							<th style="white-space: nowrap;">BALANCE</th>
+
+							<th class="text-center" style="white-space: nowrap;">S.NO.</th>
+
+							<th class="text-center" style="white-space: nowrap;">DATE</th>
+
+							<th class="text-center" style="white-space: nowrap;">CUSTOMER
+								NAME</th>
+
+							<th class="text-center" style="white-space: nowrap;">REFERENCE
+								NO.</th>
+
+							<th class="text-center" style="white-space: nowrap;">ACCOUNT
+								NO.</th>
+
+							<th class="text-center" style="white-space: nowrap;">NARRATION</th>
+
+							<th class="text-end" style="white-space: nowrap;">DEBIT
+								(&#8377;)</th>
+
+							<th class="text-end" style="white-space: nowrap;">CREDIT
+								(&#8377;)</th>
+
+							<th class="text-end" style="white-space: nowrap;">BALANCE
+								(&#8377;)</th>
+
 						</tr>
+
 					</thead>
-					<tbody>
+
+					<tbody id="cashBookTableBody">
+
+						<tr>
+
+							<td colspan="8" class="text-center">NO RECORDS FOUND</td>
+
+						</tr>
+
 					</tbody>
+
+					<tfoot>
+
+						<tr>
+
+							<th colspan="5" class="text-end">TOTAL</th>
+
+							<th class="text-end" id="totalDebit">&#8377;0.00</th>
+
+							<th class="text-end" id="totalCredit">&#8377;0.00</th>
+
+							<th class="text-end" id="closingBalance">&#8377;0.00</th>
+
+						</tr>
+
+					</tfoot>
+
 				</table>
 
-				<div class="text-end mt-3">
-					<strong>Total Debit:</strong> <span id="totalDebit">0.00</span> | <strong>Total
-						Credit:</strong> <span id="totalCredit">0.00</span> | <strong>Closing
-						Balance:</strong> <span id="closingBalance">0.00</span>
-				</div>
 			</div>
+
 		</div>
+
 	</div>
+
 </div>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>

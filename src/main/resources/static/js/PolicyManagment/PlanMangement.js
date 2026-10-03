@@ -223,13 +223,12 @@ $(document).ready(function() {
 			let row = `<tr>
 					<td>${i + 1}</td>
 	                <td>${person.planCodeDD}</td>
-	                <td>${person.planNameDD}</td>
+	                <td>${person.planNameDD.toUpperCase()}</td>
 	                <td>${person.minimumDeposit}</td>
 	                <td>${person.rateOfInterest}</td>
-	                <td>${person.installmentType}</td>
+	                <td>${person.installmentType.toUpperCase()}</td>
 	                <td>${person.ddterm}</td>
-					<td>${person.maturityAmount}</td>
-					<td>${statusText}</td>
+					<td>${statusText.toUpperCase()}</td>
 					<td class="d-flex" style="gap: .7rem;">
 						<button type="button" class="iconbutton edit-btnDD" data-id="${person.id}">
 						<i class="fa-solid fa-pen-to-square text-success"></i>
@@ -678,10 +677,9 @@ $(document).ready(function() {
 		                <td>${person.planNameRD}</td>
 		                <td>${person.minimumAmountRD}</td>
 		                <td>${person.rateOfInterestRD}</td>
-		                <td>${person.installmentTypeRD}</td>
+		                <td>${person.installmentTypeRD.toUpperCase()}</td>
 		                <td>${person.rdterm}</td>
-						<td>${person.maturityAmountRD}</td>
-						<td>${statusText}</td>
+						<td>${statusText.toUpperCase()}</td>
 						<td class="d-flex" style="gap: .7rem;">
 							<button type="button" class="iconbutton reccuringedit-btnRD" data-id="${person.id}">
 							<i class="fa-solid fa-pen-to-square text-success"></i>
@@ -1042,10 +1040,9 @@ $(document).ready(function() {
 			                <td>${person.planNameFD}</td>
 			                <td>${person.minimumAmountFD}</td>
 			                <td>${person.rateOfInterestFD}</td>
-			                <td>${person.installmentTypeFD}</td>
+			                <td>${person.installmentTypeFD.toUpperCase()}</td>
 			                <td>${person.fdterm}</td>
-							<td>${person.maturityAmountFD}</td>
-							<td>${statusText}</td>
+							<td>${statusText.toUpperCase()}</td>
 							<td class="d-flex" style="gap: .7rem;">
 								<button type="button" class="iconbutton fixededit-btnFD" data-id="${person.id}">
 								<i class="fa-solid fa-pen-to-square text-success"></i>
@@ -1389,10 +1386,9 @@ $(document).ready(function() {
 				                <td>${person.planNameMD}</td>
 				                <td>${person.minimumAmountMD}</td>
 				                <td>${person.rateOfInterestMD}</td>
-				                <td>${person.installmentTypeMD}</td>
+				                <td>${person.installmentTypeMD.toUpperCase()}</td>
 				                <td>${person.misTerm}</td>
-								<td>${person.maturityAmountMD}</td>
-								<td>${statusText}</td>
+								<td>${statusText.toUpperCase()}</td>
 								<td class="d-flex" style="gap: .7rem;">
 									<button type="button" class="iconbutton misedit-btn" data-id="${person.id}">
 									<i class="fa-solid fa-pen-to-square text-success"></i>

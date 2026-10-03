@@ -76,9 +76,11 @@ public class CustomerManagementController {
 	}
 
 	@GetMapping("/getAllCustomer") // Niraj
-	public List<addCustomer> getAllCustomer() {
+	public ResponseEntity<ApiResponse<List<addCustomer>>> getAllCustomer() {
+
 		List<addCustomer> list = customerService.getAllCustomer();
-		return list;
+
+		return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK, "Customer data fetched successfully", list));
 	}
 
 	// get Data by MemberCode

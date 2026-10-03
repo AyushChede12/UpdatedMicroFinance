@@ -3,6 +3,7 @@ package com.microfinance.service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.microfinance.dto.AccountTransactionRequest;
 import com.microfinance.dto.ApiResponse;
 import com.microfinance.dto.BalanceSheetDTO;
 import com.microfinance.dto.BalanceSheetItemDTO;
@@ -203,16 +205,16 @@ public class AccountManagementService {
 		// GROUP + ACCOUNT TYPE VALIDATION
 		// =========================
 
-		if (!isValidCombination(
-
-				dto.getGroupName(),
-
-				dto.getAccountType())) {
-
-			throw new BusinessLogicException(
-
-					"Invalid Account Type for selected Group");
-		}
+//		if (!isValidCombination(
+//
+//				dto.getGroupName(),
+//
+//				dto.getAccountType())) {
+//
+//			throw new BusinessLogicException(
+//
+//					"Invalid Account Type for selected Group");
+//		}
 
 		// =========================
 		// OPENING BALANCE DEFAULT
@@ -518,83 +520,135 @@ public class AccountManagementService {
 	 */
 	private void validateOutgoingPayment(OutgoingPaymentDto dto) {
 
-		// 1. Validate branch
+		// 1. Validate Branch
 		if (!branchModuleRepo.existsByBranchNameIgnoreCase(dto.getBranchName())) {
 			throw new BadRequestException("Invalid branch name: " + dto.getBranchName());
 		}
 
-		// 2. Validate date format
+		// 2. Validate Date Format
 		LocalDate parsedDate;
+
 		try {
+
 			parsedDate = LocalDate.parse(dto.getDateOfEntry(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
 			if (parsedDate.isAfter(LocalDate.now())) {
 				throw new BadRequestException("Date of entry cannot be in the future.");
 			}
+
 			dto.setDateOfEntry(parsedDate.toString());
+
 		} catch (DateTimeParseException e) {
+
 			throw new BadRequestException("Invalid date format. Expected yyyy-MM-dd.");
 		}
 
-		// 3. Validate Credit Ledger (Source of Payment → Cash/Bank under Assets)
+		// 3. Validate Credit Ledger
+		// Credit Ledger = Source of Payment
+		// Must be under Assets
+		// Allowed Account Types:
+		// 1. CASH IN HAND
+		// 2. BANK ACCOUNT
+
 		LedgerAccountMaster creditLedger = ledgerAccountRepository
 				.findByBranchNameAndAccountTitleIgnoreCase(dto.getBranchName(), dto.getCreditLedger())
 				.orElseThrow(() -> new BadRequestException("Invalid Credit Ledger for branch: " + dto.getBranchName()));
 
-		if (!"Assets".equalsIgnoreCase(creditLedger.getGroupName())
-				|| !(creditLedger.getAccountType().equalsIgnoreCase("Cash")
-						|| creditLedger.getAccountType().equalsIgnoreCase("Bank"))) {
-			throw new BadRequestException("Cr Ledger must be Cash/Bank under Assets group.");
+		String creditGroup = creditLedger.getGroupName();
+		String creditType = creditLedger.getAccountType();
+
+		boolean validCreditLedger = "Assets".equalsIgnoreCase(creditGroup)
+				&& ("CASH IN HAND".equalsIgnoreCase(creditType) || "BANK ACCOUNT".equalsIgnoreCase(creditType));
+
+		if (!validCreditLedger) {
+
+			throw new BadRequestException("Invalid Credit Ledger. Credit Ledger must be "
+					+ "CASH IN HAND or BANK ACCOUNT under Assets group.");
 		}
 
-		// 4. Validate Debit Ledger (Destination → Liabilities, Expenses, Equity only)
+		// 4. Validate Debit Ledger
+		// Debit Ledger = Loan / Payment Destination
+		// LOANS is maintained under Assets group
+		//
+		// Allowed:
+		// Assets -> LOANS
+
 		LedgerAccountMaster debitLedger = ledgerAccountRepository
 				.findByBranchNameAndAccountTitleIgnoreCase(dto.getBranchName(), dto.getDebitLedger())
-				.orElseThrow(() -> new BadRequestException("Invalid Dr Ledger for branch: " + dto.getBranchName()));
+				.orElseThrow(() -> new BadRequestException("Invalid Debit Ledger for branch: " + dto.getBranchName()));
 
-		if (!(debitLedger.getGroupName().equalsIgnoreCase("Liabilities")
-				|| debitLedger.getGroupName().equalsIgnoreCase("Expenses")
-				|| debitLedger.getGroupName().equalsIgnoreCase("Equity")
-				|| (debitLedger.getGroupName().equalsIgnoreCase("Assets")
-						&& (debitLedger.getAccountType().equalsIgnoreCase("LOAN_TO_MEMBERS")
-								|| debitLedger.getAccountType().equalsIgnoreCase("GOLD_LOANS")
-								|| debitLedger.getAccountType().equalsIgnoreCase("JOINT_LOANS"))))) {
-			throw new BadRequestException("Debit Ledger must belong to Liabilities, Expenses, or Equity.");
+		String debitGroup = debitLedger.getGroupName();
+		String debitType = debitLedger.getAccountType();
+
+		boolean validDebitLedger = "Assets".equalsIgnoreCase(debitGroup) && "LOANS".equalsIgnoreCase(debitType);
+
+		if (!validDebitLedger) {
+
+			throw new BadRequestException("Invalid Debit Ledger. Debit Ledger must be " + "LOANS under Assets group.");
 		}
 
-		// 5. Validate transfer mode
+		// 5. Validate Transfer Mode
+
 		List<String> validModes = Arrays.asList("Cash", "Bank", "UPI", "Cheque", "Online Transfer");
-		if (!validModes.contains(dto.getTransferMode())) {
+
+		boolean validTransferMode = validModes.stream().anyMatch(mode -> mode.equalsIgnoreCase(dto.getTransferMode()));
+
+		if (!validTransferMode) {
+
 			throw new BadRequestException("Invalid transfer mode: " + dto.getTransferMode());
-
 		}
-		if ("CHEQUE".equalsIgnoreCase(dto.getTransferMode())) {
+
+		// 6. Validate Cheque Details
+
+		if ("Cheque".equalsIgnoreCase(dto.getTransferMode())) {
+
 			if (dto.getChequeNo() == null || dto.getChequeNo().trim().isEmpty()) {
-				throw new BadRequestException("Cheque No is required");
+
+				throw new BadRequestException("Cheque No is required.");
 			}
+
 			if (dto.getChequeDate() == null) {
-				throw new BadRequestException("Cheque Date is required");
+
+				throw new BadRequestException("Cheque Date is required.");
 			}
+
 			if (dto.getBankName() == null || dto.getBankName().trim().isEmpty()) {
-				throw new BadRequestException("Bank Name is required");
+
+				throw new BadRequestException("Bank Name is required.");
 			}
 		}
 
-		if ("ONLINE_TRANSFER".equalsIgnoreCase(dto.getTransferMode())) {
+		// 7. Validate Online Transfer Details
+		// Handles "Online Transfer" correctly
+
+		if ("Online Transfer".equalsIgnoreCase(dto.getTransferMode())) {
+
 			if (dto.getTransactionRef() == null || dto.getTransactionRef().trim().isEmpty()) {
-				throw new BadRequestException("Transaction Ref is required");
+
+				throw new BadRequestException("Transaction Ref is required.");
 			}
 		}
 
-		// 6. Validate amount
+		// 8. Validate Transaction Amount
+
+		if (dto.getTransactionAmount() == null || dto.getTransactionAmount().trim().isEmpty()) {
+
+			throw new BadRequestException("Transaction amount is required.");
+		}
+
 		try {
-			BigDecimal amount = new BigDecimal(dto.getTransactionAmount());
+
+			BigDecimal amount = new BigDecimal(dto.getTransactionAmount().trim());
+
 			if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+
 				throw new BadRequestException("Transaction amount must be greater than zero.");
 			}
+
 		} catch (NumberFormatException e) {
+
 			throw new BadRequestException("Invalid transaction amount.");
 		}
-
 	}
 
 	/**
@@ -766,8 +820,8 @@ public class AccountManagementService {
 				.orElseThrow(() -> new BadRequestException("Invalid Debit Ledger for branch: " + dto.getBranchName()));
 
 		if (!"Assets".equalsIgnoreCase(debitLedger.getGroupName())
-				|| !(debitLedger.getAccountType().equalsIgnoreCase("Cash")
-						|| debitLedger.getAccountType().equalsIgnoreCase("Bank"))) {
+				|| !(debitLedger.getAccountType().equalsIgnoreCase("Cash In Hand")
+						|| debitLedger.getAccountType().equalsIgnoreCase("Bank Account"))) {
 			throw new BadRequestException("Debit Ledger must be Cash/Bank under Assets group.");
 		}
 
@@ -780,9 +834,7 @@ public class AccountManagementService {
 				|| creditLedger.getGroupName().equalsIgnoreCase("Equity")
 				|| creditLedger.getGroupName().equalsIgnoreCase("Income")
 				|| (creditLedger.getGroupName().equalsIgnoreCase("Assets")
-						&& (creditLedger.getAccountType().equalsIgnoreCase("LOAN_TO_MEMBERS")
-								|| creditLedger.getAccountType().equalsIgnoreCase("GOLD_LOANS")
-								|| creditLedger.getAccountType().equalsIgnoreCase("JOINT_LOANS"))))) {
+						&& (creditLedger.getAccountType().equalsIgnoreCase("LOANS"))))) {
 			throw new BadRequestException("Credit Ledger must belong to Liabilities, Equity, or Income.");
 		}
 
@@ -1015,13 +1067,15 @@ public class AccountManagementService {
 				.orElseThrow(() -> new BadRequestException("Invalid credit ledger: " + creditLedger));
 
 		// ✅ Both must be Assets group
-		if (!"Assets".equalsIgnoreCase(debit.getGroupName()) || !("Cash".equalsIgnoreCase(debit.getAccountType())
-				|| "Bank".equalsIgnoreCase(debit.getAccountType()))) {
+		if (!"Assets".equalsIgnoreCase(debit.getGroupName())
+				|| !("Cash In Hand".equalsIgnoreCase(debit.getAccountType())
+						|| "Bank Account".equalsIgnoreCase(debit.getAccountType()))) {
 			throw new BadRequestException("Debit ledger must be Cash/Bank under Assets group.");
 		}
 
-		if (!"Assets".equalsIgnoreCase(credit.getGroupName()) || !("Cash".equalsIgnoreCase(credit.getAccountType())
-				|| "Bank".equalsIgnoreCase(credit.getAccountType()))) {
+		if (!"Assets".equalsIgnoreCase(credit.getGroupName())
+				|| !("Cash In Hand".equalsIgnoreCase(credit.getAccountType())
+						|| "Bank Account".equalsIgnoreCase(credit.getAccountType()))) {
 			throw new BadRequestException("Credit ledger must be Cash/Bank under Assets group.");
 		}
 
@@ -1956,49 +2010,141 @@ public class AccountManagementService {
 	@Transactional
 	public IncentivePayment saveAndPay(IncentivePayment request) {
 
-		// ✅ 1. Basic Validation
+		// =========================================================
+		// 1. BASIC VALIDATION
+		// =========================================================
+
+		if (request == null) {
+			throw new RuntimeException("Invalid incentive payment request");
+		}
+
 		if (request.getFinalPayout() == null || request.getFinalPayout().compareTo(BigDecimal.ZERO) <= 0) {
 			throw new RuntimeException("Invalid payout amount");
 		}
 
 		if (request.getPaymentFromLedgerId() == null) {
-			throw new RuntimeException("Payment From (Cash Ledger) is required");
+			throw new RuntimeException("Payment From Ledger is required");
 		}
 
-		// ✅ 2. Set Payment Status
-		request.setPaymentStatus("PAID");
+		// =========================================================
+		// 2. DUPLICATE INCENTIVE PAYMENT VALIDATION
+		// =========================================================
 
-		// ✅ 3. Save Incentive Data
-		IncentivePayment saved = incentiveRepo.save(request);
+		if (request.getAgentCode() == null || request.getAgentCode().trim().isEmpty()) {
+			throw new RuntimeException("Employee / Agent Code is required");
+		}
+
+		if (request.getMonth() == null || request.getMonth().trim().isEmpty()) {
+			throw new RuntimeException("Incentive Month is required");
+		}
+
+		boolean alreadyPaid = incentiveRepo.existsByAgentCodeAndMonthAndPaymentStatus(request.getAgentCode().trim(),
+				request.getMonth().trim(), "PAID");
+
+		if (alreadyPaid) {
+			throw new RuntimeException(
+					"Incentive payment already paid for " + request.getFullName() + " for " + request.getMonth());
+		}
 
 		BigDecimal amount = request.getFinalPayout();
 
-		// ✅ 4. Fetch Cash Ledger
-		LedgerAccountMaster cashLedger = ledgerAccountRepository.findById(request.getPaymentFromLedgerId())
-				.orElseThrow(() -> new RuntimeException("Cash Ledger not found"));
+		// =========================================================
+		// 3. FETCH PAYMENT FROM LEDGER
+		// =========================================================
 
-		// ✅ 5. Fetch Incentive Expense Ledger
-		LedgerAccountMaster expenseLedger = ledgerAccountRepository.findAll().stream()
-				.filter(l -> l.getAccountTitle().equalsIgnoreCase("Incentive Expense")).findFirst()
-				.orElseThrow(() -> new RuntimeException("Incentive Expense Ledger not found"));
+		LedgerAccountMaster paymentLedger = ledgerAccountRepository.findById(request.getPaymentFromLedgerId())
+				.orElseThrow(() -> new RuntimeException("Payment From Ledger not found"));
 
-		// ✅ 6. Balance Check (Important 🔥)
-		if (cashLedger.getCurrentBalance().compareTo(amount) < 0) {
-			throw new RuntimeException("Insufficient Cash Balance");
+		// =========================================================
+		// 4. VALIDATE PAYMENT LEDGER
+		// =========================================================
+
+		if (!"ASSETS".equalsIgnoreCase(paymentLedger.getGroupName())) {
+			throw new RuntimeException("Payment From must be an Asset Ledger");
 		}
 
-		// ✅ 7. Update Balances
+		String accountType = paymentLedger.getAccountType();
 
-		// Cash ↓
-		cashLedger.setCurrentBalance(cashLedger.getCurrentBalance().subtract(amount));
+		if (!"Bank Account".equalsIgnoreCase(accountType)) {
+			throw new RuntimeException("Payment From must be a Bank Account");
+		}
 
-		// Expense ↑
-		expenseLedger.setCurrentBalance(expenseLedger.getCurrentBalance().add(amount));
+		if (!"Active".equalsIgnoreCase(paymentLedger.getStatus())) {
+			throw new RuntimeException("Selected Payment From Ledger is inactive");
+		}
 
-		ledgerAccountRepository.save(cashLedger);
+		// =========================================================
+		// 5. BALANCE VALIDATION
+		// =========================================================
+
+		if (paymentLedger.getCurrentBalance() == null) {
+			throw new RuntimeException("Current balance is not available for selected Payment From Ledger");
+		}
+
+		if (paymentLedger.getCurrentBalance().compareTo(amount) < 0) {
+			throw new RuntimeException("Insufficient balance in selected Payment From account");
+		}
+
+		// =========================================================
+		// 6. FETCH INCENTIVE EXPENSE LEDGER
+		// =========================================================
+
+		LedgerAccountMaster expenseLedger = ledgerAccountRepository
+				.findFirstByAccountTitleIgnoreCaseAndGroupNameIgnoreCase("INCENTIVE EXPENSE", "EXPENSES")
+				.orElseThrow(() -> new RuntimeException("Incentive Expense Ledger not found"));
+
+		// =========================================================
+		// 7. VALIDATE EXPENSE LEDGER
+		// =========================================================
+
+		if (!"Active".equalsIgnoreCase(expenseLedger.getStatus())) {
+			throw new RuntimeException("Incentive Expense Ledger is inactive");
+		}
+
+		// =========================================================
+		// 8. SET PAYMENT STATUS
+		// =========================================================
+
+		request.setPaymentStatus("PAID");
+
+		// =========================================================
+		// 9. PAYMENT ACCOUNT BALANCE
+		// =========================================================
+
+		BigDecimal oldPaymentBalance = paymentLedger.getCurrentBalance();
+
+		BigDecimal newPaymentBalance = oldPaymentBalance.subtract(amount);
+
+		paymentLedger.setCurrentBalance(newPaymentBalance);
+
+		// =========================================================
+		// 10. INCENTIVE EXPENSE BALANCE
+		// =========================================================
+
+		BigDecimal oldExpenseBalance = expenseLedger.getCurrentBalance() != null ? expenseLedger.getCurrentBalance()
+				: BigDecimal.ZERO;
+
+		BigDecimal newExpenseBalance = oldExpenseBalance.add(amount);
+
+		expenseLedger.setCurrentBalance(newExpenseBalance);
+
+		// =========================================================
+		// 11. SAVE LEDGER BALANCES
+		// =========================================================
+
+		ledgerAccountRepository.save(paymentLedger);
 		ledgerAccountRepository.save(expenseLedger);
 
-		// ✅ 8. Return Response
+		// =========================================================
+		// 12. SAVE INCENTIVE PAYMENT
+		// =========================================================
+
+		IncentivePayment saved = incentiveRepo.save(request);
+
+		// =========================================================
+		// 13. RETURN RESPONSE
+		// =========================================================
+
 		return saved;
 	}
 
@@ -2117,31 +2263,150 @@ public class AccountManagementService {
 
 	public List<BankStatementDto> getBankStatement(String accountNumber, String startDate, String endDate) {
 
-		List<BankTransaction> txnList = bankTransactionRepo.findBankStatement(accountNumber, startDate, endDate);
+		// =====================================================
+		// 1. BASIC VALIDATION
+		// =====================================================
 
-		System.out.println("Account Number = " + accountNumber);
-		System.out.println("Start Date = " + startDate);
-		System.out.println("End Date = " + endDate);
-		System.out.println("Transaction Size = " + txnList.size());
-
-		if (txnList.isEmpty()) {
-			return new ArrayList<>();
+		if (accountNumber == null || accountNumber.trim().isEmpty()) {
+			throw new RuntimeException("Account number is required");
 		}
 
-		CreateSavingsAccount acc = createSavingsAccountRepo.findByAccountNumber(accountNumber)
-				.orElseThrow(() -> new RuntimeException("Account not found"));
+		if (startDate == null || startDate.trim().isEmpty()) {
+			throw new RuntimeException("Start date is required");
+		}
 
-		String branchName = "";
+		if (endDate == null || endDate.trim().isEmpty()) {
+			throw new RuntimeException("End date is required");
+		}
+
+		// =====================================================
+		// 2. CREATE CLEAN VARIABLES
+		// =====================================================
+		// Do NOT reassign method parameters because they are
+		// used inside lambda expressions below.
+
+		final String cleanAccountNumber = accountNumber.trim();
+		final String cleanStartDate = startDate.trim();
+		final String cleanEndDate = endDate.trim();
+
+		// =====================================================
+		// 3. VALIDATE DATE RANGE
+		// =====================================================
+
+		if (cleanStartDate.compareTo(cleanEndDate) > 0) {
+			throw new RuntimeException("Start date cannot be greater than end date");
+		}
+
+		// =====================================================
+		// 4. CHECK SAVING ACCOUNT
+		// =====================================================
+
+		CreateSavingsAccount acc = createSavingsAccountRepo.findByAccountNumber(cleanAccountNumber)
+				.orElseThrow(() -> new RuntimeException("Account not found: " + cleanAccountNumber));
+
+		// =====================================================
+		// 5. GET BANK / BRANCH DETAILS
+		// =====================================================
+
 		String bankName = "";
+		String branchName = "";
 
 		if (acc.getBranchName() != null) {
 
 			branchName = acc.getBranchName().getBranchName();
 
 			if (acc.getBranchName().getBank() != null) {
+
 				bankName = acc.getBranchName().getBank().getBankName();
 			}
 		}
+
+		// =====================================================
+		// 6. GET PREVIOUS TRANSACTION
+		// =====================================================
+		// This transaction is BEFORE selected start date.
+		//
+		// Its balance becomes Opening Balance.
+		//
+		// Example:
+		//
+		// 31-08-2026 -> Balance = 50,000
+		// Start Date = 01-09-2026
+		//
+		// Opening Balance = 50,000
+		// =====================================================
+
+		List<BankTransaction> previousTransactions = bankTransactionRepo.findPreviousTransactions(cleanAccountNumber,
+				cleanStartDate);
+
+		BankTransaction previousTxn = null;
+
+		if (previousTransactions != null && !previousTransactions.isEmpty()) {
+
+			// Repository must return latest transaction first
+			previousTxn = previousTransactions.get(0);
+		}
+
+		// =====================================================
+		// 7. CALCULATE OPENING BALANCE
+		// =====================================================
+
+		Double openingBalance = 0.0;
+
+		if (previousTxn != null && previousTxn.getBalance() != null) {
+
+			openingBalance = previousTxn.getBalance();
+		}
+
+		// =====================================================
+		// 8. GET TRANSACTIONS FOR SELECTED DATE RANGE
+		// =====================================================
+
+		List<BankTransaction> txnList = bankTransactionRepo.findBankStatement(cleanAccountNumber, cleanStartDate,
+				cleanEndDate);
+
+		// =====================================================
+		// 9. DEBUG LOG
+		// =====================================================
+
+		System.out.println("======================================");
+		System.out.println("BANK STATEMENT");
+		System.out.println("Account Number   = " + cleanAccountNumber);
+		System.out.println("Bank Name        = " + bankName);
+		System.out.println("Branch Name      = " + branchName);
+		System.out.println("Start Date       = " + cleanStartDate);
+		System.out.println("End Date         = " + cleanEndDate);
+		System.out.println("Opening Balance  = " + openingBalance);
+
+		System.out.println("Transaction Size = " + (txnList != null ? txnList.size() : 0));
+
+		System.out.println("======================================");
+
+		// =====================================================
+		// 10. NO TRANSACTION CASE
+		// =====================================================
+
+		if (txnList == null || txnList.isEmpty()) {
+
+			return new ArrayList<>();
+		}
+
+		// =====================================================
+		// 11. GET CLOSING BALANCE
+		// =====================================================
+
+		BankTransaction lastTxn = txnList.get(txnList.size() - 1);
+
+		Double closingBalance = openingBalance;
+
+		if (lastTxn.getBalance() != null) {
+
+			closingBalance = lastTxn.getBalance();
+		}
+
+		// =====================================================
+		// 12. CONVERT ENTITY -> DTO
+		// =====================================================
 
 		List<BankStatementDto> result = new ArrayList<>();
 
@@ -2149,31 +2414,90 @@ public class AccountManagementService {
 
 			BankStatementDto dto = new BankStatementDto();
 
+			// =================================================
+			// BANK DETAILS
+			// =================================================
+
 			dto.setBankName(bankName);
+
 			dto.setBranchName(branchName);
-			dto.setAccountNumber(txn.getAccountNumber());
+
+			// =================================================
+			// ACCOUNT NUMBER
+			// =================================================
+
+			dto.setAccountNumber(cleanAccountNumber);
+
+			// =================================================
+			// TRANSACTION DATE
+			// =================================================
+
 			dto.setDate(txn.getDate());
-			dto.setNarration(txn.getNarration());
-			dto.setCredit(txn.getCredit());
-			dto.setDebit(txn.getDebit());
-			dto.setBalance(txn.getBalance());
+
+			// =================================================
+			// NARRATION
+			// =================================================
+
+			dto.setNarration(txn.getNarration() != null ? txn.getNarration() : "-");
+
+			// =================================================
+			// CREDIT
+			// =================================================
+
+			dto.setCredit(txn.getCredit() != null ? txn.getCredit() : 0.0);
+
+			// =================================================
+			// DEBIT
+			// =================================================
+
+			dto.setDebit(txn.getDebit() != null ? txn.getDebit() : 0.0);
+
+			// =================================================
+			// RUNNING BALANCE
+			// =================================================
+
+			dto.setBalance(txn.getBalance() != null ? txn.getBalance() : 0.0);
+
+			// =================================================
+			// TRANSACTION TYPE
+			// =================================================
+
+			dto.setTransactionType(txn.getTransactionType() != null ? txn.getTransactionType() : "-");
+
+			// =================================================
+			// REFERENCE NUMBER
+			// =================================================
+
+			dto.setReferenceNo(txn.getReferenceNo() != null ? txn.getReferenceNo() : "-");
+
+			// =================================================
+			// OPENING BALANCE
+			// =================================================
+
+			dto.setOpeningBalance(openingBalance);
+
+			// =================================================
+			// CLOSING BALANCE
+			// =================================================
+
+			dto.setClosingBalance(closingBalance);
+
+			// =================================================
+			// ADD TO RESULT
+			// =================================================
 
 			result.add(dto);
 		}
+
+		// =====================================================
+		// 13. RETURN RESULT
+		// =====================================================
 
 		return result;
 	}
 
 	// CashBook
 	public List<AccountTransaction> getCashBookTransaction(String branchName, String startDate, String endDate) {
-		// TODO Auto-generated method stub
-		if (branchName == null || branchName.isEmpty()) {
-			throw new RuntimeException("Branch is required");
-		}
-
-		if (startDate == null || endDate == null) {
-			throw new RuntimeException("Date range is required");
-		}
 
 		return accountTransactionRepo.getCashBook(branchName, startDate, endDate);
 	}
@@ -2185,14 +2509,15 @@ public class AccountManagementService {
 	}
 
 	// Daily Transactions Book
-	public List<AccountTransaction> getDailyTransactions(String branchName, String accountNumber, String startDate,
+	public List<AccountTransaction> getDailyTransactions(String branchName, String accountCode, String startDate,
 			String endDate) {
-		// TODO Auto-generated method stub
-		if (branchName == null || accountNumber == null) {
+
+		if (branchName == null || branchName.trim().isEmpty() || accountCode == null || accountCode.trim().isEmpty()) {
+
 			throw new RuntimeException("Branch and Ledger required");
 		}
 
-		return accountTransactionRepo.getDailyTransactions(branchName, accountNumber, startDate, endDate);
+		return accountTransactionRepo.getDailyTransactions(branchName, accountCode, startDate, endDate);
 	}
 
 	public List<TrialBalanceDTO> getTrialBalance(String branchName, String startDate, String endDate) {
@@ -2364,12 +2689,9 @@ public class AccountManagementService {
 		// =========================
 		// SOURCE LEDGER CHECK
 		// =========================
-		System.out.println(dto.getAccountCode());
-		System.out.println(dto.getSourceBranch());
-		Optional<LedgerAccountMaster> sourceLedgerOptional =
+		Optional<LedgerAccountMaster> sourceLedgerOptional = ledgerAccountRepository
+				.findByAccountCodeAndBranchName(dto.getAccountCode(), dto.getSourceBranch());
 
-				ledgerAccountRepository.findByAccountCodeAndBranchName(dto.getAccountCode(), dto.getSourceBranch());
-		System.out.println(sourceLedgerOptional.isPresent());
 		if (!sourceLedgerOptional.isPresent()) {
 
 			throw new RuntimeException(
@@ -2393,21 +2715,18 @@ public class AccountManagementService {
 		// =========================
 		// ACCOUNT TYPE VALIDATION
 		// =========================
-
-		if (!"Cash".equalsIgnoreCase(sourceLedger.getAccountType())) {
-
-			throw new RuntimeException(
-
-					"Selected Ledger is not a CASH Ledger");
-		}
+//		if (!"Cash In Hand".equalsIgnoreCase(sourceLedger.getAccountType())) {
+//
+//			throw new RuntimeException(
+//
+//					"Selected Ledger is not a CASH Ledger");
+//		}
 
 		// =========================
 		// RECEIVING LEDGER CHECK
 		// =========================
-
-		Optional<LedgerAccountMaster> receivingLedgerOptional =
-
-				ledgerAccountRepository.findByAccountCodeAndBranchName(dto.getAccountCode(), dto.getReceivingBranch());
+		Optional<LedgerAccountMaster> receivingLedgerOptional = ledgerAccountRepository
+				.findByAccountCodeAndBranchName(dto.getAccountCode(), dto.getReceivingBranch());
 
 		if (!receivingLedgerOptional.isPresent()) {
 
@@ -2567,5 +2886,134 @@ public class AccountManagementService {
 			map.put("accountTitle", data[1]);
 			return map;
 		}).collect(Collectors.toList());
+	}
+
+	public List<LedgerAccountMaster> getExpenseLedgers() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<LedgerAccountMaster> getBankAccountLedgers() {
+
+		return ledgerAccountRepository.findByGroupNameIgnoreCaseAndAccountTypeIgnoreCaseAndStatusIgnoreCase("ASSETS",
+				"Bank Account", "Active");
+	}
+
+	@Transactional
+	public AccountTransaction saveTransaction(AccountTransactionRequest request) {
+
+		if (request == null) {
+			throw new RuntimeException("Transaction request cannot be null");
+		}
+
+		if (request.getAccountNumber() == null || request.getAccountNumber().trim().isEmpty()) {
+
+			throw new RuntimeException("Account number is required");
+		}
+
+		if (request.getCredit() == null) {
+			request.setCredit(0.0);
+		}
+
+		if (request.getDebit() == null) {
+			request.setDebit(0.0);
+		}
+
+		if (request.getCredit() < 0 || request.getDebit() < 0) {
+			throw new RuntimeException("Credit/Debit amount cannot be negative");
+		}
+
+		if (request.getCredit() > 0 && request.getDebit() > 0) {
+			throw new RuntimeException("Both Credit and Debit cannot be greater than zero");
+		}
+
+		if (request.getCredit() == 0 && request.getDebit() == 0) {
+			throw new RuntimeException("Either Credit or Debit amount is required");
+		}
+
+		AccountTransaction transaction = new AccountTransaction();
+
+		transaction.setBranchName(request.getBranchName());
+		transaction.setAccountCode(request.getAccountCode());
+		transaction.setCustomerName(request.getCustomerName());
+		transaction.setAccountNumber(request.getAccountNumber());
+
+		/*
+		 * Transaction Date
+		 */
+		if (request.getTransactionDate() != null && !request.getTransactionDate().trim().isEmpty()) {
+
+			transaction.setTransactionDate(request.getTransactionDate());
+
+		} else {
+
+			transaction.setTransactionDate(LocalDate.now().toString());
+		}
+
+		transaction.setNarration(request.getNarration());
+
+		transaction.setCredit(request.getCredit());
+		transaction.setDebit(request.getDebit());
+
+		transaction.setTransactionType(request.getTransactionType());
+
+		transaction.setReferenceNo(request.getReferenceNo());
+
+		/*
+		 * Default status
+		 */
+		if (request.getStatus() != null && !request.getStatus().trim().isEmpty()) {
+
+			transaction.setStatus(request.getStatus());
+
+		} else {
+
+			transaction.setStatus("SUCCESS");
+		}
+
+		transaction.setLoanId(request.getLoanId());
+		transaction.setPolicyId(request.getPolicyId());
+
+		transaction.setCreatedAt(LocalDateTime.now());
+
+		transaction.setCreatedBy(request.getCreatedBy());
+
+		/*
+		 * Calculate Running Balance
+		 *
+		 * Previous Balance + Credit - Debit
+		 */
+		Double previousBalance = getCurrentBalance(request.getAccountNumber());
+
+		Double newBalance = previousBalance + request.getCredit() - request.getDebit();
+
+		transaction.setBalance(newBalance);
+
+		return transactionRepository.save(transaction);
+	}
+
+	public Double getCurrentBalance(String accountNumber) {
+
+		List<AccountTransaction> transactions = transactionRepository.findByAccountNumberOrderByIdAsc(accountNumber);
+
+		if (transactions == null || transactions.isEmpty()) {
+			return 0.0;
+		}
+
+		AccountTransaction lastTransaction = transactions.get(transactions.size() - 1);
+
+		if (lastTransaction.getBalance() == null) {
+			return 0.0;
+		}
+
+		return lastTransaction.getBalance();
+	}
+
+	/**
+	 * Get transactions by Account Number
+	 */
+	public List<AccountTransaction> getTransactions(String accountNumber) {
+
+		return transactionRepository.findByAccountNumberOrderByIdAsc(accountNumber);
 	}
 }

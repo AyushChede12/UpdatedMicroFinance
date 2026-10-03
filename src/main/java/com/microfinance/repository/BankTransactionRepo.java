@@ -12,10 +12,14 @@ import com.microfinance.model.BankTransaction;
 @Repository
 public interface BankTransactionRepo extends JpaRepository<BankTransaction, Long> {
 
-	@Query(value = "SELECT * FROM bank_transaction " + "WHERE account_number = :accountNumber "
-			+ "AND STR_TO_DATE(date, '%Y-%m-%d') BETWEEN STR_TO_DATE(:startDate, '%Y-%m-%d') "
-			+ "AND STR_TO_DATE(:endDate, '%Y-%m-%d') "
-			+ "ORDER BY STR_TO_DATE(date, '%Y-%m-%d') ASC", nativeQuery = true)
+	@Query("SELECT b FROM BankTransaction b " + "WHERE b.accountNumber = :accountNumber " + "AND b.date < :startDate "
+			+ "ORDER BY b.date DESC, b.id DESC")
+	List<BankTransaction> findPreviousTransactions(@Param("accountNumber") String accountNumber,
+			@Param("startDate") String startDate);
+
+	@Query("SELECT b FROM BankTransaction b " + "WHERE b.accountNumber = :accountNumber " + "AND b.date >= :startDate "
+			+ "AND b.date <= :endDate " + "ORDER BY b.date ASC, b.id ASC")
 	List<BankTransaction> findBankStatement(@Param("accountNumber") String accountNumber,
 			@Param("startDate") String startDate, @Param("endDate") String endDate);
+
 }

@@ -12,6 +12,8 @@ public class BankStatementDto {
 	private Double balance;
 	private String transactionType; // DEPOSIT / WITHDRAW
 	private String referenceNo;
+	private Double openingBalance;
+	private Double closingBalance;
 
 	public String getBankName() {
 		return bankName;
@@ -91,6 +93,22 @@ public class BankStatementDto {
 
 	public void setReferenceNo(String referenceNo) {
 		this.referenceNo = referenceNo;
+	}
+
+	public Double getOpeningBalance() {
+		return openingBalance;
+	}
+
+	public void setOpeningBalance(Double openingBalance) {
+		this.openingBalance = openingBalance;
+	}
+
+	public Double getClosingBalance() {
+		return closingBalance;
+	}
+
+	public void setClosingBalance(Double closingBalance) {
+		this.closingBalance = closingBalance;
 	}
 
 }

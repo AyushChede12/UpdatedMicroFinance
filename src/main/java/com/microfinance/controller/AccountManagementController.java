@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.microfinance.dto.AccountTransactionRequest;
 import com.microfinance.dto.ApiResponse;
 import com.microfinance.dto.BalanceSheetDTO;
 import com.microfinance.dto.BankCashTransferDto;
@@ -338,6 +339,7 @@ public class AccountManagementController {
 			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
 
 		List<LedgerSummaryDto> result = accountManagementService.getLedgerSummary(branch, ledger, startDate, endDate);
+
 		return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "Fetched Successfully", result));
 	}
 
@@ -468,6 +470,18 @@ public class AccountManagementController {
 		return new ApiResponse<>(HttpStatus.OK, "Assets Ledgers Fetched Successfully", list);
 	}
 
+	@GetMapping("/expenses")
+	public ApiResponse<List<LedgerAccountMaster>> getExpenseLedgers() {
+
+		List<LedgerAccountMaster> list = accountManagementService.getExpenseLedgers();
+
+		if (list.isEmpty()) {
+			return new ApiResponse<>(HttpStatus.NOT_FOUND, "No Expense Ledgers Found", list);
+		}
+
+		return new ApiResponse<>(HttpStatus.OK, "Expense Ledgers Fetched Successfully", list);
+	}
+
 	@PostMapping("/pay")
 	public ApiResponse<IncentivePayment> payIncentive(@RequestBody IncentivePayment request) {
 		try {
@@ -521,6 +535,7 @@ public class AccountManagementController {
 			@RequestParam String startDate, @RequestParam String endDate) {
 
 		List<BankStatementDto> data = accountManagementService.getBankStatement(accountNumber, startDate, endDate);
+
 		System.out.println(data);
 
 		if (data.isEmpty()) {
@@ -531,21 +546,52 @@ public class AccountManagementController {
 	}
 
 	// Cash Book
+
+	@PostMapping("/saveAccountTransaction")
+	public ResponseEntity<ApiResponse<AccountTransaction>> saveTransaction(
+			@RequestBody AccountTransactionRequest request) {
+
+		try {
+
+			AccountTransaction savedTransaction = accountManagementService.saveTransaction(request);
+
+			ApiResponse<AccountTransaction> response = ApiResponse.success(HttpStatus.CREATED,
+					"Account transaction saved successfully", savedTransaction);
+
+			return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
+		} catch (RuntimeException e) {
+
+			ApiResponse<AccountTransaction> response = ApiResponse.error(HttpStatus.BAD_REQUEST, e.getMessage());
+
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+
+		} catch (Exception e) {
+
+			ApiResponse<AccountTransaction> response = ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR,
+					"Unable to save account transaction");
+
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
+	}
+
 	@GetMapping("/getCashBookTransaction")
 	public ApiResponse<List<AccountTransaction>> getCashBook(@RequestParam String branchName,
 			@RequestParam String startDate, @RequestParam String endDate) {
 
 		try {
+
 			List<AccountTransaction> data = accountManagementService.getCashBookTransaction(branchName, startDate,
 					endDate);
 
-			if (data.isEmpty()) {
-				return new ApiResponse<>(HttpStatus.NOT_FOUND, "No Records Found", null);
+			if (data == null || data.isEmpty()) {
+				return new ApiResponse<>(HttpStatus.NOT_FOUND, "No CashBook Transactions Found", null);
 			}
 
-			return new ApiResponse<>(HttpStatus.OK, "Cashbook Data fetched successfully", data);
+			return new ApiResponse<>(HttpStatus.OK, "CashBook Data fetched successfully", data);
 
 		} catch (Exception e) {
+
 			return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Error", null);
 		}
 	}
@@ -568,15 +614,17 @@ public class AccountManagementController {
 	// Daily Transaction Book
 	@GetMapping("/daily-transaction")
 	public ApiResponse<List<AccountTransaction>> getDailyTransaction(@RequestParam String branchName,
-			@RequestParam String accountNumber, @RequestParam String startDate, @RequestParam String endDate) {
+			@RequestParam String accountCode, @RequestParam String startDate, @RequestParam String endDate) {
 
 		try {
-			List<AccountTransaction> data = accountManagementService.getDailyTransactions(branchName, accountNumber,
+
+			List<AccountTransaction> data = accountManagementService.getDailyTransactions(branchName, accountCode,
 					startDate, endDate);
 
 			return new ApiResponse<>(HttpStatus.OK, "Daily Transaction fetched successfully", data);
 
 		} catch (Exception e) {
+
 			return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Error", null);
 		}
 	}
@@ -660,4 +708,17 @@ public class AccountManagementController {
 					.body(ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
 		}
 	}
+
+	@GetMapping("/bank-accounts")
+	public ApiResponse<List<LedgerAccountMaster>> getBankAccountLedgers() {
+
+		List<LedgerAccountMaster> list = accountManagementService.getBankAccountLedgers();
+
+		if (list.isEmpty()) {
+			return new ApiResponse<>(HttpStatus.NOT_FOUND, "No Active Bank Accounts Found", list);
+		}
+
+		return new ApiResponse<>(HttpStatus.OK, "Active Bank Accounts Fetched Successfully", list);
+	}
+
 }

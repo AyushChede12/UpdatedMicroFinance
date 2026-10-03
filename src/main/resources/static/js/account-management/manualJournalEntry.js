@@ -103,10 +103,10 @@ function loadManualJournalData() {
 				tbody.append(`
           <tr>
             <td>${entry.id || ''}</td>
-            <td>${entry.branchName || ''}</td>
+            <td>${entry.branchName.toUpperCase() || ''}</td>
             <td>${entry.voucherID ?? ''}</td>
             <td>${entry.dateOfEntry || ''}</td>
-            <td>${entry.creditLedger || ''}</td>
+            <td>${entry.creditLedger.toUpperCase() || ''}</td>
             <td>${entry.debitLedger || ''}</td>
             <td>${entry.transactionAmount || ''}</td>
             <td>${entry.remarks || ''}</td>
@@ -201,13 +201,13 @@ function searchManualJournal() {
 				tbody.append(`
           <tr>
             <td>${entry.id || ''}</td>
-            <td>${entry.branchName || ''}</td>
+            <td>${entry.branchName.toUpperCase() || ''}</td>
             <td>${entry.voucherID ?? ''}</td>
             <td>${entry.dateOfEntry || ''}</td>
-            <td>${entry.creditLedger || ''}</td>
-            <td>${entry.debitLedger || ''}</td>
+            <td>${entry.creditLedger.toUpperCase() || ''}</td>
+            <td>${entry.debitLedger.toUpperCase() || ''}</td>
             <td>${entry.transactionAmount || ''}</td>
-            <td>${entry.remarks || ''}</td>
+            <td>${entry.remarks.toUpperCase() || ''}</td>
             <td>
               <button class="iconbutton" onclick="viewManualJournal(${entry.id})" title="View">
                 <i class="fa-solid fa-eye text-primary"></i>

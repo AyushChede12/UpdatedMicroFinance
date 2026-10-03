@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.microfinance.model.AddnewinvestmentPM;
@@ -17,4 +17,6 @@ public interface FullMaturityRepo extends JpaRepository<FullMaturity, Long> {
 
 	List<FullMaturity> findByApproveStatusTrue();
 
+	@Query("SELECT a FROM FullMaturity a WHERE a.policyCode LIKE 'RD%'")
+	List<FullMaturity> getRDFromFullMaturity();
 }

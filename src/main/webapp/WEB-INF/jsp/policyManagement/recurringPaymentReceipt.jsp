@@ -6,7 +6,7 @@
 			<li class="breadcrumb-item"><a href="openDashboard"> <i
 					class="bi bi-piggy-bank"></i>
 			</a></li>
-			<li class="breadcrumb-item action">RECURRING PAYMENT RECEIPT </li>
+			<li class="breadcrumb-item action">RECURRING PAYMENT RECEIPT</li>
 		</ol>
 	</nav>
 </div>
@@ -76,7 +76,7 @@
 					<div class="card recent-sales">
 						<div class="card-body table-responsive">
 							<h5 class="card-title">
-								RECURRING POLICY DETAILS  <span>| TABLE VIEW</span>
+								RECURRING POLICY DETAILS <span>| TABLE VIEW</span>
 							</h5>
 
 							<table class="table table-bordered" style="text-align: center;">
@@ -109,47 +109,233 @@
 
 			<!-- RD Receipt Template -->
 			<div id="receiptTemplate"
-				style="display: none; font-family: 'Poppins', sans-serif;">
+				style="display: none; font-family: 'Poppins', Arial, sans-serif; background: #f5f7fa; padding: 25px;">
+
 				<div
-					style="width: 650px; margin: auto; padding: 20px; border: 2px solid #000; border-radius: 8px;">
-					<h2 style="text-align: center; margin-bottom: 10px;">Recurring
-						Deposit (RD) Receipt</h2>
-					<hr>
-					<p>
-						<b>Policy Code:</b> <span id="rPolicyCode"></span>
-					</p>
-					<p>
-						<b>Customer Name:</b> <span id="rCustomerName"></span>
-					</p>
-					<p>
-						<b>Payment Date:</b> <span id="rPaymentDate"></span>
-					</p>
-					<p>
-						<b>Policy Amount:</b> &#8377; <span id="rPolicyAmount"></span>
-					</p>
-					<p>
-						<b>Plan Code:</b> <span id="rPlanCode"></span>
-					</p>
-					<p>
-						<b>Maturity Date:</b> <span id="rMaturityDate"></span>
-					</p>
-					<p>
-						<b>Maturity Amount:</b> &#8377; <span id="rMaturityAmount"></span>
-					</p>
-					<p>
-						<b>Duration:</b> <span id="rDuration"></span>
-					</p>
-					<p>
-						<b>Branch:</b> <span id="rBranchName"></span>
-					</p>
-					<p>
-						<b>Mode of Payment:</b> <span id="rModeOfPayment"></span>
-					</p>
-					<br> <br>
-					<p style="text-align: right; margin-top: 40px;">
-						<b>Authorized Signature</b>
-					</p>
+					style="width: 650px; margin: 0 auto; background: #ffffff; border: 1px solid #d9dee5; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);">
+
+					<!-- Company Header -->
+					<div
+						style="background: linear-gradient(135deg, #0b5d3b, #087f5b); padding: 22px 25px; color: #ffffff;">
+
+						<div
+							style="display: flex; align-items: center; justify-content: space-between;">
+
+							<div style="width: 70%;">
+
+								<div
+									style="font-size: 25px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 6px;">
+									COMPANY NAME</div>
+
+								<div style="font-size: 12px; line-height: 1.7; opacity: 0.95;">
+									Company Address, City, State - PIN</div>
+
+								<div style="font-size: 12px; margin-top: 3px; opacity: 0.95;">
+									Phone: +91 XXXXX XXXXX &nbsp; | &nbsp; Email: company@email.com
+								</div>
+
+								<div style="font-size: 11px; margin-top: 3px; opacity: 0.9;">
+									GSTIN: XXXXXXXXXXXXXXX</div>
+
+							</div>
+
+							<div
+								style="width: 80px; height: 80px; background: #ffffff; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #0b5d3b; font-size: 12px; font-weight: 700; text-align: center;">
+								LOGO</div>
+
+						</div>
+
+					</div>
+
+					<!-- Receipt Title -->
+					<div style="padding: 22px 28px 10px; text-align: center;">
+
+						<div
+							style="display: inline-block; background: #e8f5ef; color: #087f5b; padding: 6px 18px; border-radius: 20px; font-size: 11px; font-weight: 600; letter-spacing: 1px; margin-bottom: 10px;">
+							PAYMENT RECEIPT</div>
+
+						<h2
+							style="margin: 0; color: #1f2937; font-size: 23px; font-weight: 700; letter-spacing: 0.5px;">
+							RECURRING DEPOSIT (RD)</h2>
+
+						<div style="font-size: 12px; color: #7b8490; margin-top: 5px;">
+							Official Recurring Deposit Payment Receipt</div>
+
+					</div>
+
+					<div style="padding: 8px 28px 25px;">
+
+						<!-- Policy Information -->
+						<div
+							style="background: #f8fafb; border: 1px solid #e4e8ec; border-radius: 9px; padding: 15px 18px; margin-bottom: 16px;">
+
+							<div
+								style="font-size: 12px; color: #087f5b; font-weight: 700; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.7px;">
+								Policy Information</div>
+
+							<div style="display: flex; margin-bottom: 12px;">
+
+								<div style="width: 50%;">
+									<div style="font-size: 10px; color: #8a929c;">POLICY CODE</div>
+									<div id="rPolicyCode"
+										style="font-size: 13px; font-weight: 600; color: #263238; margin-top: 3px;">
+									</div>
+								</div>
+
+								<div style="width: 50%;">
+									<div style="font-size: 10px; color: #8a929c;">PLAN CODE</div>
+									<div id="rPlanCode"
+										style="font-size: 13px; font-weight: 600; color: #263238; margin-top: 3px;">
+									</div>
+								</div>
+
+							</div>
+
+							<div style="display: flex;">
+
+								<div style="width: 50%;">
+									<div style="font-size: 10px; color: #8a929c;">CUSTOMER
+										NAME</div>
+									<div id="rCustomerName"
+										style="font-size: 13px; font-weight: 600; color: #263238; margin-top: 3px;">
+									</div>
+								</div>
+
+								<div style="width: 50%;">
+									<div style="font-size: 10px; color: #8a929c;">BRANCH</div>
+									<div id="rBranchName"
+										style="font-size: 13px; font-weight: 600; color: #263238; margin-top: 3px;">
+									</div>
+								</div>
+
+							</div>
+
+						</div>
+
+						<!-- Payment Details -->
+						<div
+							style="background: #ffffff; border: 1px solid #e4e8ec; border-radius: 9px; padding: 15px 18px; margin-bottom: 16px;">
+
+							<div
+								style="font-size: 12px; color: #087f5b; font-weight: 700; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.7px;">
+								Payment Details</div>
+
+							<div style="display: flex; margin-bottom: 14px;">
+
+								<div style="width: 50%;">
+									<div style="font-size: 10px; color: #8a929c;">PAYMENT
+										DATE</div>
+									<div id="rPaymentDate"
+										style="font-size: 13px; font-weight: 600; color: #263238; margin-top: 3px;">
+									</div>
+								</div>
+
+								<div style="width: 50%;">
+									<div style="font-size: 10px; color: #8a929c;">MODE OF
+										PAYMENT</div>
+									<div id="rModeOfPayment"
+										style="font-size: 13px; font-weight: 600; color: #263238; margin-top: 3px;">
+									</div>
+								</div>
+
+							</div>
+
+							<div style="display: flex;">
+
+								<div style="width: 50%;">
+									<div style="font-size: 10px; color: #8a929c;">POLICY
+										AMOUNT</div>
+									<div
+										style="font-size: 16px; font-weight: 700; color: #263238; margin-top: 3px;">
+										₹ <span id="rPolicyAmount"></span>
+									</div>
+								</div>
+
+								<div style="width: 50%;">
+									<div style="font-size: 10px; color: #8a929c;">DURATION</div>
+									<div id="rDuration"
+										style="font-size: 13px; font-weight: 600; color: #263238; margin-top: 3px;">
+									</div>
+								</div>
+
+							</div>
+
+						</div>
+
+						<!-- Maturity Highlight -->
+						<div
+							style="background: linear-gradient(135deg, #e9f8f1, #f4fbf8); border: 1px solid #bfe4d2; border-radius: 10px; padding: 18px 20px; margin-bottom: 18px;">
+
+							<div
+								style="display: flex; align-items: center; justify-content: space-between;">
+
+								<div>
+
+									<div
+										style="font-size: 10px; color: #6b7b73; font-weight: 600; text-transform: uppercase; letter-spacing: 0.7px;">
+										Maturity Date</div>
+
+									<div id="rMaturityDate"
+										style="font-size: 14px; color: #263238; font-weight: 600; margin-top: 4px;">
+									</div>
+
+								</div>
+
+								<div style="text-align: right;">
+
+									<div
+										style="font-size: 10px; color: #6b7b73; font-weight: 600; text-transform: uppercase; letter-spacing: 0.7px;">
+										Maturity Amount</div>
+
+									<div
+										style="font-size: 22px; color: #087f5b; font-weight: 800; margin-top: 3px;">
+										₹ <span id="rMaturityAmount"></span>
+									</div>
+
+								</div>
+
+							</div>
+
+						</div>
+
+						<!-- Declaration -->
+						<div
+							style="font-size: 10px; line-height: 1.6; color: #7a828b; border-top: 1px dashed #d5dbe0; padding-top: 12px;">
+
+							This receipt is issued as an acknowledgement of the recurring
+							deposit payment. Please retain this receipt for your records.</div>
+
+						<!-- Signature -->
+						<div
+							style="display: flex; justify-content: flex-end; margin-top: 35px;">
+
+							<div style="width: 180px; text-align: center;">
+
+								<div
+									style="border-top: 1px solid #4b5563; padding-top: 7px; font-size: 11px; font-weight: 700; color: #263238;">
+									AUTHORIZED SIGNATURE</div>
+
+								<div style="font-size: 9px; color: #8a929c; margin-top: 3px;">
+									For Company</div>
+
+							</div>
+
+						</div>
+
+					</div>
+
+					<!-- Footer -->
+					<div
+						style="background: #f5f7f8; border-top: 1px solid #e1e5e8; padding: 10px 20px; text-align: center;">
+
+						<div style="font-size: 9px; color: #8a929c;">This is a
+							computer-generated receipt and does not require a physical stamp.
+						</div>
+
+					</div>
+
 				</div>
+
 			</div>
 
 		</div>

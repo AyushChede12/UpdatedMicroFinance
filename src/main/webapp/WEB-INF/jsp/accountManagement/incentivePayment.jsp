@@ -23,8 +23,8 @@
 				<div class="col-lg-3">
 					<div class="d-flex flex-column formFields">
 						<label for="">INCENTIVE MONTH</label> <select id="month"
-							name="month" required="required"
-							class="form-control selectField" style="height: 30px;">
+							name="month" required="required" class="form-control selectField"
+							style="height: 30px;">
 							<option value="">--SELECT MONTH--</option>
 							<option value="january">JANUARY</option>
 							<option value="february">FEBRUARY</option>
@@ -71,16 +71,17 @@
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
 			<label for="">FULL NAME</label> <input type="text" name="fullName"
-				readonly="readonly" id="fullName" required="required"
-				placeholder="ENTER FULL NAME" />
+				style="text-transform: uppercase;" readonly="readonly" id="fullName"
+				required="required" placeholder="ENTER FULL NAME" />
 		</div>
 	</div>
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
 			<label for="">DESIGNATION</label> <input type="text"
-				readonly="readonly" name="designation" id="designation"
-				required="required" placeholder="ENTER DESIGNATION" />
+				style="text-transform: uppercase;" readonly="readonly"
+				name="designation" id="designation" required="required"
+				placeholder="ENTER DESIGNATION" />
 		</div>
 	</div>
 
@@ -100,24 +101,24 @@
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
 			<label for="">PERSONAL SALES</label> <input type="text"
-				name="personalSales" id="personalSales" required="required"
-				placeholder="ENTER PERSONAL SALES" />
+				readonly="readonly" name="personalSales" id="personalSales"
+				required="required" placeholder="ENTER PERSONAL SALES" />
 		</div>
 	</div>
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
 			<label for=""> GROUP SALES</label> <input type="text"
-				name="groupSales" id="groupSales" required="required"
-				placeholder="ENTER GROUP SALES" />
+				readonly="readonly" name="groupSales" id="groupSales"
+				required="required" placeholder="ENTER GROUP SALES" />
 		</div>
 	</div>
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
 			<label for="">OVERALL SALES</label> <input type="text"
-				name="overallSales" id="overallSales" required="required"
-				placeholder="ENTER OVERALL SALES" />
+				readonly="readonly" name="overallSales" id="overallSales"
+				required="required" placeholder="ENTER OVERALL SALES" />
 		</div>
 	</div>
 
@@ -125,40 +126,40 @@
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
 			<label for="">TOTAL EARNINGS</label> <input type="text"
-				name="totalEarnings" id="totalEarnings" required="required"
-				placeholder="ENTER TOTAL EARNINGS" />
+				readonly="readonly" name="totalEarnings" id="totalEarnings"
+				required="required" placeholder="ENTER TOTAL EARNINGS" />
 		</div>
 	</div>
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
 			<label for="">TAX DEDUCTED</label> <input type="text"
-				name="taxDeducted" id="taxDeducted" required="required"
-				placeholder="ENTER TAX DEDUCTED" />
+				readonly="readonly" name="taxDeducted" id="taxDeducted"
+				required="required" placeholder="ENTER TAX DEDUCTED" />
 		</div>
 	</div>
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
 			<label for="">SERVICE DEDUCTION</label> <input type="text"
-				name="serviceDeduction" id="serviceDeduction" required="required"
-				placeholder="ENTER SERVICE DEDUCTION" />
+				readonly="readonly" name="serviceDeduction" id="serviceDeduction"
+				required="required" placeholder="ENTER SERVICE DEDUCTION" />
 		</div>
 	</div>
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
 			<label for="">EXTRA ALLOWANCE</label> <input type="text"
-				name="extraAllowance" id="extraAllowance" required="required"
-				placeholder="ENTER EXTRA ALLOWANCE" />
+				readonly="readonly" name="extraAllowance" id="extraAllowance"
+				required="required" placeholder="ENTER EXTRA ALLOWANCE" />
 		</div>
 	</div>
 
 	<div class="col-lg-3">
 		<div class="d-flex flex-column formFields mb-4">
 			<label for="">FINAL PAYOUT</label> <input type="FinalPayout"
-				name="finalPayout" id="finalPayout" required="required"
-				placeholder="ENTER FINAL PAYOUT" />
+				readonly="readonly" name="finalPayout" id="finalPayout"
+				required="required" placeholder="ENTER FINAL PAYOUT" />
 		</div>
 	</div>
 </div>

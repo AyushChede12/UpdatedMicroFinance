@@ -5,14 +5,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
-
-
 public class FlexibleRenewal {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	
 	private long id;
 
     private String policyCode;
@@ -40,6 +39,8 @@ public class FlexibleRenewal {
     private Integer noOfInstPaid;
 
     private String modeOfPayment;
+    
+    @JsonProperty("isApproved")
     private boolean isApproved;
     private String fees;
     private String branchname;

@@ -11,8 +11,8 @@ import com.microfinance.model.AccountTransaction;
 public interface AccountTransactionRepo extends JpaRepository<AccountTransaction, Long> {
 
 	@Query("SELECT a FROM AccountTransaction a " + "WHERE a.branchName = :branchName "
-			+ "AND a.transactionDate BETWEEN :startDate AND :endDate "
-			+ "AND a.transactionType IN ('DEPOSIT','WITHDRAW') " + "ORDER BY a.transactionDate ASC")
+			+ "AND a.transactionDate BETWEEN :startDate AND :endDate " + "AND a.accountCode = 'CASH' "
+			+ "ORDER BY a.transactionDate ASC")
 	List<AccountTransaction> getCashBook(@Param("branchName") String branchName, @Param("startDate") String startDate,
 			@Param("endDate") String endDate);
 
@@ -67,5 +67,9 @@ public interface AccountTransactionRepo extends JpaRepository<AccountTransaction
 	Double getCashBalance(@Param("branchName") String branchName, @Param("accountCode") String accountCode);
 
 	List<AccountTransaction> findByTransactionTypeOrderByIdDesc(String transactionType);
+
+	List<AccountTransaction> findByAccountNumberOrderByIdAsc(String accountNumber);
+
+	List<AccountTransaction> findByBranchNameOrderByIdAsc(String branchName);
 
 }
